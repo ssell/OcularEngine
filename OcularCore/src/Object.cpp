@@ -25,14 +25,20 @@ namespace Ocular
     // CONSTRUCTORS
     //--------------------------------------------------------------------------------------
     
+    Object::Object(const std::string name, const std::string className)
+        : m_Name(name), m_Class(className), m_UID(0)
+    {
+    
+    }
+
     Object::Object(const std::string name)
-        : m_Name(name), m_Class("Ocular::Object"), m_UID(0)
+        : m_Name(name), m_Class("Object"), m_UID(0)
     {
         
     }
     
     Object::Object()
-        : m_Name("Name"), m_Class("Ocular::Object"), m_UID(0)
+        : m_Name("Name"), m_Class("Object"), m_UID(0)
     {
         
     }

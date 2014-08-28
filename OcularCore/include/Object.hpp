@@ -37,6 +37,13 @@ namespace Ocular
     public:
         
         /**
+         * \brief Creates a new Object with the specified name and class.
+         * \param name
+         * \param className
+         */
+        Object(const std::string name, const std::string className);
+
+        /**
          * \brief Creates a new Object with the specified name.
          * \param name
          */
