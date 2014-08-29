@@ -25,13 +25,13 @@ namespace Ocular
     // CONSTRUCTORS
     //--------------------------------------------------------------------------------------
     
-    Object::Object(const std::string name, const std::string className)
+    Object::Object(std::string name, std::string className)
         : m_Name(name), m_Class(className), m_UID(0)
     {
     
     }
 
-    Object::Object(const std::string name)
+    Object::Object(std::string name)
         : m_Name(name), m_Class("Object"), m_UID(0)
     {
         
@@ -52,7 +52,7 @@ namespace Ocular
     // PUBLIC METHODS
     //--------------------------------------------------------------------------------------
     
-    void Object::setName(const std::string name)
+    void Object::setName(std::string name)
     {
         m_Name = name;
     }

@@ -13,13 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{f96297cf-80e6-441a-8a4a-a30c951b83d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Texture">
+      <UniqueIdentifier>{d889dc1f-c487-45da-b3de-bef681193a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer">
+      <UniqueIdentifier>{b28535f7-c6f5-4991-a685-c2a4bcf27e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Texture">
+      <UniqueIdentifier>{3b179361-5f02-4c0d-8ed9-88aa82586b68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Renderer\Texture\Texture.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Renderer\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +39,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Texture\Texture.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Texture\TextureEnums.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

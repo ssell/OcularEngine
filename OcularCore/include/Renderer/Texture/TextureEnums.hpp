@@ -14,20 +14,34 @@
  * limitations under the License.
  */
 
-#include "Renderer\Texture\Texture.hpp"
+#pragma once
+#ifndef __H__OCULAR_RENDERER_TEXTURE_ENUMS__H__
+#define __H__OCULAR_RENDERER_TEXTURE_ENUMS__H__
 
 //------------------------------------------------------------------------------------------
 
+/*!
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
-    Texture::Texture(TEXTURE_FILTER_MODE filter, TEXTURE_USAGE_MODE usage, std::string name)
-        : Object(name, "Texture")
+    /*! Sample filtering modes */
+    enum TEXTURE_FILTER_MODE 
     {
-        m_Filter = filter;
-        m_Usage = usage;
-    }
+        POINT = 0x0,     ///< Use Point filtering
+        BILINEAR,        ///< Use Bilinear filtering
+        TRILINEAR,       ///< Use Trilinear filtering
+        ANISOTROPIC      ///< Use Anisotropic filtering
+    };
 
-    Texture::~Texture()
+    enum TEXTURE_USAGE_MODE
     {
-    }
+        STATIC = 0x0,    ///< Texture will not be updated at runtime
+        DYNAMIC          ///< Texture may be updated at runtime
+    };
 }
+
+//------------------------------------------------------------------------------------------
+
+#endif

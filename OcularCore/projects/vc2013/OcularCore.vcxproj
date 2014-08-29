@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp" />
     <ClInclude Include="..\..\include\Renderer\Texture\Texture.hpp" />
+    <ClInclude Include="..\..\include\Renderer\Texture\TextureEnums.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

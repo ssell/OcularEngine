@@ -41,13 +41,13 @@ namespace Ocular
          * \param name
          * \param className
          */
-        Object(const std::string name, const std::string className);
+        Object(std::string name, std::string className);
 
         /**
          * \brief Creates a new Object with the specified name.
          * \param name
          */
-        Object(const std::string name);
+        Object(std::string name);
         
         /**
          * \brief Creates a new Object with the default name ('Name').
@@ -68,7 +68,7 @@ namespace Ocular
          * \brief Sets the name of the Object
          * \param name 
          */
-        void setName(const std::string name);
+        void setName(std::string name);
         
         /**
          * \return The UID of the Object
