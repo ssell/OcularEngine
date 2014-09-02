@@ -39,21 +39,21 @@ namespace Ocular
     public:
 
         /**
-         * \param name Display name of the window (default "Ocular Engine")
-         * \param width Width of the window  (default 800)
-         * \param height Height of the window (default 600)
-         * \param colorBits Number of color bits (default 32)
-         * \param depthBits Number of depth bits (default 32)
-         * \param stencilBits Number of stencil bits (default 32)
-         * \param display Display mode (default WINDOWED_BORDERED)
+         * \param name Display name of the window
+         * \param width Width of the window 
+         * \param height Height of the window
+         * \param colorBits Number of color bits
+         * \param depthBits Number of depth bits
+         * \param stencilBits Number of stencil bits
+         * \param display Display mode
          */
-        Window(std::string name = "Ocular Engine", 
-               unsigned width = 800, 
-               unsigned height = 600, 
-               unsigned colorBits = 32,
-               unsigned depthBits = 32, 
-               unsigned stencilBits = 32, 
-               WINDOW_DISPLAY_MODE display = WINDOWED_BORDERED);
+        Window(std::string name, 
+               unsigned width, 
+               unsigned height, 
+               unsigned colorBits,
+               unsigned depthBits, 
+               unsigned stencilBits, 
+               WINDOW_DISPLAY_MODE display);
 
         virtual ~Window();
 
