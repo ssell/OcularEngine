@@ -33,19 +33,25 @@ namespace Ocular
 
     /**
      * \class Window
+     * 
+     * Abstract parent class of all Window implementations.<br/><br/>
+     *
+     * See ::WindowWin32 <br/>
+     * See ::WindowLinux <br/>
+     * See ::WindowOSX
      */
     class Window 
     {
     public:
 
         /**
-         * \param name Display name of the window
-         * \param width Width of the window 
-         * \param height Height of the window
-         * \param colorBits Number of color bits
-         * \param depthBits Number of depth bits
+         * \param name        Display name of the window
+         * \param width       Width of the window 
+         * \param height      Height of the window
+         * \param colorBits   Number of color bits
+         * \param depthBits   Number of depth bits
          * \param stencilBits Number of stencil bits
-         * \param display Display mode
+         * \param display     Display mode
          */
         Window(std::string name, 
                unsigned width, 
@@ -60,9 +66,19 @@ namespace Ocular
         //--------------------------------------------
 
         /**
-         * (Re)Creates the window with the provided attributes.
+         * Opens and initializes the Window.
          */
-        virtual void create() = 0;
+        virtual void open() = 0;
+
+        /**
+         * Updates and recreates the Window.
+         */
+        virtual void update() = 0;
+
+        /**
+         * Closes the Window.
+         */
+        virtual void close() = 0;
 
         std::string getName() const;
         void setName(std::string name);
