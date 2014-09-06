@@ -72,4 +72,37 @@ namespace Ocular
     //--------------------------------------------------------------------------------------
     // PRIVATE METHODS
     //--------------------------------------------------------------------------------------
+
+    RECT WindowWin32::createWindowRect()
+    {
+        RECT windowRect;
+
+        windowRect.left   = 0L;
+        windowRect.right  = static_cast<long>(m_Width);
+        windowRect.top    = 0L;
+        windowRect.bottom = static_cast<long>(m_Height);
+
+        return windowRect;
+    }
+
+    WNDCLASS WindowWin32::createWndClass(WNDPROC wndProc)
+    {
+        WNDCLASS windowClass;
+
+        windowClass.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+        windowClass.lpfnWndProc   = wndProc;
+        windowClass.cbClsExtra    = 0;
+        windowClass.cbWndExtra    = sizeof(WindowWin32*);
+        windowClass.hInstance     = m_HINSTANCE;
+        windowClass.hIcon         = LoadIcon(NULL, IDI_WINLOGO); // TODO
+        windowClass.hCursor       = LoadIcon(NULL, IDC_ARROW);   // TODO
+        windowClass.hbrBackground = NULL;
+        windowClass.lpszMenuName  = NULL;
+        windowClass.lpszClassName = TEXT(m_Name.c_str());
+    }
+
+    LRESULT CALLBACK WindowWin32::processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    {
+    
+    }
 }

@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Renderer\Texture">
       <UniqueIdentifier>{3b179361-5f02-4c0d-8ed9-88aa82586b68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer\Window">
+      <UniqueIdentifier>{2b6a91a6-9a76-49ff-918d-ce3f634d38f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Window">
+      <UniqueIdentifier>{3756d94b-8434-4a1e-9b45-e10c2afd20bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -32,6 +38,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Renderer\Texture\Texture.cpp">
       <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\Window\Window.cpp">
+      <Filter>Source Files\Renderer\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp">
+      <Filter>Source Files\Renderer\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Texture\TextureEnums.hpp">
       <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\RenderContext.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\Window.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

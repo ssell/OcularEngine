@@ -21,7 +21,7 @@
 #include "Definitions.hpp"
 #include "Window.hpp"
 
-//#ifdef OCULAR_WINDOWS
+#ifdef OCULAR_WINDOWS
 #include <Windows.h>
 
 /**
@@ -122,5 +122,5 @@ namespace Ocular
  * }@ End of Doxygen Groups 
  */
 
-//#endif // OCULAR_WINDOWS
+#endif // OCULAR_WINDOWS
 #endif // __H__OCULAR_RENDERER_WIN_WINDOW__H__
