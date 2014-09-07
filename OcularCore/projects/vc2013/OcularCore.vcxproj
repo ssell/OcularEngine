@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Definitions.hpp" />
+    <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
     <ClInclude Include="..\..\include\Renderer\Texture\Texture.hpp" />

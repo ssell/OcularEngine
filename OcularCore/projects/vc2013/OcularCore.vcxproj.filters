@@ -71,5 +71,8 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Exception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
