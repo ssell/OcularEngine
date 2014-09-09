@@ -20,6 +20,7 @@
 
 #include "Definitions.hpp"
 #include "Window.hpp"
+#include "Exception.hpp"
 
 #ifdef OCULAR_WINDOWS
 #include <Windows.h>
@@ -86,6 +87,19 @@ namespace Ocular
          */
         HINSTANCE getHINSTANCE() const;
 
+        /**
+         * Class implementation of WndProc.<br/>
+         * Passes Windows messages to the Ocular message handler.<br/><br/>
+         *
+         * See: http://web.archive.org/web/20051125022758/www.rpi.edu/~pudeyo/articles/wndproc/
+         *
+         * \param hWnd
+         * \param uMsg
+         * \param wParam
+         * \param lParam
+         */
+        LRESULT CALLBACK processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
     protected:
 
     private:
@@ -100,19 +114,6 @@ namespace Ocular
          * \return WNDCLASS instance
          */
         WNDCLASS createWndClass(WNDPROC wndProc);
-
-        /**
-         * Class implementation of WndProc.<br/>
-         * Passes Windows messages to the Ocular message handler.<br/><br/>
-         *
-         * See: http://web.archive.org/web/20051125022758/www.rpi.edu/~pudeyo/articles/wndproc/
-         *
-         * \param hWnd
-         * \param uMsg
-         * \param wParam
-         * \param lParam
-         */
-        LRESULT CALLBACK processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         HWND      m_HWND;
         HINSTANCE m_HINSTANCE;
