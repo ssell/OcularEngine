@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp">
       <Filter>Source Files\Renderer\Window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp">
+      <Filter>Source Files\Renderer\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Exception.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

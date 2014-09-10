@@ -18,8 +18,10 @@
 #ifndef __H__OCULAR_RENDERER_WINDOW__H__
 #define __H__OCULAR_RENDERER_WINDOW__H__
 
-#include <string>
+#include "WindowManager.hpp"
 #include "WindowDisplay.hpp"
+
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -42,6 +44,7 @@ namespace Ocular
      */
     class Window 
     {
+        friend class WindowManager;
     public:
 
         /**
@@ -53,17 +56,35 @@ namespace Ocular
          * \param stencilBits Number of stencil bits
          * \param display     Display mode
          */
-        Window(std::string name, 
-               unsigned width, 
-               unsigned height, 
-               unsigned colorBits,
-               unsigned depthBits, 
-               unsigned stencilBits, 
-               WINDOW_DISPLAY_MODE display);
+        Window(std::string name,  unsigned width, unsigned height, unsigned colorBits,
+           unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
         virtual ~Window();
 
         //--------------------------------------------
+
+        std::string getName() const;
+        void setName(std::string name);
+
+        unsigned getResolutionX() const;
+        void setResolutionX(unsigned width);
+
+        unsigned getResolutionY() const;
+        void setResolutionY(unsigned height);
+
+        unsigned getColorBits() const;
+        void setColorBits(unsigned bits);
+
+        unsigned getDepthBits() const;
+        void setDepthBits(unsigned bits);
+
+        unsigned getStencilBits() const;
+        void setStencilBits(unsigned bits);
+
+        WINDOW_DISPLAY_MODE getDisplayMode() const;
+        void setDisplayMode(WINDOW_DISPLAY_MODE display);
+
+    protected:
 
         /**
          * Opens and initializes the Window.
@@ -80,29 +101,6 @@ namespace Ocular
          */
         virtual void close() = 0;
 
-        std::string getName() const;
-        void setName(std::string name);
-
-        unsigned getWidth() const;
-        void setWidth(unsigned width);
-
-        unsigned getHeight() const;
-        void setHeight(unsigned height);
-
-        unsigned getColorBits() const;
-        void setColorBits(unsigned bits);
-
-        unsigned getDepthBits() const;
-        void setDepthBits(unsigned bits);
-
-        unsigned getStencilBits() const;
-        void setStencilBits(unsigned bits);
-
-        WINDOW_DISPLAY_MODE getDisplayMode() const;
-        void setDisplayMode(WINDOW_DISPLAY_MODE display);
-
-    protected:
-    
         RenderContext* m_pRenderContext;
 
         std::string m_Name;

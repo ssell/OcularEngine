@@ -58,22 +58,22 @@ namespace Ocular
         m_Name = name;
     }
 
-    unsigned Window::getWidth() const 
+    unsigned Window::getResolutionX() const 
     {
         return m_Width;
     }
 
-    void Window::setWidth(unsigned width) 
+    void Window::setResolutionX(unsigned width) 
     {
         m_Width = width;
     }
 
-    unsigned Window::getHeight() const 
+    unsigned Window::getResolutionY() const 
     {
         return m_Height;
     }
 
-    void Window::setHeight(unsigned height)  
+    void Window::setResolutionY(unsigned height)  
     {
         m_Height = height;
     }

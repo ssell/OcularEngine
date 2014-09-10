@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+#include "Exception.hpp"
 #include "Renderer\Window\WindowWin32.hpp"
+
 #include <sstream>
 
 //------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@ namespace Ocular
     // NON-CLASS METHODS
     //--------------------------------------------------------------------------------------
 
-	LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wp, LPARAM lp )
+    LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wp, LPARAM lp )
     {
         WindowWin32* window = (WindowWin32*)GetWindowLong(hwnd, GWL_USERDATA);
 

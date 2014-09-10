@@ -78,6 +78,7 @@
     <ClCompile Include="..\..\src\Object.cpp" />
     <ClCompile Include="..\..\src\Renderer\Texture\Texture.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
+    <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="..\..\include\Renderer\Texture\TextureEnums.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
+    <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

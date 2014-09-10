@@ -20,10 +20,11 @@
 
 #include "Definitions.hpp"
 #include "Window.hpp"
-#include "Exception.hpp"
 
 #ifdef OCULAR_WINDOWS
 #include <Windows.h>
+
+//------------------------------------------------------------------------------------------
 
 /**
  * \addtogroup Ocular
@@ -50,30 +51,10 @@ namespace Ocular
          * \param stencilBits
          * \param display
          */
-        WindowWin32(std::string name = "Ocular Engine", 
-               unsigned width = 800, 
-               unsigned height = 600, 
-               unsigned colorBits = 32,
-               unsigned depthBits = 32, 
-               unsigned stencilBits = 32, 
-               WINDOW_DISPLAY_MODE display = WINDOWED_BORDERED);
+        WindowWin32(std::string name,  unsigned width, unsigned height, unsigned colorBits,
+           unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
         ~WindowWin32();
-
-        /**
-         * See ::Window::open
-         */
-        void open();
-
-        /**
-         * See ::Window::update
-         */
-        void update();
-
-        /**
-         * See ::Window::close
-         */
-        void close();
 
         /**
          * Returns the HWND owned by this Window instance.
@@ -102,6 +83,21 @@ namespace Ocular
 
     protected:
 
+        /**
+         * See ::Window::open
+         */
+        void open();
+
+        /**
+         * See ::Window::update
+         */
+        void update();
+
+        /**
+         * See ::Window::close
+         */
+        void close();
+
     private:
 
         /**
@@ -122,6 +118,8 @@ namespace Ocular
 /** 
  * }@ End of Doxygen Groups 
  */
+
+//------------------------------------------------------------------------------------------
 
 #endif // OCULAR_WINDOWS
 #endif // __H__OCULAR_RENDERER_WIN_WINDOW__H__
