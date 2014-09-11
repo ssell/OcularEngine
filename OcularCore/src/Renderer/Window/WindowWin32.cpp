@@ -88,7 +88,7 @@ namespace Ocular
 
             RegisterClass(&windowClass);
 
-            m_HWND = CreateWindow(windowClass.lpszClassName,
+            m_HWND = CreateWindow(TEXT(m_Name.c_str()),
                                   TEXT(m_Name.c_str()),
                                   WS_OVERLAPPEDWINDOW,
                                   CW_USEDEFAULT,

@@ -39,13 +39,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -53,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -66,7 +67,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -82,7 +83,7 @@
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Definitions.hpp" />
+    <ClInclude Include="..\..\include\Common.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />

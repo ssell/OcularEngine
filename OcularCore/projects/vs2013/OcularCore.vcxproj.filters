@@ -68,9 +68,6 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Definitions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

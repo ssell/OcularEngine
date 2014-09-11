@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_RENDERER_WIN_WINDOW__H__
 #define __H__OCULAR_RENDERER_WIN_WINDOW__H__
 
-#include "Definitions.hpp"
+#include "Common.hpp"
 #include "Window.hpp"
 
 #ifdef OCULAR_WINDOWS

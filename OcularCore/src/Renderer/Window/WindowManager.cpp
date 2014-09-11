@@ -60,9 +60,16 @@ namespace Ocular
             {
                 // Close, release, and stop tracking the window
 
-                (*iter).get()->close();    
-                (*iter).release();
+                try 
+                {
+                    (*iter).get()->close();    
+                }
+                catch(Exception e)
+                {
+                    // TODO - Log me
+                }
 
+                (*iter).release();
                 m_Windows.erase(iter);
 
                 break;
@@ -133,8 +140,7 @@ namespace Ocular
 #ifdef OCULAR_WINDOWS
         try
         {
-            m_Windows.push_front(std::make_unique<WindowWin32>(
-                WindowWin32(name, width, height, colorBits, depthBits, stencilBits, display)));
+            m_Windows.push_front(std::make_unique<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display));
             result = m_Windows.front().get();
 
             if(m_MainWindow.empty()) 
