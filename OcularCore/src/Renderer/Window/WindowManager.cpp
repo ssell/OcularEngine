@@ -18,6 +18,8 @@
 #include "Renderer\Window\WindowWin32.hpp"
 #include "Exception.hpp"
 
+#include <iostream>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -66,7 +68,8 @@ namespace Ocular
                 }
                 catch(Exception e)
                 {
-                    // TODO - Log me
+                    // TODO - Replace me
+                    std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
                 }
 
                 (*iter).release();
@@ -143,14 +146,20 @@ namespace Ocular
             m_Windows.push_front(std::make_unique<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display));
             result = m_Windows.front().get();
 
-            if(m_MainWindow.empty()) 
+            if(result != nullptr) 
             {
-                m_MainWindow = result->getName();
+                result->open();
+
+                if(m_MainWindow.empty()) 
+                {
+                    m_MainWindow = result->getName();
+                }
             }
         } 
         catch(Exception& e)
         {
-            // TODO - tie into future event system
+            // TODO - Replace me
+            std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
         }
 #endif
 
@@ -176,7 +185,8 @@ namespace Ocular
         } 
         catch(Exception& e)
         {
-            // TODO - tie into future event system
+            // TODO - Replace me
+            std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
         }
 #endif
 
@@ -202,7 +212,8 @@ namespace Ocular
         } 
         catch(Exception& e)
         {
-            // TODO - tie into future event system
+            // TODO - Replace me
+            std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
         }
 #endif
 

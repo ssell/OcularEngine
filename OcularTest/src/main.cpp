@@ -25,9 +25,6 @@ int main(int argc, char** argv)
     
     if(manager.createWindow("Test", 800, 600, 8, 8, 8, Ocular::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED))
     {
-        int holdOnMe = 0;
-        holdOnMe++;
-
         manager.destroyWindow("Test");
     }
     else 
