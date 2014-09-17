@@ -29,12 +29,12 @@ namespace Ocular
     /**
      * \enum WINDOW_DISPLAY_MODE
      */
-    enum WINDOW_DISPLAY_MODE
+    enum class WINDOW_DISPLAY_MODE : unsigned
     {
-        WINDOWED_BORDERED = 0x0,    ///< Window with dimensions equal to resolution with added border
-        WINDOWED_NO_BORDER,         ///< Window with dimensions equal to resolution and no border
-        FULLSCREEN_BORDERED,        ///< Fullscreen with border
-        FULLSCREEN_NO_BORDER        ///< Fullscreen with no border
+        WINDOWED_BORDERED = 0,    ///< Window with dimensions equal to resolution with added border
+        WINDOWED_NO_BORDER = 1,   ///< Window with dimensions equal to resolution and no border
+        FULLSCREEN_BORDERED = 2,  ///< Fullscreen with border
+        FULLSCREEN_NO_BORDER = 3  ///< Fullscreen with no border
     };
 }
 /**

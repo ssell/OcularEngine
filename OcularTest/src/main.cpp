@@ -19,9 +19,22 @@
 
 //------------------------------------------------------------------------------------------
 
+void testOut()
+{
+    std::cout << "... Done!" << std::endl;
+}
+
+template<typename T, typename... Args>
+void testOut(T first, Args... args)
+{
+    std::cout << first << std::endl;
+    testOut(args...);
+}
+
 int main(int argc, char** argv)
 {
-    Ocular::WindowManager manager;
+    testOut("message");
+    /*Ocular::WindowManager manager;
     
     if(manager.createWindow("Test", 800, 600, 8, 8, 8, Ocular::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED))
     {
@@ -30,7 +43,7 @@ int main(int argc, char** argv)
     else 
     {
         std::cout << "Failed to create window" << std::endl;
-    }
+    }*/
 
     return 0;
 }

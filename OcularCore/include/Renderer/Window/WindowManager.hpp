@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_RENDERER_WINDOW_MANAGER__H__
 #define __H__OCULAR_RENDERER_WINDOW_MANAGER__H__
 
+#include "WindowDisplay.hpp"
+
 #include <memory>
 #include <list>
 
@@ -30,7 +32,6 @@
 namespace Ocular
 {
     class Window;
-    enum WINDOW_DISPLAY_MODE;
 
     /**
      * \class WindowManager
