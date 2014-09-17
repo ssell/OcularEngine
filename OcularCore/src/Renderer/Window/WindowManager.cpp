@@ -42,7 +42,7 @@ namespace Ocular
     // PUBLIC METHODS
     //--------------------------------------------------------------------------------------
 
-    const Window* WindowManager::createWindow(std::string name, unsigned width, unsigned height,
+    const AWindow* WindowManager::createWindow(std::string name, unsigned width, unsigned height,
         unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
     {
 #ifdef OCULAR_WINDOWS
@@ -102,9 +102,9 @@ namespace Ocular
         return windows;
     }
 
-    const Window* WindowManager::getWindow(std::string name)
+    const AWindow* WindowManager::getWindow(std::string name)
     {
-        std::list<std::unique_ptr<Window>>::iterator iter;
+        std::list<std::unique_ptr<AWindow>>::iterator iter;
 
         for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
         {
@@ -117,7 +117,7 @@ namespace Ocular
         return nullptr;
     }
 
-    const Window* WindowManager::getMainWindow()
+    const AWindow* WindowManager::getMainWindow()
     {
         return getWindow(m_MainWindow);
     }
@@ -135,10 +135,10 @@ namespace Ocular
     // PRIVATE METHODS
     //--------------------------------------------------------------------------------------
 
-    const Window* WindowManager::createWindowWin32(std::string name, unsigned width, unsigned height,
+    const AWindow* WindowManager::createWindowWin32(std::string name, unsigned width, unsigned height,
         unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
     {
-        Window* result = nullptr;
+        AWindow* result = nullptr;
 
 #ifdef OCULAR_WINDOWS
         try
@@ -166,10 +166,10 @@ namespace Ocular
         return result;
     }
 
-    const Window* WindowManager::createWindowOSX(std::string name, unsigned width, unsigned height,
+    const AWindow* WindowManager::createWindowOSX(std::string name, unsigned width, unsigned height,
         unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
     {
-        Window* result = nullptr;
+        AWindow* result = nullptr;
 
 #ifdef OCULAR_OSX
         try
@@ -193,10 +193,10 @@ namespace Ocular
         return result;
     }
 
-    const Window* WindowManager::createWindowLinux(std::string name, unsigned width, unsigned height,
+    const AWindow* WindowManager::createWindowLinux(std::string name, unsigned width, unsigned height,
         unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
     {
-        Window* result = nullptr;
+        AWindow* result = nullptr;
 
 #ifdef OCULAR_LINUX
         try

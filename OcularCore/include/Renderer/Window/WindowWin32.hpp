@@ -38,7 +38,7 @@ namespace Ocular
      * Implementation of the abstract Window class.<br/>
      * Used for the creation of a Win32 Window.
      */
-    class WindowWin32 : public Window 
+    class WindowWin32 : public AWindow
     {
     public:
 

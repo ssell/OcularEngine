@@ -18,7 +18,11 @@
 #ifndef __H__OCULAR_LOGGER__H__
 #define __H__OCULAR_LOGGER__H__
 
+#include "ILoggerListener.hpp"
+
+#include <list>
 #include <sstream>
+#include <memory>
 
 //------------------------------------------------------------------------------------------
 
@@ -28,26 +32,9 @@
  */
 namespace Ocular 
 {
-    enum class LOGGER_CHANNEL
-    {
-        DEBUG = 0,
-        INFO = 1,
-        WARNING = 2,
-        ERROR = 3
-    };
-
     /**
      * \class Logger
      * \warning Currently NOT threadsafe
-     */
-    struct LoggerMessage
-    {
-        std::string message;
-        LOGGER_CHANNEL channel;
-    };
-
-    /**
-     * \class Logger
      */
     class Logger
     {
@@ -56,17 +43,19 @@ namespace Ocular
         Logger();
         ~Logger();
 
-        template<typename T, typename... U>
-        void debug(T first, U... last);
+        void registerListener(ILoggerListener* listener);
 
         template<typename T, typename... U>
-        void info(T first, U... last);
+        void debug(T first, U... args);
 
         template<typename T, typename... U>
-        void warning(T first, U... last);
+        void info(T first, U... args);
 
         template<typename T, typename... U>
-        void error(T first, U... last);
+        void warning(T first, U... args);
+
+        template<typename T, typename... U>
+        void error(T first, U... args);
         
     protected:
 
@@ -80,7 +69,11 @@ namespace Ocular
 
         std::stringstream m_IncompleteMessage;
         LoggerMessage m_CurrentMessage;
+
+        std::list<std::unique_ptr<ILoggerListener>> m_Listeners;
     };
+
+#include "..\..\src\Logger\Logger.tpp"
 }
 /**
  * @} End of Doxygen Groups

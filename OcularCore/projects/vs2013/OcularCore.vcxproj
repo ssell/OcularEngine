@@ -76,7 +76,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Logger.cpp" />
+    <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
+    <ClCompile Include="..\..\src\Logger\Logger.cpp" />
+    <ClCompile Include="..\..\src\Logger\VSConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Object.cpp" />
     <ClCompile Include="..\..\src\Renderer\Texture\Texture.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
@@ -86,7 +88,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
-    <ClInclude Include="..\..\include\Logger.hpp" />
+    <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
+    <ClInclude Include="..\..\include\Logger\ILoggerListener.hpp" />
+    <ClInclude Include="..\..\include\Logger\Logger.hpp" />
+    <ClInclude Include="..\..\include\Logger\LoggerChannels.hpp" />
+    <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
     <ClInclude Include="..\..\include\Renderer\Texture\Texture.hpp" />
@@ -95,6 +101,9 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\Logger\Logger.tpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Logger.hpp"
+#include "Logger\Logger.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,47 +30,19 @@ namespace Ocular
 
     Logger::~Logger()
     {
-    
+        m_Listeners.clear();
     }
 
     //--------------------------------------------------------------------------------------
     // PUBLIC METHODS
     //--------------------------------------------------------------------------------------
 
-    template<typename T, typename... U>
-    void Logger::debug(T first, U... last) 
+    void Logger::registerListener(ILoggerListener* listener)
     {
-        m_CurrentMessage.channel = LOGGER_CHANNEL::DEBUG;
-        m_IncompleteMessage.str(std::string());
-        m_IncompleteMessage << first;
-        log(last...);
-    }
-
-    template<typename T, typename... U>
-    void Logger::info(T first, U... last) 
-    {
-        m_CurrentMessage.channel = LOGGER_CHANNEL::INFO;
-        m_IncompleteMessage.str(std::string());
-        m_IncompleteMessage << first;
-        log(last...);
-    }
-
-    template<typename T, typename... U>
-    void Logger::warning(T first, U... last) 
-    {
-        m_CurrentMessage.channel = LOGGER_CHANNEL::WARNING;
-        m_IncompleteMessage.str(std::string());
-        m_IncompleteMessage << first;
-        log(last...);
-    }
-
-    template<typename T, typename... U>
-    void Logger::error(T first, U... last) 
-    {
-        m_CurrentMessage.channel = LOGGER_CHANNEL::ERROR;
-        m_IncompleteMessage.str(std::string());
-        m_IncompleteMessage << first;
-        log(last...);
+        if(listener != nullptr)
+        {
+            m_Listeners.push_back(std::unique_ptr<ILoggerListener>(listener));
+        }
     }
 
     //--------------------------------------------------------------------------------------
@@ -81,16 +53,14 @@ namespace Ocular
     // PRIVATE METHODS
     //--------------------------------------------------------------------------------------
 
-    template<typename T, typename... U>
-    void Logger::log(T first, U... last)
-    {
-        m_IncompleteMessage << first;
-        log(last...);
-    }
-
     void Logger::log()
     {
         m_CurrentMessage.message = m_IncompleteMessage.str();
-        // Distribute message...
+        
+        // Send the message out to the listeners
+        for(auto iter = m_Listeners.begin(); iter != m_Listeners.end(); iter++)
+        {
+            (*iter)->onLogMessage(m_CurrentMessage);
+        }
     }
 }

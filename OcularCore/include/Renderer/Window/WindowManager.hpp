@@ -31,7 +31,7 @@
  */
 namespace Ocular
 {
-    class Window;
+    class AWindow;
 
     /**
      * \class WindowManager
@@ -62,7 +62,7 @@ namespace Ocular
          *
          * \return A pointer to the new window. If nullptr, then an error occurred during creation.
          */
-        const Window* createWindow(std::string name,  unsigned width, unsigned height, 
+        const AWindow* createWindow(std::string name, unsigned width, unsigned height,
            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
         /**
@@ -90,13 +90,13 @@ namespace Ocular
          * \param name
          * \return A pointer to the window. If nullptr, then no window matches the specified name.
          */
-        const Window* getWindow(std::string name);
+        const AWindow* getWindow(std::string name);
 
         /**
          * Returns a pointer to the main/primary window.
          * \return A pointer to the main window. If nullptr, then no windows are being managed.
          */
-        const Window* getMainWindow();
+        const AWindow* getMainWindow();
 
         /**
          * Sets the main window.
@@ -107,17 +107,17 @@ namespace Ocular
 
     private:
 
-        const Window* createWindowWin32(std::string name,  unsigned width, unsigned height, 
+        const AWindow* createWindowWin32(std::string name, unsigned width, unsigned height,
            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        const Window* createWindowOSX(std::string name,  unsigned width, unsigned height, 
+        const AWindow* createWindowOSX(std::string name, unsigned width, unsigned height,
            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        const Window* createWindowLinux(std::string name,  unsigned width, unsigned height, 
+        const AWindow* createWindowLinux(std::string name, unsigned width, unsigned height,
            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
         std::string m_MainWindow;
-        std::list<std::unique_ptr<Window>> m_Windows;
+        std::list<std::unique_ptr<AWindow>> m_Windows;
     };
 }
 /** 

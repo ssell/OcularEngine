@@ -42,7 +42,7 @@ namespace Ocular
      * See ::WindowLinux <br/>
      * See ::WindowOSX
      */
-    class Window 
+    class AWindow 
     {
         friend class WindowManager;
     public:
@@ -56,10 +56,10 @@ namespace Ocular
          * \param stencilBits Number of stencil bits
          * \param display     Display mode
          */
-        Window(std::string name,  unsigned width, unsigned height, unsigned colorBits,
+        AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
            unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        virtual ~Window();
+        virtual ~AWindow();
 
         //--------------------------------------------
 

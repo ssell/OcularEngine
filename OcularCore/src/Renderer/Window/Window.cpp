@@ -24,8 +24,8 @@ namespace Ocular
     // CONSTRUCTORS
     //--------------------------------------------------------------------------------------
 
-    Window::Window(std::string name, unsigned width, unsigned height, unsigned colorBits,
-                   unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+    AWindow::AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
+                     unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
     {
         m_Name = name;
         m_Width = width;
@@ -35,7 +35,7 @@ namespace Ocular
         m_StencilBits = stencilBits;
     }
 
-    Window::~Window()
+    AWindow::~AWindow()
     {
         if(m_pRenderContext != nullptr)
         {
@@ -48,72 +48,72 @@ namespace Ocular
     // PUBLIC METHODS
     //--------------------------------------------------------------------------------------
 
-    std::string Window::getName() const
+    std::string AWindow::getName() const
     {
         return m_Name;
     }
 
-    void Window::setName(std::string name) 
+    void AWindow::setName(std::string name)
     {
         m_Name = name;
     }
 
-    unsigned Window::getResolutionX() const 
+    unsigned AWindow::getResolutionX() const
     {
         return m_Width;
     }
 
-    void Window::setResolutionX(unsigned width) 
+    void AWindow::setResolutionX(unsigned width)
     {
         m_Width = width;
     }
 
-    unsigned Window::getResolutionY() const 
+    unsigned AWindow::getResolutionY() const
     {
         return m_Height;
     }
 
-    void Window::setResolutionY(unsigned height)  
+    void AWindow::setResolutionY(unsigned height)
     {
         m_Height = height;
     }
 
-    unsigned Window::getColorBits() const 
+    unsigned AWindow::getColorBits() const
     {
         return m_ColorBits;
     }
 
-    void Window::setColorBits(unsigned bits) 
+    void AWindow::setColorBits(unsigned bits)
     {
         m_ColorBits = bits;
     }
 
-    unsigned Window::getDepthBits() const 
+    unsigned AWindow::getDepthBits() const
     {
         return m_DepthBits;
     }
 
-    void Window::setDepthBits(unsigned bits) 
+    void AWindow::setDepthBits(unsigned bits)
     {
         m_DepthBits = bits;
     }
 
-    unsigned Window::getStencilBits() const 
+    unsigned AWindow::getStencilBits() const
     {
         return m_StencilBits;
     }
 
-    void Window::setStencilBits(unsigned bits) 
+    void AWindow::setStencilBits(unsigned bits)
     {
         m_StencilBits = bits;
     }
 
-    WINDOW_DISPLAY_MODE Window::getDisplayMode() const
+    WINDOW_DISPLAY_MODE AWindow::getDisplayMode() const
     {
         return m_DisplayMode;
     }
 
-    void Window::setDisplayMode(WINDOW_DISPLAY_MODE display) 
+    void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE display)
     {
         m_DisplayMode = display;
     }

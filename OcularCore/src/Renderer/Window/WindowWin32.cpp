@@ -47,7 +47,7 @@ namespace Ocular
 
     WindowWin32::WindowWin32(std::string name, unsigned width, unsigned height, unsigned colorBits,
         unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
-        : Window(name, width, height, colorBits, depthBits, stencilBits, display)
+        : AWindow(name, width, height, colorBits, depthBits, stencilBits, display)
     {
         m_HINSTANCE = nullptr;
         m_HWND = nullptr;

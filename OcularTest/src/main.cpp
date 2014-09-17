@@ -17,33 +17,31 @@
 #include <iostream>
 #include "Renderer\Window\Window.hpp"
 
+#include "Logger\Logger.hpp"
+#include "Logger\ConsoleLoggerListener.hpp"
+#include "Logger\VSConsoleLoggerListener.hpp"
+
 //------------------------------------------------------------------------------------------
-
-void testOut()
-{
-    std::cout << "... Done!" << std::endl;
-}
-
-template<typename T, typename... Args>
-void testOut(T first, Args... args)
-{
-    std::cout << first << std::endl;
-    testOut(args...);
-}
 
 int main(int argc, char** argv)
 {
-    testOut("message");
-    /*Ocular::WindowManager manager;
+    Ocular::Logger logger;
+    logger.registerListener(new Ocular::ConsoleLoggerListener());
+    logger.registerListener(new Ocular::VSConsoleLoggerListener());
+
+    //------------------------------------------------
+
+    Ocular::WindowManager manager;
     
     if(manager.createWindow("Test", 800, 600, 8, 8, 8, Ocular::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED))
     {
+        logger.info("Window creation successful");
         manager.destroyWindow("Test");
     }
     else 
     {
-        std::cout << "Failed to create window" << std::endl;
-    }*/
+       logger.error("Failed to create window");
+    }
 
     return 0;
 }

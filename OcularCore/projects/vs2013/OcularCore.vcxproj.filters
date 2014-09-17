@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Renderer\Window">
       <UniqueIdentifier>{3756d94b-8434-4a1e-9b45-e10c2afd20bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Logger">
+      <UniqueIdentifier>{e4753f81-8d23-4589-af5f-625a95f3897e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logger">
+      <UniqueIdentifier>{2aa84a8e-1207-4df5-8521-dfc52f031b6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -48,8 +54,14 @@
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp">
       <Filter>Source Files\Renderer\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Logger.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\src\Logger\Logger.cpp">
+      <Filter>Source Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp">
+      <Filter>Source Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\VSConsoleLoggerListener.cpp">
+      <Filter>Source Files\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,8 +95,25 @@
     <ClInclude Include="..\..\include\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Logger.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\include\Logger\Logger.hpp">
+      <Filter>Header Files\Logger</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Logger\ILoggerListener.hpp">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Logger\LoggerChannels.hpp">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\Logger\Logger.tpp">
+      <Filter>Source Files\Logger</Filter>
+    </None>
   </ItemGroup>
 </Project>
