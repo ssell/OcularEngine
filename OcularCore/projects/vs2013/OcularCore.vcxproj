@@ -84,6 +84,9 @@
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
+    <ClCompile Include="..\..\src\Time\Clock.cpp" />
+    <ClCompile Include="..\..\src\Time\DateTime.cpp" />
+    <ClCompile Include="..\..\src\Time\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
@@ -101,6 +104,9 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
+    <ClInclude Include="..\..\include\Time\Clock.hpp" />
+    <ClInclude Include="..\..\include\Time\DateTime.hpp" />
+    <ClInclude Include="..\..\include\Time\Timer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Logger\Logger.tpp" />

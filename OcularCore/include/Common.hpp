@@ -19,6 +19,7 @@
 #define __H__OCULAR_DEFINITIONS__H__
 
 //------------------------------------------------------------------------------------------
+// Macros
 
 // Ocular Versions
 
@@ -34,6 +35,18 @@
 #elif defined(__linux__)
 #define OCULAR_LINUX 1
 #endif
+
+//------------------------------------------------------------------------------------------
+// Super common functions that need a better home
+
+namespace Ocular
+{
+    template<typename T>
+    T Clamp(const T& value, const T& lower, const T& upper)
+    {
+        return ((value < lower) ? lower : (value > upper) ? upper : value);
+    }
+}
 
 //------------------------------------------------------------------------------------------
 

@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Logger">
       <UniqueIdentifier>{2aa84a8e-1207-4df5-8521-dfc52f031b6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Time">
+      <UniqueIdentifier>{5754af8d-59e3-4729-98a8-7062322c80fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{9b2f2705-e11c-4874-9760-38f699c8b8a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -62,6 +68,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Logger\VSConsoleLoggerListener.cpp">
       <Filter>Source Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Time\Clock.cpp">
+      <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Time\Timer.cpp">
+      <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Time\DateTime.cpp">
+      <Filter>Source Files\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp">
       <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Time\Clock.hpp">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Time\Timer.hpp">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Time\DateTime.hpp">
+      <Filter>Header Files\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
