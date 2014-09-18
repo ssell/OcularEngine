@@ -24,15 +24,15 @@ static const int DAYS_ELAPSED[12] =
      0,     // Jan 1 :   0 days elapsed
     31,     // Feb 1 :  31 days elapsed (31 days in Jan)
     59,     // Mar 1 :  59 days elapsed (28 days in Feb)
-    91,     // Apr 1 :  90 days elapsed (31 days in Mar)
-    121,    // May 1 : 120 days elapsed (30 days in Apr)
-    152,    // Jun 1 : 151 days elapsed (31 days in May)
-    182,    // Jul 1 : 181 days elapsed (30 days in Jun)
-    213,    // Aug 1 : 212 days elapsed (31 days in Jul)
-    244,    // Sep 1 : 243 days elapsed (31 days in Aug)
-    274,    // Oct 1 : 273 days elapsed (30 days in Sep)
-    305,    // Nov 1 : 304 days elapsed (31 days in Oct)
-    335     // Dec 1 : 334 days elapsed (30 days in Dec)
+    90,     // Apr 1 :  90 days elapsed (31 days in Mar)
+    120,    // May 1 : 120 days elapsed (30 days in Apr)
+    151,    // Jun 1 : 151 days elapsed (31 days in May)
+    181,    // Jul 1 : 181 days elapsed (30 days in Jun)
+    212,    // Aug 1 : 212 days elapsed (31 days in Jul)
+    243,    // Sep 1 : 243 days elapsed (31 days in Aug)
+    273,    // Oct 1 : 273 days elapsed (30 days in Sep)
+    304,    // Nov 1 : 304 days elapsed (31 days in Oct)
+    334     // Dec 1 : 334 days elapsed (30 days in Dec)
 };
 
 static const int DAYS_ELAPSED_LEAP[12] =
@@ -46,7 +46,7 @@ static const int DAYS_ELAPSED_LEAP[12] =
     182,
     213,
     244,
-    284,
+    274,
     305,
     335
 };

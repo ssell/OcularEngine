@@ -20,11 +20,14 @@
 #include "Logger\Logger.hpp"
 #include "Logger\ConsoleLoggerListener.hpp"
 #include "Logger\VSConsoleLoggerListener.hpp"
+#include "Time\Clock.hpp"
 
 //------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
 {
+    Ocular::Clock clock;
+
     Ocular::Logger logger;
     logger.registerListener(new Ocular::ConsoleLoggerListener());
     logger.registerListener(new Ocular::VSConsoleLoggerListener());
@@ -42,6 +45,17 @@ int main(int argc, char** argv)
     {
        logger.error("Failed to create window");
     }
+
+    //------------------------------------------------
+
+    Ocular::DateTime date = clock.getDateTime();
+    long long elapsed = clock.getElapsedMS();
+
+    logger.info("Program exit on ", date.getYear(), "-", date.getMonth(), "-", date.getDayOfMonth(),
+        "@", (date.getHour() < 10 ? "0" : ""), date.getHour(),
+        ":", (date.getMinute() < 10 ? "0" : ""), date.getMinute(),
+        ":", (date.getSecond() < 10 ? "0" : ""), date.getSecond(),
+        " after ", elapsed, " MS of execution.");
 
     return 0;
 }
