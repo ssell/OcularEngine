@@ -26,8 +26,12 @@ namespace Ocular
 
     Clock::Clock()
     {
-        m_CreationTime = 
+        m_CreationTimeMS = 
             std::chrono::duration_cast<std::chrono::milliseconds>
+            (std::chrono::system_clock::now().time_since_epoch()).count();
+
+        m_CreationTimeNS =
+            std::chrono::duration_cast<std::chrono::nanoseconds>
             (std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
@@ -46,12 +50,26 @@ namespace Ocular
             std::chrono::duration_cast<std::chrono::milliseconds>
             (std::chrono::system_clock::now().time_since_epoch()).count();
 
-        return (long long)(currentTime);
+        return static_cast<long long>(currentTime);
+    }
+
+    long long Clock::getEpochNS()
+    {
+        std::chrono::nanoseconds::rep currentTime =
+            std::chrono::duration_cast<std::chrono::nanoseconds>
+            (std::chrono::system_clock::now().time_since_epoch()).count();
+    
+        return static_cast<long long>(currentTime);
     }
 
     long long Clock::getElapsedMS()
     {
-        return getEpochMS() - (long long)(m_CreationTime);
+        return getEpochMS() - static_cast<long long>(m_CreationTimeMS);
+    }
+
+    long long Clock::getElapsedNS()
+    {
+        return getEpochNS() - static_cast<long long>(m_CreationTimeNS);
     }
 
     DateTime Clock::getDateTime()

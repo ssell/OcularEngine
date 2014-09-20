@@ -45,9 +45,19 @@ namespace Ocular
         long long getEpochMS();
 
         /**
+         * Returns the number of nanoseconds since epoch (January 1, 1970).
+         */
+        long long getEpochNS();
+
+        /**
          * Returns the number of milliseconds since Clock creation.
          */
         long long getElapsedMS();
+        
+        /**
+         * Returns the number of nanoseconds since Clock creation.
+         */
+        long long getElapsedNS();
 
         /**
          * Returns current system date and time.
@@ -58,7 +68,8 @@ namespace Ocular
 
     private:
 
-        std::chrono::milliseconds::rep m_CreationTime;
+        std::chrono::milliseconds::rep m_CreationTimeMS;
+        std::chrono::nanoseconds::rep  m_CreationTimeNS;
     };
 }
 /**
