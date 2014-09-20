@@ -30,58 +30,68 @@
 namespace Ocular
 {
     /**
-     * \class Texture
-     * \brief Base class for all texture objects
+     * \addtogroup Core
+     * @{
      */
-    class Texture : public Object
+    namespace Core
     {
-    public:
-
         /**
-         * \param filter
-         * \param usage
-         * \param name
+         * \class Texture
+         * \brief Base class for all texture objects
          */
-        Texture(TEXTURE_FILTER_MODE filter = BILINEAR, TEXTURE_USAGE_MODE usage = STATIC, std::string name = "Texture");
+        class Texture : public Object
+        {
+        public:
 
-        virtual ~Texture();
+            /**
+             * \param filter
+             * \param usage
+             * \param name
+             */
+            Texture(TEXTURE_FILTER_MODE filter = BILINEAR, TEXTURE_USAGE_MODE usage = STATIC, std::string name = "Texture");
 
-        /**
-         * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.<br/><br/>
-         * Textures will not be updated (i.e. changes rendered) until this method is called.
-         *
-         * \note Texture usage mode must be set to ::DYNAMIC in order to modify a texture at runtime.
-         */
-        virtual void apply() = 0;
+            virtual ~Texture();
 
-        /**
-         * Sets the filter mode of the texture.<br/>
-         * The filter mode determines how pixels are sampled during rendering.<br/><br/>
-         *
-         * The default filter is ::BILINEAR.
-         *
-         * \param filter 
-         */
-        virtual void setFilterMode(TEXTURE_FILTER_MODE filter);
+            /**
+             * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.<br/><br/>
+             * Textures will not be updated (i.e. changes rendered) until this method is called.
+             *
+             * \note Texture usage mode must be set to ::DYNAMIC in order to modify a texture at runtime.
+             */
+            virtual void apply() = 0;
 
-        /**
-         * Sets the usage mode of the texture.<br/><br/>
-         *
-         * The usage mode determines if a copy of the texture is maintained on the CPU.
-         * By setting usage to DYNAMIC, one may modify the texture at runtime. But this
-         * also requires additional memory overhead which is unnecessary for most textures.<br/><br/>
-         * 
-         * The default usage is STATIC.
-         */
-        virtual void setUsageMode(TEXTURE_USAGE_MODE usage);
+            /**
+             * Sets the filter mode of the texture.<br/>
+             * The filter mode determines how pixels are sampled during rendering.<br/><br/>
+             *
+             * The default filter is ::BILINEAR.
+             *
+             * \param filter 
+             */
+            virtual void setFilterMode(TEXTURE_FILTER_MODE filter);
 
-    protected:
+            /**
+             * Sets the usage mode of the texture.<br/><br/>
+             *
+             * The usage mode determines if a copy of the texture is maintained on the CPU.
+             * By setting usage to DYNAMIC, one may modify the texture at runtime. But this
+             * also requires additional memory overhead which is unnecessary for most textures.<br/><br/>
+             * 
+             * The default usage is STATIC.
+             */
+            virtual void setUsageMode(TEXTURE_USAGE_MODE usage);
 
-        TEXTURE_FILTER_MODE m_Filter;
-        TEXTURE_USAGE_MODE  m_Usage;
+        protected:
 
-    private:
-    };
+            TEXTURE_FILTER_MODE m_Filter;
+            TEXTURE_USAGE_MODE  m_Usage;
+
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

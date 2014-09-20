@@ -19,54 +19,57 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    ConsoleLoggerListener::ConsoleLoggerListener()
+    namespace Core
     {
-    }
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-    ConsoleLoggerListener::~ConsoleLoggerListener()
-    {
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
-
-    void ConsoleLoggerListener::onLogMessage(LoggerMessage message)
-    {
-        switch (message.channel)
+        ConsoleLoggerListener::ConsoleLoggerListener()
         {
-        case LOGGER_CHANNELS::DEBUG_CHANNEL:
-            std::cout << "Ocular DEBUG: ";
-            break;
-
-        case LOGGER_CHANNELS::INFO_CHANNEL:
-            std::cout << "Ocular INFO: ";
-            break;
-
-        case LOGGER_CHANNELS::WARNING_CHANNEL:
-            std::cout << "Ocular WARNING: ";
-            break;
-
-        case LOGGER_CHANNELS::ERROR_CHANNEL:
-            std::cout << "Ocular ERROR: ";
-            break;
-
-        default:
-            return;
         }
 
-        std::cout << message.message << std::endl;
+        ConsoleLoggerListener::~ConsoleLoggerListener()
+        {
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        void ConsoleLoggerListener::onLogMessage(LoggerMessage message)
+        {
+            switch (message.channel)
+            {
+            case LOGGER_CHANNELS::DEBUG_CHANNEL:
+                std::cout << "Ocular DEBUG: ";
+                break;
+
+            case LOGGER_CHANNELS::INFO_CHANNEL:
+                std::cout << "Ocular INFO: ";
+                break;
+
+            case LOGGER_CHANNELS::WARNING_CHANNEL:
+                std::cout << "Ocular WARNING: ";
+                break;
+
+            case LOGGER_CHANNELS::ERROR_CHANNEL:
+                std::cout << "Ocular ERROR: ";
+                break;
+
+            default:
+                return;
+            }
+
+            std::cout << message.message << std::endl;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
 }

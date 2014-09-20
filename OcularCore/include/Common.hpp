@@ -41,10 +41,13 @@
 
 namespace Ocular
 {
-    template<typename T>
-    T Clamp(const T& value, const T& lower, const T& upper)
+    namespace Core
     {
-        return ((value < lower) ? lower : (value > upper) ? upper : value);
+        template<typename T>
+        T Clamp(const T& value, const T& lower, const T& upper)
+        {
+            return ((value < lower) ? lower : (value > upper) ? upper : value);
+        }
     }
 }
 

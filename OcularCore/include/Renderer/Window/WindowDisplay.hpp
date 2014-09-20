@@ -27,15 +27,25 @@
 namespace Ocular
 {
     /**
-     * \enum WINDOW_DISPLAY_MODE
+     * \addtogroup Core
+     * @{
      */
-    enum class WINDOW_DISPLAY_MODE : unsigned
+    namespace Core
     {
-        WINDOWED_BORDERED = 0,    ///< Window with dimensions equal to resolution with added border
-        WINDOWED_NO_BORDER = 1,   ///< Window with dimensions equal to resolution and no border
-        FULLSCREEN_BORDERED = 2,  ///< Fullscreen with border
-        FULLSCREEN_NO_BORDER = 3  ///< Fullscreen with no border
-    };
+        /**
+         * \enum WINDOW_DISPLAY_MODE
+         */
+        enum class WINDOW_DISPLAY_MODE : unsigned
+        {
+            WINDOWED_BORDERED = 0,    ///< Window with dimensions equal to resolution with added border
+            WINDOWED_NO_BORDER = 1,   ///< Window with dimensions equal to resolution and no border
+            FULLSCREEN_BORDERED = 2,  ///< Fullscreen with border
+            FULLSCREEN_NO_BORDER = 3  ///< Fullscreen with no border
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

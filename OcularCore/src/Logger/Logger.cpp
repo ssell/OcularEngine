@@ -20,47 +20,50 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    Logger::Logger()
+    namespace Core
     {
-    }
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-    Logger::~Logger()
-    {
-        m_Listeners.clear();
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
-
-    void Logger::registerListener(ILoggerListener* listener)
-    {
-        if(listener != nullptr)
+        Logger::Logger()
         {
-            m_Listeners.push_back(std::unique_ptr<ILoggerListener>(listener));
         }
-    }
 
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
-
-    void Logger::log()
-    {
-        m_CurrentMessage.message = m_IncompleteMessage.str();
-        
-        // Send the message out to the listeners
-        for(auto iter = m_Listeners.begin(); iter != m_Listeners.end(); iter++)
+        Logger::~Logger()
         {
-            (*iter)->onLogMessage(m_CurrentMessage);
+            m_Listeners.clear();
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        void Logger::registerListener(ILoggerListener* listener)
+        {
+            if(listener != nullptr)
+            {
+                m_Listeners.push_back(std::unique_ptr<ILoggerListener>(listener));
+            }
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
+
+        void Logger::log()
+        {
+            m_CurrentMessage.message = m_IncompleteMessage.str();
+        
+            // Send the message out to the listeners
+            for(auto iter = m_Listeners.begin(); iter != m_Listeners.end(); iter++)
+            {
+                (*iter)->onLogMessage(m_CurrentMessage);
+            }
         }
     }
 }

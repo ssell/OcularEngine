@@ -31,94 +31,104 @@
  */
 namespace Ocular
 {
-    class AWindow;
-
     /**
-     * \class WindowManager
-     *
-     * The WindowManager is responsible for creating and destroying Window instances.<br/>
-     * All windows should be requested through the WindowManager and not directly instantiated.
+     * \addtogroup Core
+     * @{
      */
-    class WindowManager
+    namespace Core
     {
-    public:
-
-        WindowManager();
-        ~WindowManager();
+        class AWindow;
 
         /**
-         * Creates and returns a reference to a new window.<br/><br/>
+         * \class WindowManager
          *
-         * The returned pointer should not be destroyed as object management
-         * is performed by the WindowManager to which the Window belongs.
-         *
-         * \param name        Display name of the window
-         * \param width       Width of the window 
-         * \param height      Height of the window
-         * \param colorBits   Number of color bits
-         * \param depthBits   Number of depth bits
-         * \param stencilBits Number of stencil bits
-         * \param display     Display mode
-         *
-         * \return A pointer to the new window. If nullptr, then an error occurred during creation.
+         * The WindowManager is responsible for creating and destroying Window instances.<br/>
+         * All windows should be requested through the WindowManager and not directly instantiated.
          */
-        const AWindow* createWindow(std::string name, unsigned width, unsigned height,
-           unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+        class WindowManager
+        {
+        public:
 
-        /**
-         * Destroys the Window with the specified name.
-         * \param name
-         */
-        void destroyWindow(std::string name);
+            WindowManager();
+            ~WindowManager();
 
-        /**
-         * Destroys all windows.
-         */
-        void destroyAllWindows();
+            /**
+             * Creates and returns a reference to a new window.<br/><br/>
+             *
+             * The returned pointer should not be destroyed as object management
+             * is performed by the WindowManager to which the Window belongs.
+             *
+             * \param name        Display name of the window
+             * \param width       Width of the window 
+             * \param height      Height of the window
+             * \param colorBits   Number of color bits
+             * \param depthBits   Number of depth bits
+             * \param stencilBits Number of stencil bits
+             * \param display     Display mode
+             *
+             * \return A pointer to the new window. If nullptr, then an error occurred during creation.
+             */
+            const AWindow* createWindow(std::string name, unsigned width, unsigned height,
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        /**
-         * Lists all windows managed by this instance.
-         */
-        std::list<std::string> listWindows();
+            /**
+             * Destroys the Window with the specified name.
+             * \param name
+             */
+            void destroyWindow(std::string name);
+
+            /**
+             * Destroys all windows.
+             */
+            void destroyAllWindows();
+
+            /**
+             * Lists all windows managed by this instance.
+             */
+            std::list<std::string> listWindows();
         
-        /**
-         * Returns a pointer to the Window with the specified name.<br/><br/>
-         *
-         * The returned pointer should not be destroyed as object management
-         * is performed by the WindowManager to which the Window belongs.
-         *
-         * \param name
-         * \return A pointer to the window. If nullptr, then no window matches the specified name.
-         */
-        const AWindow* getWindow(std::string name);
+            /**
+             * Returns a pointer to the Window with the specified name.<br/><br/>
+             *
+             * The returned pointer should not be destroyed as object management
+             * is performed by the WindowManager to which the Window belongs.
+             *
+             * \param name
+             * \return A pointer to the window. If nullptr, then no window matches the specified name.
+             */
+            const AWindow* getWindow(std::string name);
 
-        /**
-         * Returns a pointer to the main/primary window.
-         * \return A pointer to the main window. If nullptr, then no windows are being managed.
-         */
-        const AWindow* getMainWindow();
+            /**
+             * Returns a pointer to the main/primary window.
+             * \return A pointer to the main window. If nullptr, then no windows are being managed.
+             */
+            const AWindow* getMainWindow();
 
-        /**
-         * Sets the main window.
-         */
-        void setMainWindow(std::string name);
+            /**
+             * Sets the main window.
+             */
+            void setMainWindow(std::string name);
 
-    protected:
+        protected:
 
-    private:
+        private:
 
-        const AWindow* createWindowWin32(std::string name, unsigned width, unsigned height,
-           unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+            const AWindow* createWindowWin32(std::string name, unsigned width, unsigned height,
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        const AWindow* createWindowOSX(std::string name, unsigned width, unsigned height,
-           unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+            const AWindow* createWindowOSX(std::string name, unsigned width, unsigned height,
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        const AWindow* createWindowLinux(std::string name, unsigned width, unsigned height,
-           unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+            const AWindow* createWindowLinux(std::string name, unsigned width, unsigned height,
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        std::string m_MainWindow;
-        std::list<std::unique_ptr<AWindow>> m_Windows;
-    };
+            std::string m_MainWindow;
+            std::list<std::unique_ptr<AWindow>> m_Windows;
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /** 
  * }@ End of Doxygen Groups 

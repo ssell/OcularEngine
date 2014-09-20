@@ -33,87 +33,97 @@
 namespace Ocular
 {
     /**
-     * \class WindowWin32
-     *
-     * Implementation of the abstract Window class.<br/>
-     * Used for the creation of a Win32 Window.
+     * \addtogroup Core
+     * @{
      */
-    class WindowWin32 : public AWindow
+    namespace Core
     {
-    public:
-
         /**
-         * \param name
-         * \param width
-         * \param height
-         * \param colorBits
-         * \param depthBits
-         * \param stencilBits
-         * \param display
-         */
-        WindowWin32(std::string name,  unsigned width, unsigned height, unsigned colorBits,
-           unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
-
-        ~WindowWin32();
-
-        /**
-         * Returns the HWND owned by this Window instance.
-         * \return HWND
-         */
-        HWND getHWND() const;
-
-        /**
-         * Returns the HINSTANCE owned by this Window instance.
-         * \return HINSTANCE
-         */
-        HINSTANCE getHINSTANCE() const;
-
-        /**
-         * Class implementation of WndProc.<br/>
-         * Passes Windows messages to the Ocular message handler.<br/><br/>
+         * \class WindowWin32
          *
-         * See: http://web.archive.org/web/20051125022758/www.rpi.edu/~pudeyo/articles/wndproc/
-         *
-         * \param hWnd
-         * \param uMsg
-         * \param wParam
-         * \param lParam
+         * Implementation of the abstract Window class.<br/>
+         * Used for the creation of a Win32 Window.
          */
-        LRESULT CALLBACK processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+        class WindowWin32 : public AWindow
+        {
+        public:
 
-    protected:
+            /**
+             * \param name
+             * \param width
+             * \param height
+             * \param colorBits
+             * \param depthBits
+             * \param stencilBits
+             * \param display
+             */
+            WindowWin32(std::string name,  unsigned width, unsigned height, unsigned colorBits,
+               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        /**
-         * See ::Window::open
-         */
-        void open();
+            ~WindowWin32();
 
-        /**
-         * See ::Window::update
-         */
-        void update();
+            /**
+             * Returns the HWND owned by this Window instance.
+             * \return HWND
+             */
+            HWND getHWND() const;
 
-        /**
-         * See ::Window::close
-         */
-        void close();
+            /**
+             * Returns the HINSTANCE owned by this Window instance.
+             * \return HINSTANCE
+             */
+            HINSTANCE getHINSTANCE() const;
 
-    private:
+            /**
+             * Class implementation of WndProc.<br/>
+             * Passes Windows messages to the Ocular message handler.<br/><br/>
+             *
+             * See: http://web.archive.org/web/20051125022758/www.rpi.edu/~pudeyo/articles/wndproc/
+             *
+             * \param hWnd
+             * \param uMsg
+             * \param wParam
+             * \param lParam
+             */
+            LRESULT CALLBACK processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-        /**
-         * \return RECT instance
-         */
-        RECT createWindowRect();
+        protected:
 
-        /**
-         * \param wndProc
-         * \return WNDCLASS instance
-         */
-        WNDCLASS createWndClass(WNDPROC wndProc);
+            /**
+             * See ::Window::open
+             */
+            void open();
 
-        HWND      m_HWND;
-        HINSTANCE m_HINSTANCE;
-    };
+            /**
+             * See ::Window::update
+             */
+            void update();
+
+            /**
+             * See ::Window::close
+             */
+            void close();
+
+        private:
+
+            /**
+             * \return RECT instance
+             */
+            RECT createWindowRect();
+
+            /**
+             * \param wndProc
+             * \return WNDCLASS instance
+             */
+            WNDCLASS createWndClass(WNDPROC wndProc);
+
+            HWND      m_HWND;
+            HINSTANCE m_HINSTANCE;
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /** 
  * }@ End of Doxygen Groups 

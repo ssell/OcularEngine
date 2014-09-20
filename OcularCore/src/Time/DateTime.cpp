@@ -53,106 +53,109 @@ static const int DAYS_ELAPSED_LEAP[12] =
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, bool dst)
+    namespace Core
     {
-        m_Year        = year;
-        m_Month       = Clamp(month, 1, 12);
-        m_Day         = Clamp(day, 1, 31);
-        m_Hour        = Clamp(hour, 0, 23);
-        m_Minute      = Clamp(minute, 0, 59);
-        m_Second      = Clamp(second, 0, 59);
-        m_Millisecond = Clamp(millisecond, 0, 999);
-        m_DST         = dst;
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-        if((m_Year % 4) == 0)
+        DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, bool dst)
         {
-            m_DayJulian = DAYS_ELAPSED_LEAP[m_Month - 1] + m_Day;
+            m_Year        = year;
+            m_Month       = Clamp(month, 1, 12);
+            m_Day         = Clamp(day, 1, 31);
+            m_Hour        = Clamp(hour, 0, 23);
+            m_Minute      = Clamp(minute, 0, 59);
+            m_Second      = Clamp(second, 0, 59);
+            m_Millisecond = Clamp(millisecond, 0, 999);
+            m_DST         = dst;
+
+            if((m_Year % 4) == 0)
+            {
+                m_DayJulian = DAYS_ELAPSED_LEAP[m_Month - 1] + m_Day;
+            }
+            else
+            {
+                m_DayJulian = DAYS_ELAPSED[m_Month - 1] + m_Day;
+            }
         }
-        else
+
+        DateTime::DateTime(std::tm* time, int ms)
         {
-            m_DayJulian = DAYS_ELAPSED[m_Month - 1] + m_Day;
+            if(time != nullptr)
+            {
+                m_Year        = time->tm_year + 1900;
+                m_Month       = time->tm_mon + 1;
+                m_Day         = time->tm_mday + 1;
+                m_DayJulian   = time->tm_yday + 1;
+                m_Hour        = time->tm_hour;
+                m_Minute      = time->tm_min;
+                m_Second      = time->tm_sec;
+                m_Millisecond = ms;
+                m_DST         = (time->tm_isdst > 0) ? true : false;
+            }
         }
-    }
 
-    DateTime::DateTime(std::tm* time, int ms)
-    {
-        if(time != nullptr)
+        DateTime::~DateTime()
         {
-            m_Year        = time->tm_year + 1900;
-            m_Month       = time->tm_mon + 1;
-            m_Day         = time->tm_mday + 1;
-            m_DayJulian   = time->tm_yday + 1;
-            m_Hour        = time->tm_hour;
-            m_Minute      = time->tm_min;
-            m_Second      = time->tm_sec;
-            m_Millisecond = ms;
-            m_DST         = (time->tm_isdst > 0) ? true : false;
+
         }
-    }
 
-    DateTime::~DateTime()
-    {
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
 
-    }
+        int DateTime::getYear()
+        {
+            return m_Year;
+        }
 
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
+        int DateTime::getMonth()
+        {
+            return m_Month;
+        }
 
-    int DateTime::getYear()
-    {
-        return m_Year;
-    }
+        int DateTime::getDayOfMonth()
+        {
+            return m_Day;
+        }
 
-    int DateTime::getMonth()
-    {
-        return m_Month;
-    }
+        int DateTime::getDayOfYear()
+        {
+            return m_DayJulian;
+        }
 
-    int DateTime::getDayOfMonth()
-    {
-        return m_Day;
-    }
+        int DateTime::getHour()
+        {
+            return m_Hour;
+        }
 
-    int DateTime::getDayOfYear()
-    {
-        return m_DayJulian;
-    }
+        int DateTime::getMinute()
+        {
+            return m_Minute;
+        }
 
-    int DateTime::getHour()
-    {
-        return m_Hour;
-    }
-
-    int DateTime::getMinute()
-    {
-        return m_Minute;
-    }
-
-    int DateTime::getSecond()
-    {
-        return m_Second;
-    }
+        int DateTime::getSecond()
+        {
+            return m_Second;
+        }
     
-    int DateTime::getMillisecond()
-    {
-        return m_Millisecond;
+        int DateTime::getMillisecond()
+        {
+            return m_Millisecond;
+        }
+
+        bool DateTime::getIsDST()
+        {
+            return m_DST;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-
-    bool DateTime::getIsDST()
-    {
-        return m_DST;
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
 }

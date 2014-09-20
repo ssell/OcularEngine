@@ -26,20 +26,30 @@
  */
 namespace Ocular
 {
-    /*! Sample filtering modes */
-    enum TEXTURE_FILTER_MODE 
+    /**
+     * \addtogroup Core
+     * @{
+     */
+    namespace Core
     {
-        POINT = 0x0,     ///< Use Point filtering
-        BILINEAR,        ///< Use Bilinear filtering
-        TRILINEAR,       ///< Use Trilinear filtering
-        ANISOTROPIC      ///< Use Anisotropic filtering
-    };
+        /*! Sample filtering modes */
+        enum TEXTURE_FILTER_MODE 
+        {
+            POINT = 0x0,     ///< Use Point filtering
+            BILINEAR,        ///< Use Bilinear filtering
+            TRILINEAR,       ///< Use Trilinear filtering
+            ANISOTROPIC      ///< Use Anisotropic filtering
+        };
 
-    enum TEXTURE_USAGE_MODE
-    {
-        STATIC = 0x0,    ///< Texture will not be updated at runtime
-        DYNAMIC          ///< Texture may be updated at runtime
-    };
+        enum TEXTURE_USAGE_MODE
+        {
+            STATIC = 0x0,    ///< Texture will not be updated at runtime
+            DYNAMIC          ///< Texture may be updated at runtime
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 
 //------------------------------------------------------------------------------------------

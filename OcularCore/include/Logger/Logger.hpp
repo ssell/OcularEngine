@@ -33,47 +33,57 @@
 namespace Ocular 
 {
     /**
-     * \class Logger
-     * \warning Currently NOT threadsafe
+     * \addtogroup Core
+     * @{
      */
-    class Logger
+    namespace Core
     {
-    public:
+        /**
+         * \class Logger
+         * \warning Currently NOT threadsafe
+         */
+        class Logger
+        {
+        public:
 
-        Logger();
-        ~Logger();
+            Logger();
+            ~Logger();
 
-        void registerListener(ILoggerListener* listener);
+            void registerListener(ILoggerListener* listener);
 
-        template<typename T, typename... U>
-        void debug(T first, U... args);
+            template<typename T, typename... U>
+            void debug(T first, U... args);
 
-        template<typename T, typename... U>
-        void info(T first, U... args);
+            template<typename T, typename... U>
+            void info(T first, U... args);
 
-        template<typename T, typename... U>
-        void warning(T first, U... args);
+            template<typename T, typename... U>
+            void warning(T first, U... args);
 
-        template<typename T, typename... U>
-        void error(T first, U... args);
+            template<typename T, typename... U>
+            void error(T first, U... args);
         
-    protected:
+        protected:
 
-    private:
+        private:
 
-        template<typename T, typename... U>
-        void log(T first, U... last);
-        void log();
+            template<typename T, typename... U>
+            void log(T first, U... last);
+            void log();
 
-        //--------------------------------------------
+            //--------------------------------------------
 
-        std::stringstream m_IncompleteMessage;
-        LoggerMessage m_CurrentMessage;
+            std::stringstream m_IncompleteMessage;
+            LoggerMessage m_CurrentMessage;
 
-        std::list<std::unique_ptr<ILoggerListener>> m_Listeners;
-    };
+            std::list<std::unique_ptr<ILoggerListener>> m_Listeners;
+        };
 
 #include "..\..\src\Logger\Logger.tpp"
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

@@ -25,58 +25,61 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    VSConsoleLoggerListener::VSConsoleLoggerListener()
+    namespace Core
     {
-    }
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-    VSConsoleLoggerListener::~VSConsoleLoggerListener()
-    {
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
-
-    void VSConsoleLoggerListener::onLogMessage(LoggerMessage message)
-    {
-#ifdef OCULAR_WINDOWS
-        std::stringstream sstream;
-        switch (message.channel)
+        VSConsoleLoggerListener::VSConsoleLoggerListener()
         {
-        case LOGGER_CHANNELS::DEBUG_CHANNEL:
-            sstream << "Ocular DEBUG: ";
-            break;
-
-        case LOGGER_CHANNELS::INFO_CHANNEL:
-            sstream << "Ocular INFO: ";
-            break;
-
-        case LOGGER_CHANNELS::WARNING_CHANNEL:
-            sstream << "Ocular WARNING: ";
-            break;
-
-        case LOGGER_CHANNELS::ERROR_CHANNEL:
-            sstream << "Ocular ERROR: ";
-            break;
-
-        default:
-            return;
         }
 
-        sstream << message.message << std::endl;
-        OutputDebugString(sstream.str().c_str());
-#endif
+        VSConsoleLoggerListener::~VSConsoleLoggerListener()
+        {
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        void VSConsoleLoggerListener::onLogMessage(LoggerMessage message)
+        {
+    #ifdef OCULAR_WINDOWS
+            std::stringstream sstream;
+            switch (message.channel)
+            {
+            case LOGGER_CHANNELS::DEBUG_CHANNEL:
+                sstream << "Ocular DEBUG: ";
+                break;
+
+            case LOGGER_CHANNELS::INFO_CHANNEL:
+                sstream << "Ocular INFO: ";
+                break;
+
+            case LOGGER_CHANNELS::WARNING_CHANNEL:
+                sstream << "Ocular WARNING: ";
+                break;
+
+            case LOGGER_CHANNELS::ERROR_CHANNEL:
+                sstream << "Ocular ERROR: ";
+                break;
+
+            default:
+                return;
+            }
+
+            sstream << message.message << std::endl;
+            OutputDebugString(sstream.str().c_str());
+    #endif
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
 }

@@ -30,47 +30,57 @@
 namespace Ocular
 {
     /**
-     * \class Clock
+     * \addtogroup Core
+     * @{
      */
-    class Clock
+    namespace Core
     {
-    public:
-
-        Clock();
-        ~Clock();
-
         /**
-         * Returns the number of milliseconds since epoch (January 1, 1970).
+         * \class Clock
          */
-        long long getEpochMS();
+        class Clock
+        {
+        public:
 
-        /**
-         * Returns the number of nanoseconds since epoch (January 1, 1970).
-         */
-        long long getEpochNS();
+            Clock();
+            ~Clock();
 
-        /**
-         * Returns the number of milliseconds since Clock creation.
-         */
-        long long getElapsedMS();
+            /**
+             * Returns the number of milliseconds since epoch (January 1, 1970).
+             */
+            long long getEpochMS();
+
+            /**
+             * Returns the number of nanoseconds since epoch (January 1, 1970).
+             */
+            long long getEpochNS();
+
+            /**
+             * Returns the number of milliseconds since Clock creation.
+             */
+            long long getElapsedMS();
         
-        /**
-         * Returns the number of nanoseconds since Clock creation.
-         */
-        long long getElapsedNS();
+            /**
+             * Returns the number of nanoseconds since Clock creation.
+             */
+            long long getElapsedNS();
 
-        /**
-         * Returns current system date and time.
-         */
-        DateTime getDateTime();
+            /**
+             * Returns current system date and time.
+             */
+            DateTime getDateTime();
 
-    protected:
+        protected:
 
-    private:
+        private:
 
-        std::chrono::milliseconds::rep m_CreationTimeMS;
-        std::chrono::nanoseconds::rep  m_CreationTimeNS;
-    };
+            std::chrono::milliseconds::rep m_CreationTimeMS;
+            std::chrono::nanoseconds::rep  m_CreationTimeNS;
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups

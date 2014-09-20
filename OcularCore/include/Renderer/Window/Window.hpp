@@ -31,90 +31,100 @@
  */
 namespace Ocular
 {
-    class RenderContext;
-
     /**
-     * \class Window
-     * 
-     * Abstract parent class of all Window implementations.<br/><br/>
-     *
-     * See ::WindowWin32 <br/>
-     * See ::WindowLinux <br/>
-     * See ::WindowOSX
+     * \addtogroup Core
+     * @{
      */
-    class AWindow 
+    namespace Core
     {
-        friend class WindowManager;
-    public:
+        class RenderContext;
 
         /**
-         * \param name        Display name of the window
-         * \param width       Width of the window 
-         * \param height      Height of the window
-         * \param colorBits   Number of color bits
-         * \param depthBits   Number of depth bits
-         * \param stencilBits Number of stencil bits
-         * \param display     Display mode
+         * \class Window
+         * 
+         * Abstract parent class of all Window implementations.<br/><br/>
+         *
+         * See ::WindowWin32 <br/>
+         * See ::WindowLinux <br/>
+         * See ::WindowOSX
          */
-        AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
-           unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+        class AWindow 
+        {
+            friend class WindowManager;
+        public:
 
-        virtual ~AWindow();
+            /**
+             * \param name        Display name of the window
+             * \param width       Width of the window 
+             * \param height      Height of the window
+             * \param colorBits   Number of color bits
+             * \param depthBits   Number of depth bits
+             * \param stencilBits Number of stencil bits
+             * \param display     Display mode
+             */
+            AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
+               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
 
-        //--------------------------------------------
+            virtual ~AWindow();
 
-        std::string getName() const;
-        void setName(std::string name);
+            //--------------------------------------------
 
-        unsigned getResolutionX() const;
-        void setResolutionX(unsigned width);
+            std::string getName() const;
+            void setName(std::string name);
 
-        unsigned getResolutionY() const;
-        void setResolutionY(unsigned height);
+            unsigned getResolutionX() const;
+            void setResolutionX(unsigned width);
 
-        unsigned getColorBits() const;
-        void setColorBits(unsigned bits);
+            unsigned getResolutionY() const;
+            void setResolutionY(unsigned height);
 
-        unsigned getDepthBits() const;
-        void setDepthBits(unsigned bits);
+            unsigned getColorBits() const;
+            void setColorBits(unsigned bits);
 
-        unsigned getStencilBits() const;
-        void setStencilBits(unsigned bits);
+            unsigned getDepthBits() const;
+            void setDepthBits(unsigned bits);
 
-        WINDOW_DISPLAY_MODE getDisplayMode() const;
-        void setDisplayMode(WINDOW_DISPLAY_MODE display);
+            unsigned getStencilBits() const;
+            void setStencilBits(unsigned bits);
 
-    protected:
+            WINDOW_DISPLAY_MODE getDisplayMode() const;
+            void setDisplayMode(WINDOW_DISPLAY_MODE display);
 
-        /**
-         * Opens and initializes the Window.
-         */
-        virtual void open() = 0;
+        protected:
 
-        /**
-         * Updates and recreates the Window.
-         */
-        virtual void update() = 0;
+            /**
+             * Opens and initializes the Window.
+             */
+            virtual void open() = 0;
 
-        /**
-         * Closes the Window.
-         */
-        virtual void close() = 0;
+            /**
+             * Updates and recreates the Window.
+             */
+            virtual void update() = 0;
 
-        RenderContext* m_pRenderContext;
+            /**
+             * Closes the Window.
+             */
+            virtual void close() = 0;
 
-        std::string m_Name;
+            RenderContext* m_pRenderContext;
 
-        unsigned m_Width;
-        unsigned m_Height;
-        unsigned m_ColorBits;
-        unsigned m_DepthBits;
-        unsigned m_StencilBits;
+            std::string m_Name;
 
-        WINDOW_DISPLAY_MODE m_DisplayMode;
+            unsigned m_Width;
+            unsigned m_Height;
+            unsigned m_ColorBits;
+            unsigned m_DepthBits;
+            unsigned m_StencilBits;
 
-    private:
-    };
+            WINDOW_DISPLAY_MODE m_DisplayMode;
+
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

@@ -26,29 +26,39 @@
  */
 namespace Ocular
 {
-    class Window;
-
     /**
-     * \class RenderContext
+     * \addtogroup Core
+     * @{
      */
-    class RenderContext 
+    namespace Core
     {
-    public:
+        class Window;
 
-        RenderContext();
-        virtual ~RenderContext();
+        /**
+         * \class RenderContext
+         */
+        class RenderContext 
+        {
+        public:
 
-        virtual void swapBuffers() = 0;
-        virtual void clearBuffers(float r, float g, float b, float a) = 0;
+            RenderContext();
+            virtual ~RenderContext();
 
-        Window* getParentWindow() const;
+            virtual void swapBuffers() = 0;
+            virtual void clearBuffers(float r, float g, float b, float a) = 0;
 
-    protected:
+            Window* getParentWindow() const;
 
-        Window* m_pParentWindow;
+        protected:
 
-    private:
-    };
+            Window* m_pParentWindow;
+
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

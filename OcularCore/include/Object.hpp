@@ -29,66 +29,76 @@
 namespace Ocular
 {
     /**
-     * \class Object
-     * \brief Base class of all representable Ocular constructs.
+     * \addtogroup Core
+     * @{
      */
-    class Object
+    namespace Core
     {
-    public:
-        
         /**
-         * \brief Creates a new Object with the specified name and class.
-         * \param name
-         * \param className
+         * \class Object
+         * \brief Base class of all representable Ocular constructs.
          */
-        Object(std::string name, std::string className);
+        class Object
+        {
+        public:
+        
+            /**
+             * \brief Creates a new Object with the specified name and class.
+             * \param name
+             * \param className
+             */
+            Object(std::string name, std::string className);
 
-        /**
-         * \brief Creates a new Object with the specified name.
-         * \param name
-         */
-        Object(std::string name);
+            /**
+             * \brief Creates a new Object with the specified name.
+             * \param name
+             */
+            Object(std::string name);
         
-        /**
-         * \brief Creates a new Object with the default name ('Name').
-         */
-        Object();
+            /**
+             * \brief Creates a new Object with the default name ('Name').
+             */
+            Object();
         
-        /**
-         *
-         */
-        virtual ~Object();
+            /**
+             *
+             */
+            virtual ~Object();
         
-        /**
-         * \return The name of the Object
-         */
-        std::string getName();
+            /**
+             * \return The name of the Object
+             */
+            std::string getName();
         
-        /**
-         * \brief Sets the name of the Object
-         * \param name 
-         */
-        void setName(std::string name);
+            /**
+             * \brief Sets the name of the Object
+             * \param name 
+             */
+            void setName(std::string name);
         
-        /**
-         * \return The UID of the Object
-         */
-        unsigned int getUID();
+            /**
+             * \return The UID of the Object
+             */
+            unsigned int getUID();
         
-        /**
-         * \return The string representation of the Object
-         */
-        virtual std::string toString();
+            /**
+             * \return The string representation of the Object
+             */
+            virtual std::string toString();
         
-    protected:
+        protected:
         
-        std::string m_Name;          /**< Non-unique name of the Object */
+            std::string m_Name;          /**< Non-unique name of the Object */
         
-        const std::string m_Class;   /**< Name of the class of which Object is an instance */
-        const unsigned int m_UID;    /**< Unique integer identifier */
+            const std::string m_Class;   /**< Name of the class of which Object is an instance */
+            const unsigned int m_UID;    /**< Unique integer identifier */
         
-    private:
-    };
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\src\Time\DateTime.cpp">
       <Filter>Source Files\Time</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Time\DateTime.hpp">
       <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Engine.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

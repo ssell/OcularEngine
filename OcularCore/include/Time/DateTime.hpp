@@ -29,94 +29,104 @@
 namespace Ocular
 {
     /**
-     * \class DateTime
+     * \addtogroup Core
+     * @{
      */
-    class DateTime
+    namespace Core
     {
-    public:
-
         /**
-         * \note Only basic sanity-checking is performed (minutes in range [0,59], etc.)
-         *
-         * \param year
-         * \param month       Month of year [1,12]
-         * \param day         Day of month [1,31]
-         * \param hour        Hour of day [0,23]
-         * \param minute      Minute of hour [0,59]
-         * \param second      Second of minute [0,59]
-         * \param millisecond Millisecond of minute [0, 999]
-         * \param dst         Daylight Saving Time
+         * \class DateTime
          */
-        DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, bool dst = false);
+        class DateTime
+        {
+        public:
+
+            /**
+             * \note Only basic sanity-checking is performed (minutes in range [0,59], etc.)
+             *
+             * \param year
+             * \param month       Month of year [1,12]
+             * \param day         Day of month [1,31]
+             * \param hour        Hour of day [0,23]
+             * \param minute      Minute of hour [0,59]
+             * \param second      Second of minute [0,59]
+             * \param millisecond Millisecond of minute [0, 999]
+             * \param dst         Daylight Saving Time
+             */
+            DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, bool dst = false);
         
-        /**
-         * \param time 
-         * \param ms
-         */
-        DateTime(std::tm* time, int ms = 0);
+            /**
+             * \param time 
+             * \param ms
+             */
+            DateTime(std::tm* time, int ms = 0);
 
-        ~DateTime();
+            ~DateTime();
 
-        /**
-         * Returns the year
-         */
-        int getYear();
+            /**
+             * Returns the year
+             */
+            int getYear();
 
-        /**
-         * Returns the month of the year [1,12]
-         */
-        int getMonth();
+            /**
+             * Returns the month of the year [1,12]
+             */
+            int getMonth();
 
-        /**
-         * Returns day of the month [1,31]
-         */
-        int getDayOfMonth();
+            /**
+             * Returns day of the month [1,31]
+             */
+            int getDayOfMonth();
 
-        /**
-         * Returns day of the year [1, 366]
-         */
-        int getDayOfYear();
+            /**
+             * Returns day of the year [1, 366]
+             */
+            int getDayOfYear();
 
-        /**
-         * Returns hours since midnight [0, 23]
-         */
-        int getHour();
+            /**
+             * Returns hours since midnight [0, 23]
+             */
+            int getHour();
 
-        /**
-         * Returns minutes after the hour [0, 59]
-         */
-        int getMinute();
+            /**
+             * Returns minutes after the hour [0, 59]
+             */
+            int getMinute();
 
-        /**
-         * Returns seconds after the minute [0, 59]
-         */
-        int getSecond();
+            /**
+             * Returns seconds after the minute [0, 59]
+             */
+            int getSecond();
 
-        /**
-         * Returns milliseconds after the second [0, 999]
-         */
-        int getMillisecond();
+            /**
+             * Returns milliseconds after the second [0, 999]
+             */
+            int getMillisecond();
 
-        /**
-         * Returns true if Daylight Saving Time is in effect.
-         */
-        bool getIsDST();
+            /**
+             * Returns true if Daylight Saving Time is in effect.
+             */
+            bool getIsDST();
 
-    protected:
+        protected:
 
-    private:
+        private:
 
-        int m_Year;
-        int m_Month;
-        int m_Day;
-        int m_DayJulian;
-        int m_Hour;
-        int m_Minute;
-        int m_Second;
-        int m_Millisecond;
+            int m_Year;
+            int m_Month;
+            int m_Day;
+            int m_DayJulian;
+            int m_Hour;
+            int m_Minute;
+            int m_Second;
+            int m_Millisecond;
        
-        bool m_DST;
-    };
+            bool m_DST;
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups

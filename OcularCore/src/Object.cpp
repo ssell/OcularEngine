@@ -21,66 +21,68 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-    
-    Object::Object(std::string name, std::string className)
-        : m_Name(name), m_Class(className), m_UID(0)
+    namespace Core
     {
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
     
-    }
+        Object::Object(std::string name, std::string className)
+            : m_Name(name), m_Class(className), m_UID(0)
+        {
+    
+        }
 
-    Object::Object(std::string name)
-        : m_Name(name), m_Class("Object"), m_UID(0)
-    {
+        Object::Object(std::string name)
+            : m_Name(name), m_Class("Object"), m_UID(0)
+        {
         
-    }
+        }
     
-    Object::Object()
-        : m_Name("Name"), m_Class("Object"), m_UID(0)
-    {
+        Object::Object()
+            : m_Name("Name"), m_Class("Object"), m_UID(0)
+        {
         
-    }
+        }
     
-    Object::~Object()
-    {
+        Object::~Object()
+        {
         
-    }
+        }
     
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
     
-    void Object::setName(std::string name)
-    {
-        m_Name = name;
-    }
+        void Object::setName(std::string name)
+        {
+            m_Name = name;
+        }
     
-    std::string Object::getName()
-    {
-        return m_Name;
-    }
+        std::string Object::getName()
+        {
+            return m_Name;
+        }
     
-    unsigned int Object::getUID()
-    {
-        return m_UID;
-    }
+        unsigned int Object::getUID()
+        {
+            return m_UID;
+        }
     
-    std::string Object::toString()
-    {
-        std::stringstream sstream;
-        sstream << "Name['" << m_Name << "'] UID[" << m_UID << "] Class[" << m_Class << "]";
+        std::string Object::toString()
+        {
+            std::stringstream sstream;
+            sstream << "Name['" << m_Name << "'] UID[" << m_UID << "] Class[" << m_Class << "]";
         
-        return sstream.str();
+            return sstream.str();
+        }
+    
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+    
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-    
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-    
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
-    
 }

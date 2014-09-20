@@ -20,73 +20,76 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    Clock::Clock()
+    namespace Core
     {
-        m_CreationTimeMS = 
-            std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::system_clock::now().time_since_epoch()).count();
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-        m_CreationTimeNS =
-            std::chrono::duration_cast<std::chrono::nanoseconds>
-            (std::chrono::system_clock::now().time_since_epoch()).count();
-    }
+        Clock::Clock()
+        {
+            m_CreationTimeMS = 
+                std::chrono::duration_cast<std::chrono::milliseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count();
 
-    Clock::~Clock()
-    {
+            m_CreationTimeNS =
+                std::chrono::duration_cast<std::chrono::nanoseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count();
+        }
 
-    }
+        Clock::~Clock()
+        {
 
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
+        }
 
-    long long Clock::getEpochMS()
-    {
-        std::chrono::milliseconds::rep currentTime = 
-            std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::system_clock::now().time_since_epoch()).count();
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
 
-        return static_cast<long long>(currentTime);
-    }
+        long long Clock::getEpochMS()
+        {
+            std::chrono::milliseconds::rep currentTime = 
+                std::chrono::duration_cast<std::chrono::milliseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count();
 
-    long long Clock::getEpochNS()
-    {
-        std::chrono::nanoseconds::rep currentTime =
-            std::chrono::duration_cast<std::chrono::nanoseconds>
-            (std::chrono::system_clock::now().time_since_epoch()).count();
+            return static_cast<long long>(currentTime);
+        }
+
+        long long Clock::getEpochNS()
+        {
+            std::chrono::nanoseconds::rep currentTime =
+                std::chrono::duration_cast<std::chrono::nanoseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count();
     
-        return static_cast<long long>(currentTime);
+            return static_cast<long long>(currentTime);
+        }
+
+        long long Clock::getElapsedMS()
+        {
+            return getEpochMS() - static_cast<long long>(m_CreationTimeMS);
+        }
+
+        long long Clock::getElapsedNS()
+        {
+            return getEpochNS() - static_cast<long long>(m_CreationTimeNS);
+        }
+
+        DateTime Clock::getDateTime()
+        {
+            std::chrono::system_clock::time_point nowA = std::chrono::system_clock::now();
+            std::time_t nowB = std::chrono::system_clock::to_time_t(nowA - std::chrono::hours(24));
+            std::tm localTime; 
+            localtime_s(&localTime, &nowB);
+
+            return DateTime(&localTime, (getEpochMS() % 1000));
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-
-    long long Clock::getElapsedMS()
-    {
-        return getEpochMS() - static_cast<long long>(m_CreationTimeMS);
-    }
-
-    long long Clock::getElapsedNS()
-    {
-        return getEpochNS() - static_cast<long long>(m_CreationTimeNS);
-    }
-
-    DateTime Clock::getDateTime()
-    {
-        std::chrono::system_clock::time_point nowA = std::chrono::system_clock::now();
-        std::time_t nowB = std::chrono::system_clock::to_time_t(nowA - std::chrono::hours(24));
-        std::tm localTime; 
-        localtime_s(&localTime, &nowB);
-
-        return DateTime(&localTime, (getEpochMS() % 1000));
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
 }

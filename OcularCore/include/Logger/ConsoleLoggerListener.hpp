@@ -29,24 +29,34 @@
 namespace Ocular
 {
     /**
-     * \class ConsoleLoggerListener
-     *
-     * Implementation of the ILoggerListener interface that outputs Logger
-     * messages to the standard console.
+     * \addtogroup Core
+     * @{
      */
-    class ConsoleLoggerListener : public ILoggerListener
+    namespace Core
     {
-    public:
+        /**
+         * \class ConsoleLoggerListener
+         *
+         * Implementation of the ILoggerListener interface that outputs Logger
+         * messages to the standard console.
+         */
+        class ConsoleLoggerListener : public ILoggerListener
+        {
+        public:
         
-        ConsoleLoggerListener();
-        ~ConsoleLoggerListener();
+            ConsoleLoggerListener();
+            ~ConsoleLoggerListener();
 
-        void onLogMessage(LoggerMessage message);
+            void onLogMessage(LoggerMessage message);
 
-    protected:
+        protected:
 
-    private:
-    };
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups

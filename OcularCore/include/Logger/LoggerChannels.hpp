@@ -29,24 +29,34 @@
 namespace Ocular
 {
     /**
-     * \enum LOGGER_CHANNELS
+     * \addtogroup Core
+     * @{
      */
-    enum class LOGGER_CHANNELS
+    namespace Core
     {
-        DEBUG_CHANNEL = 0,
-        INFO_CHANNEL = 1,
-        WARNING_CHANNEL = 2,
-        ERROR_CHANNEL = 3
-    };
+        /**
+         * \enum LOGGER_CHANNELS
+         */
+        enum class LOGGER_CHANNELS
+        {
+            DEBUG_CHANNEL = 0,
+            INFO_CHANNEL = 1,
+            WARNING_CHANNEL = 2,
+            ERROR_CHANNEL = 3
+        };
 
+        /**
+        * \class LoggerMessage
+        */
+        struct LoggerMessage
+        {
+            std::string message;
+            LOGGER_CHANNELS channel;
+        };
+    }
     /**
-    * \class LoggerMessage
-    */
-    struct LoggerMessage
-    {
-        std::string message;
-        LOGGER_CHANNELS channel;
-    };
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups

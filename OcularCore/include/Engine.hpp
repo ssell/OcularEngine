@@ -14,46 +14,51 @@
 * limitations under the License.
 */
 
-#pragma once
-#ifndef __H__OCULAR_TIME_TIMER__H__
-#define __H__OCULAR_TIME_TIMER__H__
+#ifndef __H__OCULAR_ENGINE__H__
+#define __H__OCULAR_ENGINE__H__
+
+#include "Common.hpp"
+#include "Logger\Logger.hpp"
+#include "Time\Clock.hpp"
+#include "Renderer\Window\WindowManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
 /**
-* \addtogroup Ocular
-* @{
-*/
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
     /**
-     * \addtogroup Core
-     * @{
-     */
-    namespace Core
-    {
-        /**
-        * \class Timer
+        * \class Engine
         */
-        class Timer
-        {
-        public:
+    class Engine
+    {
+    public:
 
+        Engine();
+        ~Engine();
+
+        bool initialize();
+        bool shutdown();
+
+        //----------------------------------------
+
+        const Core::Logger Logger;
+        const Core::Clock Clock;
+        const Core::WindowManager WindowManager;
         
+    protected:
 
-        protected:
+    private:
 
-        private:
-        };
-    }
-    /**
-     * @} End of Doxygen Groups
-     */
+        void setupLogger();
+    
+    };
 }
 /**
-* @} End of Doxygen Groups
-*/
-
-//------------------------------------------------------------------------------------------
+ * @} End of Doxygen Groups
+ */
 
 #endif

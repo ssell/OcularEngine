@@ -20,109 +20,112 @@
 
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // CONSTRUCTORS
-    //--------------------------------------------------------------------------------------
-
-    AWindow::AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
-                     unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+    namespace Core
     {
-        m_Name = name;
-        m_Width = width;
-        m_Height = height;
-        m_ColorBits = colorBits;
-        m_DepthBits = depthBits;
-        m_StencilBits = stencilBits;
-    }
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
 
-    AWindow::~AWindow()
-    {
-        if(m_pRenderContext != nullptr)
+        AWindow::AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
+                         unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
         {
-            delete m_pRenderContext;
-            m_pRenderContext = nullptr;
+            m_Name = name;
+            m_Width = width;
+            m_Height = height;
+            m_ColorBits = colorBits;
+            m_DepthBits = depthBits;
+            m_StencilBits = stencilBits;
         }
+
+        AWindow::~AWindow()
+        {
+            if(m_pRenderContext != nullptr)
+            {
+                delete m_pRenderContext;
+                m_pRenderContext = nullptr;
+            }
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        std::string AWindow::getName() const
+        {
+            return m_Name;
+        }
+
+        void AWindow::setName(std::string name)
+        {
+            m_Name = name;
+        }
+
+        unsigned AWindow::getResolutionX() const
+        {
+            return m_Width;
+        }
+
+        void AWindow::setResolutionX(unsigned width)
+        {
+            m_Width = width;
+        }
+
+        unsigned AWindow::getResolutionY() const
+        {
+            return m_Height;
+        }
+
+        void AWindow::setResolutionY(unsigned height)
+        {
+            m_Height = height;
+        }
+
+        unsigned AWindow::getColorBits() const
+        {
+            return m_ColorBits;
+        }
+
+        void AWindow::setColorBits(unsigned bits)
+        {
+            m_ColorBits = bits;
+        }
+
+        unsigned AWindow::getDepthBits() const
+        {
+            return m_DepthBits;
+        }
+
+        void AWindow::setDepthBits(unsigned bits)
+        {
+            m_DepthBits = bits;
+        }
+
+        unsigned AWindow::getStencilBits() const
+        {
+            return m_StencilBits;
+        }
+
+        void AWindow::setStencilBits(unsigned bits)
+        {
+            m_StencilBits = bits;
+        }
+
+        WINDOW_DISPLAY_MODE AWindow::getDisplayMode() const
+        {
+            return m_DisplayMode;
+        }
+
+        void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE display)
+        {
+            m_DisplayMode = display;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
-
-    //--------------------------------------------------------------------------------------
-    // PUBLIC METHODS
-    //--------------------------------------------------------------------------------------
-
-    std::string AWindow::getName() const
-    {
-        return m_Name;
-    }
-
-    void AWindow::setName(std::string name)
-    {
-        m_Name = name;
-    }
-
-    unsigned AWindow::getResolutionX() const
-    {
-        return m_Width;
-    }
-
-    void AWindow::setResolutionX(unsigned width)
-    {
-        m_Width = width;
-    }
-
-    unsigned AWindow::getResolutionY() const
-    {
-        return m_Height;
-    }
-
-    void AWindow::setResolutionY(unsigned height)
-    {
-        m_Height = height;
-    }
-
-    unsigned AWindow::getColorBits() const
-    {
-        return m_ColorBits;
-    }
-
-    void AWindow::setColorBits(unsigned bits)
-    {
-        m_ColorBits = bits;
-    }
-
-    unsigned AWindow::getDepthBits() const
-    {
-        return m_DepthBits;
-    }
-
-    void AWindow::setDepthBits(unsigned bits)
-    {
-        m_DepthBits = bits;
-    }
-
-    unsigned AWindow::getStencilBits() const
-    {
-        return m_StencilBits;
-    }
-
-    void AWindow::setStencilBits(unsigned bits)
-    {
-        m_StencilBits = bits;
-    }
-
-    WINDOW_DISPLAY_MODE AWindow::getDisplayMode() const
-    {
-        return m_DisplayMode;
-    }
-
-    void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE display)
-    {
-        m_DisplayMode = display;
-    }
-
-    //--------------------------------------------------------------------------------------
-    // PROTECTED METHODS
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // PRIVATE METHODS
-    //--------------------------------------------------------------------------------------
 }

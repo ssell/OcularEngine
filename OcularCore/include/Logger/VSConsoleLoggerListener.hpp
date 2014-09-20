@@ -29,26 +29,36 @@
 namespace Ocular 
 {
     /**
-     * \class ConsoleLoggerListener
-     * 
-     * Implementation of the ILoggerListener interface that output Logger
-     * messages to the Visual Studio debugger console.<br/><br/>
-     *
-     * Available on Windows only using Visual Studio.
+     * \addtogroup Core
+     * @{
      */
-    class VSConsoleLoggerListener : public ILoggerListener
+    namespace Core
     {
-    public:
+        /**
+         * \class ConsoleLoggerListener
+         * 
+         * Implementation of the ILoggerListener interface that output Logger
+         * messages to the Visual Studio debugger console.<br/><br/>
+         *
+         * Available on Windows only using Visual Studio.
+         */
+        class VSConsoleLoggerListener : public ILoggerListener
+        {
+        public:
 
-        VSConsoleLoggerListener();
-        ~VSConsoleLoggerListener();
+            VSConsoleLoggerListener();
+            ~VSConsoleLoggerListener();
 
-        void onLogMessage(LoggerMessage message);
+            void onLogMessage(LoggerMessage message);
 
-    protected:
+        protected:
 
-    private:
-    };
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups

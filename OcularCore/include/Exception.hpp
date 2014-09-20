@@ -20,7 +20,7 @@
 
 #include <stdexcept>
 
-#define THROW_EXCEPTION(msg) throw Ocular::Exception(msg, __FILE__, __LINE__)
+#define THROW_EXCEPTION(msg) throw Ocular::Core::Exception(msg, __FILE__, __LINE__)
 
 //------------------------------------------------------------------------------------------
 
@@ -30,39 +30,49 @@
  */
 namespace Ocular 
 {
-	/**
-	 * \class Exception
-	 */
-	class Exception : public std::runtime_error
-	{
-	public:
+    /**
+     * \addtogroup Core
+     * @{
+     */
+    namespace Core
+    {
+	    /**
+	     * \class Exception
+	     */
+	    class Exception : public std::runtime_error
+	    {
+	    public:
 
-		Exception(const std::string &msg, const std::string file, const int line)
-			: runtime_error(msg), m_File(file), m_Line(line)
-		{}
+		    Exception(const std::string &msg, const std::string file, const int line)
+			    : runtime_error(msg), m_File(file), m_Line(line)
+		    {}
 
-		inline std::string getMessage()
-		{
-			return what();
-		}
+		    inline std::string getMessage()
+		    {
+			    return what();
+		    }
 
-		inline std::string getFile()
-		{
-			return m_File;
-		}
+		    inline std::string getFile()
+		    {
+			    return m_File;
+		    }
 
-		inline int getLine()
-		{
-			return m_Line;
-		}
+		    inline int getLine()
+		    {
+			    return m_Line;
+		    }
 
-	protected:
+	    protected:
 
-	private:
+	    private:
 
-		std::string m_File;
-		int m_Line;
-	};
+		    std::string m_File;
+		    int m_Line;
+	    };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
  * @} End of Doxygen Groups

@@ -30,19 +30,29 @@
 namespace Ocular
 {
     /**
-     * \class ILoggerListener
-     * Interface for classes that wish to listen for log messages.
+     * \addtogroup Core
+     * @{
      */
-    class ILoggerListener
+    namespace Core
     {
-    public:
+        /**
+         * \class ILoggerListener
+         * Interface for classes that wish to listen for log messages.
+         */
+        class ILoggerListener
+        {
+        public:
 
-        virtual void onLogMessage(LoggerMessage message) = 0;
+            virtual void onLogMessage(LoggerMessage message) = 0;
 
-    protected:
+        protected:
 
-    private:
-    };
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups
