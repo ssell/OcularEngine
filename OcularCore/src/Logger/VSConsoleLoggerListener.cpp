@@ -50,19 +50,19 @@ namespace Ocular
             switch (message.channel)
             {
             case LOGGER_CHANNELS::DEBUG_CHANNEL:
-                sstream << "Ocular DEBUG: ";
+                sstream << "OcularEngine DEBUG: ";
                 break;
 
             case LOGGER_CHANNELS::INFO_CHANNEL:
-                sstream << "Ocular INFO: ";
+                sstream << "OcularEngine INFO:  ";
                 break;
 
             case LOGGER_CHANNELS::WARNING_CHANNEL:
-                sstream << "Ocular WARNING: ";
+                sstream << "OcularEngine WARN:  ";
                 break;
 
             case LOGGER_CHANNELS::ERROR_CHANNEL:
-                sstream << "Ocular ERROR: ";
+                sstream << "OcularEngine ERROR: ";
                 break;
 
             default:

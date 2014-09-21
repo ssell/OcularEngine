@@ -15,12 +15,28 @@
  */
 
 #include <iostream>
-
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
 {
+    Ocular::Engine OcularEngine;
+    OcularEngine.initialize();
+
+    const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
+        "Test Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
+
+    if(window)
+    {
+        OcularEngine.Logger()->info("Successful window creation after ", OcularEngine.Clock()->getElapsedMS(), " ms");
+    }
+    else
+    {
+        OcularEngine.Logger()->error("Failed to create window");
+    }
+
+    OcularEngine.shutdown();
 
     return 0;
 }

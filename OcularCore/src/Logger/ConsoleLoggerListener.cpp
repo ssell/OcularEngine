@@ -42,19 +42,19 @@ namespace Ocular
             switch (message.channel)
             {
             case LOGGER_CHANNELS::DEBUG_CHANNEL:
-                std::cout << "Ocular DEBUG: ";
+                std::cout << "OcularEngine DEBUG: ";
                 break;
 
             case LOGGER_CHANNELS::INFO_CHANNEL:
-                std::cout << "Ocular INFO: ";
+                std::cout << "OcularEngine INFO:  ";
                 break;
 
             case LOGGER_CHANNELS::WARNING_CHANNEL:
-                std::cout << "Ocular WARNING: ";
+                std::cout << "OcularEngine WARN:  ";
                 break;
 
             case LOGGER_CHANNELS::ERROR_CHANNEL:
-                std::cout << "Ocular ERROR: ";
+                std::cout << "OcularEngine ERROR: ";
                 break;
 
             default:

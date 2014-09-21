@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-#include "Engine.hpp"
+#include "OcularEngine.hpp"
 #include "Logger\ConsoleLoggerListener.hpp"
 #include "Logger\VSConsoleLoggerListener.hpp"
 
@@ -42,12 +42,33 @@ namespace Ocular
 
     bool Engine::initialize()
     {
+        setupClock();
+        setupLogger();
+        setupWindowManager();
+
         return true;
     }
 
     bool Engine::shutdown()
     {
+        shutdownWindowManager();
+
         return true;
+    }
+
+    std::shared_ptr<Core::Logger> Engine::Logger()
+    {
+        return m_Logger;
+    }
+
+    std::shared_ptr<Core::Clock> Engine::Clock()
+    {
+        return m_Clock;
+    }
+
+    std::shared_ptr<Core::WindowManager> Engine::WindowManager()
+    {
+        return m_WindowManager;
     }
 
     //--------------------------------------------------------------------------------------
@@ -60,5 +81,23 @@ namespace Ocular
 
     void Engine::setupLogger()
     {
+        m_Logger = std::make_shared<Core::Logger>();
+        m_Logger->registerListener(new Core::ConsoleLoggerListener());
+        m_Logger->registerListener(new Core::VSConsoleLoggerListener());
+    }
+
+    void Engine::setupClock()
+    {
+        m_Clock = std::make_shared<Core::Clock>();
+    }
+
+    void Engine::setupWindowManager()
+    {
+        m_WindowManager = std::make_shared<Core::WindowManager>();
+    }
+
+    void Engine::shutdownWindowManager()
+    {
+        m_WindowManager->destroyAllWindows();
     }
 }
