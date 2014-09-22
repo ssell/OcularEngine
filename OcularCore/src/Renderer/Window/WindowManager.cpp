@@ -17,6 +17,7 @@
 #include "Renderer\Window\Window.hpp"
 #include "Renderer\Window\WindowWin32.hpp"
 #include "Exception.hpp"
+#include "OcularEngine.hpp"
 
 #include <iostream>
 
@@ -70,8 +71,7 @@ namespace Ocular
                     }
                     catch(Exception e)
                     {
-                        // TODO - Replace me
-                        std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
+                        OcularEngine.Logger()->error(e);
                     }
 
                     (*iter).release();
@@ -160,8 +160,7 @@ namespace Ocular
             } 
             catch(Exception& e)
             {
-                // TODO - Replace me
-                std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
+                OcularEngine.Logger()->error(e);
             }
 #endif
 
@@ -187,8 +186,7 @@ namespace Ocular
             } 
             catch(Exception& e)
             {
-                // TODO - Replace me
-                std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
+                OcularEngine.Logger()->error(e);
             }
 #endif
 
@@ -214,8 +212,7 @@ namespace Ocular
             } 
             catch(Exception& e)
             {
-                // TODO - Replace me
-                std::cout << e.getFile() << "@" << e.getLine() << ": " << e.getMessage();
+                OcularEngine.Logger()->error(e);
             }
 #endif
 

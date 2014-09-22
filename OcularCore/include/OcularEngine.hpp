@@ -37,7 +37,7 @@ namespace Ocular
     {
     public:
 
-        Engine();
+        static Engine& get();
         ~Engine();
 
         /**
@@ -80,6 +80,10 @@ namespace Ocular
 
     private:
 
+        Engine();
+        Engine(Engine const&);
+        void operator=(Engine const&);
+
         void setupLogger();
         void setupClock();
         void setupWindowManager();
@@ -96,5 +100,7 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+#define OcularEngine Ocular::Engine::get()
 
 #endif

@@ -47,6 +47,14 @@ namespace Ocular
             }
         }
 
+        void Logger::error(Exception& e)
+        {
+            m_IncompleteMessage.str("");
+            m_IncompleteMessage << "[" << e.getFile() << "@" << e.getLine() << "] " << e.getMessage();
+            
+            log();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

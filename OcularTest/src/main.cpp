@@ -21,7 +21,6 @@
 
 int main(int argc, char** argv)
 {
-    Ocular::Engine OcularEngine;
     OcularEngine.initialize();
 
     const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(

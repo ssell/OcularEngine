@@ -19,6 +19,7 @@
 #define __H__OCULAR_LOGGER__H__
 
 #include "ILoggerListener.hpp"
+#include "Exception.hpp"
 
 #include <list>
 #include <sstream>
@@ -62,6 +63,8 @@ namespace Ocular
 
             template<typename T, typename... U>
             void error(T first, U... args);
+
+            void error(Exception& e);
         
         protected:
 

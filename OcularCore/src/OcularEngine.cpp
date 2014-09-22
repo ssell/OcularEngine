@@ -26,6 +26,12 @@ namespace Ocular
     // CONSTRUCTORS
     //--------------------------------------------------------------------------------------
 
+    Engine& Engine::get()
+    {
+        static Engine instance;
+        return instance;
+    }
+
     Engine::Engine()
     {
         
