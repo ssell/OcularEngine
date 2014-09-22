@@ -26,9 +26,49 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        Timer::Timer()
+        {
+            m_Stopped = false;
+            m_ElapsedMS = 0;
+        }
+
+        Timer::~Timer()
+        {
+        
+        }
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        void Timer::start()
+        {
+            m_Stopped = false;
+            m_LastUpdate = OcularEngine.Clock()->getElapsedMS();
+        }
+
+        void Timer::stop()
+        {
+            m_Stopped = true;
+        }
+
+        void Timer::reset()
+        {
+            m_ElapsedMS = 0;
+            m_LastUpdate = OcularEngine.Clock()->getElapsedMS();
+        }
+
+        long long Timer::getElapsedMS()
+        {
+            if(!m_Stopped)
+            {
+                long long time = OcularEngine.Clock()->getElapsedMS();
+                m_ElapsedMS += time - m_LastUpdate;
+                m_LastUpdate = time;
+            }
+
+            return m_ElapsedMS;
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

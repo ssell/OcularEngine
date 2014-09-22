@@ -50,6 +50,7 @@ namespace Ocular
          *     <li>WindowManager</li>
          * </ul>
          *
+         * \note Engine must be initialized before any other action is taken
          * \return TRUE if intiailized without any issues.
          */
         bool initialize();

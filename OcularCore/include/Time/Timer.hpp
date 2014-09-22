@@ -18,6 +18,13 @@
 #ifndef __H__OCULAR_TIME_TIMER__H__
 #define __H__OCULAR_TIME_TIMER__H__
 
+#include "OcularEngine.hpp"
+
+#include <functional>
+#include <list>
+#include <utility>
+#include <thread>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -39,11 +46,23 @@ namespace Ocular
         {
         public:
 
-        
+            Timer();
+            ~Timer();
+
+            void start();
+            void stop();
+            void reset();
+
+            long long getElapsedMS();
 
         protected:
 
         private:
+
+            bool m_Stopped;
+
+            long long m_ElapsedMS;
+            long long m_LastUpdate;
         };
     }
     /**
