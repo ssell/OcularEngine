@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Time">
       <UniqueIdentifier>{9b2f2705-e11c-4874-9760-38f699c8b8a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{89c21572-12eb-4192-81cc-94e441b211fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{62f997aa-740e-450b-8415-51f209ccb7fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -80,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\OcularEngine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\AEvent.cpp">
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +148,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\OcularEngine.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\EventManager.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\IEventListener.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\AEvent.hpp">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

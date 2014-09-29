@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
     
-    /*const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
+    const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
         "Test Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
     if(window)
@@ -39,47 +39,9 @@ int main(int argc, char** argv)
     else
     {
         OcularEngine.Logger()->error("Failed to create window");
-    }*/
-
-    //-----------------------------------------------
-    // Run for 4 seconds, pause for 3 seconds, run for 1 second
-
-    Ocular::Core::Timer timer;
-    Ocular::Core::Timer timer2;
-
-    timer.start();
-
-    long long elapsed = timer.getElapsedMS();
-
-    while(elapsed < 5000)
-    {
-        OcularEngine.Logger()->debug(timer.getElapsedMS(), "ms have elpased");
-
-        if(elapsed > 4000 && elapsed < 4020)
-        {
-            timer.stop();
-            timer2.start();
-            long long elapsed2 = timer2.getElapsedMS();
-
-            while(elapsed2 < 3000)
-            {
-                elapsed2 = timer2.getElapsedMS();
-            }
-
-            timer2.reset();
-            timer.start();
-
-            while(elapsed < 4020)
-            {
-                elapsed = timer.getElapsedMS();
-            }
-        }
-
-        elapsed = timer.getElapsedMS();
     }
 
-    OcularEngine.Logger()->info("Shutting down after ", OcularEngine.Clock()->getElapsedMS(), "ms");
-    OcularEngine.shutdown();
 
+    OcularEngine.shutdown();
     return 0;
 }

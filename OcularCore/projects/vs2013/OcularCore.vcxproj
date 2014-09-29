@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
@@ -91,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
+    <ClInclude Include="..\..\include\Events\EventManager.hpp" />
+    <ClInclude Include="..\..\include\Events\AEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\IEventListener.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
