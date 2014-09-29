@@ -49,6 +49,18 @@
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{62f997aa-740e-450b-8415-51f209ccb7fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{159faa2a-0c9c-47e8-9f61-2caabc5dfcec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Structures">
+      <UniqueIdentifier>{5ea357d2-4f49-4519-b211-c216cc5465ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{f2fc9227-01ae-4212-899c-57ad64a8ac35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Structures">
+      <UniqueIdentifier>{ab050594-0fb7-4be2-bdf8-b624b45ec16c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -158,10 +170,8 @@
     <ClInclude Include="..\..\include\Events\AEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Logger\Logger.tpp">
-      <Filter>Source Files\Logger</Filter>
-    </None>
+    <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp">
+      <Filter>Header Files\Utilities\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

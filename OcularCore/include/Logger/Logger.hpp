@@ -47,31 +47,91 @@ namespace Ocular
         {
         public:
 
+            /**
+            *
+            */
             Logger();
+
+            /**
+            *
+            */
             ~Logger();
 
+            /**
+            *
+            */
             void registerListener(ILoggerListener* listener);
 
+            /**
+            *
+            */
             template<typename T, typename... U>
-            void debug(T first, U... args);
+            void debug(T first, U... args)
+            {
+                m_CurrentMessage.channel = LOGGER_CHANNELS::DEBUG_CHANNEL;
+                m_IncompleteMessage.str(std::string());
+                m_IncompleteMessage << first;
+                log(args...);
+            }
 
+            /**
+            *
+            */
             template<typename T, typename... U>
-            void info(T first, U... args);
+            void info(T first, U... args)
+            {
+                m_CurrentMessage.channel = LOGGER_CHANNELS::INFO_CHANNEL;
+                m_IncompleteMessage.str(std::string());
+                m_IncompleteMessage << first;
+                log(args...);
+            }
 
+            /**
+            *
+            */
             template<typename T, typename... U>
-            void warning(T first, U... args);
+            void warning(T first, U... args)
+            {
+                m_CurrentMessage.channel = LOGGER_CHANNELS::WARNING_CHANNEL;
+                m_IncompleteMessage.str(std::string());
+                m_IncompleteMessage << first;
+                log(args...);
+            }
 
+            /**
+            *
+            */
             template<typename T, typename... U>
-            void error(T first, U... args);
+            void error(T first, U... args)
+            {
+                m_CurrentMessage.channel = LOGGER_CHANNELS::ERROR_CHANNEL;
+                m_IncompleteMessage.str(std::string());
+                m_IncompleteMessage << first;
+                log(args...);
+            }
 
+            /**
+            *
+            */
             void error(Exception& e);
         
         protected:
 
         private:
 
+            /**
+            *
+            */
             template<typename T, typename... U>
-            void log(T first, U... last);
+            void log(T first, U... last)
+            {
+                m_IncompleteMessage << first;
+                log(last...);
+            }
+
+            /**
+            *
+            */
             void log();
 
             //--------------------------------------------
@@ -81,8 +141,6 @@ namespace Ocular
 
             std::list<std::unique_ptr<ILoggerListener>> m_Listeners;
         };
-
-#include "..\..\src\Logger\Logger.tpp"
     }
     /**
      * @} End of Doxygen Groups

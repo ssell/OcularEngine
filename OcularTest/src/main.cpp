@@ -17,6 +17,7 @@
 #include <iostream>
 #include "OcularEngine.hpp"
 #include "Time\Timer.hpp"
+#include "Utilities\Structures\CircularQueue.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,8 +29,32 @@ void helloWorld()
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
-    
-    const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
+
+    Ocular::Utils::CircularQueue<int, 3> queue;
+
+    int value;
+
+    queue.push(1); // Push 1
+    queue.push(2); // Push 2
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 1
+    queue.push(3); // Push 3
+    queue.push(4); // Push 4
+    queue.push(5); // Out of room
+    queue.push(6); // Out of room
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 2
+    queue.push(7); // Push 7
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 3 
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 4
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 7
+    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Empty
+
+    // 1
+    // 2
+    // 3
+    // 4
+    // 7
+
+    /*const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
         "Test Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
     if(window)
@@ -39,7 +64,7 @@ int main(int argc, char** argv)
     else
     {
         OcularEngine.Logger()->error("Failed to create window");
-    }
+    }*/
 
 
     OcularEngine.shutdown();
