@@ -21,52 +21,70 @@
 
 //------------------------------------------------------------------------------------------
 
-void helloWorld()
+class Foo
 {
-    OcularEngine.Logger()->info("Hello World!");
+public:
+
+    Foo(std::string name) : m_Name(name)
+    {
+        m_Name = name;
+    }
+
+    ~Foo()
+    {
+        OcularEngine.Logger()->info("Destroying '", m_Name, "'");
+    }
+
+    std::string getName()
+    {
+        return m_Name;
+    }
+
+protected:
+
+private:
+
+    std::string m_Name;
+};
+
+//------------------------------------------------------------------------------------------
+
+void testQueue()
+{
+    std::shared_ptr<Foo> a = std::make_shared<Foo>("object a");
+    std::shared_ptr<Foo> b = std::make_shared<Foo>("object b");
+    std::shared_ptr<Foo> c = std::make_shared<Foo>("object c");
+    std::shared_ptr<Foo> d = std::make_shared<Foo>("object d");
+    std::shared_ptr<Foo> e = std::make_shared<Foo>("object e");
+
+    Ocular::Utils::CircularQueue<std::shared_ptr<Foo>, 3> queue;
+
+    if(queue.enqueue(a)) { OcularEngine.Logger()->info("Queued '", a->getName(), "'");}
+    if(queue.enqueue(b)) { OcularEngine.Logger()->info("Queued '", b->getName(), "'");}
+    if(queue.enqueue(c)) { OcularEngine.Logger()->info("Queued '", c->getName(), "'");}
+    if(queue.enqueue(d)) { OcularEngine.Logger()->info("Queued '", d->getName(), "'");}
+
+   a.reset();
+   b.reset();
+   c.reset();
+   d.reset();
+
+    std::shared_ptr<Foo> bar;
+
+    while(queue.dequeue(bar))
+    {
+        OcularEngine.Logger()->info("Dequeued '", bar->getName(), "'");
+    }
+
+    if(queue.enqueue(e)) { OcularEngine.Logger()->info("Queued '", e->getName(), "'");}
+    if(queue.dequeue(bar)) { OcularEngine.Logger()->info("Dequeued '", bar->getName(), "'");}
 }
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    Ocular::Utils::CircularQueue<int, 3> queue;
-
-    int value;
-
-    queue.push(1); // Push 1
-    queue.push(2); // Push 2
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 1
-    queue.push(3); // Push 3
-    queue.push(4); // Push 4
-    queue.push(5); // Out of room
-    queue.push(6); // Out of room
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 2
-    queue.push(7); // Push 7
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 3 
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 4
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Pop 7
-    if (queue.pop(value)){ OcularEngine.Logger()->info("Popped '", value, "'"); } // Empty
-
-    // 1
-    // 2
-    // 3
-    // 4
-    // 7
-
-    /*const Ocular::Core::AWindow* window = OcularEngine.WindowManager()->createWindow(
-        "Test Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
-
-    if(window)
-    {
-        OcularEngine.Logger()->info("Successful window creation after ", OcularEngine.Clock()->getElapsedMS(), " ms");
-    }
-    else
-    {
-        OcularEngine.Logger()->error("Failed to create window");
-    }*/
-
+    testQueue();
 
     OcularEngine.shutdown();
-    return 0;
 }

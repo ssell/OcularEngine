@@ -63,7 +63,7 @@ namespace Ocular
             /**
             *
             */
-            bool push(T element)
+            bool enqueue(T element)
             {
                 bool retVal = false;
 
@@ -80,7 +80,7 @@ namespace Ocular
             /**
             *
             */
-            bool pop(T& retElement)
+            bool dequeue(T& retElement)
             {
                 bool retVal = false;
 
@@ -129,6 +129,7 @@ namespace Ocular
             {
                 if (m_NumElements > 0)
                 {
+                    
                     if (m_Head != m_Last)
                     {
                         m_Head++;
