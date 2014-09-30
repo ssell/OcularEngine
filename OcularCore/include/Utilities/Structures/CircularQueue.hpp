@@ -29,7 +29,7 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Core
+    * \addtogroup Utils
     * @{
     */
     namespace Utils

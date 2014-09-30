@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Utilities\Structures">
       <UniqueIdentifier>{ab050594-0fb7-4be2-bdf8-b624b45ec16c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities\Random">
+      <UniqueIdentifier>{f7ebe85e-74ac-4c1d-97cc-ea972b875614}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -172,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\EventPriority.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\IRandom.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

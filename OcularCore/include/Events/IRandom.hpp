@@ -15,12 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_EVENT_MANAGER__H__
-#define __H__OCULAR_EVENTS_EVENT_MANAGER__H__
+#ifndef __H__OCULAR_UTILS_IRANDOM__H__
+#define __H__OCULAR_UTILS_IRANDOM__H__
 
-#include <memory>
-#include "IEventListener.hpp"
-#include "Utilities/Structures/CircularQueue.hpp"
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -31,32 +29,31 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
-     * @{
-     */
-    namespace Core
+    * \addtogroup Utils
+    * @{
+    */
+    namespace Utils
     {
         /**
-         * \class EventManager
+         * \class IRandom
          */
-        class EventManager
+        class IRandom
         {
         public:
 
-            EventManager();
-            ~EventManager();
+            virtual void seed() = 0;
+            virtual void seed(unsigned value) = 0;
 
-            void registerListener(std::shared_ptr<IEventListener> listener);
+            virtual unsigned next() = 0;
 
         protected:
 
         private:
-
         };
     }
     /**
-     * @} End of Doxygen Groups
-     */
+    * @} End of Doxygen Groups
+    */
 }
 /**
 * @} End of Doxygen Groups

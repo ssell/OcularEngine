@@ -19,6 +19,7 @@
 #define __H__OCULAR_EVENTS_EVENT__H__
 
 #include <string>
+#include "EventPriority.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ namespace Ocular
         {
         public:
 
-            AEvent(std::string name);
+            AEvent(std::string name, EVENT_PRIORITY priority = EVENT_PRIORITY::MEDIUM);
             ~AEvent();
 
             /**
@@ -49,6 +50,12 @@ namespace Ocular
              */
             std::string getName();
             
+
+            /**
+             *
+             */
+            EVENT_PRIORITY getPriority();
+
             /**
              *
              */
@@ -64,9 +71,17 @@ namespace Ocular
         private:
 
             std::string m_Name;
-
+            EVENT_PRIORITY m_Priority;
             int m_Uid;
             long long m_CreationTime;
+        };
+
+        struct CompareEventPriority
+        {
+            bool operator()(AEvent lhs, AEvent rhs)
+            {
+                return ((int)lhs.getPriority() < (int)rhs.getPriority());
+            }
         };
     }
     /**

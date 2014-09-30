@@ -94,7 +94,9 @@
     <ClInclude Include="..\..\include\Common.hpp" />
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
     <ClInclude Include="..\..\include\Events\IEventListener.hpp" />
+    <ClInclude Include="..\..\include\Events\IRandom.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />

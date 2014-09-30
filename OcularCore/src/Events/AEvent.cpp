@@ -27,9 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AEvent::AEvent(std::string name)
+        AEvent::AEvent(std::string name, EVENT_PRIORITY priority)
+            : m_Name(name), m_Priority(priority)
         {
-            m_Name = name;
             m_CreationTime = OcularEngine.Clock()->getElapsedMS();
             m_Uid = 0;
         }
@@ -46,6 +46,11 @@ namespace Ocular
         std::string AEvent::getName()
         {
             return m_Name;
+        }
+
+        EVENT_PRIORITY AEvent::getPriority()
+        {
+            return m_Priority;
         }
 
         int AEvent::getUid()

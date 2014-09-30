@@ -15,76 +15,67 @@
  */
 
 #include <iostream>
+#include <queue>
+
 #include "OcularEngine.hpp"
 #include "Time\Timer.hpp"
 #include "Utilities\Structures\CircularQueue.hpp"
+#include "Events\AEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
-class Foo
+class SampleEvent : public Ocular::Core::AEvent
 {
 public:
 
-    Foo(std::string name) : m_Name(name)
+    SampleEvent(Ocular::Core::EVENT_PRIORITY priority)
+        : Ocular::Core::AEvent("Sample Event", priority)
     {
-        m_Name = name;
+
     }
 
-    ~Foo()
-    {
-        OcularEngine.Logger()->info("Destroying '", m_Name, "'");
-    }
-
-    std::string getName()
-    {
-        return m_Name;
-    }
+    ~SampleEvent() { }
 
 protected:
 
 private:
 
-    std::string m_Name;
 };
 
-//------------------------------------------------------------------------------------------
-
-void testQueue()
+long long testSTLPriorityQueue(unsigned numTests)
 {
-    std::shared_ptr<Foo> a = std::make_shared<Foo>("object a");
-    std::shared_ptr<Foo> b = std::make_shared<Foo>("object b");
-    std::shared_ptr<Foo> c = std::make_shared<Foo>("object c");
-    std::shared_ptr<Foo> d = std::make_shared<Foo>("object d");
-    std::shared_ptr<Foo> e = std::make_shared<Foo>("object e");
+    Ocular::Core::Timer timer;
+    std::priority_queue<Ocular::Core::AEvent, std::vector<Ocular::Core::AEvent>, Ocular::Core::CompareEventPriority> queue;
 
-    Ocular::Utils::CircularQueue<std::shared_ptr<Foo>, 3> queue;
-
-    if(queue.enqueue(a)) { OcularEngine.Logger()->info("Queued '", a->getName(), "'");}
-    if(queue.enqueue(b)) { OcularEngine.Logger()->info("Queued '", b->getName(), "'");}
-    if(queue.enqueue(c)) { OcularEngine.Logger()->info("Queued '", c->getName(), "'");}
-    if(queue.enqueue(d)) { OcularEngine.Logger()->info("Queued '", d->getName(), "'");}
-
-   a.reset();
-   b.reset();
-   c.reset();
-   d.reset();
-
-    std::shared_ptr<Foo> bar;
-
-    while(queue.dequeue(bar))
+    for(unsigned i = 0; i < numTests; i++)
     {
-        OcularEngine.Logger()->info("Dequeued '", bar->getName(), "'");
+        
     }
 
-    if(queue.enqueue(e)) { OcularEngine.Logger()->info("Queued '", e->getName(), "'");}
-    if(queue.dequeue(bar)) { OcularEngine.Logger()->info("Dequeued '", bar->getName(), "'");}
+    return timer.getElapsedMS();
+}
+
+long long testPriorityMultiQueue(unsigned numTests)
+{
+    Ocular::Core::Timer timer;
+
+
+    return timer.getElapsedMS();
+}
+
+void compareQueuePerformance(unsigned numTests)
+{
+    long long stlTime = testSTLPriorityQueue(numTests);
+    long long ocuTime = testPriorityMultiQueue(numTests);
+
+    OcularEngine.Logger()->info(numTests, " conducted in:\n\tSTL: ", stlTime, "\n\tOCU: ", ocuTime);
 }
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    testQueue();
+    compareQueuePerformance(10000);
 
     OcularEngine.shutdown();
 }

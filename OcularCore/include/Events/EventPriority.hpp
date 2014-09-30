@@ -15,12 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_EVENT_MANAGER__H__
-#define __H__OCULAR_EVENTS_EVENT_MANAGER__H__
-
-#include <memory>
-#include "IEventListener.hpp"
-#include "Utilities/Structures/CircularQueue.hpp"
+#ifndef __H__OCULAR_EVENT_EVENT_PRIORITY__H__
+#define __H__OCULAR_EVENT_EVENT_PRIORITY__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -31,32 +27,23 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
-     * @{
-     */
+    * \addtogroup Core
+    * @{
+    */
     namespace Core
     {
-        /**
-         * \class EventManager
-         */
-        class EventManager
+        enum EVENT_PRIORITY
         {
-        public:
-
-            EventManager();
-            ~EventManager();
-
-            void registerListener(std::shared_ptr<IEventListener> listener);
-
-        protected:
-
-        private:
-
+            MONITOR = 0,
+            CRITICAL,
+            HIGH,
+            MEDIUM,
+            LOW
         };
     }
     /**
-     * @} End of Doxygen Groups
-     */
+    * @} End of Doxygen Groups
+    */
 }
 /**
 * @} End of Doxygen Groups
