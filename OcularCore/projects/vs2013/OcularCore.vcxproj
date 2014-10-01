@@ -89,6 +89,12 @@
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\ARandom.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\CMWC.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\MersenneTwister.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\TinyMersenneTwister.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\WELL.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Random\XorShift.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
@@ -96,7 +102,6 @@
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
     <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
     <ClInclude Include="..\..\include\Events\IEventListener.hpp" />
-    <ClInclude Include="..\..\include\Events\IRandom.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
@@ -115,6 +120,12 @@
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\CMWC.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\ARandom.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\MersenneTwister.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\TinyMersenneTwister.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\WELL.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

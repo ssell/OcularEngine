@@ -64,6 +64,9 @@
     <Filter Include="Header Files\Utilities\Random">
       <UniqueIdentifier>{f7ebe85e-74ac-4c1d-97cc-ea972b875614}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utilities\Random">
+      <UniqueIdentifier>{a6396ec8-6a9e-452c-a9a9-8dcb3a52c08d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -104,6 +107,24 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Events\AEvent.cpp">
       <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\ARandom.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\XorShift.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\WELL.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\MersenneTwister.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\TinyMersenneTwister.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Random\CMWC.cpp">
+      <Filter>Source Files\Utilities\Random</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,7 +200,22 @@
     <ClInclude Include="..\..\include\Events\EventPriority.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Events\IRandom.hpp">
+    <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Random\WELL.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Random\MersenneTwister.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Random\TinyMersenneTwister.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Random\CMWC.hpp">
+      <Filter>Header Files\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Random\ARandom.hpp">
       <Filter>Header Files\Utilities\Random</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,10 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_IRANDOM__H__
-#define __H__OCULAR_UTILS_IRANDOM__H__
+#ifndef __H__OCULAR_UTILS_RANDOM_WELL__H__
+#define __H__OCULAR_UTILS_RANDOM_WELL__H__
 
-#include <array>
+#include "ARandom.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,21 +35,40 @@ namespace Ocular
     namespace Utils
     {
         /**
-         * \class IRandom
-         */
-        class IRandom
+        * \addtogroup Random
+        * @{
+        */
+        namespace Random
         {
-        public:
+            /**
+            * \class WELL512
+            *
+            * Implementation of the 512 periodicity variation of the WELL (Well Equidistributed Long-Period Linear) PRNG using the IRandom interface.<br/><br/>
+            *
+            * Original implementation may be found at: http://www.iro.umontreal.ca/~panneton/well/WELL512a.c <br/>
+            * Copyright: Francois Panneton, Pierre L'Ecuyer, and Makoto Matsumoto.
+            */
+            class WELL512 : public ARandom
+            {
+            public:
 
-            virtual void seed() = 0;
-            virtual void seed(unsigned value) = 0;
+                WELL512();
+                ~WELL512();
 
-            virtual unsigned next() = 0;
+                virtual void seed(long long seed);
+                virtual unsigned next();
 
-        protected:
+            protected:
 
-        private:
-        };
+            private:
+
+                unsigned m_Index;
+                unsigned long* m_State;
+            };
+        }
+        /**
+        * @} End of Doxygen Groups
+        */
     }
     /**
     * @} End of Doxygen Groups
