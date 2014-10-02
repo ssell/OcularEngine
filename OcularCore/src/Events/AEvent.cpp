@@ -43,22 +43,22 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::string AEvent::getName()
+        std::string AEvent::getName() const
         {
             return m_Name;
         }
 
-        EVENT_PRIORITY AEvent::getPriority()
+        EVENT_PRIORITY AEvent::getPriority() const
         {
             return m_Priority;
         }
 
-        int AEvent::getUid()
+        int AEvent::getUid() const
         {
             return m_Uid;
         }
 
-        long long AEvent::getCreationTime()
+        long long AEvent::getCreationTime() const
         {
             return m_CreationTime;
         }

@@ -21,6 +21,9 @@
 #include "Time\Timer.hpp"
 #include "Utilities\Structures\CircularQueue.hpp"
 #include "Events\AEvent.hpp"
+#include "Utilities\Random\XorShift.hpp"
+#include "Utilities\Random\WELL.hpp"
+#include "Utilities\Random\CMWC.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -71,11 +74,60 @@ void compareQueuePerformance(unsigned numTests)
     OcularEngine.Logger()->info(numTests, " conducted in:\n\tSTL: ", stlTime, "\n\tOCU: ", ocuTime);
 }
 
+void prngAnalysis(Ocular::Utils::Random::ARandom* prng, unsigned iterations)
+{
+    int values[100];
+    memset(values, 0, sizeof(int) * 100);
+
+    //------------------------------------------------
+
+    long long start = OcularEngine.Clock()->getElapsedMS();
+    prng->seed(OcularEngine.Clock()->getEpochMS());
+
+    for(unsigned i = 0; i < iterations; i++)
+    {
+        values[prng->next(0, 100)]++;
+    }
+
+    long long stop = OcularEngine.Clock()->getElapsedMS();
+
+    //------------------------------------------------
+
+    float minPercent = 100.0f;
+    float maxPercent = 0.0f;
+
+    unsigned minNum = 0;
+    unsigned maxNum = 0;
+
+    for(unsigned i = 0; i < 100; i++)
+    {
+        float percent = ((float)values[i] / (float)iterations) * 100.0f;
+        OcularEngine.Logger()->info((i < 10 ? "0" : ""), i, ": ", values[i], " / ", iterations, "  (", percent, "%)");
+
+        if(percent < minPercent)
+        {
+            minPercent = percent;
+            minNum = i;
+        }
+
+        if(percent > maxPercent)
+        {
+            maxPercent = percent;
+            maxNum = i;
+        }
+    }
+
+    OcularEngine.Logger()->info("Min: ", minPercent, " (", minNum, ")");
+    OcularEngine.Logger()->info("Max: ", maxPercent, " (", maxNum, ")");
+    OcularEngine.Logger()->info("Completed in ", (stop - start), "ms");
+}
+
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    compareQueuePerformance(10000);
+    Ocular::Utils::Random::XorShift96 prng;
+    prngAnalysis(&prng, 8770000);
 
     OcularEngine.shutdown();
 }

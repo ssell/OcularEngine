@@ -48,23 +48,23 @@ namespace Ocular
             /**
              *
              */
-            std::string getName();
+            std::string getName() const;
             
 
             /**
              *
              */
-            EVENT_PRIORITY getPriority();
+            EVENT_PRIORITY getPriority() const;
 
             /**
              *
              */
-            int getUid();
+            int getUid() const;
             
             /**
              *
              */
-            long long getCreationTime();
+            long long getCreationTime() const;
 
         protected:
 
