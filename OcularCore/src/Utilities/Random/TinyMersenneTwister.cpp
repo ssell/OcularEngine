@@ -16,6 +16,13 @@
 
 #include "Utilities\Random\TinyMersenneTwister.hpp"
 
+#define TINYMT64_MEXP 127
+#define TINYMT64_SH0 12
+#define TINYMT64_SH1 11
+#define TINYMT64_SH8 8
+#define TINYMT64_MASK UINT64_C(0x7fffffffffffffff)
+#define TINYMT64_MUL (1.0 / 18446744073709551616.0)
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular

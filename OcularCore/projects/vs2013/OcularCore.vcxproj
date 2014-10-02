@@ -127,6 +127,7 @@
     <ClInclude Include="..\..\include\Utilities\Random\WELL.hpp" />
     <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

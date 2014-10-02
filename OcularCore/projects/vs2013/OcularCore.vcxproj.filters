@@ -218,5 +218,8 @@
     <ClInclude Include="..\..\include\Utilities\Random\ARandom.hpp">
       <Filter>Header Files\Utilities\Random</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp">
+      <Filter>Header Files\Utilities\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
