@@ -42,12 +42,148 @@ namespace Ocular
         class PriorityMultiQueue
         {
         public:
+            
+            /**
+             *
+             */
+            PriorityMultiQueue()
+            {
+            
+            }
+            
+            /**
+             *
+             */
+            ~PriorityMultiQueue()
+            {
+            
+            }
 
-            PriorityMultiQueue();
-            ~PriorityMultiQueue();
+            /**
+             * Enqueues the element inside of the specified priority queue.
+             *
+             * \return TRUE if successfully enqueued.
+             */
+            bool enqueue(T const element, Core::EVENT_PRIORITY priority)
+            {
+                bool result = false;
 
-            bool enqueue(T element, Core::EVENT_PRIORITY priority);
-            bool dequeue(Core::EVENT_PRIORITY priority, T& retElement);
+                switch(priority)
+                {
+                case Core::EVENT_PRIORITY::CRITICAL:
+                    result = m_CriticalPriority.enqueue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::HIGH:
+                    result = m_HighPriority.enqueue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::MEDIUM:
+                    result = m_MediumPriority.enqueue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::LOW:
+                    result = m_LowPriority.enqueue(element);
+                    break;
+                    
+                default:
+                    break;
+                }
+
+                return result;
+            }
+            
+            /**
+             * Dequeues the first available element from the priority queues.<br/>
+             * The queues are attempted to be dequeued in this order:<br/><br/>
+             *
+             * <ul>
+             *     <li>Critical</li>
+             *     <li>High</li>
+             *     <li>Medium</li>
+             *     <li>Low</li>
+             * </ul>
+             *
+             * \param[out] retElement The element removed from the queue.
+             * \return TRUE if an element was successfully dequeued.
+             */
+            bool dequeue(T& retElement)
+            {
+                // Short-circuit evaluation ensures that we will 
+                // return once a successful dequeue has occurred.
+
+                return m_CriticalPriority.dequeue(retElement) ||
+                       m_HighPriority.dequeue(retElement)     ||
+                       m_MediumPriority.dequeue(retElement)   ||
+                       m_LowPriority.dequeue(retElement);
+            }
+            
+            /**
+             * Dequeues the element at the front of the specified queue.
+             *
+             * \param[out] retElement The element removed from the queue.
+             * \return TRUE if an element was successfully dequeued.
+             */
+            bool dequeue(Core::EVENT_PRIORITY priority, T& retElement)
+            {
+                bool result = false;
+
+                switch(priority)
+                {
+                case Core::EVENT_PRIORITY::CRITICAL:
+                    result = m_CriticalPriority.dequeue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::HIGH:
+                    result = m_HighPriority.dequeue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::MEDIUM:
+                    result = m_MediumPriority.dequeue(element);
+                    break;
+
+                case Core::EVENT_PRIORITY::LOW:
+                    result = m_LowPriority.dequeue(element);
+                    break;
+                    
+                default:
+                    break;
+                }
+
+                return result;
+            }
+
+            /**
+             * \return Number of elements in the Critical priority queue.
+             */
+            unsigned getNumElementsCritical() const
+            {
+                return m_CriticalPriority.getNumElements();
+            }
+            
+            /**
+             * \return Number of elements in the High priority queue.
+             */
+            unsigned getNumElementsHigh() const
+            {
+                return m_HighPriority.getNumElements();
+            }
+            
+            /**
+             * \return Number of elements in the Medium priority queue.
+             */
+            unsigned getNumElementsMedium() const
+            {
+                return m_MediumPriority.getNumElements();
+            }
+            
+            /**
+             * \return Number of elements in the Low priority queue.
+             */
+            unsigned getNumElementsLow() const
+            {
+                return m_LowPriority.getNumElements();
+            }
 
         protected:
 

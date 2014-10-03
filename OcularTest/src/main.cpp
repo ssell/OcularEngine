@@ -22,8 +22,6 @@
 #include "Utilities\Structures\CircularQueue.hpp"
 #include "Events\AEvent.hpp"
 #include "Utilities\Random\XorShift.hpp"
-#include "Utilities\Random\WELL.hpp"
-#include "Utilities\Random\CMWC.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -74,6 +72,25 @@ void compareQueuePerformance(unsigned numTests)
     OcularEngine.Logger()->info(numTests, " conducted in:\n\tSTL: ", stlTime, "\n\tOCU: ", ocuTime);
 }
 
+int main(int argc, char** argv)
+{
+    OcularEngine.initialize();
+
+    OcularEngine.shutdown();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 void prngAnalysis(Ocular::Utils::Random::ARandom* prng, unsigned iterations)
 {
     int values[100];
@@ -121,13 +138,4 @@ void prngAnalysis(Ocular::Utils::Random::ARandom* prng, unsigned iterations)
     OcularEngine.Logger()->info("Max: ", maxPercent, " (", maxNum, ")");
     OcularEngine.Logger()->info("Completed in ", (stop - start), "ms");
 }
-
-int main(int argc, char** argv)
-{
-    OcularEngine.initialize();
-
-    Ocular::Utils::Random::XorShift96 prng;
-    prngAnalysis(&prng, 8770000);
-
-    OcularEngine.shutdown();
-}
+*/

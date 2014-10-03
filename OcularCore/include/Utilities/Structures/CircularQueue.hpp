@@ -45,8 +45,7 @@ namespace Ocular
         public:
 
             /**
-             * \param[in] size Starting size of the internal array. Note that this will be resized 
-             * upwards if needed, but can be a costly operation.
+             * \param[in] size Starting size of the internal array.
              */
             CircularQueue()
                 : m_Last(MAX_ELEMENTS - 1), m_Head(0), m_Tail(0), m_NumElements(0)
@@ -61,9 +60,11 @@ namespace Ocular
             }
 
             /**
+            * Adds the element to the queue.
             *
+            * \return TRUE if successfully enqueued.
             */
-            bool enqueue(T element)
+            bool enqueue(T const element)
             {
                 bool retVal = false;
 
@@ -78,8 +79,11 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             * Dequeues an element from the queue if it is not empty.
+             *
+             * \param[out] retElement The element removed from the queue.
+             * \return TRUE if an element was successfully dequeued.
+             */
             bool dequeue(T& retElement)
             {
                 bool retVal = false;
@@ -95,7 +99,8 @@ namespace Ocular
             }
 
             /**
-            *
+            * \param[out] retElement Element at the front of the queue.
+            * \return TRUE if an element is available to view.
             */
             bool peek(T& retElement)
             {
@@ -111,7 +116,7 @@ namespace Ocular
             }
 
             /**
-            *
+            * \return Current number of elements in the queue.
             */
             unsigned getNumElements()
             {
