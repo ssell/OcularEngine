@@ -95,6 +95,7 @@
     <ClCompile Include="..\..\src\Utilities\Random\TinyMersenneTwister.cpp" />
     <ClCompile Include="..\..\src\Utilities\Random\WELL.cpp" />
     <ClCompile Include="..\..\src\Utilities\Random\XorShift.cpp" />
+    <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
+    <ClInclude Include="..\..\include\Utilities\UIDGenerator.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

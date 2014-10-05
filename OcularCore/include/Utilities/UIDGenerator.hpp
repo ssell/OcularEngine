@@ -15,11 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_EVENT__H__
-#define __H__OCULAR_EVENTS_EVENT__H__
+#ifndef __H__OCULAR_UTILS_UID_GENERATOR_H__
+#define __H__OCULAR_UTILS_UID_GENERATOR_H__
 
-#include <string>
-#include "EventPriority.hpp"
+#include <mutex>
 
 //------------------------------------------------------------------------------------------
 
@@ -30,55 +29,37 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
-     * @{
-     */
-    namespace Core
+    * \addtogroup Utils
+    * @{
+    */
+    namespace Utils
     {
         /**
-         * \class EventManager
+         * \class UIDGenerator
          */
-        class AEvent
+        class UIDGenerator
         {
         public:
 
-            AEvent(std::string name, EVENT_PRIORITY priority = EVENT_PRIORITY::MEDIUM);
-            ~AEvent();
+            UIDGenerator();
+            ~UIDGenerator();
 
             /**
-             *
+             * \return The next UID
              */
-            std::string getName() const;
-            
-
-            /**
-             *
-             */
-            EVENT_PRIORITY getPriority() const;
-
-            /**
-             *
-             */
-            int getUID() const;
-            
-            /**
-             *
-             */
-            long long getCreationTime() const;
+            unsigned next();
 
         protected:
 
         private:
 
-            std::string m_Name;
-            EVENT_PRIORITY m_Priority;
-            int m_UID;
-            long long m_CreationTime;
+            unsigned m_UID;
+            std::mutex m_Mutex;
         };
     }
     /**
-     * @} End of Doxygen Groups
-     */
+    * @} End of Doxygen Groups
+    */
 }
 /**
 * @} End of Doxygen Groups

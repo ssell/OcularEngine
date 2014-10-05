@@ -77,6 +77,11 @@ namespace Ocular
         return m_WindowManager;
     }
 
+    std::shared_ptr<Utils::UIDGenerator> Engine::UIDGenerator()
+    {
+        return m_UIDGenerator;
+    }
+
     //--------------------------------------------------------------------------------------
     // PROTECTED METHODS
     //--------------------------------------------------------------------------------------

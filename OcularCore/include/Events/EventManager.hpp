@@ -20,7 +20,7 @@
 
 #include <memory>
 #include "IEventListener.hpp"
-#include "Utilities/Structures/CircularQueue.hpp"
+#include "Utilities/Structures/PriorityMultiQueue.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -47,10 +47,16 @@ namespace Ocular
             ~EventManager();
 
             void registerListener(std::shared_ptr<IEventListener> listener);
+            void unregisterListener(std::shared_ptr<IEventListener> listener);
+
+            void queueEvent(std::shared_ptr<AEvent> event);
+            void fireEvent(std::shared_ptr<AEvent> event);
 
         protected:
 
         private:
+
+            Ocular::Utils::PriorityMultiQueue<std::shared_ptr<AEvent>, 256> m_Events;
 
         };
     }

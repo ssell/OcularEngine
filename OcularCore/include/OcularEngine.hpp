@@ -21,6 +21,7 @@
 #include "Logger\Logger.hpp"
 #include "Time\Clock.hpp"
 #include "Renderer\Window\WindowManager.hpp"
+#include "Utilities\UIDGenerator.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -76,6 +77,11 @@ namespace Ocular
          * \return Reference to the primary WindowManager
          */
         std::shared_ptr<Core::WindowManager> WindowManager();
+
+        /**
+         * \return Reference to the primary UID Generator
+         */
+        std::shared_ptr<Utils::UIDGenerator> UIDGenerator();
         
     protected:
 
@@ -96,6 +102,7 @@ namespace Ocular
         std::shared_ptr<Core::Logger> m_Logger;
         std::shared_ptr<Core::Clock> m_Clock;
         std::shared_ptr<Core::WindowManager> m_WindowManager;
+        std::shared_ptr<Utils::UIDGenerator> m_UIDGenerator;
     };
 }
 /**

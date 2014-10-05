@@ -14,27 +14,24 @@
 * limitations under the License.
 */
 
-#include "Events/AEvent.hpp"
-#include "OcularEngine.hpp"
+#include "Utilities/UIDGenerator.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Utils
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AEvent::AEvent(std::string name, EVENT_PRIORITY priority)
-            : m_Name(name), m_Priority(priority)
+        UIDGenerator::UIDGenerator()
         {
-            m_CreationTime = OcularEngine.Clock()->getElapsedMS();
-            m_UID = OcularEngine.UIDGenerator()->next();
+            m_UID = 0;
         }
 
-        AEvent::~AEvent()
+        UIDGenerator::~UIDGenerator()
         {
         
         }
@@ -43,24 +40,13 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::string AEvent::getName() const
+        unsigned UIDGenerator::next()
         {
-            return m_Name;
-        }
+            m_Mutex.lock();
+            m_UID++;
+            m_Mutex.unlock();
 
-        EVENT_PRIORITY AEvent::getPriority() const
-        {
-            return m_Priority;
-        }
-
-        int AEvent::getUID() const
-        {
             return m_UID;
-        }
-
-        long long AEvent::getCreationTime() const
-        {
-            return m_CreationTime;
         }
 
         //----------------------------------------------------------------------------------
@@ -70,6 +56,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
+    
     }
 }
