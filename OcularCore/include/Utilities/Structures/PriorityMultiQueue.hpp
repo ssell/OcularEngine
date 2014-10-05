@@ -154,6 +154,17 @@ namespace Ocular
             }
 
             /**
+             * \return Total number of elements across all priority levels.
+             */
+            unsigned getNumElements() const 
+            {
+                return getNumElementsCritical() +
+                       getNumElementsHigh() +
+                       getNumElementsMedium() +
+                       getNumElementsLow();
+            }
+
+            /**
              * \return Number of elements in the Critical priority queue.
              */
             unsigned getNumElementsCritical() const

@@ -68,7 +68,7 @@ namespace Ocular
             {
                 bool retVal = false;
 
-                if (m_NumElements < MAX_ELEMENTS)
+                if(m_NumElements < MAX_ELEMENTS)
                 {
                     m_Array[m_Tail] = element;
                     incrementTail();
@@ -88,9 +88,23 @@ namespace Ocular
             {
                 bool retVal = false;
 
-                if (m_NumElements > 0)
+                if(m_NumElements > 0)
                 {
                     retElement = m_Array[m_Head];
+                    
+                    incrementHead();
+                    retVal = true;
+                }
+
+                return retVal;
+            }
+
+            bool dequeue()
+            {
+                bool retVal = false;
+
+                if(m_NumElements > 0)
+                {
                     incrementHead();
                     retVal = true;
                 }
@@ -106,7 +120,7 @@ namespace Ocular
             {
                 bool retVal = false;;
 
-                if (m_NumElements > 0)
+                if(m_NumElements > 0)
                 {
                     retElement = m_Array[m_Head];
                     retVal = true;

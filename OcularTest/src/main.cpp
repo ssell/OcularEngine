@@ -19,7 +19,7 @@
 
 #include "OcularEngine.hpp"
 #include "Time\Timer.hpp"
-#include "Utilities\Structures\CircularQueue.hpp"
+#include "Utilities\Structures\PriorityMultiQueue.hpp"
 #include "Events\AEvent.hpp"
 #include "Utilities\Random\XorShift.hpp"
 
@@ -43,38 +43,120 @@ private:
 
 };
 
-long long testSTLPriorityQueue(unsigned numTests)
+long long testSTLPriorityQueue(unsigned numTests, Ocular::Utils::Random::ARandom* action,
+    Ocular::Utils::Random::ARandom* priority)
 {
     Ocular::Core::Timer timer;
-    std::priority_queue<Ocular::Core::AEvent, std::vector<Ocular::Core::AEvent>, Ocular::Core::CompareEventPriority> queue;
+    timer.reset();
+    timer.start();
+
+    std::priority_queue<int> queue;
 
     for(unsigned i = 0; i < numTests; i++)
     {
-        
+        unsigned random = action->next(0, 5);
+
+        if(random < 3)
+        {
+            // Add
+            queue.push((Ocular::Core::EVENT_PRIORITY)priority->next(1,5));
+        }
+        else if(random == 3)
+        {
+            // Remove one
+            if(queue.size() > 0)
+            {
+                queue.pop();
+            }
+        }
+        else
+        {
+            // Remove all
+            while(queue.size() > 0)
+            {
+                queue.pop();
+            }
+        }
     }
 
     return timer.getElapsedMS();
 }
 
-long long testPriorityMultiQueue(unsigned numTests)
+long long testPriorityMultiQueue(unsigned numTests, Ocular::Utils::Random::ARandom* action,
+    Ocular::Utils::Random::ARandom* priority)
 {
     Ocular::Core::Timer timer;
+    timer.reset();
+    timer.start();
 
+    Ocular::Utils::PriorityMultiQueue<int, 5096> queue;
+
+    int value = 0;
+
+    for(unsigned i = 0; i < numTests; i++)
+    {
+        unsigned random = action->next(0, 5);
+
+        if(random < 3)
+        {
+            // Add
+            queue.enqueue(5, (Ocular::Core::EVENT_PRIORITY)priority->next(1,5));
+        }
+        else if(random == 3)
+        {
+            // Remove one
+            queue.dequeue(value);
+        }
+        else
+        {
+            // Remove all
+            while(queue.dequeue(value));
+        }
+    }
 
     return timer.getElapsedMS();
 }
 
-void compareQueuePerformance(unsigned numTests)
+void compareQueuePerformance(unsigned numTests, long long& stlTime, long long& ocuTime)
 {
-    long long stlTime = testSTLPriorityQueue(numTests);
-    long long ocuTime = testPriorityMultiQueue(numTests);
+    Ocular::Utils::Random::XorShift96 action;
+    Ocular::Utils::Random::XorShift96 priority;
 
-    OcularEngine.Logger()->info(numTests, " conducted in:\n\tSTL: ", stlTime, "\n\tOCU: ", ocuTime);
+    action.seed(100);
+    priority.seed(50);
+
+    stlTime = testSTLPriorityQueue(numTests, &action, &priority);
+
+    action.seed(100);
+    priority.seed(50);
+
+    ocuTime = testPriorityMultiQueue(numTests, &action, &priority);
 }
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
+
+    long long stlTime = 0;
+    long long ocuTime = 0;
+
+    for(unsigned i = 10; i <= 10000000; i *= 10)
+    {
+        long long stlTotal = 0;
+        long long ocuTotal = 0;
+
+        for(unsigned j = 0; j < 10; j++)
+        {
+            compareQueuePerformance(i, stlTime, ocuTime);
+            stlTotal += stlTime;
+            ocuTotal += ocuTime;
+        }
+
+        double stlAverage = (double)stlTotal / 10.0;
+        double ocuAverage = (double)ocuTotal / 10.0;
+
+        OcularEngine.Logger()->info(i, " iterations:\n\tSTL: ", stlAverage, "ms\n\tOCU: ", ocuAverage, "ms\n");
+    }
 
     OcularEngine.shutdown();
 }

@@ -30,6 +30,7 @@ namespace Ocular
         {
             m_Stopped = false;
             m_ElapsedMS = 0;
+            m_LastUpdate = 0;
         }
 
         Timer::~Timer()
