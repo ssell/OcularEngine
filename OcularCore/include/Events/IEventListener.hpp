@@ -34,16 +34,19 @@ namespace Ocular
      */
     namespace Core
     {
+        class EventManager;
+
         /**
          * \class IEventListener
          */
         class IEventListener
         {
+            friend class EventManager;
         public:
 
-            virtual bool onEvent(AEvent event) = 0;
-
         protected:
+
+            virtual bool onEvent(std::shared_ptr<AEvent> event) = 0;
 
         private:
 

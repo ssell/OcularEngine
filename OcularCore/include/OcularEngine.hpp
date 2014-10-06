@@ -18,10 +18,11 @@
 #define __H__OCULAR_ENGINE__H__
 
 #include "Common.hpp"
-#include "Logger\Logger.hpp"
-#include "Time\Clock.hpp"
-#include "Renderer\Window\WindowManager.hpp"
-#include "Utilities\UIDGenerator.hpp"
+#include "Logger/Logger.hpp"
+#include "Time/Clock.hpp"
+#include "Events/EventManager.hpp"
+#include "Renderer/Window/WindowManager.hpp"
+#include "Utilities/UIDGenerator.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ namespace Ocular
     /**
         * \class Engine
         */
-    class Engine
+    class Engine : public Core::IEventListener
     {
     public:
 
@@ -63,6 +64,9 @@ namespace Ocular
          */
         bool shutdown();
 
+        //----------------------------------------------------------------------------------
+        // Core Subsystem Retrieval
+
         /**
          * \return Reference to the primary Logger
          */
@@ -82,6 +86,8 @@ namespace Ocular
          * \return Reference to the primary UID Generator
          */
         std::shared_ptr<Utils::UIDGenerator> UIDGenerator();
+
+        //----------------------------------------------------------------------------------
         
     protected:
 

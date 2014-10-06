@@ -15,10 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_UID_GENERATOR_H__
-#define __H__OCULAR_UTILS_UID_GENERATOR_H__
+#ifndef __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
+#define __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
 
-#include <mutex>
+#include "AEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,38 +29,29 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
-    * @{
-    */
-    namespace Utils
+     * \addtogroup Core
+     * @{
+     */
+    namespace Core
     {
         /**
-         * \class UIDGenerator
+         * \class ShutdownEvent
          */
-        class UIDGenerator
+        class ShutdownEvent : public AEvent 
         {
         public:
 
-            UIDGenerator();
-            ~UIDGenerator();
-
-            /**
-             * \return The next UID
-             * \note This operation is thread-safe
-             */
-            unsigned next();
+            ShutdownEvent();
+            ~ShutdownEvent();
 
         protected:
 
         private:
-
-            unsigned m_UID;
-            std::mutex m_Mutex;
         };
     }
     /**
-    * @} End of Doxygen Groups
-    */
+     * @} End of Doxygen Groups
+     */
 }
 /**
 * @} End of Doxygen Groups
