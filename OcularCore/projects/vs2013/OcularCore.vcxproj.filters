@@ -233,5 +233,8 @@
     <ClInclude Include="..\..\include\Events\ShutdownEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp">
+      <Filter>Header Files\Utilities\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\include\Utilities\Random\WELL.hpp" />
     <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\UIDGenerator.hpp" />
   </ItemGroup>

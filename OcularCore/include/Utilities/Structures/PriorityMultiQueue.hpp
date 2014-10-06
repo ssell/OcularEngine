@@ -37,6 +37,14 @@ namespace Ocular
     {
         /**
          * \class PriorityMultiQueue
+         *
+         * The PriorityMultiQueue is a priority system based off of the priority levels defined in Core::EVENT_PRIORITY<br/><br/>
+         *
+         * This structure is best suited for situations where high volumes of enqueue and dequeue actions are expected,
+         * and can perform up to 250 times faster than the STL std::priority_queue in this regard. Conversely, random-access
+         * is not supported and (currently) neither is set iteration.<br/><br/>
+         *
+         * If random-access and/or element iteration is required, please see PriorityList.
          */
         template<typename T, std::size_t MAX_ELEMENTS>
         class PriorityMultiQueue

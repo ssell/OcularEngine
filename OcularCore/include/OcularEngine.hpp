@@ -91,6 +91,8 @@ namespace Ocular
         
     protected:
 
+        virtual bool onEvent(std::shared_ptr<Core::AEvent> event);
+
     private:
 
         Engine();
