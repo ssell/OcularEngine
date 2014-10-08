@@ -130,7 +130,7 @@ namespace Ocular
             /**
              * \return Number of elements currently tracked.
              */
-            std::size_t count() const
+            std::size_t size() const
             {
                 return m_TrueSize;
             }
@@ -138,7 +138,7 @@ namespace Ocular
             /**
              * \return Maximum number of elements possible to track.
              */
-            std::size_t size() const
+            std::size_t maxSize() const
             {
                 return MAX_ELEMENTS;
             }

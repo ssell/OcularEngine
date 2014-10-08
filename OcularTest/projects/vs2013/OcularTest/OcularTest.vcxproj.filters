@@ -13,10 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Tests">
+      <UniqueIdentifier>{8a4bc074-4723-49ed-8152-80137eb9d738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{eefc1aa4-c636-49ae-9502-953836820937}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Foo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
