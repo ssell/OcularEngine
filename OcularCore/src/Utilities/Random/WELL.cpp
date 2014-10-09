@@ -79,6 +79,11 @@ namespace Ocular
                 return static_cast<unsigned>(m_State[m_Index]);
             }
 
+            unsigned WELL512::next(unsigned min, unsigned max)
+            {
+                return ARandom::next(min, max);
+            }
+
             //------------------------------------------------------------------------------
             // PROTECTED METHODS
             //------------------------------------------------------------------------------

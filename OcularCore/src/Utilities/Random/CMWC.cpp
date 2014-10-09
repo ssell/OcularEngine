@@ -89,6 +89,11 @@ namespace Ocular
                 return (m_Q[i] = r - x);
             }
 
+            unsigned CMWC131104::next(unsigned min, unsigned max)
+            {
+                return ARandom::next(min, max);
+            }
+
             //------------------------------------------------------------------------------
             // PROTECTED METHODS
             //------------------------------------------------------------------------------

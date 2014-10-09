@@ -132,7 +132,7 @@ namespace Ocular
             /**
             * \return Current number of elements in the queue.
             */
-            unsigned getNumElements()
+            unsigned getNumElements() const
             {
                 return m_NumElements;
             }

@@ -68,6 +68,11 @@ namespace Ocular
                 return static_cast<unsigned>(m_Z);
             }
 
+            unsigned XorShift96::next(unsigned min, unsigned max)
+            {
+                return ARandom::next(min, max);
+            }
+
             //------------------------------------------------------------------------------
             // PROTECTED METHODS
             //------------------------------------------------------------------------------

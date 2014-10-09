@@ -66,7 +66,7 @@ namespace Ocular
                 /**
                  * Retrieves the next pseudo-random number and fits it inside of the specified bounds (this is not a clamp)
                  */
-                unsigned next(unsigned min, unsigned max);
+                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 

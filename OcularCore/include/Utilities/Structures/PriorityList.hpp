@@ -62,6 +62,41 @@ namespace Ocular
             }
 
             /**
+             * Pushes the element onto the list.
+             *
+             * \return TRUE if push was successful.
+             */
+            bool push(T const element, unsigned priority)
+            {
+                bool retVal = false;
+
+                if(m_TrueSize < MAX_ELEMENTS)
+                {
+                    retVal = add(element, priority);
+                }
+
+                return retVal;
+            }
+
+            /**
+             * Removes the element with highest priority.
+             *
+             * \return TRUE if pop was successful.
+             */
+            bool pop()
+            {
+                bool retVal = false;
+
+                if(m_TrueSize > 0)
+                {
+                    removeIndex(0);
+                    retVal = true;
+                }
+
+                return retVal;
+            }
+
+            /**
              * Attempts to add the provided element into the priority list.
              *
              * \return TRUE if successfully inserted, else FALSE. 
@@ -88,11 +123,11 @@ namespace Ocular
             {
                 if(m_TrueSize > 0)
                 {
-                    std::size_t index = findIndex(element);
+                    std::size_t index = locateIndex(element);
 
                     if(index != MAX_ELEMENTS)
                     {
-                        removeElement(index);
+                        deleteElement(index);
                         m_TrueSize--;
                     }
                 }
@@ -109,7 +144,7 @@ namespace Ocular
                     THROW_EXCEPTION("Index Out of Bounds");
                 }
 
-                removeElement(index);
+                deleteElement(index);
                 m_TrueSize--;
             }
 
@@ -143,9 +178,21 @@ namespace Ocular
                 return MAX_ELEMENTS;
             }
 
+            /**
+             * \return TRUE if list is empty
+             */
+            bool empty() const 
+            {
+                return (m_TrueSize == 0);
+            }
+
+            /**
+             * \return TRUE if the list contains an element that
+             * matches the one specified.
+             */
             bool contains(T const element) const
             {
-                std::size_t index = findIndex(element);
+                std::size_t index = locateIndex(element);
                 return (index != MAX_ELEMENTS);
             }
 
@@ -165,7 +212,7 @@ namespace Ocular
             /**
              * Removes the element at the specified index from the internal array.
              */
-            void removeElement(std::size_t const index)
+            void deleteElement(std::size_t const index)
             {
                 m_Array[index].first = 0;
                 shiftLeft(index);
@@ -217,7 +264,7 @@ namespace Ocular
              * Finds and returns the index that matches the provided element.<br/>
              * If the element is not found, return MAX_ELEMENTS.
              */
-            std::size_t findIndex(T const element) const
+            std::size_t locateIndex(T const element) const
             {
                 std::size_t index = MAX_ELEMENTS;
 

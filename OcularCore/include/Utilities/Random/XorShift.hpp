@@ -52,7 +52,9 @@ namespace Ocular
                 ~XorShift96();
 
                 virtual void seed(long long seed);
+
                 virtual unsigned next();
+                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 

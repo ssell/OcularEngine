@@ -204,6 +204,14 @@ namespace Ocular
                 return m_LowPriority.getNumElements();
             }
 
+            /**
+             * \return TRUE if container is empty.
+             */
+            bool empty()
+            {
+                return (getNumElements() == 0);
+            }
+
         protected:
 
         private:
