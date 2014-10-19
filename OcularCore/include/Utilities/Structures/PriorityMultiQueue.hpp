@@ -100,6 +100,31 @@ namespace Ocular
 
                 return result;
             }
+
+            /**
+             * Dequeues the first available element from the priority queues.<br/>
+             * The queues are attempted to be dequeued in this order:<br/><br/>
+             *
+             * <ul>
+             *     <li>Critical</li>
+             *     <li>High</li>
+             *     <li>Medium</li>
+             *     <li>Low</li>
+             * </ul>
+             *
+             * \param[out] retElement The element removed from the queue.
+             * \return TRUE if an element was successfully dequeued.
+             */
+            bool dequeue()
+            {
+                // Short-circuit evaluation ensures that we will 
+                // return once a successful dequeue has occurred.
+
+                return m_CriticalPriority.dequeue() ||
+                       m_HighPriority.dequeue()     ||
+                       m_MediumPriority.dequeue()   ||
+                       m_LowPriority.dequeue();
+            }
             
             /**
              * Dequeues the first available element from the priority queues.<br/>
@@ -210,6 +235,11 @@ namespace Ocular
             bool empty()
             {
                 return (getNumElements() == 0);
+            }
+
+            void clear()
+            {
+                while(dequeue());
             }
 
         protected:

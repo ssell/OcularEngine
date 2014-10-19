@@ -137,6 +137,14 @@ namespace Ocular
                 return m_NumElements;
             }
 
+            /**
+             * Removes all elements from the queue.
+             */
+            void clear()
+            {
+                while(dequeue());
+            }
+
         protected:
 
         private:

@@ -15,8 +15,9 @@
 */
 
 #include "OcularEngine.hpp"
-#include "Logger\ConsoleLoggerListener.hpp"
-#include "Logger\VSConsoleLoggerListener.hpp"
+#include "Logger/ConsoleLoggerListener.hpp"
+#include "Logger/VSConsoleLoggerListener.hpp"
+#include "Events/EventPriority.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ namespace Ocular
     {
         setupClock();
         setupLogger();
+        setupEvents();
         setupWindowManager();
 
         return true;
@@ -70,6 +72,11 @@ namespace Ocular
     std::shared_ptr<Core::Clock> Engine::Clock()
     {
         return m_Clock;
+    }
+
+    std::shared_ptr<Core::EventManager> Engine::EventManager()
+    {
+        return m_EventManager;
     }
 
     std::shared_ptr<Core::WindowManager> Engine::WindowManager()
@@ -106,6 +113,12 @@ namespace Ocular
     void Engine::setupClock()
     {
         m_Clock = std::make_shared<Core::Clock>();
+    }
+
+    void Engine::setupEvents()
+    {
+        m_EventManager = std::make_shared<Core::EventManager>();
+        m_EventManager->registerListener(, Core::EVENT_PRIORITY::MEDIUM);
     }
 
     void Engine::setupWindowManager()

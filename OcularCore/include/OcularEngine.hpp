@@ -78,6 +78,11 @@ namespace Ocular
         std::shared_ptr<Core::Clock> Clock();
 
         /**
+         * \return Reference to the primary EventManager
+         */
+        std::shared_ptr<Core::EventManager> EventManager();
+
+        /**
          * \return Reference to the primary WindowManager
          */
         std::shared_ptr<Core::WindowManager> WindowManager();
@@ -101,6 +106,7 @@ namespace Ocular
 
         void setupLogger();
         void setupClock();
+        void setupEvents();
         void setupWindowManager();
 
         void shutdownWindowManager();
@@ -109,6 +115,7 @@ namespace Ocular
 
         std::shared_ptr<Core::Logger> m_Logger;
         std::shared_ptr<Core::Clock> m_Clock;
+        std::shared_ptr<Core::EventManager> m_EventManager;
         std::shared_ptr<Core::WindowManager> m_WindowManager;
         std::shared_ptr<Utils::UIDGenerator> m_UIDGenerator;
     };

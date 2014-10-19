@@ -196,6 +196,17 @@ namespace Ocular
                 return (index != MAX_ELEMENTS);
             }
 
+            /**
+             * Removes all elements from the list.
+             */
+            void clear() 
+            {
+                while(size() > 0)
+                {
+                    removeIndex(0);
+                }
+            }
+
         protected:
 
             /**
