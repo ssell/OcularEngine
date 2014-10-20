@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-#include "Performance/PriorityContainerTest.hpp"
+#include "Tests/Performance/PriorityContainerTest.hpp"
 #include "Utilities/Structures/PriorityList.hpp"
 #include "Utilities/Structures/PriorityMultiQueue.hpp"
 #include "Utilities/Random/XorShift.hpp"

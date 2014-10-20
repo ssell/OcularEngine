@@ -19,11 +19,11 @@
     <Filter Include="Source Files\Tests">
       <UniqueIdentifier>{eefc1aa4-c636-49ae-9502-953836820937}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Performance">
-      <UniqueIdentifier>{093d831f-4c3d-446d-b88f-13f86ee32312}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Performance">
+    <Filter Include="Source Files\Tests\Performance">
       <UniqueIdentifier>{973786f4-912c-45fd-b237-b019a6c55684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Performance">
+      <UniqueIdentifier>{093d831f-4c3d-446d-b88f-13f86ee32312}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,8 +36,8 @@
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Performance\PriorityContainerTest.cpp">
-      <Filter>Source Files\Performance</Filter>
+    <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp">
+      <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,8 +53,8 @@
     <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Performance\PriorityContainerTest.hpp">
-      <Filter>Header Files\Performance</Filter>
+    <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp">
+      <Filter>Header Files\Tests\Performance</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

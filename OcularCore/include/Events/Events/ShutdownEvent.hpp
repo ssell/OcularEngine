@@ -15,10 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_EVENT_LISTENER__H__
-#define __H__OCULAR_EVENTS_EVENT_LISTENER__H__
+#ifndef __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
+#define __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
 
-#include "AEvent.hpp"
+#include "Events/AEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,22 +34,19 @@ namespace Ocular
      */
     namespace Core
     {
-        class EventManager;
-
         /**
-         * \class IEventListener
+         * \class ShutdownEvent
          */
-        class IEventListener
+        class ShutdownEvent : public AEvent 
         {
-            friend class EventManager;
         public:
+
+            ShutdownEvent();
+            ~ShutdownEvent();
 
         protected:
 
-            virtual bool onEvent(std::shared_ptr<AEvent> event) = 0;
-
         private:
-
         };
     }
     /**

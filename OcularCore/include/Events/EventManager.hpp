@@ -19,7 +19,7 @@
 #define __H__OCULAR_EVENTS_EVENT_MANAGER__H__
 
 #include <memory>
-#include "IEventListener.hpp"
+#include "AEventListener.hpp"
 #include "Utilities/Structures/PriorityMultiQueue.hpp"
 #include "Utilities/Structures/PriorityList.hpp"
 
@@ -49,8 +49,9 @@ namespace Ocular
 
             void processEvents(long long const duration);
            
-            void registerListener(std::shared_ptr<IEventListener> listener, unsigned const priority);
-            void unregisterListener(std::shared_ptr<IEventListener> listener);
+            void registerListener(AEventListener const * const listener, unsigned const priority);
+            void registerListener(std::shared_ptr<AEventListener> listener, unsigned const priority);
+            void unregisterListener(std::shared_ptr<AEventListener> listener);
 
             void queueEvent(std::shared_ptr<AEvent> event);
             void fireEvent(std::shared_ptr<AEvent> event);
@@ -59,10 +60,10 @@ namespace Ocular
 
         private:
 
-            int findListener(std::shared_ptr<IEventListener> listener);
+            int findListener(std::shared_ptr<AEventListener> listener);
             void triggerEvent(std::shared_ptr<AEvent> event);
 
-            Ocular::Utils::PriorityList<std::shared_ptr<IEventListener>, 256> m_Listeners;
+            Ocular::Utils::PriorityList<std::shared_ptr<AEventListener>, 256> m_Listeners;
             Ocular::Utils::PriorityMultiQueue<std::shared_ptr<AEvent>, 256> m_Events;
 
         };

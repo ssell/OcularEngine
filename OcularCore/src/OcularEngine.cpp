@@ -35,12 +35,12 @@ namespace Ocular
 
     Engine::Engine()
     {
-        
+        m_IsRunning = false;
     }
 
     Engine::~Engine()
     {
-    
+        m_IsRunning = false;
     }
 
     //--------------------------------------------------------------------------------------
@@ -54,6 +54,8 @@ namespace Ocular
         setupEvents();
         setupWindowManager();
 
+        m_IsRunning = true;
+
         return true;
     }
 
@@ -62,6 +64,12 @@ namespace Ocular
         shutdownWindowManager();
 
         return true;
+    }
+
+    void Engine::run()
+    {
+        update();
+        render();
     }
 
     std::shared_ptr<Core::Logger> Engine::Logger()
@@ -89,12 +97,21 @@ namespace Ocular
         return m_UIDGenerator;
     }
 
+    bool Engine::isRunning() const
+    {
+        return m_IsRunning;
+    }
+
     //--------------------------------------------------------------------------------------
     // PROTECTED METHODS
     //--------------------------------------------------------------------------------------
 
     bool Engine::onEvent(std::shared_ptr<Core::AEvent> event)
     {
+        if(event->getName().compare("ShutdownEvent") == 0)
+        {
+            m_IsRunning = false;
+        }
 
         return true;
     }
@@ -102,6 +119,16 @@ namespace Ocular
     //--------------------------------------------------------------------------------------
     // PRIVATE METHODS
     //--------------------------------------------------------------------------------------
+
+    void Engine::update()
+    {
+        m_EventManager->processEvents(1000);
+    }
+
+    void Engine::render()
+    {
+
+    }
 
     void Engine::setupLogger()
     {
@@ -118,7 +145,7 @@ namespace Ocular
     void Engine::setupEvents()
     {
         m_EventManager = std::make_shared<Core::EventManager>();
-        m_EventManager->registerListener(, Core::EVENT_PRIORITY::MEDIUM);
+        m_EventManager->registerListener(this, Core::EVENT_PRIORITY::MEDIUM);
     }
 
     void Engine::setupWindowManager()

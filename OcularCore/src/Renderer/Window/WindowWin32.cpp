@@ -15,7 +15,9 @@
  */
 
 #include "Exception.hpp"
-#include "Renderer\Window\WindowWin32.hpp"
+#include "Renderer/Window/WindowWin32.hpp"
+#include "OcularEngine.hpp"
+#include "Events/Events/ShutdownEvent.hpp"
 
 #include <sstream>
 
@@ -207,6 +209,9 @@ namespace Ocular
             case WM_DESTROY:
             case WM_CLOSE:
                 PostQuitMessage(0);
+                // intentionally no break here; flow into the next case
+            case WM_QUIT:
+                OcularEngine.EventManager()->queueEvent(std::make_shared<Ocular::Core::ShutdownEvent>());
                 return 0;
 
             default:

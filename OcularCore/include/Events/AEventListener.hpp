@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
-#define __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
+#ifndef __H__OCULAR_EVENTS_EVENT_LISTENER__H__
+#define __H__OCULAR_EVENTS_EVENT_LISTENER__H__
 
 #include "AEvent.hpp"
 
@@ -34,19 +34,25 @@ namespace Ocular
      */
     namespace Core
     {
-        /**
-         * \class ShutdownEvent
-         */
-        class ShutdownEvent : public AEvent 
-        {
-        public:
+        class EventManager;
 
-            ShutdownEvent();
-            ~ShutdownEvent();
+        /**
+         * \class AEventListener
+         */
+        class AEventListener : public std::enable_shared_from_this<AEventListener>
+        {
+            friend class EventManager;
+        public:
 
         protected:
 
+            virtual bool onEvent(std::shared_ptr<AEvent> event)
+            {
+                return false;
+            }
+
         private:
+
         };
     }
     /**

@@ -78,7 +78,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
-    <ClCompile Include="..\..\src\Events\ShutdownEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
@@ -104,8 +104,8 @@
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
     <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
-    <ClInclude Include="..\..\include\Events\IEventListener.hpp" />
-    <ClInclude Include="..\..\include\Events\ShutdownEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />

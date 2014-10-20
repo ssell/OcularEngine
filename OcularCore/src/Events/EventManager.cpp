@@ -56,7 +56,13 @@ namespace Ocular
             }
         }
 
-        void EventManager::registerListener(std::shared_ptr<IEventListener> listener, unsigned const priority)
+        void EventManager::registerListener(AEventListener const * const listener, unsigned const priority)
+        {
+            std::shared_ptr<AEventListener> shared(listener);
+            registerListener(shared, priority);
+        }
+
+        void EventManager::registerListener(std::shared_ptr<AEventListener> listener, unsigned const priority)
         {
             if(findListener(listener) == -1)
             {
@@ -64,7 +70,7 @@ namespace Ocular
             }
         }
 
-        void EventManager::unregisterListener(std::shared_ptr<IEventListener> listener)
+        void EventManager::unregisterListener(std::shared_ptr<AEventListener> listener)
         {
             m_Listeners.removeElement(listener);
         }
@@ -87,7 +93,7 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        int EventManager::findListener(std::shared_ptr<IEventListener> listener)
+        int EventManager::findListener(std::shared_ptr<AEventListener> listener)
         {
             int index = -1;
 

@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Utilities\Random">
       <UniqueIdentifier>{a6396ec8-6a9e-452c-a9a9-8dcb3a52c08d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Events\Events">
+      <UniqueIdentifier>{8983c53a-50e4-447f-b90d-926aa6e09d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events\Events">
+      <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -129,11 +135,11 @@
     <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Events\ShutdownEvent.cpp">
-      <Filter>Source Files\Events</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Events\EventManager.cpp">
       <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +203,6 @@
     <ClInclude Include="..\..\include\Events\EventManager.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Events\IEventListener.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Events\AEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -233,11 +236,14 @@
     <ClInclude Include="..\..\include\Utilities\UIDGenerator.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Events\ShutdownEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp">
+      <Filter>Header Files\Events\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\AEventListener.hpp">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

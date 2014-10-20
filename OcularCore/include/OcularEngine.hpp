@@ -35,7 +35,7 @@ namespace Ocular
     /**
         * \class Engine
         */
-    class Engine : public Core::IEventListener
+    class Engine : public Core::AEventListener
     {
     public:
 
@@ -63,6 +63,16 @@ namespace Ocular
          * \return TRUE is shutdown without any issues.
          */
         bool shutdown();
+
+        /**
+         * \return TRUE if the engine is running.
+         */
+        bool isRunning() const;
+
+        /**
+         *
+         */
+        void run();
 
         //----------------------------------------------------------------------------------
         // Core Subsystem Retrieval
@@ -104,6 +114,13 @@ namespace Ocular
         Engine(Engine const&);
         void operator=(Engine const&);
 
+        // Running
+
+        void update();
+        void render();
+
+        // Setup
+
         void setupLogger();
         void setupClock();
         void setupEvents();
@@ -118,6 +135,8 @@ namespace Ocular
         std::shared_ptr<Core::EventManager> m_EventManager;
         std::shared_ptr<Core::WindowManager> m_WindowManager;
         std::shared_ptr<Utils::UIDGenerator> m_UIDGenerator;
+
+        bool m_IsRunning;
     };
 }
 /**

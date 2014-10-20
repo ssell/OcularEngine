@@ -77,15 +77,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
-    <ClCompile Include="..\..\..\src\Performance\PriorityContainerTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Foo.hpp" />
-    <ClInclude Include="..\..\..\include\Performance\PriorityContainerTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests.hpp" />
     <ClInclude Include="..\..\..\include\Tests\ATest.hpp" />
+    <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
