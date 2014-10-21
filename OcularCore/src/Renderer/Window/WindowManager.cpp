@@ -128,6 +128,14 @@ namespace Ocular
         {
             m_MainWindow = name;
         }
+        
+        void WindowManager::updateWindows(long long time)
+        {
+            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
+            {
+                (*iter)->update(time);
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

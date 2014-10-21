@@ -49,7 +49,7 @@ namespace Ocular
 
             void processEvents(long long const duration);
            
-            void registerListener(AEventListener const * const listener, unsigned const priority);
+            void registerListener(AEventListener* listener, unsigned const priority);
             void registerListener(std::shared_ptr<AEventListener> listener, unsigned const priority);
             void unregisterListener(std::shared_ptr<AEventListener> listener);
 

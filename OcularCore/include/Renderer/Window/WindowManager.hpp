@@ -109,6 +109,14 @@ namespace Ocular
              */
             void setMainWindow(std::string name);
 
+            /**
+             * Calls the update method for all tracked windows.<br/>
+             * This ensures that all system messages get properly dispatched and handled.
+             *
+             * \param[in] time The amount of time (in MS) to allow a window to digest and dispatch system messages.
+             */
+            void updateWindows(long long time);
+
         protected:
 
         private:

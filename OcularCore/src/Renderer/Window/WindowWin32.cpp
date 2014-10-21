@@ -18,6 +18,7 @@
 #include "Renderer/Window/WindowWin32.hpp"
 #include "OcularEngine.hpp"
 #include "Events/Events/ShutdownEvent.hpp"
+#include "Time/Timer.hpp"
 
 #include <sstream>
 
@@ -31,9 +32,9 @@ namespace Ocular
         // NON-CLASS METHODS
         //----------------------------------------------------------------------------------
 
-        LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wp, LPARAM lp )
+        LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         {
-            WindowWin32* window = (WindowWin32*)GetWindowLong(hwnd, GWL_USERDATA);
+            WindowWin32* window = (WindowWin32*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
             if(window != nullptr)
             {
@@ -113,15 +114,33 @@ namespace Ocular
                     THROW_EXCEPTION(stream.str());
                 }
 
+                // Setup our window to be later retrieved by WndProc
+                // TODO: Will this cause errors with multiple windows? Need a different ID (GWLP_USERDATA - Window #)?
+                SetWindowLongPtr(m_HWND, GWLP_USERDATA, (LONG)this);
+
+                // Show the window
                 ShowWindow(m_HWND, SW_SHOW);
                 SetForegroundWindow(m_HWND);
                 SetFocus(m_HWND);
             }
         }
 
-        void WindowWin32::update()
+        void WindowWin32::update(long long time)
         {
-            // TODO? Just a close -> open, or something more?
+            MSG message;
+
+            Timer timer;
+            timer.start();
+
+            // Allow the message digestion time to process all new messages
+            while(timer.getElapsedMS() < time)
+            {
+                if(GetMessage(&message, m_HWND, NULL, NULL) > 0)
+                {
+                    TranslateMessage(&message);
+                    DispatchMessage(&message);
+                }
+            }
         }
 
         void WindowWin32::close()
@@ -202,14 +221,10 @@ namespace Ocular
 
         LRESULT CALLBACK WindowWin32::processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
-            // TODO - Integrate me with future event system
-
             switch(uMsg)
             {
             case WM_DESTROY:
             case WM_CLOSE:
-                PostQuitMessage(0);
-                // intentionally no break here; flow into the next case
             case WM_QUIT:
                 OcularEngine.EventManager()->queueEvent(std::make_shared<Ocular::Core::ShutdownEvent>());
                 return 0;

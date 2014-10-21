@@ -100,14 +100,14 @@ namespace Ocular
             /**
              * Updates and recreates the Window.
              */
-            virtual void update() = 0;
+            virtual void update(long long time) = 0;
 
             /**
              * Closes the Window.
              */
             virtual void close() = 0;
 
-            RenderContext* m_pRenderContext;
+            std::shared_ptr<RenderContext> m_pRenderContext;
 
             std::string m_Name;
 

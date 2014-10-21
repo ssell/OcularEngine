@@ -51,6 +51,7 @@ namespace Ocular
     {
         setupClock();
         setupLogger();
+        setupUID();
         setupEvents();
         setupWindowManager();
 
@@ -122,6 +123,7 @@ namespace Ocular
 
     void Engine::update()
     {
+        m_WindowManager->updateWindows(OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT);
         m_EventManager->processEvents(1000);
     }
 
@@ -140,6 +142,11 @@ namespace Ocular
     void Engine::setupClock()
     {
         m_Clock = std::make_shared<Core::Clock>();
+    }
+
+    void Engine::setupUID()
+    {
+        m_UIDGenerator = std::make_shared<Utils::UIDGenerator>();
     }
 
     void Engine::setupEvents()

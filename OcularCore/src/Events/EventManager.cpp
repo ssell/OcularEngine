@@ -51,12 +51,16 @@ namespace Ocular
 
             while(timer.getElapsedMS() < duration)
             {
-                m_Events.dequeue(event);
+                if(!m_Events.dequeue(event))
+                {
+                    break;
+                }
+
                 triggerEvent(event);
             }
         }
 
-        void EventManager::registerListener(AEventListener const * const listener, unsigned const priority)
+        void EventManager::registerListener(AEventListener* listener, unsigned const priority)
         {
             std::shared_ptr<AEventListener> shared(listener);
             registerListener(shared, priority);

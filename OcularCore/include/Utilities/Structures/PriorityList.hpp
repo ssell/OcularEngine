@@ -58,7 +58,7 @@ namespace Ocular
              */
             ~PriorityList()
             {
-
+                
             }
 
             /**
@@ -225,7 +225,7 @@ namespace Ocular
              */
             void deleteElement(std::size_t const index)
             {
-                m_Array[index].first = 0;
+                //m_Array[index].first = 0;
                 shiftLeft(index);
             }
 
@@ -246,7 +246,7 @@ namespace Ocular
                     m_Array[i] = m_Array[i + 1];
                 }
 
-                m_Array[m_TrueSize - 1].first = 0;
+                //m_Array[m_TrueSize - 1].first = 0;
             }
 
             /**

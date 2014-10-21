@@ -39,11 +39,7 @@ namespace Ocular
 
         AWindow::~AWindow()
         {
-            if(m_pRenderContext != nullptr)
-            {
-                delete m_pRenderContext;
-                m_pRenderContext = nullptr;
-            }
+          
         }
 
         //----------------------------------------------------------------------------------

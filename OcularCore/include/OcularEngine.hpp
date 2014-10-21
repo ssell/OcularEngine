@@ -24,6 +24,9 @@
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/UIDGenerator.hpp"
 
+// Amount of time, in MS, to allow for system message digestion and dispatching
+#define OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT 2
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -123,6 +126,7 @@ namespace Ocular
 
         void setupLogger();
         void setupClock();
+        void setupUID();
         void setupEvents();
         void setupWindowManager();
 
