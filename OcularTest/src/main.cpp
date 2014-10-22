@@ -18,15 +18,16 @@
 #include <queue>
 
 #include "OcularEngine.hpp"
-#include "Tests.hpp"
-#include "Tests/Performance/PriorityContainerTest.hpp"
+#include "Foo.hpp"
+
+#include "Tests/PriorityListTest.hpp"
 
 //------------------------------------------------------------------------------------------
-
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
+
     OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
     while(OcularEngine.isRunning())

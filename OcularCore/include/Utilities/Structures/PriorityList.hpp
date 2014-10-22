@@ -50,6 +50,7 @@ namespace Ocular
              */
             PriorityList()
             {
+                //m_Array = new std::pair<T, std::size_t>[MAX_ELEMENTS];
                 m_TrueSize = 0;
             }
 
@@ -58,7 +59,7 @@ namespace Ocular
              */
             ~PriorityList()
             {
-                
+
             }
 
             /**
@@ -267,7 +268,7 @@ namespace Ocular
                         m_Array[i] = m_Array[i - 1];
                     }
 
-                    m_Array[index].first = 0;
+                    //m_Array[index].first = 0;
                 }
             }
 
@@ -369,7 +370,8 @@ namespace Ocular
         private:
 
             std::size_t m_TrueSize;    ///< Actual number of elements in the storage array
-            std::array<std::pair<T, unsigned>, MAX_ELEMENTS> m_Array;
+            //std::array<std::pair<T, unsigned>, MAX_ELEMENTS> m_Array;
+            std::pair<T, std::size_t> m_Array[MAX_ELEMENTS] = {};
         };
     }
     /**

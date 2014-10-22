@@ -34,7 +34,7 @@ namespace Ocular
 
         EventManager::~EventManager()
         {
-            m_Listeners.clear();
+            //m_Listeners.clear();
             m_Events.clear();
         }
 
@@ -62,21 +62,18 @@ namespace Ocular
 
         void EventManager::registerListener(AEventListener* listener, unsigned const priority)
         {
-            std::shared_ptr<AEventListener> shared(listener);
-            registerListener(shared, priority);
-        }
-
-        void EventManager::registerListener(std::shared_ptr<AEventListener> listener, unsigned const priority)
-        {
-            if(findListener(listener) == -1)
+            if((listener != nullptr) && (findListener(listener) == -1))
             {
                 m_Listeners.push(listener, priority);
             }
         }
 
-        void EventManager::unregisterListener(std::shared_ptr<AEventListener> listener)
+        void EventManager::unregisterListener(AEventListener* listener)
         {
-            m_Listeners.removeElement(listener);
+            if(listener != nullptr)
+            {
+                m_Listeners.removeElement(listener);
+            }
         }
 
         void EventManager::queueEvent(std::shared_ptr<AEvent> event)
@@ -97,16 +94,21 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        int EventManager::findListener(std::shared_ptr<AEventListener> listener)
+        int EventManager::findListener(AEventListener* listener)
         {
             int index = -1;
 
-            for(unsigned i = 0; i < m_Listeners.size(); i++)
+            if(listener != nullptr)
             {
-                if(m_Listeners.get(i).get() == listener.get())
+                for(unsigned i = 0; i < m_Listeners.size(); i++)
                 {
-                    index = static_cast<int>(i);
-                    break;
+                    AEventListener* listener = m_Listeners.get(i);
+
+                    if((listener != nullptr) && (listener == listener))
+                    {
+                        index = static_cast<int>(i);
+                        break;
+                    }
                 }
             }
 
@@ -117,7 +119,12 @@ namespace Ocular
         {
             for(unsigned i = 0; i < m_Listeners.size(); i++)
             {
-                m_Listeners.get(i)->onEvent(event);
+                AEventListener* listener = m_Listeners.get(i);
+
+                if(listener != nullptr)
+                {
+                    listener->onEvent(event);
+                }
             }
         }
     }
