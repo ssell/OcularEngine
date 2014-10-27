@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileIO\File.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

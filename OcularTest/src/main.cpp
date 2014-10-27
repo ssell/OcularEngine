@@ -22,18 +22,25 @@
 
 #include "Tests/PriorityListTest.hpp"
 
+#include "FileIO/File.hpp"
+
 //------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
+    std::string path = "C:\\Users\\ssell\\Desktop\\notes.txt";
+    Ocular::Core::File file(path);
+
+    OcularEngine.Logger()->debug(path, "\nExists: ", (file.exists() ? "yes" : "no"));
+
+    /*OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
     while(OcularEngine.isRunning())
     {
         OcularEngine.run();
-    }
+    }*/
 
     OcularEngine.shutdown();
 }

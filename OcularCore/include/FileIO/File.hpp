@@ -21,8 +21,16 @@
 
 //------------------------------------------------------------------------------------------
 
+/**
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
+    /**
+     * \addtogroup Core
+     * @{
+     */
     namespace Core
     {
         /**
@@ -32,32 +40,53 @@ namespace Ocular
         {
         public:
 
-            File(std::string fullPath);
+            File(std::string const fullPath);
             ~File();
 
-            bool exists();
-            bool canRead();
-            bool canWrite();
-            bool isFile();
-            bool isDirectory();
-            bool create(bool createDirs = false);
+            void refresh();
 
-            std::string getFullPath();
-            std::string getName();
-            std::string getExtension();
-            std::string getDirectory();
+            bool exists() const;
+            bool canRead() const;
+            bool canWrite() const;
+            bool isFile() const;
+            bool isDirectory() const;
+            bool isSymLink() const;
+
+            unsigned getFileSize() const;
+
+            std::string getFullPath() const;
+            std::string getName() const;
+            std::string getExtension() const;
+            std::string getDirectory() const;
+
+            time_t lastModifiedTime() const;
 
         protected:
 
         private:
 
+            bool m_IsReal;
+            bool m_IsReadable;
+            bool m_IsWritable;
+            bool m_IsFile;
+            bool m_IsDirectory;
+            bool m_IsSymLink;
+
+            unsigned m_FileSize;
+
             std::string m_FullPath;
-            std::string m_Name;
-            std::string m_Extension;
-            std::string m_Directory;
+            std::string m_Name;         // todo
+            std::string m_Extension;    // todo
+            std::string m_Directory;    // todo
         };
     }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 
