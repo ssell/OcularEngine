@@ -73,6 +73,12 @@
     <Filter Include="Header Files\Events\Events">
       <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\FileIO">
+      <UniqueIdentifier>{8842a039-9519-4f8e-9ceb-67fd6a79be74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileIO">
+      <UniqueIdentifier>{9bdc7774-0178-4d2a-887c-6fa349450941}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -244,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\AEventListener.hpp">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FileIO\File.hpp">
+      <Filter>Header Files\FileIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

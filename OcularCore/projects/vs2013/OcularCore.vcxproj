@@ -106,6 +106,7 @@
     <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
+    <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
