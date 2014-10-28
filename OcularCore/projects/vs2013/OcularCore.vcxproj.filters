@@ -150,6 +150,9 @@
     <ClCompile Include="..\..\src\FileIO\File.cpp">
       <Filter>Source Files\FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileIO\Directory.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -255,6 +258,9 @@
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\File.hpp">
+      <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FileIO\Directory.hpp">
       <Filter>Header Files\FileIO</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,7 +22,7 @@
 
 #include "Tests/PriorityListTest.hpp"
 
-#include "FileIO/File.hpp"
+#include "FileIO/Directory.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,16 +30,24 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    std::string path = "C:\\Users\\ssell\\Desktop\\StaticBatchStatus.txt";
-    Ocular::Core::File file(path);
+    std::string path = "C:\\Users\\ssell\\Desktop";
+    Ocular::Core::Directory directory(path);
+    directory.delve();
 
-    OcularEngine.Logger()->debug(path, "\nExists: ", (file.exists() ? "yes" : "no"), 
-                                       "\nIsFile: ", (file.isFile() ? "yes" : "no"),
-                                       "\n  Size: ", file.getSize(), " bytes",
-                                       "\nExtens: ", file.getExtension(),
-                                       "\n FName: ", file.getName(),
-                                       "\nDirect: ", file.getDirectory(),
-                                       "\nModifi: ", file.getLastModifiedTime());
+    std::vector<Ocular::Core::Directory> directories = directory.getChildDirectories();
+    std::vector<Ocular::Core::File> files = directory.getChildFiles();
+
+    OcularEngine.Logger()->debug("Contents of '", path, "'");
+
+    for(unsigned i = 0; i < directories.size(); i++)
+    {
+        OcularEngine.Logger()->debug("\t", directories[i].getFullPath());
+    }
+
+    for(unsigned i = 0; i < files.size(); i++)
+    {
+        OcularEngine.Logger()->debug("\t", files[i].getFullPath());
+    }
 
     /*OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 

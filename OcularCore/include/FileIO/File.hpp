@@ -41,8 +41,18 @@ namespace Ocular
         public:
 
             File(std::string const fullPath);
+            File();
+
             ~File();
 
+            /**
+            * Sets the path to the file object.
+            */
+            void setPath(std::string const fullPath);
+
+            /**
+             * Refreshes all information about the file.
+             */
             void refresh();
 
             /**
@@ -149,9 +159,9 @@ namespace Ocular
             unsigned m_FileSize;
 
             std::string m_FullPath;
-            std::string m_Name;         // todo
-            std::string m_Extension;    // todo
-            std::string m_Directory;    // todo
+            std::string m_Name;
+            std::string m_Extension;
+            std::string m_Directory;
         };
     }
     /**
