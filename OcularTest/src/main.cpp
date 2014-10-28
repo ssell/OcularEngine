@@ -30,10 +30,16 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    std::string path = "C:\\Users\\ssell\\Desktop\\notes.txt";
+    std::string path = "C:\\Users\\ssell\\Desktop\\StaticBatchStatus.txt";
     Ocular::Core::File file(path);
 
-    OcularEngine.Logger()->debug(path, "\nExists: ", (file.exists() ? "yes" : "no"));
+    OcularEngine.Logger()->debug(path, "\nExists: ", (file.exists() ? "yes" : "no"), 
+                                       "\nIsFile: ", (file.isFile() ? "yes" : "no"),
+                                       "\n  Size: ", file.getSize(), " bytes",
+                                       "\nExtens: ", file.getExtension(),
+                                       "\n FName: ", file.getName(),
+                                       "\nDirect: ", file.getDirectory(),
+                                       "\nModifi: ", file.getLastModifiedTime());
 
     /*OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 

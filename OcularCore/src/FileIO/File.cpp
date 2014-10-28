@@ -38,6 +38,7 @@ namespace Ocular
             m_IsFile = false;
             m_IsDirectory = false;
             m_IsSymLink = false;
+            m_IsAbsolute = false;
             m_FileSize = 0;
 
             refresh();
@@ -63,21 +64,27 @@ namespace Ocular
                 m_IsFile = boost::filesystem::is_regular_file(file);
                 m_IsDirectory = boost::filesystem::is_directory(file);
                 m_IsSymLink = boost::filesystem::is_symlink(file);
+                m_IsAbsolute = file.is_absolute();
 
                 if(m_IsFile)
                 {
                     m_FileSize = static_cast<unsigned>(boost::filesystem::file_size(file));
-                
-                    boost::filesystem::file_status status = boost::filesystem::status(file);
-                    boost::filesystem::perms permissions = status.permissions();
 
+                    // Readable?
                     std::ifstream inStream(m_FullPath);
                     m_IsReadable = inStream.good();
                     inStream.close();
 
-                    std::ofstream outStream(m_FullPath);
+                    // Writable?
+                    std::ofstream outStream(m_FullPath, std::ios_base::app);
                     m_IsWritable = outStream.good();
                     outStream.close();
+
+                    // Break up path
+                    m_Extension = file.extension().string();
+                    m_Name = file.filename().string();
+                    m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
+                    m_Directory = file.remove_filename().string();
                 }
             }
         }
@@ -112,7 +119,12 @@ namespace Ocular
             return m_IsSymLink;
         }
 
-        unsigned File::getFileSize() const
+        bool File::isAbsolute() const
+        {
+            return m_IsAbsolute;
+        }
+
+        unsigned File::getSize() const
         {
             return m_FileSize;
         }
@@ -137,7 +149,7 @@ namespace Ocular
             return m_Directory;
         }
 
-        time_t File::lastModifiedTime() const
+        time_t File::getLastModifiedTime() const
         {
             time_t result = 0;
 

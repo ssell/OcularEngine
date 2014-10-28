@@ -45,21 +45,94 @@ namespace Ocular
 
             void refresh();
 
+            /**
+             * Returns whether the object (file, directory, or symlink) at the specified path exists.
+             */
             bool exists() const;
+
+            /**
+             * Returns whether the file at the specified path can be read from.
+             */
             bool canRead() const;
+
+            /**
+             * Returns whether the file at the specified path can be written to.
+             */
             bool canWrite() const;
+
+            /**
+             * Returns whether the object at the specified path is a file.
+             */
             bool isFile() const;
+
+            /**
+            * Returns whether the object at the specified path is a directory.
+            */
             bool isDirectory() const;
+
+            /**
+             * Returns whether the object at the specified path is a symbolic link.
+             */
             bool isSymLink() const;
 
-            unsigned getFileSize() const;
+            /**
+             * Returns whether the specified path is an absolute path.
+             */
+            bool isAbsolute() const;
 
+            /** 
+             * Returns the size of the file in bytes.
+             */
+            unsigned getSize() const;
+
+            /**
+             * Returns the full specified path of the file. Example:<br/><br/>
+             *
+             * <pre>
+             *    /path/to/file/AFile.txt
+             * </pre><br/>
+             *
+             * Returns "/path/to/file/AFile.txt"
+             */
             std::string getFullPath() const;
+
+            /**
+             * Returns the name of the file. Example:<br/><br/>
+             *
+             * <pre>
+             *    /path/to/file/AFile.txt
+             * </pre><br/>
+             *
+             * Returns "AFile"
+             */
             std::string getName() const;
+
+            /**
+            * Returns the extension of the file. Example:<br/><br/>
+            *
+            * <pre>
+            *    /path/to/file/AFile.txt
+            * </pre><br/>
+            *
+            * Returns ".txt"
+            */
             std::string getExtension() const;
+
+            /**
+            * Returns the directory path of the file. Example:<br/><br/>
+            *
+            * <pre>
+            *    /path/to/file/AFile.txt
+            * </pre><br/>
+            *
+            * Returns "/path/to/file"
+            */
             std::string getDirectory() const;
 
-            time_t lastModifiedTime() const;
+            /**
+             * Returns the epoch time (in seconds) of the last write action to the file.
+             */
+            time_t getLastModifiedTime() const;
 
         protected:
 
@@ -71,6 +144,7 @@ namespace Ocular
             bool m_IsFile;
             bool m_IsDirectory;
             bool m_IsSymLink;
+            bool m_IsAbsolute;
 
             unsigned m_FileSize;
 
