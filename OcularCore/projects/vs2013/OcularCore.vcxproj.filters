@@ -79,6 +79,9 @@
     <Filter Include="Source Files\FileIO">
       <UniqueIdentifier>{9bdc7774-0178-4d2a-887c-6fa349450941}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{ba9e7be8-770b-4b77-8062-52624bb472d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -262,6 +265,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\Directory.hpp">
       <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix3x3.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Vector3.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Vector4.hpp">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

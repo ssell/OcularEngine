@@ -122,6 +122,10 @@
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
+    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
+    <ClInclude Include="..\..\include\Math\Vector3.hpp" />
+    <ClInclude Include="..\..\include\Math\Vector4.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />

@@ -30,25 +30,6 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    std::string path = "C:\\Users\\ssell\\Desktop";
-    Ocular::Core::Directory directory(path);
-    directory.delve();
-
-    std::vector<Ocular::Core::Directory> directories = directory.getChildDirectories();
-    std::vector<Ocular::Core::File> files = directory.getChildFiles();
-
-    OcularEngine.Logger()->debug("Contents of '", path, "'");
-
-    for(unsigned i = 0; i < directories.size(); i++)
-    {
-        OcularEngine.Logger()->debug("\t", directories[i].getFullPath());
-    }
-
-    for(unsigned i = 0; i < files.size(); i++)
-    {
-        OcularEngine.Logger()->debug("\t", files[i].getFullPath());
-    }
-
     /*OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
     while(OcularEngine.isRunning())
