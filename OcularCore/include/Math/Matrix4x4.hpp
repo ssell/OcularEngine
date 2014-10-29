@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_MATRIX_4X4__H__
 #define __H__OCULAR_MATH_MATRIX_4X4__H__
 
+#include "Exception.hpp"
 #include "Matrix3x3.hpp"
 #include "Vector3.hpp"
 
@@ -134,6 +135,25 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
+            T& operator[](unsigned index)
+            {
+                if(index > 15)
+                {
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
+                }
+
+                return m_Content[index];
+            }
+
+            const T& operator[](unsigned index) const
+            {
+                if(index > 15)
+                {
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
+                }
+
+                return m_Content[index];
+            }
 
             //------------------------------------------------------------------------------
             // GETTERS
@@ -176,14 +196,17 @@ namespace Ocular
             */
             T getElement(unsigned const row, unsigned const column)
             {
-                T value = static_cast<T>(0);
-
-                if((row < 4) && (column < 4))
+                if(row > 3)
                 {
-                    value = m_Contents[(row * 4) + column];
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Row Access");
                 }
 
-                return value;
+                if(column > 3)
+                {
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Column Access");
+                }
+
+                return m_Contents[(row * 4) + column];
             }
 
             /**
@@ -191,14 +214,12 @@ namespace Ocular
             */
             T getElement(unsigned const index)
             {
-                T value = static_cast<T>(0);
-
-                if(index < 16)
+                if(index > 15)
                 {
-                    value = m_Contents[index];
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Index Access");
                 }
 
-                return value;
+                return m_Contents[index];
             }
 
             //------------------------------------------------------------------------------
@@ -300,10 +321,17 @@ namespace Ocular
              */
             void setElement(unsigned const row, unsigned const column, T const value)
             {
-                if((row < 4) && (column < 4))
+                if(row > 3)
                 {
-                    m_Contents[(row * 4) + column] = value;
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Row Access");
                 }
+
+                if(column > 3)
+                {
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Column Access");
+                }
+
+                m_Contents[(row * 4) + column] = value;
             }
 
             /**
@@ -314,10 +342,12 @@ namespace Ocular
              */
             void setElement(unsigned const index, T const value)
             {
-                if(index < 16)
+                if(index > 15)
                 {
-                    m_Contents[index] = value;
+                    THROW_EXCEPTION("Out-Of-Bounds Matrix Index Access");
                 }
+
+                m_Contents[index] = value;
             }
 
             //------------------------------------------------------------------------------
@@ -330,6 +360,10 @@ namespace Ocular
 
             T m_Contents[16];
         };
+
+        // Common matrix formats
+        typedef Matrix4x4<float> Matrix4x4f;
+        typedef Matrix4x4<double> Matrix4x4d;
 
     }
     /**

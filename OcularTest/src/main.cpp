@@ -18,17 +18,18 @@
 #include <queue>
 
 #include "OcularEngine.hpp"
-#include "Foo.hpp"
-
-#include "Tests/PriorityListTest.hpp"
-
-#include "FileIO/Directory.hpp"
+#include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
+
+    Ocular::Core::Vector3d vectorA(-18.0, 1.0, 3.0);
+    Ocular::Core::Vector3d vectorB(10.0, 22.2, 33.3);
+
+    OcularEngine.Logger()->info("Distance is: ", vectorA.distanceTo(vectorB));
 
     /*OcularEngine.WindowManager()->createWindow("Main Window", 1024, 768, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
 
