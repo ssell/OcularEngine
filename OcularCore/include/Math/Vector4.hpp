@@ -50,10 +50,256 @@ namespace Ocular
 
             }
 
+            //------------------------------------------------------------------------------
+            // OPERATORS
+            //------------------------------------------------------------------------------
+
+            bool operator==(Vector4<T> const rhs)
+            {
+                // TODO : need smart compare for floating point
+                return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w);
+            }
+
+            bool operator!=(Vector4<T> const rhs)
+            {
+                return !(*this == rhs);
+            }
+
+            Vector4<T>& operator=(Vector4<T> const rhs)
+            {
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
+                w = rhs.w;
+
+                return *this;
+            }
+
+            Vector4<T>& operator+(Vector4<T> const rhs)
+            {
+                return Vector4<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
+            }
+
+            Vector4<T>& operator+(T const rhs)
+            {
+                return Vector4<T>(x + rhs, y + rhs, z + rhs, w + rhs);
+            }
+
+            Vector4<T>& operator+=(Vector4<T> const rhs)
+            {
+                x += rhs.x;
+                y += rhs.y;
+                z += rhs.z;
+                w += rhs.w;
+
+                return *this;
+            }
+
+            Vector4<T>& operator+=(T const rhs)
+            {
+                x += rhs;
+                y += rhs;
+                z += rhs;
+                w += rhs;
+
+                return *this;
+            }
+
+            Vector4<T>& operator-(Vector4<T> const rhs)
+            {
+                return Vector4<T>(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
+            }
+
+            Vector4<T>& operator-(T const rhs)
+            {
+                return Vector4<T>(x - rhs, y - rhs, z - rhs, w - rhs);
+            }
+
+            Vector4<T>& operator-=(Vector4<T> const rhs)
+            {
+                x -= rhs.x;
+                y -= rhs.y;
+                z -= rhs.z;
+                w -= rhs.w;
+
+                return *this;
+            }
+
+            Vector4<T>& operator-=(T const rhs)
+            {
+                x -= rhs;
+                y -= rhs;
+                z -= rhs;
+                w -= rhs;
+
+                return *this;
+            }
+
+            Vector4<T>& operator*(Vector4<T> const rhs)
+            {
+                return Vector4<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
+            }
+
+            Vector4<T>& operator*(T const rhs)
+            {
+                return Vector4<T>(x * rhs, y * rhs, z * rhs, w * rhs);
+            }
+
+            Vector4<T>& operator*=(Vector4<T> const rhs)
+            {
+                x *= rhs.x;
+                y *= rhs.y;
+                z *= rhs.z;
+                w *= rhs.w;
+
+                return *this;
+            }
+
+            Vector4<T>& operator*=(T const rhs)
+            {
+                x *= rhs;
+                y *= rhs;
+                z *= rhs;
+                w *= rhs;
+
+                return *this;
+            }
+
+            Vector4<T>& operator/(Vector4<T> const rhs)
+            {
+                return Vector4<T>(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w);
+            }
+
+            Vector4<T>& operator/(T const rhs)
+            {
+                return Vector4<T>(x / rhs, y / rhs, z / rhs, w / rhs);
+            }
+
+            Vector4<T>& operator/=(Vector4<T> const rhs)
+            {
+                x /= rhs.x;
+                y /= rhs.y;
+                z /= rhs.z;
+                w /= rhs.w;
+
+                return *this;
+            }
+
+            Vector4<T>& operator/=(T const rhs)
+            {
+                x /= rhs;
+                y /= rhs;
+                z /= rhs;
+                w /= rhs;
+
+                return *this;
+            }
+
+            //------------------------------------------------------------------------------
+            // OPERATIONS
+            //------------------------------------------------------------------------------
+
+            /**
+             * \return The magnitude (length) of the vector.
+             */
+            double getMagnitude()
+            {
+                double dX = static_cast<double>(x);
+                double dY = static_cast<double>(y);
+                double dZ = static_cast<double>(z);
+                double dW = static_cast<double>(w);
+
+                return std::sqrt((dX * dX) + (dY * dY) + (dZ * dZ) + (dW * dW));
+            }
+
+            /**
+             * \return The length of the vector.
+             */
+            double getLength()
+            {
+                return getMagnitude();
+            }
+
+            /**
+             * Normalizes the vector. When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+             */
+            void normalize()
+            {
+                // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
+
+                double length = magnitude();
+
+                if(areEqual<double>(length, 0.0))
+                {
+                    return Vector4<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+                }
+                else
+                {
+                    return Vector4<T>(x / static_cast<T>(length), 
+                                      y / static_cast<T>(length), 
+                                      z / static_cast<T>(length),
+                                      w / static_cast<T>(length);
+                }
+            }
+
+            /**
+             * The dot product is a value equal to the magnitudes of the two vectors multiplied
+             * together and then multiplied by the cosine of the angle between them.
+             *
+             * \param[in] rhs The second vector dot multiply with
+             * \return The dot product of the two vectors (in radians)
+             */
+            double dot(Vector4<T> const rhs)
+            {
+                return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
+            }
+
+            /**
+             * This is equivalent to taking the acos of the dot product.<br/>
+             * The returned angle is the acute angle, i.e the smallest of the two angles.
+             *
+             * \param[in] rhs The second vector to calculate the angle with
+             * \return The angle, in radians, between the vectors
+             */
+            double angleBetween(Vector4<T> const rhs)
+            {
+                double angle = std::acos(dot(rhs));
+
+                if(angle > PI)
+                {
+                    angle = PI_TWO - angle;
+                }
+
+                return angle;
+            }
+
+            /**
+             * \param[in] rhs The second vector to calculate the distance with
+             * \return The distance between the two vectors
+             */
+            double distanceTo(Vector4<T> const rhs)
+            {
+                Vector4<T> distance = (*this) - rhs;
+                return distance.getMagnitude();
+            }
+
+            //------------------------------------------------------------------------------
+            // VARIABLES
+            //------------------------------------------------------------------------------
+
+            union { T x, r, u, s };
+            union { T y, g, v, t };
+            union { T z, b, p };
+            union { T w, a, q };
+
         protected:
 
         private:
         };
+
+        // Common vector formats
+        typedef Vector4<float> Vector4f;
+        typedef Vector4<double> Vector4d;
 
     }
     /**

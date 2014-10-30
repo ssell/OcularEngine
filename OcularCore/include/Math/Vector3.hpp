@@ -70,7 +70,7 @@ namespace Ocular
             bool operator==(Vector3<T> const rhs)
             {
                 // TODO : need smart compare for floating point
-                return (m_Content.x == rhs.x) && (m_Content.y == rhs.y) && (m_Content.z == rhs.z);
+                return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
             }
 
             bool operator!=(Vector3<T> const rhs)
@@ -80,37 +80,37 @@ namespace Ocular
 
             Vector3<T>& operator=(Vector3<T> const rhs)
             {
-                m_Content.x = rhs.x;
-                m_Content.y = rhs.y;
-                m_Content.z = rhs.z;
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
 
                 return *this;
             }
 
             Vector3<T>& operator+(Vector3<T> const rhs)
             {
-                return Vector3<T>(m_Content.x + rhs.x, m_Content.y + rhs.y, m_Content.z + rhs.z);
+                return Vector3<T>(x + rhs.x, y + rhs.y, z + rhs.z);
             }
 
             Vector3<T>& operator+(T const rhs)
             {
-                return Vector3<T>(m_Content.x + rhs, m_Content.y + rhs, m_Content.z + rhs);
+                return Vector3<T>(x + rhs, y + rhs, z + rhs);
             }
 
             Vector3<T>& operator+=(Vector3<T> const rhs)
             {
-                m_Content.x += rhs.x;
-                m_Content.y += rhs.y;
-                m_Content.z += rhs.z;
+                x += rhs.x;
+                y += rhs.y;
+                z += rhs.z;
 
                 return *this;
             }
 
             Vector3<T>& operator+=(T const rhs)
             {
-                m_Content.x += rhs;
-                m_Content.y += rhs;
-                m_Content.z += rhs;
+                x += rhs;
+                y += rhs;
+                z += rhs;
 
                 return *this;
             }
@@ -234,29 +234,14 @@ namespace Ocular
 
                 if(areEqual<double>(length, 0.0))
                 {
-                    return Vector3<T>(static_cast<T>(0),
-                                      static_cast<T>(0),
-                                      static_cast<T>(0));
+                    return Vector3<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
                 }
                 else
                 {
-                    return Vector3<T>(vec.x / static_cast<T>(length),
-                                      vec.y / static_cast<T>(length),
-                                      vec.z / static_cast<T>(length));
+                    return Vector3<T>(x / static_cast<T>(length),
+                                      y / static_cast<T>(length),
+                                      z / static_cast<T>(length));
                 }
-            }
-
-            /**
-             * Maintains the direction of the provided vector but clamps its magnitude (length).
-             *
-             * \param[in] lower The lower bounds to clamp to
-             * \param[in] upper The upper bounds to clamp to
-             */
-            void clampMagnitude(T const lower, T const upper)
-            {
-                return Vector3<T>(((vec.x > upper) ? upper : (vec.x < lower) ? lower : vec.x),
-                                  ((vec.y > upper) ? upper : (vec.y < lower) ? lower : vec.y),
-                                  ((vec.z > upper) ? upper : (vec.z < lower) ? lower : vec.z));
             }
 
             /**
@@ -267,9 +252,9 @@ namespace Ocular
              */
             Vector3<T> cross(Vector3<T> const rhs)
             {
-                return Vector3<T>((lhs.y * rhs.z) - (lhs.z * rhs.y),
-                                  (lhs.z * rhs.x) - (lhs.x * rhs.z),
-                                  (lhs.x * rhs.y) - (lhs.y * rhs.x));
+                return Vector3<T>((y * rhs.z) - (z * rhs.y),
+                                  (z * rhs.x) - (x * rhs.z),
+                                  (x * rhs.y) - (y * rhs.x));
             }
 
             /**
@@ -281,7 +266,7 @@ namespace Ocular
              */
             double dot(Vector3<T> const rhs)
             {
-                return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z);
+                return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
             }
 
             /**
@@ -293,7 +278,7 @@ namespace Ocular
              */
             double angleBetween(Vector3<T> const rhs)
             {
-                double angle = std::acos(dot(lhs, rhs));
+                double angle = std::acos(dot(rhs));
 
                 if(angle > PI)
                 {
@@ -361,9 +346,9 @@ namespace Ocular
             // VARIABLES
             //------------------------------------------------------------------------------
 
-            union{ T x, r; };
-            union{ T y, g; };
-            union{ T z, b; };
+            union{ T x, r, u, s; };
+            union{ T y, g, v, t; };
+            union{ T z, b, w; };
 
         protected:
 

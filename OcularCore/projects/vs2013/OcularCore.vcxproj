@@ -124,6 +124,7 @@
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
+    <ClInclude Include="..\..\include\Math\Vector2.hpp" />
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
     <ClInclude Include="..\..\include\Math\Vector4.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
