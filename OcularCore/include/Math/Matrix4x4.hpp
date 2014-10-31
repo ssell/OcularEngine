@@ -557,9 +557,144 @@ namespace Ocular
             // OPERATIONS
             //------------------------------------------------------------------------------
 
+            /**
+             * Creates an orthographic projection matrix with the specified attributes.
+             *
+             * \param[in] xMin
+             * \param[in] xMax
+             * \param[in] yMin
+             * \param[in] yMax
+             * \param[in] nearClip
+             * \param[in] farClip
+             *
+             * \return The orthographic projection matrix
+             */
+            static Matrix4x4<T> createOrthographicMatrix(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip) const
+            {
+                Matrix4x4<T> matrix;
+
+                matrix[0]  = 2.0f / (xMax - xMin);
+                matrix[5]  = 2.0f / (yMax - yMin);
+                matrix[10] = -2.0f / (farClip - nearClip);
+                matrix[12] = -((xMax + xMin) / (xMax - xMin));
+                matrix[13] = -((yMax + yMin) / (yMax - yMin));
+                matrix[14] = -((farClip + nearClip) / (farClip - nearClip));
+
+                return matrix;
+            }
+
+            /**
+             * Creates a perspective projection matrix with the specified attributes.
+             *
+             * \param[in] fov
+             * \param[in] aspectRatio Screen Width / Screen Height
+             * \param[in] nearClip
+             * \param[in] farClip
+             *
+             * \return The perspective projection matrix
+             */
+            static Matrix4x4<T> createPerspectiveMatrix(float fov, float aspectRatio, float nearClip, float farClip) const
+            {
+                Matrix4x4<T> matrix;
+
+                float yMax = nearClip * std::tanf(fov * 0.5f);
+                float yMin = -yMax;
+                float xMin = yMin * aspectRatio;
+                float xMax = -xMin;
+
+                matrix[0]  = (2.f * nearClip) / (xMax - xMin);
+			    matrix[5]  = (2.f * nearClip) / (yMax - yMin);
+			    matrix[8]  = (xMax + xMin) / (xMax - xMin);
+			    matrix[9]  = (yMax + yMin) / (yMax - yMin);
+			    matrix[10] = -((farClip + nearClip) / (farClip - nearClip));
+			    matrix[11] = -1.f;
+			    matrix[14] = -((2.f * (farClip * nearClip)) / (farClip - nearClip));
+			    matrix[15] = 0.f;
+
+                return matrix;
+            }
+
+            /**
+             * Creates a returns the inverse of the provided matrix.
+             * 
+             * \return The inverse matrix
+             */
+            static Matrix4x4<T> createInverse(Matrix4x4<T> const matrix) const
+            {
+                Matrix4x4<T> result;
+
+                float determinant = 0.0f;
+                float determinantIJ = 0.0f;
+
+                //------------------------------------
+                // Calculate the 4x4 determinant
+
+                for(int i = 0; i < 4; i++)
+                {
+                    determinantIJ = calcDeterminant(matrix, 0, i);
+                    determinant += (i & 0x1) ? (-matrix[i] * determinantIJ) : (matrix[i] * determinantIJ);
+                }
+
+                determinant = 1.0f / determinant;
+
+                //------------------------------------
+                // Calculate the inverse
+                
+                for(int i = 0; i < 4; i++)
+                {
+                    for(int j = 0; j < 4; j++)
+                    {
+                        determinantIJ = calcDeterminant(matrix, j, i);
+                        result[(i * 4) + j] = ((i + j) & 0x1) ? (-determinantIJ * determinant) : (determinantIJ * determinant);
+                    }
+                }
+
+                return result;
+            }
+
         protected:
 
         private:
+
+            static float calcDeterminant(Matrix4x4<T> const matrix, int const i, int const j) const
+            {
+                int x;
+                int y;
+
+			    float result;
+                float mat[3][3];
+
+			    x = 0;
+
+			    for(int ii = 0; ii < 4; ii++)
+			    {
+				    if(ii == i)
+                    {
+					    continue;
+                    }
+
+				    y = 0;
+
+				    for(int jj = 0; jj < 4; jj++)
+				    {
+					    if(jj == j)
+                        {
+					        continue;
+                        }
+
+					    mat[x][y] = matrix[(ii * 4) + jj];
+					    y++;
+				    }
+
+				    x++;
+			    }
+
+			    result  = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]);
+			    result -= mat[0][1] * (mat[1][0] * mat[2][2] - mat[2][0] * mat[1][2]);
+			    result += mat[0][2] * (mat[1][0] * mat[2][1] - mat[2][0] * mat[1][1]);
+
+			    return result;
+            }
 
             T m_Contents[16];
         };

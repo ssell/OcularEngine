@@ -18,10 +18,8 @@
 #ifndef __H__OCULAR_UTILS_PRIORITY_LIST__H__
 #define __H__OCULAR_UTILS_PRIORITY_LIST__H__
 
-#include <array>
-#include <utility>
-
 #include "Exception.hpp"
+#include <utility>
 
 //------------------------------------------------------------------------------------------
 
@@ -50,7 +48,6 @@ namespace Ocular
              */
             PriorityList()
             {
-                //m_Array = new std::pair<T, std::size_t>[MAX_ELEMENTS];
                 m_TrueSize = 0;
             }
 
