@@ -239,19 +239,33 @@ namespace Ocular
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
 
-                double length = magnitude();
+                double length = getMagnitude();
 
-                if(areEqual<double>(length, 0.0))
+                if(IsEqual<T>(length, static_cast<T>(0)))
                 {
-                    return Vector4<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+                    x = static_cast<T>(0);
+                    y = static_cast<T>(0);
+                    z = static_cast<T>(0);
+                    w = static_cast<T>(0);
                 }
                 else
                 {
-                    return Vector4<T>(x / static_cast<T>(length), 
-                                      y / static_cast<T>(length), 
-                                      z / static_cast<T>(length),
-                                      w / static_cast<T>(length));
+                    x /= static_cast<T>(length);
+                    y /= static_cast<T>(length);
+                    z /= static_cast<T>(length);
+                    w /= static_cast<T>(length);
                 }
+            }
+
+            /**
+             * Returns the normalized form of this vector
+             */
+            Vector4<T> getNormalized() const
+            {
+                Vector4<T> result(x, y, z, w);
+                result.normalize();
+
+                return result;
             }
 
             /**
@@ -275,7 +289,10 @@ namespace Ocular
              */
             double angleBetween(Vector4<T> const rhs)
             {
-                double angle = std::acos(dot(rhs));
+                Vector4<T> normalLHS = getNormalized();
+                Vector4<T> normalRHS = rhs.getNormalized();
+
+                double angle = std::acos(normalLHS.dot(normalRHS));
 
                 if(angle > PI)
                 {

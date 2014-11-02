@@ -293,7 +293,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the angle with
              * \return The angle, in radians, between the vectors
              */
-            T angleBetween(Vector3<T> const rhs)
+            double angleBetween(Vector3<T> const rhs)
             {
                 Vector3<T> normalLHS = getNormalized();
                 Vector3<T> normalRHS = rhs.getNormalized();
@@ -394,9 +394,14 @@ namespace Ocular
         private:
         };
 
+        //--------------------------------------------
         // Common vector formats
+
         typedef Vector3<float> Vector3f;
         typedef Vector3<double> Vector3d;
+
+        typedef Vector3f Point3f;
+        typedef Vector3d Point3d;
 
     }
     /**

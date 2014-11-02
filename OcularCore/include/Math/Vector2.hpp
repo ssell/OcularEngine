@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_VECTOR_2__H__
 
 #include "Equality.hpp"
+#include "MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,10 +30,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Core
+    * \addtogroup Math
     * @{
     */
-    namespace Core
+    namespace Math
     {
         /**
         * \class Vector2
@@ -210,22 +211,37 @@ namespace Ocular
 
             /**
             * Normalizes the vector. When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+            *
+            * \note This method modifies the internal data stored in the vector. See getNormalized 
+            * if this is not desired.
             */
             void normalize()
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
 
-                double length = magnitude();
+                double length = getMagnitude();
 
-                if(areEqual<double>(length, 0.0))
+                if(IsEqual<T>(length, static_cast<T>(0)))
                 {
-                    return Vector2<T>(static_cast<T>(0), static_cast<T>(0));
+                    x = static_cast<T>(0);
+                    y = static_cast<T>(0);
                 }
                 else
                 {
-                    return Vector2<T>(x / static_cast<T>(length),
-                                      y / static_cast<T>(length));
+                    x /= static_cast<T>(length);
+                    y /= static_cast<T>(length);
                 }
+            }
+
+            /**
+             * Returns the normalized form of this vector
+             */
+            Vector2<T> getNormalized() const
+            {
+                Vector2<T> result(x, y);
+                result.normalize();
+
+                return result;
             }
 
             /**
@@ -235,7 +251,7 @@ namespace Ocular
             * \param[in] rhs The second vector dot multiply with
             * \return The dot product of the two vectors (in radians)
             */
-            double dot(Vector2<T> const rhs)
+            T dot(Vector2<T> const rhs)
             {
                 return (x * rhs.x) + (y * rhs.y);
             }
@@ -249,7 +265,10 @@ namespace Ocular
             */
             double angleBetween(Vector2<T> const rhs)
             {
-                double angle = std::acos(dot(rhs));
+                Vector2<T> normalLHS = getNormalized();
+                Vector2<T> normalRHS = rhs.getNormalized();
+
+                double angle = std::acos(normalLHS.dot(normalRHS));
 
                 if(angle > PI)
                 {
@@ -265,7 +284,7 @@ namespace Ocular
             */
             double distanceTo(Vector2<T> const rhs)
             {
-                Vector4<T> distance = (*this) - rhs;
+                Vector2<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
             }
 
@@ -281,9 +300,14 @@ namespace Ocular
         private:
         };
 
+        //--------------------------------------------
         // Common vector formats
+
         typedef Vector2<float> Vector2f;
         typedef Vector2<double> Vector2d;
+
+        typedef Vector2f Point2f;
+        typedef Vector2d Point2d;
 
     }
     /**

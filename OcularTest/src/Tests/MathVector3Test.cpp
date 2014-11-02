@@ -19,10 +19,11 @@
 
 //------------------------------------------------------------------------------------------
 
+Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
+Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
+
 TEST(MathVector3, Magnitude)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-
     double expected = 14.1421;
     double result = vecA.getMagnitude();
 
@@ -31,19 +32,14 @@ TEST(MathVector3, Magnitude)
 
 TEST(MathVector3, Normalize)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
     Ocular::Math::Vector3d expected(0.7071, 0.7071, 0.0);
-   
-    vecA.normalize();
+    Ocular::Math::Vector3d result = vecA.getNormalized();
     
-    EXPECT_TRUE((vecA == expected));
+    EXPECT_TRUE((expected == result));
 }
 
 TEST(MathVector3, CrossProduct)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
-    
     Ocular::Math::Vector3d expected(30.0, -30.0, -222.0);
     Ocular::Math::Vector3d result = vecA.cross(vecB);
     
@@ -52,9 +48,6 @@ TEST(MathVector3, CrossProduct)
 
 TEST(MathVector3, DotProduct)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
-
     double expected = 438.0;
     double result = vecA.dot(vecB);
 
@@ -63,9 +56,6 @@ TEST(MathVector3, DotProduct)
 
 TEST(MathVector3, AngleBetween)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
-
     double expected = 0.476383;
     double result = vecA.angleBetween(vecB);
 
@@ -74,9 +64,6 @@ TEST(MathVector3, AngleBetween)
 
 TEST(MathVector3, Distance)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
-
     double expected = 23.2086;
     double result = vecA.distanceTo(vecB);
 
@@ -85,9 +72,6 @@ TEST(MathVector3, Distance)
 
 TEST(MathVector3, Midpoint)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
-
     Ocular::Math::Vector3d expected = Ocular::Math::Vector3d(21.5, 10.4, 1.5);
     Ocular::Math::Vector3d result = Ocular::Math::Vector3d::midpoint(vecA, vecB);
     
@@ -96,8 +80,6 @@ TEST(MathVector3, Midpoint)
 
 TEST(MathVector3, Lerp)
 {
-    Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
-    Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
     Ocular::Math::Vector3d midpoint = Ocular::Math::Vector3d::midpoint(vecA, vecB);
 
     Ocular::Math::Vector3d resultZero = Ocular::Math::Vector3d::lerp(vecA, vecB, 0.0);

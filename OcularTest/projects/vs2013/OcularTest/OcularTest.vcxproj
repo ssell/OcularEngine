@@ -78,7 +78,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\MathVector2Test.cpp" />
     <ClCompile Include="..\..\..\src\Tests\MathVector3Test.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\MathVector4Test.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp" />
   </ItemGroup>
