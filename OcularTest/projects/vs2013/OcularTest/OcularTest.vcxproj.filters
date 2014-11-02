@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\MathVector3Test.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

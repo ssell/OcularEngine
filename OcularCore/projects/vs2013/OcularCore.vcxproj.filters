@@ -284,5 +284,8 @@
     <ClInclude Include="..\..\include\Math\Equality.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Math\MathCommon.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -87,12 +87,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator+(Vector4<T> const rhs)
+            Vector4<T> operator+(Vector4<T> const rhs)
             {
                 return Vector4<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
             }
 
-            Vector4<T>& operator+(T const rhs)
+            Vector4<T> operator+(T const rhs)
             {
                 return Vector4<T>(x + rhs, y + rhs, z + rhs, w + rhs);
             }
@@ -117,12 +117,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator-(Vector4<T> const rhs)
+            Vector4<T> operator-(Vector4<T> const rhs)
             {
                 return Vector4<T>(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
             }
 
-            Vector4<T>& operator-(T const rhs)
+            Vector4<T> operator-(T const rhs)
             {
                 return Vector4<T>(x - rhs, y - rhs, z - rhs, w - rhs);
             }
@@ -147,12 +147,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator*(Vector4<T> const rhs)
+            Vector4<T> operator*(Vector4<T> const rhs)
             {
                 return Vector4<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
             }
 
-            Vector4<T>& operator*(T const rhs)
+            Vector4<T> operator*(T const rhs)
             {
                 return Vector4<T>(x * rhs, y * rhs, z * rhs, w * rhs);
             }
@@ -177,12 +177,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator/(Vector4<T> const rhs)
+            Vector4<T> operator/(Vector4<T> const rhs)
             {
                 return Vector4<T>(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w);
             }
 
-            Vector4<T>& operator/(T const rhs)
+            Vector4<T> operator/(T const rhs)
             {
                 return Vector4<T>(x / rhs, y / rhs, z / rhs, w / rhs);
             }

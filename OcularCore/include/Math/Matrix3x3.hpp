@@ -115,7 +115,7 @@ namespace Ocular
                 return !(*this == rhs);
             }
 
-            Matrix3x3<T>& operator+(Matrix3x3<T> const rhs)
+            Matrix3x3<T> operator+(Matrix3x3<T> const rhs)
             {
                 Matrix3x3<T> result(m_Content[0] + rhs[0], m_Content[1] + rhs[1],
                                     m_Content[2] + rhs[2], m_Content[3] + rhs[3],
@@ -136,7 +136,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix3x3<T>& operator-(Matrix3x3<T> const rhs)
+            Matrix3x3<T> operator-(Matrix3x3<T> const rhs)
             {
                 Matrix3x3<T> result(m_Content[0] - rhs[0], m_Content[1] - rhs[1],
                                     m_Content[2] - rhs[2], m_Content[3] - rhs[3],
@@ -157,7 +157,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix3x3<T>& operator*(Matrix3x3<T> const rhs)
+            Matrix3x3<T> operator*(Matrix3x3<T> const rhs)
             {
                 Matrix3x3<T> result;
 
@@ -169,7 +169,7 @@ namespace Ocular
                 return result;
             }
 
-            Matrix3x3<T>& operator*(T const rhs)
+            Matrix3x3<T> operator*(T const rhs)
             {
                 Matrix3x3<T> result(m_Content[0] * rhs[0], m_Content[1] * rhs[1],
                                     m_Content[2] * rhs[2], m_Content[3] * rhs[3],
@@ -180,7 +180,7 @@ namespace Ocular
                 return result;
             }
 
-            Matrix3x3<T>& operator*(Vector3<T> const rhs)
+            Matrix3x3<T> operator*(Vector3<T> const rhs)
             {
                 Matrix3x3<T> result;
 

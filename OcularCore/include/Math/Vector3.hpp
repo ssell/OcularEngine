@@ -85,12 +85,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator+(Vector3<T> const rhs)
+            Vector3<T> operator+(Vector3<T> const rhs)
             {
                 return Vector3<T>(x + rhs.x, y + rhs.y, z + rhs.z);
             }
 
-            Vector3<T>& operator+(T const rhs)
+            Vector3<T> operator+(T const rhs)
             {
                 return Vector3<T>(x + rhs, y + rhs, z + rhs);
             }
@@ -113,12 +113,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator-(Vector3<T> const rhs)
+            Vector3<T> operator-(Vector3<T> const rhs)
             {
                 return Vector3<T>(x - rhs.x, y - rhs.y, z - rhs.z);
             }
 
-            Vector3<T>& operator-(T const rhs)
+            Vector3<T> operator-(T const rhs)
             {
                 return Vector3<T>(x - rhs, y - rhs, z - rhs);
             }
@@ -141,12 +141,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator*(Vector3<T> const rhs)
+            Vector3<T> operator*(Vector3<T> const rhs)
             {
                 return Vector3<T>(x * rhs.x, y * rhs.y, z * rhs.z);
             }
 
-            Vector3<T>& operator*(T const rhs)
+            Vector3<T> operator*(T const rhs)
             {
                 return Vector3<T>(x * rhs, y * rhs, z * rhs);
             }
@@ -169,12 +169,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator/(Vector3<T> const rhs)
+            Vector3<T> operator/(Vector3<T> const rhs)
             {
                 return Vector3<T>(x / rhs.x, y / rhs.y, z / rhs.z);
             }
 
-            Vector3<T>& operator/(T const rhs)
+            Vector3<T> operator/(T const rhs)
             {
                 return Vector3<T>(x / rhs, y / rhs, z / rhs);
             }
@@ -222,28 +222,47 @@ namespace Ocular
             }
 
             /**
-             * Normalizes the vector. When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+             * Normalizes the vector. <br/>
+             * When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+             *
+             * \note This method modifies the internal data stored in the vector. See getNormalized 
+             * if this is not desired.
              */
             void normalize()
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
 
-                double length = magnitude();
+                double length = getMagnitude();
 
-                if(areEqual<double>(length, 0.0))
+                if(IsEqual<T>(length, static_cast<T>(0)))
                 {
-                    return Vector3<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+                    x = static_cast<T>(0);
+                    y = static_cast<T>(0);
+                    z = static_cast<T>(0);
                 }
                 else
                 {
-                    return Vector3<T>(x / static_cast<T>(length),
-                                      y / static_cast<T>(length),
-                                      z / static_cast<T>(length));
+                    x /= static_cast<T>(length);
+                    y /= static_cast<T>(length);
+                    z /= static_cast<T>(length);
                 }
             }
 
             /**
+             * Returns the normalized form of this vector
+             */
+            Vector3<T> getNormalized() const
+            {
+                Vector3<T> result(x, y, z);
+                result.normalize();
+
+                return result;
+            }
+
+            /**
 		     * The cross product is a third vector that is perpendicular to the two original vectors.
+             *
+             * \note Order is important for cross product
              *
              * \param[in] rhs The second vector to cross multiply with
              * \return The cross product of the two vectors
@@ -262,7 +281,7 @@ namespace Ocular
 		     * \param[in] rhs The second vector dot multiply with
              * \return The dot product of the two vectors (in radians)
              */
-            double dot(Vector3<T> const rhs)
+            T dot(Vector3<T> const rhs)
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
             }
@@ -274,9 +293,12 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the angle with
              * \return The angle, in radians, between the vectors
              */
-            double angleBetween(Vector3<T> const rhs)
+            T angleBetween(Vector3<T> const rhs)
             {
-                double angle = std::acos(dot(rhs));
+                Vector3<T> normalLHS = getNormalized();
+                Vector3<T> normalRHS = rhs.getNormalized();
+
+                double angle = std::acos(normalLHS.dot(normalRHS));
 
                 if(angle > PI)
                 {
@@ -290,7 +312,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the distance with
              * \return The distance between the two vectors
              */
-            double distanceTo(Vector3<T> const rhs)
+            T distanceTo(Vector3<T> const rhs)
             {
                 Vector3<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -307,11 +329,14 @@ namespace Ocular
             * \param[in] fraction The fraction to interpolate by.
             * \return The resultant interpolated vector.
             */
-            static Vector3<T> lerp(Vector3<T> const from, Vector3<T> const to, double fraction)
+            static Vector3<T> lerp(Vector3<T> from, Vector3<T> to, T fraction)
             {
+                T zero = static_cast<T>(0);
+                T one  = static_cast<T>(1);
+
                 // Adapted from http://msdn.microsoft.com/en-us/library/windows/desktop/bb509618(v=vs.85).aspx
-                fraction = Clamp<double>(fraction, 0.0, 1.0);
-                return (from * (1.0 - fraction)) + (to * fraction);
+                fraction = Clamp<T>(fraction, zero, one);
+                return (from * (one - fraction)) + (to * fraction);
             }
 
             /**
@@ -338,6 +363,22 @@ namespace Ocular
                 double rhs = std::sin(fraction * omega) / std::sin(omega);
 
                 return (lhs * from) + (rhs * to);
+            }
+
+            /**
+             * Calculates the midpoint of the two provided points.
+             *
+             * \param[in] a 
+             * \param[in] b
+             * \return The midpoint vector
+             */
+            static Vector3<T> midpoint(Vector3<T> const a, Vector3<T> const b)
+            {
+                T two = static_cast<T>(2);
+
+                return Vector3<T>(((a.x + b.x) / two),
+                                  ((a.y + b.y) / two),
+                                  ((a.z + b.z) / two));
             }
 
             //------------------------------------------------------------------------------

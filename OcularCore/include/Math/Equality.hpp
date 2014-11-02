@@ -18,11 +18,8 @@
 #ifndef __H__OCULAR_ENGINE_MATH_EQUALITY__H__
 #define __H__OCULAR_ENGINE_MATH_EQUALITY__H__
 
+#include "MathCommon.hpp"
 #include <cmath>
-#include <type_traits>
-
-#define OCULAR_EPSILOND 0.000001
-#define OCULAR_EPSILONF 0.000001f
 
 //------------------------------------------------------------------------------------------
 
@@ -47,7 +44,7 @@ namespace Ocular
          * Floating point comparison of double types.
          */
         template<typename T>
-        static bool IsEqual(double const a, double const b, double epsilon = OCULAR_EPSILOND)
+        static bool IsEqual(double const a, double const b, double epsilon = EPSILON_DOUBLE)
         {
             return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
         }
@@ -56,7 +53,7 @@ namespace Ocular
          * Floating point comparison of float types.
          */
         template<typename T>
-        static bool IsEqual(float const a, float const b, float epsilon = OCULAR_EPSILONF)
+        static bool IsEqual(float const a, float const b, float epsilon = EPSILON_FLOAT)
         {
             return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
         }

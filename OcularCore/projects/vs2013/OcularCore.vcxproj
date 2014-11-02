@@ -122,6 +122,7 @@
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />

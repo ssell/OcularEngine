@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-#include "Time\DateTime.hpp"
-#include "Common.hpp"
+#include "Time/DateTime.hpp"
+#include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -62,12 +62,12 @@ namespace Ocular
         DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, bool dst)
         {
             m_Year        = year;
-            m_Month       = Clamp(month, 1, 12);
-            m_Day         = Clamp(day, 1, 31);
-            m_Hour        = Clamp(hour, 0, 23);
-            m_Minute      = Clamp(minute, 0, 59);
-            m_Second      = Clamp(second, 0, 59);
-            m_Millisecond = Clamp(millisecond, 0, 999);
+            m_Month       = Math::Clamp(month, 1, 12);
+            m_Day         = Math::Clamp(day, 1, 31);
+            m_Hour        = Math::Clamp(hour, 0, 23);
+            m_Minute      = Math::Clamp(minute, 0, 59);
+            m_Second      = Math::Clamp(second, 0, 59);
+            m_Millisecond = Math::Clamp(millisecond, 0, 999);
             m_DST         = dst;
 
             if((m_Year % 4) == 0)

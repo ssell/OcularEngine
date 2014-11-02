@@ -15,37 +15,45 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_DEFINITIONS__H__
-#define __H__OCULAR_DEFINITIONS__H__
+#ifndef __H__OCULAR_ENGINE_MATH_COMMON__H__
+#define __H__OCULAR_ENGINE_MATH_COMMON__H__
 
 //------------------------------------------------------------------------------------------
-// Macros
 
-// Ocular Versions
-
-#define OCULAR_V0_0_1 "Ocular Engine v0.0.1"
-#define OCULAR_VERSION OCULAR_V0_0_1
-
-// Operating Systems
-
-#if defined(_WIN16) || defined (_WIN32) || defined(_WIN64) || defined(__WIN32__) ||  defined(__TOS_WIN__) || defined(__WINDOWS__)
-#define OCULAR_WINDOWS 1
-#elif defined(__APPLE__) || defined(__MACH__)
-#define OCULAR_OSX 1
-#elif defined(__linux__)
-#define OCULAR_LINUX 1
-#endif
-
-//------------------------------------------------------------------------------------------
-// Super common functions that need a better home
-
+/**
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
-    namespace Core
+    /**
+     * \addtogroup Math
+     * @{
+     */
+    namespace Math
     {
-        
+        static const double PI           = 3.14159265;
+        static const double PI_TWO       = 6.28318531;
+        static const double PI_OVER_180  = 0.01745329;
+        static const double PI_UNDER_180 = 57.2957796;
+        static const double PHI          = 1.61803399;
+
+        static const double EPSILON_DOUBLE = 0.0001;
+        static const double EPSILON_FLOAT  = 0.0001f;
+
+        template<typename T>
+        T Clamp(const T& value, const T& lower, const T& upper)
+        {
+            return ((value < lower) ? lower : (value > upper) ? upper : value);
+        }
     }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

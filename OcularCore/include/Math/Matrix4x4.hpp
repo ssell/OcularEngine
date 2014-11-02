@@ -188,7 +188,7 @@ namespace Ocular
                 return !(*this == rhs);
             }
 
-            Matrix4x4<T>& operator+(Matrix4x4<T> const rhs)
+            Matrix4x4<T> operator+(Matrix4x4<T> const rhs)
             {
                 Matrix4x4<T> result(m_Content[0]  + rhs[0],  m_Content[1]  + rhs[1],
                                     m_Content[2]  + rhs[2],  m_Content[3]  + rhs[3],
@@ -212,7 +212,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix4x4<T>& operator-(Matrix4x4<T> const rhs)
+            Matrix4x4<T> operator-(Matrix4x4<T> const rhs)
             {
                 Matrix4x4<T> result(m_Contents[0]  - rhs[0],  m_Contents[1]  - rhs[1],
                                     m_Contents[2]  - rhs[2],  m_Contents[3]  - rhs[3],
@@ -236,7 +236,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix4x4<T>& operator*(Matrix4x4<T> const rhs)
+            Matrix4x4<T> operator*(Matrix4x4<T> const rhs)
             {
                 Matrix4x4<T> result;
 
@@ -248,7 +248,7 @@ namespace Ocular
                 return result;
             }
 
-            Matrix4x4<T>& operator*(T const rhs)
+            Matrix4x4<T> operator*(T const rhs)
             {
                 Matrix4x4<T> result(m_Content[0]  * rhs[0],  m_Content[1]  * rhs[1],
                                     m_Content[2]  * rhs[2],  m_Content[3]  * rhs[3],
@@ -262,7 +262,7 @@ namespace Ocular
                 return result;
             }
 
-            Matrix4x4<T>& operator*(Vector4<T> const rhs)
+            Matrix4x4<T> operator*(Vector4<T> const rhs)
             {
                 Matrix4x4<T> result;
 

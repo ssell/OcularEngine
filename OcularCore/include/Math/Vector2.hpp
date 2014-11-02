@@ -81,12 +81,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator+(Vector2<T> const rhs)
+            Vector2<T> operator+(Vector2<T> const rhs)
             {
                 return Vector2<T>(x + rhs.x, y + rhs.y);
             }
 
-            Vector2<T>& operator+(T const rhs)
+            Vector2<T> operator+(T const rhs)
             {
                 return Vector2<T>(x + rhs, y + rhs);
             }
@@ -107,12 +107,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator-(Vector2<T> const rhs)
+            Vector2<T> operator-(Vector2<T> const rhs)
             {
                 return Vector2<T>(x - rhs.x, y - rhs.y);
             }
 
-            Vector2<T>& operator-(T const rhs)
+            Vector2<T> operator-(T const rhs)
             {
                 return Vector2<T>(x - rhs, y - rhs);
             }
@@ -133,12 +133,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator*(Vector2<T> const rhs)
+            Vector2<T> operator*(Vector2<T> const rhs)
             {
                 return Vector2<T>(x * rhs.x, y * rhs.y);
             }
 
-            Vector2<T>& operator*(T const rhs)
+            Vector2<T> operator*(T const rhs)
             {
                 return Vector2<T>(x * rhs, y * rhs);
             }
@@ -159,12 +159,12 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator/(Vector2<T> const rhs)
+            Vector2<T> operator/(Vector2<T> const rhs)
             {
                 return Vector2<T>(x / rhs.x, y / rhs.y, z / rhs.z);
             }
 
-            Vector2<T>& operator/(T const rhs)
+            Vector2<T> operator/(T const rhs)
             {
                 return Vector2<T>(x / rhs, y / rhs);
             }
