@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_MATH_VECTOR_4__H__
 #define __H__OCULAR_MATH_VECTOR_4__H__
 
+#include "Equality.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -27,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Core
+    * \addtogroup Math
     * @{
     */
-    namespace Core
+    namespace Math
     {
         /**
         * \class Vector4
@@ -40,9 +42,20 @@ namespace Ocular
         {
         public:
 
+            Vector4(T const pX, T const pY, T const pZ, T const pW)
+            {
+                x = pX;
+                y = pY;
+                z = pZ;
+                w = pW;
+            }
+
             Vector4()
             {
-
+                x = 0.0f;
+                y = 0.0f;
+                z = 0.0f;
+                w = 1.0f;
             }
 
             ~Vector4()
@@ -56,8 +69,7 @@ namespace Ocular
 
             bool operator==(Vector4<T> const rhs)
             {
-                // TODO : need smart compare for floating point
-                return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w);
+                return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y) && IsEqual<T>(z, rhs.z) && IsEqual<T>(w, rhs.w);
             }
 
             bool operator!=(Vector4<T> const rhs)
@@ -238,7 +250,7 @@ namespace Ocular
                     return Vector4<T>(x / static_cast<T>(length), 
                                       y / static_cast<T>(length), 
                                       z / static_cast<T>(length),
-                                      w / static_cast<T>(length);
+                                      w / static_cast<T>(length));
                 }
             }
 
@@ -287,10 +299,10 @@ namespace Ocular
             // VARIABLES
             //------------------------------------------------------------------------------
 
-            union { T x, r, u, s };
-            union { T y, g, v, t };
-            union { T z, b, p };
-            union { T w, a, q };
+            union { T x, r, u, s; };
+            union { T y, g, v, t; };
+            union { T z, b, p; };
+            union { T w, a, q; };
 
         protected:
 

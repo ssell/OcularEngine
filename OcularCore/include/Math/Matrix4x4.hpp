@@ -22,6 +22,7 @@
 #include "Matrix3x3.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+#include "Equality.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,10 +33,10 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Math
      * @{
      */
-    namespace Core
+    namespace Math
     {
         
         /**
@@ -131,7 +132,7 @@ namespace Ocular
                 setIdentity();
             }
 
-            ~Matrix()
+            ~Matrix4x4()
             {
 
             }
@@ -172,15 +173,14 @@ namespace Ocular
 
             bool operator==(Matrix4x4<T> const rhs)
             {
-                // TODO : need smart compare for floating point
-                return (m_Content[0]  == rhs[0])  && (m_Content[1]  == rhs[1])  &&
-                       (m_Content[2]  == rhs[2])  && (m_Content[3]  == rhs[3])  &&
-                       (m_Content[4]  == rhs[4])  && (m_Content[5]  == rhs[5])  &&
-                       (m_Content[6]  == rhs[6])  && (m_Content[7]  == rhs[7])  &&
-                       (m_Content[8]  == rhs[8])  && (m_Content[9]  == rhs[9])  &&
-                       (m_Content[10] == rhs[10]) && (m_Content[11] == rhs[11]) &&
-                       (m_Content[12] == rhs[12]) && (m_Content[13] == rhs[13]) &&
-                       (m_Content[14] == rhs[14]) && (m_Content[15] == rhs[15]));
+                return IsEqual<T>(m_Content[0],  rhs[0])  && IsEqual<T>(m_Content[1],  rhs[1])  &&
+                       IsEqual<T>(m_Content[2],  rhs[2])  && IsEqual<T>(m_Content[3],  rhs[3])  &&
+                       IsEqual<T>(m_Content[4],  rhs[4])  && IsEqual<T>(m_Content[5],  rhs[5])  &&
+                       IsEqual<T>(m_Content[6],  rhs[6])  && IsEqual<T>(m_Content[7],  rhs[7])  &&
+                       IsEqual<T>(m_Content[8],  rhs[8])  && IsEqual<T>(m_Content[9],  rhs[9])  &&
+                       IsEqual<T>(m_Content[10], rhs[10]) && IsEqual<T>(m_Content[11], rhs[11]) &&
+                       IsEqual<T>(m_Content[12], rhs[12]) && IsEqual<T>(m_Content[13], rhs[13]) &&
+                       IsEqual<T>(m_Content[14], rhs[14]) && IsEqual<T>(m_Content[15], rhs[15]);
             }
 
             bool operator!=(Matrix4x4<T> const rhs)
@@ -214,14 +214,14 @@ namespace Ocular
 
             Matrix4x4<T>& operator-(Matrix4x4<T> const rhs)
             {
-                Matrix4x4<T> result(m_Content[0]  - rhs[0],  m_Content[1]  - rhs[1],
-                                    m_Content[2]  - rhs[2],  m_Content[3]  - rhs[3],
-                                    m_Content[4]  - rhs[4],  m_Content[5]  - rhs[5],
-                                    m_Content[6]  - rhs[6],  m_Content[7]  - rhs[7],
-                                    m_Content[8]  - rhs[8],  m_Content[9]  - rhs[9],
-                                    m_Content[10] - rhs[10], m_Content[11] - rhs[11],
-                                    m_Content[12] - rhs[12], m_Content[13] - rhs[13],
-                                    m_Content[14] - rhs[14], m_Content[15] - rhs[15]);
+                Matrix4x4<T> result(m_Contents[0]  - rhs[0],  m_Contents[1]  - rhs[1],
+                                    m_Contents[2]  - rhs[2],  m_Contents[3]  - rhs[3],
+                                    m_Contents[4]  - rhs[4],  m_Contents[5]  - rhs[5],
+                                    m_Contents[6]  - rhs[6],  m_Contents[7]  - rhs[7],
+                                    m_Contents[8]  - rhs[8],  m_Contents[9]  - rhs[9],
+                                    m_Contents[10] - rhs[10], m_Contents[11] - rhs[11],
+                                    m_Contents[12] - rhs[12], m_Contents[13] - rhs[13],
+                                    m_Contents[14] - rhs[14], m_Contents[15] - rhs[15]);
 
                 return result;
             }
@@ -375,6 +375,11 @@ namespace Ocular
                 }
 
                 return m_Contents[index];
+            }
+
+            float* getContents()
+            {
+                return m_Contents;
             }
 
             //------------------------------------------------------------------------------
@@ -569,7 +574,7 @@ namespace Ocular
              *
              * \return The orthographic projection matrix
              */
-            static Matrix4x4<T> createOrthographicMatrix(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip) const
+            static Matrix4x4<T> createOrthographicMatrix(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -593,7 +598,7 @@ namespace Ocular
              *
              * \return The perspective projection matrix
              */
-            static Matrix4x4<T> createPerspectiveMatrix(float fov, float aspectRatio, float nearClip, float farClip) const
+            static Matrix4x4<T> createPerspectiveMatrix(float fov, float aspectRatio, float nearClip, float farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -619,7 +624,7 @@ namespace Ocular
              * 
              * \return The inverse matrix
              */
-            static Matrix4x4<T> createInverse(Matrix4x4<T> const matrix) const
+            static Matrix4x4<T> createInverse(Matrix4x4<T> const matrix)
             {
                 Matrix4x4<T> result;
 
@@ -656,7 +661,7 @@ namespace Ocular
 
         private:
 
-            static float calcDeterminant(Matrix4x4<T> const matrix, int const i, int const j) const
+            static float calcDeterminant(Matrix4x4<T> const matrix, int const i, int const j)
             {
                 int x;
                 int y;

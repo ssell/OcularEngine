@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_MATH_MATRIX_3X3__H__
 #define __H__OCULAR_MATH_MATRIX_3X3__H__
 
+#include "Equality.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -27,10 +29,10 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Math
      * @{
      */
-    namespace Core
+    namespace Math
     {
         /**
          * \class Matrix3x3
@@ -101,10 +103,11 @@ namespace Ocular
 
             bool operator==(Matrix3x3<T> const rhs)
             {
-                // TODO : need smart compare for floating point
-                return (m_Content[0] == rhs[0]) && (m_Content[1] == rhs[1]) && (m_Content[2] == rhs[2]) && 
-                       (m_Content[3] == rhs[3]) && (m_Content[4] == rhs[4]) && (m_Content[5] == rhs[5]) &&
-                       (m_Content[6] == rhs[6]) && (m_Content[7] == rhs[7]) && (m_Content[8] == rhs[8]));
+                return IsEqual<T>(m_Content[0], rhs[0]) && IsEqual<T>(m_Content[1], rhs[1]) &&
+                       IsEqual<T>(m_Content[2], rhs[2]) && IsEqual<T>(m_Content[3], rhs[3]) &&
+                       IsEqual<T>(m_Content[4], rhs[4]) && IsEqual<T>(m_Content[5], rhs[5]) &&
+                       IsEqual<T>(m_Content[6], rhs[6]) && IsEqual<T>(m_Content[7], rhs[7]) &&
+                       IsEqual<T>(m_Content[8], rhs[8]);
             }
 
             bool operator!=(Matrix3x3<T> const rhs)
@@ -433,6 +436,10 @@ namespace Ocular
 
             T m_Contents[9];
         };
+
+        // Common matrix formats
+        typedef Matrix3x3<float> Matrix3x3f;
+        typedef Matrix3x3<double> Matrix3x3d;
 
     }
     /**

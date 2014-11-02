@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_MATH_VECTOR_2__H__
 #define __H__OCULAR_MATH_VECTOR_2__H__
 
+#include "Equality.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -40,9 +42,16 @@ namespace Ocular
         {
         public:
 
+            Vector2(T const pX, T const pY)
+            {
+                x = pX;
+                y = pY;
+            }
+
             Vector2()
             {
-
+                x = 0.0f;
+                y = 0.0f;
             }
 
             ~Vector2()
@@ -56,8 +65,7 @@ namespace Ocular
 
             bool operator==(Vector2<T> const rhs)
             {
-                // TODO : need smart compare for floating point
-                return (x == rhs.x) && (y == rhs.y);
+                return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y);
             }
 
             bool operator!=(Vector2<T> const rhs)
@@ -265,8 +273,8 @@ namespace Ocular
             // VARIABLES
             //------------------------------------------------------------------------------
 
-            union { T x, u, s };
-            union { T y, v, t };
+            union { T x, u, s; };
+            union { T y, v, t; };
 
         protected:
 

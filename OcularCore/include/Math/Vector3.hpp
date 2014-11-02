@@ -18,8 +18,7 @@
 #ifndef __H__OCULAR_MATH_VECTOR_3__H__
 #define __H__OCULAR_MATH_VECTOR_3__H__
 
-#include "Exception.hpp"
-#include "Common.hpp"
+#include "Equality.hpp"
 #include <cmath>
 
 //------------------------------------------------------------------------------------------
@@ -31,10 +30,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Core
+    * \addtogroup Math
     * @{
     */
-    namespace Core
+    namespace Math
     {
         /**
         * \class Vector3
@@ -69,8 +68,7 @@ namespace Ocular
 
             bool operator==(Vector3<T> const rhs)
             {
-                // TODO : need smart compare for floating point
-                return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
+                return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y) && IsEqual<T>(z, rhs.z);
             }
 
             bool operator!=(Vector3<T> const rhs)
