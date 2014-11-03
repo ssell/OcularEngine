@@ -148,7 +148,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
 
-                return m_Content[index];
+                return m_Contents[index];
             }
 
             const T& operator[](unsigned index) const
@@ -158,7 +158,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
 
-                return m_Content[index];
+                return m_Contents[index];
             }
 
             Matrix4x4<T>& operator=(Matrix4x4<T> const rhs)
@@ -173,14 +173,14 @@ namespace Ocular
 
             bool operator==(Matrix4x4<T> const rhs)
             {
-                return IsEqual<T>(m_Content[0],  rhs[0])  && IsEqual<T>(m_Content[1],  rhs[1])  &&
-                       IsEqual<T>(m_Content[2],  rhs[2])  && IsEqual<T>(m_Content[3],  rhs[3])  &&
-                       IsEqual<T>(m_Content[4],  rhs[4])  && IsEqual<T>(m_Content[5],  rhs[5])  &&
-                       IsEqual<T>(m_Content[6],  rhs[6])  && IsEqual<T>(m_Content[7],  rhs[7])  &&
-                       IsEqual<T>(m_Content[8],  rhs[8])  && IsEqual<T>(m_Content[9],  rhs[9])  &&
-                       IsEqual<T>(m_Content[10], rhs[10]) && IsEqual<T>(m_Content[11], rhs[11]) &&
-                       IsEqual<T>(m_Content[12], rhs[12]) && IsEqual<T>(m_Content[13], rhs[13]) &&
-                       IsEqual<T>(m_Content[14], rhs[14]) && IsEqual<T>(m_Content[15], rhs[15]);
+                return IsEqual<T>(m_Contents[0],  rhs[0])  && IsEqual<T>(m_Contents[1],  rhs[1])  &&
+                       IsEqual<T>(m_Contents[2],  rhs[2])  && IsEqual<T>(m_Contents[3],  rhs[3])  &&
+                       IsEqual<T>(m_Contents[4],  rhs[4])  && IsEqual<T>(m_Contents[5],  rhs[5])  &&
+                       IsEqual<T>(m_Contents[6],  rhs[6])  && IsEqual<T>(m_Contents[7],  rhs[7])  &&
+                       IsEqual<T>(m_Contents[8],  rhs[8])  && IsEqual<T>(m_Contents[9],  rhs[9])  &&
+                       IsEqual<T>(m_Contents[10], rhs[10]) && IsEqual<T>(m_Contents[11], rhs[11]) &&
+                       IsEqual<T>(m_Contents[12], rhs[12]) && IsEqual<T>(m_Contents[13], rhs[13]) &&
+                       IsEqual<T>(m_Contents[14], rhs[14]) && IsEqual<T>(m_Contents[15], rhs[15]);
             }
 
             bool operator!=(Matrix4x4<T> const rhs)
@@ -190,14 +190,14 @@ namespace Ocular
 
             Matrix4x4<T> operator+(Matrix4x4<T> const rhs)
             {
-                Matrix4x4<T> result(m_Content[0]  + rhs[0],  m_Content[1]  + rhs[1],
-                                    m_Content[2]  + rhs[2],  m_Content[3]  + rhs[3],
-                                    m_Content[4]  + rhs[4],  m_Content[5]  + rhs[5],
-                                    m_Content[6]  + rhs[6],  m_Content[7]  + rhs[7],
-                                    m_Content[8]  + rhs[8],  m_Content[9]  + rhs[9],
-                                    m_Content[10] + rhs[10], m_Content[11] + rhs[11],
-                                    m_Content[12] + rhs[12], m_Content[13] + rhs[13],
-                                    m_Content[14] * rhs[14], m_Content[15] * rhs[15]);
+                Matrix4x4<T> result(m_Contents[0]  + rhs[0],  m_Contents[1]  + rhs[1],
+                                    m_Contents[2]  + rhs[2],  m_Contents[3]  + rhs[3],
+                                    m_Contents[4]  + rhs[4],  m_Contents[5]  + rhs[5],
+                                    m_Contents[6]  + rhs[6],  m_Contents[7]  + rhs[7],
+                                    m_Contents[8]  + rhs[8],  m_Contents[9]  + rhs[9],
+                                    m_Contents[10] + rhs[10], m_Contents[11] + rhs[11],
+                                    m_Contents[12] + rhs[12], m_Contents[13] + rhs[13],
+                                    m_Contents[14] * rhs[14], m_Contents[15] * rhs[15]);
 
                 return result;
             }
@@ -240,24 +240,37 @@ namespace Ocular
             {
                 Matrix4x4<T> result;
 
-                for(unsigned i = 0; i < 16; i++)
-                {
-                    result[i] = m_Contents[i] * rhs;
-                }
+                result[0]  = (m_Contents[0] * rhs[0])  + (m_Contents[4] * rhs[1])  + (m_Contents[8] * rhs[2])  + (m_Contents[12] * rhs[3]);
+                result[4]  = (m_Contents[0] * rhs[4])  + (m_Contents[4] * rhs[5])  + (m_Contents[8] * rhs[6])  + (m_Contents[12] * rhs[7]);
+                result[8]  = (m_Contents[0] * rhs[8])  + (m_Contents[4] * rhs[9])  + (m_Contents[8] * rhs[10]) + (m_Contents[12] * rhs[11]);
+                result[12] = (m_Contents[0] * rhs[12]) + (m_Contents[4] * rhs[13]) + (m_Contents[8] * rhs[14]) + (m_Contents[12] * rhs[15]);
+                
+                result[1]  = (m_Contents[1] * rhs[0])  + (m_Contents[5] * rhs[1])  + (m_Contents[9] * rhs[2])  + (m_Contents[13] * rhs[3]);
+                result[5]  = (m_Contents[1] * rhs[4])  + (m_Contents[5] * rhs[5])  + (m_Contents[9] * rhs[6])  + (m_Contents[13] * rhs[7]);
+                result[9]  = (m_Contents[1] * rhs[8])  + (m_Contents[5] * rhs[9])  + (m_Contents[9] * rhs[10]) + (m_Contents[13] * rhs[11]);
+                result[13] = (m_Contents[1] * rhs[12]) + (m_Contents[5] * rhs[13]) + (m_Contents[9] * rhs[14]) + (m_Contents[13] * rhs[15]);
+                
+                result[2]  = (m_Contents[2] * rhs[0])  + (m_Contents[6] * rhs[1])  + (m_Contents[10] * rhs[2])  + (m_Contents[14] * rhs[3]);
+                result[6]  = (m_Contents[2] * rhs[4])  + (m_Contents[6] * rhs[5])  + (m_Contents[10] * rhs[6])  + (m_Contents[14] * rhs[7]);
+                result[10] = (m_Contents[2] * rhs[8])  + (m_Contents[6] * rhs[9])  + (m_Contents[10] * rhs[10]) + (m_Contents[14] * rhs[11]);
+                result[13] = (m_Contents[2] * rhs[12]) + (m_Contents[6] * rhs[13]) + (m_Contents[10] * rhs[14]) + (m_Contents[14] * rhs[15]);
+                
+                result[3]  = (m_Contents[3] * rhs[0])  + (m_Contents[7] * rhs[1])  + (m_Contents[11] * rhs[2])  + (m_Contents[15] * rhs[3]);
+                result[7]  = (m_Contents[3] * rhs[4])  + (m_Contents[7] * rhs[5])  + (m_Contents[11] * rhs[6])  + (m_Contents[15] * rhs[7]);
+                result[11] = (m_Contents[3] * rhs[8])  + (m_Contents[7] * rhs[9])  + (m_Contents[11] * rhs[10]) + (m_Contents[15] * rhs[11]);
+                result[15] = (m_Contents[3] * rhs[12]) + (m_Contents[7] * rhs[13]) + (m_Contents[11] * rhs[14]) + (m_Contents[15] * rhs[15]);
 
                 return result;
             }
 
             Matrix4x4<T> operator*(T const rhs)
             {
-                Matrix4x4<T> result(m_Content[0]  * rhs[0],  m_Content[1]  * rhs[1],
-                                    m_Content[2]  * rhs[2],  m_Content[3]  * rhs[3],
-                                    m_Content[4]  * rhs[4],  m_Content[5]  * rhs[5],
-                                    m_Content[6]  * rhs[6],  m_Content[7]  * rhs[7],
-                                    m_Content[8]  * rhs[8],  m_Content[9]  * rhs[9],
-                                    m_Content[10] * rhs[10], m_Content[11] * rhs[11],
-                                    m_Content[12] * rhs[12], m_Content[13] * rhs[13],
-                                    m_Content[14] * rhs[14], m_Content[15] * rhs[15]);
+                Matrix4x4<T> result;
+
+                for(unsigned i = 0; i < 16; i++)
+                {
+                    result[i] = m_Contents[i] * rhs;
+                }
 
                 return result;
             }
@@ -279,10 +292,27 @@ namespace Ocular
 
             Matrix4x4<T>& operator*=(Matrix4x4<T> const rhs)
             {
-                for(unsigned i = 0; i < 16; i++)
-                {
-                    m_Contents[i] *= rhs[i];
-                }
+                Matrix4x4<T> oldContents = (*this);
+
+                m_Contents[0]  = (oldContents[0] * rhs[0])  + (oldContents[4] * rhs[1])  + (oldContents[8] * rhs[2])  + (oldContents[12] * rhs[3]);
+                m_Contents[4]  = (oldContents[0] * rhs[4])  + (oldContents[4] * rhs[5])  + (oldContents[8] * rhs[6])  + (oldContents[12] * rhs[7]);
+                m_Contents[8]  = (oldContents[0] * rhs[8])  + (oldContents[4] * rhs[9])  + (oldContents[8] * rhs[10]) + (oldContents[12] * rhs[11]);
+                m_Contents[12] = (oldContents[0] * rhs[12]) + (oldContents[4] * rhs[13]) + (oldContents[8] * rhs[14]) + (oldContents[12] * rhs[15]);
+                
+                m_Contents[1]  = (oldContents[1] * rhs[0])  + (oldContents[5] * rhs[1])  + (oldContents[9] * rhs[2])  + (oldContents[13] * rhs[3]);
+                m_Contents[5]  = (oldContents[1] * rhs[4])  + (oldContents[5] * rhs[5])  + (oldContents[9] * rhs[6])  + (oldContents[13] * rhs[7]);
+                m_Contents[9]  = (oldContents[1] * rhs[8])  + (oldContents[5] * rhs[9])  + (oldContents[9] * rhs[10]) + (oldContents[13] * rhs[11]);
+                m_Contents[13] = (oldContents[1] * rhs[12]) + (oldContents[5] * rhs[13]) + (oldContents[9] * rhs[14]) + (oldContents[13] * rhs[15]);
+                
+                m_Contents[2]  = (oldContents[2] * rhs[0])  + (oldContents[6] * rhs[1])  + (oldContents[10] * rhs[2])  + (oldContents[14] * rhs[3]);
+                m_Contents[6]  = (oldContents[2] * rhs[4])  + (oldContents[6] * rhs[5])  + (oldContents[10] * rhs[6])  + (oldContents[14] * rhs[7]);
+                m_Contents[10] = (oldContents[2] * rhs[8])  + (oldContents[6] * rhs[9])  + (oldContents[10] * rhs[10]) + (oldContents[14] * rhs[11]);
+                m_Contents[14] = (oldContents[2] * rhs[12]) + (oldContents[6] * rhs[13]) + (oldContents[10] * rhs[14]) + (oldContents[14] * rhs[15]);
+                
+                m_Contents[3]  = (oldContents[3] * rhs[0])  + (oldContents[7] * rhs[1])  + (oldContents[11] * rhs[2])  + (oldContents[15] * rhs[3]);
+                m_Contents[7]  = (oldContents[3] * rhs[4])  + (oldContents[7] * rhs[5])  + (oldContents[11] * rhs[6])  + (oldContents[15] * rhs[7]);
+                m_Contents[11] = (oldContents[3] * rhs[8])  + (oldContents[7] * rhs[9])  + (oldContents[11] * rhs[10]) + (oldContents[15] * rhs[11]);
+                m_Contents[15] = (oldContents[3] * rhs[12]) + (oldContents[7] * rhs[13]) + (oldContents[11] * rhs[14]) + (oldContents[15] * rhs[15]);
 
                 return (*this);
             }

@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_MATRIX_3X3__H__
 
 #include "Equality.hpp"
+#include "Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -78,7 +79,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
 
-                return m_Content[index];
+                return m_Contents[index];
             }
 
             const T& operator[](unsigned index) const
@@ -88,7 +89,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
 
-                return m_Content[index];
+                return m_Contents[index];
             }
 
             Matrix3x3<T>& operator=(Matrix3x3<T> const rhs)
@@ -103,11 +104,11 @@ namespace Ocular
 
             bool operator==(Matrix3x3<T> const rhs)
             {
-                return IsEqual<T>(m_Content[0], rhs[0]) && IsEqual<T>(m_Content[1], rhs[1]) &&
-                       IsEqual<T>(m_Content[2], rhs[2]) && IsEqual<T>(m_Content[3], rhs[3]) &&
-                       IsEqual<T>(m_Content[4], rhs[4]) && IsEqual<T>(m_Content[5], rhs[5]) &&
-                       IsEqual<T>(m_Content[6], rhs[6]) && IsEqual<T>(m_Content[7], rhs[7]) &&
-                       IsEqual<T>(m_Content[8], rhs[8]);
+                return IsEqual<T>(m_Contents[0], rhs[0]) && IsEqual<T>(m_Contents[1], rhs[1]) &&
+                       IsEqual<T>(m_Contents[2], rhs[2]) && IsEqual<T>(m_Contents[3], rhs[3]) &&
+                       IsEqual<T>(m_Contents[4], rhs[4]) && IsEqual<T>(m_Contents[5], rhs[5]) &&
+                       IsEqual<T>(m_Contents[6], rhs[6]) && IsEqual<T>(m_Contents[7], rhs[7]) &&
+                       IsEqual<T>(m_Contents[8], rhs[8]);
             }
 
             bool operator!=(Matrix3x3<T> const rhs)
@@ -117,11 +118,11 @@ namespace Ocular
 
             Matrix3x3<T> operator+(Matrix3x3<T> const rhs)
             {
-                Matrix3x3<T> result(m_Content[0] + rhs[0], m_Content[1] + rhs[1],
-                                    m_Content[2] + rhs[2], m_Content[3] + rhs[3],
-                                    m_Content[4] + rhs[4], m_Content[5] + rhs[5],
-                                    m_Content[6] + rhs[6], m_Content[7] + rhs[7],
-                                    m_Content[8] + rhs[8]);
+                Matrix3x3<T> result(m_Contents[0] + rhs[0], m_Contents[1] + rhs[1],
+                                    m_Contents[2] + rhs[2], m_Contents[3] + rhs[3],
+                                    m_Contents[4] + rhs[4], m_Contents[5] + rhs[5],
+                                    m_Contents[6] + rhs[6], m_Contents[7] + rhs[7],
+                                    m_Contents[8] + rhs[8]);
 
                 return result;
             }
@@ -138,11 +139,11 @@ namespace Ocular
 
             Matrix3x3<T> operator-(Matrix3x3<T> const rhs)
             {
-                Matrix3x3<T> result(m_Content[0] - rhs[0], m_Content[1] - rhs[1],
-                                    m_Content[2] - rhs[2], m_Content[3] - rhs[3],
-                                    m_Content[4] - rhs[4], m_Content[5] - rhs[5],
-                                    m_Content[6] - rhs[6], m_Content[7] - rhs[7],
-                                    m_Content[8] - rhs[8])
+                Matrix3x3<T> result(m_Contents[0] - rhs[0], m_Contents[1] - rhs[1],
+                                    m_Contents[2] - rhs[2], m_Contents[3] - rhs[3],
+                                    m_Contents[4] - rhs[4], m_Contents[5] - rhs[5],
+                                    m_Contents[6] - rhs[6], m_Contents[7] - rhs[7],
+                                    m_Contents[8] - rhs[8])
 
                 return result;
             }
@@ -161,21 +162,29 @@ namespace Ocular
             {
                 Matrix3x3<T> result;
 
-                for(unsigned i = 0; i < 9; i++)
-                {
-                    result[i] = m_Contents[i] * rhs;
-                }
+                result[0] = m_Contents[0] * rhs[0] + m_Contents[3] * rhs[1] + m_Contents[6] * rhs[2];
+			    result[3] = m_Contents[0] * rhs[3] + m_Contents[3] * rhs[4] + m_Contents[6] * rhs[5];
+			    result[6] = m_Contents[0] * rhs[6] + m_Contents[3] * rhs[7] + m_Contents[6] * rhs[8];
+
+			    result[1] = m_Contents[1] * rhs[0] + m_Contents[4] * rhs[1] + m_Contents[7] * rhs[2];
+			    result[4] = m_Contents[1] * rhs[3] + m_Contents[4] * rhs[4] + m_Contents[7] * rhs[5];
+			    result[7] = m_Contents[1] * rhs[6] + m_Contents[4] * rhs[7] + m_Contents[7] * rhs[8];
+
+			    result[2] = m_Contents[2] * rhs[0] + m_Contents[5] * rhs[1] + m_Contents[8] * rhs[2];
+			    result[5] = m_Contents[2] * rhs[3] + m_Contents[5] * rhs[4] + m_Contents[8] * rhs[5];
+			    result[8] = m_Contents[2] * rhs[6] + m_Contents[5] * rhs[7] + m_Contents[8] * rhs[8];
 
                 return result;
             }
 
             Matrix3x3<T> operator*(T const rhs)
             {
-                Matrix3x3<T> result(m_Content[0] * rhs[0], m_Content[1] * rhs[1],
-                                    m_Content[2] * rhs[2], m_Content[3] * rhs[3],
-                                    m_Content[4] * rhs[4], m_Content[5] * rhs[5],
-                                    m_Content[6] * rhs[6], m_Content[7] * rhs[7],
-                                    m_Content[8] * rhs[8]);
+                Matrix3x3<T> result;
+
+                for(unsigned i = 0; i < 9; i++)
+                {
+                    result[i] = m_Contents[i] * rhs;
+                }
 
                 return result;
             }
@@ -196,10 +205,19 @@ namespace Ocular
 
             Matrix3x3<T>& operator*=(Matrix3x3<T> const rhs)
             {
-                for(unsigned i = 0; i < 9; i++)
-                {
-                    m_Contents[i] *= rhs[i];
-                }
+                Matrix3x3<T> oldContents = (*this);
+
+                m_Contents[0] = oldContents[0] * rhs[0] + oldContents[3] * rhs[1] + oldContents[6] * rhs[2];
+			    m_Contents[3] = oldContents[0] * rhs[3] + oldContents[3] * rhs[4] + oldContents[6] * rhs[5];
+			    m_Contents[6] = oldContents[0] * rhs[6] + oldContents[3] * rhs[7] + oldContents[6] * rhs[8];
+
+			    m_Contents[1] = oldContents[1] * rhs[0] + oldContents[4] * rhs[1] + oldContents[7] * rhs[2];
+			    m_Contents[4] = oldContents[1] * rhs[3] + oldContents[4] * rhs[4] + oldContents[7] * rhs[5];
+			    m_Contents[7] = oldContents[1] * rhs[6] + oldContents[4] * rhs[7] + oldContents[7] * rhs[8];
+
+			    m_Contents[2] = oldContents[2] * rhs[0] + oldContents[5] * rhs[1] + oldContents[8] * rhs[2];
+			    m_Contents[5] = oldContents[2] * rhs[3] + oldContents[5] * rhs[4] + oldContents[8] * rhs[5];
+			    m_Contents[8] = oldContents[2] * rhs[6] + oldContents[5] * rhs[7] + oldContents[8] * rhs[8];
 
                 return (*this);
             }
