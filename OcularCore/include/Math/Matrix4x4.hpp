@@ -88,10 +88,10 @@ namespace Ocular
              * \param[in] p32 Position vector z element
              * \param[in] p33 Position vector w element (should be 0)
              */
-            Matrix4x4(T const p00, T const p01, T const p02, T const p03,
-                      T const p10, T const p11, T const p12, T const p13,
-                      T const p20, T const p21, T const p22, T const p23,
-                      T const p30, T const p31, T const p32, T const p33)
+            Matrix4x4(T const &p00, T const &p01, T const &p02, T const &p03,
+                      T const &p10, T const &p11, T const &p12, T const &p13,
+                      T const &p20, T const &p21, T const &p22, T const &p23,
+                      T const &p30, T const &p31, T const &p32, T const &p33)
             {
                 // X-Axis Rotation
                 m_Contents[0]  = p00;
@@ -118,7 +118,7 @@ namespace Ocular
                 m_Contents[15] = p33;
             }
 
-            Matrix4x4(Matrix3x3<T> const matrix)
+            Matrix4x4(Matrix3x3<T> const &matrix)
             {
                 setIdentity();
 
@@ -141,7 +141,7 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            T& operator[](unsigned index)
+            T& operator[](unsigned const &index)
             {
                 if(index > 15)
                 {
@@ -151,7 +151,7 @@ namespace Ocular
                 return m_Contents[index];
             }
 
-            const T& operator[](unsigned index) const
+            const T& operator[](unsigned const &index) const
             {
                 if(index > 15)
                 {
@@ -161,7 +161,7 @@ namespace Ocular
                 return m_Contents[index];
             }
 
-            Matrix4x4<T>& operator=(Matrix4x4<T> const rhs)
+            Matrix4x4<T>& operator=(Matrix4x4<T> const &rhs)
             {
                 for(unsigned i = 0; i < 16; i++)
                 {
@@ -171,7 +171,7 @@ namespace Ocular
                 return (*this);
             }
 
-            bool operator==(Matrix4x4<T> const rhs)
+            bool operator==(Matrix4x4<T> const &rhs)
             {
                 return IsEqual<T>(m_Contents[0],  rhs[0])  && IsEqual<T>(m_Contents[1],  rhs[1])  &&
                        IsEqual<T>(m_Contents[2],  rhs[2])  && IsEqual<T>(m_Contents[3],  rhs[3])  &&
@@ -183,26 +183,12 @@ namespace Ocular
                        IsEqual<T>(m_Contents[14], rhs[14]) && IsEqual<T>(m_Contents[15], rhs[15]);
             }
 
-            bool operator!=(Matrix4x4<T> const rhs)
+            bool operator!=(Matrix4x4<T> const &rhs)
             {
                 return !(*this == rhs);
             }
 
-            Matrix4x4<T> operator+(Matrix4x4<T> const rhs)
-            {
-                Matrix4x4<T> result(m_Contents[0]  + rhs[0],  m_Contents[1]  + rhs[1],
-                                    m_Contents[2]  + rhs[2],  m_Contents[3]  + rhs[3],
-                                    m_Contents[4]  + rhs[4],  m_Contents[5]  + rhs[5],
-                                    m_Contents[6]  + rhs[6],  m_Contents[7]  + rhs[7],
-                                    m_Contents[8]  + rhs[8],  m_Contents[9]  + rhs[9],
-                                    m_Contents[10] + rhs[10], m_Contents[11] + rhs[11],
-                                    m_Contents[12] + rhs[12], m_Contents[13] + rhs[13],
-                                    m_Contents[14] * rhs[14], m_Contents[15] * rhs[15]);
-
-                return result;
-            }
-
-            Matrix4x4<T>& operator+=(Matrix4x4<T> const rhs)
+            Matrix4x4<T>& operator+=(Matrix4x4<T> const &rhs)
             {
                 for(unsigned i = 0; i < 16; i++)
                 {
@@ -212,21 +198,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix4x4<T> operator-(Matrix4x4<T> const rhs)
-            {
-                Matrix4x4<T> result(m_Contents[0]  - rhs[0],  m_Contents[1]  - rhs[1],
-                                    m_Contents[2]  - rhs[2],  m_Contents[3]  - rhs[3],
-                                    m_Contents[4]  - rhs[4],  m_Contents[5]  - rhs[5],
-                                    m_Contents[6]  - rhs[6],  m_Contents[7]  - rhs[7],
-                                    m_Contents[8]  - rhs[8],  m_Contents[9]  - rhs[9],
-                                    m_Contents[10] - rhs[10], m_Contents[11] - rhs[11],
-                                    m_Contents[12] - rhs[12], m_Contents[13] - rhs[13],
-                                    m_Contents[14] - rhs[14], m_Contents[15] - rhs[15]);
-
-                return result;
-            }
-
-            Matrix4x4<T>& operator-=(Matrix4x4<T> const rhs)
+            Matrix4x4<T>& operator-=(Matrix4x4<T> const &rhs)
             {
                 for(unsigned i = 0; i < 16; i++)
                 {
@@ -236,61 +208,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix4x4<T> operator*(Matrix4x4<T> const rhs)
-            {
-                Matrix4x4<T> result;
-
-                result[0]  = (m_Contents[0] * rhs[0])  + (m_Contents[4] * rhs[1])  + (m_Contents[8] * rhs[2])  + (m_Contents[12] * rhs[3]);
-                result[4]  = (m_Contents[0] * rhs[4])  + (m_Contents[4] * rhs[5])  + (m_Contents[8] * rhs[6])  + (m_Contents[12] * rhs[7]);
-                result[8]  = (m_Contents[0] * rhs[8])  + (m_Contents[4] * rhs[9])  + (m_Contents[8] * rhs[10]) + (m_Contents[12] * rhs[11]);
-                result[12] = (m_Contents[0] * rhs[12]) + (m_Contents[4] * rhs[13]) + (m_Contents[8] * rhs[14]) + (m_Contents[12] * rhs[15]);
-                
-                result[1]  = (m_Contents[1] * rhs[0])  + (m_Contents[5] * rhs[1])  + (m_Contents[9] * rhs[2])  + (m_Contents[13] * rhs[3]);
-                result[5]  = (m_Contents[1] * rhs[4])  + (m_Contents[5] * rhs[5])  + (m_Contents[9] * rhs[6])  + (m_Contents[13] * rhs[7]);
-                result[9]  = (m_Contents[1] * rhs[8])  + (m_Contents[5] * rhs[9])  + (m_Contents[9] * rhs[10]) + (m_Contents[13] * rhs[11]);
-                result[13] = (m_Contents[1] * rhs[12]) + (m_Contents[5] * rhs[13]) + (m_Contents[9] * rhs[14]) + (m_Contents[13] * rhs[15]);
-                
-                result[2]  = (m_Contents[2] * rhs[0])  + (m_Contents[6] * rhs[1])  + (m_Contents[10] * rhs[2])  + (m_Contents[14] * rhs[3]);
-                result[6]  = (m_Contents[2] * rhs[4])  + (m_Contents[6] * rhs[5])  + (m_Contents[10] * rhs[6])  + (m_Contents[14] * rhs[7]);
-                result[10] = (m_Contents[2] * rhs[8])  + (m_Contents[6] * rhs[9])  + (m_Contents[10] * rhs[10]) + (m_Contents[14] * rhs[11]);
-                result[13] = (m_Contents[2] * rhs[12]) + (m_Contents[6] * rhs[13]) + (m_Contents[10] * rhs[14]) + (m_Contents[14] * rhs[15]);
-                
-                result[3]  = (m_Contents[3] * rhs[0])  + (m_Contents[7] * rhs[1])  + (m_Contents[11] * rhs[2])  + (m_Contents[15] * rhs[3]);
-                result[7]  = (m_Contents[3] * rhs[4])  + (m_Contents[7] * rhs[5])  + (m_Contents[11] * rhs[6])  + (m_Contents[15] * rhs[7]);
-                result[11] = (m_Contents[3] * rhs[8])  + (m_Contents[7] * rhs[9])  + (m_Contents[11] * rhs[10]) + (m_Contents[15] * rhs[11]);
-                result[15] = (m_Contents[3] * rhs[12]) + (m_Contents[7] * rhs[13]) + (m_Contents[11] * rhs[14]) + (m_Contents[15] * rhs[15]);
-
-                return result;
-            }
-
-            Matrix4x4<T> operator*(T const rhs)
-            {
-                Matrix4x4<T> result;
-
-                for(unsigned i = 0; i < 16; i++)
-                {
-                    result[i] = m_Contents[i] * rhs;
-                }
-
-                return result;
-            }
-
-            Matrix4x4<T> operator*(Vector4<T> const rhs)
-            {
-                Matrix4x4<T> result;
-
-                for(unsigned i = 0; i < 3; i++)
-                {
-                    result[(i * 4) + 0] = m_Contents[(i * 4) + 0] * rhs.x;
-                    result[(i * 4) + 1] = m_Contents[(i * 4) + 1] * rhs.y;
-                    result[(i * 4) + 2] = m_Contents[(i * 4) + 2] * rhs.z;
-                    result[(i * 4) + 3] = m_Contents[(i * 4) + 3] * rhs.w;
-                }
-
-                return result;
-            }
-
-            Matrix4x4<T>& operator*=(Matrix4x4<T> const rhs)
+            Matrix4x4<T>& operator*=(Matrix4x4<T> const &rhs)
             {
                 Matrix4x4<T> oldContents = (*this);
 
@@ -327,7 +245,7 @@ namespace Ocular
                 return (*this);
             }
 
-            Matrix4x4<T>& operator*=(Vector4<T> const rhs)
+            Matrix4x4<T>& operator*=(Vector4<T> const &rhs)
             {
                 for(unsigned i = 0; i < 3; i++)
                 {
@@ -379,7 +297,7 @@ namespace Ocular
             /**
              * \return The element at the specified row [0-3] and colum [0-3] combination
              */
-            T getElement(unsigned const row, unsigned const column)
+            T getElement(unsigned const &row, unsigned const &column)
             {
                 if(row > 3)
                 {
@@ -397,7 +315,7 @@ namespace Ocular
             /**
              * \return The element at the specified index [0-15]
              */
-            T getElement(unsigned const index)
+            T getElement(unsigned const &index)
             {
                 if(index > 15)
                 {
@@ -453,7 +371,7 @@ namespace Ocular
              * \param[in] y Y component of the rotation vector
              * \param[in] z Z component of the rotation vector
              */
-            void setXRotation(T const x, T const y, T const z)
+            void setXRotation(T const &x, T const &y, T const &z)
             {
                 m_Contents[0] = x;
                 m_Contents[1] = y;
@@ -465,7 +383,7 @@ namespace Ocular
              *
              * \param[in] vec The X-Axis rotation vector
              */
-            void setXRotation(Vector3<T> const vec)
+            void setXRotation(Vector3<T> const &vec)
             {
                 m_Contents[0] = vec.x;
                 m_Contents[1] = vec.y;
@@ -479,7 +397,7 @@ namespace Ocular
              * \param[in] y Y component of the rotation vector
              * \param[in] z Z component of the rotation vector
              */
-            void setYRotation(T const x, T const y, T const z)
+            void setYRotation(T const &x, T const &y, T const &z)
             {
                 m_Contents[4] = x;
                 m_Contents[5] = y;
@@ -491,7 +409,7 @@ namespace Ocular
              *
              * \param[in] vec The Y-Axis rotation vector
              */
-            void setYRotation(Vector3<T> const vec)
+            void setYRotation(Vector3<T> const &vec)
             {
                 m_Contents[4] = vec.x;
                 m_Contents[5] = vec.y;
@@ -505,7 +423,7 @@ namespace Ocular
              * \param[in] y Y component of the rotation vector
              * \param[in] z Z component of the rotation vector
              */
-            void setZRotation(T const x, T const y, T const z)
+            void setZRotation(T const &x, T const &y, T const &z)
             {
                 m_Contents[8]  = x;
                 m_Contents[9]  = y;
@@ -517,7 +435,7 @@ namespace Ocular
              *
              * \param[in] vec The Z-Axis rotation vector
              */
-            void setZRotation(Vector3<T> const vec)
+            void setZRotation(Vector3<T> const &vec)
             {
                 m_Contents[8]  = vec.x;
                 m_Contents[9]  = vec.y;
@@ -531,7 +449,7 @@ namespace Ocular
              * \param[in] y Y component of the position vector
              * \param[in] z Z component of the position vector
              */
-            void setPosition(T const x, T const y, T const z)
+            void setPosition(T const &x, T const &y, T const &z)
             {
                 m_Contents[12] = x;
                 m_Contents[13] = y;
@@ -543,7 +461,7 @@ namespace Ocular
              *
              * \param[in] vec The position vector
              */
-            void setPosition(Vector3<T> const vec)
+            void setPosition(Vector3<T> const &vec)
             {
                 m_Contents[12] = vec.x;
                 m_Contents[13] = vec.y;
@@ -557,7 +475,7 @@ namespace Ocular
              * \param[in] column Column of the element [0,3]
              * \param[in] value  Value to set
              */
-            void setElement(unsigned const row, unsigned const column, T const value)
+            void setElement(unsigned const &row, unsigned const &column, T const &value)
             {
                 if(row > 3)
                 {
@@ -578,7 +496,7 @@ namespace Ocular
              * \param[in] index Index of the element [0,15]
              * \param[in] value Value to set
              */
-            void setElement(unsigned const index, T const value)
+            void setElement(unsigned const &index, T const &value)
             {
                 if(index > 15)
                 {
@@ -604,7 +522,8 @@ namespace Ocular
              *
              * \return The orthographic projection matrix
              */
-            static Matrix4x4<T> createOrthographicMatrix(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip)
+            static Matrix4x4<T> createOrthographicMatrix(float const &xMin, float const &xMax, float const &yMin, float const &yMax, 
+                                                         float const &nearClip, float const &farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -628,7 +547,7 @@ namespace Ocular
              *
              * \return The perspective projection matrix
              */
-            static Matrix4x4<T> createPerspectiveMatrix(float fov, float aspectRatio, float nearClip, float farClip)
+            static Matrix4x4<T> createPerspectiveMatrix(float const &fov, float const &aspectRatio, float const &nearClip, float const &farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -654,7 +573,7 @@ namespace Ocular
              * 
              * \return The inverse matrix
              */
-            static Matrix4x4<T> createInverse(Matrix4x4<T> const matrix)
+            static Matrix4x4<T> createInverse(Matrix4x4<T> const &matrix)
             {
                 Matrix4x4<T> result;
 
@@ -691,7 +610,7 @@ namespace Ocular
 
         private:
 
-            static float calcDeterminant(Matrix4x4<T> const matrix, int const i, int const j)
+            static float calcDeterminant(Matrix4x4<T> const &matrix, int const &i, int const &j)
             {
                 int x;
                 int y;
@@ -734,7 +653,96 @@ namespace Ocular
             T m_Contents[16];
         };
 
+        template<typename T>
+        Matrix4x4<T> operator+(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
+        {
+            Matrix4x4<T> result(lhs[0]  + rhs[0],  lhs[1]  + rhs[1],
+                                lhs[2]  + rhs[2],  lhs[3]  + rhs[3],
+                                lhs[4]  + rhs[4],  lhs[5]  + rhs[5],
+                                lhs[6]  + rhs[6],  lhs[7]  + rhs[7],
+                                lhs[8]  + rhs[8],  lhs[9]  + rhs[9],
+                                lhs[10] + rhs[10], lhs[11] + rhs[11],
+                                lhs[12] + rhs[12], lhs[13] + rhs[13],
+                                lhs[14] + rhs[14], lhs[15] + rhs[15]);
+
+            return result;
+        }
+
+        template<typename T>
+        Matrix4x4<T> operator-(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
+        {
+            Matrix4x4<T> result(lhs[0]  - rhs[0],  lhs[1]  - rhs[1],
+                                lhs[2]  - rhs[2],  lhs[3]  - rhs[3],
+                                lhs[4]  - rhs[4],  lhs[5]  - rhs[5],
+                                lhs[6]  - rhs[6],  lhs[7]  - rhs[7],
+                                lhs[8]  - rhs[8],  lhs[9]  - rhs[9],
+                                lhs[10] - rhs[10], lhs[11] - rhs[11],
+                                lhs[12] - rhs[12], lhs[13] - rhs[13],
+                                lhs[14] - rhs[14], lhs[15] - rhs[15]);
+
+            return result;
+        }
+
+        template<typename T>
+        Matrix4x4<T> operator*(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
+        {
+            Matrix4x4<T> result;
+
+            result[0]  = (lhs[0] * rhs[0])  + (lhs[4] * rhs[1])  + (lhs[8] * rhs[2])  + (lhs[12] * rhs[3]);
+            result[4]  = (lhs[0] * rhs[4])  + (lhs[4] * rhs[5])  + (lhs[8] * rhs[6])  + (lhs[12] * rhs[7]);
+            result[8]  = (lhs[0] * rhs[8])  + (lhs[4] * rhs[9])  + (lhs[8] * rhs[10]) + (lhs[12] * rhs[11]);
+            result[12] = (lhs[0] * rhs[12]) + (lhs[4] * rhs[13]) + (lhs[8] * rhs[14]) + (lhs[12] * rhs[15]);
+
+            result[1]  = (lhs[1] * rhs[0])  + (lhs[5] * rhs[1])  + (lhs[9] * rhs[2])  + (lhs[13] * rhs[3]);
+            result[5]  = (lhs[1] * rhs[4])  + (lhs[5] * rhs[5])  + (lhs[9] * rhs[6])  + (lhs[13] * rhs[7]);
+            result[9]  = (lhs[1] * rhs[8])  + (lhs[5] * rhs[9])  + (lhs[9] * rhs[10]) + (lhs[13] * rhs[11]);
+            result[13] = (lhs[1] * rhs[12]) + (lhs[5] * rhs[13]) + (lhs[9] * rhs[14]) + (lhs[13] * rhs[15]);
+
+            result[2]  = (lhs[2] * rhs[0])  + (lhs[6] * rhs[1])  + (lhs[10] * rhs[2])  + (lhs[14] * rhs[3]);
+            result[6]  = (lhs[2] * rhs[4])  + (lhs[6] * rhs[5])  + (lhs[10] * rhs[6])  + (lhs[14] * rhs[7]);
+            result[10] = (lhs[2] * rhs[8])  + (lhs[6] * rhs[9])  + (lhs[10] * rhs[10]) + (lhs[14] * rhs[11]);
+            result[13] = (lhs[2] * rhs[12]) + (lhs[6] * rhs[13]) + (lhs[10] * rhs[14]) + (lhs[14] * rhs[15]);
+
+            result[3]  = (lhs[3] * rhs[0])  + (lhs[7] * rhs[1])  + (lhs[11] * rhs[2])  + (lhs[15] * rhs[3]);
+            result[7]  = (lhs[3] * rhs[4])  + (lhs[7] * rhs[5])  + (lhs[11] * rhs[6])  + (lhs[15] * rhs[7]);
+            result[11] = (lhs[3] * rhs[8])  + (lhs[7] * rhs[9])  + (lhs[11] * rhs[10]) + (lhs[15] * rhs[11]);
+            result[15] = (lhs[3] * rhs[12]) + (lhs[7] * rhs[13]) + (lhs[11] * rhs[14]) + (lhs[15] * rhs[15]);
+
+            return result;
+        }
+
+        template<typename T>
+        Matrix4x4<T> operator*(Matrix4x4<T> const &lhs, T const rhs)
+        {
+            Matrix4x4<T> result;
+
+            for(unsigned i = 0; i < 16; i++)
+            {
+                result[i] = lhs[i] * rhs;
+            }
+
+            return result;
+        }
+
+        template<typename T>
+        Matrix4x4<T> operator*(Matrix4x4<T> const &lhs, Vector4<T> const &rhs)
+        {
+            Matrix4x4<T> result;
+
+            for(unsigned i = 0; i < 3; i++)
+            {
+                result[(i * 4) + 0] = lhs[(i * 4) + 0] * rhs.x;
+                result[(i * 4) + 1] = lhs[(i * 4) + 1] * rhs.y;
+                result[(i * 4) + 2] = lhs[(i * 4) + 2] * rhs.z;
+                result[(i * 4) + 3] = lhs[(i * 4) + 3] * rhs.w;
+            }
+
+            return result;
+        }
+
+        //--------------------------------------------
         // Common matrix formats
+
         typedef Matrix4x4<float> Matrix4x4f;
         typedef Matrix4x4<double> Matrix4x4d;
 

@@ -43,7 +43,7 @@ namespace Ocular
         {
         public:
 
-            Vector2(T const pX, T const pY)
+            Vector2(T const &pX, T const &pY)
             {
                 x = pX;
                 y = pY;
@@ -51,8 +51,8 @@ namespace Ocular
 
             Vector2()
             {
-                x = 0.0f;
-                y = 0.0f;
+                x = static_cast<T>(0);
+                y = static_cast<T>(0);
             }
 
             ~Vector2()
@@ -64,17 +64,17 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            bool operator==(Vector2<T> const rhs)
+            bool operator==(Vector2<T> const &rhs)
             {
                 return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y);
             }
 
-            bool operator!=(Vector2<T> const rhs)
+            bool operator!=(Vector2<T> const &rhs)
             {
                 return !(*this == rhs);
             }
 
-            Vector2<T>& operator=(Vector2<T> const rhs)
+            Vector2<T>& operator=(Vector2<T> const &rhs)
             {
                 x = rhs.x;
                 y = rhs.y;
@@ -82,17 +82,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T> operator+(Vector2<T> const rhs)
-            {
-                return Vector2<T>(x + rhs.x, y + rhs.y);
-            }
-
-            Vector2<T> operator+(T const rhs)
-            {
-                return Vector2<T>(x + rhs, y + rhs);
-            }
-
-            Vector2<T>& operator+=(Vector2<T> const rhs)
+            Vector2<T>& operator+=(Vector2<T> const &rhs)
             {
                 x += rhs.x;
                 y += rhs.y;
@@ -100,7 +90,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator+=(T const rhs)
+            Vector2<T>& operator+=(T const &rhs)
             {
                 x += rhs;
                 y += rhs;
@@ -108,17 +98,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T> operator-(Vector2<T> const rhs)
-            {
-                return Vector2<T>(x - rhs.x, y - rhs.y);
-            }
-
-            Vector2<T> operator-(T const rhs)
-            {
-                return Vector2<T>(x - rhs, y - rhs);
-            }
-
-            Vector2<T>& operator-=(Vector2<T> const rhs)
+            Vector2<T>& operator-=(Vector2<T> const &rhs)
             {
                 x -= rhs.x;
                 y -= rhs.y;
@@ -126,7 +106,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator-=(T const rhs)
+            Vector2<T>& operator-=(T const &rhs)
             {
                 x -= rhs;
                 y -= rhs;
@@ -134,17 +114,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T> operator*(Vector2<T> const rhs)
-            {
-                return Vector2<T>(x * rhs.x, y * rhs.y);
-            }
-
-            Vector2<T> operator*(T const rhs)
-            {
-                return Vector2<T>(x * rhs, y * rhs);
-            }
-
-            Vector2<T>& operator*=(Vector2<T> const rhs)
+            Vector2<T>& operator*=(Vector2<T> const &rhs)
             {
                 x *= rhs.x;
                 y *= rhs.y;
@@ -152,7 +122,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator*=(T const rhs)
+            Vector2<T>& operator*=(T const &rhs)
             {
                 x *= rhs;
                 y *= rhs;
@@ -160,17 +130,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T> operator/(Vector2<T> const rhs)
-            {
-                return Vector2<T>(x / rhs.x, y / rhs.y, z / rhs.z);
-            }
-
-            Vector2<T> operator/(T const rhs)
-            {
-                return Vector2<T>(x / rhs, y / rhs);
-            }
-
-            Vector2<T>& operator/=(Vector2<T> const rhs)
+            Vector2<T>& operator/=(Vector2<T> const &rhs)
             {
                 x /= rhs.x;
                 y /= rhs.y;
@@ -178,7 +138,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector2<T>& operator/=(T const rhs)
+            Vector2<T>& operator/=(T const &rhs)
             {
                 x /= rhs;
                 y /= rhs;
@@ -251,7 +211,7 @@ namespace Ocular
             * \param[in] rhs The second vector dot multiply with
             * \return The dot product of the two vectors (in radians)
             */
-            T dot(Vector2<T> const rhs)
+            T dot(Vector2<T> const &rhs)
             {
                 return (x * rhs.x) + (y * rhs.y);
             }
@@ -263,7 +223,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the angle with
             * \return The angle, in radians, between the vectors
             */
-            double angleBetween(Vector2<T> const rhs)
+            double angleBetween(Vector2<T> const &rhs)
             {
                 Vector2<T> normalLHS = getNormalized();
                 Vector2<T> normalRHS = rhs.getNormalized();
@@ -282,7 +242,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the distance with
             * \return The distance between the two vectors
             */
-            double distanceTo(Vector2<T> const rhs)
+            double distanceTo(Vector2<T> const &rhs)
             {
                 Vector2<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -299,6 +259,54 @@ namespace Ocular
 
         private:
         };
+
+        template<typename T>
+        Vector2<T> operator+(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return Vector2<T>(lhs.x + rhs.x, lhs.y + rhs.y);
+        }
+
+        template<typename T>
+        Vector2<T> operator+(Vector2<T> const &lhs, T const rhs)
+        {
+            return Vector2<T>(lhs.x + rhs, lhs.y + rhs);
+        }
+
+        template<typename T>
+        Vector2<T> operator-(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return Vector2<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+        }
+
+        template<typename T>
+        Vector2<T> operator-(Vector2<T> const &lhs, T const &rhs)
+        {
+            return Vector2<T>(lhs.x - rhs, lhs.y - rhs);
+        }
+
+        template<typename T>
+        Vector2<T> operator*(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return Vector2<T>(lhs.x * rhs.x, lhs.y * rhs.y);
+        }
+
+        template<typename T>
+        Vector2<T> operator*(Vector2<T> const &lhs, T const &rhs)
+        {
+            return Vector2<T>(lhs.x * rhs, lhs.y * rhs);
+        }
+
+        template<typename T>
+        Vector2<T> operator/(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return Vector2<T>(lhs.x / rhs.x, lhs.y / rhs.y);
+        }
+
+        template<typename T>
+        Vector2<T> operator/(Vector2<T> const &lhs, T const &rhs)
+        {
+            return Vector2<T>(lhs.x / rhs, lhs.y / rhs);
+        }
 
         //--------------------------------------------
         // Common vector formats

@@ -42,7 +42,7 @@ namespace Ocular
         {
         public:
 
-            Vector4(T const pX, T const pY, T const pZ, T const pW)
+            Vector4(T const &pX, T const &pY, T const &pZ, T const &pW)
             {
                 x = pX;
                 y = pY;
@@ -52,10 +52,10 @@ namespace Ocular
 
             Vector4()
             {
-                x = 0.0f;
-                y = 0.0f;
-                z = 0.0f;
-                w = 1.0f;
+                x = static_cast<T>(0);
+                y = static_cast<T>(0);
+                z = static_cast<T>(0);
+                w = static_cast<T>(1);
             }
 
             ~Vector4()
@@ -67,17 +67,17 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            bool operator==(Vector4<T> const rhs)
+            bool operator==(Vector4<T> const &rhs)
             {
                 return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y) && IsEqual<T>(z, rhs.z) && IsEqual<T>(w, rhs.w);
             }
 
-            bool operator!=(Vector4<T> const rhs)
+            bool operator!=(Vector4<T> const &rhs)
             {
                 return !(*this == rhs);
             }
 
-            Vector4<T>& operator=(Vector4<T> const rhs)
+            Vector4<T>& operator=(Vector4<T> const &rhs)
             {
                 x = rhs.x;
                 y = rhs.y;
@@ -87,17 +87,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T> operator+(Vector4<T> const rhs)
-            {
-                return Vector4<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
-            }
-
-            Vector4<T> operator+(T const rhs)
-            {
-                return Vector4<T>(x + rhs, y + rhs, z + rhs, w + rhs);
-            }
-
-            Vector4<T>& operator+=(Vector4<T> const rhs)
+            Vector4<T>& operator+=(Vector4<T> const &rhs)
             {
                 x += rhs.x;
                 y += rhs.y;
@@ -107,7 +97,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator+=(T const rhs)
+            Vector4<T>& operator+=(T const &rhs)
             {
                 x += rhs;
                 y += rhs;
@@ -117,17 +107,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T> operator-(Vector4<T> const rhs)
-            {
-                return Vector4<T>(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
-            }
-
-            Vector4<T> operator-(T const rhs)
-            {
-                return Vector4<T>(x - rhs, y - rhs, z - rhs, w - rhs);
-            }
-
-            Vector4<T>& operator-=(Vector4<T> const rhs)
+            Vector4<T>& operator-=(Vector4<T> const &rhs)
             {
                 x -= rhs.x;
                 y -= rhs.y;
@@ -137,7 +117,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator-=(T const rhs)
+            Vector4<T>& operator-=(T const &rhs)
             {
                 x -= rhs;
                 y -= rhs;
@@ -147,17 +127,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T> operator*(Vector4<T> const rhs)
-            {
-                return Vector4<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
-            }
-
-            Vector4<T> operator*(T const rhs)
-            {
-                return Vector4<T>(x * rhs, y * rhs, z * rhs, w * rhs);
-            }
-
-            Vector4<T>& operator*=(Vector4<T> const rhs)
+            Vector4<T>& operator*=(Vector4<T> const &rhs)
             {
                 x *= rhs.x;
                 y *= rhs.y;
@@ -167,7 +137,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator*=(T const rhs)
+            Vector4<T>& operator*=(T const &rhs)
             {
                 x *= rhs;
                 y *= rhs;
@@ -177,17 +147,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T> operator/(Vector4<T> const rhs)
-            {
-                return Vector4<T>(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w);
-            }
-
-            Vector4<T> operator/(T const rhs)
-            {
-                return Vector4<T>(x / rhs, y / rhs, z / rhs, w / rhs);
-            }
-
-            Vector4<T>& operator/=(Vector4<T> const rhs)
+            Vector4<T>& operator/=(Vector4<T> const &rhs)
             {
                 x /= rhs.x;
                 y /= rhs.y;
@@ -197,7 +157,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector4<T>& operator/=(T const rhs)
+            Vector4<T>& operator/=(T const &rhs)
             {
                 x /= rhs;
                 y /= rhs;
@@ -246,7 +206,7 @@ namespace Ocular
                     x = static_cast<T>(0);
                     y = static_cast<T>(0);
                     z = static_cast<T>(0);
-                    w = static_cast<T>(0);
+                    w = static_cast<T>(1);
                 }
                 else
                 {
@@ -275,7 +235,7 @@ namespace Ocular
              * \param[in] rhs The second vector dot multiply with
              * \return The dot product of the two vectors (in radians)
              */
-            double dot(Vector4<T> const rhs)
+            double dot(Vector4<T> const &rhs)
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
             }
@@ -287,7 +247,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the angle with
              * \return The angle, in radians, between the vectors
              */
-            double angleBetween(Vector4<T> const rhs)
+            double angleBetween(Vector4<T> const &rhs)
             {
                 Vector4<T> normalLHS = getNormalized();
                 Vector4<T> normalRHS = rhs.getNormalized();
@@ -306,7 +266,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the distance with
              * \return The distance between the two vectors
              */
-            double distanceTo(Vector4<T> const rhs)
+            double distanceTo(Vector4<T> const &rhs)
             {
                 Vector4<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -326,7 +286,57 @@ namespace Ocular
         private:
         };
 
+        template<typename T>
+        Vector4<T> operator+(Vector4<T> const &lhs, Vector4<T> const &rhs)
+        {
+            return Vector4<T>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
+        }
+
+        template<typename T>
+        Vector4<T> operator+(Vector4<T> const &lhs, T const &rhs)
+        {
+            return Vector4<T>(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs, lhs.w + rhs);
+        }
+
+        template<typename T>
+        Vector4<T> operator-(Vector4<T> const &lhs, Vector4<T> const &rhs)
+        {
+            return Vector4<T>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
+        }
+
+        template<typename T>
+        Vector4<T> operator-(Vector4<T> const &lhs, T const &rhs)
+        {
+            return Vector4<T>(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs, lhs.w - rhs);
+        }
+
+        template<typename T>
+        Vector4<T> operator*(Vector4<T> const &lhs, Vector4<T> const &rhs)
+        {
+            return Vector4<T>(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z, lhs.w * rhs.w);
+        }
+
+        template<typename T>
+        Vector4<T> operator*(Vector4<T> const &lhs, T const &rhs)
+        {
+            return Vector4<T>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+        }
+
+        template<typename T>
+        Vector4<T> operator/(Vector4<T> const &lhs, Vector4<T> const &rhs)
+        {
+            return Vector4<T>(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z, lhs.w / rhs.w);
+        }
+
+        template<typename T>
+        Vector4<T> operator/(Vector4<T> const &lhs, T const &rhs)
+        {
+            return Vector4<T>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
+        }
+
+        //--------------------------------------------
         // Common vector formats
+
         typedef Vector4<float> Vector4f;
         typedef Vector4<double> Vector4d;
 
