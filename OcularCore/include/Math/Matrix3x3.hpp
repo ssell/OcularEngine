@@ -381,6 +381,59 @@ namespace Ocular
             // OPERATIONS
             //------------------------------------------------------------------------------
 
+            /**
+            * Creates and returns the transpose of the provided matrix.
+            *
+            * \return The transpose matrix
+            */
+            static Matrix3x3<T> createTransposeMatrix(Matrix3x3<T> const &matrix)
+            {
+                Matrix3x3<T> result;
+
+                result[0] = matrix[0];
+                result[1] = matrix[3];
+                result[2] = matrix[6];
+
+                result[3] = matrix[1];
+                result[4] = matrix[4];
+                result[5] = matrix[7];
+
+                result[6] = matrix[2];
+                result[7] = matrix[5];
+                result[8] = matrix[8];
+
+                return result;
+            }
+
+            /**
+            * Creates a returns the inverse of the provided matrix.
+            *
+            * \return The inverse matrix
+            */
+            static Matrix3x3<T> createInverseMatrix(Matrix3x3<T> const &matrix)
+            {
+                Matrix3x3<T> result;
+
+                T oneOverDeterminant = static_cast<T>(1) / (
+                    + matrix[0] * (matrix[4] * matrix[8] - matrix[7] * matrix[5])
+                    - matrix[3] * (matrix[1] * matrix[8] - matrix[7] * matrix[2])
+                    + matrix[6] * (matrix[1] * matrix[5] - matrix[4] * matrix[2]));
+
+                result[0] =  (matrix[4] * matrix[8] - matrix[7] * matrix[5]) * oneOverDeterminant;
+                result[3] = -(matrix[3] * matrix[8] - matrix[6] * matrix[5]) * oneOverDeterminant;
+                result[6] =  (matrix[3] * matrix[7] - matrix[6] * matrix[4]) * oneOverDeterminant;
+
+                result[1] = -(matrix[1] * matrix[8] - matrix[7] * matrix[2]) * oneOverDeterminant;
+                result[4] =  (matrix[0] * matrix[8] - matrix[6] * matrix[2]) * oneOverDeterminant;
+                result[7] = -(matrix[0] * matrix[7] - matrix[6] * matrix[1]) * oneOverDeterminant;
+
+                result[2] =  (matrix[1] * matrix[5] - matrix[4] * matrix[2]) * oneOverDeterminant;
+                result[5] = -(matrix[0] * matrix[5] - matrix[3] * matrix[2]) * oneOverDeterminant;
+                result[7] =  (matrix[0] * matrix[4] - matrix[3] * matrix[1]) * oneOverDeterminant;
+
+                return result;
+            }
+
         protected:
 
         private:
