@@ -78,12 +78,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\MathMatrixStackTest.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\MathVector2Test.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\MathVector3Test.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\MathVector4Test.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrixStack.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector2.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector3.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector4.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Utilities\Structures\TestPriorityList.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Foo.hpp" />
