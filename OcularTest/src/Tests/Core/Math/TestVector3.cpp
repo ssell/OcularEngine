@@ -22,7 +22,71 @@
 Ocular::Math::Vector3d vecA(10.0, 10.0, 0.0);
 Ocular::Math::Vector3d vecB(33.0, 10.8, 3.0);
 
-TEST(MathVector3, Magnitude)
+TEST(Vector3, VectorAddition)
+{
+    Ocular::Math::Vector3d expected(43.0, 20.8, 3.0);
+    Ocular::Math::Vector3d result = vecA + vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, ScalarAddition)
+{
+    Ocular::Math::Vector3d expected(20.0, 20.0, 10.0);
+    Ocular::Math::Vector3d result = vecA + 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, VectorSubtraction)
+{
+    Ocular::Math::Vector3d expected(-23.0, -0.8, -3.0);
+    Ocular::Math::Vector3d result = vecA - vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, ScalarSubtraction)
+{
+    Ocular::Math::Vector3d expected(0.0, 0.0, -10.0);
+    Ocular::Math::Vector3d result = vecA - 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, VectorMultiplication)
+{
+    Ocular::Math::Vector3d expected(330.0, 108.0, 0.0);
+    Ocular::Math::Vector3d result = vecA * vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, ScalarMultiplication)
+{
+    Ocular::Math::Vector3d expected(100.0, 100.0, 0.0);
+    Ocular::Math::Vector3d result = vecA * 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, VectorDivision)
+{
+    Ocular::Math::Vector3d expected(0.303030, 0.92592, 0.0);
+    Ocular::Math::Vector3d result = vecA / vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, ScalarDivision)
+{
+    Ocular::Math::Vector3d expected(1.0, 1.0, 0.0);
+    Ocular::Math::Vector3d result = vecA / 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector3, Magnitude)
 {
     double expected = 14.1421;
     double result = vecA.getMagnitude();
@@ -30,7 +94,7 @@ TEST(MathVector3, Magnitude)
     EXPECT_NEAR(expected, result, Ocular::Math::EPSILON_DOUBLE);
 }
 
-TEST(MathVector3, Normalize)
+TEST(Vector3, Normalize)
 {
     Ocular::Math::Vector3d expected(0.7071, 0.7071, 0.0);
     Ocular::Math::Vector3d result = vecA.getNormalized();
@@ -38,7 +102,7 @@ TEST(MathVector3, Normalize)
     EXPECT_TRUE((expected == result));
 }
 
-TEST(MathVector3, CrossProduct)
+TEST(Vector3, CrossProduct)
 {
     Ocular::Math::Vector3d expected(30.0, -30.0, -222.0);
     Ocular::Math::Vector3d result = vecA.cross(vecB);
@@ -46,7 +110,7 @@ TEST(MathVector3, CrossProduct)
     EXPECT_TRUE((expected == result));
 }
 
-TEST(MathVector3, DotProduct)
+TEST(Vector3, DotProduct)
 {
     double expected = 438.0;
     double result = vecA.dot(vecB);
@@ -54,7 +118,7 @@ TEST(MathVector3, DotProduct)
     EXPECT_NEAR(expected, result, Ocular::Math::EPSILON_DOUBLE);
 }
 
-TEST(MathVector3, AngleBetween)
+TEST(Vector3, AngleBetween)
 {
     double expected = 0.476383;
     double result = vecA.angleBetween(vecB);
@@ -62,7 +126,7 @@ TEST(MathVector3, AngleBetween)
     EXPECT_NEAR(expected, result, Ocular::Math::EPSILON_DOUBLE);
 }
 
-TEST(MathVector3, Distance)
+TEST(Vector3, Distance)
 {
     double expected = 23.2086;
     double result = vecA.distanceTo(vecB);
@@ -70,7 +134,7 @@ TEST(MathVector3, Distance)
     EXPECT_NEAR(expected, result, Ocular::Math::EPSILON_DOUBLE);
 }
 
-TEST(MathVector3, Midpoint)
+TEST(Vector3, Midpoint)
 {
     Ocular::Math::Vector3d expected = Ocular::Math::Vector3d(21.5, 10.4, 1.5);
     Ocular::Math::Vector3d result = Ocular::Math::Vector3d::midpoint(vecA, vecB);
@@ -78,7 +142,7 @@ TEST(MathVector3, Midpoint)
     EXPECT_TRUE((expected == result));
 }
 
-TEST(MathVector3, Lerp)
+TEST(Vector3, Lerp)
 {
     Ocular::Math::Vector3d midpoint = Ocular::Math::Vector3d::midpoint(vecA, vecB);
 

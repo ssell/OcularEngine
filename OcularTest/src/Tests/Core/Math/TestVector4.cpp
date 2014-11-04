@@ -22,6 +22,70 @@
 Ocular::Math::Vector4d vecA(10.0, 10.0, 0.0, 5.0);
 Ocular::Math::Vector4d vecB(33.0, 10.8, 3.0, 8.0);
 
+TEST(Vector4, VectorAddition)
+{
+    Ocular::Math::Vector4d expected(43.0, 20.8, 3.0, 13.0);
+    Ocular::Math::Vector4d result = vecA + vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, ScalarAddition)
+{
+    Ocular::Math::Vector4d expected(20.0, 20.0, 10.0, 15.0);
+    Ocular::Math::Vector4d result = vecA + 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, VectorSubtraction)
+{
+    Ocular::Math::Vector4d expected(-23.0, -0.8, -3.0, -3.0);
+    Ocular::Math::Vector4d result = vecA - vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, ScalarSubtraction)
+{
+    Ocular::Math::Vector4d expected(0.0, 0.0, -10.0, -5.0);
+    Ocular::Math::Vector4d result = vecA - 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, VectorMultiplication)
+{
+    Ocular::Math::Vector4d expected(330.0, 108.0, 0.0, 40.0);
+    Ocular::Math::Vector4d result = vecA * vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, ScalarMultiplication)
+{
+    Ocular::Math::Vector4d expected(100.0, 100.0, 0.0, 50.0);
+    Ocular::Math::Vector4d result = vecA * 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, VectorDivision)
+{
+    Ocular::Math::Vector4d expected(0.303030, 0.92592, 0.0, 0.62500);
+    Ocular::Math::Vector4d result = vecA / vecB;
+
+    EXPECT_TRUE((expected == result));
+}
+
+TEST(Vector4, ScalarDivision)
+{
+    Ocular::Math::Vector4d expected(1.0, 1.0, 0.0, 0.5);
+    Ocular::Math::Vector4d result = vecA / 10.0;
+
+    EXPECT_TRUE((expected == result));
+}
+
 TEST(Vector4, Magnitude)
 {
     double expected = 15.0;
