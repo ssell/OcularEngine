@@ -20,6 +20,7 @@
 
 #include "Equality.hpp"
 #include "Vector3.hpp"
+#include "Exception.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -170,7 +171,7 @@ namespace Ocular
             /**
              * \return The X-Axis rotation vector
              */
-            Vector3<T> getXRotation()
+            Vector3<T> getXRotation() const
             {
                 return Vector3<T>(m_Contents[0], m_Contents[1], m_Contents[2]);
             }
@@ -178,7 +179,7 @@ namespace Ocular
             /**
              * \return The Y-Axis rotation vector
              */
-            Vector3<T> getYRotation()
+            Vector3<T> getYRotation() const
             {
                 return Vector3<T>(m_Contents[3], m_Contents[4], m_Contents[5]);
             }
@@ -186,7 +187,7 @@ namespace Ocular
             /**
              * \return The Z-Axis rotation vector
              */
-            Vector3<T> getZRotation()
+            Vector3<T> getZRotation() const
             {
                 return Vector3<T>(m_Contents[6], m_Contents[7], m_Contents[8]);
             }
@@ -194,7 +195,7 @@ namespace Ocular
             /**
              * \return The element at the specified row [0-2] and colum [0-2] combination
              */
-            T getElement(unsigned const &row, unsigned const &column)
+            T getElement(unsigned const &row, unsigned const &column) const
             {
                 if(row > 2)
                 {
@@ -212,7 +213,7 @@ namespace Ocular
             /**
              * \return The element at the specified index [0-8]
              */
-            T getElement(unsigned const index)
+            T getElement(unsigned const index) const
             {
                 if(index > 8)
                 {
@@ -220,6 +221,15 @@ namespace Ocular
                 }
 
                 return m_Contents[index];
+            }
+
+            /**
+            * Returns the complete contents of the matrix.
+            */
+            float* const getContents() const
+            {
+                float[9] result = m_Contents;
+                return m_Contents;
             }
 
             //------------------------------------------------------------------------------
@@ -464,9 +474,9 @@ namespace Ocular
                                 lhs[2] - rhs[2], lhs[3] - rhs[3],
                                 lhs[4] - rhs[4], lhs[5] - rhs[5],
                                 lhs[6] - rhs[6], lhs[7] - rhs[7],
-                                lhs[8] - rhs[8])
+                                lhs[8] - rhs[8]);
 
-                return result;
+            return result;
         }
 
         template<typename T>
@@ -474,17 +484,23 @@ namespace Ocular
         {
             Matrix3x3<T> result;
 
-            result[0] = lhs[0] * rhs[0] + lhs[3] * rhs[1] + lhs[6] * rhs[2];
-            result[3] = lhs[0] * rhs[3] + lhs[3] * rhs[4] + lhs[6] * rhs[5];
-            result[6] = lhs[0] * rhs[6] + lhs[3] * rhs[7] + lhs[6] * rhs[8];
+            /*
+                00 01 02
+                03 04 05
+                06 07 08
+            */
 
-            result[1] = lhs[1] * rhs[0] + lhs[4] * rhs[1] + lhs[7] * rhs[2];
-            result[4] = lhs[1] * rhs[3] + lhs[4] * rhs[4] + lhs[7] * rhs[5];
-            result[7] = lhs[1] * rhs[6] + lhs[4] * rhs[7] + lhs[7] * rhs[8];
+            result[0] = (lhs[0] * rhs[0]) + (lhs[1] * rhs[3]) + (lhs[2] * rhs[6]);
+            result[1] = (lhs[0] * rhs[1]) + (lhs[1] * rhs[4]) + (lhs[2] * rhs[7]);
+            result[2] = (lhs[0] * rhs[2]) + (lhs[1] * rhs[5]) + (lhs[2] * rhs[8]);
 
-            result[2] = lhs[2] * rhs[0] + lhs[5] * rhs[1] + lhs[8] * rhs[2];
-            result[5] = lhs[2] * rhs[3] + lhs[5] * rhs[4] + lhs[8] * rhs[5];
-            result[8] = lhs[2] * rhs[6] + lhs[5] * rhs[7] + lhs[8] * rhs[8];
+            result[3] = (lhs[3] * rhs[0]) + (lhs[4] * rhs[3]) + (lhs[5] * rhs[6]);
+            result[4] = (lhs[3] * rhs[1]) + (lhs[4] * rhs[4]) + (lhs[5] * rhs[7]);
+            result[5] = (lhs[3] * rhs[2]) + (lhs[4] * rhs[5]) + (lhs[5] * rhs[8]);
+
+            result[6] = (lhs[6] * rhs[0]) + (lhs[7] * rhs[3]) + (lhs[8] * rhs[6]);
+            result[7] = (lhs[6] * rhs[1]) + (lhs[7] * rhs[4]) + (lhs[8] * rhs[7]);
+            result[8] = (lhs[6] * rhs[2]) + (lhs[7] * rhs[5]) + (lhs[8] * rhs[8]);
 
             return result;
         }

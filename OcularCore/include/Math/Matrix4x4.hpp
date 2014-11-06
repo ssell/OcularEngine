@@ -248,7 +248,7 @@ namespace Ocular
             /**
              * \return The X-Axis rotation vector
              */
-            Vector3<T> getXRotation()
+            Vector3<T> getXRotation() const
             {
                 return Vector3<T>(m_Contents[0], m_Contents[1], m_Contents[2]);
             }
@@ -256,7 +256,7 @@ namespace Ocular
             /**
              * \return The Y-Axis rotation vector
              */
-            Vector3<T> getYRotation()
+            Vector3<T> getYRotation() const
             {
                 return Vector3<T>(m_Contents[4], m_Contents[5], m_Contents[6]);
             }
@@ -264,7 +264,7 @@ namespace Ocular
             /**
              * \return The Z-Axis rotation vector
              */
-            Vector3<T> getZRotation()
+            Vector3<T> getZRotation() const
             {
                 return Vector3<T>(m_Contents[8], m_Contents[9], m_Contents[10]);
             }
@@ -272,7 +272,7 @@ namespace Ocular
             /**
              * \return The Position vector
              */
-            Vector3<T> getPosition()
+            Vector3<T> getPosition() const
             {
                 return Vector3<T>(m_Contents[12], m_Contents[13], m_Contents[14]);
             }
@@ -280,7 +280,7 @@ namespace Ocular
             /**
              * \return The element at the specified row [0-3] and colum [0-3] combination
              */
-            T getElement(unsigned const &row, unsigned const &column)
+            T getElement(unsigned const &row, unsigned const &column) const
             {
                 if(row > 3)
                 {
@@ -298,7 +298,7 @@ namespace Ocular
             /**
              * \return The element at the specified index [0-15]
              */
-            T getElement(unsigned const &index)
+            T getElement(unsigned const &index) const
             {
                 if(index > 15)
                 {
@@ -308,8 +308,12 @@ namespace Ocular
                 return m_Contents[index];
             }
 
-            float* getContents()
+            /**
+             * Returns the complete contents of the matrix.
+             */
+            float* const getContents() const
             {
+                float[16] result = m_Contents;
                 return m_Contents;
             }
 
@@ -588,12 +592,16 @@ namespace Ocular
              * 
              * \return The inverse matrix
              */
-            static Matrix4x4<T> createInverse(Matrix4x4<T> const &matrix)
+            static Matrix4x4<T> createInverseMatrix(Matrix4x4<T> const &matrix)
             {
+                /**
+                 * TODO : Rewrite me
+                 */
+
                 Matrix4x4<T> result;
 
-                float determinant = 0.0f;
-                float determinantIJ = 0.0f;
+                T determinant   = static_cast<T>(0);
+                T determinantIJ = static_cast<T>(0);
 
                 //------------------------------------
                 // Calculate the 4x4 determinant
@@ -625,13 +633,17 @@ namespace Ocular
 
         private:
 
-            static float calcDeterminant(Matrix4x4<T> const &matrix, int const &i, int const &j)
+            static T calcDeterminant(Matrix4x4<T> const &matrix, int const &i, int const &j)
             {
+                /**
+                 * TODO : Replace me
+                 */
+
                 int x;
                 int y;
 
-			    float result;
-                float mat[3][3];
+			    T result;
+                T mat[3][3];
 
 			    x = 0;
 
@@ -724,25 +736,32 @@ namespace Ocular
         {
             Matrix4x4<T> result;
 
-            result[0]  = (lhs[0] * rhs[0])  + (lhs[4] * rhs[1])  + (lhs[8] * rhs[2])  + (lhs[12] * rhs[3]);
-            result[4]  = (lhs[0] * rhs[4])  + (lhs[4] * rhs[5])  + (lhs[8] * rhs[6])  + (lhs[12] * rhs[7]);
-            result[8]  = (lhs[0] * rhs[8])  + (lhs[4] * rhs[9])  + (lhs[8] * rhs[10]) + (lhs[12] * rhs[11]);
-            result[12] = (lhs[0] * rhs[12]) + (lhs[4] * rhs[13]) + (lhs[8] * rhs[14]) + (lhs[12] * rhs[15]);
+            /*
+                00  01  02  03 
+                04  05  06  07
+                08  09  10  11
+                12  13  14  15
+            */
 
-            result[1]  = (lhs[1] * rhs[0])  + (lhs[5] * rhs[1])  + (lhs[9] * rhs[2])  + (lhs[13] * rhs[3]);
-            result[5]  = (lhs[1] * rhs[4])  + (lhs[5] * rhs[5])  + (lhs[9] * rhs[6])  + (lhs[13] * rhs[7]);
-            result[9]  = (lhs[1] * rhs[8])  + (lhs[5] * rhs[9])  + (lhs[9] * rhs[10]) + (lhs[13] * rhs[11]);
-            result[13] = (lhs[1] * rhs[12]) + (lhs[5] * rhs[13]) + (lhs[9] * rhs[14]) + (lhs[13] * rhs[15]);
+            result[0]  = (lhs[0]  * rhs[0]) + (lhs[1]  * rhs[4]) + (lhs[2] * rhs[8])  + (lhs[3]  * rhs[12]);
+            result[1]  = (lhs[0]  * rhs[1]) + (lhs[1]  * rhs[5]) + (lhs[2] * rhs[9])  + (lhs[3]  * rhs[13]);
+            result[2]  = (lhs[0]  * rhs[2]) + (lhs[1]  * rhs[6]) + (lhs[2] * rhs[10]) + (lhs[3]  * rhs[14]);
+            result[3]  = (lhs[0]  * rhs[3]) + (lhs[1]  * rhs[7]) + (lhs[2] * rhs[11]) + (lhs[3]  * rhs[15]);
 
-            result[2]  = (lhs[2] * rhs[0])  + (lhs[6] * rhs[1])  + (lhs[10] * rhs[2])  + (lhs[14] * rhs[3]);
-            result[6]  = (lhs[2] * rhs[4])  + (lhs[6] * rhs[5])  + (lhs[10] * rhs[6])  + (lhs[14] * rhs[7]);
-            result[10] = (lhs[2] * rhs[8])  + (lhs[6] * rhs[9])  + (lhs[10] * rhs[10]) + (lhs[14] * rhs[11]);
-            result[13] = (lhs[2] * rhs[12]) + (lhs[6] * rhs[13]) + (lhs[10] * rhs[14]) + (lhs[14] * rhs[15]);
+            result[4]  = (lhs[4]  * rhs[0]) + (lhs[5]  * rhs[4]) + (lhs[6] * rhs[8])  + (lhs[7]  * rhs[12]);
+            result[5]  = (lhs[4]  * rhs[1]) + (lhs[5]  * rhs[5]) + (lhs[6] * rhs[9])  + (lhs[7]  * rhs[13]);
+            result[6]  = (lhs[4]  * rhs[2]) + (lhs[5]  * rhs[6]) + (lhs[6] * rhs[10]) + (lhs[7]  * rhs[14]);
+            result[7]  = (lhs[4]  * rhs[3]) + (lhs[5]  * rhs[7]) + (lhs[6] * rhs[11]) + (lhs[7]  * rhs[15]);
 
-            result[3]  = (lhs[3] * rhs[0])  + (lhs[7] * rhs[1])  + (lhs[11] * rhs[2])  + (lhs[15] * rhs[3]);
-            result[7]  = (lhs[3] * rhs[4])  + (lhs[7] * rhs[5])  + (lhs[11] * rhs[6])  + (lhs[15] * rhs[7]);
-            result[11] = (lhs[3] * rhs[8])  + (lhs[7] * rhs[9])  + (lhs[11] * rhs[10]) + (lhs[15] * rhs[11]);
-            result[15] = (lhs[3] * rhs[12]) + (lhs[7] * rhs[13]) + (lhs[11] * rhs[14]) + (lhs[15] * rhs[15]);
+            result[8]  = (lhs[8]  * rhs[0]) + (lhs[9]  * rhs[4]) + (lhs[10] * rhs[8])  + (lhs[11] * rhs[12]);
+            result[9]  = (lhs[8]  * rhs[1]) + (lhs[9]  * rhs[5]) + (lhs[10] * rhs[9])  + (lhs[11] * rhs[13]);
+            result[10] = (lhs[8]  * rhs[2]) + (lhs[9]  * rhs[6]) + (lhs[10] * rhs[10]) + (lhs[11] * rhs[14]);
+            result[11] = (lhs[8]  * rhs[3]) + (lhs[9]  * rhs[7]) + (lhs[10] * rhs[11]) + (lhs[11] * rhs[15]);
+
+            result[12] = (lhs[12] * rhs[0]) + (lhs[13] * rhs[4]) + (lhs[14] * rhs[8])  + (lhs[15] * rhs[12]);
+            result[13] = (lhs[12] * rhs[1]) + (lhs[13] * rhs[5]) + (lhs[14] * rhs[9])  + (lhs[15] * rhs[13]);
+            result[14] = (lhs[12] * rhs[2]) + (lhs[13] * rhs[6]) + (lhs[14] * rhs[10]) + (lhs[15] * rhs[14]);
+            result[15] = (lhs[12] * rhs[3]) + (lhs[13] * rhs[7]) + (lhs[14] * rhs[11]) + (lhs[15] * rhs[15]);
 
             return result;
         }
