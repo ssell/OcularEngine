@@ -78,6 +78,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrix3x3.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrix4x4.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrixStack.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector2.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector3.cpp" />

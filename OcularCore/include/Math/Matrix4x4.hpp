@@ -171,23 +171,6 @@ namespace Ocular
                 return (*this);
             }
 
-            bool operator==(Matrix4x4<T> const &rhs)
-            {
-                return IsEqual<T>(m_Contents[0],  rhs[0])  && IsEqual<T>(m_Contents[1],  rhs[1])  &&
-                       IsEqual<T>(m_Contents[2],  rhs[2])  && IsEqual<T>(m_Contents[3],  rhs[3])  &&
-                       IsEqual<T>(m_Contents[4],  rhs[4])  && IsEqual<T>(m_Contents[5],  rhs[5])  &&
-                       IsEqual<T>(m_Contents[6],  rhs[6])  && IsEqual<T>(m_Contents[7],  rhs[7])  &&
-                       IsEqual<T>(m_Contents[8],  rhs[8])  && IsEqual<T>(m_Contents[9],  rhs[9])  &&
-                       IsEqual<T>(m_Contents[10], rhs[10]) && IsEqual<T>(m_Contents[11], rhs[11]) &&
-                       IsEqual<T>(m_Contents[12], rhs[12]) && IsEqual<T>(m_Contents[13], rhs[13]) &&
-                       IsEqual<T>(m_Contents[14], rhs[14]) && IsEqual<T>(m_Contents[15], rhs[15]);
-            }
-
-            bool operator!=(Matrix4x4<T> const &rhs)
-            {
-                return !(*this == rhs);
-            }
-
             Matrix4x4<T>& operator+=(Matrix4x4<T> const &rhs)
             {
                 for(unsigned i = 0; i < 16; i++)
@@ -684,6 +667,27 @@ namespace Ocular
 
             T m_Contents[16];
         };
+        
+        //----------------------------------------------------------------------------------
+
+        template<typename T>
+        bool operator==(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
+        {
+            return IsEqual<T>(lhs[0],  rhs[0])  && IsEqual<T>(lhs[1],  rhs[1])  &&
+                   IsEqual<T>(lhs[2],  rhs[2])  && IsEqual<T>(lhs[3],  rhs[3])  &&
+                   IsEqual<T>(lhs[4],  rhs[4])  && IsEqual<T>(lhs[5],  rhs[5])  &&
+                   IsEqual<T>(lhs[6],  rhs[6])  && IsEqual<T>(lhs[7],  rhs[7])  &&
+                   IsEqual<T>(lhs[8],  rhs[8])  && IsEqual<T>(lhs[9],  rhs[9])  &&
+                   IsEqual<T>(lhs[10], rhs[10]) && IsEqual<T>(lhs[11], rhs[11]) &&
+                   IsEqual<T>(lhs[12], rhs[12]) && IsEqual<T>(lhs[13], rhs[13]) &&
+                   IsEqual<T>(lhs[14], rhs[14]) && IsEqual<T>(lhs[15], rhs[15]);
+        }
+        
+        template<typename T>
+        bool operator!=(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
+        {
+            return !(lhs == rhs);
+        }
 
         template<typename T>
         Matrix4x4<T> operator+(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)

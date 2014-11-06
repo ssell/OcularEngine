@@ -102,20 +102,6 @@ namespace Ocular
                 return (*this);
             }
 
-            bool operator==(Matrix3x3<T> const &rhs)
-            {
-                return IsEqual<T>(m_Contents[0], rhs[0]) && IsEqual<T>(m_Contents[1], rhs[1]) &&
-                       IsEqual<T>(m_Contents[2], rhs[2]) && IsEqual<T>(m_Contents[3], rhs[3]) &&
-                       IsEqual<T>(m_Contents[4], rhs[4]) && IsEqual<T>(m_Contents[5], rhs[5]) &&
-                       IsEqual<T>(m_Contents[6], rhs[6]) && IsEqual<T>(m_Contents[7], rhs[7]) &&
-                       IsEqual<T>(m_Contents[8], rhs[8]);
-            }
-
-            bool operator!=(Matrix3x3<T> const &rhs)
-            {
-                return !(*this == rhs);
-            }
-
             Matrix3x3<T>& operator+=(Matrix3x3<T> const &rhs)
             {
                 for(unsigned i = 0; i < 9; i++)
@@ -440,6 +426,24 @@ namespace Ocular
 
             T m_Contents[9];
         };
+
+        //----------------------------------------------------------------------------------
+        
+        template<typename T>
+        bool operator==(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
+        {
+            return IsEqual<T>(lhs[0], rhs[0]) && IsEqual<T>(lhs[1], rhs[1]) &&
+                   IsEqual<T>(lhs[2], rhs[2]) && IsEqual<T>(lhs[3], rhs[3]) &&
+                   IsEqual<T>(lhs[4], rhs[4]) && IsEqual<T>(lhs[5], rhs[5]) &&
+                   IsEqual<T>(lhs[6], rhs[6]) && IsEqual<T>(lhs[7], rhs[7]) &&
+                   IsEqual<T>(lhs[8], rhs[8]);
+        }
+        
+        template<typename T>
+        bool operator!=(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
+        {
+            return !(lhs == rhs);
+        }
 
         template<typename T>
         Matrix3x3<T> operator+(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)

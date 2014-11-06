@@ -66,16 +66,6 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            bool operator==(Vector3<T> const &rhs)
-            {
-                return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y) && IsEqual<T>(z, rhs.z);
-            }
-
-            bool operator!=(Vector3<T> const &rhs)
-            {
-                return !(*this == rhs);
-            }
-
             Vector3<T>& operator=(Vector3<T> const &rhs)
             {
                 x = rhs.x;
@@ -84,8 +74,6 @@ namespace Ocular
 
                 return *this;
             }
-
-            
 
             Vector3<T>& operator+=(Vector3<T> const &rhs)
             {
@@ -166,7 +154,7 @@ namespace Ocular
             /**
             * \return The magnitude (length) of the vector.
             */
-            double getMagnitude()
+            double getMagnitude() const
             {
                 double dX = static_cast<double>(x);
                 double dY = static_cast<double>(y);
@@ -178,7 +166,7 @@ namespace Ocular
             /**
             * \return The length of the vector.
             */
-            double getLength()
+            double getLength() const
             {
                 return getMagnitude();
             }
@@ -229,7 +217,7 @@ namespace Ocular
             * \param[in] rhs The second vector to cross multiply with
             * \return The cross product of the two vectors
             */
-            Vector3<T> cross(Vector3<T> const &rhs)
+            Vector3<T> cross(Vector3<T> const &rhs) const
             {
                 return Vector3<T>((y * rhs.z) - (z * rhs.y),
                     (z * rhs.x) - (x * rhs.z),
@@ -243,7 +231,7 @@ namespace Ocular
             * \param[in] rhs The second vector dot multiply with
             * \return The dot product of the two vectors (in radians)
             */
-            T dot(Vector3<T> const &rhs)
+            T dot(Vector3<T> const &rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
             }
@@ -255,7 +243,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the angle with
             * \return The angle, in radians, between the vectors
             */
-            double angleBetween(Vector3<T> const &rhs)
+            double angleBetween(Vector3<T> const &rhs) const
             {
                 Vector3<T> normalLHS = getNormalized();
                 Vector3<T> normalRHS = rhs.getNormalized();
@@ -274,7 +262,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the distance with
             * \return The distance between the two vectors
             */
-            T distanceTo(Vector3<T> const &rhs)
+            T distanceTo(Vector3<T> const &rhs) const
             {
                 Vector3<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -355,6 +343,20 @@ namespace Ocular
 
         private:
         };
+
+        //----------------------------------------------------------------------------------
+        
+        template<typename T>
+        bool operator==(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        {
+            return IsEqual<T>(lhs.x, rhs.x) && IsEqual<T>(lhs.y, rhs.y) && IsEqual<T>(lhs.z, rhs.z);
+        }
+        
+        template<typename T>
+        bool operator!=(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        {
+            return !(lhs == rhs);
+        }
 
         template<typename T>
         Vector3<T> operator+(Vector3<T> const &lhs, Vector3<T> const &rhs)

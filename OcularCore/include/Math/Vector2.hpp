@@ -64,16 +64,6 @@ namespace Ocular
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            bool operator==(Vector2<T> const &rhs)
-            {
-                return IsEqual<T>(x, rhs.x) && IsEqual<T>(y, rhs.y);
-            }
-
-            bool operator!=(Vector2<T> const &rhs)
-            {
-                return !(*this == rhs);
-            }
-
             Vector2<T>& operator=(Vector2<T> const &rhs)
             {
                 x = rhs.x;
@@ -153,7 +143,7 @@ namespace Ocular
             /**
             * \return The magnitude (length) of the vector.
             */
-            double getMagnitude()
+            double getMagnitude() const
             {
                 double dX = static_cast<double>(x);
                 double dY = static_cast<double>(y);
@@ -164,7 +154,7 @@ namespace Ocular
             /**
             * \return The length of the vector.
             */
-            double getLength()
+            double getLength() const
             {
                 return getMagnitude();
             }
@@ -211,7 +201,7 @@ namespace Ocular
             * \param[in] rhs The second vector dot multiply with
             * \return The dot product of the two vectors (in radians)
             */
-            T dot(Vector2<T> const &rhs)
+            T dot(Vector2<T> const &rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y);
             }
@@ -223,7 +213,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the angle with
             * \return The angle, in radians, between the vectors
             */
-            double angleBetween(Vector2<T> const &rhs)
+            double angleBetween(Vector2<T> const &rhs) const
             {
                 Vector2<T> normalLHS = getNormalized();
                 Vector2<T> normalRHS = rhs.getNormalized();
@@ -242,7 +232,7 @@ namespace Ocular
             * \param[in] rhs The second vector to calculate the distance with
             * \return The distance between the two vectors
             */
-            double distanceTo(Vector2<T> const &rhs)
+            double distanceTo(Vector2<T> const &rhs) const
             {
                 Vector2<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -259,6 +249,20 @@ namespace Ocular
 
         private:
         };
+
+        //----------------------------------------------------------------------------------
+        
+        template<typename T>
+        bool operator==(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return IsEqual<T>(lhs.x, rhs.x) && IsEqual<T>(lhs.y, rhs.y);
+        }
+        
+        template<typename T>
+        bool operator!=(Vector2<T> const &lhs, Vector2<T> const &rhs)
+        {
+            return !(lhs == rhs);
+        }
 
         template<typename T>
         Vector2<T> operator+(Vector2<T> const &lhs, Vector2<T> const &rhs)
