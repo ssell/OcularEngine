@@ -188,8 +188,20 @@ TEST(Matrix3x3, Transpose)
 
 TEST(Matrix3x3, Inverse)
 {
-    const Ocular::Math::Matrix3x3d expected;
-    const Ocular::Math::Matrix3x3d result = matA * Ocular::Math::Matrix3x3d::createInverseMatrix(matA);
+    // matA is actually a singular matrix, and does not have an inverse.
+    // Currently the math library (aka me) doesn't know what to do when 
+    // asked to invert a singular matrix, so using a new matrix for this test.
+
+    const Ocular::Math::Matrix3x3d matrix(1.0, 2.0, 3.0,
+                                          4.0, 15.0, 6.0,
+                                          7.0, 8.0, 9.0);
+
+    const Ocular::Math::Matrix3x3d expected(-0.7249, -0.0500,  0.2750,
+                                            -0.0500,  0.1000, -0.0500,
+                                             0.6083, -0.0500, -0.0583);
+
+
+    const Ocular::Math::Matrix3x3d result = Ocular::Math::Matrix3x3d::createInverseMatrix(matrix);
 
     EXPECT_TRUE(expected == result);
 }

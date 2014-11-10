@@ -42,9 +42,56 @@ namespace Ocular
         static const double EPSILON_FLOAT  = 0.0001f;
 
         template<typename T>
-        T Clamp(const T& value, const T& lower, const T& upper)
+        static T Clamp(const T& value, const T& lower, const T& upper)
         {
             return ((value < lower) ? lower : (value > upper) ? upper : value);
+        }
+
+        /**
+        * Rounds the provided value to the specified precision level.<br/>
+        * This method deals with the rounding of decimal points.<br/><br/>
+        *
+        * Examples:<br/><br/>
+        *
+        * RoundUpDecimal(0.2749999, 2) = 0.28 <br/>
+        * RoundUpDecimal(0.86736, 3) = 0.868
+        *
+        * \param[in] value Value to round
+        * \param[in] precision Number of decimal points to round to
+        */
+        template<typename T>
+        static T RoundUpDecimal(T value, int const precision)
+        {
+            value *= std::pow(10, precision);
+            value = std::ceil(value);
+            value /= std::pow(10, precision);
+
+            return value;
+        }
+
+        /**
+        * Rounds the provided value to the specified precision level.<br/>
+        * This method deals with the rounding to the nearest power of ten increment.<br/><br/>
+        *
+        * For example, if precision is 3, it will round to the nearest thousands. 
+        * If precision is 2, it will round to the nearest hundreds.<br/><br/>
+        *
+        * Examples:<br/><br/>
+        *
+        * RoundUpPowTen(1250, 3) = 2000 <br/>
+        * RoundUpPowTen(18, 2) = 100
+        *
+        * \param[in] value Value to round
+        * \param[in] precision Closest pow of ten to round to
+        */
+        template<typename T>
+        static T RoundUpPowTen(T value, int const precision)
+        {
+            value /= std::pow(10, precision);
+            value  = std::ceil(value);
+            value *= std::pow(10, precision);
+
+            return value;
         }
     }
     /**

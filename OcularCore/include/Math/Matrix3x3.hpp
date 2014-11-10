@@ -410,22 +410,23 @@ namespace Ocular
             {
                 Matrix3x3<T> result;
 
-                T oneOverDeterminant = static_cast<T>(1) / (
-                    + matrix[0] * (matrix[4] * matrix[8] - matrix[7] * matrix[5])
-                    - matrix[3] * (matrix[1] * matrix[8] - matrix[7] * matrix[2])
-                    + matrix[6] * (matrix[1] * matrix[5] - matrix[4] * matrix[2]));
+                T determinant = ( + matrix[0] * (matrix[4] * matrix[8] - matrix[5] * matrix[7])
+                                  - matrix[1] * (matrix[3] * matrix[8] - matrix[5] * matrix[6])
+                                  + matrix[2] * (matrix[3] * matrix[7] - matrix[4] * matrix[6]) );
 
-                result[0] =  (matrix[4] * matrix[8] - matrix[7] * matrix[5]) * oneOverDeterminant;
-                result[3] = -(matrix[3] * matrix[8] - matrix[6] * matrix[5]) * oneOverDeterminant;
-                result[6] =  (matrix[3] * matrix[7] - matrix[6] * matrix[4]) * oneOverDeterminant;
+                T oneOverDeterminant = static_cast<T>(1) / determinant;
 
-                result[1] = -(matrix[1] * matrix[8] - matrix[7] * matrix[2]) * oneOverDeterminant;
-                result[4] =  (matrix[0] * matrix[8] - matrix[6] * matrix[2]) * oneOverDeterminant;
-                result[7] = -(matrix[0] * matrix[7] - matrix[6] * matrix[1]) * oneOverDeterminant;
+                result[0] =  (matrix[4] * matrix[8] - matrix[5] * matrix[7]) * oneOverDeterminant;
+                result[1] = -(matrix[1] * matrix[8] - matrix[2] * matrix[7]) * oneOverDeterminant;
+                result[2] =  (matrix[1] * matrix[5] - matrix[2] * matrix[4]) * oneOverDeterminant;
 
-                result[2] =  (matrix[1] * matrix[5] - matrix[4] * matrix[2]) * oneOverDeterminant;
-                result[5] = -(matrix[0] * matrix[5] - matrix[3] * matrix[2]) * oneOverDeterminant;
-                result[7] =  (matrix[0] * matrix[4] - matrix[3] * matrix[1]) * oneOverDeterminant;
+                result[3] = -(matrix[3] * matrix[8] - matrix[5] * matrix[6]) * oneOverDeterminant;
+                result[4] =  (matrix[0] * matrix[8] - matrix[2] * matrix[6]) * oneOverDeterminant;
+                result[5] = -(matrix[0] * matrix[5] - matrix[2] * matrix[3]) * oneOverDeterminant;
+
+                result[6] =  (matrix[3] * matrix[7] - matrix[4] * matrix[6]) * oneOverDeterminant;
+                result[7] = -(matrix[0] * matrix[7] - matrix[1] * matrix[6]) * oneOverDeterminant;
+                result[8] =  (matrix[0] * matrix[4] - matrix[1] * matrix[3]) * oneOverDeterminant;
 
                 return result;
             }
