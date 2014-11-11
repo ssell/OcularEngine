@@ -42,19 +42,23 @@ namespace Ocular
         /**
          * \class Matrix4x4
          *
-         * Implementation of a generic 4x4 matrix. 
+         * Implementation of a generic 4x4 matrix. <br/>
          * Represented as:
          *
+         * \code
          *    x.x, x.y, x.z, 0
          *    y.x, y.y, y.z, 0
          *    z.x, z.y, z.z, 0
          *    p.x, p.y, p.z, 1  
+         * \endcode
          *
          * Stored internally in a single array as:
          *
+         * \code
          *   {x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, p.x, p.y, p.z, 1}
+         * \endcode
          *
-         * Where
+         * Where 
          *
          *   x = X-Axis Rotation 
          *   y = Y-Axis Rotation
@@ -118,6 +122,32 @@ namespace Ocular
                 m_Contents[15] = p33;
             }
 
+            /**
+             * \param[in] matrix
+             */
+            Matrix4x4(Matrix4x4<T> const &matrix)
+            {
+                m_Contents[0]  = matrix[0];
+                m_Contents[1]  = matrix[1];
+                m_Contents[2]  = matrix[2];
+                m_Contents[3]  = matrix[3];
+                m_Contents[4]  = matrix[4];
+                m_Contents[5]  = matrix[5];
+                m_Contents[6]  = matrix[6];
+                m_Contents[7]  = matrix[7];
+                m_Contents[8]  = matrix[8];
+                m_Contents[9]  = matrix[9];
+                m_Contents[10] = matrix[10];
+                m_Contents[11] = matrix[11];
+                m_Contents[12] = matrix[12];
+                m_Contents[13] = matrix[13];
+                m_Contents[14] = matrix[14];
+                m_Contents[15] = matrix[15];
+            }
+
+            /*
+             * \param[in] matrix
+             */
             Matrix4x4(Matrix3x3<T> const &matrix)
             {
                 setIdentity();
@@ -127,6 +157,38 @@ namespace Ocular
                 setZRotation(matrix.getZRotation());
             }
 
+            /**
+             * \param[in] row0 Row 0 contents (x-rotation)
+             * \param[in] row1 Row 1 contents (y-rotation)
+             * \param[in] row2 Row 2 contents (z-rotation)
+             * \param[in] row3 Row 3 contents (position)
+             */
+            Matrix4x4(Vector4<T> const &row0, Vector4<T> const &row1, Vector4<T> const &row2, Vector4<T> const &row3)
+            {
+                m_Contents[0]  = row0.x;
+                m_Contents[1]  = row0.y;
+                m_Contents[2]  = row0.z;
+                m_Contents[3]  = row0.w;
+
+                m_Contents[4]  = row1.x;
+                m_Contents[5]  = row1.y;
+                m_Contents[6]  = row1.z;
+                m_Contents[7]  = row1.w;
+
+                m_Contents[8]  = row2.x;
+                m_Contents[9]  = row2.y;
+                m_Contents[10] = row2.z;
+                m_Contents[11] = row2.w;
+
+                m_Contents[12] = row3.x;
+                m_Contents[13] = row3.y;
+                m_Contents[14] = row3.z;
+                m_Contents[15] = row3.w;
+            }
+
+            /**
+             * Initializes to the Identity matrix
+             */
             Matrix4x4()
             {
                 setIdentity();
@@ -280,7 +342,7 @@ namespace Ocular
             /**
              * \return The element at the specified row [0-3] and colum [0-3] combination
              */
-            T getElement(unsigned const &row, unsigned const &column) const
+            T getElement(unsigned const row, unsigned const column) const
             {
                 if(row > 3)
                 {
@@ -298,7 +360,7 @@ namespace Ocular
             /**
              * \return The element at the specified index [0-15]
              */
-            T getElement(unsigned const &index) const
+            T getElement(unsigned const index) const
             {
                 if(index > 15)
                 {
@@ -594,88 +656,84 @@ namespace Ocular
              */
             static Matrix4x4<T> createInverseMatrix(Matrix4x4<T> const &matrix)
             {
-                /**
-                 * TODO : Rewrite me
-                 */
+                /*
+                  00  01  02  03
+                  04  05  06  07
+                  08  09  10  11
+                  12  13  14  15
 
-                Matrix4x4<T> result;
+                  0
+                  5
+                  10
+                  15
 
-                T determinant   = static_cast<T>(0);
-                T determinantIJ = static_cast<T>(0);
+                   1 <-> 4
+                   2 <-> 8
+                   3 <-> 12
+                   6 <-> 9
+                   7 <-> 13
+                  11 <-> 14
+                */
 
-                //------------------------------------
-                // Calculate the 4x4 determinant
+                T coef00 = matrix[10] * matrix[15] - matrix[14] * matrix[11];
+                T coef02 = matrix[6]  * matrix[15] - matrix[14] * matrix[7];
+                T coef03 = matrix[6]  * matrix[11] - matrix[10] * matrix[7];
 
-                for(int i = 0; i < 4; i++)
-                {
-                    determinantIJ = calcDeterminant(matrix, 0, i);
-                    determinant += (i & 0x1) ? (-matrix[i] * determinantIJ) : (matrix[i] * determinantIJ);
-                }
+                T coef04 = matrix[9]  * matrix[15] - matrix[13] * matrix[11];
+                T coef06 = matrix[5]  * matrix[15] - matrix[13] * matrix[7];
+                T coef07 = matrix[5]  * matrix[11] - matrix[9]  * matrix[7];
 
-                determinant = 1.0f / determinant;
+                T coef08 = matrix[9]  * matrix[14] - matrix[13] * matrix[10];
+                T coef10 = matrix[5]  * matrix[14] - matrix[13] * matrix[6];
+                T coef11 = matrix[5]  * matrix[10] - matrix[9]  * matrix[6];
 
-                //------------------------------------
-                // Calculate the inverse
-                
-                for(int i = 0; i < 4; i++)
-                {
-                    for(int j = 0; j < 4; j++)
-                    {
-                        determinantIJ = calcDeterminant(matrix, j, i);
-                        result[(i * 4) + j] = ((i + j) & 0x1) ? (-determinantIJ * determinant) : (determinantIJ * determinant);
-                    }
-                }
+                T coef12 = matrix[8]  * matrix[15] - matrix[12] * matrix[11];
+                T coef14 = matrix[4]  * matrix[15] - matrix[12] * matrix[7];
+                T coef15 = matrix[4]  * matrix[11] - matrix[8]  * matrix[7];
 
-                return result;
+                T coef16 = matrix[8]  * matrix[14] - matrix[12] * matrix[10];
+                T coef18 = matrix[4]  * matrix[14] - matrix[12] * matrix[6];
+                T coef19 = matrix[4]  * matrix[10] - matrix[8]  * matrix[6];
+
+                T coef20 = matrix[8]  * matrix[13] - matrix[12] * matrix[9];
+                T coef22 = matrix[4]  * matrix[13] - matrix[12] * matrix[5];
+                T coef23 = matrix[4]  * matrix[9]  - matrix[8]  * matrix[5];
+
+                Vector4<T> fac0(coef00, coef00, coef02, coef03);
+                Vector4<T> fac1(coef04, coef04, coef06, coef07);
+                Vector4<T> fac2(coef08, coef08, coef10, coef11);
+                Vector4<T> fac3(coef12, coef12, coef14, coef15);
+                Vector4<T> fac4(coef16, coef16, coef18, coef19);
+                Vector4<T> fac5(coef20, coef20, coef22, coef23);
+
+                Vector4<T> vec0(matrix[4], matrix[0], matrix[0], matrix[0]);
+                Vector4<T> vec1(matrix[5], matrix[1], matrix[1], matrix[1]);
+                Vector4<T> vec2(matrix[6], matrix[2], matrix[2], matrix[2]);
+                Vector4<T> vec3(matrix[7], matrix[3], matrix[3], matrix[3]);
+              
+                Vector4<T> inv0(vec1 * fac0 - vec2 * fac1 + vec3 * fac2);
+                Vector4<T> inv1(vec0 * fac0 - vec2 * fac3 + vec3 * fac4);
+                Vector4<T> inv2(vec0 * fac1 - vec1 * fac3 + vec3 * fac5);
+                Vector4<T> inv3(vec0 * fac2 - vec1 * fac4 + vec2 * fac5);
+
+                Vector4<T> signA(static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1));
+                Vector4<T> signB(static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1));
+
+                Matrix4x4<T> inverse(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
+
+                Vector4<T> invVec(inverse[0], inverse[1], inverse[2], inverse[3]);
+                Vector4<T> rowVec(matrix[0],  matrix[4],  matrix[8],  matrix[12]);
+                Vector4<T> dot0 = rowVec * invVec;
+
+                T dot1 = (dot0.x + dot0.y) + (dot0.z + dot0.w);
+                T oneOverDeterminant = static_cast<T>(1) / dot1;
+
+                return inverse * oneOverDeterminant;
             }
 
         protected:
 
         private:
-
-            static T calcDeterminant(Matrix4x4<T> const &matrix, int const &i, int const &j)
-            {
-                /**
-                 * TODO : Replace me
-                 */
-
-                int x;
-                int y;
-
-			    T result;
-                T mat[3][3];
-
-			    x = 0;
-
-			    for(int ii = 0; ii < 4; ii++)
-			    {
-				    if(ii == i)
-                    {
-					    continue;
-                    }
-
-				    y = 0;
-
-				    for(int jj = 0; jj < 4; jj++)
-				    {
-					    if(jj == j)
-                        {
-					        continue;
-                        }
-
-					    mat[x][y] = matrix[(ii * 4) + jj];
-					    y++;
-				    }
-
-				    x++;
-			    }
-
-			    result  = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]);
-			    result -= mat[0][1] * (mat[1][0] * mat[2][2] - mat[2][0] * mat[1][2]);
-			    result += mat[0][2] * (mat[1][0] * mat[2][1] - mat[2][0] * mat[1][1]);
-
-			    return result;
-            }
 
             T m_Contents[16];
         };
@@ -735,13 +793,6 @@ namespace Ocular
         Matrix4x4<T> operator*(Matrix4x4<T> const &lhs, Matrix4x4<T> const &rhs)
         {
             Matrix4x4<T> result;
-
-            /*
-                00  01  02  03 
-                04  05  06  07
-                08  09  10  11
-                12  13  14  15
-            */
 
             result[0]  = (lhs[0]  * rhs[0]) + (lhs[1]  * rhs[4]) + (lhs[2] * rhs[8])  + (lhs[3]  * rhs[12]);
             result[1]  = (lhs[0]  * rhs[1]) + (lhs[1]  * rhs[5]) + (lhs[2] * rhs[9])  + (lhs[3]  * rhs[13]);

@@ -38,12 +38,44 @@ namespace Ocular
     {
         /**
          * \class Matrix3x3
+         *
+         * Implementation of a generic 3x3 matrix. <br/>
+         * Represented as:
+         *
+         * \code
+         *    x.x, x.y, x.z
+         *    y.x, y.y, y.z
+         *    z.x, z.y, z.z
+         * \endcode
+         *
+         * Stored internally in a single array as:
+         *
+         * \code
+         *   {x.x, x.y, x.z, y.x, y.y, y.z, z.x, z.y, z.z}
+         * \endcode
+         *
+         * Where
+         *
+         *   x = X-Axis Rotation
+         *   y = Y-Axis Rotation
+         *   z = Z-Axis Rotation
          */
         template<typename T>
         class Matrix3x3
         {
         public:
 
+            /**
+             * \param[in] p00 X-Axis rotation x element
+             * \param[in] p01 X-Axis rotation y element
+             * \param[in] p02 X-Axis rotation z element
+             * \param[in] p10 Y-Axis rotation x element
+             * \param[in] p11 Y-Axis rotation y element
+             * \param[in] p12 Y-Axis rotation z element
+             * \param[in] p20 Z-Axis rotation x element
+             * \param[in] p21 Z-Axis rotation y element
+             * \param[in] p22 Z-Axis rotation z element
+             */
             Matrix3x3(T const &p00, T const &p01, T const &p02,
                       T const &p10, T const &p11, T const &p12,
                       T const &p20, T const &p21, T const &p22)
@@ -59,9 +91,32 @@ namespace Ocular
                 m_Contents[8] = p22;
             }
 
+            /**
+             * \param[in] row0 Row 0 contents (x-rotation)
+             * \param[in] row1 Row 1 contents (y-rotation)
+             * \param[in] row2 Row 2 contents (z-rotation)
+             */
+            Matrix3x3(Vector3<T> const &row0, Vector3<T> const &row1, Vector3<T> const &row2)
+            {
+                m_Contents[0] = row0.x;
+                m_Contents[1] = row0.y;
+                m_Contents[2] = row0.z;
+
+                m_Contents[3] = row1.x;
+                m_Contents[4] = row1.y;
+                m_Contents[5] = row1.z;
+
+                m_Contents[6] = row2.x;
+                m_Contents[7] = row2.y;
+                m_Contents[8] = row2.z;
+            }
+
+            /**
+             * Initializes to the Identity matrix
+             */
             Matrix3x3()
             {
-
+                setIdentity();
             }
 
             ~Matrix3x3()
@@ -247,14 +302,14 @@ namespace Ocular
                 m_Contents[2] = static_cast<T>(0);
 
                 // Y-Axis Rotation
-                m_Contents[4] = static_cast<T>(0);
-                m_Contents[5] = static_cast<T>(1);
-                m_Contents[6] = static_cast<T>(0);
+                m_Contents[3] = static_cast<T>(0);
+                m_Contents[4] = static_cast<T>(1);
+                m_Contents[5] = static_cast<T>(0);
 
                 // Z-Axis Rotation
-                m_Contents[8] = static_cast<T>(0);
-                m_Contents[9] = static_cast<T>(0);
-                m_Contents[10] = static_cast<T>(1);
+                m_Contents[6] = static_cast<T>(0);
+                m_Contents[7] = static_cast<T>(0);
+                m_Contents[8] = static_cast<T>(1);
             }
 
             /**
@@ -484,12 +539,6 @@ namespace Ocular
         Matrix3x3<T> operator*(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
         {
             Matrix3x3<T> result;
-
-            /*
-                00 01 02
-                03 04 05
-                06 07 08
-            */
 
             result[0] = (lhs[0] * rhs[0]) + (lhs[1] * rhs[3]) + (lhs[2] * rhs[6]);
             result[1] = (lhs[0] * rhs[1]) + (lhs[1] * rhs[4]) + (lhs[2] * rhs[7]);

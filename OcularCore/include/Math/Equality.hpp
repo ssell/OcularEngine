@@ -46,7 +46,8 @@ namespace Ocular
         template<typename T>
         static bool IsEqual(double const a, double const b, double epsilon = EPSILON_DOUBLE)
         {
-            return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
+            //return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
+            return std::abs(a - b) < epsilon;
         }
         
         /**
@@ -55,7 +56,8 @@ namespace Ocular
         template<typename T>
         static bool IsEqual(float const a, float const b, float epsilon = EPSILON_FLOAT)
         {
-            return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
+            //return std::fabs(a - b) <= (((std::fabs(a) > std::fabs(b)) ? std::fabs(b) : std::fabs(a)) * epsilon);
+            return std::abs(a - b) < epsilon;
         }
         
         /**

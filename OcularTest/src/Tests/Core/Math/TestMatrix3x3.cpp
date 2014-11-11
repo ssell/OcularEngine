@@ -19,13 +19,13 @@
 
 //------------------------------------------------------------------------------------------
 
-const Ocular::Math::Matrix3x3d matA(1.0, 2.0, 3.0,
-                                    4.0, 5.0, 6.0,
-                                    7.0, 8.0, 9.0);
+static const Ocular::Math::Matrix3x3d matA(1.0, 2.0, 3.0,
+                                           4.0, 5.0, 6.0,
+                                           7.0, 8.0, 9.0);
 
-const Ocular::Math::Matrix3x3d matB(9.0, 8.0, 7.0,
-                                    6.0, 5.0, 4.0,
-                                    3.0, 2.0, 1.0);
+static const Ocular::Math::Matrix3x3d matB(9.0, 8.0, 7.0,
+                                           6.0, 5.0, 4.0,
+                                           3.0, 2.0, 1.0);
 
 TEST(Matrix3x3, Addition)
 {
@@ -196,9 +196,9 @@ TEST(Matrix3x3, Inverse)
                                           4.0, 15.0, 6.0,
                                           7.0, 8.0, 9.0);
 
-    const Ocular::Math::Matrix3x3d expected(-0.7249, -0.0500,  0.2750,
-                                            -0.0500,  0.1000, -0.0500,
-                                             0.6083, -0.0500, -0.0583);
+    const Ocular::Math::Matrix3x3d expected(-0.724999, -0.050000,  0.275000,
+                                            -0.050000,  0.100000, -0.050000,
+                                             0.608333, -0.050000, -0.058333);
 
 
     const Ocular::Math::Matrix3x3d result = Ocular::Math::Matrix3x3d::createInverseMatrix(matrix);

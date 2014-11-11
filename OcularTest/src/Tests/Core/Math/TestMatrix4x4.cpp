@@ -228,8 +228,17 @@ TEST(Matrix4x4, Transpose)
 
 TEST(Matrix4x4, Inverse)
 {
-    const Ocular::Math::Matrix4x4d expected;
-    const Ocular::Math::Matrix4x4d result = matA * Ocular::Math::Matrix4x4d::createInverseMatrix(matA);
+    const Ocular::Math::Matrix4x4d matrix(  1.0,   6.0,   3.0,   4.0,
+                                           10.0,  20.0,  30.0,  55.0,
+                                          100.0,  70.0, 300.0, 400.0,
+                                            4.0,   3.0,   2.0,   1.0);
+
+    const Ocular::Math::Matrix4x4d expected(-0.225157,  0.033333, -0.003082,  0.300000,
+                                             0.188679,  0.000000, -0.001887,  0.000000,
+                                             0.249057, -0.100000,  0.011509, -0.100000,
+                                            -0.163522,  0.066667, -0.005031,  0.000000);
+
+    const Ocular::Math::Matrix4x4d result = Ocular::Math::Matrix4x4d::createInverseMatrix(matrix);
 
     EXPECT_TRUE(expected == result);
 }
