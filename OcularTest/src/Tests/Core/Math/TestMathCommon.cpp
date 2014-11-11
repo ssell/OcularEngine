@@ -21,14 +21,23 @@
 
 TEST(MathCommon, Clamp)
 {
+    double valA = 35.0;
 
+    double expectA = 20.0;
+    double expectB = 50.0;
+    double expectC = 35.0;
+
+    double resultA = Ocular::Math::Clamp<double>(valA, 0.0, 20.0);
+    double resultB = Ocular::Math::Clamp<double>(valA, 50.0, 100.0);
+    double resultC = Ocular::Math::Clamp<double>(valA, 0.0, 100.0);
+
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectC, resultC, Ocular::Math::EPSILON_DOUBLE);
 }
 
 TEST(MathCommon, RoundUpDecimal)
 {
-    //------------------------------------------------
-    // Test rounding to a given decimal point precision
-
     double valA = 0.2749999;
     double valB = 0.975;
     double valC = 0.86736;
@@ -48,18 +57,79 @@ TEST(MathCommon, RoundUpDecimal)
 
 TEST(MathCommon, RoundUpPowTen)
 {
-    //------------------------------------------------
-    // Test rounding to a given integer power of ten precision
+    double valA = 1250.0;
+    double valB = 18.0;
 
-    double valD = 1250.0;
-    double valE = 18.0;
+    double expectA = 1300.0;
+    double expectB = 100.0;
 
-    double expectD = 1300.0;
-    double expectE = 100.0;
+    double resultA = Ocular::Math::RoundUpPowTen<double>(valA, 2);
+    double resultB = Ocular::Math::RoundUpPowTen<double>(valB, 2);
 
-    double resultD = Ocular::Math::RoundUpPowTen<double>(valD, 2);
-    double resultE = Ocular::Math::RoundUpPowTen<double>(valE, 2);
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+}
 
-    EXPECT_NEAR(expectD, resultD, Ocular::Math::EPSILON_DOUBLE);
-    EXPECT_NEAR(expectE, resultE, Ocular::Math::EPSILON_DOUBLE);
+TEST(MathCommon, RoundDownDecimal)
+{
+    double valA = 0.2749999;
+    double valB = 0.975;
+    double valC = 0.86736;
+
+    double expectA = 0.274;
+    double expectB = 0.97;
+    double expectC = 0.867;
+
+    double resultA = Ocular::Math::RoundDownDecimal<double>(valA, 3);
+    double resultB = Ocular::Math::RoundDownDecimal<double>(valB, 2);
+    double resultC = Ocular::Math::RoundDownDecimal<double>(valC, 3);
+
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectC, resultC, Ocular::Math::EPSILON_DOUBLE);
+}
+
+TEST(MathCommon, RoundDownPowTen)
+{
+    double valA = 1250.0;
+    double valB = 18.0;
+
+    double expectA = 1200.0;
+    double expectB = 0.0;
+
+    double resultA = Ocular::Math::RoundDownPowTen<double>(valA, 2);
+    double resultB = Ocular::Math::RoundDownPowTen<double>(valB, 2);
+
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+}
+
+TEST(MathCommon, RoundDecimal)
+{
+    double valA = 0.127;
+    double valB = 0.123;
+
+    double expectA = 0.13;
+    double expectB = 0.12;
+
+    double resultA = Ocular::Math::RoundDecimal(valA, 2);
+    double resultB = Ocular::Math::RoundDecimal(valB, 2);
+
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+}
+
+TEST(MathCommon, RoundPowTen)
+{
+    double valA = 1270.0;
+    double valB = 1230.0;
+
+    double expectA = 1300.0;
+    double expectB = 1200.0;
+
+    double resultA = Ocular::Math::RoundPowTen<double>(valA, 2);
+    double resultB = Ocular::Math::RoundPowTen<double>(valB, 2);
+
+    EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
+    EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
 }
