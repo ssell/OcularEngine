@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_RANDOM_CMWC__H__
-#define __H__OCULAR_UTILS_RANDOM_CMWC__H__
+#ifndef __H__OCULAR_MATH_RANDOM_TINY_MERSENNE_TWISTER__H__
+#define __H__OCULAR_MATH_RANDOM_TINY_MERSENNE_TWISTER__H__
 
 #include "ARandom.hpp"
 
@@ -29,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -41,30 +41,26 @@ namespace Ocular
         namespace Random
         {
             /**
-            * \class CMWC131104
-            * Implementation of the 131104 periodicity variation of the CMWC (Complementary-Multiply-With-Carry) PRNG using the IRandom interface.
+            * \class TinyMersenneTwister
+            *
+            * Implementation of the 127 periodicity variation of the Tiny Mersenne Twister PRNG using the IRandom interface.<br/>
+            * The Tiny implementation is faster and smaller in state than the traditional Mersenne Twister (see MersenneTwister19937).
+            *
+            * Original implementation may be found at: http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/TINYMT/index.html
+            * Copyright Mutsuo Saito and Makoto Matsumoto
             */
-            class CMWC131104 : public ARandom
+            class TinyMersenneTwister : public ARandom
             {
             public:
 
-                CMWC131104();
-                ~CMWC131104();
-
-                virtual void seed(long long seed);
+                TinyMersenneTwister();
+                ~TinyMersenneTwister();
 
                 virtual unsigned next();
-                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 
             private:
-
-                void finishSeed();
-
-                unsigned long  m_SeedCast;
-                unsigned long  m_C;
-                unsigned long* m_Q;
             };
         }
         /**

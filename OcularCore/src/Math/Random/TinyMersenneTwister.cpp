@@ -14,16 +14,20 @@
 * limitations under the License.
 */
 
-#include "Utilities\Random\WELL.hpp"
-#include "Utilities\Random\XorShift.hpp"
+#include "Math/Random/TinyMersenneTwister.hpp"
 
-#define STATE_SIZE 16
+#define TINYMT64_MEXP 127
+#define TINYMT64_SH0 12
+#define TINYMT64_SH1 11
+#define TINYMT64_SH8 8
+#define TINYMT64_MASK UINT64_C(0x7fffffffffffffff)
+#define TINYMT64_MUL (1.0 / 18446744073709551616.0)
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Math
     {
         namespace Random
         {
@@ -31,57 +35,23 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            WELL512::WELL512()
+            TinyMersenneTwister::TinyMersenneTwister()
                 : ARandom()
             {
-                m_State = new unsigned long[STATE_SIZE];
-                m_Index = 0;
             }
 
-            WELL512::~WELL512()
+            TinyMersenneTwister::~TinyMersenneTwister()
             {
-                if(m_State != nullptr)
-                {
-                    delete [] m_State;
-                }
+
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void WELL512::seed(long long seed)
+            unsigned TinyMersenneTwister::next()
             {
-                Ocular::Utils::Random::XorShift96 prng;
-                prng.seed(seed);
-
-                for (unsigned i = 0; i < STATE_SIZE; i++)
-                {
-                    m_State[i] = static_cast<unsigned long>(prng.next());
-                }
-            }
-
-            unsigned WELL512::next()
-            {
-                unsigned long a, b, c, d;
-
-                a  = m_State[m_Index];
-                c  = m_State[(m_Index + 13) & 15];
-                b  = a ^ c ^ (a << 16) ^ (c << 15);
-                c  = m_State[(m_Index + 9) & 15];
-                c ^= (c >> 11);
-                a  = m_State[m_Index] = b ^ c;
-                d = a ^ ((a << 5) & 0xDA442D20UL);
-                m_Index = (m_Index + 15) & 15;
-                a = m_State[m_Index];
-                m_State[m_Index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
-
-                return static_cast<unsigned>(m_State[m_Index]);
-            }
-
-            unsigned WELL512::next(unsigned min, unsigned max)
-            {
-                return ARandom::next(min, max);
+                return 0;
             }
 
             //------------------------------------------------------------------------------

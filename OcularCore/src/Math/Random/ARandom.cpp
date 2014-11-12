@@ -14,17 +14,14 @@
 * limitations under the License.
 */
 
-#include "Utilities\Random\CMWC.hpp"
-
-#define M_C 362436UL
-#define M_QSIZE 4096
-#define PHI 0x9e3779b9
+#include "Math/Random/ARandom.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Math
     {
         namespace Random
         {
@@ -32,66 +29,43 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            CMWC131104::CMWC131104()
-                : ARandom()
+            ARandom::ARandom()
             {
-                m_Q = new unsigned long[M_QSIZE];
-                m_C = 0;
+                m_Seed = 0;
             }
 
-            CMWC131104::~CMWC131104()
+            ARandom::~ARandom()
             {
-                if(m_Q != nullptr)
-                {
-                    delete [] m_Q;
-                    m_Q = nullptr;
-                }
+
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void CMWC131104::seed(long long seed)
+            void ARandom::seed()
             {
-                m_SeedCast = static_cast<unsigned long long>(seed);
-
-                m_Q[0] = m_SeedCast;
-                m_Q[1] = m_SeedCast + PHI;
-                m_Q[2] = m_SeedCast + PHI + PHI;
-
-                for (int i = 3; i < M_QSIZE; i++)
-                {
-                    m_Q[i] = m_Q[i - 3] ^ m_Q[i - 2] ^ PHI ^ i;
-                }
+                seed(OcularEngine.Clock()->getEpochMS());
             }
 
-            unsigned CMWC131104::next()
+            void ARandom::seed(long long seed)
             {
-                static long i = M_QSIZE - 1;
-
-                long t = 18782LL;
-                long a = t;
-                long x = 0xfffffffe;
-                long r = x;
-
-                i = (i + 1) & 4095;
-                t = a * m_Q[i] + m_C;
-                m_C = (t >> 32);
-                x = t + m_C;
-
-                if(x < m_C)
-                {
-                    x++;
-                    m_C++;
-                }
-
-                return (m_Q[i] = r - x);
+                m_Seed = seed;
             }
 
-            unsigned CMWC131104::next(unsigned min, unsigned max)
+            unsigned ARandom::next(unsigned min, unsigned max)
             {
-                return ARandom::next(min, max);
+                // Example:
+                //     Min: 100
+                //     Max: 1000
+                //     Value: 912
+                //     Return: (912 % (1000 - 100)) + 100
+                //             (912 % 900) + 100
+                //             12 + 100
+                //             112
+
+                unsigned value = next();
+                return (value % (max - min)) + min;
             }
 
             //------------------------------------------------------------------------------

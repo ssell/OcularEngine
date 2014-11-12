@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_RANDOM_WELL__H__
-#define __H__OCULAR_UTILS_RANDOM_WELL__H__
+#ifndef __H__OCULAR_MATH_RANDOM_XORSHIFT__H__
+#define __H__OCULAR_MATH_RANDOM_XORSHIFT__H__
 
 #include "ARandom.hpp"
 
@@ -29,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -41,19 +41,15 @@ namespace Ocular
         namespace Random
         {
             /**
-            * \class WELL512
-            *
-            * Implementation of the 512 periodicity variation of the WELL (Well Equidistributed Long-Period Linear) PRNG using the IRandom interface.<br/><br/>
-            *
-            * Original implementation may be found at: http://www.iro.umontreal.ca/~panneton/well/WELL512a.c <br/>
-            * Copyright: Francois Panneton, Pierre L'Ecuyer, and Makoto Matsumoto.
-            */
-            class WELL512 : public ARandom
+             * \class XorShift96
+             * Implementation of the 96 periodicity variation of the XorShift PRNG using the IRandom interface.
+             */
+            class XorShift96 : public ARandom
             {
             public:
 
-                WELL512();
-                ~WELL512();
+                XorShift96();
+                ~XorShift96();
 
                 virtual void seed(long long seed);
 
@@ -64,8 +60,9 @@ namespace Ocular
 
             private:
 
-                unsigned m_Index;
-                unsigned long* m_State;
+                unsigned long m_X;
+                unsigned long m_Y;
+                unsigned long m_Z;
             };
         }
         /**

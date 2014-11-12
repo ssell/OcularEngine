@@ -15,10 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_RANDOM_TINY_MERSENNE_TWISTER__H__
-#define __H__OCULAR_UTILS_RANDOM_TINY_MERSENNE_TWISTER__H__
-
-#include "ARandom.hpp"
+#ifndef __H__OCULAR_MATH_ARANDOM__H__
+#define __H__OCULAR_MATH_ARANDOM__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -29,10 +27,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -41,24 +39,38 @@ namespace Ocular
         namespace Random
         {
             /**
-            * \class TinyMersenneTwister
-            *
-            * Implementation of the 127 periodicity variation of the Tiny Mersenne Twister PRNG using the IRandom interface.<br/>
-            * The Tiny implementation is faster and smaller in state than the traditional Mersenne Twister (see MersenneTwister19937).
-            *
-            * Original implementation may be found at: http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/TINYMT/index.html
-            * Copyright Mutsuo Saito and Makoto Matsumoto
-            */
-            class TinyMersenneTwister : public ARandom
+             * \class ARandom
+             */
+            class ARandom
             {
             public:
 
-                TinyMersenneTwister();
-                ~TinyMersenneTwister();
+                ARandom();
+                ~ARandom();
 
-                virtual unsigned next();
+                /**
+                 * Seeds the PRNG with the current epoch time (NS)
+                 */
+                void seed();
+
+                /**
+                 * Seeds the PRNG with the specified seed value.
+                 */
+                virtual void seed(long long seed);
+
+                /**
+                 * Retrieves the next pseudo-random number (unbounded).
+                 */
+                virtual unsigned next() = 0;
+
+                /**
+                 * Retrieves the next pseudo-random number and fits it inside of the specified bounds (this is not a clamp)
+                 */
+                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
+
+                long long m_Seed;
 
             private:
             };

@@ -17,7 +17,7 @@
 #include "Tests/Performance/PriorityContainerTest.hpp"
 #include "Utilities/Structures/PriorityList.hpp"
 #include "Utilities/Structures/PriorityMultiQueue.hpp"
-#include "Utilities/Random/XorShift.hpp"
+#include "Math/Random/XorShift.hpp"
 #include "Time/Timer.hpp"
 #include <queue>
 
@@ -64,8 +64,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testSTLPriorityQueue()
         {
-            Utils::Random::XorShift96 prngAction;
-            Utils::Random::XorShift96 prngPriority;
+            Math::Random::XorShift96 prngAction;
+            Math::Random::XorShift96 prngPriority;
 
             prngAction.seed(ACTION_SEED);
             prngPriority.seed(PRIORITY_SEED);
@@ -115,8 +115,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityMultiQueue()
         {
-            Utils::Random::XorShift96 prngAction;
-            Utils::Random::XorShift96 prngPriority;
+            Math::Random::XorShift96 prngAction;
+            Math::Random::XorShift96 prngPriority;
 
             prngAction.seed(ACTION_SEED);
             prngPriority.seed(PRIORITY_SEED);
@@ -165,8 +165,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityList()
         {
-            Utils::Random::XorShift96 prngAction;
-            Utils::Random::XorShift96 prngPriority;
+            Math::Random::XorShift96 prngAction;
+            Math::Random::XorShift96 prngPriority;
 
             prngAction.seed(ACTION_SEED);
             prngPriority.seed(PRIORITY_SEED);

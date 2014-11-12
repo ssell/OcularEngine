@@ -14,14 +14,13 @@
 * limitations under the License.
 */
 
-#include "Utilities\Random\ARandom.hpp"
-#include "OcularEngine.hpp"
+#include "Math/Random/MersenneTwister.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Math
     {
         namespace Random
         {
@@ -29,12 +28,12 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            ARandom::ARandom()
+            MersenneTwister19937::MersenneTwister19937()
+                : ARandom()
             {
-                m_Seed = 0;
             }
 
-            ARandom::~ARandom()
+            MersenneTwister19937::~MersenneTwister19937()
             {
 
             }
@@ -43,29 +42,9 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void ARandom::seed()
+            unsigned MersenneTwister19937::next()
             {
-                seed(OcularEngine.Clock()->getEpochMS());
-            }
-
-            void ARandom::seed(long long seed)
-            {
-                m_Seed = seed;
-            }
-
-            unsigned ARandom::next(unsigned min, unsigned max)
-            {
-                // Example:
-                //     Min: 100
-                //     Max: 1000
-                //     Value: 912
-                //     Return: (912 % (1000 - 100)) + 100
-                //             (912 % 900) + 100
-                //             12 + 100
-                //             112
-
-                unsigned value = next();
-                return (value % (max - min)) + min;
+                return 0;
             }
 
             //------------------------------------------------------------------------------

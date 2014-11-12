@@ -93,6 +93,12 @@
     <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\ARandom.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\CMWC.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\MersenneTwister.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\TinyMersenneTwister.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\WELL.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\XorShift.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
@@ -105,12 +111,6 @@
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\ARandom.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\CMWC.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\MersenneTwister.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\TinyMersenneTwister.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\WELL.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Random\XorShift.cpp" />
     <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +127,12 @@
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\ARandom.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\CMWC.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\MersenneTwister.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\TinyMersenneTwister.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\WELL.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Math\Vector2.hpp" />
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
     <ClInclude Include="..\..\include\Math\Vector4.hpp" />
@@ -148,12 +154,6 @@
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\CMWC.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\ARandom.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\MersenneTwister.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\TinyMersenneTwister.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\WELL.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />

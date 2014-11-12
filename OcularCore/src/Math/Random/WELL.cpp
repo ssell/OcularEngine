@@ -14,16 +14,16 @@
 * limitations under the License.
 */
 
-#include "Utilities\Random\XorShift.hpp"
+#include "Math/Random/WELL.hpp"
+#include "Math/Random/XorShift.hpp"
 
-#define SH1 238979280
-#define SH2 158852560
+#define STATE_SIZE 16
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Math
     {
         namespace Random
         {
@@ -31,44 +31,55 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            XorShift96::XorShift96()
+            WELL512::WELL512()
                 : ARandom()
             {
+                m_State = new unsigned long[STATE_SIZE];
+                m_Index = 0;
             }
 
-            XorShift96::~XorShift96()
+            WELL512::~WELL512()
             {
-
+                if(m_State != nullptr)
+                {
+                    delete [] m_State;
+                }
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void XorShift96::seed(long long seed)
+            void WELL512::seed(long long seed)
             {
-                m_X = static_cast<unsigned long>(seed);
-                m_Y = m_X + SH1;
-                m_Z = m_Y + SH2;
+                XorShift96 prng;
+                prng.seed(seed);
+
+                for (unsigned i = 0; i < STATE_SIZE; i++)
+                {
+                    m_State[i] = static_cast<unsigned long>(prng.next());
+                }
             }
 
-            unsigned XorShift96::next()
+            unsigned WELL512::next()
             {
-                unsigned long t;
+                unsigned long a, b, c, d;
 
-                m_X ^= m_X << 16;
-                m_X ^= m_X >> 5;
-                m_X ^= m_X << 1;
+                a  = m_State[m_Index];
+                c  = m_State[(m_Index + 13) & 15];
+                b  = a ^ c ^ (a << 16) ^ (c << 15);
+                c  = m_State[(m_Index + 9) & 15];
+                c ^= (c >> 11);
+                a  = m_State[m_Index] = b ^ c;
+                d = a ^ ((a << 5) & 0xDA442D20UL);
+                m_Index = (m_Index + 15) & 15;
+                a = m_State[m_Index];
+                m_State[m_Index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
 
-                t = m_X;
-                m_X = m_Y;
-                m_Y = m_Z;
-                m_Z = t ^ m_X ^ m_Y;
-
-                return static_cast<unsigned>(m_Z);
+                return static_cast<unsigned>(m_State[m_Index]);
             }
 
-            unsigned XorShift96::next(unsigned min, unsigned max)
+            unsigned WELL512::next(unsigned min, unsigned max)
             {
                 return ARandom::next(min, max);
             }

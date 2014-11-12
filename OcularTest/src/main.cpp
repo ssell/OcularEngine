@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-#include <iostream>
-#include <queue>
-
 #include "OcularEngine.hpp"
-#include "Math/Equality.hpp"
-
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------

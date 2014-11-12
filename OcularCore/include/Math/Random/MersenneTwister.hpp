@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_RANDOM_XORSHIFT__H__
-#define __H__OCULAR_UTILS_RANDOM_XORSHIFT__H__
+#ifndef __H__OCULAR_MATH_RANDOM_MERSENNE_TWISTER__H__
+#define __H__OCULAR_MATH_RANDOM_MERSENNE_TWISTER__H__
 
 #include "ARandom.hpp"
 
@@ -29,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -41,28 +41,21 @@ namespace Ocular
         namespace Random
         {
             /**
-             * \class XorShift96
-             * Implementation of the 96 periodicity variation of the XorShift PRNG using the IRandom interface.
-             */
-            class XorShift96 : public ARandom
+            * \class MersenneTwister19937
+            * Implementation of the 19937 periodicity variation of the Mersenne Twister PRNG using the IRandom interface.
+            */
+            class MersenneTwister19937 : public ARandom
             {
             public:
 
-                XorShift96();
-                ~XorShift96();
-
-                virtual void seed(long long seed);
+                MersenneTwister19937();
+                ~MersenneTwister19937();
 
                 virtual unsigned next();
-                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 
             private:
-
-                unsigned long m_X;
-                unsigned long m_Y;
-                unsigned long m_Z;
             };
         }
         /**

@@ -15,8 +15,10 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_ARANDOM__H__
-#define __H__OCULAR_UTILS_ARANDOM__H__
+#ifndef __H__OCULAR_MATH_RANDOM_CMWC__H__
+#define __H__OCULAR_MATH_RANDOM_CMWC__H__
+
+#include "ARandom.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -39,40 +41,30 @@ namespace Ocular
         namespace Random
         {
             /**
-             * \class ARandom
-             */
-            class ARandom
+            * \class CMWC131104
+            * Implementation of the 131104 periodicity variation of the CMWC (Complementary-Multiply-With-Carry) PRNG using the IRandom interface.
+            */
+            class CMWC131104 : public ARandom
             {
             public:
 
-                ARandom();
-                ~ARandom();
+                CMWC131104();
+                ~CMWC131104();
 
-                /**
-                 * Seeds the PRNG with the current epoch time (NS)
-                 */
-                void seed();
-
-                /**
-                 * Seeds the PRNG with the specified seed value.
-                 */
                 virtual void seed(long long seed);
 
-                /**
-                 * Retrieves the next pseudo-random number (unbounded).
-                 */
-                virtual unsigned next() = 0;
-
-                /**
-                 * Retrieves the next pseudo-random number and fits it inside of the specified bounds (this is not a clamp)
-                 */
+                virtual unsigned next();
                 virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 
-                long long m_Seed;
-
             private:
+
+                void finishSeed();
+
+                unsigned long  m_SeedCast;
+                unsigned long  m_C;
+                unsigned long* m_Q;
             };
         }
         /**

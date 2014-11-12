@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_RANDOM_MERSENNE_TWISTER__H__
-#define __H__OCULAR_UTILS_RANDOM_MERSENNE_TWISTER__H__
+#ifndef __H__OCULAR_MATH_RANDOM_WELL__H__
+#define __H__OCULAR_MATH_RANDOM_WELL__H__
 
 #include "ARandom.hpp"
 
@@ -29,10 +29,10 @@
 namespace Ocular
 {
     /**
-    * \addtogroup Utils
+    * \addtogroup Math
     * @{
     */
-    namespace Utils
+    namespace Math
     {
         /**
         * \addtogroup Random
@@ -41,21 +41,31 @@ namespace Ocular
         namespace Random
         {
             /**
-            * \class MersenneTwister19937
-            * Implementation of the 19937 periodicity variation of the Mersenne Twister PRNG using the IRandom interface.
+            * \class WELL512
+            *
+            * Implementation of the 512 periodicity variation of the WELL (Well Equidistributed Long-Period Linear) PRNG using the IRandom interface.<br/><br/>
+            *
+            * Original implementation may be found at: http://www.iro.umontreal.ca/~panneton/well/WELL512a.c <br/>
+            * Copyright: Francois Panneton, Pierre L'Ecuyer, and Makoto Matsumoto.
             */
-            class MersenneTwister19937 : public ARandom
+            class WELL512 : public ARandom
             {
             public:
 
-                MersenneTwister19937();
-                ~MersenneTwister19937();
+                WELL512();
+                ~WELL512();
+
+                virtual void seed(long long seed);
 
                 virtual unsigned next();
+                virtual unsigned next(unsigned min, unsigned max);
 
             protected:
 
             private:
+
+                unsigned m_Index;
+                unsigned long* m_State;
             };
         }
         /**

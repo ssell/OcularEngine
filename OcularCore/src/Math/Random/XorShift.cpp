@@ -14,13 +14,16 @@
 * limitations under the License.
 */
 
-#include "Utilities\Random\MersenneTwister.hpp"
+#include "Math/Random/XorShift.hpp"
+
+#define SH1 238979280
+#define SH2 158852560
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Math
     {
         namespace Random
         {
@@ -28,12 +31,12 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            MersenneTwister19937::MersenneTwister19937()
+            XorShift96::XorShift96()
                 : ARandom()
             {
             }
 
-            MersenneTwister19937::~MersenneTwister19937()
+            XorShift96::~XorShift96()
             {
 
             }
@@ -42,9 +45,32 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            unsigned MersenneTwister19937::next()
+            void XorShift96::seed(long long seed)
             {
-                return 0;
+                m_X = static_cast<unsigned long>(seed);
+                m_Y = m_X + SH1;
+                m_Z = m_Y + SH2;
+            }
+
+            unsigned XorShift96::next()
+            {
+                unsigned long t;
+
+                m_X ^= m_X << 16;
+                m_X ^= m_X >> 5;
+                m_X ^= m_X << 1;
+
+                t = m_X;
+                m_X = m_Y;
+                m_Y = m_Z;
+                m_Z = t ^ m_X ^ m_Y;
+
+                return static_cast<unsigned>(m_Z);
+            }
+
+            unsigned XorShift96::next(unsigned min, unsigned max)
+            {
+                return ARandom::next(min, max);
             }
 
             //------------------------------------------------------------------------------
