@@ -32,7 +32,7 @@ namespace Ocular
         // NON-CLASS METHODS
         //----------------------------------------------------------------------------------
 
-        LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+        LRESULT CALLBACK WndProc(HWND const hwnd, UINT const msg, WPARAM const wp, LPARAM const lp)
         {
             WindowWin32* window = (WindowWin32*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -50,8 +50,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        WindowWin32::WindowWin32(std::string name, unsigned width, unsigned height, unsigned colorBits,
-            unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        WindowWin32::WindowWin32(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
+                                 unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display)
             : AWindow(name, width, height, colorBits, depthBits, stencilBits, display)
         {
             m_HINSTANCE = nullptr;
@@ -125,7 +125,7 @@ namespace Ocular
             }
         }
 
-        void WindowWin32::update(long long time)
+        void WindowWin32::update(long long const time)
         {
             MSG message;
 
@@ -201,7 +201,7 @@ namespace Ocular
             return windowRect;
         }
 
-        WNDCLASS WindowWin32::createWndClass(WNDPROC wndProc)
+        WNDCLASS WindowWin32::createWndClass(WNDPROC const wndProc)
         {
             WNDCLASS windowClass;
 
@@ -219,7 +219,7 @@ namespace Ocular
             return windowClass;
         }
 
-        LRESULT CALLBACK WindowWin32::processMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+        LRESULT CALLBACK WindowWin32::processMessage(HWND const hWnd, UINT const uMsg, WPARAM const wParam, LPARAM const lParam)
         {
             switch(uMsg)
             {

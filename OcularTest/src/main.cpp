@@ -29,7 +29,14 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    runTests(argc, argv);
+    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
+
+    while(OcularEngine.isRunning())
+    {
+        OcularEngine.run();
+    }
+
+    //runTests(argc, argv);
 
     OcularEngine.shutdown();
 }

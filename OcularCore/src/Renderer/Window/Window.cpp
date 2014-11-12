@@ -26,8 +26,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
-                         unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        AWindow::AWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
+                         unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display)
         {
             m_Name = name;
             m_Width = width;
@@ -51,7 +51,7 @@ namespace Ocular
             return m_Name;
         }
 
-        void AWindow::setName(std::string name)
+        void AWindow::setName(std::string const name)
         {
             m_Name = name;
         }
@@ -61,7 +61,7 @@ namespace Ocular
             return m_Width;
         }
 
-        void AWindow::setResolutionX(unsigned width)
+        void AWindow::setResolutionX(unsigned const width)
         {
             m_Width = width;
         }
@@ -71,7 +71,7 @@ namespace Ocular
             return m_Height;
         }
 
-        void AWindow::setResolutionY(unsigned height)
+        void AWindow::setResolutionY(unsigned const height)
         {
             m_Height = height;
         }
@@ -81,7 +81,7 @@ namespace Ocular
             return m_ColorBits;
         }
 
-        void AWindow::setColorBits(unsigned bits)
+        void AWindow::setColorBits(unsigned const bits)
         {
             m_ColorBits = bits;
         }
@@ -91,7 +91,7 @@ namespace Ocular
             return m_DepthBits;
         }
 
-        void AWindow::setDepthBits(unsigned bits)
+        void AWindow::setDepthBits(unsigned const bits)
         {
             m_DepthBits = bits;
         }
@@ -101,7 +101,7 @@ namespace Ocular
             return m_StencilBits;
         }
 
-        void AWindow::setStencilBits(unsigned bits)
+        void AWindow::setStencilBits(unsigned const bits)
         {
             m_StencilBits = bits;
         }
@@ -111,7 +111,7 @@ namespace Ocular
             return m_DisplayMode;
         }
 
-        void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE display)
+        void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE const display)
         {
             m_DisplayMode = display;
         }
