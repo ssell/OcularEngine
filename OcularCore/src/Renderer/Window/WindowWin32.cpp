@@ -46,6 +46,22 @@ namespace Ocular
             }
         }
 
+        DWORD CreateWindowStyle(WINDOW_DISPLAY_MODE const display)
+        {
+            switch(display)
+            {
+            case WINDOW_DISPLAY_MODE::WINDOWED_NO_BORDER:
+                return WS_POPUP | WS_VISIBLE;
+
+            case WINDOW_DISPLAY_MODE::FULLSCREEN_BORDERED:
+                return WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
+
+            case WINDOW_DISPLAY_MODE::WINDOWED_BORDERED:
+            default:
+                return WS_OVERLAPPEDWINDOW;
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
@@ -95,7 +111,7 @@ namespace Ocular
 
                 m_HWND = CreateWindow(TEXT(m_Name.c_str()),
                                       TEXT(m_Name.c_str()),
-                                      WS_OVERLAPPEDWINDOW,
+                                      CreateWindowStyle(m_DisplayMode),
                                       CW_USEDEFAULT,
                                       0,
                                       CW_USEDEFAULT,

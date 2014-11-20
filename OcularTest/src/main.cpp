@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED);
+    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::FULLSCREEN_BORDERED);
 
     while(OcularEngine.isRunning())
     {
