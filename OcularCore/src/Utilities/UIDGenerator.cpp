@@ -42,11 +42,13 @@ namespace Ocular
 
         unsigned UIDGenerator::next()
         {
+            int returnID;
+
             m_Mutex.lock();
-            m_UID++;
+            returnID = ++m_UID;
             m_Mutex.unlock();
 
-            return m_UID;
+            return returnID;
         }
 
         //----------------------------------------------------------------------------------
