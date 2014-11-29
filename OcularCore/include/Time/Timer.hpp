@@ -49,15 +49,34 @@ namespace Ocular
             Timer();
             ~Timer();
 
+            /**
+             * Starts the timer.
+             */
             void start();
+            
+            /**
+             * Stops the timer.
+             */
             void stop();
+            
+            /**
+             * Resets the timer.
+             */
             void reset();
 
+            /**
+             * Returns the amount of time elapsed since start was called. <br/>
+             * If the timer is stopped, then the elapsed time does not increment.
+             *
+             * \return Amount of time elapsed in milliseconds
+             */
             long long getElapsedMS();
 
         protected:
 
         private:
+            
+            void updateInternalTime();
 
             bool m_Stopped;
 

@@ -50,6 +50,7 @@ namespace Ocular
 
         void Timer::stop()
         {
+            updateInternalTime();
             m_Stopped = true;
         }
 
@@ -61,13 +62,7 @@ namespace Ocular
 
         long long Timer::getElapsedMS()
         {
-            if(!m_Stopped)
-            {
-                long long time = OcularEngine.Clock()->getElapsedMS();
-                m_ElapsedMS += time - m_LastUpdate;
-                m_LastUpdate = time;
-            }
-
+            updateInternalTime();
             return m_ElapsedMS;
         }
 
@@ -78,5 +73,15 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void Timer::updateInternalTime() 
+        {
+            if(!m_Stopped)
+            {
+                long long time = OcularEngine.Clock()->getElapsedMS();
+                m_ElapsedMS += time - m_LastUpdate;
+                m_LastUpdate = time;
+            }
+        }
     }
 }

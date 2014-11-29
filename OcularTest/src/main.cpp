@@ -28,7 +28,6 @@ int runTests(int argc, char** argv)
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
-
     OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED, true);
 
     while(OcularEngine.isRunning())
@@ -37,6 +36,6 @@ int main(int argc, char** argv)
     }
 
     //runTests(argc, argv);
-
+    
     OcularEngine.shutdown();
 }
