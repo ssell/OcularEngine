@@ -27,7 +27,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         AWindow::AWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
-                         unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display)
+                         unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool alwaysOnTop)
         {
             m_Name = name;
             m_Width = width;
@@ -35,6 +35,8 @@ namespace Ocular
             m_ColorBits = colorBits;
             m_DepthBits = depthBits;
             m_StencilBits = stencilBits;
+            m_DisplayMode = display;
+            m_RenderExclusive = alwaysOnTop;
         }
 
         AWindow::~AWindow()
@@ -114,6 +116,16 @@ namespace Ocular
         void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE const display)
         {
             m_DisplayMode = display;
+        }
+
+        bool AWindow::getIsAlwaysOnTop() const
+        {
+            return m_RenderExclusive;
+        }
+
+        void AWindow::setIsAlwaysOnTop(bool const onTop) 
+        {
+            m_RenderExclusive = onTop;
         }
 
         //----------------------------------------------------------------------------------

@@ -56,9 +56,10 @@ namespace Ocular
              * \param depthBits
              * \param stencilBits
              * \param display
+             * \param alwaysOnTop
              */
             WindowWin32(std::string name,  unsigned width, unsigned height, unsigned colorBits,
-               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             ~WindowWin32();
 

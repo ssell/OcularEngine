@@ -54,11 +54,14 @@ namespace Ocular
                 return WS_POPUP | WS_VISIBLE;
 
             case WINDOW_DISPLAY_MODE::FULLSCREEN_BORDERED:
-                return WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
+                return WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_VISIBLE;
+
+            case WINDOW_DISPLAY_MODE::FULLSCREEN_NO_BORDER:
+                return WS_POPUP | WS_MAXIMIZE | WS_VISIBLE;
 
             case WINDOW_DISPLAY_MODE::WINDOWED_BORDERED:
             default:
-                return WS_OVERLAPPEDWINDOW;
+                return WS_OVERLAPPEDWINDOW | WS_VISIBLE;
             }
         }
 
@@ -67,8 +70,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         WindowWin32::WindowWin32(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
-                                 unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display)
-            : AWindow(name, width, height, colorBits, depthBits, stencilBits, display)
+                                 unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
+            : AWindow(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)
         {
             m_HINSTANCE = nullptr;
             m_HWND = nullptr;
@@ -109,17 +112,34 @@ namespace Ocular
 
                 RegisterClass(&windowClass);
 
-                m_HWND = CreateWindow(TEXT(m_Name.c_str()),
-                                      TEXT(m_Name.c_str()),
-                                      CreateWindowStyle(m_DisplayMode),
-                                      CW_USEDEFAULT,
-                                      0,
-                                      CW_USEDEFAULT,
-                                      0,
-                                      0,
-                                      0,
-                                      m_HINSTANCE,
-                                      this);
+                if(!m_RenderExclusive) {
+                    m_HWND = CreateWindow(TEXT(m_Name.c_str()),
+                                          TEXT(m_Name.c_str()),
+                                          CreateWindowStyle(m_DisplayMode),
+                                          CW_USEDEFAULT,
+                                          0,
+                                          CW_USEDEFAULT,
+                                          0,
+                                          0,
+                                          0,
+                                          m_HINSTANCE,
+                                          this);
+                } 
+                else 
+                {
+                    m_HWND = CreateWindowEx(WS_EX_TOPMOST,
+                                            TEXT(m_Name.c_str()),
+                                            TEXT(m_Name.c_str()),
+                                            CreateWindowStyle(m_DisplayMode),
+                                            CW_USEDEFAULT,
+                                            0,
+                                            CW_USEDEFAULT,
+                                            0,
+                                            0,
+                                            0,
+                                            m_HINSTANCE,
+                                            this);
+                }
 
                 if(m_HWND == nullptr) 
                 {

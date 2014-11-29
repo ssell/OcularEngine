@@ -61,20 +61,34 @@ namespace Ocular
              * \param depthBits   Number of depth bits
              * \param stencilBits Number of stencil bits
              * \param display     Display mode
+             * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
              */
             AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
-               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             virtual ~AWindow();
 
             //--------------------------------------------
 
+            /** 
+             * \return The name of the Window
+             */
             std::string getName() const;
-            void setName(std::string name);
 
+            /**
+             * \param[in] name Name of the Window
+             */
+            void setName(std::string name);
+            
+            /** 
+             * \return The width of the window / x-resolution in fullscreen display
+             */
             unsigned getResolutionX() const;
             void setResolutionX(unsigned width);
-
+            
+            /** 
+             * \return The height of the window / y-resolution in fullscreen display
+             */
             unsigned getResolutionY() const;
             void setResolutionY(unsigned height);
 
@@ -89,6 +103,16 @@ namespace Ocular
 
             WINDOW_DISPLAY_MODE getDisplayMode() const;
             void setDisplayMode(WINDOW_DISPLAY_MODE display);
+
+            /**
+             * \return TRUE if the Window is always rendered on top of other Windows.
+             */
+            bool getIsAlwaysOnTop() const;
+
+            /**
+             * \param[in] onTop TRUE if the Window should always be rendered on top of other Windows.
+             */
+            void setIsAlwaysOnTop(bool onTop);
 
         protected:
 
@@ -118,6 +142,8 @@ namespace Ocular
             unsigned m_StencilBits;
 
             WINDOW_DISPLAY_MODE m_DisplayMode;
+
+            bool m_RenderExclusive;
 
         private:
         };

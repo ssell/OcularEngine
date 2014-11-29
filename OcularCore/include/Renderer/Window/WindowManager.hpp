@@ -65,11 +65,11 @@ namespace Ocular
              * \param depthBits   Number of depth bits
              * \param stencilBits Number of stencil bits
              * \param display     Display mode
-             *
+             * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
              * \return A pointer to the new window. If nullptr, then an error occurred during creation.
              */
-            const AWindow* createWindow(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+            const AWindow* createWindow(std::string name, unsigned width, unsigned height, unsigned colorBits, 
+               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop = false);
 
             /**
              * Destroys the Window with the specified name.
@@ -122,13 +122,13 @@ namespace Ocular
         private:
 
             const AWindow* createWindowWin32(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             const AWindow* createWindowOSX(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             const AWindow* createWindowLinux(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display);
+               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             std::string m_MainWindow;
             std::list<std::unique_ptr<AWindow>> m_Windows;

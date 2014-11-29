@@ -45,15 +45,15 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        const AWindow* WindowManager::createWindow(std::string name, unsigned width, unsigned height,
-            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        const AWindow* WindowManager::createWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits, 
+            unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
 #ifdef OCULAR_WINDOWS
-            return createWindowWin32(name, width, height, colorBits, depthBits, stencilBits, display);
+            return createWindowWin32(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
 #elif OCULAR_OSX
-            return createWindowOSX(name, width, height, colorBits, depthBits, stencilBits, display);
+            return createWindowOSX(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
 #elif OCULAR_LINUX
-            return createWindowLinux(name, width, height, colorBits, depthBits, stencilBits, display);
+            return createWindowLinux(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
 #endif
         }
 
@@ -145,15 +145,15 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        const AWindow* WindowManager::createWindowWin32(std::string name, unsigned width, unsigned height,
-            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        const AWindow* WindowManager::createWindowWin32(std::string const name, unsigned const width, unsigned const height,
+            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
             AWindow* result = nullptr;
 
 #ifdef OCULAR_WINDOWS
             try
             {
-                m_Windows.push_front(std::make_unique<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display));
+                m_Windows.push_front(std::make_unique<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop));
                 result = m_Windows.front().get();
 
                 if(result != nullptr) 
@@ -175,8 +175,8 @@ namespace Ocular
             return result;
         }
 
-        const AWindow* WindowManager::createWindowOSX(std::string name, unsigned width, unsigned height,
-            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        const AWindow* WindowManager::createWindowOSX(std::string const name, unsigned const width, unsigned const height,
+            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
             AWindow* result = nullptr;
 
@@ -184,7 +184,7 @@ namespace Ocular
             try
             {
                 m_Windows.push_front(std::make_unique<Window>(
-                    WindowOSX(name, width, height, colorBits, depthBits, stencilBits, display)));
+                    WindowOSX(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)));
                 result = m_Windows.front().get();
 
                 if(m_MainWindow.empty()) 
@@ -201,8 +201,8 @@ namespace Ocular
             return result;
         }
 
-        const AWindow* WindowManager::createWindowLinux(std::string name, unsigned width, unsigned height,
-            unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display)
+        const AWindow* WindowManager::createWindowLinux(std::string const name, unsigned const width, unsigned const height,
+            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
             AWindow* result = nullptr;
 
@@ -210,7 +210,7 @@ namespace Ocular
             try
             {
                 m_Windows.push_front(std::make_unique<Window>(
-                    WindowLinux(name, width, height, colorBits, depthBits, stencilBits, display)));
+                    WindowLinux(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)));
                 result = m_Windows.front().get();
 
                 if(m_MainWindow.empty()) 
