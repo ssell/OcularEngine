@@ -45,7 +45,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        const AWindow* WindowManager::createWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits, 
+        std::shared_ptr<AWindow> WindowManager::createWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits, 
             unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
 #ifdef OCULAR_WINDOWS
@@ -74,7 +74,7 @@ namespace Ocular
                         OcularEngine.Logger()->error(e);
                     }
 
-                    (*iter).release();
+                    (*iter) = nullptr;
                     m_Windows.erase(iter);
 
                     break;
@@ -104,22 +104,22 @@ namespace Ocular
             return windows;
         }
 
-        const AWindow* WindowManager::getWindow(std::string name)
+        std::shared_ptr<AWindow> WindowManager::getWindow(std::string name)
         {
-            std::list<std::unique_ptr<AWindow>>::iterator iter;
+            std::list<std::shared_ptr<AWindow>>::iterator iter;
 
             for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
                 if((*iter).get()->getName().compare(name) == 0)
                 {
-                    return (*iter).get();
+                    return (*iter);
                 }
             }
 
             return nullptr;
         }
 
-        const AWindow* WindowManager::getMainWindow()
+        std::shared_ptr<AWindow> WindowManager::getMainWindow()
         {
             return getWindow(m_MainWindow);
         }
@@ -145,16 +145,16 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        const AWindow* WindowManager::createWindowWin32(std::string const name, unsigned const width, unsigned const height,
+        std::shared_ptr<AWindow> WindowManager::createWindowWin32(std::string const name, unsigned const width, unsigned const height,
             unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
-            AWindow* result = nullptr;
+            std::shared_ptr<AWindow> result;
 
 #ifdef OCULAR_WINDOWS
             try
             {
-                m_Windows.push_front(std::make_unique<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop));
-                result = m_Windows.front().get();
+                m_Windows.push_front(std::make_shared<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop));
+                result = m_Windows.front();
 
                 if(result != nullptr) 
                 {
@@ -175,10 +175,10 @@ namespace Ocular
             return result;
         }
 
-        const AWindow* WindowManager::createWindowOSX(std::string const name, unsigned const width, unsigned const height,
+        std::shared_ptr<AWindow> WindowManager::createWindowOSX(std::string const name, unsigned const width, unsigned const height,
             unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
-            AWindow* result = nullptr;
+            std::shared_ptr<AWindow> result = nullptr;
 
 #ifdef OCULAR_OSX
             try
@@ -201,10 +201,10 @@ namespace Ocular
             return result;
         }
 
-        const AWindow* WindowManager::createWindowLinux(std::string const name, unsigned const width, unsigned const height,
+        std::shared_ptr<AWindow> WindowManager::createWindowLinux(std::string const name, unsigned const width, unsigned const height,
             unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
         {
-            AWindow* result = nullptr;
+            std::shared_ptr<AWindow> result = nullptr;
 
 #ifdef OCULAR_LINUX
             try

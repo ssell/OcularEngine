@@ -68,7 +68,7 @@ namespace Ocular
              * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
              * \return A pointer to the new window. If nullptr, then an error occurred during creation.
              */
-            const AWindow* createWindow(std::string name, unsigned width, unsigned height, unsigned colorBits, 
+            std::shared_ptr<AWindow> createWindow(std::string name, unsigned width, unsigned height, unsigned colorBits, 
                unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop = false);
 
             /**
@@ -96,13 +96,13 @@ namespace Ocular
              * \param name
              * \return A pointer to the window. If nullptr, then no window matches the specified name.
              */
-            const AWindow* getWindow(std::string name);
+            std::shared_ptr<AWindow> getWindow(std::string name);
 
             /**
              * Returns a pointer to the main/primary window.
              * \return A pointer to the main window. If nullptr, then no windows are being managed.
              */
-            const AWindow* getMainWindow();
+            std::shared_ptr<AWindow> getMainWindow();
 
             /**
              * Sets the main window.
@@ -121,17 +121,17 @@ namespace Ocular
 
         private:
 
-            const AWindow* createWindowWin32(std::string name, unsigned width, unsigned height,
+            std::shared_ptr<AWindow> createWindowWin32(std::string name, unsigned width, unsigned height,
                unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
-            const AWindow* createWindowOSX(std::string name, unsigned width, unsigned height,
+            std::shared_ptr<AWindow> createWindowOSX(std::string name, unsigned width, unsigned height,
                unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
-            const AWindow* createWindowLinux(std::string name, unsigned width, unsigned height,
+            std::shared_ptr<AWindow> createWindowLinux(std::string name, unsigned width, unsigned height,
                unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
 
             std::string m_MainWindow;
-            std::list<std::unique_ptr<AWindow>> m_Windows;
+            std::list<std::shared_ptr<AWindow>> m_Windows;
         };
     }
     /**
