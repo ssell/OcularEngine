@@ -165,6 +165,12 @@
     <ClCompile Include="..\..\src\Math\Random\XorShift.cpp">
       <Filter>Source Files\Math\Random</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\EventSnooper.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -298,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Random\XorShift.hpp">
       <Filter>Header Files\Math\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp">
+      <Filter>Header Files\Events\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\EventSnooper.hpp">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

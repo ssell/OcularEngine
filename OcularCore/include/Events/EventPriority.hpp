@@ -35,10 +35,10 @@ namespace Ocular
         enum EVENT_PRIORITY
         {
             MONITOR = 0,
-            CRITICAL,
-            HIGH,
-            MEDIUM,
-            LOW
+            CRITICAL = 10,
+            HIGH = 50,
+            MEDIUM = 100,
+            LOW = 150
         };
     }
     /**

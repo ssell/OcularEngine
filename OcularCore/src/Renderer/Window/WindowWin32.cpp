@@ -18,6 +18,7 @@
 #include "Renderer/Window/WindowWin32.hpp"
 #include "OcularEngine.hpp"
 #include "Events/Events/ShutdownEvent.hpp"
+#include "Events/Events/WindowResizeEvent.hpp"
 #include "Time/Timer.hpp"
 
 #include <sstream>
@@ -262,7 +263,15 @@ namespace Ocular
             case WM_DESTROY:
             case WM_CLOSE:
             case WM_QUIT:
-                OcularEngine.EventManager()->queueEvent(std::make_shared<Ocular::Core::ShutdownEvent>());
+                OcularEngine.EventManager()->queueEvent(std::make_shared<Events::ShutdownEvent>());
+                return 0;
+
+            case WM_SIZE:
+                OcularEngine.EventManager()->queueEvent(std::make_shared<Events::WindowResizeEvent>(
+                    OcularEngine.WindowManager()->getWindow(m_Name),  // Smart pointer to this window
+                    static_cast<unsigned>(LOWORD(lParam)),            // New width
+                    static_cast<unsigned>(HIWORD(lParam)),            // New height
+                    static_cast<WINDOW_RESIZE_TYPE>(wParam)));        // Type of resize event
                 return 0;
 
             default:

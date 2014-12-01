@@ -94,17 +94,17 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        int EventManager::findListener(AEventListener* listener)
+        int EventManager::findListener(AEventListener* pListener)
         {
             int index = -1;
 
-            if(listener != nullptr)
+            if(pListener != nullptr)
             {
                 for(unsigned i = 0; i < m_Listeners.size(); i++)
                 {
                     AEventListener* listener = m_Listeners.get(i);
 
-                    if((listener != nullptr) && (listener == listener))
+                    if((listener != nullptr) && (pListener == listener))
                     {
                         index = static_cast<int>(i);
                         break;
@@ -123,7 +123,11 @@ namespace Ocular
 
                 if(listener != nullptr)
                 {
-                    listener->onEvent(event);
+                    if(!listener->onEvent(event))
+                    {
+                        // Listener consumed this event
+                        break;   
+                    }
                 }
             }
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Events/Events/ShutdownEvent.hpp"
+#include "Events/Events/WindowResizeEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,20 +28,44 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            ShutdownEvent::ShutdownEvent()
-                : AEvent("ShutdownEvent", EVENT_PRIORITY::CRITICAL)
+            WindowResizeEvent::WindowResizeEvent(
+                std::shared_ptr<AWindow> window, unsigned const width, unsigned const height, WINDOW_RESIZE_TYPE const type)
+                : AEvent("WindowResizeEvent", EVENT_PRIORITY::LOW)
             {
-        
+                m_pWindow = window;
+                m_NewWidth = width;
+                m_NewHeight = height;
+                m_Type = type;
             }
 
-            ShutdownEvent::~ShutdownEvent()
+            WindowResizeEvent::~WindowResizeEvent()
             {
-        
+                m_pWindow = nullptr;
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
+
+            WINDOW_RESIZE_TYPE WindowResizeEvent::getResizeType() const
+            {
+                return m_Type;
+            }
+
+            unsigned WindowResizeEvent::getNewWidth() const 
+            {
+                return m_NewWidth;
+            }
+
+            unsigned WindowResizeEvent::getNewHeight() const
+            {
+                return m_NewHeight;
+            }
+
+            std::shared_ptr<AWindow> WindowResizeEvent::getWindow() const 
+            {
+                return m_pWindow;
+            }
 
             //------------------------------------------------------------------------------
             // PROTECTED METHODS

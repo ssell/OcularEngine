@@ -46,6 +46,9 @@ namespace Ocular
 
         protected:
 
+            /**
+             * \return TRUE to keep processing this event after this listener, FALSE to consume this event
+             */
             virtual bool onEvent(std::shared_ptr<AEvent> event)
             {
                 return false;

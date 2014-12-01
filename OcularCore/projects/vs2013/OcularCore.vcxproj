@@ -90,7 +90,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
+    <ClCompile Include="..\..\src\Events\EventSnooper.cpp" />
     <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Math\Random\ARandom.cpp" />
@@ -118,8 +120,10 @@
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
     <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
+    <ClInclude Include="..\..\include\Events\EventSnooper.hpp" />
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />

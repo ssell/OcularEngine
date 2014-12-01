@@ -59,7 +59,7 @@ namespace Ocular
 
         private:
 
-            int findListener(AEventListener* listener);
+            int findListener(AEventListener* pListener);
             void triggerEvent(std::shared_ptr<AEvent> event);
 
             Ocular::Utils::PriorityList<AEventListener*, 256> m_Listeners;

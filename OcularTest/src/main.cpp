@@ -15,7 +15,10 @@
  */
 
 #include "OcularEngine.hpp"
+#include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
+
+Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
 
@@ -25,10 +28,18 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
+void setupEventSnooper()
+{
+    g_Snooper.setIgnoreDuplicates(true);
+    OcularEngine.EventManager()->registerListener(&g_Snooper, Ocular::Core::EVENT_PRIORITY::MONITOR);
+}
+
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
-    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED, true);
+    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED, false);
+
+    setupEventSnooper();
 
     while(OcularEngine.isRunning())
     {
