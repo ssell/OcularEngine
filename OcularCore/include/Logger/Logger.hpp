@@ -24,6 +24,7 @@
 #include <list>
 #include <sstream>
 #include <memory>
+#include <mutex>
 
 //------------------------------------------------------------------------------------------
 
@@ -68,10 +69,14 @@ namespace Ocular
             template<typename T, typename... U>
             void debug(T first, U... args)
             {
+                m_Mutex.lock();
+
                 m_CurrentMessage.channel = LOGGER_CHANNELS::DEBUG_CHANNEL;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
+
+                m_Mutex.unlock();
             }
 
             /**
@@ -80,10 +85,14 @@ namespace Ocular
             template<typename T, typename... U>
             void info(T first, U... args)
             {
+                m_Mutex.lock();
+
                 m_CurrentMessage.channel = LOGGER_CHANNELS::INFO_CHANNEL;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
+
+                m_Mutex.unlock();
             }
 
             /**
@@ -92,10 +101,14 @@ namespace Ocular
             template<typename T, typename... U>
             void warning(T first, U... args)
             {
+                m_Mutex.lock();
+
                 m_CurrentMessage.channel = LOGGER_CHANNELS::WARNING_CHANNEL;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
+
+                m_Mutex.unlock();
             }
 
             /**
@@ -104,10 +117,14 @@ namespace Ocular
             template<typename T, typename... U>
             void error(T first, U... args)
             {
+                m_Mutex.lock();
+
                 m_CurrentMessage.channel = LOGGER_CHANNELS::ERROR_CHANNEL;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
+
+                m_Mutex.unlock();
             }
 
             /**
@@ -140,6 +157,9 @@ namespace Ocular
             LoggerMessage m_CurrentMessage;
 
             std::list<std::unique_ptr<ILoggerListener>> m_Listeners;
+
+            std::mutex m_Mutex;
+
         };
     }
     /**
