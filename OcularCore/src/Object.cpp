@@ -15,6 +15,8 @@
  */
 
 #include "Object.hpp"
+#include "OcularEngine.hpp"
+
 #include <sstream>
 
 //------------------------------------------------------------------------------------------
@@ -28,19 +30,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
     
         Object::Object(std::string name, std::string className)
-            : m_Name(name), m_Class(className), m_UID(0)
+            : m_Name(name), m_Class(className), m_UID(OcularEngine.UIDGenerator()->next()), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
-    
+
         }
 
         Object::Object(std::string name)
-            : m_Name(name), m_Class("Object"), m_UID(0)
+            : m_Name(name), m_Class("Object"), m_UID(OcularEngine.UIDGenerator()->next()), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
         
         }
     
         Object::Object()
-            : m_Name("Name"), m_Class("Object"), m_UID(0)
+            : m_Name("Name"), m_Class("Object"), m_UID(OcularEngine.UIDGenerator()->next()), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
         
         }
@@ -59,20 +61,30 @@ namespace Ocular
             m_Name = name;
         }
     
-        std::string Object::getName()
+        std::string Object::getName() const
         {
             return m_Name;
         }
+
+        std::string Object::getClass() const
+        {
+            return m_Class;
+        }
     
-        unsigned int Object::getUID()
+        unsigned long long Object::getUID() const
         {
             return m_UID;
         }
+
+        long long Object::getCreationTime() const
+        {
+            return m_CreationTime;
+        }
     
-        std::string Object::toString()
+        std::string Object::toString() const
         {
             std::stringstream sstream;
-            sstream << "Name['" << m_Name << "'] UID[" << m_UID << "] Class[" << m_Class << "]";
+            sstream << "Class[" << m_Class << "] Name['" << m_Name << "'] UID[" << m_UID << "]";
         
             return sstream.str();
         }

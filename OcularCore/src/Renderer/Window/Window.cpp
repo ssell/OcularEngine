@@ -26,17 +26,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
-                         unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool alwaysOnTop)
+        AWindow::AWindow(WindowDescriptor const descriptor)
+            : Object(descriptor.displayName, "AWindow")
         {
-            m_Name = name;
-            m_Width = width;
-            m_Height = height;
-            m_ColorBits = colorBits;
-            m_DepthBits = depthBits;
-            m_StencilBits = stencilBits;
-            m_DisplayMode = display;
-            m_RenderExclusive = alwaysOnTop;
+            m_Descriptor = descriptor;
         }
 
         AWindow::~AWindow()
@@ -48,84 +41,14 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::string AWindow::getName() const
+        WindowDescriptor AWindow::getDescriptor() const
         {
-            return m_Name;
+            return m_Descriptor;
         }
 
-        void AWindow::setName(std::string const name)
+        void AWindow::setDescriptor(WindowDescriptor const descriptor)
         {
-            m_Name = name;
-        }
-
-        unsigned AWindow::getResolutionX() const
-        {
-            return m_Width;
-        }
-
-        void AWindow::setResolutionX(unsigned const width)
-        {
-            m_Width = width;
-        }
-
-        unsigned AWindow::getResolutionY() const
-        {
-            return m_Height;
-        }
-
-        void AWindow::setResolutionY(unsigned const height)
-        {
-            m_Height = height;
-        }
-
-        unsigned AWindow::getColorBits() const
-        {
-            return m_ColorBits;
-        }
-
-        void AWindow::setColorBits(unsigned const bits)
-        {
-            m_ColorBits = bits;
-        }
-
-        unsigned AWindow::getDepthBits() const
-        {
-            return m_DepthBits;
-        }
-
-        void AWindow::setDepthBits(unsigned const bits)
-        {
-            m_DepthBits = bits;
-        }
-
-        unsigned AWindow::getStencilBits() const
-        {
-            return m_StencilBits;
-        }
-
-        void AWindow::setStencilBits(unsigned const bits)
-        {
-            m_StencilBits = bits;
-        }
-
-        WINDOW_DISPLAY_MODE AWindow::getDisplayMode() const
-        {
-            return m_DisplayMode;
-        }
-
-        void AWindow::setDisplayMode(WINDOW_DISPLAY_MODE const display)
-        {
-            m_DisplayMode = display;
-        }
-
-        bool AWindow::getIsAlwaysOnTop() const
-        {
-            return m_RenderExclusive;
-        }
-
-        void AWindow::setIsAlwaysOnTop(bool const onTop) 
-        {
-            m_RenderExclusive = onTop;
+            m_Descriptor = descriptor;
         }
 
         //----------------------------------------------------------------------------------

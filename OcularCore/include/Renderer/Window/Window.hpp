@@ -18,8 +18,10 @@
 #ifndef __H__OCULAR_RENDERER_WINDOW__H__
 #define __H__OCULAR_RENDERER_WINDOW__H__
 
+#include "Object.hpp"
 #include "WindowManager.hpp"
 #include "WindowDisplay.hpp"
+#include "WindowDescriptor.hpp"
 
 #include <string>
 
@@ -48,7 +50,7 @@ namespace Ocular
          * See ::WindowLinux <br/>
          * See ::WindowOSX
          */
-        class AWindow 
+        class AWindow : public Object
         {
             friend class WindowManager;
         public:
@@ -63,56 +65,14 @@ namespace Ocular
              * \param display     Display mode
              * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
              */
-            AWindow(std::string name, unsigned width, unsigned height, unsigned colorBits,
-               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
+            AWindow(WindowDescriptor descriptor);
 
             virtual ~AWindow();
 
             //--------------------------------------------
 
-            /** 
-             * \return The name of the Window
-             */
-            std::string getName() const;
-
-            /**
-             * \param[in] name Name of the Window
-             */
-            void setName(std::string name);
-            
-            /** 
-             * \return The width of the window / x-resolution in fullscreen display
-             */
-            unsigned getResolutionX() const;
-            void setResolutionX(unsigned width);
-            
-            /** 
-             * \return The height of the window / y-resolution in fullscreen display
-             */
-            unsigned getResolutionY() const;
-            void setResolutionY(unsigned height);
-
-            unsigned getColorBits() const;
-            void setColorBits(unsigned bits);
-
-            unsigned getDepthBits() const;
-            void setDepthBits(unsigned bits);
-
-            unsigned getStencilBits() const;
-            void setStencilBits(unsigned bits);
-
-            WINDOW_DISPLAY_MODE getDisplayMode() const;
-            void setDisplayMode(WINDOW_DISPLAY_MODE display);
-
-            /**
-             * \return TRUE if the Window is always rendered on top of other Windows.
-             */
-            bool getIsAlwaysOnTop() const;
-
-            /**
-             * \param[in] onTop TRUE if the Window should always be rendered on top of other Windows.
-             */
-            void setIsAlwaysOnTop(bool onTop);
+            WindowDescriptor getDescriptor() const;
+            void setDescriptor(WindowDescriptor descriptor);
 
         protected:
 
@@ -131,19 +91,9 @@ namespace Ocular
              */
             virtual void close() = 0;
 
-            std::shared_ptr<RenderContext> m_pRenderContext;
+            //----------------------------------------
 
-            std::string m_Name;
-
-            unsigned m_Width;
-            unsigned m_Height;
-            unsigned m_ColorBits;
-            unsigned m_DepthBits;
-            unsigned m_StencilBits;
-
-            WINDOW_DISPLAY_MODE m_DisplayMode;
-
-            bool m_RenderExclusive;
+            WindowDescriptor m_Descriptor;
 
         private:
         };

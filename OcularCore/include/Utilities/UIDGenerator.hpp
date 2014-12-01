@@ -48,13 +48,13 @@ namespace Ocular
              * \return The next UID
              * \note This operation is thread-safe
              */
-            unsigned next();
+            unsigned long long next();
 
         protected:
 
         private:
 
-            unsigned m_UID;
+            unsigned long long m_UID;
             std::mutex m_Mutex;
         };
     }

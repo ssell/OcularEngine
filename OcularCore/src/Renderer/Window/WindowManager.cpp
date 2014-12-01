@@ -33,7 +33,7 @@ namespace Ocular
     
         WindowManager::WindowManager()
         {
-    
+            m_MainWindow = nullptr;
         }
 
         WindowManager::~WindowManager()
@@ -45,24 +45,34 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::shared_ptr<AWindow> WindowManager::createWindow(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits, 
-            unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
+        std::shared_ptr<AWindow> WindowManager::createWindow(WindowDescriptor const descriptor)
         {
 #ifdef OCULAR_WINDOWS
-            return createWindowWin32(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
+            return createWindowWin32(descriptor);
 #elif OCULAR_OSX
-            return createWindowOSX(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
+            return createWindowOSX(descriptor);
 #elif OCULAR_LINUX
-            return createWindowLinux(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop);
+            return createWindowLinux(descriptor);
 #endif
         }
 
-        void WindowManager::destroyWindow(std::string name)
+        void WindowManager::destroyWindow(unsigned long long const uid)
         {
+            bool needNewMainWindow = false;
+
+            if((m_MainWindow != nullptr) && (m_MainWindow->getUID() == uid))
+            {
+                // We are deleting the main window, set it to next available window when done
+                needNewMainWindow = true;
+            }
+
+            //----------------------------------------
+
             for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
-                if((*iter).get()->getName().compare(name) == 0)
+                if((*iter)->getUID() == uid)
                 {
+                    //--------------------------------
                     // Close, release, and stop tracking the window
 
                     try 
@@ -80,37 +90,47 @@ namespace Ocular
                     break;
                 }
             }
+
+            //----------------------------------------
+
+            if(needNewMainWindow)
+            {
+                if(m_Windows.size() > 0)
+                {
+                    m_MainWindow = m_Windows.front();
+                }
+                else 
+                {
+                    m_MainWindow = nullptr;
+                }
+            }
         }
 
         void WindowManager::destroyAllWindows()
         {
-            std::list<std::string> windows = listWindows();
-
-            for(auto iter = windows.begin(); iter != windows.end(); iter++)
+            while(m_Windows.size() > 0)
             {
-                destroyWindow((*iter));
+                destroyWindow(m_Windows.front()->getUID());
             }
         }
 
-        std::list<std::string> WindowManager::listWindows()
+        std::list<std::shared_ptr<AWindow>> WindowManager::listWindows() const
         {
-            std::list<std::string> windows;
-
-            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
-            {
-                windows.push_back((*iter).get()->getName());
-            }
-
-            return windows;
+            return m_Windows;
         }
 
-        std::shared_ptr<AWindow> WindowManager::getWindow(std::string name)
+        unsigned WindowManager::getNumWindows() const
+        {
+            return m_Windows.size();
+        }
+
+        std::shared_ptr<AWindow> WindowManager::getWindow(unsigned long long const uid)
         {
             std::list<std::shared_ptr<AWindow>>::iterator iter;
 
             for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
-                if((*iter).get()->getName().compare(name) == 0)
+                if((*iter)->getUID() == uid)
                 {
                     return (*iter);
                 }
@@ -121,12 +141,12 @@ namespace Ocular
 
         std::shared_ptr<AWindow> WindowManager::getMainWindow()
         {
-            return getWindow(m_MainWindow);
+            return m_MainWindow;
         }
 
-        void WindowManager::setMainWindow(std::string name)
+        void WindowManager::setMainWindow(unsigned long long const uid)
         {
-            m_MainWindow = name;
+            m_MainWindow = getWindow(uid);
         }
         
         void WindowManager::updateWindows(long long time)
@@ -145,24 +165,23 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        std::shared_ptr<AWindow> WindowManager::createWindowWin32(std::string const name, unsigned const width, unsigned const height,
-            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
+        std::shared_ptr<AWindow> WindowManager::createWindowWin32(WindowDescriptor const descriptor)
         {
             std::shared_ptr<AWindow> result;
 
 #ifdef OCULAR_WINDOWS
             try
             {
-                m_Windows.push_front(std::make_shared<WindowWin32>(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop));
+                m_Windows.push_front(std::make_shared<WindowWin32>(descriptor));
                 result = m_Windows.front();
 
                 if(result != nullptr) 
                 {
                     result->open();
 
-                    if(m_MainWindow.empty()) 
+                    if(m_MainWindow == nullptr)
                     {
-                        m_MainWindow = result->getName();
+                        m_MainWindow = result;
                     }
                 }
             } 
@@ -175,21 +194,19 @@ namespace Ocular
             return result;
         }
 
-        std::shared_ptr<AWindow> WindowManager::createWindowOSX(std::string const name, unsigned const width, unsigned const height,
-            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
+        std::shared_ptr<AWindow> WindowManager::createWindowOSX(WindowDescriptor const descriptor)
         {
             std::shared_ptr<AWindow> result = nullptr;
 
 #ifdef OCULAR_OSX
             try
             {
-                m_Windows.push_front(std::make_unique<Window>(
-                    WindowOSX(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)));
+                m_Windows.push_front(std::make_unique<Window>(WindowOSX(descriptor)));
                 result = m_Windows.front().get();
 
-                if(m_MainWindow.empty()) 
+                if(m_MainWindow == nullptr)
                 {
-                    m_MainWindow = result->getName();
+                    m_MainWindow = result;
                 }
             } 
             catch(Exception& e)
@@ -201,21 +218,19 @@ namespace Ocular
             return result;
         }
 
-        std::shared_ptr<AWindow> WindowManager::createWindowLinux(std::string const name, unsigned const width, unsigned const height,
-            unsigned const colorBits, unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
+        std::shared_ptr<AWindow> WindowManager::createWindowLinux(WindowDescriptor const descriptor)
         {
             std::shared_ptr<AWindow> result = nullptr;
 
 #ifdef OCULAR_LINUX
             try
             {
-                m_Windows.push_front(std::make_unique<Window>(
-                    WindowLinux(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)));
+                m_Windows.push_front(std::make_unique<Window>(WindowLinux(descriptor)));
                 result = m_Windows.front().get();
 
-                if(m_MainWindow.empty()) 
+                if(m_MainWindow == nullptr)
                 {
-                    m_MainWindow = result->getName();
+                    m_MainWindow = result;
                 }
             } 
             catch(Exception& e)

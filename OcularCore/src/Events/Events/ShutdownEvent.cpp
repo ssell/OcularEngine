@@ -31,7 +31,6 @@ namespace Ocular
             ShutdownEvent::ShutdownEvent()
                 : AEvent("ShutdownEvent", EVENT_PRIORITY::CRITICAL)
             {
-        
             }
 
             ShutdownEvent::~ShutdownEvent()

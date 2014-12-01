@@ -19,6 +19,7 @@
 #define __H__OCULAR_RENDERER_WINDOW_MANAGER__H__
 
 #include "WindowDisplay.hpp"
+#include "WindowDescriptor.hpp"
 
 #include <memory>
 #include <list>
@@ -58,24 +59,16 @@ namespace Ocular
              * The returned pointer should not be destroyed as object management
              * is performed by the WindowManager to which the Window belongs.
              *
-             * \param name        Display name of the window
-             * \param width       Width of the window 
-             * \param height      Height of the window
-             * \param colorBits   Number of color bits
-             * \param depthBits   Number of depth bits
-             * \param stencilBits Number of stencil bits
-             * \param display     Display mode
-             * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
+             * \param descriptor 
              * \return A pointer to the new window. If nullptr, then an error occurred during creation.
              */
-            std::shared_ptr<AWindow> createWindow(std::string name, unsigned width, unsigned height, unsigned colorBits, 
-               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop = false);
+            std::shared_ptr<AWindow> createWindow(WindowDescriptor descriptor);
 
             /**
-             * Destroys the Window with the specified name.
-             * \param name
+             * Destroys the Window with the specified UID.
+             * \param uid
              */
-            void destroyWindow(std::string name);
+            void destroyWindow(unsigned long long uid);
 
             /**
              * Destroys all windows.
@@ -83,20 +76,25 @@ namespace Ocular
             void destroyAllWindows();
 
             /**
-             * Lists all windows managed by this instance.
+             * \return A list of all windows tracked by this manager instance.
              */
-            std::list<std::string> listWindows();
+            std::list<std::shared_ptr<AWindow>> listWindows() const;
+
+            /**
+             * \return Number of windows tracked by this manager instance.
+             */
+            unsigned getNumWindows() const;
         
             /**
-             * Returns a pointer to the Window with the specified name.<br/><br/>
+             * Returns a pointer to the Window with the specified UID.<br/><br/>
              *
              * The returned pointer should not be destroyed as object management
              * is performed by the WindowManager to which the Window belongs.
              *
-             * \param name
-             * \return A pointer to the window. If nullptr, then no window matches the specified name.
+             * \param uid
+             * \return A pointer to the window. If nullptr, then no window matches the specified UID.
              */
-            std::shared_ptr<AWindow> getWindow(std::string name);
+            std::shared_ptr<AWindow> getWindow(unsigned long long uid);
 
             /**
              * Returns a pointer to the main/primary window.
@@ -106,8 +104,10 @@ namespace Ocular
 
             /**
              * Sets the main window.
+             *
+             * \param uid
              */
-            void setMainWindow(std::string name);
+            void setMainWindow(unsigned long long uid);
 
             /**
              * Calls the update method for all tracked windows.<br/>
@@ -121,17 +121,12 @@ namespace Ocular
 
         private:
 
-            std::shared_ptr<AWindow> createWindowWin32(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
+            std::shared_ptr<AWindow> createWindowWin32(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> createWindowOSX(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> createWindowLinux(WindowDescriptor descriptor);
 
-            std::shared_ptr<AWindow> createWindowOSX(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
-
-            std::shared_ptr<AWindow> createWindowLinux(std::string name, unsigned width, unsigned height,
-               unsigned colorBits, unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
-
-            std::string m_MainWindow;
             std::list<std::shared_ptr<AWindow>> m_Windows;
+            std::shared_ptr<AWindow> m_MainWindow;
         };
     }
     /**

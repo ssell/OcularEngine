@@ -152,6 +152,7 @@
     <ClInclude Include="..\..\include\Renderer\Texture\Texture.hpp" />
     <ClInclude Include="..\..\include\Renderer\Texture\TextureEnums.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />
+    <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />

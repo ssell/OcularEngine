@@ -68,30 +68,41 @@ namespace Ocular
             /**
              * \return The name of the Object
              */
-            std::string getName();
+            std::string getName() const;
         
             /**
              * \brief Sets the name of the Object
              * \param name 
              */
             void setName(std::string name);
+
+            /**
+             * \return String representation of the object's Class
+             */
+            std::string getClass() const;
         
             /**
              * \return The UID of the Object
              */
-            unsigned int getUID();
+            unsigned long long getUID() const;
+
+            /**
+             * \return The time this object was created in MS since engine initialization
+             */
+            long long getCreationTime() const;
         
             /**
              * \return The string representation of the Object
              */
-            virtual std::string toString();
+            virtual std::string toString() const;
         
         protected:
         
-            std::string m_Name;          /**< Non-unique name of the Object */
-        
-            const std::string m_Class;   /**< Name of the class of which Object is an instance */
-            const unsigned int m_UID;    /**< Unique integer identifier */
+            std::string m_Name;   /**< Non-unique name of the Object */
+            std::string m_Class;  /**< Name of the class of which Object is an instance */
+
+            const unsigned long long m_UID;    /**< Unique integer identifier */
+            const long long m_CreationTime;
         
         private:
         };

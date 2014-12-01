@@ -28,6 +28,22 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
+void createWindow()
+{
+    Ocular::Core::WindowDescriptor descriptor;
+
+    descriptor.displayName   = "Demo Application";
+    descriptor.width         = 800;
+    descriptor.height        = 600;
+    descriptor.colorBits     = 8;
+    descriptor.depthBits     = 8;
+    descriptor.stencilBits   = 8;
+    descriptor.displayMode   = Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED;
+    descriptor.exclusiveMode = false;
+
+    OcularEngine.WindowManager()->createWindow(descriptor);
+}
+
 void setupEventSnooper()
 {
     g_Snooper.setIgnoreDuplicates(true);
@@ -37,8 +53,8 @@ void setupEventSnooper()
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
-    OcularEngine.WindowManager()->createWindow("Window", 800, 600, 8, 8, 8, Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED, false);
 
+    createWindow();
     setupEventSnooper();
 
     while(OcularEngine.isRunning())

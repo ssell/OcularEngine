@@ -40,9 +40,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        unsigned UIDGenerator::next()
+        unsigned long long UIDGenerator::next()
         {
-            int returnID;
+            unsigned long long returnID;
 
             m_Mutex.lock();
             returnID = ++m_UID;

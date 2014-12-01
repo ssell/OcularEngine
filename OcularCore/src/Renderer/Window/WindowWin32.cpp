@@ -70,10 +70,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        WindowWin32::WindowWin32(std::string const name, unsigned const width, unsigned const height, unsigned const colorBits,
-                                 unsigned const depthBits, unsigned const stencilBits, WINDOW_DISPLAY_MODE const display, bool const alwaysOnTop)
-            : AWindow(name, width, height, colorBits, depthBits, stencilBits, display, alwaysOnTop)
+        WindowWin32::WindowWin32(WindowDescriptor const descriptor)
+            : AWindow(descriptor)
         {
+            m_Class = "Core::WindowWin32";
             m_HINSTANCE = nullptr;
             m_HWND = nullptr;
         }
@@ -113,10 +113,10 @@ namespace Ocular
 
                 RegisterClass(&windowClass);
 
-                if(!m_RenderExclusive) {
-                    m_HWND = CreateWindow(TEXT(m_Name.c_str()),
-                                          TEXT(m_Name.c_str()),
-                                          CreateWindowStyle(m_DisplayMode),
+                if(!m_Descriptor.exclusiveMode) {
+                    m_HWND = CreateWindow(TEXT(m_Descriptor.displayName.c_str()),
+                                          TEXT(m_Descriptor.displayName.c_str()),
+                                          CreateWindowStyle(m_Descriptor.displayMode),
                                           CW_USEDEFAULT,
                                           0,
                                           CW_USEDEFAULT,
@@ -129,9 +129,9 @@ namespace Ocular
                 else 
                 {
                     m_HWND = CreateWindowEx(WS_EX_TOPMOST,
-                                            TEXT(m_Name.c_str()),
-                                            TEXT(m_Name.c_str()),
-                                            CreateWindowStyle(m_DisplayMode),
+                                            TEXT(m_Descriptor.displayName.c_str()),
+                                            TEXT(m_Descriptor.displayName.c_str()),
+                                            CreateWindowStyle(m_Descriptor.displayMode),
                                             CW_USEDEFAULT,
                                             0,
                                             CW_USEDEFAULT,
@@ -231,9 +231,9 @@ namespace Ocular
             RECT windowRect;
 
             windowRect.left   = 0L;
-            windowRect.right  = static_cast<long>(m_Width);
+            windowRect.right  = static_cast<long>(m_Descriptor.width);
             windowRect.top    = 0L;
-            windowRect.bottom = static_cast<long>(m_Height);
+            windowRect.bottom = static_cast<long>(m_Descriptor.height);
 
             return windowRect;
         }
@@ -268,7 +268,7 @@ namespace Ocular
 
             case WM_SIZE:
                 OcularEngine.EventManager()->queueEvent(std::make_shared<Events::WindowResizeEvent>(
-                    OcularEngine.WindowManager()->getWindow(m_Name),  // Smart pointer to this window
+                    OcularEngine.WindowManager()->getWindow(m_UID),   // Smart pointer to this window
                     static_cast<unsigned>(LOWORD(lParam)),            // New width
                     static_cast<unsigned>(HIWORD(lParam)),            // New height
                     static_cast<WINDOW_RESIZE_TYPE>(wParam)));        // Type of resize event

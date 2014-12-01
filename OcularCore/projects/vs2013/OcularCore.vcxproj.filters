@@ -185,9 +185,6 @@
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Renderer\Window\Window.hpp">
-      <Filter>Header Files\Renderer\Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
@@ -310,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Window\Window.hpp">
+      <Filter>Header Files\Renderer\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

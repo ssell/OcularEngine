@@ -18,8 +18,10 @@
 #ifndef __H__OCULAR_EVENTS_EVENT__H__
 #define __H__OCULAR_EVENTS_EVENT__H__
 
-#include <string>
 #include "EventPriority.hpp"
+#include "Object.hpp"
+
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -38,42 +40,23 @@ namespace Ocular
         /**
          * \class EventManager
          */
-        class AEvent
+        class AEvent : public Object
         {
         public:
 
             AEvent(std::string name, EVENT_PRIORITY priority = EVENT_PRIORITY::MEDIUM);
-            ~AEvent();
-
-            /**
-             *
-             */
-            std::string getName() const;
-            
+            ~AEvent();            
 
             /**
              *
              */
             EVENT_PRIORITY getPriority() const;
 
-            /**
-             *
-             */
-            int getUID() const;
-            
-            /**
-             *
-             */
-            long long getCreationTime() const;
-
         protected:
 
         private:
 
-            std::string m_Name;
             EVENT_PRIORITY m_Priority;
-            int m_UID;
-            long long m_CreationTime;
         };
     }
     /**

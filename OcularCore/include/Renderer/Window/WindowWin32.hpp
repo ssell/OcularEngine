@@ -58,8 +58,7 @@ namespace Ocular
              * \param display
              * \param alwaysOnTop
              */
-            WindowWin32(std::string name,  unsigned width, unsigned height, unsigned colorBits,
-               unsigned depthBits, unsigned stencilBits, WINDOW_DISPLAY_MODE display, bool alwaysOnTop);
+            WindowWin32(WindowDescriptor descriptor);
 
             ~WindowWin32();
 

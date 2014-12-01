@@ -28,10 +28,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         AEvent::AEvent(std::string name, EVENT_PRIORITY priority)
-            : m_Name(name), m_Priority(priority)
+            : Object(name, "Core::AEvent"), m_Priority(priority)
         {
-            m_CreationTime = OcularEngine.Clock()->getElapsedMS();
-            m_UID = OcularEngine.UIDGenerator()->next();
         }
 
         AEvent::~AEvent()
@@ -43,24 +41,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::string AEvent::getName() const
-        {
-            return m_Name;
-        }
-
         EVENT_PRIORITY AEvent::getPriority() const
         {
             return m_Priority;
-        }
-
-        int AEvent::getUID() const
-        {
-            return m_UID;
-        }
-
-        long long AEvent::getCreationTime() const
-        {
-            return m_CreationTime;
         }
 
         //----------------------------------------------------------------------------------
