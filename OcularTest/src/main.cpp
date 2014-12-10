@@ -28,7 +28,7 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
-void createWindow()
+void openWindow()
 {
     Ocular::Core::WindowDescriptor descriptor;
 
@@ -41,7 +41,7 @@ void createWindow()
     descriptor.displayMode   = Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED;
     descriptor.exclusiveMode = false;
 
-    OcularEngine.WindowManager()->createWindow(descriptor);
+    OcularEngine.WindowManager()->openWindow(descriptor);
 }
 
 void setupEventSnooper()
@@ -54,15 +54,17 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    createWindow();
+    runTests(argc, argv);
+
+    /*
+    openWindow();
     setupEventSnooper();
 
     while(OcularEngine.isRunning())
     {
         OcularEngine.run();
     }
+    */
 
-    //runTests(argc, argv);
-    
     OcularEngine.shutdown();
 }

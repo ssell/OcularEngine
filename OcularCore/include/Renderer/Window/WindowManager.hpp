@@ -62,18 +62,18 @@ namespace Ocular
              * \param descriptor 
              * \return A pointer to the new window. If nullptr, then an error occurred during creation.
              */
-            std::shared_ptr<AWindow> createWindow(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindow(WindowDescriptor descriptor);
 
             /**
              * Destroys the Window with the specified UID.
              * \param uid
              */
-            void destroyWindow(unsigned long long uid);
+            void closeWindow(unsigned long long uid);
 
             /**
              * Destroys all windows.
              */
-            void destroyAllWindows();
+            void closeAllWindows();
 
             /**
              * \return A list of all windows tracked by this manager instance.
@@ -121,9 +121,9 @@ namespace Ocular
 
         private:
 
-            std::shared_ptr<AWindow> createWindowWin32(WindowDescriptor descriptor);
-            std::shared_ptr<AWindow> createWindowOSX(WindowDescriptor descriptor);
-            std::shared_ptr<AWindow> createWindowLinux(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindowWin32(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindowOSX(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindowLinux(WindowDescriptor descriptor);
 
             std::list<std::shared_ptr<AWindow>> m_Windows;
             std::shared_ptr<AWindow> m_MainWindow;

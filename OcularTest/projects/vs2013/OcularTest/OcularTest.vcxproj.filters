@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Tests\Core\Utilities\Structures">
       <UniqueIdentifier>{c9923791-6ca4-48eb-852c-0b03cd8acaaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tests\Core\Renderer">
+      <UniqueIdentifier>{a6abab6e-6e96-4798-a46f-a57210aa4b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Renderer\Window">
+      <UniqueIdentifier>{5ce9fba1-587d-42ec-8693-e7da0f9823fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -71,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathCommon.cpp">
       <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp">
+      <Filter>Source Files\Tests\Core\Renderer\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

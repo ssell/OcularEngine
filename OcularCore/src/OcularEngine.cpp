@@ -162,6 +162,6 @@ namespace Ocular
 
     void Engine::shutdownWindowManager()
     {
-        m_WindowManager->destroyAllWindows();
+        m_WindowManager->closeAllWindows();
     }
 }

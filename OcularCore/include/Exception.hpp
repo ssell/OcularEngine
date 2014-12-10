@@ -52,12 +52,12 @@ namespace Ocular
 			    return what();
 		    }
 
-		    inline std::string getFile()
+		    inline std::string getFile() const
 		    {
 			    return m_File;
 		    }
 
-		    inline int getLine()
+		    inline int getLine() const
 		    {
 			    return m_Line;
 		    }
@@ -66,8 +66,8 @@ namespace Ocular
 
 	    private:
 
-		    std::string m_File;
-		    int m_Line;
+		    const std::string m_File;
+		    const int m_Line;
 	    };
     }
     /**
