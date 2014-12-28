@@ -39,16 +39,21 @@ namespace Ocular
     {
         /**
          * \class EventManager
+         * \brief Abstract base class of all event objects.
          */
         class AEvent : public Object
         {
         public:
 
+            /**
+             * \param name     String name of the event
+             * \param priority Priority level of the event 
+             */
             AEvent(std::string name, EVENT_PRIORITY priority = EVENT_PRIORITY::MEDIUM);
             ~AEvent();            
 
             /**
-             *
+             * \return The priority level of the event. 
              */
             EVENT_PRIORITY getPriority() const;
 

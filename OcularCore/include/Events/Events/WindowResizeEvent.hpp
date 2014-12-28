@@ -35,6 +35,10 @@ namespace Ocular
      */
     namespace Core
     {
+        /**
+         * \enum WINDOW_RESIZE_TYPE
+         * \brief Represents the type of resize event that occurred.
+         */
         enum WINDOW_RESIZE_TYPE
         {
             RESIZE = 0,     /// Matches WinAPI SIZE_RESTORED

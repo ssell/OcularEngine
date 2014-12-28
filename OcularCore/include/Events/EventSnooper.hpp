@@ -57,7 +57,16 @@ namespace Ocular
             EventSnooper();
             ~EventSnooper();
 
+            /**
+             * \param ignore If set to TRUE, the snooper will ignore any duplicate events that come in simultaneously.
+             */
             void setIgnoreDuplicates(bool ignore);
+
+            /**
+             * \param priority Priority level to ignore
+             * \param ignore   If set to TRUE, the snooper will ignore the specified priority level. <br/>
+             *                 If FALSE, it will stop ignoring the priority level.
+             */
             void setIgnorePriorityLevel(EVENT_PRIORITY priority, bool ignore);
 
         protected:
