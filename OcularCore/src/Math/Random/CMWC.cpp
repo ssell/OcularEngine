@@ -54,7 +54,7 @@ namespace Ocular
 
             void CMWC131104::seed(long long seed)
             {
-                m_SeedCast = static_cast<unsigned long long>(seed);
+                m_SeedCast = static_cast<unsigned long>(seed);
 
                 m_Q[0] = m_SeedCast;
                 m_Q[1] = m_SeedCast + PHI;
@@ -77,10 +77,10 @@ namespace Ocular
 
                 i = (i + 1) & 4095;
                 t = a * m_Q[i] + m_C;
-                m_C = (t >> 32);
+                m_C = (static_cast<unsigned long long>(t) >> 32);
                 x = t + m_C;
 
-                if(x < m_C)
+                if(x < static_cast<long>(m_C))
                 {
                     x++;
                     m_C++;

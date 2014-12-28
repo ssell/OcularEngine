@@ -52,6 +52,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)..\External\include\gtest-1.7.0;$(ProjectDir)..\..\..\..\OcularCore\include; $(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

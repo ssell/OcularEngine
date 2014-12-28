@@ -54,17 +54,14 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
-    runTests(argc, argv);
+    //runTests(argc, argv);
 
-    /*
     openWindow();
-    setupEventSnooper();
-
+    
     while(OcularEngine.isRunning())
     {
         OcularEngine.run();
     }
-    */
 
     OcularEngine.shutdown();
 }
