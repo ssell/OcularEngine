@@ -36,5 +36,28 @@
     <ClInclude Include="..\..\include\RenderProperties\RenderPosition.hpp">
       <Filter>Header Files\RenderProperties</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Shader\Shader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\VertexShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\FragmentShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\GeometryShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\PreTesselationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\PostTesselationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\DeleteMe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

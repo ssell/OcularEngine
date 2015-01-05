@@ -49,10 +49,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>OcularCoreD.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\OcularCore\bin\$(Configuration)\</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -73,6 +78,15 @@
     <ClInclude Include="..\..\include\RenderProperties\Material.hpp" />
     <ClInclude Include="..\..\include\RenderProperties\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\RenderProperties\RenderType.hpp" />
+    <ClInclude Include="..\..\include\Shader\FragmentShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\GeometryShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\PostTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\PreTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\Shader.hpp" />
+    <ClInclude Include="..\..\include\Shader\VertexShader.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\DeleteMe.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
