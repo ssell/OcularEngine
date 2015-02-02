@@ -43,6 +43,10 @@ namespace Ocular
         {
         public:
 
+            /**
+             * \param[in] path Directory path
+             * \note If an empty path is provided, the current working directory will be used.
+             */
             Directory(std::string const path);
             Directory();
 
@@ -54,7 +58,7 @@ namespace Ocular
             void setPath(std::string const path);
 
             /**
-            * Returns whether the object (file, directory, or symlink) at the specified path exists.
+            * \return Whether the object (file, directory, or symlink) at the specified path exists.
             */
             bool exists() const;
 
@@ -64,25 +68,28 @@ namespace Ocular
             bool isDirectory() const;
 
             /**
-            * Returns whether the specified path is an absolute path.
+            * \return Whether the specified path is an absolute path.
             */
             bool isAbsolute() const;
 
             /**
-            * Returns the full path of the directory.
+            * \return The full path of the directory (with no trailing slash).
             */
             std::string getFullPath() const;
 
             /**
-            * Returns a collection of all immediate child directories.
-            *
+             * \return The name of the directory.
+             */
+            std::string getName() const;
+
+            /**
+            * \return A collection of all immediate child directories.
             * \note delve must be called first or else the container will be empty.
             */
             std::vector<Directory> getChildDirectories() const;
 
             /**
-            * Returns a collection of all immediate child files.
-            *
+            * \return A collection of all immediate child files.
             * \note delve must be called first or else the container will be empty.
             */
             std::vector<File> getChildFiles() const;
@@ -92,7 +99,7 @@ namespace Ocular
              *
              * \param[in] recursive If TRUE, child directories are automatically explored.
              */
-            void delve(bool const recusrive = false);
+            void delve(bool const recursive = false);
 
         protected:
 

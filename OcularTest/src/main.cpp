@@ -18,6 +18,8 @@
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
+#include "Resources/ResourceExplorer.hpp"
+
 Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
@@ -26,6 +28,27 @@ int runTests(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
+}
+
+void testResources()
+{
+    Ocular::Core::ResourceExplorer explorer;
+    std::unordered_map<std::string, Ocular::Core::File> resources;
+
+    explorer.populateResourceMap(resources);
+
+    //--------------------------------------------------------------------------------------
+
+    auto resource = resources.find("Shaders\\TestVS");
+
+    if(resource != resources.end())
+    {
+        OcularEngine.Logger()->debug("Found resource: ", (*resource).second.getFullPath());
+    }
+    else 
+    {
+        OcularEngine.Logger()->debug("Did not find resource :(");
+    }
 }
 
 void openWindow()
@@ -55,7 +78,7 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
 
     //runTests(argc, argv);
-
+    testResources();
     openWindow();
     
     while(OcularEngine.isRunning())

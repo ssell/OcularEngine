@@ -30,7 +30,14 @@ namespace Ocular
 
         Directory::Directory(std::string const path)
         {
-            m_This.setPath(path);
+            if(path.empty())
+            {
+                m_This.setPath(boost::filesystem::current_path().generic_string());
+            }
+            else 
+            {
+                m_This.setPath(path);
+            }
         }
 
         Directory::Directory()
@@ -65,6 +72,11 @@ namespace Ocular
         std::string Directory::getFullPath() const
         {
             return m_This.getFullPath();
+        }
+
+        std::string Directory::getName() const
+        {
+            return m_This.getName();
         }
 
         std::vector<Directory> Directory::getChildDirectories() const

@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
+    <ClCompile Include="..\..\src\Resources\ResourceExplorer.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
     <ClInclude Include="..\..\include\Resources\Resource.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceExplorer.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
