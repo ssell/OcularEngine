@@ -157,6 +157,7 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
+    <ClInclude Include="..\..\include\Resources\Resource.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />

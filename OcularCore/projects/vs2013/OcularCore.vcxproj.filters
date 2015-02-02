@@ -91,6 +91,9 @@
     <Filter Include="Source Files\Math\Noise">
       <UniqueIdentifier>{0700b793-bd23-4cae-b8ff-154ea58e742b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{3a09d826-ddb8-41e1-abf6-346dc00f0c8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\Resource.hpp">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
