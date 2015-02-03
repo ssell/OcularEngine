@@ -15,12 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EXCEPTION__H__
-#define __H__OCULAR_EXCEPTION__H__
+#ifndef __H__OCULAR_EXCEPTION_FILE_READ_WRITE__H__
+#define __H__OCULAR_EXCEPTION_FILE_READ_WRITE__H__
 
-#include <stdexcept>
-
-#define THROW_EXCEPTION(msg) throw Ocular::Core::Exception(msg, __FILE__, __LINE__)
+#include "Exception.hpp"
+#include "Utilities/StringComposer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,39 +35,20 @@ namespace Ocular
      */
     namespace Core
     {
-	    /**
-	     * \class Exception
-	     */
-	    class Exception : public std::runtime_error
-	    {
-	    public:
+        class FileReadWriteException : public Exception 
+        {
+        public:
 
-		    Exception(const std::string &msg, const std::string file, const int line)
-			    : runtime_error(msg), m_File(file), m_Line(line)
-		    {}
+            FileReadWriteException(std::string const& file, std::string const& srcFile, int const line)
+                : Exception(STRING_COMPOSER("Access to file/directory '", file, "' denied."), srcFile, line)
+            {
+                
+            }
 
-		    inline std::string getMessage()
-		    {
-			    return what();
-		    }
+        protected:
 
-		    inline std::string getFile() const
-		    {
-			    return m_File;
-		    }
-
-		    inline int getLine() const
-		    {
-			    return m_Line;
-		    }
-
-	    protected:
-
-	    private:
-
-		    const std::string m_File;
-		    const int m_Line;
-	    };
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

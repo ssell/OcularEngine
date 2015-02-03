@@ -97,6 +97,9 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{7a8d8719-8bfd-4a7b-a62e-cc38e17e068e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{a8aa3a6c-53f1-41dc-9fd2-c8bc0e5a09c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -199,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Exception.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
@@ -328,6 +328,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceExplorer.hpp">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Exceptions\Exception.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringComposer.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

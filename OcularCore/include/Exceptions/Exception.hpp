@@ -15,10 +15,12 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_UID_GENERATOR__H__
-#define __H__OCULAR_UTILS_UID_GENERATOR__H__
+#ifndef __H__OCULAR_EXCEPTION__H__
+#define __H__OCULAR_EXCEPTION__H__
 
-#include <mutex>
+#include <stdexcept>
+
+#define THROW_EXCEPTION(msg) throw Ocular::Core::Exception(msg, __FILE__, __LINE__)
 
 //------------------------------------------------------------------------------------------
 
@@ -26,37 +28,51 @@
  * \addtogroup Ocular
  * @{
  */
-namespace Ocular
+namespace Ocular 
 {
     /**
-     * \addtogroup Utils
+     * \addtogroup Core
      * @{
      */
-    namespace Utils
+    namespace Core
     {
-        /**
-         * \class UIDGenerator
-         */
-        class UIDGenerator
-        {
-        public:
+	    /**
+	     * \class Exception
+	     */
+	    class Exception : public std::runtime_error
+	    {
+	    public:
 
-            UIDGenerator();
-            ~UIDGenerator();
+		    Exception(std::string const& msg, std::string const file, int const line)
+			    : runtime_error(msg), m_File(file), m_Line(line)
+		    {
+                m_Message = what();
+            }
 
-            /**
-             * \return The next UID
-             * \note This operation is thread-safe
-             */
-            unsigned long long next();
+		    inline std::string getMessage()
+		    {
+			    return m_Message;
+		    }
 
-        protected:
+		    inline std::string getFile() const
+		    {
+			    return m_File;
+		    }
 
-        private:
+		    inline int getLine() const
+		    {
+			    return m_Line;
+		    }
 
-            unsigned long long m_UID;
-            std::mutex m_Mutex;
-        };
+	    protected:
+
+	    private:
+
+		    std::string m_File;
+            std::string m_Message;
+
+		    int m_Line;
+	    };
     }
     /**
      * @} End of Doxygen Groups

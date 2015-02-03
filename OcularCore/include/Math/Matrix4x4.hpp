@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_MATH_MATRIX_4X4__H__
 #define __H__OCULAR_MATH_MATRIX_4X4__H__
 
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #include "Matrix3x3.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_CORE_FILEIO_DIRECTORY__H__
 #define __H__OCULAR_CORE_FILEIO_DIRECTORY__H__
 
@@ -25,21 +26,21 @@
 //------------------------------------------------------------------------------------------
 
 /**
-* \addtogroup Ocular
-* @{
-*/
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
     /**
-    * \addtogroup Core
-    * @{
-    */
+     * \addtogroup Core
+     * @{
+     */
     namespace Core
     {
         /**
-        * \class Directory
-        */
-        class Directory
+         * \class Directory
+         */
+        class Directory : public File
         {
         public:
 
@@ -51,36 +52,6 @@ namespace Ocular
             Directory();
 
             ~Directory();
-
-            /**
-             * Sets the path to the file object.
-             */
-            void setPath(std::string const path);
-
-            /**
-            * \return Whether the object (file, directory, or symlink) at the specified path exists.
-            */
-            bool exists() const;
-
-            /**
-            * Returns whether the object at the specified path is a directory.
-            */
-            bool isDirectory() const;
-
-            /**
-            * \return Whether the specified path is an absolute path.
-            */
-            bool isAbsolute() const;
-
-            /**
-            * \return The full path of the directory (with no trailing slash).
-            */
-            std::string getFullPath() const;
-
-            /**
-             * \return The name of the directory.
-             */
-            std::string getName() const;
 
             /**
             * \return A collection of all immediate child directories.
@@ -105,19 +76,17 @@ namespace Ocular
 
         private:
 
-            File m_This;
-
             std::vector<Directory> m_ChildDirectories;
             std::vector<File> m_ChildFiles;
         };
     }
     /**
-    * @} End of Doxygen Groups
-    */
+     * @} End of Doxygen Groups
+     */
 }
 /**
-* @} End of Doxygen Groups
-*/
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

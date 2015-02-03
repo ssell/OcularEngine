@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_UTILS_PRIORITY_LIST__H__
 #define __H__OCULAR_UTILS_PRIORITY_LIST__H__
 
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #include <utility>
 
 //------------------------------------------------------------------------------------------

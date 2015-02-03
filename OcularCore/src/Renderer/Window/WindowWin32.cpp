@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
 #include "OcularEngine.hpp"
 #include "Events/Events/ShutdownEvent.hpp"

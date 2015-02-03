@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_CORE_FILEIO_FILE__H__
 #define __H__OCULAR_CORE_FILEIO_FILE__H__
 
@@ -144,9 +145,13 @@ namespace Ocular
              */
             time_t getLastModifiedTime() const;
 
-        protected:
+            /**
+             * Attempts to create the file if it does not already exist.
+             * \warn Throws an Ocular::Core::FileReadWriteException if invalid priveleges. 
+             */
+            virtual void create();
 
-        private:
+        protected:
 
             bool m_IsReal;
             bool m_IsReadable;
@@ -162,6 +167,8 @@ namespace Ocular
             std::string m_Name;
             std::string m_Extension;
             std::string m_Directory;
+
+        private:
         };
     }
     /**

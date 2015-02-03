@@ -126,6 +126,8 @@
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp" />
+    <ClInclude Include="..\..\include\Exceptions\Exception.hpp" />
+    <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
@@ -143,7 +145,6 @@
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
     <ClInclude Include="..\..\include\Math\Vector4.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
-    <ClInclude Include="..\..\include\Exception.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Logger\ILoggerListener.hpp" />
     <ClInclude Include="..\..\include\Logger\Logger.hpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
+    <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />

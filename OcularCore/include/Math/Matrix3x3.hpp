@@ -20,7 +20,7 @@
 
 #include "Equality.hpp"
 #include "Vector3.hpp"
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------
 

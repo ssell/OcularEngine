@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 
 #include "Resources/ResourceExplorer.hpp"
+#include "Exceptions/FileReadWriteException.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
 
@@ -30,8 +31,23 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
+void testThrow()
+{
+    throw Ocular::Core::FileReadWriteException("some/file/path", __FILE__, __LINE__);
+}
+
 void testResources()
 {
+    try 
+    {
+        testThrow();
+    }
+    catch(Ocular::Core::FileReadWriteException& e)
+    {
+        OcularEngine.Logger()->error(e.getMessage());
+    }
+
+    /*
     Ocular::Core::ResourceExplorer explorer;
     std::unordered_map<std::string, Ocular::Core::File> resources;
 
@@ -48,7 +64,7 @@ void testResources()
     else 
     {
         OcularEngine.Logger()->debug("Did not find resource :(");
-    }
+    }*/
 }
 
 void openWindow()

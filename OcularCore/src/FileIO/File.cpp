@@ -16,6 +16,7 @@
 
 #include <fstream>
 
+#include "Exceptions/FileReadWriteException.hpp"
 #include "FileIO/File.hpp"
 #include "boost/filesystem/operations.hpp"
 
@@ -31,7 +32,15 @@ namespace Ocular
 
         File::File(std::string const path)
         {
-            m_FullPath = path;
+            if(path.empty())
+            {
+                m_FullPath = boost::filesystem::current_path().generic_string();
+            }
+            else 
+            {
+                m_FullPath = path;
+            }
+            
             m_IsReal = false;
             m_IsReadable = false;
             m_IsWritable = false;
@@ -102,6 +111,11 @@ namespace Ocular
                     m_Extension = file.extension().string();
                     m_Name = file.filename().string();
                     m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
+                    m_Directory = file.remove_filename().string();
+                }
+                else 
+                {
+                    m_Name = file.filename().string();
                     m_Directory = file.remove_filename().string();
                 }
             }
@@ -178,6 +192,11 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void File::create()
+        {
+        
         }
 
         //----------------------------------------------------------------------------------

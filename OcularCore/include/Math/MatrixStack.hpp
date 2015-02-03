@@ -19,7 +19,7 @@
 #define __H__OCULAR_MATH_MATRIX_STACK__H__
 
 #include "Matrix4x4.hpp"
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #include <stack>
 
 //------------------------------------------------------------------------------------------

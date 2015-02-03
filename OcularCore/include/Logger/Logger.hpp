@@ -19,7 +19,7 @@
 #define __H__OCULAR_LOGGER__H__
 
 #include "ILoggerListener.hpp"
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 
 #include <list>
 #include <sstream>
@@ -49,23 +49,26 @@ namespace Ocular
         public:
 
             /**
-            *
-            */
+             *
+             */
             Logger();
 
             /**
-            *
-            */
+             *
+             */
             ~Logger();
 
             /**
-            *
-            */
+             * Registers a new logger listener with the Logger. <br/>
+             * The listener will receive all messages sent to this Logger instance.
+             *
+             * \param[in] listener
+             */
             void registerListener(ILoggerListener* listener);
 
             /**
-            *
-            */
+             * Sends a message through the debug logger channel.
+             */
             template<typename T, typename... U>
             void debug(T first, U... args)
             {
@@ -80,8 +83,8 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             * Sends a message through the info logger channel.
+             */
             template<typename T, typename... U>
             void info(T first, U... args)
             {
@@ -96,8 +99,8 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             * Sends a message through the warning logger channel.
+             */
             template<typename T, typename... U>
             void warning(T first, U... args)
             {
@@ -112,8 +115,8 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             * Sends a message through the error logger channel.
+             */
             template<typename T, typename... U>
             void error(T first, U... args)
             {
@@ -128,8 +131,8 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             * Sends an exception error through the error logger channel.
+             */
             void error(Exception& e);
         
         protected:
@@ -137,8 +140,8 @@ namespace Ocular
         private:
 
             /**
-            *
-            */
+             *
+             */
             template<typename T, typename... U>
             void log(T first, U... last)
             {
@@ -147,8 +150,8 @@ namespace Ocular
             }
 
             /**
-            *
-            */
+             *
+             */
             void log();
 
             //--------------------------------------------

@@ -16,7 +16,7 @@
 
 #include "Renderer\Window\Window.hpp"
 #include "Renderer\Window\WindowWin32.hpp"
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #include "OcularEngine.hpp"
 
 #include <iostream>

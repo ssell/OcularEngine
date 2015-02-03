@@ -29,15 +29,9 @@ namespace Ocular
         //----------------------------------------------------------
 
         Directory::Directory(std::string const path)
+            : File(path)
         {
-            if(path.empty())
-            {
-                m_This.setPath(boost::filesystem::current_path().generic_string());
-            }
-            else 
-            {
-                m_This.setPath(path);
-            }
+            
         }
 
         Directory::Directory()
@@ -54,31 +48,6 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------
 
-        bool Directory::exists() const
-        {
-            return m_This.exists();
-        }
-
-        bool Directory::isDirectory() const
-        {
-            return m_This.isDirectory();
-        }
-
-        bool Directory::isAbsolute() const
-        {
-            return m_This.isAbsolute();
-        }
-
-        std::string Directory::getFullPath() const
-        {
-            return m_This.getFullPath();
-        }
-
-        std::string Directory::getName() const
-        {
-            return m_This.getName();
-        }
-
         std::vector<Directory> Directory::getChildDirectories() const
         {
             return m_ChildDirectories;
@@ -91,9 +60,9 @@ namespace Ocular
 
         void Directory::delve(bool const recursive)
         {
-            if((m_This.isDirectory()) && (!m_This.isSymLink()))
+            if((m_IsDirectory) && (!m_IsSymLink))
             {
-                boost::filesystem::path directory(m_This.getFullPath());
+                boost::filesystem::path directory(m_FullPath);
                 boost::filesystem::directory_iterator dirIter(directory);
                 boost::filesystem::directory_iterator eod;
 
