@@ -72,6 +72,14 @@ namespace Ocular
              */
             void delve(bool const recursive = false);
 
+            /**
+             * Attempts to create the directory if it does not already exist.
+             *
+             * \param[in] createDirectories If TRUE, creates all necessary parent directories that do not already exist.
+             * \return bool TRUE if successful
+             */
+            virtual bool create(bool createDirectories = false);
+
         protected:
 
         private:

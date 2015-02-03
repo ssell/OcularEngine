@@ -16,8 +16,10 @@
 
 #include <fstream>
 
-#include "Exceptions/FileReadWriteException.hpp"
 #include "FileIO/File.hpp"
+#include "FileIO/Directory.hpp"
+
+#include "Exceptions/FileReadWriteException.hpp"
 #include "boost/filesystem/operations.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -106,19 +108,14 @@ namespace Ocular
                     std::ofstream outStream(m_FullPath, std::ios_base::app);
                     m_IsWritable = outStream.good();
                     outStream.close();
-
-                    // Break up path
-                    m_Extension = file.extension().string();
-                    m_Name = file.filename().string();
-                    m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
-                    m_Directory = file.remove_filename().string();
-                }
-                else 
-                {
-                    m_Name = file.filename().string();
-                    m_Directory = file.remove_filename().string();
                 }
             }
+
+            // Break up path
+            m_Extension = file.extension().string();
+            m_Name = file.filename().string();
+            m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
+            m_Directory = file.remove_filename().string();
         }
 
         bool File::exists() const
@@ -194,9 +191,32 @@ namespace Ocular
             return result;
         }
 
-        void File::create()
+        bool File::create(bool createDirectories)
         {
-        
+            bool result = false;
+
+            if(!m_IsReal)
+            {
+                if(createDirectories)
+                {
+                    Directory directory(m_Directory);
+                    directory.create(true);
+                }
+
+                std::ofstream stream(m_FullPath, std::ios::out);
+                
+                if(stream.is_open())
+                {
+                    stream << "";
+
+                    stream.close();
+                    refresh();
+
+                    result = true;
+                }
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

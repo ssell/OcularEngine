@@ -147,9 +147,11 @@ namespace Ocular
 
             /**
              * Attempts to create the file if it does not already exist.
-             * \warn Throws an Ocular::Core::FileReadWriteException if invalid priveleges. 
+             *
+             * \param[in] createDirectories If TRUE, creates all necessary parent directories that do not already exist.
+             * \return bool TRUE if successful
              */
-            virtual void create();
+            virtual bool create(bool createDirectories = false);
 
         protected:
 

@@ -88,6 +88,24 @@ namespace Ocular
             }
         }
 
+        bool Directory::create(bool createDirectories)
+        {
+            bool result = false;
+
+            if((!m_IsReal) && (m_Name.find(":") == std::string::npos))
+            {
+                if((m_Directory.compare("/") != 0) && (m_Directory.compare("\\")))
+                {
+                    Directory parent(m_Directory);
+                    parent.create(true);
+
+                    boost::filesystem::create_directories(boost::filesystem::path(m_FullPath));
+                }
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------

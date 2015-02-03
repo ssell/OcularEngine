@@ -31,22 +31,8 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
-void testThrow()
-{
-    throw Ocular::Core::FileReadWriteException("some/file/path", __FILE__, __LINE__);
-}
-
 void testResources()
 {
-    try 
-    {
-        testThrow();
-    }
-    catch(Ocular::Core::FileReadWriteException& e)
-    {
-        OcularEngine.Logger()->error(e.getMessage());
-    }
-
     /*
     Ocular::Core::ResourceExplorer explorer;
     std::unordered_map<std::string, Ocular::Core::File> resources;
