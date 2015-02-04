@@ -36,6 +36,12 @@
 #define OCULAR_LINUX 1
 #endif
 
+#ifdef OCULAR_WINDOWS
+#define OCULAR_PATH_SEPARATOR '\\'
+#else
+#define OCULAR_PATH_SEPARATOR '/'
+#endif
+
 //------------------------------------------------------------------------------------------
 // Super common functions that need a better home
 

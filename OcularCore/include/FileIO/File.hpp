@@ -146,6 +146,14 @@ namespace Ocular
             time_t getLastModifiedTime() const;
 
             /**
+             * Ensures that all path-separators are the same. <br/>
+             *
+             * On Windows, the '\' separator is used. <br/>
+             * On Linux-based systems, the '/' separator is used. 
+             */
+            void formatForSystem();
+
+            /**
              * Attempts to create the file if it does not already exist.
              *
              * \param[in] createDirectories If TRUE, creates all necessary parent directories that do not already exist.

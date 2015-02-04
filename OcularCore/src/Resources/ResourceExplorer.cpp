@@ -64,7 +64,7 @@ namespace Ocular
             std::list<Directory> rootDirectories;
             findRootDirectories(rootDirectories);
 
-            if(!rootDirectories.empty())
+            if(rootDirectories.empty())
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace Ocular
 
             for(auto rootIter = rootDirectories.begin(); rootIter != rootDirectories.end(); rootIter++)
             {
-                (*rootIter).delve();
+                (*rootIter).explore(true);
                 std::vector<File> resourceFiles = (*rootIter).getChildFiles();
 
                 for(auto fileIter = resourceFiles.begin(); fileIter != resourceFiles.end(); fileIter++)
@@ -113,7 +113,7 @@ namespace Ocular
         {
             Directory workingDir("");
 
-            workingDir.delve(true);
+            workingDir.explore(true);
             std::vector<Directory> children = workingDir.getChildDirectories();
 
             for(auto iter = children.begin(); iter != children.end(); iter++)
@@ -134,7 +134,7 @@ namespace Ocular
             std::string relative = file.getFullPath();
             relative.erase(0, root.getFullPath().length() + 1);  // +1 because directory full path excludes trailing slash
 
-            if(m_ExtensionSensitive)
+            if(!m_ExtensionSensitive)
             {
                 relative.erase((relative.length() - file.getExtension().length()));
             }

@@ -55,22 +55,25 @@ namespace Ocular
 
             /**
             * \return A collection of all immediate child directories.
-            * \note delve must be called first or else the container will be empty.
+            * \note explore must be called first or else the container will be empty.
             */
             std::vector<Directory> getChildDirectories() const;
 
             /**
             * \return A collection of all immediate child files.
-            * \note delve must be called first or else the container will be empty.
+            * \note explore must be called first or else the container will be empty.
             */
             std::vector<File> getChildFiles() const;
 
             /**
-             * Populates the list of child directories and files.
+             * Populates the list of child directories and files. <br/>
+             *
+             * If recursive is true, then this Directory's child directories and files will
+             * be filled with ALL child directories and files, no matter how deeply nested.
              *
              * \param[in] recursive If TRUE, child directories are automatically explored.
              */
-            void delve(bool const recursive = false);
+            void explore(bool const recursive = false);
 
             /**
              * Attempts to create the directory if it does not already exist.

@@ -14,13 +14,14 @@
 * limitations under the License.
 */
 
-#include <fstream>
-
+#include "Common.hpp"
 #include "FileIO/File.hpp"
 #include "FileIO/Directory.hpp"
-
 #include "Exceptions/FileReadWriteException.hpp"
 #include "boost/filesystem/operations.hpp"
+
+#include <fstream>
+#include <algorithm>
 
 //------------------------------------------------------------------------------------------
 
@@ -84,6 +85,8 @@ namespace Ocular
 
         void File::refresh()
         {
+            formatForSystem();
+
             boost::filesystem::path file(m_FullPath.c_str());
 
             m_IsReal = boost::filesystem::exists(file);
@@ -114,8 +117,22 @@ namespace Ocular
             // Break up path
             m_Extension = file.extension().string();
             m_Name = file.filename().string();
-            m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
-            m_Directory = file.remove_filename().string();
+
+            if(m_IsFile)
+            {
+                m_Name = m_Name.substr(0, m_Name.find(m_Extension));  // Remove the extension from the name
+                m_Directory = file.remove_filename().string();
+            }
+            else 
+            {
+                m_Directory = m_FullPath;
+                std::size_t sepPos = m_Directory.find_last_of(OCULAR_PATH_SEPARATOR);
+
+                if(sepPos != std::string::npos)
+                {
+                    m_Directory = m_Directory.substr(0, sepPos);
+                }
+            }
         }
 
         bool File::exists() const
@@ -189,6 +206,17 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void File::formatForSystem()
+        {
+#ifdef OCULAR_WINDOWS
+            std::replace(m_FullPath.begin(), m_FullPath.end(), '/', '\\');
+            std::replace(m_Directory.begin(), m_Directory.end(), '/', '\\');
+#else
+            m_FullPath.replace(m_FullPath.begin(), m_FullPath.end(), '\\', '//');
+            m_Directory.replace(m_Directory.begin(), m_Directory.end(), '\\', '//');
+#endif
         }
 
         bool File::create(bool createDirectories)
