@@ -40,6 +40,94 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void ResourceManager::forceSourceRefresh()
+        {
+        
+        }
+
+        bool ResourceManager::forceLoadResource(std::string const& path)
+        {
+            bool result = false;
+
+            // ...
+
+            return result;
+        }
+
+        bool ResourceManager::forceUnloadResource(std::string const& path)
+        {
+            bool result = false;
+
+            // ...
+
+            return result;
+        }
+
+        ResourceMemoryDetails ResourceManager::getMemoryUsage()
+        {
+            ResourceMemoryDetails result;
+
+            // ...
+
+            return result;
+        }
+
+        std::shared_ptr<Resource> ResourceManager::getResource(std::string const& path)
+        {
+            std::shared_ptr<Resource> result = nullptr;
+
+            // ...
+
+            return result;
+        }
+
+        bool ResourceManager::isInMemory(std::string const& path)
+        {
+            bool result = false;
+
+            // ...
+
+            return result;
+        }
+
+        bool ResourceManager::doesExist(std::string const& path)
+        {
+            bool result = false;
+
+            // ...
+
+            return result;
+        }
+
+        Resource* ResourceManager::loadUnmanagedFile(std::string const& path)
+        {
+            Resource* result = nullptr;
+
+            // ...
+
+            return result;
+        }
+
+        void ResourceManager::setMemoryLimit(unsigned long long const maxMemory)
+        {
+        
+        }
+
+        void ResourceManager::setPriorityBehaviour(RESOURCE_PRIORITY_BEHAVIOUR const behaviour)
+        {
+        
+        }
+
+        void ResourceManager::setSourceBlacklist(std::list<std::string> const& blacklist)
+        {
+        
+        }
+
+        void ResourceManager::setSourceDirectory(std::string const& directory)
+        {
+        
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

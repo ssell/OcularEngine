@@ -186,6 +186,9 @@
     <ClCompile Include="..\..\src\Resources\ResourceManager.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -342,6 +345,12 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceMemoryDetails.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourcePriorityBehaviour.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
