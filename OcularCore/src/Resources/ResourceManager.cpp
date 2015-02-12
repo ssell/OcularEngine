@@ -15,6 +15,7 @@
  */
 
 #include "Resources/ResourceManager.hpp"
+#include "Resources/ResourceExplorer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -40,9 +41,14 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void ResourceManager::initialize()
+        {
+            forceSourceRefresh();
+        }
+
         void ResourceManager::forceSourceRefresh()
         {
-        
+            m_ResourceExplorer.populateResourceMap(m_ResourceMap);
         }
 
         bool ResourceManager::forceLoadResource(std::string const& path)
@@ -75,8 +81,12 @@ namespace Ocular
         std::shared_ptr<Resource> ResourceManager::getResource(std::string const& path)
         {
             std::shared_ptr<Resource> result = nullptr;
+            auto resourceIter = m_ResourceMap.find(path);
 
-            // ...
+            if(resourceIter != m_ResourceMap.end())
+            {
+                result = resourceIter->second;
+            }
 
             return result;
         }
@@ -84,8 +94,17 @@ namespace Ocular
         bool ResourceManager::isInMemory(std::string const& path)
         {
             bool result = false;
+            auto resourceIter = m_ResourceMap.find(path);
 
-            // ...
+            if(resourceIter != m_ResourceMap.end())
+            {
+                Resource* resource = resourceIter->second.get();
+
+                if(resource != nullptr)
+                {
+                    result = resource->isInMemory();
+                }
+            }
 
             return result;
         }
@@ -93,8 +112,12 @@ namespace Ocular
         bool ResourceManager::doesExist(std::string const& path)
         {
             bool result = false;
+            auto resourceIter = m_ResourceMap.find(path);
 
-            // ...
+            if(resourceIter != m_ResourceMap.end())
+            {
+                result = true;
+            }
 
             return result;
         }
@@ -110,22 +133,23 @@ namespace Ocular
 
         void ResourceManager::setMemoryLimit(unsigned long long const maxMemory)
         {
-        
+            // Need a way to check max system memory
+            m_MemoryLimit = maxMemory;
         }
 
         void ResourceManager::setPriorityBehaviour(RESOURCE_PRIORITY_BEHAVIOUR const behaviour)
         {
-        
+            m_PriorityBehaviour = behaviour;
         }
 
         void ResourceManager::setSourceBlacklist(std::list<std::string> const& blacklist)
         {
-        
+            m_ResourceExplorer.setBlacklist(blacklist);
         }
 
         void ResourceManager::setSourceDirectory(std::string const& directory)
         {
-        
+            m_ResourceExplorer.setResourceDirectoryName(directory);
         }
 
         //----------------------------------------------------------------------------------

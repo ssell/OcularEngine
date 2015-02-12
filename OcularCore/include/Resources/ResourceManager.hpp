@@ -21,10 +21,12 @@
 #include <memory>
 #include <list>
 #include <string>
+#include <unordered_map>
 
 #include "Resource.hpp"
 #include "ResourceMemoryDetails.hpp"
 #include "ResourcePriorityBehaviour.hpp"
+#include "ResourceExplorer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -75,6 +77,11 @@ namespace Ocular
             ~ResourceManager();
 
             //----------------------------------------
+
+            /**
+             *
+             */
+            void initialize();
 
             /**
              * Forces a refresh of all source folder contents.
@@ -181,6 +188,14 @@ namespace Ocular
         protected:
 
         private:
+            
+            std::unordered_map<std::string, std::shared_ptr<Resource>> m_ResourceMap;
+
+            ResourceExplorer m_ResourceExplorer;
+            RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;
+
+            unsigned long long m_MemoryLimit;
+
         };
     }
     /**

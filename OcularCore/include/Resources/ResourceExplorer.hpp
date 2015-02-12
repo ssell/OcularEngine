@@ -19,7 +19,9 @@
 #define __H__OCULAR_RESOURCES_RESOURCE_EXPLORER__H__
 
 #include "FileIO/Directory.hpp"
+#include "Resource.hpp"
 
+#include <memory>
 #include <list>
 #include <unordered_map>
 
@@ -83,7 +85,7 @@ namespace Ocular
             /**
              * \param[out] resourceMap Map of all resource files.
              */
-            void populateResourceMap(std::unordered_map<std::string, File>& resourceMap);
+            void populateResourceMap(std::unordered_map<std::string, std::shared_ptr<Resource>>& resourceMap);
 
         protected:
 

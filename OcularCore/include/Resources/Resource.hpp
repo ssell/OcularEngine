@@ -41,12 +41,43 @@ namespace Ocular
         {
         public:
 
+            /**
+             * \param[in] file The source file for the resource.
+             */
+            Resource(File const& source);
+
             Resource();
             ~Resource();
 
+            //----------------------------------------
+            // Virtual Methods
+            
+
+            //----------------------------------------
+            // Non-Virtual Methods
+
+            /**
+             * \return The source file for the resource.
+             */
+            File getSourceFile() const;
+
+            /**
+             * \param[in] file The source file for the resource.
+             */
+            void setSourceFile(File const& file);
+
+            /**
+             * \return TRUE if the Resource is loaded in memory.
+             */
+            bool isInMemory() const;
+
         protected:
 
+            File m_SourceFile;
+            bool m_IsInMemory;
+
         private:
+
         };
     }
     /**

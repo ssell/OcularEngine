@@ -54,7 +54,7 @@ void testDirectory()
 
 void testResources()
 {
-    Ocular::Core::ResourceExplorer explorer;
+    /*Ocular::Core::ResourceExplorer explorer;
     std::unordered_map<std::string, Ocular::Core::File> resources;
 
     explorer.populateResourceMap(resources);
@@ -70,7 +70,7 @@ void testResources()
     else 
     {
         OcularEngine.Logger()->debug("Did not find resource :(");
-    }
+    }*/
 }
 
 void openWindow()

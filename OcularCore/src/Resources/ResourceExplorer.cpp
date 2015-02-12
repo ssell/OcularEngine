@@ -54,12 +54,17 @@ namespace Ocular
             }
         }
 
+        void ResourceExplorer::setResourceDirectoryName(std::string name)
+        {
+            m_DirectoryName = name;
+        }
+
         void ResourceExplorer::setIsExtensionSensitive(bool const sensitive)
         {
             m_ExtensionSensitive = sensitive;
         }
 
-        void ResourceExplorer::populateResourceMap(std::unordered_map<std::string, File>& resourceMap)
+        void ResourceExplorer::populateResourceMap(std::unordered_map<std::string, std::shared_ptr<Resource>>& resourceMap)
         {
             std::list<Directory> rootDirectories;
             findRootDirectories(rootDirectories);
@@ -86,7 +91,7 @@ namespace Ocular
                         // If the key is not already in-use, then add a new entry to the map
                         if(resourceMap.find(relative) == resourceMap.end())
                         {
-                            resourceMap.insert(std::make_pair(relative, (*fileIter)));
+                            resourceMap.insert(std::make_pair(relative, std::make_shared<Resource>((*fileIter))));
                         }
                     }
                 }
