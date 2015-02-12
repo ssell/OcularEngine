@@ -100,7 +100,7 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
 
     //runTests(argc, argv);
-    testResources();
+    //testResources();
     openWindow();
     
     while(OcularEngine.isRunning())

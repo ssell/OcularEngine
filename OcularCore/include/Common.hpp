@@ -21,11 +21,13 @@
 //------------------------------------------------------------------------------------------
 // Macros
 
+//----------------------------------------------------
 // Ocular Versions
 
 #define OCULAR_V0_0_1 "Ocular Engine v0.0.1"
 #define OCULAR_VERSION OCULAR_V0_0_1
 
+//----------------------------------------------------
 // Operating Systems
 
 #if defined(_WIN16) || defined (_WIN32) || defined(_WIN64) || defined(__WIN32__) ||  defined(__TOS_WIN__) || defined(__WINDOWS__)
@@ -42,16 +44,11 @@
 #define OCULAR_PATH_SEPARATOR '/'
 #endif
 
-//------------------------------------------------------------------------------------------
-// Super common functions that need a better home
+//----------------------------------------------------
+// Other
 
-namespace Ocular
-{
-    namespace Core
-    {
-        
-    }
-}
+// Amount of time, in MS, to allow for system message digestion and dispatching
+#define OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT 2
 
 //------------------------------------------------------------------------------------------
 

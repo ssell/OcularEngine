@@ -85,9 +85,6 @@
     <ClInclude Include="..\..\include\Shader\Shader.hpp" />
     <ClInclude Include="..\..\include\Shader\VertexShader.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\DeleteMe.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

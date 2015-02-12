@@ -1,20 +1,21 @@
 /**
-* Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "OcularEngine.hpp"
+
 #include "Logger/ConsoleLoggerListener.hpp"
 #include "Logger/VSConsoleLoggerListener.hpp"
 #include "Events/EventPriority.hpp"
@@ -98,6 +99,11 @@ namespace Ocular
         return m_UIDGenerator;
     }
 
+    std::shared_ptr<Core::ResourceManager> Engine::ResourceManager()
+    {
+        return m_ResourceManager;
+    }
+
     bool Engine::isRunning() const
     {
         return m_IsRunning;
@@ -153,6 +159,11 @@ namespace Ocular
     {
         m_EventManager = std::make_shared<Core::EventManager>();
         m_EventManager->registerListener(this, Core::EVENT_PRIORITY::MEDIUM);
+    }
+
+    void Engine::setupResourceManager()
+    {
+        m_ResourceManager = std::make_shared<Core::ResourceManager>();
     }
 
     void Engine::setupWindowManager()

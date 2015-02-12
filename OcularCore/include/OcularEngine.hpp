@@ -18,14 +18,13 @@
 #define __H__OCULAR_ENGINE__H__
 
 #include "Common.hpp"
+
 #include "Logger/Logger.hpp"
 #include "Time/Clock.hpp"
 #include "Events/EventManager.hpp"
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/UIDGenerator.hpp"
-
-// Amount of time, in MS, to allow for system message digestion and dispatching
-#define OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT 2
+#include "Resources/ResourceManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,9 +34,28 @@
  */
 namespace Ocular
 {
+    //--------------------------------------------------------------------------------------
+    // Forward Declarations
+
+    namespace Core
+    {
+        class Clock;
+        class EventManager;
+        class Logger;
+        class ResourceManager;
+        class WindowManager;
+    }
+
+    namespace Utils
+    {
+        class UIDGenerator;
+    }
+
+    //--------------------------------------------------------------------------------------
+
     /**
-        * \class Engine
-        */
+     * \class Engine
+     */
     class Engine : public Core::AEventListener
     {
     public:
@@ -105,6 +123,11 @@ namespace Ocular
          */
         std::shared_ptr<Utils::UIDGenerator> UIDGenerator();
 
+        /**
+         * \return Reference to the primary ResourceManager
+         */
+        std::shared_ptr<Core::ResourceManager> ResourceManager();
+
         //----------------------------------------------------------------------------------
         
     protected:
@@ -129,16 +152,18 @@ namespace Ocular
         void setupUID();
         void setupEvents();
         void setupWindowManager();
+        void setupResourceManager();
 
         void shutdownWindowManager();
         
         //--------------------------------------------
 
-        std::shared_ptr<Core::Logger> m_Logger;
-        std::shared_ptr<Core::Clock> m_Clock;
-        std::shared_ptr<Core::EventManager> m_EventManager;
-        std::shared_ptr<Core::WindowManager> m_WindowManager;
-        std::shared_ptr<Utils::UIDGenerator> m_UIDGenerator;
+        std::shared_ptr<Core::Clock>           m_Clock;
+        std::shared_ptr<Core::EventManager>    m_EventManager;
+        std::shared_ptr<Core::Logger>          m_Logger;
+        std::shared_ptr<Core::ResourceManager> m_ResourceManager;
+        std::shared_ptr<Core::WindowManager>   m_WindowManager;
+        std::shared_ptr<Utils::UIDGenerator>   m_UIDGenerator;
 
         bool m_IsRunning;
     };
