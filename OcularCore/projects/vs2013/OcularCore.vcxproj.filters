@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\src\Resources\Resource.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -355,6 +358,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourcePriorityBehaviour.hpp">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceLoader.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceLoaderRegistrar.hpp">
+      <Filter>Source Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

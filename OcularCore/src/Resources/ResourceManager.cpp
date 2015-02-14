@@ -54,8 +54,17 @@ namespace Ocular
         bool ResourceManager::forceLoadResource(std::string const& path)
         {
             bool result = false;
+            auto resourceIter = m_ResourceMap.find(path);
 
-            // ...
+            if(resourceIter != m_ResourceMap.end())
+            {
+                Resource* resource = resourceIter->second.get();
+
+                if((resource != nullptr) && (!resource->isInMemory()))
+                {
+                    // ...
+                }
+            }
 
             return result;
         }
@@ -63,8 +72,17 @@ namespace Ocular
         bool ResourceManager::forceUnloadResource(std::string const& path)
         {
             bool result = false;
+            auto resourceIter = m_ResourceMap.find(path);
 
-            // ...
+            if(resourceIter != m_ResourceMap.end())
+            {
+                Resource* resource = resourceIter->second.get();
+
+                if((resource != nullptr) && (resource->isInMemory()))
+                {
+                    // ...
+                }
+            }
 
             return result;
         }
@@ -125,8 +143,16 @@ namespace Ocular
         Resource* ResourceManager::loadUnmanagedFile(std::string const& path)
         {
             Resource* result = nullptr;
+            
+            if(!path.empty())
+            {
+                File file(path);
 
-            // ...
+                if((file.exists()) && (file.isFile()))
+                {
+                    // ...
+                }
+            }
 
             return result;
         }
@@ -150,6 +176,20 @@ namespace Ocular
         void ResourceManager::setSourceDirectory(std::string const& directory)
         {
             m_ResourceExplorer.setResourceDirectoryName(directory);
+        }
+
+        void ResourceManager::registerResourceLoader(std::shared_ptr<AResourceLoader> loader)
+        {
+            if(loader != nullptr)
+            {
+                std::string fileType = loader->getSupportedFileType();
+                auto findLoader = m_ResourceLoaderMap.find(fileType);
+
+                if(findLoader != m_ResourceLoaderMap.end())
+                {
+                    m_ResourceLoaderMap.insert(std::make_pair(fileType, loader));
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------

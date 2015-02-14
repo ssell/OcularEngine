@@ -113,6 +113,7 @@
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
     <ClCompile Include="..\..\src\Resources\Resource.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceExplorer.cpp" />
+    <ClCompile Include="..\..\src\Resources\ResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceManager.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
@@ -164,6 +165,8 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
     <ClInclude Include="..\..\include\Resources\Resource.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceExplorer.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceLoaderRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceMemoryDetails.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourcePriorityBehaviour.hpp" />

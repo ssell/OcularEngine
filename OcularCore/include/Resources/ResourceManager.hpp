@@ -27,6 +27,7 @@
 #include "ResourceMemoryDetails.hpp"
 #include "ResourcePriorityBehaviour.hpp"
 #include "ResourceExplorer.hpp"
+#include "ResourceLoader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -184,12 +185,15 @@ namespace Ocular
              * \param[in] directory Name of resource directories
              */
             void setSourceDirectory(std::string const& directory);
+            
+            void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
 
         protected:
 
         private:
             
             std::unordered_map<std::string, std::shared_ptr<Resource>> m_ResourceMap;
+            std::unordered_map<std::string, std::shared_ptr<AResourceLoader>> m_ResourceLoaderMap;
 
             ResourceExplorer m_ResourceExplorer;
             RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;
