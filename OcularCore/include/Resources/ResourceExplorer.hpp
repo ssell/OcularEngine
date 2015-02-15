@@ -85,7 +85,7 @@ namespace Ocular
             /**
              * \param[out] resourceMap Map of all resource files.
              */
-            void populateResourceMap(std::unordered_map<std::string, std::shared_ptr<Resource>>& resourceMap);
+            void populateFileMap(std::unordered_map<std::string, File>& fileMap);
 
         protected:
 

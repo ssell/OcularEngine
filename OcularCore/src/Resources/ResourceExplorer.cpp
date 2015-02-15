@@ -64,7 +64,7 @@ namespace Ocular
             m_ExtensionSensitive = sensitive;
         }
 
-        void ResourceExplorer::populateResourceMap(std::unordered_map<std::string, std::shared_ptr<Resource>>& resourceMap)
+        void ResourceExplorer::populateFileMap(std::unordered_map<std::string, File>& fileMap)
         {
             std::list<Directory> rootDirectories;
             findRootDirectories(rootDirectories);
@@ -89,9 +89,9 @@ namespace Ocular
                         std::string relative = getRelativePathFromResourceRoot((*rootIter), (*fileIter));
 
                         // If the key is not already in-use, then add a new entry to the map
-                        if(resourceMap.find(relative) == resourceMap.end())
+                        if(fileMap.find(relative) == fileMap.end())
                         {
-                            resourceMap.insert(std::make_pair(relative, std::make_shared<Resource>((*fileIter))));
+                            fileMap.insert(std::make_pair(relative, (*fileIter)));
                         }
                     }
                 }

@@ -28,6 +28,7 @@
 #include "ResourcePriorityBehaviour.hpp"
 #include "ResourceExplorer.hpp"
 #include "ResourceLoader.hpp"
+#include "ResourceLoaderManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -186,16 +187,29 @@ namespace Ocular
              */
             void setSourceDirectory(std::string const& directory);
             
+            /**
+             * Registers the ResourceLoader
+             *
+             * \param[in] loader
+             */
             void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
 
         protected:
 
+            /**
+             * Checks to ensure that the amount of memory currently in use does not
+             * exceed the maximum memory limit. If limit is surpassed, then it frees
+             * up space until back below the limit.
+             */
+            void freeMemorySpace();
+
         private:
             
             std::unordered_map<std::string, std::shared_ptr<Resource>> m_ResourceMap;
-            std::unordered_map<std::string, std::shared_ptr<AResourceLoader>> m_ResourceLoaderMap;
+            std::unordered_map<std::string, File> m_FileMap;
 
             ResourceExplorer m_ResourceExplorer;
+            ResourceLoaderManager m_ResourceLoaderManager;
             RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;
 
             unsigned long long m_MemoryLimit;

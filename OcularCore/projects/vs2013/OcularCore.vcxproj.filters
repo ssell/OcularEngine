@@ -195,6 +195,9 @@
     <ClCompile Include="..\..\src\Resources\ResourceLoader.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceLoaderManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -363,6 +366,9 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceLoaderRegistrar.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceLoaderManager.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>

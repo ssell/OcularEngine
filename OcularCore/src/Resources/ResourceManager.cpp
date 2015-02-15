@@ -50,7 +50,24 @@ namespace Ocular
 
         void ResourceManager::forceSourceRefresh()
         {
-            m_ResourceExplorer.populateResourceMap(m_ResourceMap);
+            //----------------------------------------
+            // Populate the file map
+
+            m_ResourceExplorer.populateFileMap(m_FileMap);
+
+            //----------------------------------------
+            // Populate the resource map
+
+            for(auto fileIter = m_FileMap.begin(); fileIter != m_FileMap.end(); fileIter++)
+            {
+                auto findResource = m_ResourceMap.find(fileIter->first);
+
+                if(findResource == m_ResourceMap.end())
+                {
+                    // No entry for this resource path. Add an empty one.
+                    m_ResourceMap.insert(std::make_pair(fileIter->first, nullptr));
+                }
+            }
         }
 
         bool ResourceManager::forceLoadResource(std::string const& path)
@@ -62,11 +79,41 @@ namespace Ocular
             {
                 Resource* resource = resourceIter->second.get();
 
-                if((resource != nullptr) && (!resource->isInMemory()))
+                if(resource == nullptr)
                 {
-                    // ...
+                    // Resource does not yet exist; Create and load it if we have a valid file path
+                    auto findPath = m_FileMap.find(path);
+
+                    if(findPath != m_FileMap.end())
+                    {
+                        std::string fullPath = findPath->second.getFullPath();
+                        m_ResourceLoaderManager.loadResource(resource, fullPath);
+
+                        result = true;
+                    }
+                    else 
+                    {
+                        OcularLogger->error("No associated file with '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "forceLoadResource"));
+                    }
+                }
+                else if(!resource->isInMemory())
+                {
+                    // Resource already exists; Just needs to be reloaded
+                    m_ResourceLoaderManager.loadResource(resource);
+
+                    result = true;
+                }
+                else
+                {
+                    result = true;
                 }
             }
+            else
+            {
+                OcularLogger->error("No tracked resource at '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "forceLoadResource"));
+            }
+
+            freeMemorySpace();
 
             return result;
         }
@@ -152,26 +199,7 @@ namespace Ocular
 
                 if((file.exists()) && (file.isFile()))
                 {
-                    // File is valid; See if we have a registered loader that can handle it
-                    auto findLoader = m_ResourceLoaderMap.find(file.getExtension());
-
-                    if(findLoader != m_ResourceLoaderMap.end())
-                    {
-                        std::shared_ptr<AResourceLoader> loader = findLoader->second;
-                        
-                        if(loader != nullptr)
-                        {
-                            loader->loadResource(result);
-                        }
-                        else 
-                        {
-                            OcularLogger->error("No ResourceLoader available for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
-                        }
-                    }
-                    else 
-                    {
-                        OcularLogger->error("No ResourceLoader available for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
-                    }
+                    m_ResourceLoaderManager.loadResource(result, path);
                 }
                 else 
                 {
@@ -209,21 +237,17 @@ namespace Ocular
 
         void ResourceManager::registerResourceLoader(std::shared_ptr<AResourceLoader> loader)
         {
-            if(loader != nullptr)
-            {
-                std::string fileType = loader->getSupportedFileType();
-                auto findLoader = m_ResourceLoaderMap.find(fileType);
-
-                if(findLoader != m_ResourceLoaderMap.end())
-                {
-                    m_ResourceLoaderMap.insert(std::make_pair(fileType, loader));
-                }
-            }
+            m_ResourceLoaderManager.registerResourceLoader(loader);
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void ResourceManager::freeMemorySpace()
+        {
+        
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
