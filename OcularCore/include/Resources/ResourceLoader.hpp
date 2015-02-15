@@ -19,7 +19,9 @@
 #define __H__OCULAR_RESOURCES_RESOURCE_LOADER__H__
 
 #include "Resource.hpp"
+
 #include <memory>
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -57,8 +59,15 @@ namespace Ocular
             AResourceLoader(std::string const& extension);
             virtual ~AResourceLoader();
 
+            /**
+             * \return The file type (as an extension) that this loader can operate on.
+             */
             virtual std::string getSupportedFileType() const;
-            virtual bool loadResource(Resource* resource) = 0;
+            
+            /**
+             * 
+             */
+            virtual bool loadResource(Resource* resource, File const& file) = 0;
 
         protected:
 

@@ -15,6 +15,7 @@
  */
 
 #include "Resources/ResourceLoaderManager.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -54,9 +55,29 @@ namespace Ocular
             }
         }
 
-        void ResourceLoaderManager::loadResource(Resource* resource, std::string path)
+        void ResourceLoaderManager::loadResource(Resource* resource, File const& file)
         {
-            
+            std::string extension = file.getExtension();
+            auto findLoader = m_ResourceLoaderMap.find(extension);
+
+            if(findLoader != m_ResourceLoaderMap.end())
+            {
+                std::shared_ptr<AResourceLoader> loader = findLoader->second;
+
+                if(loader != nullptr)
+                {
+                    loader->loadResource(resource, file);
+                }
+                else
+                {
+                    // This *should* never happen
+                    OcularLogger->error("ResourceLoader for '", extension, "' is invalid", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("No ResourceLoader associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+            }
         }
 
         //----------------------------------------------------------------------------------

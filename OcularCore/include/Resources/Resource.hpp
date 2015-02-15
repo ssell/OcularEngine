@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_RESOURCES_RESOURCE__H__
 #define __H__OCULAR_RESOURCES_RESOURCE__H__
 
+#include "ResourceType.hpp"
 #include "FileIO/File.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -52,6 +53,10 @@ namespace Ocular
             //----------------------------------------
             // Virtual Methods
             
+            /**
+             * Frees all memory used by this Resource.
+             */
+            virtual void release() = 0;
 
             //----------------------------------------
             // Non-Virtual Methods
@@ -62,19 +67,28 @@ namespace Ocular
             File getSourceFile() const;
 
             /**
-             * \param[in] file The source file for the resource.
-             */
-            void setSourceFile(File const& file);
-
-            /**
              * \return TRUE if the Resource is loaded in memory.
              */
             bool isInMemory() const;
 
+            /**
+             * \return The size, in bytes, of the Resource
+             */
+            unsigned long long getSize() const;
+
+            /**
+             * \return The type of resource.
+             */
+            ResourceType getResourceType() const;
+
         protected:
+
+            ResourceType m_Type;
 
             File m_SourceFile;
             bool m_IsInMemory;
+
+            unsigned long long m_SizeInMemory;
 
         private:
 

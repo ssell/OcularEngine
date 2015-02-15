@@ -208,8 +208,10 @@ namespace Ocular
             std::unordered_map<std::string, std::shared_ptr<Resource>> m_ResourceMap;
             std::unordered_map<std::string, File> m_FileMap;
 
-            ResourceExplorer m_ResourceExplorer;
+            ResourceExplorer      m_ResourceExplorer;
             ResourceLoaderManager m_ResourceLoaderManager;
+            ResourceMemoryDetails m_MemoryDetails;
+
             RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;
 
             unsigned long long m_MemoryLimit;

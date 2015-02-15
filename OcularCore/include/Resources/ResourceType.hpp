@@ -15,14 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_LOADER_MANAGER__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_LOADER_MANAGER__H__
+#ifndef __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
+#define __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
 
-#include "ResourceLoader.hpp"
-
-#include <memory>
-#include <string>
-#include <unordered_map>
+#include "Resource.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,31 +34,14 @@ namespace Ocular
      */
     namespace Core
     {
-        /**
-         * \class ResourceLoaderManager
-         */
-        class ResourceLoaderManager
+        enum class ResourceType : unsigned
         {
-        public:
-
-            ResourceLoaderManager();
-            ~ResourceLoaderManager();
-
-            /**
-             *
-             */
-            void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
-            
-            /**
-             * 
-             */
-            void loadResource(Resource* resource, File const& file);
-
-        protected:
-
-        private:
-
-            std::unordered_map<std::string, std::shared_ptr<AResourceLoader>> m_ResourceLoaderMap;
+            UNKNOWN = 0,     // Unknown must always be first as some loops use it as a sentinel
+            TEXTURE,
+            MODEL,
+            SHADER,
+            DATA,
+            OTHER            // Other must always be last as some loops use it as a sentinel
         };
     }
     /**

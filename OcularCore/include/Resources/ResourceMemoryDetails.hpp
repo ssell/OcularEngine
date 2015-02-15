@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_RESOURCES_RESOURCE_MEMORY_DETAILS__H__
 #define __H__OCULAR_RESOURCES_RESOURCE_MEMORY_DETAILS__H__
 
+#include "Resource.hpp"
+#include <unordered_map>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -42,9 +45,38 @@ namespace Ocular
             ResourceMemoryDetails();
             ~ResourceMemoryDetails();
 
+            /**
+             * Notifies that the specified resource has been loaded into memory.
+             *
+             * \param[in] resource
+             */
+            void resourceLoaded(Resource const* resource);
+
+            /**
+             * Notifies that the specified resource has be unloaded from memory.
+             *
+             * \param[in] resource
+             */
+            void resourceUnloaded(Resource const* resource);
+
+            /** 
+             * \return The total amount of memory, in bytes, in use by tracked Resources.
+             */
+            unsigned long long getTotalMemoryUsage() const;
+
+            /**
+             * \param[in] type Type of Resource to query about
+             * \return The total amount of memory, in bytes, used by all Resources of the specified type.
+             */
+            unsigned long long getMemoryUsage(ResourceType type) const;
+
         protected:
 
         private:
+
+            unsigned long long m_TotalUsage;
+
+            std::unordered_map<ResourceType, unsigned long long> m_MemoryMap;
         };
     }
     /**

@@ -172,6 +172,7 @@
     <ClInclude Include="..\..\include\Resources\ResourceManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceMemoryDetails.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourcePriorityBehaviour.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />

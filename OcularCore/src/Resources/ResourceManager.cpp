@@ -79,32 +79,32 @@ namespace Ocular
             {
                 Resource* resource = resourceIter->second.get();
 
-                if(resource == nullptr)
+                if((resource == nullptr) || (!resource->isInMemory()))
                 {
-                    // Resource does not yet exist; Create and load it if we have a valid file path
-                    auto findPath = m_FileMap.find(path);
+                    auto findFile = m_FileMap.find(path);
 
-                    if(findPath != m_FileMap.end())
+                    if(findFile != m_FileMap.end())
                     {
-                        std::string fullPath = findPath->second.getFullPath();
-                        m_ResourceLoaderManager.loadResource(resource, fullPath);
+                        m_ResourceLoaderManager.loadResource(resource, findFile->second);
 
-                        result = true;
+                        if((resource != nullptr) && (resource->isInMemory()))
+                        {
+                            m_MemoryDetails.resourceLoaded(resource);
+                            result = true;
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to load resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "forceLoadResource"));
+                        }
                     }
-                    else 
+                    else
                     {
-                        OcularLogger->error("No associated file with '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "forceLoadResource"));
+                        OcularLogger->error("No associated full path with '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "forceLoadResource"));
                     }
-                }
-                else if(!resource->isInMemory())
-                {
-                    // Resource already exists; Just needs to be reloaded
-                    m_ResourceLoaderManager.loadResource(resource);
-
-                    result = true;
                 }
                 else
                 {
+                    // Already exists and in memory
                     result = true;
                 }
             }
@@ -129,7 +129,8 @@ namespace Ocular
 
                 if((resource != nullptr) && (resource->isInMemory()))
                 {
-                    // ...
+                    resource->release();
+                    m_MemoryDetails.resourceUnloaded(resource);
                 }
             }
 
@@ -138,21 +139,45 @@ namespace Ocular
 
         ResourceMemoryDetails ResourceManager::getMemoryUsage()
         {
-            ResourceMemoryDetails result;
-
-            // ...
-
-            return result;
+            return m_MemoryDetails;
         }
 
         std::shared_ptr<Resource> ResourceManager::getResource(std::string const& path)
         {
             std::shared_ptr<Resource> result = nullptr;
-            auto resourceIter = m_ResourceMap.find(path);
+            
+            // First check if the resource exists
+            auto findExists = m_ResourceMap.find(path);
 
-            if(resourceIter != m_ResourceMap.end())
+            if(findExists != m_ResourceMap.end())
             {
-                result = resourceIter->second;
+                result = findExists->second;
+
+                if((result == nullptr) || (!result->isInMemory()))
+                {
+                    // Does not exist or is not in memory; Attempt to create and/or load.
+                    auto findFile = m_FileMap.find(path);
+
+                    if(findFile != m_FileMap.end())
+                    {
+                        m_ResourceLoaderManager.loadResource(result.get(), findFile->second);
+
+                        if((result == nullptr) || (!result->isInMemory()))
+                        {
+                            OcularLogger->error("Failed to load resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                            result = nullptr; // We return null on failure irregardless
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("No matching resouce file found for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                        result = nullptr; // We return null on failure irregardless
+                    }
+                }
+            }
+            else
+            {
+                OcularLogger->error("No matching resource for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
             }
 
             return result;

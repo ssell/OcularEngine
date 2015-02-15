@@ -28,17 +28,61 @@ namespace Ocular
 
         ResourceMemoryDetails::ResourceMemoryDetails()
         {
-        
+            m_TotalUsage = 0ULL;
+
+            // Set up the map
+
+            unsigned start = static_cast<unsigned>(ResourceType::UNKNOWN);
+            unsigned stop  = static_cast<unsigned>(ResourceType::OTHER);
+
+            for(unsigned i = start; i <= stop; i++)
+            {
+                m_MemoryMap.insert(std::make_pair(static_cast<ResourceType>(i), 0ULL));
+            }
         }
 
         ResourceMemoryDetails::~ResourceMemoryDetails()
         {
-        
+            
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        void ResourceMemoryDetails::resourceLoaded(Resource const* resource)
+        {
+            if((resource != nullptr) && (resource->isInMemory()))
+            {
+                ResourceType resourceType = resource->getResourceType();
+                unsigned long long memoryUsed = resource->getSize();
+
+                m_TotalUsage += memoryUsed;
+                m_MemoryMap[resourceType] += memoryUsed;
+            }
+        }
+
+        void ResourceMemoryDetails::resourceUnloaded(Resource const* resource)
+        {
+            if((resource != nullptr) && (!resource->isInMemory()))
+            {
+                ResourceType resourceType = resource->getResourceType();
+                unsigned long long memoryFreed = resource->getSize();
+
+                m_TotalUsage -= memoryFreed;
+                m_MemoryMap[resourceType] -= memoryFreed;
+            }
+        }
+
+        unsigned long long ResourceMemoryDetails::getTotalMemoryUsage() const
+        {
+            return m_TotalUsage;
+        }
+
+        unsigned long long ResourceMemoryDetails::getMemoryUsage(ResourceType const type) const
+        {
+            return m_MemoryMap.find(type)->second;
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
