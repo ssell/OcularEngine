@@ -75,7 +75,7 @@ namespace Ocular
  */
 
 /// Used to automatically register AResourceLoader classes. Should be used once in the implementation source file of a Resource Loader.
-#define OCULAR_REGISTER_RESOURCE_LOADER(T) Ocular::Core::ResourceLoaderRegistrar<T> OCULAR_RESERVED_RegisterResourceLoader();
+#define OCULAR_REGISTER_RESOURCE_LOADER(T) Ocular::Core::ResourceLoaderRegistrar<T> OCULAR_INTERNAL_RegisterResourceLoader();
 
 //------------------------------------------------------------------------------------------
 

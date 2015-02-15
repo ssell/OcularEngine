@@ -17,6 +17,8 @@
 #include "Resources/ResourceManager.hpp"
 #include "Resources/ResourceExplorer.hpp"
 
+#include "OcularEngine.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -150,8 +152,35 @@ namespace Ocular
 
                 if((file.exists()) && (file.isFile()))
                 {
-                    // ...
+                    // File is valid; See if we have a registered loader that can handle it
+                    auto findLoader = m_ResourceLoaderMap.find(file.getExtension());
+
+                    if(findLoader != m_ResourceLoaderMap.end())
+                    {
+                        std::shared_ptr<AResourceLoader> loader = findLoader->second;
+                        
+                        if(loader != nullptr)
+                        {
+                            loader->loadResource(result);
+                        }
+                        else 
+                        {
+                            OcularLogger->error("No ResourceLoader available for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
+                        }
+                    }
+                    else 
+                    {
+                        OcularLogger->error("No ResourceLoader available for '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
+                    }
                 }
+                else 
+                {
+                    OcularLogger->error("Failed to find or open file at '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
+                }
+            }
+            else 
+            {
+                OcularLogger->error("Specified file path is empty", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
             }
 
             return result;

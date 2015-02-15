@@ -108,5 +108,7 @@ int main(int argc, char** argv)
         OcularEngine.run();
     }
 
+    OcularLogger->error("bad thing has happened");
+
     OcularEngine.shutdown();
 }

@@ -363,7 +363,7 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceLoaderRegistrar.hpp">
-      <Filter>Source Files\Resources</Filter>
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -58,7 +58,7 @@ namespace Ocular
             virtual ~AResourceLoader();
 
             virtual std::string getSupportedFileType() const;
-            virtual bool loadResource(std::shared_ptr<Resource> resource) = 0;
+            virtual bool loadResource(Resource* resource) = 0;
 
         protected:
 

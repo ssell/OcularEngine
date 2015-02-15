@@ -42,7 +42,8 @@ namespace Ocular
             DEBUG_CHANNEL = 0,
             INFO_CHANNEL = 1,
             WARNING_CHANNEL = 2,
-            ERROR_CHANNEL = 3
+            ERROR_CHANNEL = 3,
+            FATAL_CHANNEL
         };
 
         /**

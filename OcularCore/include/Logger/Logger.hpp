@@ -84,6 +84,10 @@ namespace Ocular
 
             /**
              * Sends a message through the info logger channel.
+             *
+             * This should be used for generally useful information, such as
+             * services stops and starts, that you want to always be available
+             * but don't typically care about under normal circumstances.
              */
             template<typename T, typename... U>
             void info(T first, U... args)
@@ -100,6 +104,11 @@ namespace Ocular
 
             /**
              * Sends a message through the warning logger channel.
+             *
+             * This should be used for anything that can potentially cause
+             * application oddities, but for which there is a system in place
+             * for automatic recovery. For example, this could be missing
+             * input to a method but the operation can still continue.
              */
             template<typename T, typename... U>
             void warning(T first, U... args)
@@ -116,6 +125,10 @@ namespace Ocular
 
             /**
              * Sends a message through the error logger channel.
+             *
+             * This should be used for any error that is fatal to the operation
+             * but not the service or application as a whole. An example of this
+             * would be if a file, that is necessary for a function, is not found.
              */
             template<typename T, typename... U>
             void error(T first, U... args)
@@ -134,6 +147,28 @@ namespace Ocular
              * Sends an exception error through the error logger channel.
              */
             void error(Exception& e);
+
+            /**
+             * Sends a message through the fatal logger channel.
+             *
+             * This should be used for any error that is fatal to the application
+             * or service as a whole. A fatal error will cause the program to terminate.
+             *
+             * Typically, there should be no message following a fatal message as 
+             * the program will have ceased.
+             */
+            template<typename T, typename... U>
+            void fatal(T first, U... args)
+            {
+                m_Mutex.lock();
+
+                m_CurrentMessage.channel = LOGGER_CHANNELS::FATAL_CHANNEL;
+                m_IncompleteMessage.str(std::string());
+                m_IncompleteMessage << first;
+                log(args...);
+
+                m_Mutex.unlock();
+            }
         
         protected:
 
