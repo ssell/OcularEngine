@@ -374,5 +374,8 @@
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

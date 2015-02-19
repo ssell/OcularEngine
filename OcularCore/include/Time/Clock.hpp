@@ -48,22 +48,22 @@ namespace Ocular
             /**
              * Returns the number of milliseconds since epoch (January 1, 1970).
              */
-            long long getEpochMS();
+            unsigned long long getEpochMS();
 
             /**
              * Returns the number of nanoseconds since epoch (January 1, 1970).
              */
-            long long getEpochNS();
+            unsigned long long getEpochNS();
 
             /**
              * Returns the number of milliseconds since Clock creation.
              */
-            long long getElapsedMS();
+            unsigned long long getElapsedMS();
         
             /**
              * Returns the number of nanoseconds since Clock creation.
              */
-            long long getElapsedNS();
+            unsigned long long getElapsedNS();
 
             /**
              * Returns current system date and time.

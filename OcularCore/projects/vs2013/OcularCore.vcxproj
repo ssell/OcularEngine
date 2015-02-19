@@ -165,6 +165,7 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
     <ClInclude Include="..\..\include\Resources\Resource.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceExplorer.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceLoaderManager.hpp" />

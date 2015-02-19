@@ -60,7 +60,7 @@ namespace Ocular
             m_LastUpdate = OcularEngine.Clock()->getElapsedMS();
         }
 
-        long long Timer::getElapsedMS()
+        unsigned long long Timer::getElapsedMS()
         {
             updateInternalTime();
             return m_ElapsedMS;
@@ -78,7 +78,7 @@ namespace Ocular
         {
             if(!m_Stopped)
             {
-                long long time = OcularEngine.Clock()->getElapsedMS();
+                unsigned long long time = OcularEngine.Clock()->getElapsedMS();
                 m_ElapsedMS += time - m_LastUpdate;
                 m_LastUpdate = time;
             }
