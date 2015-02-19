@@ -23,7 +23,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "Resource.hpp"
+#include "ResourceDetails.hpp"
 #include "ResourceMemoryDetails.hpp"
 #include "ResourcePriorityBehaviour.hpp"
 #include "ResourceExplorer.hpp"
@@ -203,9 +203,29 @@ namespace Ocular
              */
             void freeMemorySpace();
 
+            /**
+             * Frees memory based on usage frequency.
+             */
+            ResourceDetails* findLeastFrequentlyUsed();
+
+            /**
+             * Frees memory based on when the resource was last used.
+             */
+            ResourceDetails* findLeastRecentlyUsed();
+
+            /**
+             * Frees memory based on size.
+             */
+            ResourceDetails* findSizeAscending();
+
+            /**
+             * Frees memory based on size.
+             */
+            ResourceDetails* findSizeDescending();
+
         private:
             
-            std::unordered_map<std::string, std::shared_ptr<Resource>> m_ResourceMap;
+            std::unordered_map<std::string, std::shared_ptr<ResourceDetails>> m_ResourceMap;
             std::unordered_map<std::string, File> m_FileMap;
 
             ResourceExplorer      m_ResourceExplorer;

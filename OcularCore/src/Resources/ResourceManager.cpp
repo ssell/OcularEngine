@@ -19,6 +19,8 @@
 
 #include "OcularEngine.hpp"
 
+#include <climits>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -77,7 +79,7 @@ namespace Ocular
 
             if(resourceIter != m_ResourceMap.end())
             {
-                Resource* resource = resourceIter->second.get();
+                Resource* resource = resourceIter->second->getResource().get();
 
                 if((resource == nullptr) || (!resource->isInMemory()))
                 {
@@ -125,12 +127,19 @@ namespace Ocular
 
             if(resourceIter != m_ResourceMap.end())
             {
-                Resource* resource = resourceIter->second.get();
+                ResourceDetails* details = resourceIter->second.get();
 
-                if((resource != nullptr) && (resource->isInMemory()))
+                if(details != nullptr)
                 {
-                    resource->release();
-                    m_MemoryDetails.resourceUnloaded(resource);
+                    details->reset();
+
+                    Resource* resource = details->getResourceUntracked().get();
+
+                    if((resource != nullptr) && (resource->isInMemory()))
+                    {
+                        resource->unload();
+                        m_MemoryDetails.resourceUnloaded(resource);
+                    }
                 }
             }
 
@@ -151,7 +160,7 @@ namespace Ocular
 
             if(findExists != m_ResourceMap.end())
             {
-                result = findExists->second;
+                result = findExists->second->getResource();
 
                 if((result == nullptr) || (!result->isInMemory()))
                 {
@@ -190,7 +199,7 @@ namespace Ocular
 
             if(resourceIter != m_ResourceMap.end())
             {
-                Resource* resource = resourceIter->second.get();
+                Resource* resource = resourceIter->second->getResource().get();
 
                 if(resource != nullptr)
                 {
@@ -271,7 +280,152 @@ namespace Ocular
 
         void ResourceManager::freeMemorySpace()
         {
-        
+            if(m_MemoryDetails.getTotalMemoryUsage() > m_MemoryLimit)
+            {
+                ResourceDetails* resourceDetails = nullptr;
+
+                // Out of space, need to free up memory
+                switch(m_PriorityBehaviour)
+                {
+                case RESOURCE_PRIORITY_BEHAVIOUR::LEAST_FREQUENTLY_USED:
+                    resourceDetails = findLeastFrequentlyUsed();
+                    break;
+
+                case RESOURCE_PRIORITY_BEHAVIOUR::SIZE_ASCENDING:
+                    resourceDetails = findSizeAscending();
+                    break;
+
+                case RESOURCE_PRIORITY_BEHAVIOUR::SIZE_DESCENDING:
+                    resourceDetails = findSizeDescending();
+                    break;
+
+                case RESOURCE_PRIORITY_BEHAVIOUR::LEAST_RECENTLY_USED:
+                default:
+                    resourceDetails = findLeastRecentlyUsed();
+                    break;
+                }
+
+                if(resourceDetails != nullptr)
+                {
+                    Resource* resource = resourceDetails->getResourceUntracked().get();
+
+                    if(resource != nullptr)
+                    {
+                        resource->unload();
+                        m_MemoryDetails.resourceUnloaded(resource);
+                    }
+
+                    resourceDetails->reset();
+
+                    // Call this method again as freeing just a single resource may not have been enough
+                    freeMemorySpace();
+                }
+                else 
+                {
+                    unsigned long long newLimit = m_MemoryLimit;
+
+                    if(newLimit == 0ULL)
+                    {
+                        newLimit = 1000000UL;
+                    }
+                    else
+                    {
+                        newLimit *= 2;
+                    }
+
+                    OcularLogger->warning("Unexpected behaviour: Resource memory limit exceeded but no Resources discovered. Increasing limit from ", m_MemoryLimit, " to ", newLimit, OCULAR_INTERNAL_LOG("ResourceManager", "freeMemorySpace"));
+
+                    m_MemoryLimit = newLimit;
+                }
+            }
+        }
+
+        ResourceDetails* ResourceManager::findLeastFrequentlyUsed()
+        {
+            ResourceDetails* result = nullptr;
+
+            unsigned leastUsed = UINT_MAX;
+
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            {
+                ResourceDetails* current = findResource->second.get();
+
+                if(current != nullptr)
+                {
+                    if(current->getNumberOfRequests() < leastUsed)
+                    {
+                        result = current;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        ResourceDetails* ResourceManager::findLeastRecentlyUsed()
+        {
+            ResourceDetails* result = nullptr;
+            
+            unsigned long long lastUsed = ULLONG_MAX;
+
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            {
+                ResourceDetails* current = findResource->second.get();
+
+                if(current != nullptr)
+                {
+                    if(current->getTimeOfLastRequest() < lastUsed)
+                    {
+                        result = current;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        ResourceDetails* ResourceManager::findSizeAscending()
+        {
+            ResourceDetails* result = nullptr;
+            
+            unsigned long long smallest = ULLONG_MAX;
+
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            {
+                ResourceDetails* current = findResource->second.get();
+
+                if(current != nullptr)
+                {
+                    if(current->getSize() < smallest)
+                    {
+                        result = current;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        ResourceDetails* ResourceManager::findSizeDescending()
+        {
+            ResourceDetails* result = nullptr;
+            
+            unsigned long long largest = 0ULL;
+
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            {
+                ResourceDetails* current = findResource->second.get();
+
+                if(current != nullptr)
+                {
+                    if(current->getSize() > largest)
+                    {
+                        result = current;
+                    }
+                }
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
