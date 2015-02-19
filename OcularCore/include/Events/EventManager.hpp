@@ -47,7 +47,7 @@ namespace Ocular
             EventManager();
             ~EventManager();
 
-            void processEvents(long long const duration);
+            void processEvents(unsigned long long const duration);
            
             void registerListener(AEventListener* listener, unsigned const priority);
             void unregisterListener(AEventListener* listener);

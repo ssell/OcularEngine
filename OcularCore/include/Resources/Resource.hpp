@@ -56,7 +56,7 @@ namespace Ocular
             /**
              * Frees all memory used by this Resource.
              */
-            virtual void release() = 0;
+            virtual void unload() = 0;
 
             //----------------------------------------
             // Non-Virtual Methods

@@ -84,7 +84,7 @@ namespace Ocular
             /**
              * Updates and recreates the Window.
              */
-            virtual void update(long long time) = 0;
+            virtual void update(unsigned long long time) = 0;
 
             /**
              * Closes the Window.

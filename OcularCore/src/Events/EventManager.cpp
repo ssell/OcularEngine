@@ -42,7 +42,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void EventManager::processEvents(long long const duration)
+        void EventManager::processEvents(unsigned long long const duration)
         {
             Timer timer;
             timer.start();

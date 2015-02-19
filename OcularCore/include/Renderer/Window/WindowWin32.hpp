@@ -97,7 +97,7 @@ namespace Ocular
             /**
              * See ::Window::update
              */
-            void update(long long time);
+            void update(unsigned long long time);
 
             /**
              * See ::Window::close

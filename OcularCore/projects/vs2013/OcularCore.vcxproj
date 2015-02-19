@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
     <ClCompile Include="..\..\src\Resources\Resource.cpp" />
+    <ClCompile Include="..\..\src\Resources\ResourceDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceExplorer.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceLoaderManager.cpp" />
