@@ -51,6 +51,8 @@ namespace Ocular
          *
          * Another may handle the '.ply' extension and create a model
          * from the data read in.
+         *
+         * There may only be one loader per file extension.
          */
         class AResourceLoader
         {

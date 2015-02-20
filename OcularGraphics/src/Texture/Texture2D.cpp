@@ -15,6 +15,9 @@
  */
 
 #include "Texture/Texture2D.hpp"
+#include <algorithm>
+
+#define TEXTURE_INDEX(x,y) m_Pixels[((y * m_Width) + x)]
 
 //------------------------------------------------------------------------------------------
 
@@ -31,6 +34,11 @@ namespace Ocular
         {
             m_Width  = width;
             m_Height = height;
+
+            unsigned size = width * height;
+
+            m_Pixels.reserve(size);
+            std::fill(m_Pixels.begin(), m_Pixels.begin() + size, Color());
         }
 
         Texture2D::~Texture2D()
@@ -44,6 +52,11 @@ namespace Ocular
 
         void Texture2D::unload()
         {
+            
+        }
+
+        void Texture2D::apply()
+        {
         
         }
 
@@ -51,22 +64,90 @@ namespace Ocular
         {
             Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
+            if((x >= 0) && (x < m_Width) && (y >= 0) && (y < m_Height))
+            {
+                result = TEXTURE_INDEX(x, y);
+            }
+
             return result;
         }
 
-        void Texture2D::setPixel(int const x, int const y, Color const& color)
+        bool Texture2D::setPixel(int const x, int const y, Color const& color)
         {
-        
+            bool result = false;
+
+            if((x >= 0) && (x < m_Width) && (y >= 0) && (y < m_Height))
+            {
+                TEXTURE_INDEX(x, y) = color;
+                result = true;
+            }
+
+            return result;
         }
 
-        void Texture2D::getPixels(std::vector<Color>& pixels, int const startX, int const startY, int const width, int const height)
+        bool Texture2D::getPixels(std::vector<Color>& pixels, int const startX, int const startY, int const width, int const height)
         {
-        
+            bool result = false;
+
+            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Width))
+            {
+                int trueWidth  = width;
+                int trueHeight = height;
+
+                getTrueDimensions(startX, startY, trueWidth, trueHeight);
+
+                int totalSize = trueWidth * trueHeight;
+
+                if(totalSize > 0)
+                {
+                    pixels.clear();
+                    pixels.reserve(totalSize);
+
+                    int index = 0;
+
+                    for(int iterX = startX; iterX < (startX + trueWidth); iterX++, index++)
+                    {
+                        for(int iterY = startY; iterY < (startY + trueHeight); iterY++, index++)
+                        {
+                            pixels[index] = getPixel(iterX, iterY);  // Use getPixel instead of direct access for the added
+                        }                                            // safety-checks provided in that method
+                    }
+
+                    result = true;
+                }
+            }
+
+            return result;
         }
 
-        void Texture2D::setPixels(std::vector<Color> const& pixels, int const startX, int const startY, int const width, int const height)
+        bool Texture2D::setPixels(std::vector<Color> const& pixels, int const startX, int const startY, int const width, int const height)
         {
-        
+            bool result = false;
+
+            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Width))
+            {
+                int trueWidth = width;
+                int trueHeight = height;
+
+                getTrueDimensions(startX, startY, trueWidth, trueHeight);
+
+                int totalSize = trueWidth * trueHeight;
+
+                if((totalSize > 0) && (totalSize <= pixels.size()))
+                {
+                    int index = 0;
+
+                    for(int iterX = startX; iterX < (startX + trueWidth); iterX++)
+                    {
+                        for(int iterY = startY; iterY < (startY + trueHeight); iterY++)
+                        {
+                            setPixel(iterX, iterY, pixels[index]);  // Use setPixel instead of direct access for the added
+                        }                                           // safety-checks provided in that method
+                    }
+                }
+            }
+
+            return result;
         }
 
         unsigned Texture2D::getWidth() const
@@ -83,8 +164,25 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void Texture2D::getTrueDimensions(int const startX, int const startY, int& trueWidth, int& trueHeight)
+        {
+            if((trueWidth < 0) ||                    // Specified to use remainder of width from startX
+               ((startX + trueWidth) > m_Width))     // Provided width is too wide; Scale it back.
+            {
+                trueWidth = m_Width - startX;
+            }
+
+            if((trueHeight < 0) ||                   // Specified to use remainder of height from startY
+              ((startY + trueHeight) > m_Height))   // Provided height is too tall; Scale it back.
+            {
+                trueHeight = m_Height - startY;
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
     }
 }
+
+#undef TEXTURE_INDEX

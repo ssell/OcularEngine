@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Texture">
       <UniqueIdentifier>{3947a5b6-106e-496a-b21e-544c56f3b0ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Texture\TextureLoaders">
+      <UniqueIdentifier>{69025456-581a-46a4-bc34-3f877ed7cf80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Texture\TextureLoaders">
+      <UniqueIdentifier>{928c11f3-2725-4456-9d62-9e5af0263f8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\HeaderTemplate.hpp">
@@ -66,6 +72,9 @@
     <ClInclude Include="..\..\include\Texture\Texture2D.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\ResourceLoader_BMP.hpp">
+      <Filter>Header Files\Texture\TextureLoaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp">
@@ -73,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp">
       <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureLoader_BMP.cpp">
+      <Filter>Source Files\Texture\TextureLoaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -60,7 +60,7 @@ namespace Ocular
             // Inherited
 
             virtual void unload();
-            virtual void apply() = 0;
+            virtual void apply();
 
             //----------------------------------------
 
@@ -82,10 +82,15 @@ namespace Ocular
              *
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            void  setPixel(int x, int y, Color const& color);
+            bool setPixel(int x, int y, Color const& color);
 
             /**
              * Retrieves the pixels in the specified bounds of the texture.
+             *
+             * The pixels are returned in a vector that stores them in row order. So, for example,
+             * if a 3x3 square of pixels was requested starting from the origin, then the return would be:
+             *
+             *     Color(0,0), Color(1,0), Color(2,0), Color(0,1), Color(1,1), Color(2,1), Color(0,2), Color(1,2), Color(2,2)
              *
              * \param[out] pixels
              * \param[in]  startX
@@ -93,10 +98,15 @@ namespace Ocular
              * \param[in]  width  If set to -1, retrieves pixels from startX to end of texture.
              * \param[in]  height If set to -1, retrieves pixels from startY to end of texture.
              */
-            void getPixels(std::vector<Color>& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
+            bool getPixels(std::vector<Color>& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
             
             /**
              * Sets the pixels in the specified bounds of the texture.
+             *
+             * The provided pixel vector is expected to be in row order. So, for example,
+             * if a 3x3 square of pixels was set starting from the origin, then the pixels would be:
+             *
+             *     Color(0,0), Color(1,0), Color(2,0), Color(0,1), Color(1,1), Color(2,1), Color(0,2), Color(1,2), Color(2,2)
              *
              * \param[out] pixels
              * \param[in]  startX
@@ -104,7 +114,7 @@ namespace Ocular
              * \param[in]  width  If set to -1, sets pixels from startX to end of texture.
              * \param[in]  height If set to -1, sets pixels from startY to end of texture.
              */
-            void setPixels(std::vector<Color> const& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
+            bool setPixels(std::vector<Color> const& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
 
             /**
              * \return Width of the texture
@@ -117,6 +127,10 @@ namespace Ocular
             unsigned getHeight() const;
 
         protected:
+
+            void getTrueDimensions(int startX, int startY, int& trueWidth, int& trueHeight);
+
+            //----------------------------------------
 
             std::vector<Color> m_Pixels;
 
