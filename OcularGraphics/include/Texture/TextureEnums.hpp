@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RENDERER_TEXTURE_ENUMS__H__
-#define __H__OCULAR_RENDERER_TEXTURE_ENUMS__H__
+#ifndef __H__OCULAR_GRAPHICS_TEXTURE_ENUMS__H__
+#define __H__OCULAR_GRAPHICS_TEXTURE_ENUMS__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -27,13 +27,13 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
         /*! Sample filtering modes */
-        enum TEXTURE_FILTER_MODE 
+        enum class TEXTURE_FILTER_MODE : unsigned
         {
             POINT = 0x0,     ///< Use Point filtering
             BILINEAR,        ///< Use Bilinear filtering
@@ -41,7 +41,7 @@ namespace Ocular
             ANISOTROPIC      ///< Use Anisotropic filtering
         };
 
-        enum TEXTURE_USAGE_MODE
+        enum class TEXTURE_USAGE_MODE : unsigned
         {
             STATIC = 0x0,    ///< Texture will not be updated at runtime
             DYNAMIC          ///< Texture may be updated at runtime
@@ -51,6 +51,9 @@ namespace Ocular
      * @} End of Doxygen Groups
      */
 }
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

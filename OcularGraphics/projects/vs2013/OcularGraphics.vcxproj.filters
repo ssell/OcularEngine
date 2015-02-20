@@ -22,6 +22,9 @@
     <Filter Include="Header Files\RenderProperties">
       <UniqueIdentifier>{76e55e35-a128-4c1c-893a-9a6cb3d30d56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Texture">
+      <UniqueIdentifier>{3947a5b6-106e-496a-b21e-544c56f3b0ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\HeaderTemplate.hpp">
@@ -54,5 +57,22 @@
     <ClInclude Include="..\..\include\Shader\PostTesselationShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Texture\Texture.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\TextureEnums.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\Texture2D.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Texture\Texture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\Texture2D.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

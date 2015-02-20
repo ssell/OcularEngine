@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-#include "Renderer\Texture\Texture.hpp"
+#include "Texture/Texture.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture::Texture(TEXTURE_FILTER_MODE filter, TEXTURE_USAGE_MODE usage, std::string name)
-            : Object(name, "Texture")
+        Texture::Texture(TEXTURE_FILTER_MODE filter, TEXTURE_USAGE_MODE usage)
         {
             m_Filter = filter;
             m_Usage = usage;

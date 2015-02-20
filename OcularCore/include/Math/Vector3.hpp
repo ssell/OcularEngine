@@ -1,18 +1,18 @@
 /**
-* Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #pragma once
 #ifndef __H__OCULAR_MATH_VECTOR_3__H__
@@ -24,20 +24,20 @@
 //------------------------------------------------------------------------------------------
 
 /**
-* \addtogroup Ocular
-* @{
-*/
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
     /**
-    * \addtogroup Math
-    * @{
-    */
+     * \addtogroup Math
+     * @{
+     */
     namespace Math
     {
         /**
-        * \class Vector3
-        */
+         * \class Vector3
+         */
         template<typename T>
         class Vector3
         {
@@ -152,8 +152,8 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
-            * \return The magnitude (length) of the vector.
-            */
+             * \return The magnitude (length) of the vector.
+             */
             double getMagnitude() const
             {
                 double dX = static_cast<double>(x);
@@ -164,20 +164,20 @@ namespace Ocular
             }
 
             /**
-            * \return The length of the vector.
-            */
+             * \return The length of the vector.
+             */
             double getLength() const
             {
                 return getMagnitude();
             }
 
             /**
-            * Normalizes the vector. <br/>
-            * When normalized, a vector maintains its direction but its magnitude is set to 1.0.
-            *
-            * \note This method modifies the internal data stored in the vector. See getNormalized
-            * if this is not desired.
-            */
+             * Normalizes the vector. <br/>
+             * When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+             *
+             * \note This method modifies the internal data stored in the vector. See getNormalized
+             * if this is not desired.
+             */
             void normalize()
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
@@ -199,8 +199,8 @@ namespace Ocular
             }
 
             /**
-            * Returns the normalized form of this vector
-            */
+             * Returns the normalized form of this vector
+             */
             Vector3<T> getNormalized() const
             {
                 Vector3<T> result(x, y, z);
@@ -210,13 +210,13 @@ namespace Ocular
             }
 
             /**
-            * The cross product is a third vector that is perpendicular to the two original vectors.
-            *
-            * \note Order is important for cross product
-            *
-            * \param[in] rhs The second vector to cross multiply with
-            * \return The cross product of the two vectors
-            */
+             * The cross product is a third vector that is perpendicular to the two original vectors.
+             *
+             * \note Order is important for cross product
+             *
+             * \param[in] rhs The second vector to cross multiply with
+             * \return The cross product of the two vectors
+             */
             Vector3<T> cross(Vector3<T> const &rhs) const
             {
                 return Vector3<T>((y * rhs.z) - (z * rhs.y),
@@ -225,24 +225,24 @@ namespace Ocular
             }
 
             /**
-            * The dot product is a value equal to the magnitudes of the two vectors multiplied
-            * together and then multiplied by the cosine of the angle between them.
-            *
-            * \param[in] rhs The second vector dot multiply with
-            * \return The dot product of the two vectors (in radians)
-            */
+             * The dot product is a value equal to the magnitudes of the two vectors multiplied
+             * together and then multiplied by the cosine of the angle between them.
+             *
+             * \param[in] rhs The second vector dot multiply with
+             * \return The dot product of the two vectors (in radians)
+             */
             T dot(Vector3<T> const &rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
             }
 
             /**
-            * This is equivalent to taking the acos of the dot product.<br/>
-            * The returned angle is the acute angle, i.e the smallest of the two angles.
-            *
-            * \param[in] rhs The second vector to calculate the angle with
-            * \return The angle, in radians, between the vectors
-            */
+             * This is equivalent to taking the acos of the dot product.<br/>
+             * The returned angle is the acute angle, i.e the smallest of the two angles.
+             *
+             * \param[in] rhs The second vector to calculate the angle with
+             * \return The angle, in radians, between the vectors
+             */
             double angleBetween(Vector3<T> const &rhs) const
             {
                 Vector3<T> normalLHS = getNormalized();
@@ -259,9 +259,9 @@ namespace Ocular
             }
 
             /**
-            * \param[in] rhs The second vector to calculate the distance with
-            * \return The distance between the two vectors
-            */
+             * \param[in] rhs The second vector to calculate the distance with
+             * \return The distance between the two vectors
+             */
             T distanceTo(Vector3<T> const &rhs) const
             {
                 Vector3<T> distance = (*this) - rhs;
@@ -269,16 +269,16 @@ namespace Ocular
             }
 
             /**
-            * Linearly interpolates the two vectors using the specified fraction.<br/><br/>
-            *
-            * When <code>fraction == 0</code>, the return is equal to <code>from</code>.
-            * When <code>fraction == 1</code>, the return is equal to <code>to</code>.
-            *
-            * \param[in] from     The 'start' vector.
-            * \param[in] to       The 'end' vector.
-            * \param[in] fraction The fraction to interpolate by.
-            * \return The resultant interpolated vector.
-            */
+             * Linearly interpolates the two vectors using the specified fraction.<br/><br/>
+             *
+             * When <code>fraction == 0</code>, the return is equal to <code>from</code>.
+             * When <code>fraction == 1</code>, the return is equal to <code>to</code>.
+             *
+             * \param[in] from     The 'start' vector.
+             * \param[in] to       The 'end' vector.
+             * \param[in] fraction The fraction to interpolate by.
+             * \return The resultant interpolated vector.
+             */
             static Vector3<T> lerp(Vector3<T> const from, Vector3<T> const to, T fraction)
             {
                 T zero = static_cast<T>(0);
@@ -290,18 +290,18 @@ namespace Ocular
             }
 
             /**
-            * Spherically interpolates the two vectors using the specified fraction.<br/><br/>
-            *
-            * When slerping, the vectors are treated as directions as opposed to points
-            * in space (as in lerp). The resultant direction is interpolated by the angle
-            * between the vectors, and the magnitude is interpolated by those of the
-            * two input vectors.
-            *
-            * \param[in] from     The 'start' vector.
-            * \param[in] to       The 'end' vector.
-            * \param[in] fraction The fraction to interpolate by.
-            * \return The resultant interpolated vector.
-            */
+             * Spherically interpolates the two vectors using the specified fraction.<br/><br/>
+             *
+             * When slerping, the vectors are treated as directions as opposed to points
+             * in space (as in lerp). The resultant direction is interpolated by the angle
+             * between the vectors, and the magnitude is interpolated by those of the
+             * two input vectors.
+             *
+             * \param[in] from     The 'start' vector.
+             * \param[in] to       The 'end' vector.
+             * \param[in] fraction The fraction to interpolate by.
+             * \return The resultant interpolated vector.
+             */
             static Vector3<T> slerp(Vector3<T> const &from, Vector3<T> const &to, double fraction)
             {
                 // Adapted from http://en.wikipedia.org/wiki/Slerp
@@ -316,12 +316,12 @@ namespace Ocular
             }
 
             /**
-            * Calculates the midpoint of the two provided points.
-            *
-            * \param[in] a
-            * \param[in] b
-            * \return The midpoint vector
-            */
+             * Calculates the midpoint of the two provided points.
+             *
+             * \param[in] a
+             * \param[in] b
+             * \return The midpoint vector
+             */
             static Vector3<T> midpoint(Vector3<T> const &a, Vector3<T> const &b)
             {
                 T two = static_cast<T>(2);
@@ -417,12 +417,12 @@ namespace Ocular
 
     }
     /**
-    * @} End of Doxygen Groups
-    */
+     * @} End of Doxygen Groups
+     */
 }
 /**
-* @} End of Doxygen Groups
-*/
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

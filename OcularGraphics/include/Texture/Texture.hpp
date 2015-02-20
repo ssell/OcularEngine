@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RENDERER_TEXTURE__H__
-#define __H__OCULAR_RENDERER_TEXTURE__H__
+#ifndef __H__OCULAR_GRAPHICS_TEXTURE__H__
+#define __H__OCULAR_GRAPHICS_TEXTURE__H__
 
-#include "Object.hpp"
+#include "Resources/Resource.hpp"
 #include "TextureEnums.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -30,30 +30,37 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
         /**
          * \class Texture
          * \brief Base class for all texture objects
          */
-        class Texture : public Object
+        class Texture : public Core::Resource
         {
         public:
 
             /**
-             * \param filter
-             * \param usage
-             * \param name
+             * \param[in] filter
+             * \param[in] usage
              */
-            Texture(TEXTURE_FILTER_MODE filter = BILINEAR, TEXTURE_USAGE_MODE usage = STATIC, std::string name = "Texture");
+            Texture(TEXTURE_FILTER_MODE filter = TEXTURE_FILTER_MODE::BILINEAR, TEXTURE_USAGE_MODE usage = TEXTURE_USAGE_MODE::STATIC);
 
             virtual ~Texture();
 
+            //----------------------------------------
+            // Inherited
+
+            virtual void unload() = 0;
+
+            //----------------------------------------
+
             /**
-             * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.<br/><br/>
+             * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.
+             *
              * Textures will not be updated (i.e. changes rendered) until this method is called.
              *
              * \note Texture usage mode must be set to ::DYNAMIC in order to modify a texture at runtime.
@@ -66,18 +73,20 @@ namespace Ocular
              *
              * The default filter is ::BILINEAR.
              *
-             * \param filter 
+             * \param[in] filter 
              */
             virtual void setFilterMode(TEXTURE_FILTER_MODE filter);
 
             /**
-             * Sets the usage mode of the texture.<br/><br/>
+             * Sets the usage mode of the texture.
              *
              * The usage mode determines if a copy of the texture is maintained on the CPU.
              * By setting usage to DYNAMIC, one may modify the texture at runtime. But this
              * also requires additional memory overhead which is unnecessary for most textures.<br/><br/>
              * 
              * The default usage is STATIC.
+             *
+             * \param[in] usage
              */
             virtual void setUsageMode(TEXTURE_USAGE_MODE usage);
 

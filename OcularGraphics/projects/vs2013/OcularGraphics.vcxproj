@@ -84,6 +84,13 @@
     <ClInclude Include="..\..\include\Shader\PreTesselationShader.hpp" />
     <ClInclude Include="..\..\include\Shader\Shader.hpp" />
     <ClInclude Include="..\..\include\Shader\VertexShader.hpp" />
+    <ClInclude Include="..\..\include\Texture\Texture.hpp" />
+    <ClInclude Include="..\..\include\Texture\Texture2D.hpp" />
+    <ClInclude Include="..\..\include\Texture\TextureEnums.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\src\Texture\Texture2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
