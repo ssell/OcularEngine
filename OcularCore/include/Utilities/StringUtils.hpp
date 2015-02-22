@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_RESOURCE_LOADER_BMP__H__
-#define __H__OCULAR_GRAPHICS_RESOURCE_LOADER_BMP__H__
+#ifndef __H__OCULAR_CORE_UTILS_STRING_UTILS__H__
+#define __H__OCULAR_CORE_UTILS_STRING_UTILS__H__
 
-#include "Resources/ResourceLoader.hpp"
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -29,32 +29,25 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Graphics
+     * \addtogroup Utils
      * @{
      */
-    namespace Graphics
+    namespace Utils
     {
         /**
-         * \class ResourceLoader_BMP
-         *
-         * Implementation of AResourceLoader that handles the loading of
-         * files with the '.bmp' extension.
-         *
-         * These files are loaded as a Texture2D.
+         * \class StringUtils
          */
-        class ResourceLoader_BMP : public Core::AResourceLoader
+        class StringUtils
         {
         public:
 
-            ResourceLoader_BMP();
-            virtual ~ResourceLoader_BMP();
+            static std::string toLower(std::string const& str);
+            static std::string toUpper(std::string const& str);
 
-            virtual bool loadResource(Core::Resource* resource, Core::File const& file);
+            static bool isEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
 
         protected:
 
-            bool isValidFile(Core::File const& file);
-            
         private:
         };
     }

@@ -83,7 +83,7 @@
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureLoader_BMP.cpp">
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\ResourceLoader_BMP.cpp">
       <Filter>Source Files\Texture\TextureLoaders</Filter>
     </ClCompile>
   </ItemGroup>

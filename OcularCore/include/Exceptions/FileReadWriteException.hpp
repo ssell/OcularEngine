@@ -40,7 +40,7 @@ namespace Ocular
         public:
 
             FileReadWriteException(std::string const& file, std::string const& srcFile, int const line)
-                : Exception(STRING_COMPOSER("Access to file/directory '", file, "' denied."), srcFile, line)
+                : Exception(OCULAR_STRING_COMPOSER("Access to file/directory '", file, "' denied."), srcFile, line)
             {
                 
             }

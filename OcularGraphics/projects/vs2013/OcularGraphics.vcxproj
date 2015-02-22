@@ -92,7 +92,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp" />
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp" />
-    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureLoader_BMP.cpp" />
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\ResourceLoader_BMP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

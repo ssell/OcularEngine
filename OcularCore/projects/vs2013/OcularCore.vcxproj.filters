@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\src\Resources\ResourceDetails.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

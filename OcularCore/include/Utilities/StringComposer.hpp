@@ -114,7 +114,7 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-#define STRING_COMPOSER Ocular::Utils::StringComposer().compose
+#define OCULAR_STRING_COMPOSER Ocular::Utils::StringComposer().compose
 
 //------------------------------------------------------------------------------------------
 

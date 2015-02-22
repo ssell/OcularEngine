@@ -14,53 +14,60 @@
  * limitations under the License.
  */
 
-#include "Texture/TextureLoaders/ResourceLoader_BMP.hpp"
-#include "Texture/Texture2D.hpp"
+// StringUtils is essentially just a wrapper around the Boost string algorithms.
+// This is because Boost may in the future be removed as a dependency, and so
+// implementing custom string operations will be seamless.
+
+#include "Utilities/StringUtils.hpp"
+#include <boost/algorithm/string.hpp>
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Graphics
+    namespace Utils
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceLoader_BMP::ResourceLoader_BMP()
-            : Core::AResourceLoader(".bmp")
-        {
-        
-        }
-
-        ResourceLoader_BMP::~ResourceLoader_BMP()
-        {
-        
-        }
-
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool ResourceLoader_BMP::loadResource(Core::Resource* resource, Core::File const& file)
+        std::string StringUtils::toLower(std::string const& str)
+        {
+            std::string result = str;
+
+            boost::to_lower(result);
+
+            return result;
+        }
+
+        std::string StringUtils::toUpper(std::string const& str)
+        {
+            std::string result = str;
+
+            boost::to_upper(result);
+
+            return result;
+        }
+
+        bool StringUtils::isEqual(std::string const& strA, std::string const& strB, bool const ignoreCase)
         {
             bool result = false;
 
-            Texture2D* texture = (Texture2D*)resource;
-
-            if(texture == nullptr)
+            if(strA.length() == strB.length())
             {
-                texture = new Texture2D(0, 0);
+                if(!ignoreCase)
+                {
+                    result = boost::equals(strA, strB);
+                }
+                else 
+                {
+                    result = boost::iequals(strA, strB);
+                }
             }
-
-            //----------------------------------------
-
-            // Do stuff
-
-            resource = dynamic_cast<Core::Resource*>(texture);
-            result = true;
-
-            //----------------------------------------
 
             return result;
         }
