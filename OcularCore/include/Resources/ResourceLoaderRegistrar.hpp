@@ -22,6 +22,7 @@
 #include "OcularEngine.hpp"
 
 #include <memory>
+#include <iostream>
 
 //------------------------------------------------------------------------------------------
 
@@ -47,12 +48,13 @@ namespace Ocular
 
             ResourceLoaderRegistrar()
             {
-                T t = new T();
+                T* t = new T();
                 AResourceLoader* loader = dynamic_cast<AResourceLoader*>(t);
 
                 if(loader != nullptr)
                 {
-                    OcularEngine.ResourceManager()->registerResourceLoader(std::make_shared<AResourceLoader>(loader));
+                    std::shared_ptr<AResourceLoader> shared(loader);
+                    OcularEngine.ResourceManager()->registerResourceLoader(shared);
                 }
                 else 
                 {
@@ -75,7 +77,7 @@ namespace Ocular
  */
 
 /// Used to automatically register AResourceLoader classes. Should be used once in the implementation source file of a Resource Loader.
-#define OCULAR_REGISTER_RESOURCE_LOADER(T) Ocular::Core::ResourceLoaderRegistrar<T> OCULAR_INTERNAL_RegisterResourceLoader();
+#define OCULAR_REGISTER_RESOURCE_LOADER(T) Ocular::Core::ResourceLoaderRegistrar<T> OCULAR_INTERNAL_RegisterResourceLoader;
 
 //------------------------------------------------------------------------------------------
 

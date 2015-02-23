@@ -33,7 +33,7 @@ namespace Ocular
 
         ResourceManager::ResourceManager()
         {
-        
+
         }
 
         ResourceManager::~ResourceManager()

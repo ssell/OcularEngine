@@ -36,6 +36,13 @@ namespace Ocular
 
     Engine::Engine()
     {
+        m_Logger          = std::make_shared<Core::Logger>();
+        m_Clock           = std::make_shared<Core::Clock>();
+        m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();
+        m_EventManager    = std::make_shared<Core::EventManager>();
+        m_ResourceManager = std::make_shared<Core::ResourceManager>();
+        m_WindowManager   = std::make_shared<Core::WindowManager>();
+
         m_IsRunning = false;
     }
 
@@ -55,6 +62,7 @@ namespace Ocular
         setupUID();
         setupEvents();
         setupWindowManager();
+        setupResourceManager();
 
         m_IsRunning = true;
 
@@ -140,35 +148,33 @@ namespace Ocular
 
     void Engine::setupLogger()
     {
-        m_Logger = std::make_shared<Core::Logger>();
         m_Logger->registerListener(new Core::ConsoleLoggerListener());
         m_Logger->registerListener(new Core::VSConsoleLoggerListener());
     }
 
     void Engine::setupClock()
     {
-        m_Clock = std::make_shared<Core::Clock>();
+        
     }
 
     void Engine::setupUID()
     {
-        m_UIDGenerator = std::make_shared<Utils::UIDGenerator>();
+        
     }
 
     void Engine::setupEvents()
     {
-        m_EventManager = std::make_shared<Core::EventManager>();
         m_EventManager->registerListener(this, Core::EVENT_PRIORITY::MEDIUM);
     }
 
     void Engine::setupResourceManager()
     {
-        m_ResourceManager = std::make_shared<Core::ResourceManager>();
+        
     }
 
     void Engine::setupWindowManager()
     {
-        m_WindowManager = std::make_shared<Core::WindowManager>();
+        
     }
 
     void Engine::shutdownWindowManager()

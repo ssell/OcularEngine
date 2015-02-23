@@ -29,7 +29,7 @@ namespace Ocular
 
         ResourceLoaderManager::ResourceLoaderManager()
         {
-        
+
         }
 
         ResourceLoaderManager::~ResourceLoaderManager()

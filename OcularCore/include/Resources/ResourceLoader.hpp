@@ -69,7 +69,7 @@ namespace Ocular
             /**
              * 
              */
-            virtual bool loadResource(Resource* resource, File const& file) = 0;
+            virtual bool loadResource(Resource* resource, File const& file);
 
         protected:
 

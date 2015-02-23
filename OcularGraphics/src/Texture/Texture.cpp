@@ -41,6 +41,16 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void Texture::setFilterMode(TEXTURE_FILTER_MODE const filter)
+        {
+            m_Filter = filter;
+        }
+
+        void Texture::setUsageMode(TEXTURE_USAGE_MODE const usage)
+        {
+            m_Usage = usage;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ namespace Ocular
         TextureResourceLoader_BMP::TextureResourceLoader_BMP()
             : TextureResourceLoader(".bmp")
         {
-        
+
         }
 
         TextureResourceLoader_BMP::~TextureResourceLoader_BMP()

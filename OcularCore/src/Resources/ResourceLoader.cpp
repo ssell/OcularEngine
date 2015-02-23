@@ -31,6 +31,11 @@ namespace Ocular
             m_SupportedExtension = extension;
         }
 
+        AResourceLoader::~AResourceLoader()
+        {
+        
+        }
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
@@ -38,6 +43,11 @@ namespace Ocular
         std::string AResourceLoader::getSupportedFileType() const 
         {
             return m_SupportedExtension;
+        }
+
+        bool AResourceLoader::loadResource(Resource* resource, File const& file)
+        {
+            return false;
         }
 
         //----------------------------------------------------------------------------------

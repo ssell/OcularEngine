@@ -18,9 +18,6 @@
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
-#include "Resources/ResourceExplorer.hpp"
-#include "Exceptions/FileReadWriteException.hpp"
-
 Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
@@ -29,27 +26,6 @@ int runTests(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
-}
-
-void testDirectory()
-{
-    Ocular::Core::Directory directory("C:\\Users\\ssell\\Desktop\\DirTest");
-    directory.explore(true);
-    
-    auto childDirs  = directory.getChildDirectories();
-    auto childFiles = directory.getChildFiles();
-
-    std::cout << "Directories: \n" << std::endl;
-    for(auto dirIter = childDirs.begin(); dirIter != childDirs.end(); dirIter++)
-    {
-        std::cout << (*dirIter).getFullPath() << std::endl;
-    }
-
-    std::cout << "\nFiles: \n" << std::endl;
-    for(auto fileIter = childFiles.begin(); fileIter != childFiles.end(); fileIter++)
-    {
-        std::cout << (*fileIter).getFullPath() << std::endl;
-    }
 }
 
 void testResources()
