@@ -99,6 +99,8 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize();
 
+    OcularLogger->info("Number of registered Resource Loaders: ", OcularEngine.ResourceManager()->getNumberOfResourceLoaders());
+
     //runTests(argc, argv);
     //testResources();
     openWindow();

@@ -57,7 +57,8 @@ namespace Ocular
 
         void Texture2D::apply()
         {
-        
+            // Adjust for potential new width/height
+            // OpenGL and DirectX childs will have to update texture on GPU
         }
 
         Color Texture2D::getPixel(int const x, int const y)
@@ -155,9 +156,25 @@ namespace Ocular
             return m_Width;
         }
 
+        void Texture2D::setWidth(unsigned const& width)
+        {
+            if(width > 0)
+            {
+                m_Width = width;
+            }
+        }
+
         unsigned Texture2D::getHeight() const
         {
             return m_Height;
+        }
+
+        void Texture2D::setHeight(unsigned const& height)
+        {
+            if(height > 0)
+            {
+                m_Height = height;
+            }
         }
 
         //----------------------------------------------------------------------------------

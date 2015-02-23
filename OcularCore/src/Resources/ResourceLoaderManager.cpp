@@ -80,6 +80,11 @@ namespace Ocular
             }
         }
 
+        unsigned ResourceLoaderManager::getNumberOfResourceLoaders() const
+        {
+            return static_cast<unsigned>(m_ResourceLoaderMap.size());
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

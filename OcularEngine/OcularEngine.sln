@@ -8,6 +8,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularTest", "..\OcularTest\projects\vs2013\OcularTest\OcularTest.vcxproj", "{066D9C0A-E3A8-4517-A989-6611D5DF4751}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3926028B-B885-4FF1-AC6A-3F048BAF21A6} = {3926028B-B885-4FF1-AC6A-3F048BAF21A6}
+		{59EF17CE-EE17-4665-B206-CB64A77D8027} = {59EF17CE-EE17-4665-B206-CB64A77D8027}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularGraphics", "..\OcularGraphics\projects\vs2013\OcularGraphics.vcxproj", "{59EF17CE-EE17-4665-B206-CB64A77D8027}"

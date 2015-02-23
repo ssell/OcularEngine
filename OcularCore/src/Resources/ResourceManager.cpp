@@ -274,6 +274,16 @@ namespace Ocular
             m_ResourceLoaderManager.registerResourceLoader(loader);
         }
 
+        unsigned ResourceManager::getNumberOfResources() const
+        {
+            return static_cast<unsigned>(m_ResourceMap.size());
+        }
+
+        unsigned ResourceManager::getNumberOfResourceLoaders() const
+        {
+            return m_ResourceLoaderManager.getNumberOfResourceLoaders();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -15,14 +15,13 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_LOADER_MANAGER__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_LOADER_MANAGER__H__
+#ifndef __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER__H__
+#define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER__H__
 
-#include "ResourceLoader.hpp"
+#include "Resources/ResourceLoader.hpp"
+#include "Math/Vector4.hpp"
 
-#include <memory>
-#include <string>
-#include <unordered_map>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -33,41 +32,31 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
         /**
-         * \class ResourceLoaderManager
+         * \class TextureResourceLoader
          */
-        class ResourceLoaderManager
+        class TextureResourceLoader : public Core::AResourceLoader
         {
         public:
 
-            ResourceLoaderManager();
-            ~ResourceLoaderManager();
+            TextureResourceLoader(std::string const& extension);
+            virtual ~TextureResourceLoader();
 
-            /**
-             *
-             */
-            void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
-            
-            /**
-             * 
-             */
-            void loadResource(Resource* resource, File const& file);
-
-            /**
-             *
-             */
-            unsigned getNumberOfResourceLoaders() const;
+            virtual bool loadResource(Core::Resource* resource, Core::File const& file);
 
         protected:
 
-        private:
+            virtual bool isValidFile(Core::File const& file);
+            virtual bool createResource(Core::Resource* resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
 
-            std::unordered_map<std::string, std::shared_ptr<AResourceLoader>> m_ResourceLoaderMap;
+            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height) = 0;
+
+        private:
         };
     }
     /**

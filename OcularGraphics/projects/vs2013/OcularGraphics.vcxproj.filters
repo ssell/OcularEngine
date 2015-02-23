@@ -72,7 +72,10 @@
     <ClInclude Include="..\..\include\Texture\Texture2D.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Texture\TextureLoaders\ResourceLoader_BMP.hpp">
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader.hpp">
+      <Filter>Header Files\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp">
       <Filter>Header Files\Texture\TextureLoaders</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,7 +86,10 @@
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Texture\TextureLoaders\ResourceLoader_BMP.cpp">
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader.cpp">
+      <Filter>Source Files\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp">
       <Filter>Source Files\Texture\TextureLoaders</Filter>
     </ClCompile>
   </ItemGroup>

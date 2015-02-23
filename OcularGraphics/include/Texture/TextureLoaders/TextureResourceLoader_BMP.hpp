@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_RESOURCE_LOADER_BMP__H__
-#define __H__OCULAR_GRAPHICS_RESOURCE_LOADER_BMP__H__
+#ifndef __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER_BMP__H__
+#define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER_BMP__H__
 
-#include "Resources/ResourceLoader.hpp"
+#include "TextureResourceLoader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,25 +35,23 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class ResourceLoader_BMP
+         * \class TextureResourceLoader_BMP
          *
          * Implementation of AResourceLoader that handles the loading of
          * files with the '.bmp' extension.
          *
          * These files are loaded as a Texture2D.
          */
-        class ResourceLoader_BMP : public Core::AResourceLoader
+        class TextureResourceLoader_BMP : public TextureResourceLoader
         {
         public:
 
-            ResourceLoader_BMP();
-            virtual ~ResourceLoader_BMP();
-
-            virtual bool loadResource(Core::Resource* resource, Core::File const& file);
+            TextureResourceLoader_BMP();
+            virtual ~TextureResourceLoader_BMP();
 
         protected:
 
-            bool isValidFile(Core::File const& file);
+            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height);
             
         private:
         };

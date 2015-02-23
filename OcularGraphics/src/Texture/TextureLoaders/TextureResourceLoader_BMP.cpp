@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-#include "Texture/TextureLoaders/ResourceLoader_BMP.hpp"
-#include "Texture/Texture2D.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"
-#include "Utilities/StringUtils.hpp"
+#include "OcularEngine.hpp"
 
-OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::ResourceLoader_BMP)
+OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::TextureResourceLoader_BMP)
 
 //------------------------------------------------------------------------------------------
 
@@ -31,13 +30,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceLoader_BMP::ResourceLoader_BMP()
-            : Core::AResourceLoader(".bmp")
+        TextureResourceLoader_BMP::TextureResourceLoader_BMP()
+            : TextureResourceLoader(".bmp")
         {
         
         }
 
-        ResourceLoader_BMP::~ResourceLoader_BMP()
+        TextureResourceLoader_BMP::~TextureResourceLoader_BMP()
         {
         
         }
@@ -46,33 +45,17 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool ResourceLoader_BMP::loadResource(Core::Resource* resource, Core::File const& file)
-        {
-            bool result = false;
-
-            if(isValidFile(file))
-            {
-            
-            }
-
-            return result;
-        }
+        
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool ResourceLoader_BMP::isValidFile(Core::File const& file)
+        bool TextureResourceLoader_BMP::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
 
-            if(file.exists())
-            {
-                if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
-                {
-                    result = true;
-                }
-            }
+
 
             return result;
         }

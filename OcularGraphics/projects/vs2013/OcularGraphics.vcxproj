@@ -87,12 +87,14 @@
     <ClInclude Include="..\..\include\Texture\Texture.hpp" />
     <ClInclude Include="..\..\include\Texture\Texture2D.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureEnums.hpp" />
-    <ClInclude Include="..\..\include\Texture\TextureLoaders\ResourceLoader_BMP.hpp" />
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp" />
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp" />
-    <ClCompile Include="..\..\src\Texture\TextureLoaders\ResourceLoader_BMP.cpp" />
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp" />
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,7 +35,9 @@ namespace Ocular
 
         Resource::Resource()
         {
-        
+            m_SourceFile = File();
+            m_SizeInMemory = 0;
+            m_Type = ResourceType::UNKNOWN;
         }
 
         Resource::~Resource()
@@ -50,6 +52,11 @@ namespace Ocular
         File Resource::getSourceFile() const 
         {
             return m_SourceFile;
+        }
+
+        void Resource::setSourceFile(File const& file)
+        {
+            m_SourceFile = file;
         }
 
         bool Resource::isInMemory() const

@@ -27,6 +27,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Texture::Texture(TEXTURE_FILTER_MODE filter, TEXTURE_USAGE_MODE usage)
+            : Resource()
         {
             m_Filter = filter;
             m_Usage = usage;

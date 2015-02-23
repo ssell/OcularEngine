@@ -46,8 +46,8 @@ namespace Ocular
              * \param[in] file The source file for the resource.
              */
             Resource(File const& source);
-
             Resource();
+
             ~Resource();
 
             //----------------------------------------
@@ -65,6 +65,12 @@ namespace Ocular
              * \return The source file for the resource.
              */
             File getSourceFile() const;
+
+            /**
+             * \param[in] file
+             * \note This method should generally not be used unless by internal mechanisms.
+             */
+            void setSourceFile(File const& file);
 
             /**
              * \return TRUE if the Resource is loaded in memory.

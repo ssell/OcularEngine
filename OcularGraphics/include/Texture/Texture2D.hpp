@@ -51,6 +51,7 @@ namespace Ocular
              * \param[in] height
              * \param[in] filter
              * \param[in] usage
+             * \param[in] source
              */
             Texture2D(unsigned width, unsigned height, TEXTURE_FILTER_MODE filter = TEXTURE_FILTER_MODE::BILINEAR, TEXTURE_USAGE_MODE usage = TEXTURE_USAGE_MODE::STATIC);
 
@@ -113,6 +114,7 @@ namespace Ocular
              * \param[in]  startY
              * \param[in]  width  If set to -1, sets pixels from startX to end of texture.
              * \param[in]  height If set to -1, sets pixels from startY to end of texture.
+             * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
             bool setPixels(std::vector<Color> const& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
 
@@ -122,9 +124,21 @@ namespace Ocular
             unsigned getWidth() const;
 
             /**
+             * \param[in] width
+             * \note apply must be called after any dimension changes in order for the texture on GPU to be updated.
+             */
+            void setWidth(unsigned const& width);
+
+            /**
              * \return Height of the texture
              */
             unsigned getHeight() const;
+            
+            /**
+             * \param[in] height
+             * \note apply must be called after any dimension changes in order for the texture on GPU to be updated.
+             */
+            void setHeight(unsigned const& height);
 
         protected:
 

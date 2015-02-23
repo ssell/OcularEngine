@@ -194,6 +194,16 @@ namespace Ocular
              */
             void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
 
+            /**
+             * \return Total number of tracked resources. This value does not represent the number of Resources in memory.
+             */
+            unsigned getNumberOfResources() const;
+
+            /**
+             * \return Total number of registered Resource Loaders.
+             */
+            unsigned getNumberOfResourceLoaders() const;
+
         protected:
 
             /**
