@@ -21,6 +21,7 @@
 #include "Resources/ResourceLoader.hpp"
 #include "Math/Vector4.hpp"
 
+#include <string>
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -51,9 +52,47 @@ namespace Ocular
 
         protected:
 
+            /**
+             * Verifies the file on the following conditions:
+             *
+             *     - File exists
+             *     - File is readable
+             *     - File extension matches the supported extension of the loader
+             *
+             * \param[in] File The file to validate.
+             * \return TRUE if valid; Else FALSE.
+             */
             virtual bool isValidFile(Core::File const& file);
-            virtual bool createResource(Core::Resource* resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
 
+            /**
+             * Creates the new Texture2D resource from provided pixel data.
+             *
+             * \param[out] resource The newly created resource.
+             * \param[in]  file     Source file for the resource.
+             * \param[in]  pixels   Pixel data for the texture arranged by rows.
+             * \param[in]  width    Width of the texture.
+             * \param[in]  height   Height of the texture.
+             * \return TRUE if creation was successful.
+             */
+            virtual bool createResource(Core::Resource* resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
+            
+            /**
+             * Attempts to load the binary contents of the specified file into the provided empty buffer.
+             *
+             * \param[in]  file   Source file of the resource texture.
+             * \param[out] buffer Raw binary data of the file.
+             */
+            virtual void loadFileIntoBuffer(Core::File const& file, std::vector<char>& buffer);
+
+            /**
+             * Each TextureResourceLoader must provide a custom implementation for it's specific file type.
+             *
+             * \param[in] file Source file to read from.
+             * \param[out] pixels Texture pixel data read in from the file.
+             * \param[out] width  Width of the texture.
+             * \param[out] height Height of the texture.
+             * \return TRUE if file was read in successfully.
+             */
             virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height) = 0;
 
         private:

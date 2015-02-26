@@ -19,6 +19,8 @@
 #include "Utilities/StringUtils.hpp"
 #include "OcularEngine.hpp"
 
+#include <fstream>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -147,6 +149,34 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void TextureResourceLoader::loadFileIntoBuffer(Core::File const& file, std::vector<char>& buffer)
+        {
+            if(isValidFile(file))
+            {
+                if(!buffer.empty())
+                {
+                    OcularLogger->warning("Provided buffer is not empty; Emptying it", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadBuffer"));
+                    buffer.clear();
+                }
+
+                std::ifstream inputStream(file.getFullPath(), std::ios_base::binary);
+
+                if(inputStream.is_open())
+                {
+                    buffer = std::vector<char>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
+                    inputStream.close();
+                }
+                else
+                {
+                    OcularEngine.Logger()->error("Failed to open file for reading '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadBuffer"));
+                }
+            }
+            else 
+            {
+                OcularEngine.Logger()->error("Resource '", file.getFullPath(), "' is not a valid file", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "readFile"));
+            }
         }
 
         //----------------------------------------------------------------------------------

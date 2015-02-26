@@ -18,6 +18,8 @@
 #include "Resources/ResourceLoaderRegistrar.hpp"
 #include "OcularEngine.hpp"
 
+#include <fstream>
+
 OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::TextureResourceLoader_BMP)
 
 //------------------------------------------------------------------------------------------
@@ -54,8 +56,18 @@ namespace Ocular
         bool TextureResourceLoader_BMP::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
+            std::vector<char> buffer;
 
+            loadFileIntoBuffer(file, buffer);
 
+            if(buffer.size() > 0)
+            {
+                
+            }
+            else
+            {
+                OcularLogger->error("File buffer is empty", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "readFile"));
+            }
 
             return result;
         }
