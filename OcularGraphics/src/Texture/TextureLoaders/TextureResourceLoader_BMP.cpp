@@ -56,13 +56,37 @@ namespace Ocular
         bool TextureResourceLoader_BMP::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
-            std::vector<char> buffer;
 
+            std::vector<unsigned char> buffer;
             loadFileIntoBuffer(file, buffer);
 
             if(buffer.size() > 0)
             {
-                
+                BMPHeader header;
+
+                if(readHeader(buffer, header))
+                {
+                    width  = header.width;
+                    height = std::abs(header.height);  // Height reported by header may be negative if data is stored in reverse order
+                     
+                    if(header.compression == 0)
+                    {
+                        result = createPixelDataUncompressed(header, buffer, pixels);
+                    }
+                    else
+                    {
+                        result = createPixelDataCompressed(header, buffer, pixels);
+                    }
+                    
+                    if(!result)
+                    {
+                        OcularLogger->error("Failed to create pixel data", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "readFile"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to read file header", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "readFile"));
+                }
             }
             else
             {
@@ -75,5 +99,113 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        bool TextureResourceLoader_BMP::readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header)
+        {
+            // http://en.wikipedia.org/wiki/BMP_file_format#Bitmap_file_header
+
+            bool result = false;
+
+            if(buffer.size() >= 54)
+            {
+                header.headerField = (unsigned short)(&buffer[0]);
+                header.fileSize    = (unsigned)(&buffer[2]);
+                header.startOffset = (unsigned)(&buffer[10]);
+                header.width       = (unsigned)(&buffer[18]);
+                header.height      = (unsigned)(&buffer[22]);
+                header.bpp         = (unsigned short)(&buffer[28]);
+                header.compression = (unsigned)(&buffer[30]);
+
+                result = isHeaderValid(header);
+            }
+            else
+            {
+                OcularLogger->error("File buffer too small", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "readHeader"));
+            }
+
+            return result;
+        }
+
+        bool TextureResourceLoader_BMP::isHeaderValid(BMPHeader const& header)
+        {
+            bool result = true;
+
+            if((header.width <= 0) || (header.height == 0))  // Height can potentially be negative and still valid
+            {
+                OcularLogger->error("Invalid image dimensions", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "isHeaderValid"));
+                result = false;
+            }
+
+            if((header.bpp != 24) && (header.bpp != 32))
+            {
+                OcularLogger->error("Invalid image pixel depth", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "isHeaderValid"));
+            }
+
+            return result;
+        }
+
+#define OIFLOAT(x) (static_cast<float>(x) / 255.0f)
+
+        bool TextureResourceLoader_BMP::createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels)
+        {
+            // Image data starts in the lower-left corner and is in BGRA order. 
+            // If the reported height in the header is negative, then the data 
+            // actually begins in the upper left corner.
+
+            // Padding is added to the end of each row to ensure that the next 
+            // row starts on a memory location that is a multiple of four.
+
+            bool result = true;
+
+            int pixelSize  = header.bpp / 4;                       // Bytes per pixel
+            int rowWidth   = header.width * pixelSize;             // Row length before padding
+            int rowPadding = rowWidth % 4;                         // Rows must be a multiple of 4 bytes in length
+            int trueWidth  = rowWidth + rowPadding;                // True length of the row including padding
+            int trueHeight = std::abs(header.height);              // Height can be negative if it goes top-to-bottom
+            int dimensions = header.width * header.height;         // Total number of pixels in the image
+            int startPos   = header.startOffset;                   // Starting position in buffer of the pixel array
+            int stopPos    = startPos + (trueWidth * trueHeight);  // Ending position in buffer of the pixel array
+             
+            bool imageReversed = (header.height > 0);              // If the image height is negative, then start at top-left instead of bottom-left
+            int pixelPos = 0;                                      // Starting pixel
+
+            pixels.clear();
+            pixels.reserve(dimensions);
+
+            if(!imageReversed)
+            {
+                for(int i = startPos; i < stopPos; i += trueWidth)
+                {
+                    for(int j = 0; j < rowWidth; j += pixelSize)
+                    {
+                        unsigned char b = buffer[i + (j + 0)];
+                        unsigned char g = buffer[i + (j + 1)];
+                        unsigned char r = buffer[i + (j + 2)];
+                        unsigned char a = (pixelSize == 3 ? 255 : buffer[i + (j + 3)]);  // If no alpha-channel, set to 255
+
+                        pixels[pixelPos] = Color(OIFLOAT(r), OIFLOAT(b), OIFLOAT(g), OIFLOAT(a));
+                        pixelPos++;
+                    }
+                }
+            }
+            else
+            {
+                OcularLogger->error("Reverse stored image currently not supported", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "createPixelDataUncompressed"));
+                result = false;
+            }
+
+            return result;
+        }
+
+#undef OIFLOAT
+
+        bool TextureResourceLoader_BMP::createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels)
+        {
+            bool result = false;
+
+            OcularLogger->error("Only uncompressed bitmap images currently supported", OCULAR_INTERNAL_LOG("TextureResourceLoader_BMP", "createPixelDataCompressed"));
+
+            return result;
+        }
     }
 }

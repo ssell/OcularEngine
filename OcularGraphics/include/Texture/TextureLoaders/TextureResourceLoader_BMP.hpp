@@ -35,10 +35,26 @@ namespace Ocular
     namespace Graphics
     {
         /**
+         * \struct BMPHeader
+         */
+        struct BMPHeader
+        {
+            unsigned short headerField;
+            unsigned short bpp;
+
+            unsigned fileSize;
+            unsigned startOffset;
+            unsigned compression;
+
+            int width;
+            int height;
+        };
+
+        /**
          * \class TextureResourceLoader_BMP
          *
          * Implementation of AResourceLoader that handles the loading of
-         * files with the '.bmp' extension.
+         * files with the '.bmp' extension as uncompressed 24/32-bit bitmap images.
          *
          * These files are loaded as a Texture2D.
          */
@@ -54,6 +70,12 @@ namespace Ocular
             virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height);
             
         private:
+
+            bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header);
+            bool isHeaderValid(BMPHeader const& header);
+
+            bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels);
+            bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels);
         };
     }
     /**

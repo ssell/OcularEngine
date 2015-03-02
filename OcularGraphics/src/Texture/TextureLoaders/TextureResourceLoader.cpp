@@ -50,7 +50,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if(isValidFile(file))
+            if(isFileValid(file))
             {
                 std::vector<Color> pixels;
 
@@ -81,7 +81,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader::isValidFile(Core::File const& file)
+        bool TextureResourceLoader::isFileValid(Core::File const& file)
         {
             bool result = false;
 
@@ -151,9 +151,9 @@ namespace Ocular
             return result;
         }
 
-        void TextureResourceLoader::loadFileIntoBuffer(Core::File const& file, std::vector<char>& buffer)
+        void TextureResourceLoader::loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer)
         {
-            if(isValidFile(file))
+            if(isFileValid(file))
             {
                 if(!buffer.empty())
                 {
@@ -165,7 +165,7 @@ namespace Ocular
 
                 if(inputStream.is_open())
                 {
-                    buffer = std::vector<char>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
+                    buffer = std::vector<unsigned char>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
                     inputStream.close();
                 }
                 else

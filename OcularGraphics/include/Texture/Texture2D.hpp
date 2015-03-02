@@ -105,7 +105,7 @@ namespace Ocular
              * Sets the pixels in the specified bounds of the texture.
              *
              * The provided pixel vector is expected to be in row order. So, for example,
-             * if a 3x3 square of pixels was set starting from the origin, then the pixels would be:
+             * if a 3x3 square of pixels was set starting from the origin (bottom-left corner), then the pixels would be:
              *
              *     Color(0,0), Color(1,0), Color(2,0), Color(0,1), Color(1,1), Color(2,1), Color(0,2), Color(1,2), Color(2,2)
              *

@@ -62,7 +62,7 @@ namespace Ocular
              * \param[in] File The file to validate.
              * \return TRUE if valid; Else FALSE.
              */
-            virtual bool isValidFile(Core::File const& file);
+            virtual bool isFileValid(Core::File const& file);
 
             /**
              * Creates the new Texture2D resource from provided pixel data.
@@ -82,7 +82,7 @@ namespace Ocular
              * \param[in]  file   Source file of the resource texture.
              * \param[out] buffer Raw binary data of the file.
              */
-            virtual void loadFileIntoBuffer(Core::File const& file, std::vector<char>& buffer);
+            virtual void loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer);
 
             /**
              * Each TextureResourceLoader must provide a custom implementation for it's specific file type.
