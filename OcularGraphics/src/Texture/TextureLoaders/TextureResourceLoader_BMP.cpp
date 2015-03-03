@@ -47,8 +47,6 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        
-
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -144,8 +142,6 @@ namespace Ocular
             return result;
         }
 
-#define OIFLOAT(x) (static_cast<float>(x) / 255.0f)
-
         bool TextureResourceLoader_BMP::createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels)
         {
             // Image data starts in the lower-left corner and is in BGRA order. 
@@ -183,7 +179,10 @@ namespace Ocular
                         unsigned char r = buffer[i + (j + 2)];
                         unsigned char a = (pixelSize == 3 ? 255 : buffer[i + (j + 3)]);  // If no alpha-channel, set to 255
 
-                        pixels[pixelPos] = Color(OIFLOAT(r), OIFLOAT(b), OIFLOAT(g), OIFLOAT(a));
+                        pixels[pixelPos] = Color(static_cast<float>(r) / 255.0f, 
+                                                 static_cast<float>(g) / 255.0f, 
+                                                 static_cast<float>(b) / 255.0f, 
+                                                 static_cast<float>(a) / 255.0f);
                         pixelPos++;
                     }
                 }
@@ -196,8 +195,6 @@ namespace Ocular
 
             return result;
         }
-
-#undef OIFLOAT
 
         bool TextureResourceLoader_BMP::createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels)
         {

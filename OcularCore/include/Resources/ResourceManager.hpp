@@ -204,6 +204,17 @@ namespace Ocular
              */
             unsigned getNumberOfResourceLoaders() const;
 
+            /**
+             * Checks if the specified resource extension is supported.
+             *
+             * \param[in] extension File extension to check for support
+             * \param[in] forLoading If true, checks if the file type can be loaded. 
+             *                       If false, checks if the file type can be saved out.
+             *
+             * \return TRUE if the file type can be loaded or saved
+             */
+            bool isFileTypeSupported(std::string const& extension, bool forLoading = true) const;
+
         protected:
 
             /**

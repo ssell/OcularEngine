@@ -85,6 +85,20 @@ namespace Ocular
             return static_cast<unsigned>(m_ResourceLoaderMap.size());
         }
 
+        bool ResourceLoaderManager::isExtensionSupported(std::string const& extension) const
+        {
+            bool result = false;
+
+            auto findExtension = m_ResourceLoaderMap.find(extension);
+
+            if(findExtension != m_ResourceLoaderMap.end())
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -284,6 +284,22 @@ namespace Ocular
             return m_ResourceLoaderManager.getNumberOfResourceLoaders();
         }
 
+        bool ResourceManager::isFileTypeSupported(std::string const& extension, bool forLoading) const
+        {
+            bool result = false;
+
+            if(forLoading)
+            {
+                result = m_ResourceLoaderManager.isExtensionSupported(extension);
+            }
+            else
+            {
+                // result = m_ResourceSaverManager.isExtensionSupported(extension);
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

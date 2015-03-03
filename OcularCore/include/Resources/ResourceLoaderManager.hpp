@@ -63,6 +63,11 @@ namespace Ocular
              */
             unsigned getNumberOfResourceLoaders() const;
 
+            /**
+             *
+             */
+            bool isExtensionSupported(std::string const& extension) const;
+
         protected:
 
         private:
