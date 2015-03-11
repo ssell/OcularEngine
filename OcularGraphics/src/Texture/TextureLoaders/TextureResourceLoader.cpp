@@ -87,10 +87,25 @@ namespace Ocular
 
             if(file.exists())
             {
-                if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
+                if(file.canRead())
                 {
-                    result = true;
+                    if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Resource file '", file.getFullPath(), "' is an unsupported file type; Expected '", m_SupportedExtension, "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
+                    }
                 }
+                else
+                {
+                    OcularLogger->error("Unable to read resource file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Specified resource file '", file.getFullPath(), "' does not exist", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
             }
 
             return result;

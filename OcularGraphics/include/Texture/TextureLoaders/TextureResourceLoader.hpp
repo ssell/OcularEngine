@@ -20,8 +20,6 @@
 
 #include "Resources/ResourceLoader.hpp"
 #include "Math/Vector4.hpp"
-
-#include <string>
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -40,6 +38,13 @@ namespace Ocular
     {
         /**
          * \class TextureResourceLoader
+         *
+         * This is a common base implementation for all other ResourceLoaders that deal with
+         * creating and loading Texture2D resources. It provides a common base loadResource
+         * method as well as multiple utility helper methods.
+         *
+         * By inheriting from TextureResourceLoader instead of AResourceLoader, the developer
+         * needs to only worry about their specific readFile implementation.
          */
         class TextureResourceLoader : public Core::AResourceLoader
         {
@@ -51,6 +56,17 @@ namespace Ocular
             virtual bool loadResource(Core::Resource* resource, Core::File const& file);
 
         protected:
+
+            /**
+             * Each TextureResourceLoader must provide a custom implementation for it's specific file type.
+             *
+             * \param[in] file Source file to read from.
+             * \param[out] pixels Texture pixel data read in from the file.
+             * \param[out] width  Width of the texture.
+             * \param[out] height Height of the texture.
+             * \return TRUE if file was read in successfully.
+             */
+            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height) = 0;
 
             /**
              * Verifies the file on the following conditions:
@@ -83,17 +99,6 @@ namespace Ocular
              * \param[out] buffer Raw binary data of the file.
              */
             virtual void loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer);
-
-            /**
-             * Each TextureResourceLoader must provide a custom implementation for it's specific file type.
-             *
-             * \param[in] file Source file to read from.
-             * \param[out] pixels Texture pixel data read in from the file.
-             * \param[out] width  Width of the texture.
-             * \param[out] height Height of the texture.
-             * \return TRUE if file was read in successfully.
-             */
-            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height) = 0;
 
         private:
         };
