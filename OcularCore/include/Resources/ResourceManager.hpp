@@ -29,6 +29,8 @@
 #include "ResourceExplorer.hpp"
 #include "ResourceLoader.hpp"
 #include "ResourceLoaderManager.hpp"
+#include "ResourceSaver.hpp"
+#include "ResourceSaverManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -150,6 +152,25 @@ namespace Ocular
             Resource* loadUnmanagedFile(std::string const& path);
 
             /**
+             * Attempts to save the provided Resource to the specified file on disk.
+             * 
+             * In order for the Resource to be saved, all of the following must be true:
+             *
+             *   - The provided Resource must not be NULL
+             *   - The provided Resource must be currently loaded in memory 
+             *   - A AResourceSaver must be registered to the manager that supports the same
+             *     file type as the specified output file. This may be verified using isFileTypeSupported()
+             *   - The file and it's parent directories do not have to exist at the time of the method call, 
+             *     but they must be valid and the engine must have proper write access to create them.
+             * 
+             * \param[in] resource Resource object to be saved to disk
+             * \param[in] file     A valid resource file
+             *
+             * \return TRUE if the Resource was successfully saved to disk.
+             */
+            bool saveResource(Resource* resource, File const& file);
+
+            /**
              * Sets the maximum amount of memory (in bytes) allocated for Resources.
              * This value is clamped if it exceeds the amount of memory available to the system.
              *
@@ -193,6 +214,13 @@ namespace Ocular
              * \param[in] loader
              */
             void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
+            
+            /**
+             * Registers the ResourceSaver
+             *
+             * \param[in] saver
+             */
+            void registerResourceSaver(std::shared_ptr<AResourceSaver> loader);
 
             /**
              * \return Total number of tracked resources. This value does not represent the number of Resources in memory.
@@ -205,15 +233,18 @@ namespace Ocular
             unsigned getNumberOfResourceLoaders() const;
 
             /**
+             * \return Total number of registered Resource Savers.
+             */
+            unsigned getNumberOfResourceSavers() const;
+
+            /**
              * Checks if the specified resource extension is supported.
              *
-             * \param[in] extension File extension to check for support
-             * \param[in] forLoading If true, checks if the file type can be loaded. 
-             *                       If false, checks if the file type can be saved out.
-             *
-             * \return TRUE if the file type can be loaded or saved
+             * \param[in]  extension File extension to check for support
+             * \param[out] canLoad   Is set to TRUE if the specified file extension has an associated AResourceLoader and can be loaded.
+             * \param[out] canSave   Is set to TRUE if the specified file extension has an associated AResourceSaver and can be saved.
              */
-            bool isFileTypeSupported(std::string const& extension, bool forLoading = true) const;
+            void isFileTypeSupported(std::string const& extension, bool& canLoad, bool& canSave) const;
 
         protected:
 
@@ -251,6 +282,7 @@ namespace Ocular
 
             ResourceExplorer      m_ResourceExplorer;
             ResourceLoaderManager m_ResourceLoaderManager;
+            ResourceSaverManager  m_ResourceSaverManager;
             ResourceMemoryDetails m_MemoryDetails;
 
             RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;

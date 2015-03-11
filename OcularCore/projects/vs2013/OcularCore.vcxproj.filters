@@ -195,6 +195,12 @@
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -370,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceSaver.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceSaverManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

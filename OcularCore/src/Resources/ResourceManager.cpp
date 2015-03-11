@@ -248,6 +248,32 @@ namespace Ocular
             return result;
         }
 
+        bool ResourceManager::saveResource(Resource* resource, File const& file)
+        {
+            bool result = false;
+
+            // Validate the Resource
+            if(resource != nullptr)
+            {
+                if(resource->isInMemory())
+                {
+                    // The ResourceSaverManager will validate the file extension,
+                    // and the ResourceSaver itself will validate the file.
+                    result = m_ResourceSaverManager.saveResource(resource, file);
+                }
+                else 
+                {
+                    OcularLogger->error("Provided resource is not loaded in memory", OCULAR_INTERNAL_LOG("ResourceManager", "saveResource"));
+                }
+            }
+            else 
+            {
+                OcularLogger->error("Provided resource is NULL", OCULAR_INTERNAL_LOG("ResourceManager", "saveResource"));
+            }
+
+            return false;
+        }
+
         void ResourceManager::setMemoryLimit(unsigned long long const maxMemory)
         {
             // Need a way to check max system memory
@@ -274,6 +300,11 @@ namespace Ocular
             m_ResourceLoaderManager.registerResourceLoader(loader);
         }
 
+        void ResourceManager::registerResourceSaver(std::shared_ptr<AResourceSaver> saver)
+        {
+            m_ResourceSaverManager.registerResourceSaver(saver);
+        }
+
         unsigned ResourceManager::getNumberOfResources() const
         {
             return static_cast<unsigned>(m_ResourceMap.size());
@@ -284,20 +315,15 @@ namespace Ocular
             return m_ResourceLoaderManager.getNumberOfResourceLoaders();
         }
 
-        bool ResourceManager::isFileTypeSupported(std::string const& extension, bool forLoading) const
+        unsigned ResourceManager::getNumberOfResourceSavers() const
         {
-            bool result = false;
+            return m_ResourceSaverManager.getNumberOfResourceSavers();
+        }
 
-            if(forLoading)
-            {
-                result = m_ResourceLoaderManager.isExtensionSupported(extension);
-            }
-            else
-            {
-                // result = m_ResourceSaverManager.isExtensionSupported(extension);
-            }
-
-            return result;
+        void ResourceManager::isFileTypeSupported(std::string const& extension, bool& canLoad, bool& canSave) const
+        {
+            canLoad = m_ResourceLoaderManager.isExtensionSupported(extension);
+            canSave = m_ResourceSaverManager.isExtensionSupported(extension);
         }
 
         //----------------------------------------------------------------------------------

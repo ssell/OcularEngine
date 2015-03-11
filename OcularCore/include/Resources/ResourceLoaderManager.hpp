@@ -49,22 +49,36 @@ namespace Ocular
             ~ResourceLoaderManager();
 
             /**
+             * Registers a new resource loader with the manager. Note this this method should generally
+             * never be directly called, instead a ReasourceLoaderRegistrar should be used instead.
              *
+             * If the manager already has a ResourceLoader registered with the supported extension,
+             * then the specified loader will not be used.
+             *
+             * \param loader The ResourceLoader to register with the manager.
              */
             void registerResourceLoader(std::shared_ptr<AResourceLoader> loader);
             
             /**
-             * 
+             * Loads the contents of the specified resource file into the provided Resource if
+             * a ResourceLoader is registered to the manager that supports the file extension.
+             *
+             * If the resource is NULL, then a new appropriate resource is allocated.
+             *
+             * \param[out] resource Resource object to load the file contents into
+             * \param[in]  file     A valid resource file.
+             *
+             * \return TRUE if the resource was successfully loaded.
              */
-            void loadResource(Resource* resource, File const& file);
+            bool loadResource(Resource* resource, File const& file);
 
             /**
-             *
+             * \return The total number of registered ResourceLoaders
              */
             unsigned getNumberOfResourceLoaders() const;
 
             /**
-             *
+             * \return TRUE if the specified extension has an associated ResourceLoader.
              */
             bool isExtensionSupported(std::string const& extension) const;
 

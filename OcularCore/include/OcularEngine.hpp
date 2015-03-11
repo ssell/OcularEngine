@@ -34,25 +34,6 @@
  */
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // Forward Declarations
-
-    namespace Core
-    {
-        class Clock;
-        class EventManager;
-        class Logger;
-        class ResourceManager;
-        class WindowManager;
-    }
-
-    namespace Utils
-    {
-        class UIDGenerator;
-    }
-
-    //--------------------------------------------------------------------------------------
-
     /**
      * \class Engine
      */

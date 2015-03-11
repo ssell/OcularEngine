@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_LOADER__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_LOADER__H__
+#ifndef __H__OCULAR_RESOURCES_RESOURCE_SAVER__H__
+#define __H__OCULAR_RESOURCES_RESOURCE_SAVER__H__
 
 #include "Resource.hpp"
 #include <string>
@@ -36,44 +36,32 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \class AResourceLoader
+         * \class AResourceSaver
          *
-         * Base interface for all resource loaders.
+         * Base interface for all resource savers.
          *
-         * A resource loader is responsible for reading and loading a 
-         * specific type of resource file (based on extension) and then
-         * creating a Resource implementation from it.
-         *
-         * For example, one loader may handle the '.png' extension and
-         * create a 2D texture from it.
-         *
-         * Another may handle the '.ply' extension and create a model
-         * from the data read in.
-         *
-         * There may only be one loader per file extension.
+         * A resource saver is responsible for saving a specific
+         * type of resource to a specified file.
          */
-        class AResourceLoader
+        class AResourceSaver
         {
         public:
 
-            AResourceLoader(std::string const& extension);
-            virtual ~AResourceLoader();
+            AResourceSaver(std::string const& extension);
+            virtual ~AResourceSaver();
+
+            virtual std::string getSupportedFileType() const;
 
             /**
-             * \return The file type (as an extension) that this loader can operate on.
+             * \param[in] resource
+             * \param[in] file
              */
-            virtual std::string getSupportedFileType() const;
-            
-            /**
-             * \param[out] resource
-             * \param[in]  file
-             */
-            virtual bool loadResource(Resource* resource, File const& file);
+            virtual bool saveResource(Resource* resource, File const& file);
 
         protected:
 
             std::string m_SupportedExtension;
-            
+
         private:
         };
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Resources/ResourceLoaderManager.hpp"
+#include "Resources/ResourceSaverManager.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -27,12 +27,12 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceLoaderManager::ResourceLoaderManager()
+        ResourceSaverManager::ResourceSaverManager()
         {
-
+        
         }
 
-        ResourceLoaderManager::~ResourceLoaderManager()
+        ResourceSaverManager::~ResourceSaverManager()
         {
         
         }
@@ -41,60 +41,60 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void ResourceLoaderManager::registerResourceLoader(std::shared_ptr<AResourceLoader> loader)
+        void ResourceSaverManager::registerResourceSaver(std::shared_ptr<AResourceSaver> saver)
         {
-            if(loader != nullptr)
+            if(saver != nullptr)
             {
-                std::string extension = loader->getSupportedFileType();
-                auto findLoader = m_ResourceLoaderMap.find(extension);
+                std::string extension = saver->getSupportedFileType();
+                auto findSaver = m_ResourceSaverMap.find(extension);
 
-                if(findLoader == m_ResourceLoaderMap.end())
+                if(findSaver == m_ResourceSaverMap.end())
                 {
-                    m_ResourceLoaderMap.insert(std::make_pair(extension, loader));
+                    m_ResourceSaverMap.insert(std::make_pair(extension, saver));
                 }
             }
         }
 
-        bool ResourceLoaderManager::loadResource(Resource* resource, File const& file)
+        bool ResourceSaverManager::saveResource(Resource* resource, File const& file)
         {
             bool result = false;
 
             std::string extension = file.getExtension();
-            auto findLoader = m_ResourceLoaderMap.find(extension);
+            auto findSaver = m_ResourceSaverMap.find(extension);
 
-            if(findLoader != m_ResourceLoaderMap.end())
+            if(findSaver != m_ResourceSaverMap.end())
             {
-                std::shared_ptr<AResourceLoader> loader = findLoader->second;
+                std::shared_ptr<AResourceSaver> saver = findSaver->second;
 
-                if(loader != nullptr)
+                if(saver != nullptr)
                 {
-                    result = loader->loadResource(resource, file);
+                    result = saver->saveResource(resource, file);
                 }
                 else
                 {
                     // This *should* never happen
-                    OcularLogger->error("ResourceLoader for '", extension, "' is invalid", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+                    OcularLogger->error("ResourceSaver for '", extension, "' is invalid", OCULAR_INTERNAL_LOG("ResourceSaverManager", "saveResource"));
                 }
             }
             else
             {
-                OcularLogger->error("No ResourceLoader associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+                OcularLogger->error("No ResourceSaver associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceSaverManager", "saveResource"));
             }
 
             return result;
         }
 
-        unsigned ResourceLoaderManager::getNumberOfResourceLoaders() const
+        unsigned ResourceSaverManager::getNumberOfResourceSavers() const
         {
-            return static_cast<unsigned>(m_ResourceLoaderMap.size());
+            return static_cast<unsigned>(m_ResourceSaverMap.size());
         }
 
-        bool ResourceLoaderManager::isExtensionSupported(std::string const& extension) const
+        bool ResourceSaverManager::isExtensionSupported(std::string const& extension) const
         {
             bool result = false;
-            auto findExtension = m_ResourceLoaderMap.find(extension);
+            auto findExtension = m_ResourceSaverMap.find(extension);
 
-            if(findExtension != m_ResourceLoaderMap.end())
+            if(findExtension != m_ResourceSaverMap.end())
             {
                 result = true;
             }
@@ -109,6 +109,5 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
     }
 }
