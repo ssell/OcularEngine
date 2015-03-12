@@ -60,6 +60,12 @@ namespace Ocular
             /**
              * Each TextureResourceSaver must provide a custom implementation for it's specific file type.
              *
+             * The input into this method is guaranteed to be valid. This means
+             *
+             *   - The source file exists and is writeable
+             *   - The dimensions are valid
+             *   - There is a non-zero number of pixels, and their number is equal to (width * height)
+             *
              * \param[in] file File to write to. This file has already been verified to exist and be writeable.
              * \param[in] pixels Texture pixel data to write to the file.
              * \param[in] width  Width of the texture.
@@ -69,9 +75,24 @@ namespace Ocular
             virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height) = 0;
 
             /**
+             * Checks if the specified file is valid. It can be valid in one of two ways:
              *
+             *   - The file exists and is writeable
+             *   - The file did not previously exist, but it (and potentially it's parent directories) successfully created
+             *
+             * \return TRUE if the file is valid.
              */
             virtual bool isFileValid(Core::File& file);
+
+            /**
+             * Checks if the specified resource is valid. It is valid when the following conditions are met:
+             *
+             *   - The resource is not NULL
+             *   - The resource is a Texture2D
+             *
+             * \return TRUE if the resource is valid.
+             */
+            virtual bool isResourceValid(Core::Resource* resource);
 
         private:
         };

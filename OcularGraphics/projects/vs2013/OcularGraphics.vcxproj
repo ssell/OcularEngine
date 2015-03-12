@@ -90,6 +90,7 @@
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver.hpp" />
+    <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver_BMP.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceSaver_BMP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

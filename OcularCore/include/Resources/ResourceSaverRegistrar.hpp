@@ -51,7 +51,7 @@ namespace Ocular
                 T* t = new T();
                 AResourceSaver* saver = dynamic_cast<AResourceSaver*>(t);
 
-                if(loader != nullptr)
+                if(saver != nullptr)
                 {
                     std::shared_ptr<AResourceSaver> shared(saver);
                     OcularEngine.ResourceManager()->registerResourceSaver(shared);
