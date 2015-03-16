@@ -17,6 +17,8 @@
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"
 
+#define FLOAT_TO_UCHAR(x) static_cast<unsigned char>(x * 0.00392156862f)
+
 OCULAR_REGISTER_RESOURCE_SAVER(Ocular::Graphics::TextureResourceSaver_BMP)
 
 //------------------------------------------------------------------------------------------
@@ -129,9 +131,21 @@ namespace Ocular
         {
             bool result = false;
 
+            std::vector<unsigned char> pixelData;
+            pixelData.reserve(width * height * 4);
+            
             unsigned pos = 0;
 
-        
+            for(auto pixelIter = pixels.begin(); pixelIter != pixels.end(); pixelIter++)
+            {
+                // BMP stores pixel data in BGR/A format
+                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->b);
+                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->g);
+                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->r);
+                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->a);
+            }
+
+            outStream.write(reinterpret_cast<char*>(&pixelData[0]), pixelData.size());
 
             result = true;
             return result;
