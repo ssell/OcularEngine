@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_SAVER_BMP__H__
 
 #include "TextureResourceSaver.hpp"
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -58,6 +59,9 @@ namespace Ocular
             virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height);
 
         private:
+
+            bool writeHeaders(std::ofstream& outStream, long width, long height);
+            bool writePixelArray(std::ofstream& outStream, std::vector<Color> const& pixels, unsigned width, unsigned height);
         };
     }
     /**

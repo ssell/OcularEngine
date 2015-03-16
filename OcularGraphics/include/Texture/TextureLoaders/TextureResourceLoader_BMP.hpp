@@ -35,22 +35,6 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \struct BMPHeader
-         */
-        struct BMPHeader
-        {
-            unsigned short headerField;
-            unsigned short bpp;
-
-            unsigned fileSize;
-            unsigned startOffset;
-            unsigned compression;
-
-            int width;
-            int height;
-        };
-
-        /**
          * \class TextureResourceLoader_BMP
          *
          * Implementation of AResourceLoader that handles the loading of
@@ -71,11 +55,6 @@ namespace Ocular
             
         private:
 
-            bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header);
-            bool isHeaderValid(BMPHeader const& header);
-
-            bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels);
-            bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Color>& pixels);
         };
     }
     /**

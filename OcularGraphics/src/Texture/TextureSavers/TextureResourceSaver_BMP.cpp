@@ -52,11 +52,90 @@ namespace Ocular
         {
             bool result = false;
 
+            std::ofstream outStream(file.getFullPath(), std::ios_base::binary | std::ios_base::out);
+
+            if(outStream.is_open())
+            {
+                if(writeHeaders(outStream, width, height))
+                {
+                    if(writePixelArray(outStream, pixels, width, height))
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to write pixel information to '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to write header information to '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+                }
+
+                outStream.close();
+            }
+            else
+            {
+                OcularLogger->error("Failed to open file '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+            }
+
             return result;
         }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        bool TextureResourceSaver_BMP::writeHeaders(std::ofstream& outStream, long const width, long const height)
+        {
+            bool result = false;
+
+            //----------------------------------------
+            // Create empty temp buffers
+
+            unsigned char BMPHeader[14] = { };
+            unsigned char DIBHeader[40] = { };
+
+            memset(BMPHeader, 0x00, 14);
+            memset(DIBHeader, 0x00, 40);
+            
+            //----------------------------------------
+            // Fill the temp buffers with all mandatory data
+
+            long dataSize = (width * height * 4);    // width * height * bpp
+            long fileSize = dataSize + 54;           // size of pixel array + headers
+            long startPos = 54;                      // pixel array begins immediately after the headers
+
+            BMPHeader[0] = 0x42;  // 'B'
+            BMPHeader[1] = 0x4D;  // 'M'
+
+            memcpy(&BMPHeader[2],  &fileSize, sizeof(long));
+            memcpy(&BMPHeader[10], &startPos, sizeof(long));
+            memcpy(&DIBHeader[4],  &width,    sizeof(long));
+            memcpy(&DIBHeader[8],  &height,   sizeof(long));
+            memcpy(&DIBHeader[20], &dataSize, sizeof(long));
+
+            //----------------------------------------
+            // Write buffers to file
+
+            outStream.write(reinterpret_cast<char*>(BMPHeader), 14);
+            outStream.write(reinterpret_cast<char*>(DIBHeader), 40);
+
+            result = true;
+            return result;
+        }
+
+        bool TextureResourceSaver_BMP::writePixelArray(std::ofstream& outStream, std::vector<Color> const& pixels, unsigned width, unsigned height)
+        {
+            bool result = false;
+
+            unsigned pos = 0;
+
+        
+
+            result = true;
+            return result;
+        }
+
     }
 }
