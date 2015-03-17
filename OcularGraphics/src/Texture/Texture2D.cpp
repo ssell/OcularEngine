@@ -38,7 +38,11 @@ namespace Ocular
             unsigned size = width * height;
 
             m_Pixels.reserve(size);
-            std::fill(m_Pixels.begin(), m_Pixels.begin() + size, Color());
+            
+            for(unsigned i = 0; i < size; i++)
+            {
+                m_Pixels.push_back(Color());
+            }
         }
 
         Texture2D::~Texture2D()
@@ -83,6 +87,7 @@ namespace Ocular
                 result = true;
             }
 
+            m_IsInMemory = result;
             return result;
         }
 
@@ -90,7 +95,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Width))
+            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
             {
                 int trueWidth  = width;
                 int trueHeight = height;
@@ -104,13 +109,11 @@ namespace Ocular
                     pixels.clear();
                     pixels.reserve(totalSize);
 
-                    int index = 0;
-
-                    for(int iterX = startX; iterX < (startX + trueWidth); iterX++, index++)
+                    for(int iterY = startY; iterY < (startY + trueHeight); iterY++)
                     {
-                        for(int iterY = startY; iterY < (startY + trueHeight); iterY++, index++)
+                        for(int iterX = startX; iterX < (startX + trueWidth); iterX++)
                         {
-                            pixels[index] = getPixel(iterX, iterY);  // Use getPixel instead of direct access for the added
+                            pixels.push_back(getPixel(iterX, iterY));  // Use getPixel instead of direct access for the added
                         }                                            // safety-checks provided in that method
                     }
 
@@ -148,6 +151,7 @@ namespace Ocular
                 }
             }
 
+            m_IsInMemory = result;
             return result;
         }
 

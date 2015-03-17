@@ -17,7 +17,7 @@
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"
 
-#define FLOAT_TO_UCHAR(x) static_cast<unsigned char>(x * 0.00392156862f)
+#define FLOAT_TO_UCHAR(x) static_cast<unsigned char>(x * 255.0f)
 
 OCULAR_REGISTER_RESOURCE_SAVER(Ocular::Graphics::TextureResourceSaver_BMP)
 
@@ -95,33 +95,40 @@ namespace Ocular
             //----------------------------------------
             // Create empty temp buffers
 
-            unsigned char BMPHeader[14] = { };
-            unsigned char DIBHeader[40] = { };
+            unsigned char headerBuffer[54] = { };
 
-            memset(BMPHeader, 0x00, 14);
-            memset(DIBHeader, 0x00, 40);
+            memset(headerBuffer, 0x00, 54);
             
             //----------------------------------------
             // Fill the temp buffers with all mandatory data
 
-            long dataSize = (width * height * 4);    // width * height * bpp
-            long fileSize = dataSize + 54;           // size of pixel array + headers
-            long startPos = 54;                      // pixel array begins immediately after the headers
+            long  dataSize     = (width * height * 4);    // width * height * bpp
+            long  fileSize     = dataSize + 54;           // size of pixel array + headers
+            long  dibSize      = 40;                      // size of the DIB Header
+            long  startPos     = 54;                      // pixel array begins immediately after the headers
+            short colorPlanes  = 1;
+            short bitsPerPixel = 32;
+            long  resolutionX  = 2835;
+            long  resolutionY  = 2835;
 
-            BMPHeader[0] = 0x42;  // 'B'
-            BMPHeader[1] = 0x4D;  // 'M'
+            headerBuffer[0] = 0x42;  // 'B'
+            headerBuffer[1] = 0x4D;  // 'M'
 
-            memcpy(&BMPHeader[2],  &fileSize, sizeof(long));
-            memcpy(&BMPHeader[10], &startPos, sizeof(long));
-            memcpy(&DIBHeader[4],  &width,    sizeof(long));
-            memcpy(&DIBHeader[8],  &height,   sizeof(long));
-            memcpy(&DIBHeader[20], &dataSize, sizeof(long));
+            memcpy(&headerBuffer[2],  &fileSize,     sizeof(long));
+            memcpy(&headerBuffer[10], &startPos,     sizeof(long));
+            memcpy(&headerBuffer[14], &dibSize,      sizeof(long));
+            memcpy(&headerBuffer[18], &width,        sizeof(long));
+            memcpy(&headerBuffer[22], &height,       sizeof(long));
+            memcpy(&headerBuffer[26], &colorPlanes,  sizeof(short));
+            memcpy(&headerBuffer[28], &bitsPerPixel, sizeof(short));
+            memcpy(&headerBuffer[34], &dataSize,     sizeof(long));
+            memcpy(&headerBuffer[38], &resolutionX,  sizeof(long));
+            memcpy(&headerBuffer[42], &resolutionY,  sizeof(long));
 
             //----------------------------------------
             // Write buffers to file
 
-            outStream.write(reinterpret_cast<char*>(BMPHeader), 14);
-            outStream.write(reinterpret_cast<char*>(DIBHeader), 40);
+            outStream.write(reinterpret_cast<char*>(headerBuffer), 54);
 
             result = true;
             return result;
@@ -134,15 +141,13 @@ namespace Ocular
             std::vector<unsigned char> pixelData;
             pixelData.reserve(width * height * 4);
             
-            unsigned pos = 0;
-
             for(auto pixelIter = pixels.begin(); pixelIter != pixels.end(); pixelIter++)
             {
                 // BMP stores pixel data in BGR/A format
-                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->b);
-                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->g);
-                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->r);
-                pixelData[pos++] = FLOAT_TO_UCHAR(pixelIter->a);
+                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->b));
+                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->g));
+                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->r));
+                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->a));
             }
 
             outStream.write(reinterpret_cast<char*>(&pixelData[0]), pixelData.size());

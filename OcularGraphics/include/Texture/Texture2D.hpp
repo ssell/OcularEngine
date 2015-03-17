@@ -68,6 +68,8 @@ namespace Ocular
             /**
              * Retrieves the specified pixel in the texture.
              *
+             * The pixel at (0,0) represents the bottom-left corner of the texture.
+             *
              * \param[in] x
              * \param[in] y
              * \return Color of the pixel located at (x,y) in the texture.
@@ -76,6 +78,8 @@ namespace Ocular
 
             /**
              * Sets the specified pixel in the texture.
+             *
+             * The pixel at (0,0) represents the bottom-left corner of the texture.
              *
              * \param[in] x
              * \param[in] y
@@ -87,6 +91,8 @@ namespace Ocular
 
             /**
              * Retrieves the pixels in the specified bounds of the texture.
+             *
+             * The pixel at (0,0) represents the bottom-left corner of the texture.
              *
              * The pixels are returned in a vector that stores them in row order. So, for example,
              * if a 3x3 square of pixels was requested starting from the origin, then the return would be:
@@ -103,6 +109,8 @@ namespace Ocular
             
             /**
              * Sets the pixels in the specified bounds of the texture.
+             *
+             * The pixel at (0,0) represents the bottom-left corner of the texture.
              *
              * The provided pixel vector is expected to be in row order. So, for example,
              * if a 3x3 square of pixels was set starting from the origin (bottom-left corner), then the pixels would be:
