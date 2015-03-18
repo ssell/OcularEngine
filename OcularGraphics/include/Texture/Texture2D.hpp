@@ -74,7 +74,7 @@ namespace Ocular
              * \param[in] y
              * \return Color of the pixel located at (x,y) in the texture.
              */
-            Color getPixel(int x, int y);
+            Color getPixel(unsigned x, unsigned y);
 
             /**
              * Sets the specified pixel in the texture.
@@ -87,7 +87,7 @@ namespace Ocular
              *
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixel(int x, int y, Color const& color);
+            bool setPixel(unsigned x, unsigned y, Color const& color);
 
             /**
              * Retrieves the pixels in the specified bounds of the texture.
@@ -105,7 +105,7 @@ namespace Ocular
              * \param[in]  width  If set to -1, retrieves pixels from startX to end of texture.
              * \param[in]  height If set to -1, retrieves pixels from startY to end of texture.
              */
-            bool getPixels(std::vector<Color>& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
+            bool getPixels(std::vector<Color>& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
             
             /**
              * Sets the pixels in the specified bounds of the texture.
@@ -124,7 +124,7 @@ namespace Ocular
              * \param[in]  height If set to -1, sets pixels from startY to end of texture.
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixels(std::vector<Color> const& pixels, int startX = 0, int startY = 0, int width = -1, int height = -1);
+            bool setPixels(std::vector<Color> const& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
 
             /**
              * \return Width of the texture
@@ -150,7 +150,7 @@ namespace Ocular
 
         protected:
 
-            void getTrueDimensions(int startX, int startY, int& trueWidth, int& trueHeight);
+            void getTrueDimensions(unsigned startX, unsigned startY, int& trueWidth, int& trueHeight);
 
             //----------------------------------------
 

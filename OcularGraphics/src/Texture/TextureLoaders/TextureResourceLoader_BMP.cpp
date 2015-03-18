@@ -148,13 +148,13 @@ bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header)
 
     if(buffer.size() >= 54)
     {
-        header.headerField = (unsigned short)(&buffer[0]);
-        header.fileSize    = (unsigned)(&buffer[2]);
-        header.startOffset = (unsigned)(&buffer[10]);
-        header.width       = (unsigned)(&buffer[18]);
-        header.height      = (unsigned)(&buffer[22]);
-        header.bpp         = (unsigned short)(&buffer[28]);
-        header.compression = (unsigned)(&buffer[30]);
+        header.headerField = (unsigned short)(buffer[0]);
+        header.fileSize    = (unsigned)(buffer[2]);
+        header.startOffset = (unsigned)(buffer[10]);
+        header.width       = (unsigned)(buffer[18]);
+        header.height      = (unsigned)(buffer[22]);
+        header.bpp         = (unsigned short)(buffer[28]);
+        header.compression = (unsigned)(buffer[30]);
 
         result = isHeaderValid(header);
     }
@@ -177,7 +177,7 @@ bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> c
 
     bool result = true;
 
-    int pixelSize  = header.bpp / 4;                       // Bytes per pixel
+    int pixelSize  = header.bpp / 8;                       // Bytes per pixel
     int rowWidth   = header.width * pixelSize;             // Row length before padding
     int rowPadding = rowWidth % 4;                         // Rows must be a multiple of 4 bytes in length
     int trueWidth  = rowWidth + rowPadding;                // True length of the row including padding
@@ -186,7 +186,7 @@ bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> c
     int startPos   = header.startOffset;                   // Starting position in buffer of the pixel array
     int stopPos    = startPos + (trueWidth * trueHeight);  // Ending position in buffer of the pixel array
              
-    bool imageReversed = (header.height > 0);              // If the image height is negative, then start at top-left instead of bottom-left
+    bool imageReversed = (header.height < 0);              // If the image height is negative, then start at top-left instead of bottom-left
     int pixelPos = 0;                                      // Starting pixel
 
     pixels.clear();
@@ -203,10 +203,10 @@ bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> c
                 unsigned char r = buffer[i + (j + 2)];
                 unsigned char a = (pixelSize == 3 ? 255 : buffer[i + (j + 3)]);  // If no alpha-channel, set to 255
 
-                pixels[pixelPos] = Ocular::Color(static_cast<float>(r) / 255.0f, 
-                                                 static_cast<float>(g) / 255.0f, 
-                                                 static_cast<float>(b) / 255.0f, 
-                                                 static_cast<float>(a) / 255.0f);
+                pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
+                                               static_cast<float>(g) / 255.0f, 
+                                               static_cast<float>(b) / 255.0f, 
+                                               static_cast<float>(a) / 255.0f));
                 pixelPos++;
             }
         }

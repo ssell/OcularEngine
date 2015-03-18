@@ -46,7 +46,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader::loadResource(Core::Resource* resource, Core::File const& file)
+        bool TextureResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
         {
             bool result = false;
 
@@ -63,14 +63,23 @@ namespace Ocular
                     {
                         unsigned totalSize = width * height;
 
-                        if(pixels.size() == totalSize)
+                        if(createResource(resource, file, pixels, width, height))
                         {
-                            if(createResource(resource, file, pixels, width, height))
-                            {
-                                result = true;
-                            }
+                            result = true;
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to create Resource", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
                         }
                     }
+                    else
+                    {
+                        OcularLogger->error("Invalid image dimensions of (", width, ", ", height, ")", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to read file at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
                 }
             }
 
@@ -111,7 +120,7 @@ namespace Ocular
             return result;
         }
 
-        bool TextureResourceLoader::createResource(Core::Resource* resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height)
+        bool TextureResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
 

@@ -45,7 +45,7 @@ namespace Ocular
             return m_SupportedExtension;
         }
 
-        bool AResourceLoader::loadResource(Resource* resource, File const& file)
+        bool AResourceLoader::loadResource(Resource* &resource, File const& file)
         {
             return false;
         }

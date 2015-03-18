@@ -15,6 +15,8 @@
  */
 
 #include "Texture/Texture2D.hpp"
+#include "OcularEngine.hpp"
+
 #include <algorithm>
 
 #define TEXTURE_INDEX(x,y) m_Pixels[((y * m_Width) + x)]
@@ -65,7 +67,7 @@ namespace Ocular
             // OpenGL and DirectX childs will have to update texture on GPU
         }
 
-        Color Texture2D::getPixel(int const x, int const y)
+        Color Texture2D::getPixel(unsigned const x, unsigned const y)
         {
             Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -77,7 +79,7 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixel(int const x, int const y, Color const& color)
+        bool Texture2D::setPixel(unsigned const x, unsigned const y, Color const& color)
         {
             bool result = false;
 
@@ -91,30 +93,30 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::getPixels(std::vector<Color>& pixels, int const startX, int const startY, int const width, int const height)
+        bool Texture2D::getPixels(std::vector<Color>& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
         {
             bool result = false;
 
             if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
             {
-                int trueWidth  = width;
-                int trueHeight = height;
+                int workingWidth  = width;     // The width and height of the subsection of the texture to get
+                int workingHeight = height;
 
-                getTrueDimensions(startX, startY, trueWidth, trueHeight);
+                getTrueDimensions(startX, startY, workingWidth, workingHeight);
 
-                int totalSize = trueWidth * trueHeight;
+                int totalSize = workingWidth * workingHeight;
 
                 if(totalSize > 0)
                 {
                     pixels.clear();
                     pixels.reserve(totalSize);
 
-                    for(int iterY = startY; iterY < (startY + trueHeight); iterY++)
+                    for(unsigned iterY = startY; iterY < (startY + workingHeight); iterY++)
                     {
-                        for(int iterX = startX; iterX < (startX + trueWidth); iterX++)
+                        for(unsigned iterX = startX; iterX < (startX + workingWidth); iterX++)
                         {
                             pixels.push_back(getPixel(iterX, iterY));  // Use getPixel instead of direct access for the added
-                        }                                            // safety-checks provided in that method
+                        }                                              // safety-checks provided in that method
                     }
 
                     result = true;
@@ -124,29 +126,30 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixels(std::vector<Color> const& pixels, int const startX, int const startY, int const width, int const height)
+        bool Texture2D::setPixels(std::vector<Color> const& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Width))
+            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
             {
-                int trueWidth = width;
-                int trueHeight = height;
+                int workingWidth  = width;     // The width and height of the subsection of the texture to set
+                int workingHeight = height;
 
-                getTrueDimensions(startX, startY, trueWidth, trueHeight);
+                getTrueDimensions(startX, startY, workingWidth, workingHeight);
 
-                int totalSize = trueWidth * trueHeight;
+                unsigned totalSize = static_cast<unsigned>(workingWidth) * static_cast<unsigned>(workingHeight);
 
                 if((totalSize > 0) && (totalSize <= pixels.size()))
                 {
                     int index = 0;
+                    result = true;
 
-                    for(int iterX = startX; iterX < (startX + trueWidth); iterX++)
+                    for(unsigned iterY = startY; (iterY < (startY + workingHeight)) && (result); iterY++)   // Break out if we had a failed pixel set
                     {
-                        for(int iterY = startY; iterY < (startY + trueHeight); iterY++)
+                        for(unsigned iterX = startX; (iterX < (startX + workingWidth)) && (result); iterX++)
                         {
-                            setPixel(iterX, iterY, pixels[index]);  // Use setPixel instead of direct access for the added
-                        }                                           // safety-checks provided in that method
+                            result = setPixel(iterX, iterY, pixels[(iterY * width) + iterX]);  // Use setPixel instead of direct access for the added safety-checks provided in that method
+                        }
                     }
                 }
             }
@@ -185,7 +188,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void Texture2D::getTrueDimensions(int const startX, int const startY, int& trueWidth, int& trueHeight)
+        void Texture2D::getTrueDimensions(unsigned const startX, unsigned const startY, int& trueWidth, int& trueHeight)
         {
             if((trueWidth < 0) ||                    // Specified to use remainder of width from startX
                ((startX + trueWidth) > m_Width))     // Provided width is too wide; Scale it back.

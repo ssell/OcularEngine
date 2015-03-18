@@ -68,7 +68,7 @@ namespace Ocular
              * \param[out] resource
              * \param[in]  file
              */
-            virtual bool loadResource(Resource* resource, File const& file);
+            virtual bool loadResource(Resource* &resource, File const& file);
 
         protected:
 

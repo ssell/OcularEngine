@@ -53,7 +53,7 @@ namespace Ocular
             TextureResourceLoader(std::string const& extension);
             virtual ~TextureResourceLoader();
 
-            virtual bool loadResource(Core::Resource* resource, Core::File const& file);
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file);
 
         protected:
 
@@ -90,7 +90,7 @@ namespace Ocular
              * \param[in]  height   Height of the texture.
              * \return TRUE if creation was successful.
              */
-            virtual bool createResource(Core::Resource* resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
+            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
             
             /**
              * Attempts to load the binary contents of the specified file into the provided empty buffer.

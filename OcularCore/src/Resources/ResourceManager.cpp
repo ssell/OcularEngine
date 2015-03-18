@@ -169,7 +169,8 @@ namespace Ocular
 
                     if(findFile != m_FileMap.end())
                     {
-                        m_ResourceLoaderManager.loadResource(result.get(), findFile->second);
+                        Resource* resource = result.get();
+                        m_ResourceLoaderManager.loadResource(resource, findFile->second);
 
                         if((result == nullptr) || (!result->isInMemory()))
                         {

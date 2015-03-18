@@ -55,7 +55,7 @@ namespace Ocular
             }
         }
 
-        bool ResourceLoaderManager::loadResource(Resource* resource, File const& file)
+        bool ResourceLoaderManager::loadResource(Resource* &resource, File const& file)
         {
             bool result = false;
 

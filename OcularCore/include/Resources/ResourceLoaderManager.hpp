@@ -70,7 +70,7 @@ namespace Ocular
              *
              * \return TRUE if the resource was successfully loaded.
              */
-            bool loadResource(Resource* resource, File const& file);
+            bool loadResource(Resource* &resource, File const& file);
 
             /**
              * \return The total number of registered ResourceLoaders

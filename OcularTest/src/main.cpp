@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
 #include "Texture/Texture2D.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
@@ -74,11 +75,32 @@ void setupEventSnooper()
     OcularEngine.EventManager()->registerListener(&g_Snooper, Ocular::Core::EVENT_PRIORITY::MONITOR);
 }
 
+void testBMPLoad()
+{
+    Ocular::Graphics::TextureResourceLoader_BMP bmpLoader;
+
+    Ocular::Core::Resource* resource = OcularEngine.ResourceManager()->loadUnmanagedFile("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testBMP.bmp");
+
+    if(resource != nullptr)
+    {
+        Ocular::Graphics::Texture2D* texture = (Ocular::Graphics::Texture2D*)resource;
+
+        if(texture != nullptr)
+        {
+            int a = 0;
+        }
+
+        delete resource;     // When using loadUnmanagedFile, the caller is responsible for cleanup
+        resource = nullptr;
+        texture = nullptr;
+    }
+}
+
 void testBMPSave()
 {
-    Ocular::Graphics::TextureResourceSaver_BMP bmp;
-    Ocular::Core::File file("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testBMP.bmp");
+    Ocular::Graphics::TextureResourceSaver_BMP bmpSaver;
 
+    Ocular::Core::File file("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testBMP.bmp");
     Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(2, 2);
 
     texture->setPixel(0, 0, Ocular::Color(1.0f, 0.0f, 0.0f, 1.0f));
@@ -99,7 +121,9 @@ int main(int argc, char** argv)
     //runTests(argc, argv);
     //testResources();
     openWindow();
-    testBMPSave();
+
+    testBMPLoad();
+    //testBMPSave();
     
     while(OcularEngine.isRunning())
     {
