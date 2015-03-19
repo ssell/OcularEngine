@@ -40,7 +40,11 @@ namespace Ocular
 
         SystemInfo::SystemInfo()
         {
-
+            discoverOperatingSystem();
+            discoverProcessorArchitecture();
+            discoverEndianness();
+            discoverOpenGLLevel();
+            discoverDirectXLevel();
         }
 
         SystemInfo::~SystemInfo()
@@ -52,12 +56,11 @@ namespace Ocular
         // PUBLIC METHODS
         //------------------------------------------------------------------------------------------
 
-        bool SystemInfo::refresh()
+        void SystemInfo::refresh()
         {
-            bool result = false;
-
-
-            return result;
+            discoverRAM();
+            discoverGPUMemory();
+            discoverChannels();
         }
 
         OperatingSystems SystemInfo::getOperatingSystem()
@@ -118,6 +121,76 @@ namespace Ocular
         //------------------------------------------------------------------------------------------
         // PROTECTED METHODS
         //------------------------------------------------------------------------------------------
+
+        void SystemInfo::discoverOperatingSystem()
+        {
+            // http://sourceforge.net/p/predef/wiki/OperatingSystems/
+
+            if(m_OperatingSystem == OperatingSystems::Unknown)
+            {
+#if defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
+                m_OperatingSystem = OperatingSystems::Windows;
+#elif defined(macintosh) || defined(Macintosh) || defined(__APPLE__) || defined(__MACH__)
+                m_OperatingSystem = OperatingSystems::MacOS;
+#elif defined(__linux__) || defined(linux) || defined(__linux)
+                m_OperatingSystem = OperatingSystems::Linux;
+#endif
+            }
+        }
+
+        void SystemInfo::discoverProcessorArchitecture()
+        {
+            // http://sourceforge.net/p/predef/wiki/Architectures/
+
+            if(m_ProcessorArchitecture == ProcessorArchitectures::Unknown)
+            {
+#if defined(i386) || defined(__i386) || defined(__i386__) || defined(_M_IX86) || defined(__X86__) || defined(_X86_) || defined(__I86__) || defined(__386)
+                m_ProcessorArchitecture = ProcessorArchitectures::x86;
+#elif defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64) || defined(__itanium__)
+                m_ProcessorArchitecture = ProcessorArchitecture::IA64;
+#
+#endif
+            }
+        }
+
+        void SystemInfo::discoverEndianness()
+        {
+            if(m_Endianness == Endianness::Unknown)
+            {
+            
+            }
+        }
+
+        void SystemInfo::discoverOpenGLLevel()
+        {
+            if(m_OpenGLLevel == OpenGLLevels::Unknown)
+            {
+            
+            }
+        }
+
+        void SystemInfo::discoverDirectXLevel()
+        {   
+            if(m_DirectXLevel == DirectXLevels::Unknown)
+            {
+            
+            }
+        }
+
+        void SystemInfo::discoverRAM()
+        {
+            
+        }
+
+        void SystemInfo::discoverGPUMemory()
+        {
+            
+        }
+
+        void SystemInfo::discoverChannels()
+        {
+        
+        }
 
         //------------------------------------------------------------------------------------------
         // PRIVATE METHODS

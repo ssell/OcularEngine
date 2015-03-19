@@ -36,36 +36,38 @@ namespace Ocular
     {
         enum class OperatingSystems : unsigned
         {
-            UNKNOWN = 0,
-            WINDOWS
+            Unknown = 0,
+            Windows,
+            MacOS,
+            Linux
         };
 
         enum class ProcessorArchitectures : unsigned
         {
-            UNKNOWN = 0,
-            X86,
-            X64,
-            ARM,
-            IA64
+            Unknown = 0,
+            x86,
+            x64,
+            IA64,
+            ARM
         };
 
         enum class Endianness : unsigned
         {
-            UNKNOWN = 0,
-            BIG_ENDIAN,
-            LITTLE_ENDIAN
+            Unknown = 0,
+            BigEndian,
+            LittleEndian
         };
 
         enum class OpenGLLevels : unsigned 
         {
-            UNKNOWN = 0,
-            NONE
+            Unknown = 0,
+            None
         };
 
         enum class DirectXLevels : unsigned 
         {
-            UNKNOWN = 0,
-            NONE
+            Unknown = 0,
+            None
         };
 
         //----------------------------------------------------------------------------------
@@ -83,7 +85,7 @@ namespace Ocular
             SystemInfo();
             ~SystemInfo();
 
-            static bool refresh();
+            static void refresh();
 
             /**
              * Returns the current running Operating System.
@@ -146,6 +148,15 @@ namespace Ocular
             static Core::Directory getWorkingDirectory();
 
         protected:
+
+            static void discoverOperatingSystem();
+            static void discoverProcessorArchitecture();
+            static void discoverEndianness();
+            static void discoverOpenGLLevel();
+            static void discoverDirectXLevel();
+            static void discoverRAM();
+            static void discoverGPUMemory();
+            static void discoverChannels();
 
         private:
 
