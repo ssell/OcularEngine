@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SystemInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SystemInfo.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -53,6 +53,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)..\External\include\gtest-1.7.0;$(ProjectDir)..\..\..\..\OcularGraphics\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -56,18 +56,6 @@ namespace Ocular
             refresh();
         }
 
-        File::File()
-        {
-            m_IsReal = false;
-            m_IsReadable = false;
-            m_IsWritable = false;
-            m_IsFile = false;
-            m_IsDirectory = false;
-            m_IsSymLink = false;
-            m_IsAbsolute = false;
-            m_FileSize = 0;
-        }
-
         File::~File()
         {
 

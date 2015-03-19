@@ -56,6 +56,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\External\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -119,6 +120,7 @@
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
+    <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
@@ -178,6 +180,7 @@
     <ClInclude Include="..\..\include\Resources\ResourceSaverManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
+    <ClInclude Include="..\..\include\SystemInfo.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />

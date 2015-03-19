@@ -41,9 +41,10 @@ namespace Ocular
         {
         public:
 
-            File(std::string const fullPath);
-            File();
-
+            /**
+             * Providing an empty string sets the current path to that of the current working directory.
+             */
+            File(std::string const fullPath = "");
             ~File();
 
             /**

@@ -48,9 +48,7 @@ namespace Ocular
              * \param[in] path Directory path
              * \note If an empty path is provided, the current working directory will be used.
              */
-            Directory(std::string const path);
-            Directory();
-
+            Directory(std::string const path = "");
             ~Directory();
 
             /**

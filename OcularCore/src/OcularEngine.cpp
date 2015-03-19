@@ -19,6 +19,7 @@
 #include "Logger/ConsoleLoggerListener.hpp"
 #include "Logger/VSConsoleLoggerListener.hpp"
 #include "Events/EventPriority.hpp"
+#include "SystemInfo.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,7 +37,10 @@ namespace Ocular
 
     Engine::Engine()
     {
-        m_Logger          = std::make_shared<Core::Logger>();
+        m_Logger = std::make_shared<Core::Logger>();
+        
+        Core::SystemInfo::refresh();
+
         m_Clock           = std::make_shared<Core::Clock>();
         m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
@@ -78,6 +82,8 @@ namespace Ocular
 
     void Engine::run()
     {
+        Core::SystemInfo::refresh();
+
         update();
         render();
     }

@@ -35,11 +35,6 @@ namespace Ocular
             
         }
 
-        Directory::Directory()
-        {
-
-        }
-
         Directory::~Directory()
         {
 
