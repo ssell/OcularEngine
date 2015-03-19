@@ -224,26 +224,17 @@ namespace Ocular
             return result;
         }
 
-        Resource* ResourceManager::loadUnmanagedFile(std::string const& path)
+        Resource* ResourceManager::loadUnmanagedFile(File const& file)
         {
             Resource* result = nullptr;
             
-            if(!path.empty())
+            if((file.exists()) && (file.isFile()))
             {
-                File file(path);
-
-                if((file.exists()) && (file.isFile()))
-                {
-                    m_ResourceLoaderManager.loadResource(result, path);
-                }
-                else 
-                {
-                    OcularLogger->error("Failed to find or open file at '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
-                }
+                m_ResourceLoaderManager.loadResource(result, file);
             }
             else 
             {
-                OcularLogger->error("Specified file path is empty", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
+                OcularLogger->error("Failed to find or open file at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "loadUnmanagedFile"));
             }
 
             return result;

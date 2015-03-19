@@ -146,10 +146,10 @@ namespace Ocular
              * It is up to the caller to properly clean up the returned resource (if not NULL)
              * when they are done using it.
              *
-             * \param[in] path Full path to the file
+             * \param[in] file Resource file to load
              * \return A new Resource object; Returns NULL if the file does not exist or unable to load it.
              */
-            Resource* loadUnmanagedFile(std::string const& path);
+            Resource* loadUnmanagedFile(File const& file);
 
             /**
              * Attempts to save the provided Resource to the specified file on disk.
