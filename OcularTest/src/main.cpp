@@ -79,7 +79,7 @@ void testBMPLoad()
 {
     Ocular::Graphics::TextureResourceLoader_BMP bmpLoader;
 
-    Ocular::Core::Resource* resource = OcularEngine.ResourceManager()->loadUnmanagedFile("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testBMP.bmp");
+    Ocular::Core::Resource* resource = OcularEngine.ResourceManager()->loadUnmanagedFile("C:\\Users\\admin\\Desktop\\New folder\\in.bmp");
 
     if(resource != nullptr)
     {
@@ -87,12 +87,29 @@ void testBMPLoad()
 
         if(texture != nullptr)
         {
-            int a = 0;
+            Ocular::Core::File outFile("C:\\Users\\admin\\Desktop\\New folder\\out.bmp");
+            
+            if(OcularEngine.ResourceManager()->saveResource(texture, outFile))
+            {
+                OcularLogger->info("Successfully saved out Texture2D as BMP");
+            }
+            else
+            {
+                OcularLogger->error("Failed to save out Texture2D as BMP");
+            }
+        }
+        else
+        {
+            OcularLogger->error("Failed to cast Resource to Texture2D");
         }
 
         delete resource;     // When using loadUnmanagedFile, the caller is responsible for cleanup
         resource = nullptr;
         texture = nullptr;
+    }
+    else
+    {
+        OcularLogger->error("Failed to load unmanaged Resource");
     }
 }
 

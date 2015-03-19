@@ -148,13 +148,13 @@ bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header)
 
     if(buffer.size() >= 54)
     {
-        header.headerField = (unsigned short)(buffer[0]);
-        header.fileSize    = (unsigned)(buffer[2]);
-        header.startOffset = (unsigned)(buffer[10]);
-        header.width       = (unsigned)(buffer[18]);
-        header.height      = (unsigned)(buffer[22]);
-        header.bpp         = (unsigned short)(buffer[28]);
-        header.compression = (unsigned)(buffer[30]);
+        header.headerField = *(unsigned short*)(&buffer[0]);
+        header.fileSize    = *(unsigned*)(&buffer[2]);
+        header.startOffset = *(unsigned*)(&buffer[10]);
+        header.width       = *(unsigned*)(&buffer[18]);
+        header.height      = *(unsigned*)(&buffer[22]);
+        header.bpp         = *(unsigned short*)(&buffer[28]);
+        header.compression = *(unsigned*)(&buffer[30]);
 
         result = isHeaderValid(header);
     }
