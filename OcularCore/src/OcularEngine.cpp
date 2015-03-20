@@ -21,6 +21,8 @@
 #include "Events/EventPriority.hpp"
 #include "SystemInfo.hpp"
 
+
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -39,7 +41,7 @@ namespace Ocular
     {
         m_Logger = std::make_shared<Core::Logger>();
         
-        Core::SystemInfo::refresh();
+        Core::SystemInfo::initialize();
 
         m_Clock           = std::make_shared<Core::Clock>();
         m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();

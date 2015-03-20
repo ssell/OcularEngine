@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
+#include "Utilities/StringUtils.hpp"
 #include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"
-#include "OcularEngine.hpp"
 
+#include <string>
 #include <fstream>
 
 OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::TextureResourceLoader_PNG)
@@ -26,10 +28,11 @@ OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::TextureResourceLoader_PNG)
 
 struct PNGChunk
 {
-    unsigned length;             // Length of the chunk in bytes
-    unsigned char name[4];       // Name of the chunk. This is used in multiple ways 
-    unsigned dataStart;          // Absolute position (in bytes) of where this chunk's data begins in the file
-    unsigned checksum;          // Cyclic redundancy code/checksum
+    unsigned length;     // Length of the chunk in bytes
+    unsigned dataStart;  // Absolute position (in bytes) of where this chunk's data begins in the file
+    unsigned checksum;   // Cyclic redundancy code/checksum
+
+    std::string name;    // Name of the chunk. This is used in multiple ways 
 };
 
 void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGChunk>& chunks);
@@ -109,17 +112,35 @@ void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGC
 
     unsigned dataPos = 8;   // First chunk begins after the 8-byte header signature
 
-    while(dataPos < dataBuffer.size())
+    while((dataPos + 4) < dataBuffer.size())
     {
         PNGChunk newChunk;
 
         newChunk.length    = *(unsigned*)(&dataBuffer[dataPos]);
-        newChunk.name[0]   = dataBuffer[dataPos + 4];              // Name is always 4 bytes after the length index
-        newChunk.dataStart = dataPos + 8;                          // Chunk data always begins 8 bytes after the length index
-        newChunk.checksum  = *(unsigned*)(&dataBuffer[dataPos + 8 + newChunk.length]);
 
-        dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
+        if((dataPos + newChunk.length + 12) < dataBuffer.size())       // Make sure there is enough space remaining in the buffer for another chunk
+        {
+            char tempName[4] = {static_cast<char>(dataBuffer[dataPos + 4]),
+                                static_cast<char>(dataBuffer[dataPos + 5]),
+                                static_cast<char>(dataBuffer[dataPos + 6]),
+                                static_cast<char>(dataBuffer[dataPos + 7])};
 
-        chunks.push_back(newChunk);
+            newChunk.name      = tempName;
+            newChunk.dataStart = dataPos + 8;                          // Chunk data always begins 8 bytes after the length index
+            newChunk.checksum  = *(unsigned*)(&dataBuffer[dataPos + 8 + newChunk.length]);
+
+            dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
+            chunks.push_back(newChunk);
+
+            if(Ocular::Utils::StringUtils::isEqual(newChunk.name, "IEND"))
+            {
+                // End of the file
+                break;
+            }
+        }
+        else
+        {
+            break;
+        }
     }
 }

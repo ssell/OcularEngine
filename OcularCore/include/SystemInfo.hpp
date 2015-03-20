@@ -85,7 +85,14 @@ namespace Ocular
             SystemInfo();
             ~SystemInfo();
 
+            static void initialize();
+
             static void refresh();
+
+            /**
+             * Helper method that logs all current system information.
+             */
+            static void logSystemInfo();
 
             /**
              * Returns the current running Operating System.
@@ -149,13 +156,24 @@ namespace Ocular
 
         protected:
 
+            //----------------------------------------
+            // System specifics that should not change during program runtime.
+            // These are called in initialize
+
             static void discoverOperatingSystem();
             static void discoverProcessorArchitecture();
             static void discoverEndianness();
             static void discoverOpenGLLevel();
             static void discoverDirectXLevel();
-            static void discoverRAM();
-            static void discoverGPUMemory();
+            static void discoverInstalledRAM();
+            static void discoverInstalledGPUMemory();
+
+            //----------------------------------------
+            // System specific that can change during program runtime
+            // These are called in refresh
+
+            static void discoverAvailableGPUMemory();
+            static void discoverAvailableRAM();
             static void discoverChannels();
 
         private:

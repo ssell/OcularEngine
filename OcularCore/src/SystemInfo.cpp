@@ -15,6 +15,12 @@
  */
 
 #include "SystemInfo.hpp"
+#include "OcularEngine.hpp"
+#include "Common.hpp"
+
+#ifdef OCULAR_WINDOWS
+#include <Windows.h>
+#endif
 
 //------------------------------------------------------------------------------------------
 
@@ -22,11 +28,11 @@ namespace Ocular
 {
     namespace Core
     {
-        OperatingSystems       SystemInfo::m_OperatingSystem       = OperatingSystems::UNKNOWN;
-        ProcessorArchitectures SystemInfo::m_ProcessorArchitecture = ProcessorArchitectures::UNKNOWN;
-        Endianness             SystemInfo::m_Endianness            = Endianness::UNKNOWN;
-        OpenGLLevels           SystemInfo::m_OpenGLLevel           = OpenGLLevels::UNKNOWN;
-        DirectXLevels          SystemInfo::m_DirectXLevel          = DirectXLevels::UNKNOWN;
+        OperatingSystems       SystemInfo::m_OperatingSystem       = OperatingSystems::Unknown;
+        ProcessorArchitectures SystemInfo::m_ProcessorArchitecture = ProcessorArchitectures::Unknown;
+        Endianness             SystemInfo::m_Endianness            = Endianness::Unknown;
+        OpenGLLevels           SystemInfo::m_OpenGLLevel           = OpenGLLevels::Unknown;
+        DirectXLevels          SystemInfo::m_DirectXLevel          = DirectXLevels::Unknown;
         long long              SystemInfo::m_TotalRAM              = -1;
         long long              SystemInfo::m_FreeRAM               = -1;
         long long              SystemInfo::m_TotalGPUMemory        = -1;
@@ -40,11 +46,7 @@ namespace Ocular
 
         SystemInfo::SystemInfo()
         {
-            discoverOperatingSystem();
-            discoverProcessorArchitecture();
-            discoverEndianness();
-            discoverOpenGLLevel();
-            discoverDirectXLevel();
+            
         }
 
         SystemInfo::~SystemInfo()
@@ -56,11 +58,102 @@ namespace Ocular
         // PUBLIC METHODS
         //------------------------------------------------------------------------------------------
 
+        void SystemInfo::initialize()
+        {
+            discoverOperatingSystem();
+            discoverProcessorArchitecture();
+            discoverEndianness();
+            discoverOpenGLLevel();
+            discoverDirectXLevel();
+            discoverInstalledRAM();
+            discoverInstalledGPUMemory();
+
+            refresh();
+        }
+
         void SystemInfo::refresh()
         {
-            discoverRAM();
-            discoverGPUMemory();
+            discoverAvailableRAM();
+            discoverAvailableGPUMemory();
             discoverChannels();
+        }
+
+        void SystemInfo::logSystemInfo()
+        {
+           std::string osString      = "Unknown";
+           std::string archString    = "Unknown";
+           std::string endianString  = "Unknown";
+           std::string openglString  = "Unknown";
+           std::string directxString = "Unknown";
+
+           //-----------------------------------------
+
+           switch(m_OperatingSystem)
+           {
+           case OperatingSystems::Windows:
+               osString = "Windows";
+               break;
+           case OperatingSystems::MacOS:
+               osString = "Mac OS";
+               break;
+           case OperatingSystems::Linux:
+               osString = "Linux";
+               break;
+           }
+
+           switch(m_ProcessorArchitecture)
+           {
+           case ProcessorArchitectures::x86:
+               archString = "x86";
+               break;
+
+           case ProcessorArchitectures::x64:
+               archString = "x64";
+               break;
+
+           case ProcessorArchitectures::IA64:
+               archString = "Intel Itanium 64";
+               break;
+
+           case ProcessorArchitectures::ARM:
+               archString = "ARM";
+               break;
+           }
+
+           switch(m_Endianness)
+           {
+           case Endianness::BigEndian:
+               endianString = "Big Endian";
+               break;
+
+           case Endianness::LittleEndian:
+               endianString = "Little Endian";
+               break;
+           }
+
+           /*switch(m_OpenGLLevel)
+           {
+
+           }
+
+           switch(m_DirectXLevel)
+           {
+
+           }*/
+
+           //-----------------------------------------
+
+           OcularLogger->info("System Information:", 
+               "\n\t- Operating System: ", osString, 
+               "\n\t- Architecture:     ", archString,
+               "\n\t- Endianness:       ", endianString, 
+               "\n\t- OpenGL Support:   ", openglString, 
+               "\n\t- DirectX Support:  ", directxString, 
+               "\n\t- Total RAM:        ", m_TotalRAM, 
+               "\n\t- Free RAM:         ", m_FreeRAM, 
+               "\n\t- Total GPU Memory: ", m_TotalGPUMemory, 
+               "\n\t- Free GPU Memory:  ", m_FreeGPUMemory,
+               "\n\t- Output Channels:  ", m_NumberOfChannels);
         }
 
         OperatingSystems SystemInfo::getOperatingSystem()
@@ -146,9 +239,12 @@ namespace Ocular
             {
 #if defined(i386) || defined(__i386) || defined(__i386__) || defined(_M_IX86) || defined(__X86__) || defined(_X86_) || defined(__I86__) || defined(__386)
                 m_ProcessorArchitecture = ProcessorArchitectures::x86;
+#elif defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_M_AMD64)
+                m_ProcessorArchitecture = ProcessorArchitecture::x64;
 #elif defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64) || defined(__itanium__)
                 m_ProcessorArchitecture = ProcessorArchitecture::IA64;
-#
+#elif defined(__arm__) || defined(__thumb__) || defined(_ARM) || defined(_M_ARM) || defined(_M_ARMT) || defined(__arm)
+                m_ProcessorArchitecture = ProcessorArchitecture::ARM;
 #endif
             }
         }
@@ -157,7 +253,20 @@ namespace Ocular
         {
             if(m_Endianness == Endianness::Unknown)
             {
-            
+                union 
+                {
+                    int  i;
+                    char c[4];
+                } endianCheck = { 0x01020304 };
+
+                if(endianCheck.c[0] == 1)
+                {
+                    m_Endianness = Endianness::BigEndian;
+                }
+                else
+                {
+                    m_Endianness = Endianness::LittleEndian;
+                }
             }
         }
 
@@ -177,14 +286,32 @@ namespace Ocular
             }
         }
 
-        void SystemInfo::discoverRAM()
+        void SystemInfo::discoverInstalledRAM()
+        {
+#ifdef OCULAR_WINDOWS
+            PULONGLONG totalRAM = 0;
+
+            if(GetPhysicallyInstalledSystemMemory(totalRAM))
+            {
+                m_TotalRAM = static_cast<long long>(*totalRAM);
+            }
+#endif
+        }
+
+        void SystemInfo::discoverAvailableRAM()
+        {
+            // See GlobalMemoryStatusEx
+            // https://msdn.microsoft.com/en-us/library/aa366589(v=VS.85).aspx
+        }
+
+        void SystemInfo::discoverInstalledGPUMemory()
         {
             
         }
 
-        void SystemInfo::discoverGPUMemory()
+        void SystemInfo::discoverAvailableGPUMemory()
         {
-            
+        
         }
 
         void SystemInfo::discoverChannels()

@@ -15,6 +15,7 @@
  */
 
 #include "OcularEngine.hpp"
+#include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
@@ -74,6 +75,8 @@ bool convertPNGtoBMP(Ocular::Core::File const& pngIn, Ocular::Core::File const& 
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
+
+    Ocular::Core::SystemInfo::logSystemInfo();
     
     OcularLogger->info("Number of registered Resource Loaders: ", OcularEngine.ResourceManager()->getNumberOfResourceLoaders());
     OcularLogger->info("Number of registered Resource Savers:  ", OcularEngine.ResourceManager()->getNumberOfResourceSavers());
@@ -84,8 +87,8 @@ int main(int argc, char** argv)
     Ocular::Graphics::TextureResourceLoader_PNG blergh;
     Ocular::Graphics::TextureResourceSaver_BMP blerghh;
 
-    Ocular::Core::File png("C:\\Users\\admin\\Desktop\\New folder\\in.png");
-    Ocular::Core::File bmp("C:\\Users\\admin\\Desktop\\New folder\\out.bmp");
+    Ocular::Core::File png("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testPNG.png");
+    Ocular::Core::File bmp("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\out.bmp");
     
     convertPNGtoBMP(png, bmp);
 
