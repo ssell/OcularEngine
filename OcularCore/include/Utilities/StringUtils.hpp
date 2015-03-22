@@ -41,10 +41,51 @@ namespace Ocular
         {
         public:
 
+            /**
+             * Converts a mixed-case string to all lower-case
+             *
+             * \param[in] str String to convert
+             * \return Converted string
+             */
             static std::string toLower(std::string const& str);
+
+            /**
+             * Converts a mixed-case string to all upper-case
+             *
+             * \param[in] str String to convert
+             * \return Converted string
+             */
             static std::string toUpper(std::string const& str);
 
+            /**
+             * \param[in] strA
+             * \param[in] strB
+             * \param[in] ignoreCase If true, performs a case-insensitive comparision on the strings.
+             * 
+             * \return TRUE if the strings are equal.
+             */
             static bool isEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
+
+            /**
+             * Converts a Win32 specific system error DWORD into a human readable string.
+             *
+             * \param[in] error The DWORD error message
+             * \return String representation of the error
+             */
+            static std::string windowsErrorToString(unsigned long error);
+
+            /**
+             * Supports sizes up to tebibytes in size.
+             *
+             * Example:
+             *
+             *     bytes = 4293386240
+             *     "3.99853 GiB (4293386240 B)"
+             *
+             * \param[in] bytes
+             * \return Formatted string
+             */
+            static std::string bytesToString(unsigned long long bytes);
 
         protected:
 

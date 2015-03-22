@@ -40,9 +40,6 @@ namespace Ocular
     Engine::Engine()
     {
         m_Logger = std::make_shared<Core::Logger>();
-        
-        Core::SystemInfo::initialize();
-
         m_Clock           = std::make_shared<Core::Clock>();
         m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
@@ -69,6 +66,8 @@ namespace Ocular
         setupEvents();
         setupWindowManager();
         setupResourceManager();
+        
+        Core::SystemInfo::initialize();
 
         m_IsRunning = true;
 

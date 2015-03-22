@@ -50,6 +50,13 @@
 // Amount of time, in MS, to allow for system message digestion and dispatching
 #define OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT 2
 
+// Memory display
+#define BYTES_PER_TiB 1099511627776ull
+#define BYTES_PER_GiB 1073741824ull
+#define BYTES_PER_MiB 1048576ull
+#define BYTES_PER_KiB 1024ull
+
+
 //------------------------------------------------------------------------------------------
 
 #endif

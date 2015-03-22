@@ -120,34 +120,34 @@ namespace Ocular
             static DirectXLevels getDirectXSupportLevel();
 
             /**
-             * Returns the total amount of RAM on this system (both used and unused) (in bytes).
-             * \note A return value of -1 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
+             * Returns the total amount of physical RAM on this system (in bytes).
+             * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static long long getTotalRAM();
+            static unsigned long long getTotalRAM();
 
             /**
-             * Returns the total amount of RAM that is free and not in use on the system (in bytes).
-             * \note A return value of -1 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
+             * Returns the total amount of physical RAM that is available on the system (in bytes).
+             * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static long long getFreeRAM();
+            static unsigned long long getFreeRAM();
 
             /**
              * Returns the total amount of memory on the GPUs (both used and unused) (in bytes).
-             * \note A return value of -1 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
+             * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static long long getTotalGPUMemory();
+            static unsigned long long getTotalGPUMemory();
 
             /**
              * Returns the total amount of memory that is free and not in use on the GPUs (in bytes).
-             * \note A return value of -1 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
+             * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static long long getFreeGPUMemory();
+            static unsigned long long getFreeGPUMemory();
 
             /**
              * Returns number of output channels (monitors, etc.) on the system.
-             * \note A return value of -1 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
+             * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static int getNumberOfChannels();
+            static unsigned int getNumberOfChannels();
 
             /**
              * Returns the directory that the executable is running from.
@@ -184,12 +184,12 @@ namespace Ocular
             static OpenGLLevels m_OpenGLLevel;
             static DirectXLevels m_DirectXLevel;
 
-            static long long m_TotalRAM;
-            static long long m_FreeRAM;
-            static long long m_TotalGPUMemory;
-            static long long m_FreeGPUMemory;
+            static unsigned long long m_TotalRAM;
+            static unsigned long long m_FreeRAM;
+            static unsigned long long m_TotalGPUMemory;
+            static unsigned long long m_FreeGPUMemory;
 
-            static int m_NumberOfChannels;
+            static unsigned int m_NumberOfChannels;
 
             static Core::Directory m_WorkingDirectory;
         };

@@ -17,6 +17,7 @@
 #include "SystemInfo.hpp"
 #include "OcularEngine.hpp"
 #include "Common.hpp"
+#include "Utilities/StringUtils.hpp"
 
 #ifdef OCULAR_WINDOWS
 #include <Windows.h>
@@ -33,11 +34,11 @@ namespace Ocular
         Endianness             SystemInfo::m_Endianness            = Endianness::Unknown;
         OpenGLLevels           SystemInfo::m_OpenGLLevel           = OpenGLLevels::Unknown;
         DirectXLevels          SystemInfo::m_DirectXLevel          = DirectXLevels::Unknown;
-        long long              SystemInfo::m_TotalRAM              = -1;
-        long long              SystemInfo::m_FreeRAM               = -1;
-        long long              SystemInfo::m_TotalGPUMemory        = -1;
-        long long              SystemInfo::m_FreeGPUMemory         = -1;
-        int                    SystemInfo::m_NumberOfChannels      = -1;
+        unsigned long long     SystemInfo::m_TotalRAM              = 0;
+        unsigned long long     SystemInfo::m_FreeRAM               = 0;
+        unsigned long long     SystemInfo::m_TotalGPUMemory        = 0;
+        unsigned long long     SystemInfo::m_FreeGPUMemory         = 0;
+        unsigned int           SystemInfo::m_NumberOfChannels      = 0;
         Core::Directory        SystemInfo::m_WorkingDirectory      = Core::Directory();
 
         //------------------------------------------------------------------------------------------
@@ -149,10 +150,10 @@ namespace Ocular
                "\n\t- Endianness:       ", endianString, 
                "\n\t- OpenGL Support:   ", openglString, 
                "\n\t- DirectX Support:  ", directxString, 
-               "\n\t- Total RAM:        ", m_TotalRAM, 
-               "\n\t- Free RAM:         ", m_FreeRAM, 
-               "\n\t- Total GPU Memory: ", m_TotalGPUMemory, 
-               "\n\t- Free GPU Memory:  ", m_FreeGPUMemory,
+               "\n\t- Total RAM:        ", Utils::StringUtils::bytesToString(m_TotalRAM), 
+               "\n\t- Free RAM:         ", Utils::StringUtils::bytesToString(m_FreeRAM), 
+               "\n\t- Total GPU Memory: ", Utils::StringUtils::bytesToString(m_TotalGPUMemory), 
+               "\n\t- Free GPU Memory:  ", Utils::StringUtils::bytesToString(m_FreeGPUMemory),
                "\n\t- Output Channels:  ", m_NumberOfChannels);
         }
 
@@ -181,27 +182,27 @@ namespace Ocular
             return m_DirectXLevel;
         }
 
-        long long SystemInfo::getTotalRAM()
+        unsigned long long SystemInfo::getTotalRAM()
         {
             return m_TotalRAM;
         }
 
-        long long SystemInfo::getFreeRAM()
+        unsigned long long SystemInfo::getFreeRAM()
         {
             return m_FreeRAM;
         }
 
-        long long SystemInfo::getTotalGPUMemory()
+        unsigned long long SystemInfo::getTotalGPUMemory()
         {
             return m_TotalGPUMemory;
         }
 
-        long long SystemInfo::getFreeGPUMemory()
+        unsigned long long SystemInfo::getFreeGPUMemory()
         {
             return m_FreeGPUMemory;
         }
 
-        int SystemInfo::getNumberOfChannels()
+        unsigned int SystemInfo::getNumberOfChannels()
         {
             return m_NumberOfChannels;
         }
@@ -289,19 +290,41 @@ namespace Ocular
         void SystemInfo::discoverInstalledRAM()
         {
 #ifdef OCULAR_WINDOWS
-            PULONGLONG totalRAM = 0;
+            MEMORYSTATUSEX memoryStatus = { sizeof MEMORYSTATUSEX };
 
-            if(GetPhysicallyInstalledSystemMemory(totalRAM))
+            if(::GlobalMemoryStatusEx(&memoryStatus))
             {
-                m_TotalRAM = static_cast<long long>(*totalRAM);
+                m_TotalRAM = memoryStatus.ullTotalPhys;
+            }
+            else
+            {
+                DWORD error = GetLastError();
+                OcularLogger->error(
+                    "Failed to retrieve available system RAM with error (", error, "): ",
+                    Utils::StringUtils::windowsErrorToString(error),
+                    OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
             }
 #endif
         }
 
         void SystemInfo::discoverAvailableRAM()
         {
-            // See GlobalMemoryStatusEx
-            // https://msdn.microsoft.com/en-us/library/aa366589(v=VS.85).aspx
+#ifdef OCULAR_WINDOWS
+            MEMORYSTATUSEX memoryStatus = { sizeof MEMORYSTATUSEX };
+
+            if(::GlobalMemoryStatusEx(&memoryStatus))
+            {
+                m_FreeRAM = memoryStatus.ullAvailPhys;
+            }
+            else
+            {
+                DWORD error = GetLastError();
+                OcularLogger->error(
+                    "Failed to retrieve available system RAM with error (", error, "): ",
+                    Utils::StringUtils::windowsErrorToString(error),
+                    OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
+            }
+#endif
         }
 
         void SystemInfo::discoverInstalledGPUMemory()

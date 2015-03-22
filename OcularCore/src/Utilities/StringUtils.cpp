@@ -19,7 +19,14 @@
 // implementing custom string operations will be seamless.
 
 #include "Utilities/StringUtils.hpp"
+#include "Utilities/StringComposer.hpp"
+#include "Common.hpp"
+
 #include <boost/algorithm/string.hpp>
+
+#ifdef OCULAR_WINDOWS
+#include <Windows.h>
+#endif
 
 //------------------------------------------------------------------------------------------
 
@@ -67,6 +74,76 @@ namespace Ocular
                 {
                     result = boost::iequals(strA, strB);
                 }
+            }
+
+            return result;
+        }
+
+        std::string StringUtils::windowsErrorToString(unsigned long error)
+        {
+            std::string errorMessage = "UNKNOWN ERROR";
+
+#ifdef OCULAR_WINDOWS
+            LPVOID lpMsgBuf;
+            
+            ::FormatMessage(
+                FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                NULL,
+                (DWORD)error,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                (LPTSTR)&lpMsgBuf,
+                0,
+                NULL);
+            
+            if(lpMsgBuf)
+            {
+                errorMessage = (LPTSTR)lpMsgBuf;
+                ::LocalFree(lpMsgBuf);
+            }
+
+            //----------------------------------------
+            // FormatMessage places a newline at the end of the string. Remove it.
+
+            size_t pos = errorMessage.find('\n');
+
+            if(pos != std::string::npos)
+            {
+                errorMessage.erase(pos - 1, std::string::npos);
+            }
+#endif
+
+            return errorMessage;
+        }
+
+        std::string StringUtils::bytesToString(unsigned long long bytes)
+        {
+            std::string result = "";
+
+            double fpBytes = static_cast<double>(bytes);
+
+            if(bytes >= BYTES_PER_TiB)
+            {
+                fpBytes /= static_cast<double>(BYTES_PER_TiB);
+                result = StringComposer().compose(fpBytes, " TiB (", bytes, " B)");
+            }
+            else if(bytes >= BYTES_PER_GiB)
+            {
+                fpBytes /= static_cast<double>(BYTES_PER_GiB);
+                result = StringComposer().compose(fpBytes, " GiB (", bytes, " B)");
+            }
+            else if(bytes >= BYTES_PER_MiB)
+            {
+                fpBytes /= static_cast<double>(BYTES_PER_MiB);
+                result = StringComposer().compose(fpBytes, " MiB (", bytes, " B)");
+            }
+            else if(bytes >= BYTES_PER_KiB)
+            {
+                fpBytes /= static_cast<double>(BYTES_PER_KiB);
+                result = StringComposer().compose(fpBytes, " MiB (", bytes, " B)");
+            }
+            else
+            {
+                result = StringComposer().compose(fpBytes, " B");
             }
 
             return result;
