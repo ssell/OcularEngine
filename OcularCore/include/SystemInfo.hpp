@@ -19,6 +19,7 @@
 #define __H__OCULAR_SYSTEM_INFO__
 
 #include "FileIO/Directory.hpp"
+#include "Common.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,44 +35,6 @@ namespace Ocular
      */
     namespace Core
     {
-        enum class OperatingSystems : unsigned
-        {
-            Unknown = 0,
-            Windows,
-            MacOS,
-            Linux
-        };
-
-        enum class ProcessorArchitectures : unsigned
-        {
-            Unknown = 0,
-            x86,
-            x64,
-            IA64,
-            ARM
-        };
-
-        enum class Endianness : unsigned
-        {
-            Unknown = 0,
-            BigEndian,
-            LittleEndian
-        };
-
-        enum class OpenGLLevels : unsigned 
-        {
-            Unknown = 0,
-            None
-        };
-
-        enum class DirectXLevels : unsigned 
-        {
-            Unknown = 0,
-            None
-        };
-
-        //----------------------------------------------------------------------------------
-
         /**
          * \class SystemInfo
          *

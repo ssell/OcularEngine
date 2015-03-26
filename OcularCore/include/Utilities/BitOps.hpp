@@ -16,7 +16,7 @@
 
 #pragma once
 #ifndef __H__OCULAR_UTILITIES_BIT_OPERATIONS__H__
-#define __H__OCULAR_UTILITIES_BIT__H__
+#define __H__OCULAR_UTILITIES_BIT_OPERATIONS__H__
 
 #include <bitset>
 

@@ -20,6 +20,8 @@
 
 #include "Resources/ResourceSaver.hpp"
 #include "Math/Vector4.hpp"
+#include "Common.hpp"
+
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -66,10 +68,11 @@ namespace Ocular
              *   - The dimensions are valid
              *   - There is a non-zero number of pixels, and their number is equal to (width * height)
              *
-             * \param[in] file File to write to. This file has already been verified to exist and be writeable.
+             * \param[in] file   File to write to. This file has already been verified to exist and be writeable.
              * \param[in] pixels Texture pixel data to write to the file.
              * \param[in] width  Width of the texture.
              * \param[in] height Height of the texture.
+             *
              * \return TRUE if the file was successfully saved.
              */
             virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height) = 0;
@@ -93,6 +96,19 @@ namespace Ocular
              * \return TRUE if the resource is valid.
              */
             virtual bool isResourceValid(Core::Resource* resource);
+
+            /**
+             * Writes the full contents of the provided buffer to the specified file in the requisite endianness.
+             *
+             * It is assumed that the incoming buffer has native endian ordering.
+             *
+             * \param[in] file File to write the buffer to
+             * \param[in] buffer Buffer container containing the entire file to write.
+             * \param[in] fileEndianness The endianness in which to write the data.
+             *
+             * \return TRUE if successful.
+             */
+            virtual bool writeFile(Core::File const& file, std::vector<unsigned char> buffer, Endianness fileEndianness);
 
         private:
         };

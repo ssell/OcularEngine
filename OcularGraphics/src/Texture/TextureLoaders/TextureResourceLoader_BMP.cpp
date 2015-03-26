@@ -76,7 +76,7 @@ namespace Ocular
             bool result = false;
 
             std::vector<unsigned char> buffer;
-            loadFileIntoBuffer(file, buffer);
+            loadFileIntoBuffer(file, buffer, Endianness::Little);
 
             if(buffer.size() > 0)
             {

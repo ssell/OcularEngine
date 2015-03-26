@@ -123,11 +123,11 @@ namespace Ocular
 
            switch(m_Endianness)
            {
-           case Endianness::BigEndian:
+           case Endianness::Big:
                endianString = "Big Endian";
                break;
 
-           case Endianness::LittleEndian:
+           case Endianness::Little:
                endianString = "Little Endian";
                break;
            }
@@ -262,11 +262,11 @@ namespace Ocular
 
                 if(endianCheck.c[0] == 1)
                 {
-                    m_Endianness = Endianness::BigEndian;
+                    m_Endianness = Endianness::Big;
                 }
                 else
                 {
-                    m_Endianness = Endianness::LittleEndian;
+                    m_Endianness = Endianness::Little;
                 }
             }
         }

@@ -44,8 +44,9 @@
 #define OCULAR_PATH_SEPARATOR '/'
 #endif
 
-//----------------------------------------------------
+//------------------------------------------------------------------------------------------
 // Other
+//------------------------------------------------------------------------------------------
 
 // Amount of time, in MS, to allow for system message digestion and dispatching
 #define OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT 2
@@ -56,6 +57,50 @@
 #define BYTES_PER_MiB 1048576ull
 #define BYTES_PER_KiB 1024ull
 
+
+//------------------------------------------------------------------------------------------
+// Enums
+//------------------------------------------------------------------------------------------
+
+namespace Ocular
+{
+    enum class OperatingSystems : unsigned
+    {
+        Unknown = 0,
+        Windows,
+        MacOS,
+        Linux
+    };
+
+    enum class ProcessorArchitectures : unsigned
+    {
+        Unknown = 0,
+        x86,
+        x64,
+        IA64,
+        ARM
+    };
+
+    enum class Endianness : unsigned
+    {
+        Unknown = 0,
+        Big,
+        Little,
+        Native        ///< Native endianness of the system. See SystemInfo::getEndianness()
+    };
+
+    enum class OpenGLLevels : unsigned
+    {
+        Unknown = 0,
+        None
+    };
+
+    enum class DirectXLevels : unsigned
+    {
+        Unknown = 0,
+        None
+    };
+}
 
 //------------------------------------------------------------------------------------------
 

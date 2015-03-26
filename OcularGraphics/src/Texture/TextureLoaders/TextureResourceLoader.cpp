@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
 #include "Texture/TextureLoaders/TextureResourceLoader.hpp"
 #include "Texture/Texture2D.hpp"
 #include "Utilities/StringOps.hpp"
-#include "OcularEngine.hpp"
+#include "Utilities/EndianOps.hpp"
 
 #include <fstream>
 
@@ -175,7 +176,7 @@ namespace Ocular
             return result;
         }
 
-        void TextureResourceLoader::loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer)
+        void TextureResourceLoader::loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer, Endianness fileEndianness)
         {
             if(isFileValid(file))
             {
@@ -191,6 +192,13 @@ namespace Ocular
                 {
                     buffer = std::vector<unsigned char>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
                     inputStream.close();
+
+                    // Ensure all the retrieved data is in the proper endianness
+
+                    for(unsigned i = 0; i < buffer.size(); i++)
+                    {
+                        Utils::EndianOps::convert(fileEndianness, Endianness::Native, buffer[i]);
+                    }
                 }
                 else
                 {

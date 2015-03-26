@@ -20,7 +20,7 @@
 #include "gtest/gtest.h"
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
 #include "Texture/Texture2D.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
@@ -84,13 +84,23 @@ int main(int argc, char** argv)
     //runTests(argc, argv);
     //testResources();
 
-    Ocular::Graphics::TextureResourceLoader_PNG blergh;
+    Ocular::Graphics::TextureResourceLoader_BMP blergh;
     Ocular::Graphics::TextureResourceSaver_BMP blerghh;
 
-    Ocular::Core::File png("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testPNG.png");
-    Ocular::Core::File bmp("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\out.bmp");
-    
-    convertPNGtoBMP(png, bmp);
+    Ocular::Core::File bmpIn("C:\\Users\\ssell\\Desktop\\precipScreens\\testBMP.bmp");
+    Ocular::Core::File bmpOut("C:\\Users\\ssell\\Desktop\\precipScreens\\testBMP_out.bmp");
+
+    Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
+
+    if(bmpResource)
+    {
+        Ocular::Graphics::Texture2D* bmpTexture = dynamic_cast<Ocular::Graphics::Texture2D*>(bmpResource);
+
+        if(bmpTexture)
+        {
+            OcularEngine.ResourceManager()->saveResource(bmpTexture, bmpOut);
+        }
+    }
 
     OcularEngine.shutdown();
 }

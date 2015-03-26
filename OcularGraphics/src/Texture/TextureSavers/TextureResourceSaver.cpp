@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
 #include "Texture/TextureSavers/TextureResourceSaver.hpp"
 #include "Texture/Texture2D.hpp"
 #include "Utilities/StringOps.hpp"
-#include "OcularEngine.hpp"
+#include "Utilities/EndianOps.hpp"
+
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -142,6 +145,28 @@ namespace Ocular
             else
             {
                 OcularLogger->error("Provided resource is NULL", OCULAR_INTERNAL_LOG("TextureResourceSaver", "isResourceValid"));
+            }
+
+            return result;
+        }
+
+        bool TextureResourceSaver::writeFile(Core::File const& file, std::vector<unsigned char> buffer, Endianness fileEndianness)
+        {
+            bool result = false;
+
+            std::ofstream outStream(file.getFullPath(), std::ios_base::out || std::ios_base::binary);
+
+            if(outStream.is_open())
+            {
+                // We can write to the file. First perform the endian conversion.
+
+                for(unsigned i = 0; i < buffer.size(); i++)
+                {
+                    Utils::EndianOps::convert(Endianness::Native, fileEndianness, buffer[i]);
+                }
+
+                outStream.write(reinterpret_cast<char*>(&buffer[0]), buffer.size());
+                outStream.close();
             }
 
             return result;

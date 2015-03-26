@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
 #define __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
 
+#include "Common.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -38,125 +40,97 @@ namespace Ocular
         namespace EndianOps
         {
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             * 
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.  
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(char& value);
+            void convert(Endianness from, Endianness to, char& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(short& value);
+            void convert(Endianness from, Endianness to, short& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(long& value);
+            void convert(Endianness from, Endianness to, long& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(long long& value);
+            void convert(Endianness from, Endianness to, long long& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(unsigned char& value);
+            void convert(Endianness from, Endianness to, unsigned char& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(unsigned short& value);
+            void convert(Endianness from, Endianness to, unsigned short& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(unsigned long& value);
+            void convert(Endianness from, Endianness to, unsigned long& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(unsigned long long& value);
+            void convert(Endianness from, Endianness to, unsigned long long& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(float& value);
+            void convert(Endianness from, Endianness to, float& value);
 
             /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
+             * Converts betweem the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
              */
-            void convertBigToNative(double& value);
+            void convert(Endianness from, Endianness to, double& value);
 
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(char& value);
+            //------------------------------------------------------------------------------
 
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(short& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(long& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(long long& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(unsigned char& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(unsigned short& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(unsigned long& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(unsigned long long& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(float& value);
-
-            /**
-             * Converts from little endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            void convertLittleToNative(double& value);
-            
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value

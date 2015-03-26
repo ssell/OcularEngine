@@ -20,6 +20,8 @@
 
 #include "Resources/ResourceLoader.hpp"
 #include "Math/Vector4.hpp"
+#include "Common.hpp"
+
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -94,11 +96,13 @@ namespace Ocular
             
             /**
              * Attempts to load the binary contents of the specified file into the provided empty buffer.
+             * If the data was properly retrieved, it will then be converted to the current system's native endianness.
              *
-             * \param[in]  file   Source file of the resource texture.
-             * \param[out] buffer Raw binary data of the file.
+             * \param[in]  file           Source file of the resource texture.
+             * \param[out] buffer         Raw binary data of the file.
+             * \param[in]  fileEndianness The endianness of the file.
              */
-            virtual void loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer);
+            virtual void loadFileIntoBuffer(Core::File const& file, std::vector<unsigned char>& buffer, Endianness fileEndianness);
 
         private:
         };
