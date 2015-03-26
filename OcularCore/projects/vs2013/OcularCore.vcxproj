@@ -198,8 +198,8 @@
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Endianness.cpp" />
-    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
+    <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
+    <ClCompile Include="..\..\src\Utilities\StringOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -259,9 +259,10 @@
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Endianness.hpp" />
+    <ClInclude Include="..\..\include\Utilities\BitOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
-    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp" />
+    <ClInclude Include="..\..\include\Utilities\StringOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />

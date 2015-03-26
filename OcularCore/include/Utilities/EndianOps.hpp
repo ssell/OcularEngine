@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_UTILITIES_ENDIANNESS__H__
-#define __H__OCULAR_UTILITIES_ENDIANNESS__H__
+#ifndef __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
+#define __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -33,200 +33,193 @@ namespace Ocular
     namespace Utils
     {
         /**
-         * \class Endianness
-         * \brief Performs endian conversion
+         * \addtogroup EndianOps
          */
-        class Endianness
+        namespace EndianOps
         {
-        public:
-
-            Endianness();
-            ~Endianness();
+            /**
+             * Converts from big endian to the native host endian ordering.
+             * \param[in,out] value
+             */
+            void convertBigToNative(char& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(char& value);
+            void convertBigToNative(short& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(short& value);
+            void convertBigToNative(long& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(long& value);
+            void convertBigToNative(long long& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(long long& value);
+            void convertBigToNative(unsigned char& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(unsigned char& value);
+            void convertBigToNative(unsigned short& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(unsigned short& value);
+            void convertBigToNative(unsigned long& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(unsigned long& value);
+            void convertBigToNative(unsigned long long& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(unsigned long long& value);
+            void convertBigToNative(float& value);
 
             /**
              * Converts from big endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertBigToNative(float& value);
-
-            /**
-             * Converts from big endian to the native host endian ordering.
-             * \param[in,out] value
-             */
-            static void convertBigToNative(double& value);
+            void convertBigToNative(double& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(char& value);
+            void convertLittleToNative(char& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(short& value);
+            void convertLittleToNative(short& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(long& value);
+            void convertLittleToNative(long& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(long long& value);
+            void convertLittleToNative(long long& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(unsigned char& value);
+            void convertLittleToNative(unsigned char& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(unsigned short& value);
+            void convertLittleToNative(unsigned short& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(unsigned long& value);
+            void convertLittleToNative(unsigned long& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(unsigned long long& value);
+            void convertLittleToNative(unsigned long long& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(float& value);
+            void convertLittleToNative(float& value);
 
             /**
              * Converts from little endian to the native host endian ordering.
              * \param[in,out] value
              */
-            static void convertLittleToNative(double& value);
+            void convertLittleToNative(double& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(char& value);
+            void convertToReverse(char& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(short& value);
+            void convertToReverse(short& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(long& value);
+            void convertToReverse(long& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(long long& value);
+            void convertToReverse(long long& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(unsigned char& value);
+            void convertToReverse(unsigned char& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(unsigned short& value);
+            void convertToReverse(unsigned short& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(unsigned long& value);
+            void convertToReverse(unsigned long& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(unsigned long long& value);
+            void convertToReverse(unsigned long long& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(float& value);
+            void convertToReverse(float& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            static void convertToReverse(double& value);
-
-        protected:
-
-        private:
-        };
+            void convertToReverse(double& value);
+        }
+        /**
+         * @} End of Doxygen Groups
+         */
     }
     /**
      * @} End of Doxygen Groups

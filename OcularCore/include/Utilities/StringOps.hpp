@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_UTILS_STRING_UTILS__H__
-#define __H__OCULAR_CORE_UTILS_STRING_UTILS__H__
+#ifndef __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
+#define __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 
 #include <string>
 
@@ -35,19 +35,18 @@ namespace Ocular
     namespace Utils
     {
         /**
-         * \class StringUtils
+         * \addtogroup StringOps
+         * @{
          */
-        class StringUtils
+        namespace StringOps
         {
-        public:
-
             /**
              * Converts a mixed-case string to all lower-case
              *
              * \param[in] str String to convert
              * \return Converted string
              */
-            static std::string toLower(std::string const& str);
+            std::string toLower(std::string const& str);
 
             /**
              * Converts a mixed-case string to all upper-case
@@ -55,7 +54,7 @@ namespace Ocular
              * \param[in] str String to convert
              * \return Converted string
              */
-            static std::string toUpper(std::string const& str);
+            std::string toUpper(std::string const& str);
 
             /**
              * \param[in] strA
@@ -64,7 +63,7 @@ namespace Ocular
              * 
              * \return TRUE if the strings are equal.
              */
-            static bool isEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
+            bool isEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
 
             /**
              * Converts a Win32 specific system error DWORD into a human readable string.
@@ -72,7 +71,7 @@ namespace Ocular
              * \param[in] error The DWORD error message
              * \return String representation of the error
              */
-            static std::string windowsErrorToString(unsigned long error);
+            std::string windowsErrorToString(unsigned long error);
 
             /**
              * Supports sizes up to tebibytes in size.
@@ -85,12 +84,11 @@ namespace Ocular
              * \param[in] bytes
              * \return Formatted string
              */
-            static std::string bytesToString(unsigned long long bytes);
-
-        protected:
-
-        private:
-        };
+            std::string bytesToString(unsigned long long bytes);
+        }
+        /**
+         * @} End of Doxygen Groups
+         */
     }
     /**
      * @} End of Doxygen Groups

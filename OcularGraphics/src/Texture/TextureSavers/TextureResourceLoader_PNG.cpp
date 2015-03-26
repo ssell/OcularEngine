@@ -15,7 +15,7 @@
  */
 
 #include "OcularEngine.hpp"
-#include "Utilities/StringUtils.hpp"
+#include "Utilities/StringOps.hpp"
 #include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"
 
@@ -132,7 +132,7 @@ void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGC
             dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
             chunks.push_back(newChunk);
 
-            if(Ocular::Utils::StringUtils::isEqual(newChunk.name, "IEND"))
+            if(Ocular::Utils::StringOps::isEqual(newChunk.name, "IEND"))
             {
                 // End of the file
                 break;

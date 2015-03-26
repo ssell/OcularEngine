@@ -16,7 +16,7 @@
 
 #include "Texture/TextureSavers/TextureResourceSaver.hpp"
 #include "Texture/Texture2D.hpp"
-#include "Utilities/StringUtils.hpp"
+#include "Utilities/StringOps.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ namespace Ocular
             {
                 if(file.canWrite())
                 {
-                    if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
+                    if(Utils::StringOps::isEqual(file.getExtension(), m_SupportedExtension, true))
                     {
                         result = true;
                     }

@@ -192,9 +192,6 @@
     <ClCompile Include="..\..\src\Resources\ResourceDetails.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -204,7 +201,10 @@
     <ClCompile Include="..\..\src\SystemInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Endianness.cpp">
+    <ClCompile Include="..\..\src\Utilities\EndianOps.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\StringOps.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -380,9 +380,6 @@
     <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceSaver.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -395,7 +392,13 @@
     <ClInclude Include="..\..\include\SystemInfo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\Endianness.hpp">
+    <ClInclude Include="..\..\include\Utilities\BitOps.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringOps.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\EndianOps.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

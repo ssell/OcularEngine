@@ -17,7 +17,7 @@
 #include "SystemInfo.hpp"
 #include "OcularEngine.hpp"
 #include "Common.hpp"
-#include "Utilities/StringUtils.hpp"
+#include "Utilities/StringOps.hpp"
 
 #ifdef OCULAR_WINDOWS
 #include <Windows.h>
@@ -150,10 +150,10 @@ namespace Ocular
                "\n\t- Endianness:       ", endianString, 
                "\n\t- OpenGL Support:   ", openglString, 
                "\n\t- DirectX Support:  ", directxString, 
-               "\n\t- Total RAM:        ", Utils::StringUtils::bytesToString(m_TotalRAM), 
-               "\n\t- Free RAM:         ", Utils::StringUtils::bytesToString(m_FreeRAM), 
-               "\n\t- Total GPU Memory: ", Utils::StringUtils::bytesToString(m_TotalGPUMemory), 
-               "\n\t- Free GPU Memory:  ", Utils::StringUtils::bytesToString(m_FreeGPUMemory),
+               "\n\t- Total RAM:        ", Utils::StringOps::bytesToString(m_TotalRAM),
+               "\n\t- Free RAM:         ", Utils::StringOps::bytesToString(m_FreeRAM),
+               "\n\t- Total GPU Memory: ", Utils::StringOps::bytesToString(m_TotalGPUMemory),
+               "\n\t- Free GPU Memory:  ", Utils::StringOps::bytesToString(m_FreeGPUMemory),
                "\n\t- Output Channels:  ", m_NumberOfChannels);
         }
 
@@ -301,7 +301,7 @@ namespace Ocular
                 DWORD error = GetLastError();
                 OcularLogger->error(
                     "Failed to retrieve available system RAM with error (", error, "): ",
-                    Utils::StringUtils::windowsErrorToString(error),
+                    Utils::StringOps::windowsErrorToString(error),
                     OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
             }
 #endif
@@ -321,7 +321,7 @@ namespace Ocular
                 DWORD error = GetLastError();
                 OcularLogger->error(
                     "Failed to retrieve available system RAM with error (", error, "): ",
-                    Utils::StringUtils::windowsErrorToString(error),
+                    Utils::StringOps::windowsErrorToString(error),
                     OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
             }
 #endif
