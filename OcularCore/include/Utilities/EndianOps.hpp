@@ -40,7 +40,7 @@ namespace Ocular
         namespace EndianOps
         {
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              * 
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.  
@@ -49,7 +49,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, char& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -58,7 +58,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, short& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -67,7 +67,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, long& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -76,7 +76,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, long long& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -85,7 +85,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, unsigned char& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -94,7 +94,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, unsigned short& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -103,7 +103,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, unsigned long& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -112,7 +112,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, unsigned long long& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.
@@ -121,7 +121,7 @@ namespace Ocular
             void convert(Endianness from, Endianness to, float& value);
 
             /**
-             * Converts betweem the specified endianness orders.
+             * Converts between the specified endianness orders.
              *
              * \param[in] from      Endianness of the incoming value
              * \param[in] to        Endianness to convert the incoming value to.

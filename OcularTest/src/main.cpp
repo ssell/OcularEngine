@@ -87,8 +87,8 @@ int main(int argc, char** argv)
     Ocular::Graphics::TextureResourceLoader_BMP blergh;
     Ocular::Graphics::TextureResourceSaver_BMP blerghh;
 
-    Ocular::Core::File bmpIn("C:\\Users\\ssell\\Desktop\\precipScreens\\testBMP.bmp");
-    Ocular::Core::File bmpOut("C:\\Users\\ssell\\Desktop\\precipScreens\\testBMP_out.bmp");
+    Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\testBMP.bmp");
+    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\testBMP_out.bmp");
 
     Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
 

@@ -60,8 +60,8 @@ namespace Ocular
 
         private:
 
-            bool writeHeaders(std::ofstream& outStream, long width, long height);
-            bool writePixelArray(std::ofstream& outStream, std::vector<Color> const& pixels, unsigned width, unsigned height);
+            bool writeHeaders(std::vector<unsigned char>& fileBuffer, long width, long height);
+            bool writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Color> const& pixels, unsigned width, unsigned height);
         };
     }
     /**

@@ -16,6 +16,7 @@
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"
+#include <algorithm>
 
 #define FLOAT_TO_UCHAR(x) static_cast<unsigned char>(x * 255.0f)
 
@@ -54,31 +55,30 @@ namespace Ocular
         {
             bool result = false;
 
-            std::ofstream outStream(file.getFullPath(), std::ios_base::binary | std::ios_base::out);
-
-            if(outStream.is_open())
+            std::vector<unsigned char> fileBuffer((54 + (width * height * 4)), static_cast<unsigned char>(0));  // 54 bytes exactly for header; Then rest for the pixel array
+          
+            if(writeHeaders(fileBuffer, width, height))
             {
-                if(writeHeaders(outStream, width, height))
+                if(writePixelArray(fileBuffer, pixels, width, height))
                 {
-                    if(writePixelArray(outStream, pixels, width, height))
+                    // BMP files should be written using Little Endian ordering
+                    if(writeFile(file, fileBuffer, Endianness::Little))
                     {
                         result = true;
                     }
                     else
                     {
-                        OcularLogger->error("Failed to write pixel information to '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+                        OcularLogger->error("Failed to write file buffer to disk", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
                     }
                 }
                 else
                 {
-                    OcularLogger->error("Failed to write header information to '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+                    OcularLogger->error("Failed to write pixel array to file buffer", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
                 }
-
-                outStream.close();
             }
             else
             {
-                OcularLogger->error("Failed to open file '", file.getFullPath(), "' for resource saving", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
+                OcularLogger->error("Failed to write headers to file buffer", OCULAR_INTERNAL_LOG("TextureResourceSaver_BMP", "saveFile"));
             }
 
             return result;
@@ -88,17 +88,10 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceSaver_BMP::writeHeaders(std::ofstream& outStream, long const width, long const height)
+        bool TextureResourceSaver_BMP::writeHeaders(std::vector<unsigned char>& fileBuffer, long const width, long const height)
         {
             bool result = false;
 
-            //----------------------------------------
-            // Create empty temp buffers
-
-            unsigned char headerBuffer[54] = { };
-
-            memset(headerBuffer, 0x00, 54);
-            
             //----------------------------------------
             // Fill the temp buffers with all mandatory data
 
@@ -111,46 +104,36 @@ namespace Ocular
             long  resolutionX  = 2835;
             long  resolutionY  = 2835;
 
-            headerBuffer[0] = 0x42;  // 'B'
-            headerBuffer[1] = 0x4D;  // 'M'
+            fileBuffer[0] = 0x42;  // 'B'
+            fileBuffer[1] = 0x4D;  // 'M'
 
-            memcpy(&headerBuffer[2],  &fileSize,     sizeof(long));
-            memcpy(&headerBuffer[10], &startPos,     sizeof(long));
-            memcpy(&headerBuffer[14], &dibSize,      sizeof(long));
-            memcpy(&headerBuffer[18], &width,        sizeof(long));
-            memcpy(&headerBuffer[22], &height,       sizeof(long));
-            memcpy(&headerBuffer[26], &colorPlanes,  sizeof(short));
-            memcpy(&headerBuffer[28], &bitsPerPixel, sizeof(short));
-            memcpy(&headerBuffer[34], &dataSize,     sizeof(long));
-            memcpy(&headerBuffer[38], &resolutionX,  sizeof(long));
-            memcpy(&headerBuffer[42], &resolutionY,  sizeof(long));
+            memcpy(&fileBuffer[2],  &fileSize,     sizeof(long));
+            memcpy(&fileBuffer[10], &startPos,     sizeof(long));
+            memcpy(&fileBuffer[14], &dibSize,      sizeof(long));
+            memcpy(&fileBuffer[18], &width,        sizeof(long));
+            memcpy(&fileBuffer[22], &height,       sizeof(long));
+            memcpy(&fileBuffer[26], &colorPlanes,  sizeof(short));
+            memcpy(&fileBuffer[28], &bitsPerPixel, sizeof(short));
+            memcpy(&fileBuffer[34], &dataSize,     sizeof(long));
+            memcpy(&fileBuffer[38], &resolutionX,  sizeof(long));
+            memcpy(&fileBuffer[42], &resolutionY,  sizeof(long));
 
-            //----------------------------------------
-            // Write buffers to file
-
-            outStream.write(reinterpret_cast<char*>(headerBuffer), 54);
-
-            result = true;
-            return result;
+            return true;
         }
 
-        bool TextureResourceSaver_BMP::writePixelArray(std::ofstream& outStream, std::vector<Color> const& pixels, unsigned width, unsigned height)
+        bool TextureResourceSaver_BMP::writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Color> const& pixels, unsigned width, unsigned height)
         {
             bool result = false;
+            int filePos = 54;    // Header is always 54 bytes long and we will always be starting the pixel array immediately after it
 
-            std::vector<unsigned char> pixelData;
-            pixelData.reserve(width * height * 4);
-            
             for(auto pixelIter = pixels.begin(); pixelIter != pixels.end(); pixelIter++)
             {
                 // BMP stores pixel data in BGR/A format
-                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->b));
-                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->g));
-                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->r));
-                pixelData.push_back(FLOAT_TO_UCHAR(pixelIter->a));
+                fileBuffer[filePos++] = FLOAT_TO_UCHAR(pixelIter->b);
+                fileBuffer[filePos++] = FLOAT_TO_UCHAR(pixelIter->g);
+                fileBuffer[filePos++] = FLOAT_TO_UCHAR(pixelIter->r);
+                fileBuffer[filePos++] = FLOAT_TO_UCHAR(pixelIter->a);
             }
-
-            outStream.write(reinterpret_cast<char*>(&pixelData[0]), pixelData.size());
 
             result = true;
             return result;
