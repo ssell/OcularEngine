@@ -70,7 +70,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, long& value)
+            void convert(Endianness from, Endianness to, int& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -150,7 +150,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, unsigned long& value)
+            void convert(Endianness from, Endianness to, unsigned int& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -243,7 +243,7 @@ namespace Ocular
             {
                 value = boost::endian::endian_reverse(static_cast<int16_t>(value));
             }
-            void convertToReverse(long& value)
+            void convertToReverse(int& value)
             {
                 value = boost::endian::endian_reverse(static_cast<int32_t>(value));
             }
@@ -263,7 +263,7 @@ namespace Ocular
                 value = boost::endian::endian_reverse(static_cast<uint16_t>(value));
             }
 
-            void convertToReverse(unsigned long& value)
+            void convertToReverse(unsigned int& value)
             {
                 value = boost::endian::endian_reverse(static_cast<uint32_t>(value));
             }

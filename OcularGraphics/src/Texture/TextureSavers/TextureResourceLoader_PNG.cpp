@@ -16,6 +16,7 @@
 
 #include "OcularEngine.hpp"
 #include "Utilities/StringOps.hpp"
+#include "Utilities/EndianOps.hpp"
 #include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"
 
@@ -67,7 +68,7 @@ namespace Ocular
             bool result = false;
 
             std::vector<unsigned char> buffer;
-            loadFileIntoBuffer(file, buffer, Endianness::Big);
+            loadFileIntoBuffer(file, buffer, Endianness::Native);
 
             if(buffer.size() > 0)
             {
@@ -76,7 +77,7 @@ namespace Ocular
 
                 if(fileChunks.size() > 0)
                 {
-                
+                    
                 }
                 else
                 {
@@ -116,27 +117,49 @@ void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGC
     {
         PNGChunk newChunk;
 
-        newChunk.length    = *(unsigned*)(&dataBuffer[dataPos]);
+        //--------------------------------------------------------------------------
+        // Retrieve the chunk length so we can assure that we will not go out of bounds
+
+        newChunk.length = *(unsigned*)(&dataBuffer[dataPos]);
+        Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.length);
 
         if((dataPos + newChunk.length + 12) < dataBuffer.size())       // Make sure there is enough space remaining in the buffer for another chunk
         {
-            char tempName[4] = {static_cast<char>(dataBuffer[dataPos + 4]),
-                                static_cast<char>(dataBuffer[dataPos + 5]),
-                                static_cast<char>(dataBuffer[dataPos + 6]),
-                                static_cast<char>(dataBuffer[dataPos + 7])};
+            //----------------------------------------------------------------------
+            // Retrieve the raw chunk data from the file buffer
 
-            newChunk.name      = tempName;
-            newChunk.dataStart = dataPos + 8;                          // Chunk data always begins 8 bytes after the length index
+            newChunk.name = "    ";
+            newChunk.name[0] = static_cast<char>(dataBuffer[dataPos + 4]);
+            newChunk.name[1] = static_cast<char>(dataBuffer[dataPos + 5]);
+            newChunk.name[2] = static_cast<char>(dataBuffer[dataPos + 6]);
+            newChunk.name[3] = static_cast<char>(dataBuffer[dataPos + 7]);
+
+            newChunk.dataStart = dataPos;
             newChunk.checksum  = *(unsigned*)(&dataBuffer[dataPos + 8 + newChunk.length]);
+            
+            //----------------------------------------------------------------------
+            // PNG files are Big Endian, convert to Native
 
-            dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
+            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[0]);
+            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[1]);
+            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[2]);
+            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[3]);
+            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.checksum);
+
+            // Have to wait until after endian conversion to perform this addition
+            newChunk.dataStart += 8; // Chunk data always begins 8 bytes after the length index
+
+            //----------------------------------------------------------------------
+            // Add the new chunk and check if it was the end
+
             chunks.push_back(newChunk);
 
             if(Ocular::Utils::StringOps::isEqual(newChunk.name, "IEND"))
             {
-                // End of the file
-                break;
+                break;  // End of file block
             }
+
+            dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
         }
         else
         {

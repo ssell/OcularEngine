@@ -64,7 +64,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, long& value);
+            void convert(Endianness from, Endianness to, int& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -100,7 +100,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, unsigned long& value);
+            void convert(Endianness from, Endianness to, unsigned int& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -147,7 +147,7 @@ namespace Ocular
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(long& value);
+            void convertToReverse(int& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
@@ -171,7 +171,7 @@ namespace Ocular
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(unsigned long& value);
+            void convertToReverse(unsigned int& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.

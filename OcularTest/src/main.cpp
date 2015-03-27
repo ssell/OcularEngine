@@ -20,7 +20,7 @@
 #include "gtest/gtest.h"
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Texture/Texture2D.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
@@ -84,11 +84,11 @@ int main(int argc, char** argv)
     //runTests(argc, argv);
     //testResources();
 
-    Ocular::Graphics::TextureResourceLoader_BMP blergh;
+    Ocular::Graphics::TextureResourceLoader_PNG blergh;
     Ocular::Graphics::TextureResourceSaver_BMP blerghh;
 
-    Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\testBMP.bmp");
-    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\testBMP_out.bmp");
+    Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\in.png");
+    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\pngout.bmp");
 
     Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
 
