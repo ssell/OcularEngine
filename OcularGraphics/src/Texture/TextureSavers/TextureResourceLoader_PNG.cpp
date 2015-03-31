@@ -20,6 +20,8 @@
 #include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"
 
+#include "libpng/png.h"
+
 #include <string>
 #include <fstream>
 
@@ -27,16 +29,7 @@ OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::TextureResourceLoader_PNG)
 
 //------------------------------------------------------------------------------------------
 
-struct PNGChunk
-{
-    unsigned length;     // Length of the chunk in bytes
-    unsigned dataStart;  // Absolute position (in bytes) of where this chunk's data begins in the file
-    unsigned checksum;   // Cyclic redundancy code/checksum
-
-    std::string name;    // Name of the chunk. This is used in multiple ways 
-};
-
-void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGChunk>& chunks);
+unsigned getBufferPos(unsigned const& x, unsigned const& y, unsigned const& width, unsigned const& height);
 
 //------------------------------------------------------------------------------------------
 
@@ -67,26 +60,64 @@ namespace Ocular
         {
             bool result = false;
 
-            std::vector<unsigned char> buffer;
-            loadFileIntoBuffer(file, buffer, Endianness::Native);
+            png_image image;
 
-            if(buffer.size() > 0)
+            memset(&image, 0, sizeof(image));
+            image.version = PNG_IMAGE_VERSION;
+
+            if(png_image_begin_read_from_file(&image, file.getFullPath().c_str()))
             {
-                std::vector<PNGChunk> fileChunks;
-                getAllChunks(buffer, fileChunks);
+                png_bytep buffer;
 
-                if(fileChunks.size() > 0)
+                image.format = PNG_FORMAT_RGBA;
+                buffer = (png_bytep)malloc(PNG_IMAGE_SIZE(image));
+
+                if(buffer)
                 {
-                    
+                    if(png_image_finish_read(&image, NULL, buffer, 0, NULL))
+                    {
+                        Color newPixel;
+
+                        unsigned numPixels = image.width * image.height;
+                        unsigned bufferPos = 0;
+
+                        pixels.reserve(numPixels);
+
+                        width  = image.width;
+                        height = image.height;
+
+                        for(unsigned y = 0; y < image.height; y++)
+                        {
+                            for(unsigned x = 0; x < image.width; x++)
+                            {
+                                bufferPos = getBufferPos(x, y, width, height);
+
+                                newPixel.r = static_cast<float>(buffer[bufferPos + 0]) / 255.0f;
+                                newPixel.g = static_cast<float>(buffer[bufferPos + 1]) / 255.0f;
+                                newPixel.b = static_cast<float>(buffer[bufferPos + 2]) / 255.0f;
+                                newPixel.a = static_cast<float>(buffer[bufferPos + 3]) / 255.0f;
+
+                                pixels.push_back(newPixel);
+                            }
+                        }
+
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to finish reading file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader_PNG", "readFile"));
+                    }
+
+                    free(buffer);
                 }
                 else
                 {
-                    OcularLogger->error("Chunk list is empty", OCULAR_INTERNAL_LOG("TextureResourceLoader_PNG", "readFile"));
+                    OcularLogger->error("Failed to allocate memory for texture", OCULAR_INTERNAL_LOG("TextureResourceLoader_PNG", "readFile"));
                 }
             }
             else
             {
-                OcularLogger->error("File buffer is empty", OCULAR_INTERNAL_LOG("TextureResourceLoader_PNG", "readFile"));
+                OcularLogger->error("Failed to begin read of file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader_PNG", "readFile"));
             }
 
             return result;
@@ -106,64 +137,11 @@ namespace Ocular
 // NON-MEMBER FUNCTIONS
 //------------------------------------------------------------------------------------------
 
-void getAllChunks(std::vector<unsigned char> const& dataBuffer, std::vector<PNGChunk>& chunks)
+
+unsigned getBufferPos(unsigned const& x, unsigned const& y, unsigned const& width, unsigned const& height)
 {
-    // Explores the file data buffer and populates a list of all chunks contained within it.
-    // This chunk listing will later be used to populate the pixel array, etc.
+    // Ocular (0,0) is the lower-left corner, while
+    // PNG (0,0) is the upper-left corner. 
 
-    unsigned dataPos = 8;   // First chunk begins after the 8-byte header signature
-
-    while((dataPos + 4) < dataBuffer.size())
-    {
-        PNGChunk newChunk;
-
-        //--------------------------------------------------------------------------
-        // Retrieve the chunk length so we can assure that we will not go out of bounds
-
-        newChunk.length = *(unsigned*)(&dataBuffer[dataPos]);
-        Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.length);
-
-        if((dataPos + newChunk.length + 12) < dataBuffer.size())       // Make sure there is enough space remaining in the buffer for another chunk
-        {
-            //----------------------------------------------------------------------
-            // Retrieve the raw chunk data from the file buffer
-
-            newChunk.name = "    ";
-            newChunk.name[0] = static_cast<char>(dataBuffer[dataPos + 4]);
-            newChunk.name[1] = static_cast<char>(dataBuffer[dataPos + 5]);
-            newChunk.name[2] = static_cast<char>(dataBuffer[dataPos + 6]);
-            newChunk.name[3] = static_cast<char>(dataBuffer[dataPos + 7]);
-
-            newChunk.dataStart = dataPos;
-            newChunk.checksum  = *(unsigned*)(&dataBuffer[dataPos + 8 + newChunk.length]);
-            
-            //----------------------------------------------------------------------
-            // PNG files are Big Endian, convert to Native
-
-            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[0]);
-            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[1]);
-            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[2]);
-            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.name[3]);
-            Ocular::Utils::EndianOps::convert(Ocular::Endianness::Big, Ocular::Endianness::Native, newChunk.checksum);
-
-            // Have to wait until after endian conversion to perform this addition
-            newChunk.dataStart += 8; // Chunk data always begins 8 bytes after the length index
-
-            //----------------------------------------------------------------------
-            // Add the new chunk and check if it was the end
-
-            chunks.push_back(newChunk);
-
-            if(Ocular::Utils::StringOps::isEqual(newChunk.name, "IEND"))
-            {
-                break;  // End of file block
-            }
-
-            dataPos += newChunk.length + 12;     // length (4) + type (4) + data (newChunk.length) + CRC (4)
-        }
-        else
-        {
-            break;
-        }
-    }
+    return ((((height - 1) - y) * width) * 4) + (x * 4);
 }

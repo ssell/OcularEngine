@@ -49,15 +49,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\External\include;$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>OcularCoreD.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\OcularCore\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularCoreD.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\OcularCore\bin\$(Configuration)\;$(SolutionDir)..\External\libs\win32\debug</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -167,6 +167,8 @@ namespace Ocular
 
                 outStream.write(reinterpret_cast<char*>(&buffer[0]), buffer.size());
                 outStream.close();
+
+                result = true;
             }
 
             return result;
