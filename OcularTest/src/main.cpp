@@ -21,6 +21,7 @@
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
 #include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
+#include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "Texture/Texture2D.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
@@ -86,9 +87,10 @@ int main(int argc, char** argv)
 
     Ocular::Graphics::TextureResourceLoader_PNG blergh;
     Ocular::Graphics::TextureResourceSaver_BMP blerghh;
+    Ocular::Graphics::TextureResourceSaver_PNG blerghhh;
 
     Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\in.png");
-    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\pngout.bmp");
+    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\pngoutA.png");
 
     Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
 
