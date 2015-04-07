@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver_PNG.hpp">
       <Filter>Header Files\Texture\TextureSavers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp">
+      <Filter>Header Files\Texture\TextureLoaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceSaver_PNG.cpp">
       <Filter>Source Files\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp">
+      <Filter>Source Files\Texture\TextureLoaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

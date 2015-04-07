@@ -20,8 +20,10 @@
 #include "gtest/gtest.h"
 
 #include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
+#include "Texture/TextureLoaders/TextureResourceLoader_TGA.hpp"
 #include "Texture/Texture2D.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
@@ -84,10 +86,12 @@ int main(int argc, char** argv)
 
     //runTests(argc, argv);
     //testResources();
-
-    Ocular::Graphics::TextureResourceLoader_PNG blergh;
-    Ocular::Graphics::TextureResourceSaver_BMP blerghh;
-    Ocular::Graphics::TextureResourceSaver_PNG blerghhh;
+    
+    Ocular::Graphics::TextureResourceLoader_BMP blargh;
+    Ocular::Graphics::TextureResourceLoader_PNG blurgh;
+    Ocular::Graphics::TextureResourceLoader_TGA blergh;
+    Ocular::Graphics::TextureResourceSaver_BMP  blerghh;
+    Ocular::Graphics::TextureResourceSaver_PNG  blerghhh;
 
     Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\in.png");
     Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\pngoutA.png");

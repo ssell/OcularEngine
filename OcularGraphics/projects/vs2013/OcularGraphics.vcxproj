@@ -91,6 +91,7 @@
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_PNG.hpp" />
+    <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver_BMP.hpp" />
     <ClInclude Include="..\..\include\Texture\TextureSavers\TextureResourceSaver_PNG.hpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="..\..\src\Texture\Texture2D.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceLoader_PNG.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Texture\TextureSavers\TextureResourceSaver_BMP.cpp" />
