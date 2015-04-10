@@ -171,6 +171,8 @@
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Math\Euler.cpp" />
+    <ClCompile Include="..\..\src\Math\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Math\Random\ARandom.cpp" />
     <ClCompile Include="..\..\src\Math\Random\CMWC.cpp" />
     <ClCompile Include="..\..\src\Math\Random\MersenneTwister.cpp" />
@@ -215,11 +217,13 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Math\Euler.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />
+    <ClInclude Include="..\..\include\Math\Quaternion.hpp" />
     <ClInclude Include="..\..\include\Math\Random\ARandom.hpp" />
     <ClInclude Include="..\..\include\Math\Random\CMWC.hpp" />
     <ClInclude Include="..\..\include\Math\Random\MersenneTwister.hpp" />

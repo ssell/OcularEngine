@@ -20,6 +20,9 @@
 
 #include "Equality.hpp"
 #include "Vector3.hpp"
+#include "Quaternion.hpp"
+#include "Euler.hpp"
+
 #include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -109,6 +112,24 @@ namespace Ocular
                 m_Contents[6] = row2.x;
                 m_Contents[7] = row2.y;
                 m_Contents[8] = row2.z;
+            }
+
+            /**
+             * Initializes a 3x3 rotational matrix from a quaternion.
+             * \param[in] quaternion
+             */
+            Matrix3x3(Quaternion const& quaternion)
+            {
+            
+            }
+
+            /**
+             * Initializes a 3x3 rotational matrix from a Euler angles.
+             * \param[in] euler
+             */
+            Matrix3x3(Euler const& euler)
+            {
+            
             }
 
             /**
