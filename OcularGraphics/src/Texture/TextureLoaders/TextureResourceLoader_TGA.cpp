@@ -141,6 +141,8 @@ bool readHeader(std::vector<unsigned char> const& buffer, TGAHeader& header)
         header.width  = *(unsigned short*)(&buffer[12]);
         header.height = *(unsigned short*)(&buffer[14]);
         header.bpp    = *(unsigned char*)(&buffer[16]) / 8;
+
+        result = true;
     }
     else
     {
@@ -157,27 +159,18 @@ bool isValidHeader(TGAHeader const& header)
     if((header.width == 0) || (header.height == 0))
     {
         result = false;
-    }
-    else
-    {
         OcularLogger->error("Invalid image dimensions", OCULAR_INTERNAL_LOG("TextureResourceLoader_TGA", "isValidHeader"));
     }
 
     if((header.type != 2) && (header.type != 10))
     {
         result = false;
-    }
-    else
-    {
         OcularLogger->error("Unsupported TGA image type (", header.type, ")", OCULAR_INTERNAL_LOG("TextureResourceLoader_TGA", "isValidHeader"));
     }
 
     if((header.bpp != 3) && (header.bpp != 4))
     {
         result = false;
-    }
-    else
-    {
         OcularLogger->error("Unsupported image color depth (", header.bpp * 8, ")", OCULAR_INTERNAL_LOG("TextureResourceLoader_TGA", "isValidHeader"));
     }
 
@@ -204,9 +197,11 @@ bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned ch
 
         for(unsigned i = 0; (i < numPixels) && (bufferPos + (header.bpp - 1) < buffer.size()); i++)
         {
-            r = buffer[bufferPos++];
-            g = buffer[bufferPos++];
+            // TGA images are stored in BGR/A format
+
             b = buffer[bufferPos++];
+            g = buffer[bufferPos++];
+            r = buffer[bufferPos++];
             a = (header.bpp == 4 ? buffer[bufferPos++] : 255);
 
             pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
@@ -269,15 +264,17 @@ bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char
 
             for(unsigned i = 0; i < chunkValue; i++)
             {
-                r = buffer[bufferPos++];
-                g = buffer[bufferPos++];
                 b = buffer[bufferPos++];
+                g = buffer[bufferPos++];
+                r = buffer[bufferPos++];
                 a = (header.bpp == 4 ? buffer[bufferPos++] : 255);
 
                 pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
                                                 static_cast<float>(g) / 255.0f, 
                                                 static_cast<float>(b) / 255.0f, 
                                                 static_cast<float>(a) / 255.0f));
+
+                pixelCount++;
             }
         }
         else
@@ -285,9 +282,9 @@ bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char
             // RLE
             chunkValue -= 127;
 
-            r = buffer[bufferPos++];
-            g = buffer[bufferPos++];
             b = buffer[bufferPos++];
+            g = buffer[bufferPos++];
+            r = buffer[bufferPos++];
             a = (header.bpp == 4 ? buffer[bufferPos++] : 255);
 
             for(unsigned i = 0; i < chunkValue; i++)
@@ -296,6 +293,8 @@ bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char
                                                 static_cast<float>(g) / 255.0f, 
                                                 static_cast<float>(b) / 255.0f, 
                                                 static_cast<float>(a) / 255.0f));
+
+                pixelCount++;
             }
         }
     }

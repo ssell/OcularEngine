@@ -93,8 +93,8 @@ int main(int argc, char** argv)
     Ocular::Graphics::TextureResourceSaver_BMP  blerghh;
     Ocular::Graphics::TextureResourceSaver_PNG  blerghhh;
 
-    Ocular::Core::File bmpIn("C:\\Users\\admin\\Desktop\\New folder\\in.png");
-    Ocular::Core::File bmpOut("C:\\Users\\admin\\Desktop\\New folder\\pngoutA.png");
+    Ocular::Core::File bmpIn("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testImageTGA_RLE.tga");
+    Ocular::Core::File bmpOut("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\pngout_RLE.png");
 
     Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
 
@@ -106,6 +106,10 @@ int main(int argc, char** argv)
         {
             OcularEngine.ResourceManager()->saveResource(bmpTexture, bmpOut);
         }
+
+        delete bmpResource;
+        bmpResource = nullptr;
+        bmpTexture  = nullptr;
     }
 
     OcularEngine.shutdown();
