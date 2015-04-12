@@ -129,7 +129,21 @@ namespace Ocular
              */
             Matrix3x3(Euler const& euler)
             {
-            
+                float y = euler.yaw;
+                float p = euler.pitch;
+                float r = euler.roll;
+
+                m_Contents[0] = (cos(r) * cos(y)) - (sin(r) * sin(p) * sin(y));
+                m_Contents[1] = -sin(r) * cos(p);
+                m_Contents[2] = (cos(r) * sin(y)) + (sin(r) * sin(p) * cos(y));
+
+                m_Contents[3] = (sin(r) * cos(y)) + (cos(r) * sin(p) * sin(y));
+                m_Contents[4] = cos(r) * cos(p);
+                m_Contents[5] = (sin(r) * sin(y)) - (cos(r) * sin(p) * cos(y));
+
+                m_Contents[6] = -cos(p) * sin(y);
+                m_Contents[7] = sin(p);
+                m_Contents[8] = cos(p) * cos(y);
             }
 
             /**
@@ -447,6 +461,28 @@ namespace Ocular
                 }
 
                 m_Contents[index] = value;
+            }
+
+            //------------------------------------------------------------------------------
+            // CONVERSIONS
+            //------------------------------------------------------------------------------
+
+            /**
+             * Converts this rotation matrix to a quaternion.
+             * \return The converted quaternion.
+             */
+            Quaternion toQuaternion() const 
+            {
+                return Quaternion(*this);
+            }
+            
+            /**
+             * Converts this rotation matrix to Euler angles.
+             * \return The converted Euler angles.
+             */
+            Euler toEuler() const 
+            {
+                return Euler(*this);
             }
 
             //------------------------------------------------------------------------------

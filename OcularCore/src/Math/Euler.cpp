@@ -17,6 +17,7 @@
 #include "Math/Euler.hpp"
 #include "Math/Matrix3x3.hpp"
 #include "Math/Quaternion.hpp"
+#include "Math/Equality.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -40,11 +41,21 @@ namespace Ocular
             yaw   = pYaw;
             pitch = pPitch;
             roll  = pRoll;
+
+            
         }
 
         Euler::Euler(Matrix3x3f const& rotationMatrix)
         {
-            
+            yaw   = std::atan2(-rotationMatrix.getElement(2, 0), rotationMatrix.getElement(2, 2));
+            pitch = std::asin(rotationMatrix.getElement(2, 1));
+            roll  = std::atan2(-rotationMatrix.getElement(0, 1), rotationMatrix.getElement(1, 1));
+
+            if(IsEqual<float>(std::cos(pitch), 0.0f))
+            {
+                yaw  = 0.0f;
+                roll = std::atan2(rotationMatrix.getElement(1, 0), rotationMatrix.getElement(0, 0));
+            }
         }
 
         Euler::Euler(Quaternion const& quaternion)

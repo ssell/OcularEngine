@@ -76,7 +76,9 @@ namespace Ocular
             ~Quaternion();
 
             //------------------------------------------------------------
-            
+            // CONVERSIONS
+            //------------------------------------------------------------
+
             /**
              * Converts this Quaternion representation of a rotation to  a 3x3 rotation matrix.
              * \return The converted matrix.
