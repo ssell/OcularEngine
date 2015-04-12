@@ -120,7 +120,32 @@ namespace Ocular
              */
             Matrix3x3(Quaternion const& quaternion)
             {
-            
+                // Source: 
+                // Real-Time Rendering 3rd Edition 
+                // 4.3.2 Quaternion Transforms
+                // Page 76
+
+                // Also:
+                // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+
+                Quaternion normalized = quaternion.getNormalized();
+
+                float w = normalized.w;
+                float x = normalized.x;
+                float y = normalized.y;
+                float z = normalized.z;
+
+                m_Contents[0] = 1.0f - 2.0f * ((y * y) + (z * z));
+                m_Contents[1] = 2.0f * ((x * y) - (w * z));
+                m_Contents[2] = 2.0f * ((x * z) + (w * y));
+
+                m_Contents[3] = 2.0f * ((x * y) + (w * z));
+                m_Contents[4] = 1.0f - 2.0f * ((x * x) + (z * z));
+                m_Contents[5] = 2.0f * ((y * z) - (w * x));
+
+                m_Contents[6] = 2.0f * ((x * z) - (w * y));
+                m_Contents[7] = 2.0f * ((y * z) + (w * x));
+                m_Contents[8] = 1.0f - 2.0f * ((x * x) + (y * y));
             }
 
             /**
@@ -129,21 +154,36 @@ namespace Ocular
              */
             Matrix3x3(Euler const& euler)
             {
+                // Source: 
+                // Real-Time Rendering 3rd Edition 
+                // 4.2.2 Extracting Parameters from the Euler Transform
+                // Page 68
+
+                // Also:
+                // http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToMatrix/index.htm
+
                 float y = euler.yaw;
                 float p = euler.pitch;
                 float r = euler.roll;
 
-                m_Contents[0] = (cos(r) * cos(y)) - (sin(r) * sin(p) * sin(y));
-                m_Contents[1] = -sin(r) * cos(p);
-                m_Contents[2] = (cos(r) * sin(y)) + (sin(r) * sin(p) * cos(y));
+                float cosy = std::cos(y);
+                float siny = std::sin(y);
+                float cosp = std::cos(p);
+                float sinp = std::sin(p);
+                float cosr = std::cos(r);
+                float sinr = std::sin(r);
 
-                m_Contents[3] = (sin(r) * cos(y)) + (cos(r) * sin(p) * sin(y));
-                m_Contents[4] = cos(r) * cos(p);
-                m_Contents[5] = (sin(r) * sin(y)) - (cos(r) * sin(p) * cos(y));
+                m_Contents[0] = (cosr * cosy) - (sinr * sinp * siny);
+                m_Contents[1] = -sinr * cosp;
+                m_Contents[2] = (cosr * siny) + (sinr * sinp * cosy);
 
-                m_Contents[6] = -cos(p) * sin(y);
-                m_Contents[7] = sin(p);
-                m_Contents[8] = cos(p) * cos(y);
+                m_Contents[3] = (sinr * cosy) + (cosr * sinp * siny);
+                m_Contents[4] = cosr * cosp;
+                m_Contents[5] = (sinr * siny) - (cosr * sinp * cosy);
+
+                m_Contents[6] = -cosp * siny;
+                m_Contents[7] = sinp;
+                m_Contents[8] = cosp * cosy;
             }
 
             /**
@@ -311,15 +351,6 @@ namespace Ocular
                 }
 
                 return m_Contents[index];
-            }
-
-            /**
-            * Returns the complete contents of the matrix.
-            */
-            float* const getContents() const
-            {
-                float[9] result = m_Contents;
-                return m_Contents;
             }
 
             //------------------------------------------------------------------------------

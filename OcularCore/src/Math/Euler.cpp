@@ -41,12 +41,15 @@ namespace Ocular
             yaw   = pYaw;
             pitch = pPitch;
             roll  = pRoll;
-
-            
         }
 
         Euler::Euler(Matrix3x3f const& rotationMatrix)
         {
+            // Source: 
+            // Real-Time Rendering 3rd Edition 
+            // 4.2.2 Extracting Parameters from the Euler Transform
+            // Page 68
+
             yaw   = std::atan2(-rotationMatrix.getElement(2, 0), rotationMatrix.getElement(2, 2));
             pitch = std::asin(rotationMatrix.getElement(2, 1));
             roll  = std::atan2(-rotationMatrix.getElement(0, 1), rotationMatrix.getElement(1, 1));
@@ -60,7 +63,42 @@ namespace Ocular
 
         Euler::Euler(Quaternion const& quaternion)
         {
-        
+            // Source: 
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+
+            float qw = quaternion.w;
+            float qx = quaternion.x;
+            float qy = quaternion.y;
+            float qz = quaternion.z;
+
+            float qww = qw * qw;
+            float qxx = qx * qx;
+            float qyy = qy * qy;
+            float qzz = qz * qz;
+
+            float unit = qxx + qyy + qzz + qww;
+            float test = (qx * qy) + (qz * qw);
+
+            if(test > (0.499f * unit))
+            {
+                // North Pole Singularity
+                yaw   = 2.0f * atan2(qx, qw);
+                pitch = static_cast<float>(PI_OVER_TWO);
+                roll  = 0.0f;
+            }
+            else if(test < (-0.499f * unit))
+            {
+                // South Pole Singularity
+                yaw   = -2.0f * atan2(qx, qw);
+                pitch = static_cast<float>(-PI_OVER_TWO);
+                roll  = 0.0f;
+            }
+            else
+            {
+                yaw   = atan2((2.0f * qy * qw) - (2.0f * qx * qz), qxx - qyy - qzz + qww);
+                pitch = asin((2.0f * qx * qy) + (2.0f * qz * qw));
+                roll  = atan2((2.0f * qx * qw) - (2.0f * qy * qz), -qxx + qyy - qzz + qww);
+            }
         }
 
         Euler::~Euler()

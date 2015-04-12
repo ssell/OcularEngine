@@ -370,15 +370,6 @@ namespace Ocular
                 return m_Contents[index];
             }
 
-            /**
-             * Returns the complete contents of the matrix.
-             */
-            float* const getContents() const
-            {
-                float[16] result = m_Contents;
-                return m_Contents;
-            }
-
             //------------------------------------------------------------------------------
             // SETTERS
             //------------------------------------------------------------------------------

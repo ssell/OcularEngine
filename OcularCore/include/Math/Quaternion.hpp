@@ -91,7 +91,23 @@ namespace Ocular
              */
             Euler toEuler() const;
 
+            //------------------------------------------------------------
+            // OPERATIONS
+            //------------------------------------------------------------
 
+            /**
+             * Normalizes the Quaternion.
+             * \note This method modifies the internal data stored in the Quaternion. See getNormalized if this is not desired.
+             */
+            void normalize();
+
+            /**
+             * Returns the normalized form of this Quaternion.
+             */
+            Quaternion getNormalized() const;
+
+            //------------------------------------------------------------
+            // PUBLIC VARIABLES
             //------------------------------------------------------------
             
             float w;             ///< W-component

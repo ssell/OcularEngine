@@ -68,7 +68,6 @@ namespace Ocular
 
             /**
              * Initializes the Euler angles from a quaternion.
-             *
              * \param[in] quaternion
              */
             Euler(Quaternion const& quaternion);

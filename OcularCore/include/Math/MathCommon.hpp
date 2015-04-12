@@ -34,6 +34,7 @@ namespace Ocular
     {
         static const double PI           = 3.14159265;
         static const double PI_TWO       = 6.28318531;
+        static const double PI_OVER_TWO  = 1.57079632;
         static const double PI_OVER_180  = 0.01745329;
         static const double PI_UNDER_180 = 57.2957796;
         static const double PHI          = 1.61803399;
