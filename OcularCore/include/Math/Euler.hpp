@@ -41,10 +41,18 @@ namespace Ocular
 
         /**
          * \class Euler
-         * \brief Implementation of Euler (Tait-Bryan) angles - yaw, pitch, roll.
+         * 
+         * Implementation of Euler (Tait-Bryan) angles - yaw, pitch, roll.
+         * In NASA Standard Aeroplace notation, these correspond to heading, altitude, and bearing respectively.
+         *
+         * All input and output from the Euler class is in degrees, but internally
+         * the components are stored as radians. 
          */
         class Euler
         {
+            friend class Matrix3x3<float>;
+            friend class Quaternion;
+
         public:
 
             /**
@@ -75,6 +83,51 @@ namespace Ocular
             ~Euler();
 
             //------------------------------------------------------------
+            // GETTERS / SETTERS
+            //------------------------------------------------------------
+            
+            /**
+             * \return The Yaw in degrees.
+             */
+            float getYaw() const;
+
+            /**
+             * \return The Pitch in degrees.
+             */
+            float getPitch() const;
+
+            /**
+             * \return The Roll in degrees.
+             */
+            float getRoll() const;
+            
+            /**
+             * Directly sets the yaw of this Euler angles. 
+             * This method should only be used if you know exactly what you are doing.
+             *
+             * \param[in] yaw The Yaw in degrees.
+             */
+            void setYaw(float const& yaw);
+
+            /**
+             * Directly sets the pitch of this Euler angles. 
+             * This method should only be used if you know exactly what you are doing.
+             *
+             * \param[in] pitch The Pitch in degrees.
+             */
+            void setPitch(float const& pitch);
+
+            /**
+             * Directly sets the roll of this Euler angles. 
+             * This method should only be used if you know exactly what you are doing.
+             *
+             * \param[in] roll The Roll in degrees.
+             */
+            void setRoll(float const& roll);
+
+            //------------------------------------------------------------
+            // CONVERSIONS
+            //------------------------------------------------------------
             
             /**
              * Converts this Euler angle representation of a rotation to
@@ -92,17 +145,13 @@ namespace Ocular
              */
             Quaternion toQuaternion() const;
 
-
-            //------------------------------------------------------------
-
-            float yaw;             ///< Yaw in radians
-            float pitch;           ///< Pitch in radians
-            float roll;            ///< Roll in radians
-
         protected:
 
-
         private:
+
+            float m_Yaw;           ///< The Yaw. Stored internally as radians.
+            float m_Pitch;         ///< The Pitch. Stored internally as radians.
+            float m_Roll;          ///< The Roll. Stored internally as radians.
         };
     }
     /**

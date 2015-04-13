@@ -31,16 +31,16 @@ namespace Ocular
 
         Euler::Euler()
         {
-            yaw   = 0.0f;
-            pitch = 0.0f;
-            roll  = 0.0f;
+            m_Yaw   = 0.0f;
+            m_Pitch = 0.0f;
+            m_Roll  = 0.0f;
         }
 
         Euler::Euler(float const pYaw, float const pPitch, float const pRoll)
         {
-            yaw   = pYaw;
-            pitch = pPitch;
-            roll  = pRoll;
+            m_Yaw   = pYaw;
+            m_Pitch = pPitch;
+            m_Roll  = pRoll;
         }
 
         Euler::Euler(Matrix3x3f const& rotationMatrix)
@@ -50,14 +50,14 @@ namespace Ocular
             // 4.2.2 Extracting Parameters from the Euler Transform
             // Page 68
 
-            yaw   = std::atan2(-rotationMatrix.getElement(2, 0), rotationMatrix.getElement(2, 2));
-            pitch = std::asin(rotationMatrix.getElement(2, 1));
-            roll  = std::atan2(-rotationMatrix.getElement(0, 1), rotationMatrix.getElement(1, 1));
+            m_Yaw   = std::atan2(-rotationMatrix.getElement(2, 0), rotationMatrix.getElement(2, 2));
+            m_Pitch = std::asin(rotationMatrix.getElement(2, 1));
+            m_Roll  = std::atan2(-rotationMatrix.getElement(0, 1), rotationMatrix.getElement(1, 1));
 
-            if(IsEqual<float>(std::cos(pitch), 0.0f))
+            if(IsEqual<float>(std::cos(m_Pitch), 0.0f))
             {
-                yaw  = 0.0f;
-                roll = std::atan2(rotationMatrix.getElement(1, 0), rotationMatrix.getElement(0, 0));
+                m_Pitch  = 0.0f;
+                m_Roll = std::atan2(rotationMatrix.getElement(1, 0), rotationMatrix.getElement(0, 0));
             }
         }
 
@@ -82,22 +82,22 @@ namespace Ocular
             if(test > (0.499f * unit))
             {
                 // North Pole Singularity
-                yaw   = 2.0f * atan2(qx, qw);
-                pitch = static_cast<float>(PI_OVER_TWO);
-                roll  = 0.0f;
+                m_Yaw   = 2.0f * atan2(qx, qw);
+                m_Pitch = static_cast<float>(PI_OVER_TWO);
+                m_Roll  = 0.0f;
             }
             else if(test < (-0.499f * unit))
             {
                 // South Pole Singularity
-                yaw   = -2.0f * atan2(qx, qw);
-                pitch = static_cast<float>(-PI_OVER_TWO);
-                roll  = 0.0f;
+                m_Yaw   = -2.0f * atan2(qx, qw);
+                m_Pitch = static_cast<float>(-PI_OVER_TWO);
+                m_Roll  = 0.0f;
             }
             else
             {
-                yaw   = atan2((2.0f * qy * qw) - (2.0f * qx * qz), qxx - qyy - qzz + qww);
-                pitch = asin((2.0f * qx * qy) + (2.0f * qz * qw));
-                roll  = atan2((2.0f * qx * qw) - (2.0f * qy * qz), -qxx + qyy - qzz + qww);
+                m_Yaw   = atan2((2.0f * qy * qw) - (2.0f * qx * qz), qxx - qyy - qzz + qww);
+                m_Pitch = asin((2.0f * qx * qy) + (2.0f * qz * qw));
+                m_Roll  = atan2((2.0f * qx * qw) - (2.0f * qy * qz), -qxx + qyy - qzz + qww);
             }
         }
 
@@ -109,6 +109,44 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        //------------------------------------------------------------
+        // GETTERS / SETTERS
+        //------------------------------------------------------------
+
+        float Euler::getYaw() const
+        {
+            return RadiansToDegrees<float>(m_Yaw);
+        }
+
+        float Euler::getPitch() const
+        {
+            return RadiansToDegrees<float>(m_Pitch);
+        }
+
+        float Euler::getRoll() const
+        {
+            return RadiansToDegrees<float>(m_Roll);
+        }
+
+        void Euler::setYaw(float const& yaw)
+        {
+            m_Yaw = yaw;
+        }
+
+        void Euler::setPitch(float const& pitch)
+        {
+            m_Pitch = pitch;
+        }
+
+        void Euler::setRoll(float const& roll)
+        {
+            m_Roll = roll;
+        }
+
+        //------------------------------------------------------------
+        // CONVERSIONS
+        //------------------------------------------------------------
 
         Matrix3x3f Euler::toRotationMatrix() const
         {

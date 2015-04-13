@@ -105,12 +105,14 @@ namespace Ocular
             // Source:
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm
 
-            float c1 = cos(euler.yaw / 2.0f);
-            float c2 = cos(euler.pitch / 2.0f);
-            float c3 = cos(euler.roll / 2.0f);
-            float s1 = sin(euler.yaw / 2.0f);
-            float s2 = sin(euler.pitch / 2.0f);
-            float s3 = sin(euler.roll / 2.0f);
+            // We directly access the internal contents as getYaw, etc. return in degrees and we want radians.
+
+            float c1 = cos(euler.m_Yaw / 2.0f);
+            float c2 = cos(euler.m_Pitch / 2.0f);
+            float c3 = cos(euler.m_Roll / 2.0f);
+            float s1 = sin(euler.m_Yaw / 2.0f);
+            float s2 = sin(euler.m_Pitch / 2.0f);
+            float s3 = sin(euler.m_Roll / 2.0f);
 
             w = (c1 * c2 * c3) - (s1 * s2 * s3);
             x = (s1 * s2 * c3) + (c1 * c2 * s3);

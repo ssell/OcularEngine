@@ -162,9 +162,11 @@ namespace Ocular
                 // Also:
                 // http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToMatrix/index.htm
 
-                float y = euler.yaw;
-                float p = euler.pitch;
-                float r = euler.roll;
+                // We directly access the internal contents as getYaw, etc. return in degrees and we want radians.
+
+                float y = euler.m_Yaw;
+                float p = euler.m_Pitch;
+                float r = euler.m_Roll;
 
                 float cosy = std::cos(y);
                 float siny = std::sin(y);

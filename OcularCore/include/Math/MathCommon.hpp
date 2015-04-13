@@ -32,6 +32,10 @@ namespace Ocular
      */
     namespace Math
     {
+        //----------------------------------------------------------------------------------
+        // Common Constants
+        //----------------------------------------------------------------------------------
+
         static const double PI           = 3.14159265;
         static const double PI_TWO       = 6.28318531;
         static const double PI_OVER_TWO  = 1.57079632;
@@ -41,6 +45,99 @@ namespace Ocular
 
         static const double EPSILON_DOUBLE = 0.0001;
         static const double EPSILON_FLOAT  = 0.0001f;
+
+        //----------------------------------------------------------------------------------
+        // Type Checking
+        //----------------------------------------------------------------------------------
+
+        /**
+         * \struct TypeIsInteger
+         * \brief Used to determine if a template type is an integer.
+         *
+         * Example of usage:
+         *
+         *     if(TypeIsInteger<T>::value)
+         *     {
+         *         // Do integer-based operation
+         *     }
+         *     else
+         *     {
+         *         // Do floating-point operation
+         *     }
+         *
+         * Value will be equal to TRUE in all cases except for when T is a float or double.
+         */
+        template<typename T>
+        struct TypeIsInteger { static const bool value = true; };
+
+        template<>
+        struct TypeIsInteger<float> { static const bool value = false; };
+
+        template<>
+        struct TypeIsInteger<double> { static const bool value = false; };
+
+        //----------------------------------------------------------------------------------
+        // Common Functions
+        //----------------------------------------------------------------------------------
+
+        /**
+         * Normalises the specified value into the provided range. Example:
+         *
+         *     Normalise(240.0f, -180.0f, 180.0f) = 60.0f
+         *
+         * \param[in] value
+         * \param[in] rangeStart Start of the range (smallest allowed value)
+         * \param[in] rangeEnd   End of the range (largest allowed value)
+         */
+        template<typename T>
+        static T Normalise(T const& value, T const& rangeStart, T const& rangeEnd)
+        {
+            // Yes this is a naive implementation. Have yet to find another that
+            // works on all types (integer, floating-point, positive, negative).
+
+            T result = value;
+            T width  = rangeEnd - rangeStart;
+
+            while(result > rangeEnd)
+            {
+                result -= width;
+            }
+
+            while(result < rangeStart)
+            {
+                result += width;
+            }
+
+            return result;
+        }
+
+        /**
+         * Converts the input radians value into degrees.
+         *
+         * \param[in] radians
+         */
+        template<typename T>
+        static T RadiansToDegrees(T const& radians)
+        {
+            double dRads = static_cast<double>(radians);
+            dRads = Normalise<double>(dRads, -PI_TWO, PI_TWO);
+
+            return static_cast<T>(dRads * PI_UNDER_180);
+        }
+
+        /**
+         * Converts the input degrees value into radians.
+         *
+         * \param[in] degrees
+         */
+        template<typename T>
+        static T DegreesToRadians(T const& degrees)
+        {
+            double dDegs = static_cast<double>(degrees);
+            dDegs = Normalise<double>(dDegs, -360.0, 360.0);
+
+            return static_cast<T>(dDegs * PI_OVER_180);
+        }
 
         /**
          * Clamps the specified value to the range of [lower, upper]

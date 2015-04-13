@@ -52,65 +52,12 @@ void openWindow()
     OcularEngine.WindowManager()->openWindow(descriptor);
 }
 
-void setupEventSnooper()
-{
-    g_Snooper.setIgnoreDuplicates(true);
-    OcularEngine.EventManager()->registerListener(&g_Snooper, Ocular::Core::EVENT_PRIORITY::MONITOR);
-}
-
-bool convertPNGtoBMP(Ocular::Core::File const& pngIn, Ocular::Core::File const& bmpOut)
-{
-    bool result = false;
-
-    Ocular::Core::Resource* resource = OcularEngine.ResourceManager()->loadUnmanagedFile(pngIn);
-
-    if(resource)
-    {
-        result = OcularEngine.ResourceManager()->saveResource(resource, bmpOut);
-
-        delete resource;
-        resource = nullptr;
-    }
-
-    return result;
-}
-
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
-
     Ocular::Core::SystemInfo::logSystemInfo();
-    
-    OcularLogger->info("Number of registered Resource Loaders: ", OcularEngine.ResourceManager()->getNumberOfResourceLoaders());
-    OcularLogger->info("Number of registered Resource Savers:  ", OcularEngine.ResourceManager()->getNumberOfResourceSavers());
 
-    //runTests(argc, argv);
-    //testResources();
-    
-    Ocular::Graphics::TextureResourceLoader_BMP blargh;
-    Ocular::Graphics::TextureResourceLoader_PNG blurgh;
-    Ocular::Graphics::TextureResourceLoader_TGA blergh;
-    Ocular::Graphics::TextureResourceSaver_BMP  blerghh;
-    Ocular::Graphics::TextureResourceSaver_PNG  blerghhh;
-
-    Ocular::Core::File bmpIn("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\testImageTGA_RLE.tga");
-    Ocular::Core::File bmpOut("C:\\Users\\ssell\\Desktop\\OcularTestPlace\\pngout_RLE.png");
-
-    Ocular::Core::Resource* bmpResource = OcularEngine.ResourceManager()->loadUnmanagedFile(bmpIn);
-
-    if(bmpResource)
-    {
-        Ocular::Graphics::Texture2D* bmpTexture = dynamic_cast<Ocular::Graphics::Texture2D*>(bmpResource);
-
-        if(bmpTexture)
-        {
-            OcularEngine.ResourceManager()->saveResource(bmpTexture, bmpOut);
-        }
-
-        delete bmpResource;
-        bmpResource = nullptr;
-        bmpTexture  = nullptr;
-    }
+    runTests(argc, argv);
 
     OcularEngine.shutdown();
 }

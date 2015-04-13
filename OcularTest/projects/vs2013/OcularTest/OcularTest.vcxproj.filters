@@ -81,6 +81,9 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp">
       <Filter>Source Files\Tests\Core\Renderer\Window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConversions.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

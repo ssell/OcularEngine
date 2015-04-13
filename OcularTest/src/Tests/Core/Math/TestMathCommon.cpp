@@ -1,23 +1,72 @@
 /**
-* Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "Math/MathCommon.hpp"
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
+
+TEST(MathCommon, Normalise)
+{
+    double dValue = 240.0f;
+    dValue = Ocular::Math::Normalise<double>(dValue, 0.0, 180.0);
+
+    EXPECT_NEAR(dValue, 60.0, Ocular::Math::EPSILON_DOUBLE);
+
+    int iValue = -20;
+    iValue = Ocular::Math::Normalise<int>(iValue, -18, 18);
+
+    EXPECT_EQ(iValue, 16);
+}
+
+TEST(MathCommon, DegreesToRadians)
+{
+    double degrees = 180.0;
+    double result  = Ocular::Math::DegreesToRadians<double>(degrees);
+
+    EXPECT_NEAR(result, Ocular::Math::PI, Ocular::Math::EPSILON_DOUBLE);
+
+    degrees = -90.0;
+    result  = Ocular::Math::DegreesToRadians<double>(degrees);
+
+    EXPECT_NEAR(result, -Ocular::Math::PI_OVER_TWO, Ocular::Math::EPSILON_DOUBLE);
+
+    degrees = 0.0;
+    result  = Ocular::Math::DegreesToRadians<double>(degrees);
+
+    EXPECT_NEAR(result, 0.0, Ocular::Math::EPSILON_DOUBLE);
+}
+
+TEST(MathCommon, RadiansToDegrees)
+{
+    double radians = Ocular::Math::PI;
+    double result  = Ocular::Math::RadiansToDegrees<double>(radians);
+
+    EXPECT_NEAR(result, 180.0, Ocular::Math::EPSILON_DOUBLE);
+
+    radians = -Ocular::Math::PI_OVER_TWO;
+    result  = Ocular::Math::RadiansToDegrees<double>(radians);
+
+    EXPECT_NEAR(result, -90.0, Ocular::Math::EPSILON_DOUBLE);
+
+    radians = 0.0;
+    result  = Ocular::Math::RadiansToDegrees<double>(radians);
+
+    EXPECT_NEAR(result, 0.0, Ocular::Math::EPSILON_DOUBLE);
+}
 
 TEST(MathCommon, Clamp)
 {
