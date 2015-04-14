@@ -82,7 +82,7 @@ namespace Ocular
 
             //--------------------------------------------------------
 
-            m_Yaw = atan2(2.0f * ((qw * qz) + (qx * qy)), (1.0f - 2.0f * (qyy + qzz)));
+            m_Yaw = atan2(2.0f * ((qw * qz) + (qx * qy)), (1 - 2.0f * (qyy + qzz)));
 
             if(test > PoleSingularity)
             {
@@ -97,7 +97,7 @@ namespace Ocular
             else
             {
                 m_Roll  = atan2(-2.0f * ((qw * qx) + (qy * qz)), 1.0f - 2.0f * (qxx + qyy));
-                m_Pitch = asin(2.0f * test);
+                m_Pitch = asin(2 * test);
             }
 
             normalise();

@@ -35,6 +35,7 @@ namespace Ocular
         // Forward Declarations
 
         template<typename T> class Matrix3x3;
+        template<typename T> class Vector3;
         class Euler;
 
         //----------------------------------------------------------------
@@ -94,7 +95,17 @@ namespace Ocular
             //------------------------------------------------------------
             // OPERATIONS
             //------------------------------------------------------------
+            
+            /**
+             * Rotates the provided Vector by this Quaternion.
+             * \param[out] vector The Vector to be rotated.
+             */
+            void rotate(Vector3<float>& vector) const;
 
+            /**
+             * \return Returns TRUE if the Quaternion is normalized (w + x + y + z = 0)
+             */
+            bool isNormalized() const;
             /**
              * Normalizes the Quaternion.
              * \note This method modifies the internal data stored in the Quaternion. See getNormalized if this is not desired.
@@ -103,8 +114,81 @@ namespace Ocular
 
             /**
              * Returns the normalized form of this Quaternion.
+             * \note This method does not modify the internal data. See normalize if this is not desired.
              */
             Quaternion getNormalized() const;
+
+            /**
+             * Calculates the length of this Quaternion.
+             * \return The length of this Quaternion.
+             */
+            float getLength() const;
+
+            /**
+             * Calculates the squared length of this Quaternion.
+             * \return The squared length of this Quaternion.
+             */
+            float getLengthSquared() const;
+
+            /**
+             * Calculates and returns the inverse of this Quaternion.
+             * \return The inverse of this Quaternion.
+             */
+            Quaternion getInverse() const;
+
+            /**
+             * \return The x-rotation axis.
+             */
+            Vector3<float> getXRotationAxis() const;
+
+            /**
+             * \return The y-rotation axis.
+             */
+            Vector3<float> getYRotationAxis() const;
+
+            /**
+             * \return The z-rotation axis.
+             */
+            Vector3<float> getZRotationAxis() const;
+
+            //------------------------------------------------------------
+            // Static Methods
+            //------------------------------------------------------------
+
+            static Quaternion createLookAtRotation(Vector3<float> forward, Vector3<float> upward);
+            /**
+             * Performs linear quaternion interpolation and returns the resulting quaternion.
+             * 
+             * \param[in] a The starting Quaternion (result == a when t == 0.0).
+             * \param[in] b The ending Quaternion (result == b when t == 1.0).
+             * \param[in] t Alpha value.
+             *
+             * \return The resulting Quaternion (not normalized).
+             */
+            static Quaternion lerp(Quaternion const& a, Quaternion const& b, float const& t);
+
+            /**
+             * Performs bilinear quaternion interpolation and returns the result quaternion.
+             *
+             * \param[in] q00 "Lower-left" starting point for interpolation (x == 0.0 && y == 0.0)
+             * \param[in] q10 "Lower-right" ending point for interpolation (x == 1.0)
+             * \param[in] q01 "Upper-left" ending point for interpolation (y == 1.0)
+             * \param[in] q11 "Upper-right" ending point for interpolation (x == 1.0 && y == 1.0)
+             *
+             * \return The resulting Quaternion (not normalized).
+             */
+            static Quaternion bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y);
+
+            /**
+             * Performs spherical interpolation and returns the resulting quaternion.
+             *
+             * \param[in] a The starting Quaternion (result == a when t == 0.0)
+             * \param[in] b The ending Quaternion (result == b when t == 1.0)
+             * \param[in] t 
+             *
+             * \return The resulting Quaternion (not normalized).
+             */
+            static Quaternion slerp(Quaternion const& a, Quaternion const& b, float const& t);
 
             //------------------------------------------------------------
             // PUBLIC VARIABLES

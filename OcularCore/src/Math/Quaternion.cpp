@@ -156,6 +156,23 @@ namespace Ocular
             return Euler(*this);
         }
 
+        bool Quaternion::isNormalized() const
+        {
+            return IsEqual<float>(fabs(1.0f - getLengthSquared()), 0.0f);
+        }
+
+        void Quaternion::rotate(Vector3<float>& vector) const
+        {
+            Vector3<float> result;
+            Vector3<float> quatVector(x, y, z);
+
+            result  = quatVector.cross(vector) * w * 2.0f;
+            result += (vector * ((quatVector.dot(quatVector) * -1.0f) + (w * w)));
+            result += (quatVector * (2.0f * quatVector.dot(vector)));
+
+            vector = result;
+        }
+
         void Quaternion::normalize()
         {
             const float squareSum = (w * w) + (x * x) + (y * y) + (z * z);
@@ -171,6 +188,88 @@ namespace Ocular
         {
             Quaternion result = *this;
             result.normalize();
+
+            return result;
+        }
+
+        float Quaternion::getLength() const
+        {
+            float result = 0.0f;
+            
+            // --- TODO
+
+            return result;
+        }
+
+        float Quaternion::getLengthSquared() const
+        {
+            const float length = getLength();
+            return (length * length);
+        }
+
+        Quaternion Quaternion::getInverse() const
+        {
+            Quaternion result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        Vector3<float> Quaternion::getXRotationAxis() const
+        {
+            Vector3<float> result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        Vector3<float> Quaternion::getYRotationAxis() const
+        {
+            Vector3<float> result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        Vector3<float> Quaternion::getZRotationAxis() const
+        {
+            Vector3<float> result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        //------------------------------------------------------------
+        // STATIC METHODS
+        //------------------------------------------------------------
+
+        Quaternion Quaternion::lerp(Quaternion const& a, Quaternion const& b, float const& t)
+        {
+            Quaternion result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        Quaternion Quaternion::bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y)
+        {
+            Quaternion result;
+
+            // --- TODO
+
+            return result;
+        }
+
+        Quaternion Quaternion::slerp(Quaternion const& a, Quaternion const& b, float const& t)
+        {
+            Quaternion result;
+
+            // --- TODO
 
             return result;
         }

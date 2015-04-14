@@ -84,6 +84,12 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConversions.cpp">
       <Filter>Source Files\Tests\Core\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathEuler.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathQuaternion.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

@@ -332,6 +332,14 @@ namespace Ocular
             }
 
             //------------------------------------------------------------------------------
+            // SPECIAL STATIC VECTORS
+            //------------------------------------------------------------------------------
+
+            // Ocular ses a right-handed coordinate system
+
+            static Vector3<T> Up() const { return Vector3<T>(static_cast<T>(0.0f), static_cast<T>(1.0f), static_cast<T>(0.0f); }
+
+            //------------------------------------------------------------------------------
             // VARIABLES
             //------------------------------------------------------------------------------
 
@@ -405,6 +413,11 @@ namespace Ocular
         {
             return Vector3<T>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
         }
+
+        //--------------------------------------------
+        // Common vector directions
+
+        Vector3<float> Vector3<float>::Up = Vector3<float>(0.0f, 0.0f, 0.0f);
 
         //--------------------------------------------
         // Common vector formats

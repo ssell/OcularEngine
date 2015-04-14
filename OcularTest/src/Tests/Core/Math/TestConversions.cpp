@@ -59,7 +59,7 @@ TEST(Conversions, QuaternionMatrix)
     //       Quaternion -> Rotation Matrix
     //  Rotation Matrix -> Quaternion
 
-    Ocular::Math::Quaternion quat(0.270598114f, -0.65328151f, -0.65328151f, -0.270597935f);
+    Ocular::Math::Quaternion quat(1.0f, 0.0f, 0.0f, 0.0f);
     Ocular::Math::Matrix3x3f matrix = quat.toRotationMatrix();
     Ocular::Math::Quaternion quatConv = matrix.toQuaternion();
 

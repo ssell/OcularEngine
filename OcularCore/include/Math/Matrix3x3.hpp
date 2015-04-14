@@ -140,15 +140,15 @@ namespace Ocular
                 float zz = z * z;
 
                 m_Contents[0] = 1.0f - 2.0f * ((y * y) + (z * z));
-                m_Contents[1] =        2.0f * ((x * y) + (w * z));
-                m_Contents[2] =        2.0f * ((x * z) - (w * y));
+                m_Contents[1] =        2.0f * ((x * y) - (w * z));
+                m_Contents[2] =        2.0f * ((x * z) + (w * y));
 
-                m_Contents[3] =        2.0f * ((x * y) - (w * z));
+                m_Contents[3] =        2.0f * ((x * y) + (w * z));
                 m_Contents[4] = 1.0f - 2.0f * ((x * x) + (z * z));
-                m_Contents[5] =        2.0f * ((y * z) + (w * x));
+                m_Contents[5] =        2.0f * ((y * z) - (w * x));
 
-                m_Contents[6] =        2.0f * ((x * z) + (w * y));
-                m_Contents[7] =        2.0f * ((x * z) - (w * x));
+                m_Contents[6] =        2.0f * ((x * z) - (w * y));
+                m_Contents[7] =        2.0f * ((y * z) + (w * x));
                 m_Contents[8] = 1.0f - 2.0f * ((x * x) + (y * y));
             }
 
