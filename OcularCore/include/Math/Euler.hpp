@@ -145,6 +145,12 @@ namespace Ocular
              */
             Quaternion toQuaternion() const;
 
+            //------------------------------------------------------------
+            // OPERATIONS
+            //------------------------------------------------------------
+
+            void normalise();
+
         protected:
 
         private:

@@ -36,6 +36,8 @@ namespace Ocular
         // Common Constants
         //----------------------------------------------------------------------------------
 
+        static const double ONE_OVER_TWO = 0.5;
+
         static const double PI           = 3.14159265;
         static const double PI_TWO       = 6.28318531;
         static const double PI_OVER_TWO  = 1.57079632;
@@ -79,6 +81,17 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
+
+        /**
+         * Calculates the inverse square root of the value.
+         *
+         * \param[in] value
+         */
+        template<typename T>
+        static T InverseSqrt(T const& value)
+        {
+            return static_cast<T>(1) / sqrt(value);
+        }
 
         /**
          * Normalises the specified value into the provided range. Example:

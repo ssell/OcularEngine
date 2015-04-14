@@ -38,9 +38,9 @@ namespace Ocular
 
         Euler::Euler(float const pYaw, float const pPitch, float const pRoll)
         {
-            m_Yaw   = pYaw;
-            m_Pitch = pPitch;
-            m_Roll  = pRoll;
+            m_Yaw   = DegreesToRadians<float>(pYaw);
+            m_Pitch = DegreesToRadians<float>(pPitch);
+            m_Roll  = DegreesToRadians<float>(pRoll);
         }
 
         Euler::Euler(Matrix3x3f const& rotationMatrix)
@@ -66,6 +66,8 @@ namespace Ocular
             // Source: 
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
 
+            static const float PoleSingularity = 0.4999995f;
+
             float qw = quaternion.w;
             float qx = quaternion.x;
             float qy = quaternion.y;
@@ -76,29 +78,29 @@ namespace Ocular
             float qyy = qy * qy;
             float qzz = qz * qz;
 
-            float unit = qxx + qyy + qzz + qww;
-            float test = (qx * qy) + (qz * qw);
+            float test = (qz * qx) - (qw * qy);
 
-            if(test > (0.499f * unit))
+            //--------------------------------------------------------
+
+            m_Yaw = atan2(2.0f * ((qw * qz) + (qx * qy)), (1.0f - 2.0f * (qyy + qzz)));
+
+            if(test > PoleSingularity)
             {
-                // North Pole Singularity
-                m_Yaw   = 2.0f * atan2(qx, qw);
-                m_Pitch = static_cast<float>(PI_OVER_TWO);
-                m_Roll  = 0.0f;
+                m_Roll  = m_Yaw - 2.0f * atan2(qx, qw);
+                m_Pitch = 1.57079633f;    // 90 degrees
             }
-            else if(test < (-0.499f * unit))
+            else if(test < -PoleSingularity)
             {
-                // South Pole Singularity
-                m_Yaw   = -2.0f * atan2(qx, qw);
-                m_Pitch = static_cast<float>(-PI_OVER_TWO);
-                m_Roll  = 0.0f;
+                m_Roll  = -m_Yaw - 2.0f * atan2(qx, qw);
+                m_Pitch = 4.71238898f;    // 270 degrees
             }
             else
             {
-                m_Yaw   = atan2((2.0f * qy * qw) - (2.0f * qx * qz), qxx - qyy - qzz + qww);
-                m_Pitch = asin((2.0f * qx * qy) + (2.0f * qz * qw));
-                m_Roll  = atan2((2.0f * qx * qw) - (2.0f * qy * qz), -qxx + qyy - qzz + qww);
+                m_Roll  = atan2(-2.0f * ((qw * qx) + (qy * qz)), 1.0f - 2.0f * (qxx + qyy));
+                m_Pitch = asin(2.0f * test);
             }
+
+            normalise();
         }
 
         Euler::~Euler()
@@ -156,6 +158,15 @@ namespace Ocular
         Quaternion Euler::toQuaternion() const
         {
             return Quaternion(*this);
+        }
+
+        //------------------------------------------------------------
+        // OPERATIONS
+        //------------------------------------------------------------
+
+        void Euler::normalise()
+        {
+        
         }
 
         //----------------------------------------------------------------------------------

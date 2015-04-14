@@ -23,18 +23,52 @@ TEST(Conversions, EulerQuaternion)
 {
     //  Euler Angles -> Quaternion
     //    Quaternion -> Euler Angles
+
+    Ocular::Math::Euler      euler(90.0f, 45.0f, 180.0f);
+    Ocular::Math::Quaternion quaternion = euler.toQuaternion();
+    Ocular::Math::Euler      eulerConv = quaternion.toEuler();
+    
+    /*EXPECT_NEAR(quaternion.w,  0.270598f,  Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quaternion.x,  0.270598f,  Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quaternion.y, -0.6532815f, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quaternion.z,  0.6532815f, Ocular::Math::EPSILON_FLOAT);*/
+    
+    EXPECT_NEAR(euler.getYaw(),   eulerConv.getYaw(), Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(euler.getPitch(), eulerConv.getPitch(), Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(euler.getRoll(),  eulerConv.getRoll(), Ocular::Math::EPSILON_FLOAT);
 }
 
 TEST(Conversions, EulerMatrix)
 {
     //     Euler Angles -> Rotation Matrix
     //  Rotation Matrix -> Euler Angles
+
+    Ocular::Math::Euler      euler(90.0f, 45.0f, 180.0f);
+    Ocular::Math::Matrix3x3f matrix = euler.toRotationMatrix();
+    Ocular::Math::Euler      eulerConv = matrix.toEuler();
+
+    // ...
+    
+    EXPECT_NEAR(euler.getYaw(),   eulerConv.getYaw(), Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(euler.getPitch(), eulerConv.getPitch(), Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(euler.getRoll(),  eulerConv.getRoll(), Ocular::Math::EPSILON_FLOAT);
 }
 
 TEST(Conversions, QuaternionMatrix)
 {
     //       Quaternion -> Rotation Matrix
     //  Rotation Matrix -> Quaternion
+
+    Ocular::Math::Quaternion quat(0.270598114f, -0.65328151f, -0.65328151f, -0.270597935f);
+    Ocular::Math::Matrix3x3f matrix = quat.toRotationMatrix();
+    Ocular::Math::Quaternion quatConv = matrix.toQuaternion();
+
+    // ...
+    
+    EXPECT_NEAR(quat.w, quatConv.w, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quat.x, quatConv.x, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quat.y, quatConv.y, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quat.z, quatConv.z, Ocular::Math::EPSILON_FLOAT);
 }
 
 TEST(Conversions, EulerQuaternionMatrix)

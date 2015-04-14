@@ -17,6 +17,7 @@
 #include "Math/Quaternion.hpp"
 #include "Math/Matrix3x3.hpp"
 #include "Math/Euler.hpp"
+#include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ namespace Ocular
 
         Quaternion::Quaternion()
         {
-            w = 0.0f;
+            w = 1.0f;
             x = 0.0f;
             y = 0.0f;
             z = 0.0f;
@@ -66,37 +67,53 @@ namespace Ocular
 
             float trace = m00 + m11 + m22;
 
+            float invS = 0.0f;
+            float s = 0.0f;
+
             if(trace > 0.0f)
             {
-                float s = sqrt(trace + 1.0f) * 2.0f;
-                w = 0.25f * s;
-                x = (m21 - m12) / s;
-                y = (m02 - m20) / s;
-                z = (m10 - m01) / s;
-            }
-            else if((m00 > m11) && (m00 > m22))
-            {
-                float s = sqrt(1.0f + m00 - m11 - m22) * 2.0f;
-                w = (m21 - m12) / s;
-                x = 0.25f * s;
-                y = (m01 + m10) / s;
-                z = (m02 + m20) / s;
-            }
-            else if(m11 > m22)
-            {
-                float s = sqrt(1.0f + m11 - m00 - m22) * 2.0f;
-                w = (m02 - m20) / s;
-                x = (m01 + m10) / s;
-                y = 0.25f * s;
-                z = (m12 + m21) / s;
+                invS = InverseSqrt(trace + 1.0f);
+                s = 0.5f * invS;
+
+                w = 0.5f * (1.0f / invS);
+                x = (m12 - m21) * s;
+                y = (m20 - m02) * s;
+                z = (m01 - m10) * s;
             }
             else
             {
-                float s = sqrt(1.0f + m22 - m00 - m11) * 2.0f;
-                w = (m10 - m01) / s;
-                x = (m02 + m20) / s;
-                y = (m12 + m21) / s;
-                z = 0.25f * s;
+                unsigned i = 0;
+
+                if(m11 > m00)
+                {
+                    i = 1;
+                }
+
+                if(m22 > rotationMatrix.getElement(i, i))
+                {
+                    i = 2;
+                }
+
+                static const int next[3] = { 1, 2, 0 };
+                int j = next[i];
+                int k = next[j];
+
+                s = rotationMatrix.getElement(i, i) - rotationMatrix.getElement(j, j) - rotationMatrix.getElement(k, k) + 1.0f;
+                invS = InverseSqrt(s);
+
+                float quat[4];
+                quat[i] = 0.5f * (1.0f / invS);
+
+                s = 0.5f * invS;
+                
+                quat[3] = (rotationMatrix.getElement(j, k) - rotationMatrix.getElement(k, j)) * s;
+                quat[j] = (rotationMatrix.getElement(i, j) + rotationMatrix.getElement(j, i)) * s;
+                quat[k] = (rotationMatrix.getElement(i, k) + rotationMatrix.getElement(k, i)) * s;
+
+                w = quat[3];
+                x = quat[0];
+                y = quat[1];
+                z = quat[2];
             }
         }
 
@@ -107,17 +124,17 @@ namespace Ocular
 
             // We directly access the internal contents as getYaw, etc. return in degrees and we want radians.
 
-            float c1 = cos(euler.m_Yaw / 2.0f);
-            float c2 = cos(euler.m_Pitch / 2.0f);
-            float c3 = cos(euler.m_Roll / 2.0f);
-            float s1 = sin(euler.m_Yaw / 2.0f);
-            float s2 = sin(euler.m_Pitch / 2.0f);
-            float s3 = sin(euler.m_Roll / 2.0f);
+            float cY = cos(euler.m_Yaw   * 0.5f);
+            float cP = cos(euler.m_Pitch * 0.5f);
+            float cR = cos(euler.m_Roll  * 0.5f);
+            float sY = sin(euler.m_Yaw   * 0.5f);
+            float sP = sin(euler.m_Pitch * 0.5f);
+            float sR = sin(euler.m_Roll  * 0.5f);
 
-            w = (c1 * c2 * c3) - (s1 * s2 * s3);
-            x = (s1 * s2 * c3) + (c1 * c2 * s3);
-            y = (s1 * c2 * c3) + (c1 * s2 * s3);
-            z = (c1 * s2 * c3) - (s1 * c2 * s3);
+            w =  (cR * cP * cY) + (sR * sP * sY);
+            x =  (cR * sP * sY) - (sR * cP * cY);
+            y = -(cR * sP * cY) - (sR * cP * sY);
+            z =  (cR * cP * sY) - (sR * sP * cY);
         }
 
         Quaternion::~Quaternion()
@@ -141,12 +158,21 @@ namespace Ocular
 
         void Quaternion::normalize()
         {
-        
+            const float squareSum = (w * w) + (x * x) + (y * y) + (z * z);
+            const float scale = InverseSqrt(squareSum);
+
+            w *= scale;
+            x *= scale;
+            y *= scale;
+            z *= scale;
         }
 
         Quaternion Quaternion::getNormalized() const
         {
-            return Quaternion();
+            Quaternion result = *this;
+            result.normalize();
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
