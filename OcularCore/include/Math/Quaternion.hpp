@@ -77,9 +77,15 @@ namespace Ocular
 
             ~Quaternion();
 
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
+            // OPERATORS
+            //------------------------------------------------------------------------------
+
+            Quaternion operator=(Quaternion const& rhs);
+
+            //------------------------------------------------------------------------------
             // CONVERSIONS
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
 
             /**
              * Converts this Quaternion representation of a rotation to  a 3x3 rotation matrix.
@@ -93,9 +99,9 @@ namespace Ocular
              */
             Euler toEuler() const;
 
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
             // OPERATIONS
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
             
             /**
              * Rotates the provided Vector by this Quaternion.
@@ -153,13 +159,23 @@ namespace Ocular
             Vector3<float> getZRotationAxis() const;
 
             /**
+             * \return The conjugate of the quaternion.
+             */
+            Quaternion conjugate() const;
+
+            /**
              * Calculates and returns the dot product of two quaternions.
              */
             float dot(Quaternion const& rhs) const;
 
-            //------------------------------------------------------------
+            /**
+             * \return The inverse of the quaternion.
+             */
+            Quaternion inverse() const;
+
+            //------------------------------------------------------------------------------
             // Static Methods
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
 
             /**
              * ...
@@ -203,9 +219,9 @@ namespace Ocular
              */
             static Quaternion slerp(Quaternion const& a, Quaternion const& b, float const& t);
 
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
             // PUBLIC VARIABLES
-            //------------------------------------------------------------
+            //------------------------------------------------------------------------------
             
             float w;             ///< W-component
             float x;             ///< W-component
@@ -217,6 +233,19 @@ namespace Ocular
 
         private:
         };
+
+        Quaternion     operator+(Quaternion const& lhs, Quaternion const& rhs);
+        Quaternion     operator-(Quaternion const& lhs, Quaternion const& rhs);
+        Quaternion     operator*(Quaternion const& lhs, Quaternion const& rhs);
+        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs);
+        Vector3<float> operator*(Vector3<float> const& lhs, Quaternion const& rhs);
+        Quaternion     operator*(Quaternion const& lhs, float const& rhs);
+        Quaternion     operator*(float const& lhs, Quaternion const& rhs);
+        Quaternion     operator/(Quaternion const& lhs, float const& rhs);
+
+        bool operator==(Quaternion const& lhs, Quaternion const& rhs);
+        bool operator!=(Quaternion const& lhs, Quaternion const& rhs);
+
     }
     /**
      * @} End of Doxygen Groups

@@ -17,7 +17,53 @@
 #include "Math/Quaternion.hpp"
 #include "gtest/gtest.h"
 
+using namespace Ocular::Math;
+
 //------------------------------------------------------------------------------------------
+
+TEST(Quaternion, Equality)
+{
+    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    Quaternion c(1.0f, 0.0f, 1.0f, 0.0f);
+
+    EXPECT_FALSE(a == b);
+    EXPECT_TRUE(a != b);
+    EXPECT_TRUE(a == c);
+    EXPECT_FALSE(a != c);
+}
+
+TEST(Quaternion, Addition)
+{
+    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    Quaternion c(1.0f, 1.0f, 1.0f, 1.0f);
+    Quaternion d = a + b;
+
+    EXPECT_TRUE(c == d);
+}
+
+TEST(Quaternion, Subtraction)
+{
+    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    Quaternion c(1.0f, -1.0f, 1.0f, -1.0f);
+    Quaternion d = a - b;
+
+    EXPECT_TRUE(c == d);
+}
+
+TEST(Quaternion, Multiplication)
+{
+    // TODO
+    EXPECT_TRUE(false);
+}
+
+TEST(Quaternion, Division)
+{
+    // TODO
+    EXPECT_TRUE(false);
+}
 
 TEST(Quaternion, Normalize)
 {

@@ -143,6 +143,85 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------------------------
+        // OPERATORS
+        //----------------------------------------------------------------------------------
+
+        Quaternion Quaternion::operator=(Quaternion const& rhs)
+        {
+            w = rhs.w;
+            x = rhs.x;
+            y = rhs.y;
+            z = rhs.z;
+
+            return (*this);
+        }
+
+        Quaternion operator+(Quaternion const& lhs, Quaternion const& rhs)
+        {
+            return Quaternion((lhs.w + rhs.w), (lhs.x + rhs.x), (lhs.y + rhs.y), (lhs.z + rhs.z));
+        }
+
+        Quaternion operator-(Quaternion const& lhs, Quaternion const& rhs)
+        {
+            return Quaternion((lhs.w - rhs.w), (lhs.x - rhs.x), (lhs.y - rhs.y), (lhs.z - rhs.z));
+        }
+
+        Quaternion operator*(Quaternion const& lhs, Quaternion const& rhs)
+        {
+            Quaternion result;
+
+            result.w = (lhs.w * rhs.w) - (lhs.x * rhs.x) - (lhs.y * rhs.y) - (lhs.z * rhs.z);
+		    result.x = (lhs.w * rhs.x) + (lhs.x * rhs.w) + (lhs.y * rhs.z) - (lhs.z * rhs.y);
+		    result.y = (lhs.w * rhs.y) + (lhs.y * rhs.w) + (lhs.z * rhs.x) - (lhs.x * rhs.z);
+		    result.z = (lhs.w * rhs.z) + (lhs.z * rhs.w) + (lhs.x * rhs.y) - (lhs.y * rhs.x);
+
+            return result;
+        }
+
+        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs)
+        {
+            Vector3<float> quatVec(rhs.x, rhs.y, rhs.z);
+            Vector3<float> uv  = quatVec.cross(rhs);
+            Vector3<float> uuv = quatVec.cross(uv);
+
+            return (rhs + ((uv * lhs.w) + uuv) * 2.0f);
+        }
+
+        Vector3<float> operator*(Vector3<float> const& lhs, Quaternion const& rhs)
+        {
+            return (rhs.inverse() * lhs);
+        }
+
+        Quaternion operator*(Quaternion const& lhs, float const& rhs)
+        {
+            return Quaternion((lhs.w * rhs), (lhs.x * rhs), (lhs.y * rhs), (lhs.z * rhs));
+        }
+
+        Quaternion operator*(float const& lhs, Quaternion const& rhs)
+        {
+            return Quaternion((rhs.w * lhs), (rhs.x * lhs), (rhs.y * lhs), (rhs.z * lhs));
+        }
+
+        Quaternion operator/(Quaternion const& lhs, float const& rhs)
+        {
+            return Quaternion((lhs.w / rhs), (lhs.x / rhs), (lhs.y / rhs), (lhs.z / rhs));
+        }
+
+        bool operator==(Quaternion const& lhs, Quaternion const& rhs)
+        {
+            return (IsEqual<float>(lhs.w, rhs.w) &&
+                    IsEqual<float>(lhs.x, rhs.x) && 
+                    IsEqual<float>(lhs.y, rhs.y) &&
+                    IsEqual<float>(lhs.z, rhs.z));
+        }
+
+        bool operator!=(Quaternion const& lhs, Quaternion const& rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+
+        //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
@@ -243,9 +322,19 @@ namespace Ocular
             return result;
         }
 
+        Quaternion Quaternion::conjugate() const
+        {
+            return Quaternion(w, -x, -y, -z);
+        }
+
         float Quaternion::dot(Quaternion const& rhs) const
         {
             return ((x * rhs.x) + (y * rhs.y)) + ((z * rhs.z) + (w + rhs.w));
+        }
+
+        Quaternion Quaternion::inverse() const
+        {
+            return (conjugate() / dot(*this));
         }
 
         //------------------------------------------------------------
