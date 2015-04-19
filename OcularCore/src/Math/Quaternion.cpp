@@ -243,9 +243,23 @@ namespace Ocular
             return result;
         }
 
+        float Quaternion::dot(Quaternion const& rhs) const
+        {
+            return ((x * rhs.x) + (y * rhs.y)) + ((z * rhs.z) + (w + rhs.w));
+        }
+
         //------------------------------------------------------------
         // STATIC METHODS
         //------------------------------------------------------------
+
+        Quaternion Quaternion::createLookAtRotation(Vector3<float> const& forward, Vector3<float> const& upward)
+        {
+            Quaternion result;
+
+            // --- TODO
+
+            return result;
+        }
 
         Quaternion Quaternion::lerp(Quaternion const& a, Quaternion const& b, float const& t)
         {

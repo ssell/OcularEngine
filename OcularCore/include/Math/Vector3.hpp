@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_VECTOR_3__H__
 #define __H__OCULAR_MATH_VECTOR_3__H__
 
+#include "Vector2.hpp"
 #include "Equality.hpp"
 #include <cmath>
 
@@ -42,6 +43,13 @@ namespace Ocular
         class Vector3
         {
         public:
+
+            Vector3(Vector2<T> const& vec)
+            {
+                x = vec.x;
+                y = vec.y;
+                z = 0.0f;
+            }
 
             Vector3(T const x, T const y, T const z)
             {
@@ -335,9 +343,15 @@ namespace Ocular
             // SPECIAL STATIC VECTORS
             //------------------------------------------------------------------------------
 
-            // Ocular ses a right-handed coordinate system
+            // Ocular uses a right-handed coordinate system
 
-            static Vector3<T> Up() const { return Vector3<T>(static_cast<T>(0.0f), static_cast<T>(1.0f), static_cast<T>(0.0f); }
+            static Vector3<T> identity() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> up()       { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 1.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> down()     { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>(-1.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> left()     { return Vector3<T>(static_cast<T>(-1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> right()    { return Vector3<T>(static_cast<T>( 1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> forward()  { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>(-1.0f)); }
+            static Vector3<T> backward() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 1.0f)); }
 
             //------------------------------------------------------------------------------
             // VARIABLES
@@ -413,11 +427,6 @@ namespace Ocular
         {
             return Vector3<T>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
         }
-
-        //--------------------------------------------
-        // Common vector directions
-
-        Vector3<float> Vector3<float>::Up = Vector3<float>(0.0f, 0.0f, 0.0f);
 
         //--------------------------------------------
         // Common vector formats

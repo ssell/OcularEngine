@@ -17,6 +17,8 @@
 #ifndef __H__OCULAR_MATH_QUATERNION_H__
 #define __H__OCULAR_MATH_QUATERNION_H__
 
+#include "Vector3.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -35,7 +37,6 @@ namespace Ocular
         // Forward Declarations
 
         template<typename T> class Matrix3x3;
-        template<typename T> class Vector3;
         class Euler;
 
         //----------------------------------------------------------------
@@ -151,11 +152,23 @@ namespace Ocular
              */
             Vector3<float> getZRotationAxis() const;
 
+            /**
+             * Calculates and returns the dot product of two quaternions.
+             */
+            float dot(Quaternion const& rhs) const;
+
             //------------------------------------------------------------
             // Static Methods
             //------------------------------------------------------------
 
-            static Quaternion createLookAtRotation(Vector3<float> forward, Vector3<float> upward);
+            /**
+             * ...
+             *
+             * \param[in] forward
+             * \param[in] upward
+             */
+            static Quaternion createLookAtRotation(Vector3<float> const& forward = Vector3<float>::forward(), Vector3<float> const& upward = Vector3<float>::up());
+
             /**
              * Performs linear quaternion interpolation and returns the resulting quaternion.
              * 

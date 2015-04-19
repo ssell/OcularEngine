@@ -125,7 +125,7 @@ namespace Ocular
             /**
              * \param[in] matrix
              */
-            Matrix4x4(Matrix4x4<T> const &matrix)
+            Matrix4x4(Matrix4x4<T> const& matrix)
             {
                 m_Contents[0]  = matrix[0];
                 m_Contents[1]  = matrix[1];
@@ -148,13 +148,19 @@ namespace Ocular
             /*
              * \param[in] matrix
              */
-            Matrix4x4(Matrix3x3<T> const &matrix)
+            Matrix4x4(Matrix3x3<T> const& matrix)
             {
                 setIdentity();
 
-                setXRotation(matrix.getXRotation());
-                setYRotation(matrix.getYRotation());
-                setZRotation(matrix.getZRotation());
+                m_Contents[0]  = matrix[0];
+                m_Contents[1]  = matrix[1];
+                m_Contents[2]  = matrix[2];
+                m_Contents[3]  = matrix[3];
+                m_Contents[4]  = matrix[4];
+                m_Contents[5]  = matrix[5];
+                m_Contents[6]  = matrix[6];
+                m_Contents[7]  = matrix[7];
+                m_Contents[8]  = matrix[8];
             }
 
             /**

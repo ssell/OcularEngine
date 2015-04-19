@@ -68,6 +68,24 @@ namespace Ocular
         {
         public:
 
+            /*
+             * \param[in] matrix
+             */
+            Matrix3x3(Matrix3x3<T> const& matrix)
+            {
+                setIdentity();
+
+                m_Contents[0]  = matrix[0];
+                m_Contents[1]  = matrix[1];
+                m_Contents[2]  = matrix[2];
+                m_Contents[3]  = matrix[3];
+                m_Contents[4]  = matrix[4];
+                m_Contents[5]  = matrix[5];
+                m_Contents[6]  = matrix[6];
+                m_Contents[7]  = matrix[7];
+                m_Contents[8]  = matrix[8];
+            }
+
             /**
              * \param[in] p00 X-Axis rotation x element
              * \param[in] p01 X-Axis rotation y element
@@ -140,15 +158,15 @@ namespace Ocular
                 float zz = z * z;
 
                 m_Contents[0] = 1.0f - 2.0f * ((y * y) + (z * z));
-                m_Contents[1] =        2.0f * ((x * y) - (w * z));
-                m_Contents[2] =        2.0f * ((x * z) + (w * y));
+                m_Contents[1] =        2.0f * ((x * y) + (w * z));
+                m_Contents[2] =        2.0f * ((x * z) - (w * y));
 
-                m_Contents[3] =        2.0f * ((x * y) + (w * z));
+                m_Contents[3] =        2.0f * ((x * y) - (w * z));
                 m_Contents[4] = 1.0f - 2.0f * ((x * x) + (z * z));
-                m_Contents[5] =        2.0f * ((y * z) - (w * x));
+                m_Contents[5] =        2.0f * ((y * z) + (w * x));
 
-                m_Contents[6] =        2.0f * ((x * z) - (w * y));
-                m_Contents[7] =        2.0f * ((y * z) + (w * x));
+                m_Contents[6] =        2.0f * ((x * z) + (w * y));
+                m_Contents[7] =        2.0f * ((y * z) - (w * x));
                 m_Contents[8] = 1.0f - 2.0f * ((x * x) + (y * y));
             }
 

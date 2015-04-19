@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_VECTOR_4__H__
 
 #include "Equality.hpp"
+#include "Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -41,6 +42,14 @@ namespace Ocular
         class Vector4
         {
         public:
+
+            Vector4(Vector3<T> const& vec)
+            {
+                x = vec.x;
+                y = vec.y;
+                z = vec.z;
+                w = 1.0f;
+            }
 
             Vector4(T const &pX, T const &pY, T const &pZ, T const &pW)
             {
