@@ -149,7 +149,37 @@ namespace Ocular
             // OPERATIONS
             //------------------------------------------------------------
 
-            void normalise();
+            /**
+             * \param[in] angle
+             * \return The angle in the range (-180, 180]
+             */
+            static float normalizeAxis(float const& angle);
+
+            /**
+             * \param[in] angle
+             * \return The angle in the range [0, 360)
+             */
+            static float denormalizeAxis(float const& angle);
+
+            /**
+             * \note This method modifies the internal data stored in the vector. See getNormalized if this is not desired.
+             */
+            void normalize();
+
+            /**
+             *
+             */
+            Euler getNormalized() const;
+
+            /**
+             * \note This method modifies the internal data stored in the vector. See getNormalized if this is not desired.
+             */
+            void denormalize();
+
+            /**
+             *
+             */
+            Euler getDenormalized() const;
 
         protected:
 

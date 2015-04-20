@@ -183,8 +183,7 @@ namespace Ocular
              * Normalizes the vector. <br/>
              * When normalized, a vector maintains its direction but its magnitude is set to 1.0.
              *
-             * \note This method modifies the internal data stored in the vector. See getNormalized
-             * if this is not desired.
+             * \note This method modifies the internal data stored in the vector. See getNormalized if this is not desired.
              */
             void normalize()
             {

@@ -100,7 +100,7 @@ namespace Ocular
                 m_Pitch = asin(2 * test);
             }
 
-            normalise();
+            normalize();
         }
 
         Euler::~Euler()
@@ -164,9 +164,62 @@ namespace Ocular
         // OPERATIONS
         //------------------------------------------------------------
 
-        void Euler::normalise()
+        float Euler::normalizeAxis(float const& angle) 
         {
+            float result;
+            
+            result = Clamp(angle, 0.0f, 360.0f);
+
+            if(result > 180.0f)
+            {
+                result -= 360.0f;
+            }
+
+            return result;
+        }
         
+        float Euler::denormalizeAxis(float const& angle) 
+        {
+            float result;
+            
+            result = fmod(angle, 360.0f);
+
+            if(result < 0.0f)
+            {
+                result += 360.0f;
+            }
+
+            return result;
+        }
+
+        void Euler::normalize()
+        {
+            m_Yaw   = normalizeAxis(m_Yaw);
+            m_Pitch = normalizeAxis(m_Pitch);
+            m_Roll  = normalizeAxis(m_Roll);
+        }
+
+        Euler Euler::getNormalized() const
+        {
+            Euler result = *this;
+            result.normalize();
+
+            return result;
+        }
+
+        void Euler::denormalize() 
+        {
+            m_Yaw   = denormalizeAxis(m_Yaw);
+            m_Pitch = denormalizeAxis(m_Pitch);
+            m_Roll  = denormalizeAxis(m_Roll);
+        }
+
+        Euler Euler::getDenormalized() const
+        {
+            Euler result = *this;
+            result.denormalize();
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

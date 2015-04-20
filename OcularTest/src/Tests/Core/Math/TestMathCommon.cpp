@@ -22,12 +22,12 @@
 TEST(MathCommon, Normalise)
 {
     double dValue = 240.0f;
-    dValue = Ocular::Math::Normalise<double>(dValue, 0.0, 180.0);
+    dValue = Ocular::Math::Normalize<double>(dValue, 0.0, 180.0);
 
     EXPECT_NEAR(dValue, 60.0, Ocular::Math::EPSILON_DOUBLE);
 
     int iValue = -20;
-    iValue = Ocular::Math::Normalise<int>(iValue, -18, 18);
+    iValue = Ocular::Math::Normalize<int>(iValue, -18, 18);
 
     EXPECT_EQ(iValue, 16);
 }

@@ -105,9 +105,11 @@ namespace Ocular
             
             /**
              * Rotates the provided Vector by this Quaternion.
-             * \param[out] vector The Vector to be rotated.
+             *
+             * \param[in] vector The Vector to be rotated.
+             * \return The rotated vector.
              */
-            void rotate(Vector3<float>& vector) const;
+            Vector3<float> rotate(Vector3<float> const& vector) const;
 
             /**
              * \return Returns TRUE if the Quaternion is normalized (w + x + y + z = 0)

@@ -240,7 +240,7 @@ namespace Ocular
             return IsEqual<float>(fabs(1.0f - getLengthSquared()), 0.0f);
         }
 
-        void Quaternion::rotate(Vector3<float>& vector) const
+        Vector3<float> Quaternion::rotate(Vector3<float> const& vector) const
         {
             Vector3<float> result;
             Vector3<float> quatVector(x, y, z);
@@ -249,7 +249,7 @@ namespace Ocular
             result += (vector * ((quatVector.dot(quatVector) * -1.0f) + (w * w)));
             result += (quatVector * (2.0f * quatVector.dot(vector)));
 
-            vector = result;
+            return result;
         }
 
         void Quaternion::normalize()
@@ -294,29 +294,17 @@ namespace Ocular
 
         Vector3<float> Quaternion::getXRotationAxis() const
         {
-            Vector3<float> result;
-
-            // --- TODO
-
-            return result;
+            return rotate(Vector3<float>(1.0f, 0.0f, 0.0f));
         }
 
         Vector3<float> Quaternion::getYRotationAxis() const
         {
-            Vector3<float> result;
-
-            // --- TODO
-
-            return result;
+            return rotate(Vector3<float>(0.0f, 1.0f, 0.0f));
         }
 
         Vector3<float> Quaternion::getZRotationAxis() const
         {
-            Vector3<float> result;
-
-            // --- TODO
-
-            return result;
+            return rotate(Vector3<float>(0.0f, 0.0f, 1.0f));
         }
 
         float Quaternion::dot(Quaternion const& rhs) const

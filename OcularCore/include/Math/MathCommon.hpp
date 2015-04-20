@@ -103,7 +103,7 @@ namespace Ocular
          * \param[in] rangeEnd   End of the range (largest allowed value)
          */
         template<typename T>
-        static T Normalise(T const& value, T const& rangeStart, T const& rangeEnd)
+        static T Normalize(T const& value, T const& rangeStart, T const& rangeEnd)
         {
             // Yes this is a naive implementation. Have yet to find another that
             // works on all types (integer, floating-point, positive, negative).
@@ -133,7 +133,7 @@ namespace Ocular
         static T RadiansToDegrees(T const& radians)
         {
             double dRads = static_cast<double>(radians);
-            dRads = Normalise<double>(dRads, -PI_TWO, PI_TWO);
+            dRads = Normalize<double>(dRads, -PI_TWO, PI_TWO);
 
             return static_cast<T>(dRads * PI_UNDER_180);
         }
@@ -147,7 +147,7 @@ namespace Ocular
         static T DegreesToRadians(T const& degrees)
         {
             double dDegs = static_cast<double>(degrees);
-            dDegs = Normalise<double>(dDegs, -360.0, 360.0);
+            dDegs = Normalize<double>(dDegs, -360.0, 360.0);
 
             return static_cast<T>(dDegs * PI_OVER_180);
         }
