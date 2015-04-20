@@ -144,6 +144,11 @@ namespace Ocular
             Quaternion getInverse() const;
 
             /**
+             * \return The conjugate of the quaternion.
+             */
+            Quaternion getConjugate() const;
+
+            /**
              * \return The x-rotation axis.
              */
             Vector3<float> getXRotationAxis() const;
@@ -159,19 +164,9 @@ namespace Ocular
             Vector3<float> getZRotationAxis() const;
 
             /**
-             * \return The conjugate of the quaternion.
-             */
-            Quaternion conjugate() const;
-
-            /**
              * Calculates and returns the dot product of two quaternions.
              */
             float dot(Quaternion const& rhs) const;
-
-            /**
-             * \return The inverse of the quaternion.
-             */
-            Quaternion inverse() const;
 
             //------------------------------------------------------------------------------
             // Static Methods

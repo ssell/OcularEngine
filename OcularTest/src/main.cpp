@@ -59,7 +59,5 @@ int main(int argc, char** argv)
 
     runTests(argc, argv);
 
-    OcularLogger->info("sizeof(long): ", sizeof(long));
-
     OcularEngine.shutdown();
 }

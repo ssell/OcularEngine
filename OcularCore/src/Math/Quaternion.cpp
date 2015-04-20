@@ -189,7 +189,7 @@ namespace Ocular
 
         Vector3<float> operator*(Vector3<float> const& lhs, Quaternion const& rhs)
         {
-            return (rhs.inverse() * lhs);
+            return (rhs.getInverse() * lhs);
         }
 
         Quaternion operator*(Quaternion const& lhs, float const& rhs)
@@ -273,11 +273,7 @@ namespace Ocular
 
         float Quaternion::getLength() const
         {
-            float result = 0.0f;
-            
-            // --- TODO
-
-            return result;
+            return sqrt(dot(*this));
         }
 
         float Quaternion::getLengthSquared() const
@@ -288,11 +284,12 @@ namespace Ocular
 
         Quaternion Quaternion::getInverse() const
         {
-            Quaternion result;
+            return (getConjugate() / dot(*this));
+        }
 
-            // --- TODO
-
-            return result;
+        Quaternion Quaternion::getConjugate() const
+        {
+            return Quaternion(w, -x, -y, -z);
         }
 
         Vector3<float> Quaternion::getXRotationAxis() const
@@ -322,19 +319,9 @@ namespace Ocular
             return result;
         }
 
-        Quaternion Quaternion::conjugate() const
-        {
-            return Quaternion(w, -x, -y, -z);
-        }
-
         float Quaternion::dot(Quaternion const& rhs) const
         {
-            return ((x * rhs.x) + (y * rhs.y)) + ((z * rhs.z) + (w + rhs.w));
-        }
-
-        Quaternion Quaternion::inverse() const
-        {
-            return (conjugate() / dot(*this));
+            return ((x * rhs.x) + (y * rhs.y)) + ((z * rhs.z) + (w * rhs.w));
         }
 
         //------------------------------------------------------------
@@ -352,27 +339,37 @@ namespace Ocular
 
         Quaternion Quaternion::lerp(Quaternion const& a, Quaternion const& b, float const& t)
         {
-            Quaternion result;
-
-            // --- TODO
-
-            return result;
+            return (a * (1.0f - t)) + (b * t);
         }
 
         Quaternion Quaternion::bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y)
         {
-            Quaternion result;
-
-            // --- TODO
-
-            return result;
+            return lerp(lerp(q00, q10, x), lerp(q01, q11, x), y);
         }
 
         Quaternion Quaternion::slerp(Quaternion const& a, Quaternion const& b, float const& t)
         {
             Quaternion result;
+            Quaternion c = b;
 
-            // --- TODO
+            float theta = a.dot(b);
+
+            if(theta < 0.0f)
+            {   
+                c = c * -1.0f;
+                theta = -theta;
+            }
+
+            if(theta > (1.0f - EPSILON_FLOAT))
+            {
+                // Perform a lerp when close to 1 to avoid division by 0
+                result = lerp(a, b, t);
+            }
+            else
+            {
+                float angle = acos(theta);
+                result = ((a * sin((1.0f - t) * angle)) + (c * sin(t * angle))) / sin(angle);
+            }
 
             return result;
         }

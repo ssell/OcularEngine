@@ -23,9 +23,9 @@ using namespace Ocular::Math;
 
 TEST(Quaternion, Equality)
 {
-    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
-    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
-    Quaternion c(1.0f, 0.0f, 1.0f, 0.0f);
+    const Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    const Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    const Quaternion c(1.0f, 0.0f, 1.0f, 0.0f);
 
     EXPECT_FALSE(a == b);
     EXPECT_TRUE(a != b);
@@ -35,44 +35,56 @@ TEST(Quaternion, Equality)
 
 TEST(Quaternion, Addition)
 {
-    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
-    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
-    Quaternion c(1.0f, 1.0f, 1.0f, 1.0f);
-    Quaternion d = a + b;
+    const Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    const Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    const Quaternion c(1.0f, 1.0f, 1.0f, 1.0f);
+    const Quaternion d = a + b;
 
     EXPECT_TRUE(c == d);
 }
 
 TEST(Quaternion, Subtraction)
 {
-    Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
-    Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
-    Quaternion c(1.0f, -1.0f, 1.0f, -1.0f);
-    Quaternion d = a - b;
+    const Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
+    const Quaternion b(0.0f, 1.0f, 0.0f, 1.0f);
+    const Quaternion c(1.0f, -1.0f, 1.0f, -1.0f);
+    const Quaternion d = a - b;
 
     EXPECT_TRUE(c == d);
 }
 
 TEST(Quaternion, Multiplication)
 {
-    // TODO
-    EXPECT_TRUE(false);
+    const Quaternion a(1.0f, 0.5f, 0.25f, -0.1f);
+    const Quaternion b(-0.1f, 0.25f, 0.5f, 1.0f);
+    const Quaternion ab = a * b;
+    
+    EXPECT_NEAR(ab.w, -0.25f,   EPSILON_FLOAT);
+    EXPECT_NEAR(ab.x,  0.5f,    EPSILON_FLOAT);
+    EXPECT_NEAR(ab.y, -0.05f,   EPSILON_FLOAT);
+    EXPECT_NEAR(ab.z,  1.1975f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, Division)
 {
-    // TODO
-    EXPECT_TRUE(false);
+    const Quaternion a(1.0f, 0.5f, 0.25f, -0.1f);
+    const Quaternion b = a / 0.5f;
+    
+    EXPECT_NEAR(b.w,  2.0f, EPSILON_FLOAT);
+    EXPECT_NEAR(b.x,  1.0f, EPSILON_FLOAT);
+    EXPECT_NEAR(b.y,  0.5f, EPSILON_FLOAT);
+    EXPECT_NEAR(b.z, -0.2f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, Normalize)
 {
-    // Tests the following Quaternion normalization functions:
-    //     normalize, getNormalized, isNormalized
-
-    // TODO
-
-    EXPECT_TRUE(false);
+    const Quaternion quat(13.2f, 22.84f, 1.0f, -0.88f);
+    const Quaternion norm = quat.getNormalized();
+    
+    EXPECT_NEAR(norm.w,  0.499741882f, EPSILON_FLOAT);
+    EXPECT_NEAR(norm.x,  0.864704907f, EPSILON_FLOAT);
+    EXPECT_NEAR(norm.y,  0.037859235f, EPSILON_FLOAT);
+    EXPECT_NEAR(norm.z, -0.033316128f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, Rotate)
@@ -86,21 +98,21 @@ TEST(Quaternion, Rotate)
 
 TEST(Quaternion, Length)
 {
-    // Tests the following Quaternion length functions:
-    //     getLength, getLengthSquared
+    const Quaternion quat(13.2f, 22.84f, 1.0f, -0.88f);
+    const float length = quat.getLength();
 
-    // TODO
-
-    EXPECT_TRUE(false);
+    EXPECT_NEAR(length, 26.4136333f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, Inverse)
 {
-    // Tests calculating the inverse of a Quaternion
-
-    // TODO
-
-    EXPECT_TRUE(false);
+    const Quaternion quat(13.2f, 22.84f, 1.0f, -0.88f);
+    const Quaternion inverse = quat.getInverse();
+    
+    EXPECT_NEAR(inverse.w,  0.0189198479f,  EPSILON_FLOAT);
+    EXPECT_NEAR(inverse.x, -0.0327370726f,  EPSILON_FLOAT);
+    EXPECT_NEAR(inverse.y, -0.00143332186f, EPSILON_FLOAT);
+    EXPECT_NEAR(inverse.z,  0.00126132322f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, GetRotation)
@@ -115,11 +127,18 @@ TEST(Quaternion, GetRotation)
 
 TEST(Quaternion, Lerp)
 {
-    // Tests performing Quaternion linear interpolation
+    Quaternion quatA(10.2f, 20.84f, 0.0f, -0.08f);
+    Quaternion quatB(13.2f, 22.84f, 1.0f, -0.88f);
+    Quaternion quatC;
 
-    // TODO
-
-    EXPECT_TRUE(false);
+    quatA.normalize();
+    quatB.normalize();
+    quatC = Quaternion::lerp(quatA, quatB, 0.695f);
+    
+    EXPECT_NEAR(quatC.w,  0.481401503f,  EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.x,  0.874915540f,  EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.y,  0.0263121687f, EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.z, -0.0242063235f, EPSILON_FLOAT);
 }
 
 TEST(Quaternion, Bilerp)
@@ -133,9 +152,16 @@ TEST(Quaternion, Bilerp)
 
 TEST(Quaternion, Slerp)
 {
-    // Tests perfoming Quaternion spherical linear interpolation
+    Quaternion quatA(10.2f, 20.84f, 0.0f, -0.08f);
+    Quaternion quatB(13.2f, 22.84f, 1.0f, -0.88f);
+    Quaternion quatC;
 
-    // TODO
-
-    EXPECT_TRUE(false);
+    quatA.normalize();
+    quatB.normalize();
+    quatC = Quaternion::slerp(quatA, quatB, 0.695f);
+    
+    EXPECT_NEAR(quatC.w,  0.481756449f,  EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.x,  0.875574708f,  EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.y,  0.0263282005f, EPSILON_FLOAT);
+    EXPECT_NEAR(quatC.z, -0.0242215563f, EPSILON_FLOAT);
 }
