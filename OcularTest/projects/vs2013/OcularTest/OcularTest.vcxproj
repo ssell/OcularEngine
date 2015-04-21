@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\External\include;$(ProjectDir)..\..\..\..\OcularGraphics\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\External\include;$(ProjectDir)..\..\..\..\OcularGraphics\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>

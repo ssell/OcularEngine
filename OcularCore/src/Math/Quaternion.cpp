@@ -55,15 +55,15 @@ namespace Ocular
             // Also:
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
             
-            float m00 = rotationMatrix.getElement(0, 0);
-            float m01 = rotationMatrix.getElement(0, 1);
-            float m02 = rotationMatrix.getElement(0, 2);
-            float m10 = rotationMatrix.getElement(1, 0);
-            float m11 = rotationMatrix.getElement(1, 1);
-            float m12 = rotationMatrix.getElement(1, 2);
-            float m20 = rotationMatrix.getElement(2, 0);
-            float m21 = rotationMatrix.getElement(2, 1);
-            float m22 = rotationMatrix.getElement(2, 2);
+            float m00 = rotationMatrix[0][0];
+            float m01 = rotationMatrix[0][1];
+            float m02 = rotationMatrix[0][2];
+            float m10 = rotationMatrix[1][0];
+            float m11 = rotationMatrix[1][1];
+            float m12 = rotationMatrix[1][2];
+            float m20 = rotationMatrix[2][0];
+            float m21 = rotationMatrix[2][1];
+            float m22 = rotationMatrix[2][2];
 
             float trace = m00 + m11 + m22;
 
@@ -89,7 +89,7 @@ namespace Ocular
                     i = 1;
                 }
 
-                if(m22 > rotationMatrix.getElement(i, i))
+                if(m22 > rotationMatrix[i][i])
                 {
                     i = 2;
                 }
@@ -98,7 +98,7 @@ namespace Ocular
                 int j = next[i];
                 int k = next[j];
 
-                s = rotationMatrix.getElement(i, i) - rotationMatrix.getElement(j, j) - rotationMatrix.getElement(k, k) + 1.0f;
+                s = rotationMatrix[i][i] - rotationMatrix[j][j] - rotationMatrix[k][k] + 1.0f;
                 invS = InverseSqrt(s);
 
                 float quat[4];
@@ -106,9 +106,9 @@ namespace Ocular
 
                 s = 0.5f * invS;
                 
-                quat[3] = (rotationMatrix.getElement(j, k) - rotationMatrix.getElement(k, j)) * s;
-                quat[j] = (rotationMatrix.getElement(i, j) + rotationMatrix.getElement(j, i)) * s;
-                quat[k] = (rotationMatrix.getElement(i, k) + rotationMatrix.getElement(k, i)) * s;
+                quat[3] = (rotationMatrix[j][k] - rotationMatrix[k][j]) * s;
+                quat[j] = (rotationMatrix[i][j] + rotationMatrix[j][i]) * s;
+                quat[k] = (rotationMatrix[i][k] + rotationMatrix[k][i]) * s;
 
                 w = quat[3];
                 x = quat[0];

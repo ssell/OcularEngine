@@ -167,7 +167,7 @@ TEST(Matrix4x4, ElementRowCol)
     // Test the getter
 
     const double expected = 8.0;
-    double result = matA.getElement(2, 1);
+    double result = matA[2][1];
 
     EXPECT_NEAR(result, expected, Ocular::Math::EPSILON_DOUBLE);
 
@@ -177,8 +177,8 @@ TEST(Matrix4x4, ElementRowCol)
     const double modified = 5.0;
     Ocular::Math::Matrix4x4d matC = matA;
 
-    matC.setElement(2, 1, modified);
-    result = matC.getElement(2, 1);
+    matC[2][1] = modified;
+    result = matC[2][1];
 
     EXPECT_NEAR(result, modified, Ocular::Math::EPSILON_DOUBLE);
 }

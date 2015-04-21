@@ -20,6 +20,7 @@
 
 #include "Equality.hpp"
 #include "Vector3.hpp"
+#include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -75,6 +76,50 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // OPERATORS
             //------------------------------------------------------------------------------
+            
+            T& operator[](unsigned const& index)
+            {
+                switch(index)
+                {
+                case 0:
+                    return x;
+                    
+                case 1:
+                    return y;
+
+                case 2:
+                    return z;
+
+                case 3:
+                    return w;
+
+                default:
+                    THROW_EXCEPTION("Out-Of-Bounds Vector Access");
+                    return x;
+                }
+            }
+            
+            T operator[](unsigned const& index) const
+            {
+                switch(index)
+                {
+                case 0:
+                    return x;
+                    
+                case 1:
+                    return y;
+
+                case 2:
+                    return z;
+
+                case 3:
+                    return w;
+
+                default:
+                    THROW_EXCEPTION("Out-Of-Bounds Vector Access");
+                    return x;
+                }
+            }
 
             Vector4<T>& operator=(Vector4<T> const &rhs)
             {

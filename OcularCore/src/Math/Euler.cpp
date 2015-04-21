@@ -50,14 +50,14 @@ namespace Ocular
             // 4.2.2 Extracting Parameters from the Euler Transform
             // Page 68
 
-            m_Yaw   = std::atan2(-rotationMatrix.getElement(2, 0), rotationMatrix.getElement(2, 2));
-            m_Pitch = std::asin(rotationMatrix.getElement(2, 1));
-            m_Roll  = std::atan2(-rotationMatrix.getElement(0, 1), rotationMatrix.getElement(1, 1));
+            m_Yaw   = std::atan2(-rotationMatrix[2][0], rotationMatrix[2][2]);
+            m_Pitch = std::asin(rotationMatrix[2][1]);
+            m_Roll  = std::atan2(-rotationMatrix[0][1], rotationMatrix[1][1]);
 
             if(IsEqual<float>(std::cos(m_Pitch), 0.0f))
             {
                 m_Pitch  = 0.0f;
-                m_Roll = std::atan2(rotationMatrix.getElement(1, 0), rotationMatrix.getElement(0, 0));
+                m_Roll = std::atan2(rotationMatrix[1][0], rotationMatrix[0][0]);
             }
         }
 

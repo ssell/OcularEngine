@@ -75,15 +75,15 @@ namespace Ocular
             {
                 setIdentity();
 
-                m_Contents[0]  = matrix[0];
-                m_Contents[1]  = matrix[1];
-                m_Contents[2]  = matrix[2];
-                m_Contents[3]  = matrix[3];
-                m_Contents[4]  = matrix[4];
-                m_Contents[5]  = matrix[5];
-                m_Contents[6]  = matrix[6];
-                m_Contents[7]  = matrix[7];
-                m_Contents[8]  = matrix[8];
+                m_Contents[0][0]  = matrix[0][0];
+                m_Contents[0][1]  = matrix[0][1];
+                m_Contents[0][2]  = matrix[0][2];
+                m_Contents[1][0]  = matrix[1][0];
+                m_Contents[1][1]  = matrix[1][1];
+                m_Contents[1][2]  = matrix[1][2];
+                m_Contents[2][0]  = matrix[2][0];
+                m_Contents[2][1]  = matrix[2][1];
+                m_Contents[2][2]  = matrix[2][2];
             }
 
             /**
@@ -101,15 +101,15 @@ namespace Ocular
                       T const &p10, T const &p11, T const &p12,
                       T const &p20, T const &p21, T const &p22)
             {
-                m_Contents[0] = p00;
-                m_Contents[1] = p01;
-                m_Contents[2] = p02;
-                m_Contents[3] = p10;
-                m_Contents[4] = p11;
-                m_Contents[5] = p12;
-                m_Contents[6] = p20;
-                m_Contents[7] = p21;
-                m_Contents[8] = p22;
+                m_Contents[0][0] = p00;
+                m_Contents[0][1] = p01;
+                m_Contents[0][2] = p02;
+                m_Contents[1][0] = p10;
+                m_Contents[1][1] = p11;
+                m_Contents[1][2] = p12;
+                m_Contents[2][0] = p20;
+                m_Contents[2][1] = p21;
+                m_Contents[2][2] = p22;
             }
 
             /**
@@ -119,17 +119,17 @@ namespace Ocular
              */
             Matrix3x3(Vector3<T> const &row0, Vector3<T> const &row1, Vector3<T> const &row2)
             {
-                m_Contents[0] = row0.x;
-                m_Contents[1] = row0.y;
-                m_Contents[2] = row0.z;
+                m_Contents[0][0] = row0.x;
+                m_Contents[0][1] = row0.y;
+                m_Contents[0][2] = row0.z;
 
-                m_Contents[3] = row1.x;
-                m_Contents[4] = row1.y;
-                m_Contents[5] = row1.z;
+                m_Contents[1][0] = row1.x;
+                m_Contents[1][1] = row1.y;
+                m_Contents[1][2] = row1.z;
 
-                m_Contents[6] = row2.x;
-                m_Contents[7] = row2.y;
-                m_Contents[8] = row2.z;
+                m_Contents[2][0] = row2.x;
+                m_Contents[2][1] = row2.y;
+                m_Contents[2][2] = row2.z;
             }
 
             /**
@@ -157,17 +157,17 @@ namespace Ocular
                 float yy = y * y;
                 float zz = z * z;
 
-                m_Contents[0] = 1.0f - 2.0f * ((y * y) + (z * z));
-                m_Contents[1] =        2.0f * ((x * y) + (w * z));
-                m_Contents[2] =        2.0f * ((x * z) - (w * y));
+                m_Contents[0][0] = 1.0f - 2.0f * ((y * y) + (z * z));
+                m_Contents[0][1] =        2.0f * ((x * y) + (w * z));
+                m_Contents[0][2] =        2.0f * ((x * z) - (w * y));
 
-                m_Contents[3] =        2.0f * ((x * y) - (w * z));
-                m_Contents[4] = 1.0f - 2.0f * ((x * x) + (z * z));
-                m_Contents[5] =        2.0f * ((y * z) + (w * x));
+                m_Contents[1][0] =        2.0f * ((x * y) - (w * z));
+                m_Contents[1][1] = 1.0f - 2.0f * ((x * x) + (z * z));
+                m_Contents[1][2] =        2.0f * ((y * z) + (w * x));
 
-                m_Contents[6] =        2.0f * ((x * z) + (w * y));
-                m_Contents[7] =        2.0f * ((y * z) - (w * x));
-                m_Contents[8] = 1.0f - 2.0f * ((x * x) + (y * y));
+                m_Contents[2][0] =        2.0f * ((x * z) + (w * y));
+                m_Contents[2][1] =        2.0f * ((y * z) - (w * x));
+                m_Contents[2][2] = 1.0f - 2.0f * ((x * x) + (y * y));
             }
 
             /**
@@ -197,17 +197,17 @@ namespace Ocular
                 float cosr = std::cos(r);
                 float sinr = std::sin(r);
 
-                m_Contents[0] = (cosr * cosy) - (sinr * sinp * siny);
-                m_Contents[1] = -sinr * cosp;
-                m_Contents[2] = (cosr * siny) + (sinr * sinp * cosy);
+                m_Contents[0][0] = (cosr * cosy) - (sinr * sinp * siny);
+                m_Contents[0][1] = -sinr * cosp;
+                m_Contents[0][2] = (cosr * siny) + (sinr * sinp * cosy);
 
-                m_Contents[3] = (sinr * cosy) + (cosr * sinp * siny);
-                m_Contents[4] = cosr * cosp;
-                m_Contents[5] = (sinr * siny) - (cosr * sinp * cosy);
+                m_Contents[1][0] = (sinr * cosy) + (cosr * sinp * siny);
+                m_Contents[1][1] = cosr * cosp;
+                m_Contents[1][2] = (sinr * siny) - (cosr * sinp * cosy);
 
-                m_Contents[6] = -cosp * siny;
-                m_Contents[7] = sinp;
-                m_Contents[8] = cosp * cosy;
+                m_Contents[2][0] = -cosp * siny;
+                m_Contents[2][1] = sinp;
+                m_Contents[2][2] = cosp * cosy;
             }
 
             /**
@@ -226,10 +226,18 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // OPERATORS
             //------------------------------------------------------------------------------
-            
-            T& operator[](unsigned const &index)
+
+            /**
+             * Returns the Vector3<T> row of the given index. This can be accessed like:
+             * 
+             *     matrix[row][col] = 5.0f;
+             *     float value = matrix[row][col];
+             *
+             * \param[in] index Valid row index [0,2]
+             */
+            Vector3<T>& operator[](unsigned const &index)
             {
-                if(index > 8)
+                if(index > 2)
                 {
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
@@ -237,9 +245,17 @@ namespace Ocular
                 return m_Contents[index];
             }
 
-            const T& operator[](unsigned const &index) const
+            /**
+             * Returns the Vector3<T> row of the given index. This can be accessed like:
+             * 
+             *     matrix[row][col] = 5.0f;
+             *     float value = matrix[row][col];
+             *
+             * \param[in] index Valid row index [0,2]
+             */
+            Vector3<T> operator[](unsigned const& index) const
             {
-                if(index > 8)
+                if(index > 2)
                 {
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Access");
                 }
@@ -249,9 +265,12 @@ namespace Ocular
 
             Matrix3x3<T>& operator=(Matrix3x3<T> const &rhs)
             {
-                for(unsigned i = 0; i < 9; i++)
+                for(unsigned row = 0; row < 3; row++)
                 {
-                    m_Contents[i] = rhs[i];
+                    for(unsigned col = 0; col < 3; col++)
+                    {
+                        m_Contents[row][col] = rhs;
+                    }
                 }
 
                 return (*this);
@@ -259,9 +278,12 @@ namespace Ocular
 
             Matrix3x3<T>& operator+=(Matrix3x3<T> const &rhs)
             {
-                for(unsigned i = 0; i < 9; i++)
+                for(unsigned row = 0; row < 3; row++)
                 {
-                    m_Contents[i] += rhs[i];
+                    for(unsigned col = 0; col < 3; col++)
+                    {
+                        m_Contents[row][col] += rhs;
+                    }
                 }
 
                 return (*this);
@@ -269,9 +291,12 @@ namespace Ocular
 
             Matrix3x3<T>& operator-=(Matrix3x3<T> const &rhs)
             {
-                for(unsigned i = 0; i < 9; i++)
+                for(unsigned row = 0; row < 3; row++)
                 {
-                    m_Contents[i] -= rhs[i];
+                    for(unsigned col = 0; col < 3; col++)
+                    {
+                        m_Contents[row][col] -= rhs;
+                    }
                 }
 
                 return (*this);
@@ -281,26 +306,29 @@ namespace Ocular
             {
                 Matrix3x3<T> oldContents = (*this);
 
-                m_Contents[0] = oldContents[0] * rhs[0] + oldContents[3] * rhs[1] + oldContents[6] * rhs[2];
-			    m_Contents[3] = oldContents[0] * rhs[3] + oldContents[3] * rhs[4] + oldContents[6] * rhs[5];
-			    m_Contents[6] = oldContents[0] * rhs[6] + oldContents[3] * rhs[7] + oldContents[6] * rhs[8];
+                m_Contents[0][0] = oldContents[0][0] * rhs[0][0] + oldContents[1][0] * rhs[0][1] + oldContents[2][0] * rhs[0][2];
+			    m_Contents[1][0] = oldContents[0][0] * rhs[1][0] + oldContents[1][0] * rhs[1][1] + oldContents[2][0] * rhs[1][2];
+			    m_Contents[2][0] = oldContents[0][0] * rhs[2][0] + oldContents[1][0] * rhs[2][1] + oldContents[2][0] * rhs[2][2];
 
-			    m_Contents[1] = oldContents[1] * rhs[0] + oldContents[4] * rhs[1] + oldContents[7] * rhs[2];
-			    m_Contents[4] = oldContents[1] * rhs[3] + oldContents[4] * rhs[4] + oldContents[7] * rhs[5];
-			    m_Contents[7] = oldContents[1] * rhs[6] + oldContents[4] * rhs[7] + oldContents[7] * rhs[8];
+			    m_Contents[0][1] = oldContents[0][1] * rhs[0][0] + oldContents[1][1] * rhs[0][1] + oldContents[2][1] * rhs[0][2];
+			    m_Contents[1][1] = oldContents[0][1] * rhs[1][0] + oldContents[1][1] * rhs[1][1] + oldContents[2][1] * rhs[1][2];
+			    m_Contents[2][1] = oldContents[0][1] * rhs[2][0] + oldContents[1][1] * rhs[2][1] + oldContents[2][1] * rhs[2][2];
 
-			    m_Contents[2] = oldContents[2] * rhs[0] + oldContents[5] * rhs[1] + oldContents[8] * rhs[2];
-			    m_Contents[5] = oldContents[2] * rhs[3] + oldContents[5] * rhs[4] + oldContents[8] * rhs[5];
-			    m_Contents[8] = oldContents[2] * rhs[6] + oldContents[5] * rhs[7] + oldContents[8] * rhs[8];
+			    m_Contents[0][2] = oldContents[0][2] * rhs[0][0] + oldContents[1][2] * rhs[0][1] + oldContents[2][2] * rhs[0][2];
+			    m_Contents[1][2] = oldContents[0][2] * rhs[1][0] + oldContents[1][2] * rhs[1][1] + oldContents[2][2] * rhs[1][2];
+			    m_Contents[2][2] = oldContents[0][2] * rhs[2][0] + oldContents[1][2] * rhs[2][1] + oldContents[2][2] * rhs[2][2];
 
                 return (*this);
             }
 
             Matrix3x3<T>& operator*=(T const &rhs)
             {
-                for(unsigned i = 0; i < 9; i++)
+                for(unsigned row = 0; row < 3; row++)
                 {
-                    m_Contents[i] *= rhs;
+                    for(unsigned col = 0; col < 3; col++)
+                    {
+                        m_Contents[row][col] *= rhs;
+                    }
                 }
 
                 return (*this);
@@ -310,9 +338,9 @@ namespace Ocular
             {
                 for(unsigned i = 0; i < 3; i++)
                 {
-                    m_Contents[(i * 3) + 0] *= rhs.x;
-                    m_Contents[(i * 3) + 1] *= rhs.y;
-                    m_Contents[(i * 3) + 2] *= rhs.z;
+                    m_Contents[i][0] *= rhs.x;
+                    m_Contents[i][1] *= rhs.y;
+                    m_Contents[i][2] *= rhs.z;
                 }
 
                 return (*this);
@@ -327,7 +355,7 @@ namespace Ocular
              */
             Vector3<T> getXRotation() const
             {
-                return Vector3<T>(m_Contents[0], m_Contents[1], m_Contents[2]);
+                return Vector3<T>(m_Contents[0][0], m_Contents[0][1], m_Contents[0][2]);
             }
 
             /**
@@ -335,7 +363,7 @@ namespace Ocular
              */
             Vector3<T> getYRotation() const
             {
-                return Vector3<T>(m_Contents[3], m_Contents[4], m_Contents[5]);
+                return Vector3<T>(m_Contents[1][0], m_Contents[1][1], m_Contents[1][2]);
             }
 
             /**
@@ -343,25 +371,7 @@ namespace Ocular
              */
             Vector3<T> getZRotation() const
             {
-                return Vector3<T>(m_Contents[6], m_Contents[7], m_Contents[8]);
-            }
-
-            /**
-             * \return The element at the specified row [0-2] and colum [0-2] combination
-             */
-            T getElement(unsigned const &row, unsigned const &column) const
-            {
-                if(row > 2)
-                {
-                    THROW_EXCEPTION("Out-Of-Bounds Matrix Row Access");
-                }
-
-                if(column > 2)
-                {
-                    THROW_EXCEPTION("Out-Of-Bounds Matrix Column Access");
-                }
-
-                return m_Contents[(row * 3) + column];
+                return Vector3<T>(m_Contents[2][0], m_Contents[2][1], m_Contents[2][2]);
             }
 
             /**
@@ -374,7 +384,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Index Access");
                 }
 
-                return m_Contents[index];
+                return m_Contents[(index / 3)][(index % 3)];
             }
 
             //------------------------------------------------------------------------------
@@ -387,19 +397,19 @@ namespace Ocular
             void setIdentity()
             {
                 // X-Axis Rotation
-                m_Contents[0] = static_cast<T>(1);
-                m_Contents[1] = static_cast<T>(0);
-                m_Contents[2] = static_cast<T>(0);
+                m_Contents[0][0] = static_cast<T>(1);
+                m_Contents[0][1] = static_cast<T>(0);
+                m_Contents[0][2] = static_cast<T>(0);
 
                 // Y-Axis Rotation
-                m_Contents[3] = static_cast<T>(0);
-                m_Contents[4] = static_cast<T>(1);
-                m_Contents[5] = static_cast<T>(0);
+                m_Contents[1][0] = static_cast<T>(0);
+                m_Contents[1][1] = static_cast<T>(1);
+                m_Contents[1][2] = static_cast<T>(0);
 
                 // Z-Axis Rotation
-                m_Contents[6] = static_cast<T>(0);
-                m_Contents[7] = static_cast<T>(0);
-                m_Contents[8] = static_cast<T>(1);
+                m_Contents[2][0] = static_cast<T>(0);
+                m_Contents[2][1] = static_cast<T>(0);
+                m_Contents[2][2] = static_cast<T>(1);
             }
 
             /**
@@ -411,9 +421,9 @@ namespace Ocular
              */
             void setXRotation(T const &x, T const &y, T const &z)
             {
-                m_Contents[0] = x;
-                m_Contents[1] = y;
-                m_Contents[2] = z;
+                m_Contents[0][0] = x;
+                m_Contents[0][1] = y;
+                m_Contents[0][2] = z;
             }
 
             /**
@@ -423,9 +433,9 @@ namespace Ocular
              */
             void setXRotation(Vector3<T> const &vec)
             {
-                m_Contents[0] = vec.x;
-                m_Contents[1] = vec.y;
-                m_Contents[2] = vec.z;
+                m_Contents[0][0] = vec.x;
+                m_Contents[0][1] = vec.y;
+                m_Contents[0][2] = vec.z;
             }
 
             /**
@@ -437,9 +447,9 @@ namespace Ocular
              */
             void setYRotation(T const &x, T const &y, T const &z)
             {
-                m_Contents[3] = x;
-                m_Contents[4] = y;
-                m_Contents[5] = z;
+                m_Contents[1][0] = x;
+                m_Contents[1][1] = y;
+                m_Contents[1][2] = z;
             }
 
             /**
@@ -449,9 +459,9 @@ namespace Ocular
              */
             void setYRotation(Vector3<T> const &vec)
             {
-                m_Contents[3] = vec.x;
-                m_Contents[4] = vec.y;
-                m_Contents[5] = vec.z;
+                m_Contents[1][0] = vec.x;
+                m_Contents[1][1] = vec.y;
+                m_Contents[1][2] = vec.z;
             }
 
             /**
@@ -463,9 +473,9 @@ namespace Ocular
              */
             void setZRotation(T const &x, T const &y, T const &z)
             {
-                m_Contents[6] = x;
-                m_Contents[7] = y;
-                m_Contents[8] = z;
+                m_Contents[2][0] = x;
+                m_Contents[2][1] = y;
+                m_Contents[2][2] = z;
             }
 
             /**
@@ -475,9 +485,9 @@ namespace Ocular
              */
             void setZRotation(Vector3<T> const &vec)
             {
-                m_Contents[6] = vec.x;
-                m_Contents[7] = vec.y;
-                m_Contents[8] = vec.z;
+                m_Contents[2][0] = vec.x;
+                m_Contents[2][1] = vec.y;
+                m_Contents[2][2] = vec.z;
             }
             
             /**
@@ -499,7 +509,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Column Access");
                 }
 
-                m_Contents[(row * 3) + column] = value;
+                m_Contents[row][column] = value;
             }
 
             /**
@@ -515,7 +525,7 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Matrix Index Access");
                 }
 
-                m_Contents[index] = value;
+                m_Contents[(index / 3)][(index % 3)] = value;
             }
 
             //------------------------------------------------------------------------------
@@ -553,17 +563,17 @@ namespace Ocular
             {
                 Matrix3x3<T> result;
 
-                result[0] = matrix[0];
-                result[1] = matrix[3];
-                result[2] = matrix[6];
+                result[0][0] = matrix[0][0];
+                result[0][1] = matrix[1][0];
+                result[0][2] = matrix[2][0];
 
-                result[3] = matrix[1];
-                result[4] = matrix[4];
-                result[5] = matrix[7];
+                result[1][0] = matrix[0][1];
+                result[1][1] = matrix[1][1];
+                result[1][2] = matrix[2][1];
 
-                result[6] = matrix[2];
-                result[7] = matrix[5];
-                result[8] = matrix[8];
+                result[2][0] = matrix[0][2];
+                result[2][1] = matrix[1][2];
+                result[2][2] = matrix[2][2];
 
                 return result;
             }
@@ -577,23 +587,23 @@ namespace Ocular
             {
                 Matrix3x3<T> result;
 
-                T determinant = ( + matrix[0] * (matrix[4] * matrix[8] - matrix[5] * matrix[7])
-                                  - matrix[1] * (matrix[3] * matrix[8] - matrix[5] * matrix[6])
-                                  + matrix[2] * (matrix[3] * matrix[7] - matrix[4] * matrix[6]) );
+                T determinant = ( + matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+                                  - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+                                  + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) );
 
                 T oneOverDeterminant = static_cast<T>(1) / determinant;
 
-                result[0] =  (matrix[4] * matrix[8] - matrix[5] * matrix[7]) * oneOverDeterminant;
-                result[1] = -(matrix[1] * matrix[8] - matrix[2] * matrix[7]) * oneOverDeterminant;
-                result[2] =  (matrix[1] * matrix[5] - matrix[2] * matrix[4]) * oneOverDeterminant;
+                result[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * oneOverDeterminant;
+                result[0][1] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]) * oneOverDeterminant;
+                result[0][2] =  (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) * oneOverDeterminant;
 
-                result[3] = -(matrix[3] * matrix[8] - matrix[5] * matrix[6]) * oneOverDeterminant;
-                result[4] =  (matrix[0] * matrix[8] - matrix[2] * matrix[6]) * oneOverDeterminant;
-                result[5] = -(matrix[0] * matrix[5] - matrix[2] * matrix[3]) * oneOverDeterminant;
+                result[1][0] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) * oneOverDeterminant;
+                result[1][1] =  (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) * oneOverDeterminant;
+                result[1][2] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]) * oneOverDeterminant;
 
-                result[6] =  (matrix[3] * matrix[7] - matrix[4] * matrix[6]) * oneOverDeterminant;
-                result[7] = -(matrix[0] * matrix[7] - matrix[1] * matrix[6]) * oneOverDeterminant;
-                result[8] =  (matrix[0] * matrix[4] - matrix[1] * matrix[3]) * oneOverDeterminant;
+                result[2][0] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * oneOverDeterminant;
+                result[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) * oneOverDeterminant;
+                result[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * oneOverDeterminant;
 
                 return result;
             }
@@ -602,7 +612,7 @@ namespace Ocular
 
         private:
 
-            T m_Contents[9];
+            Vector3<T> m_Contents[3];
         };
 
         //----------------------------------------------------------------------------------
@@ -610,11 +620,11 @@ namespace Ocular
         template<typename T>
         bool operator==(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
         {
-            return IsEqual<T>(lhs[0], rhs[0]) && IsEqual<T>(lhs[1], rhs[1]) &&
-                   IsEqual<T>(lhs[2], rhs[2]) && IsEqual<T>(lhs[3], rhs[3]) &&
-                   IsEqual<T>(lhs[4], rhs[4]) && IsEqual<T>(lhs[5], rhs[5]) &&
-                   IsEqual<T>(lhs[6], rhs[6]) && IsEqual<T>(lhs[7], rhs[7]) &&
-                   IsEqual<T>(lhs[8], rhs[8]);
+            return IsEqual<T>(lhs[0][0], rhs[0][0]) && IsEqual<T>(lhs[0][1], rhs[0][1]) &&
+                   IsEqual<T>(lhs[0][2], rhs[0][2]) && IsEqual<T>(lhs[1][0], rhs[1][0]) &&
+                   IsEqual<T>(lhs[1][1], rhs[1][1]) && IsEqual<T>(lhs[1][2], rhs[1][2]) &&
+                   IsEqual<T>(lhs[2][0], rhs[2][0]) && IsEqual<T>(lhs[2][1], rhs[2][1]) &&
+                   IsEqual<T>(lhs[2][2], rhs[2][2]);
         }
         
         template<typename T>
@@ -626,11 +636,11 @@ namespace Ocular
         template<typename T>
         Matrix3x3<T> operator+(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
         {
-            Matrix3x3<T> result(lhs[0] + rhs[0], lhs[1] + rhs[1],
-                                lhs[2] + rhs[2], lhs[3] + rhs[3],
-                                lhs[4] + rhs[4], lhs[5] + rhs[5],
-                                lhs[6] + rhs[6], lhs[7] + rhs[7],
-                                lhs[8] + rhs[8]);
+            Matrix3x3<T> result(lhs[0][0] + rhs[0][0], lhs[0][1] + rhs[0][1],
+                                lhs[0][2] + rhs[0][2], lhs[1][0] + rhs[1][0],
+                                lhs[1][1] + rhs[1][1], lhs[1][2] + rhs[1][2],
+                                lhs[2][0] + rhs[2][0], lhs[2][1] + rhs[2][1],
+                                lhs[2][2] + rhs[2][2]);
 
             return result;
         }
@@ -638,11 +648,11 @@ namespace Ocular
         template<typename T>
         Matrix3x3<T> operator-(Matrix3x3<T> const &lhs, Matrix3x3<T> const &rhs)
         {
-            Matrix3x3<T> result(lhs[0] - rhs[0], lhs[1] - rhs[1],
-                                lhs[2] - rhs[2], lhs[3] - rhs[3],
-                                lhs[4] - rhs[4], lhs[5] - rhs[5],
-                                lhs[6] - rhs[6], lhs[7] - rhs[7],
-                                lhs[8] - rhs[8]);
+            Matrix3x3<T> result(lhs[0][0] - rhs[0][0], lhs[0][1] - rhs[0][1],
+                                lhs[0][2] - rhs[0][2], lhs[1][0] - rhs[1][0],
+                                lhs[1][1] - rhs[1][1], lhs[1][2] - rhs[1][2],
+                                lhs[2][0] - rhs[2][0], lhs[2][1] - rhs[2][1],
+                                lhs[2][2] - rhs[2][2]);
 
             return result;
         }
@@ -652,17 +662,17 @@ namespace Ocular
         {
             Matrix3x3<T> result;
 
-            result[0] = (lhs[0] * rhs[0]) + (lhs[1] * rhs[3]) + (lhs[2] * rhs[6]);
-            result[1] = (lhs[0] * rhs[1]) + (lhs[1] * rhs[4]) + (lhs[2] * rhs[7]);
-            result[2] = (lhs[0] * rhs[2]) + (lhs[1] * rhs[5]) + (lhs[2] * rhs[8]);
+            result[0][0] = (lhs[0][0] * rhs[0][0]) + (lhs[0][1] * rhs[1][0]) + (lhs[0][2] * rhs[2][0]);
+            result[0][1] = (lhs[0][0] * rhs[0][1]) + (lhs[0][1] * rhs[1][1]) + (lhs[0][2] * rhs[2][1]);
+            result[0][2] = (lhs[0][0] * rhs[0][2]) + (lhs[0][1] * rhs[1][2]) + (lhs[0][2] * rhs[2][2]);
 
-            result[3] = (lhs[3] * rhs[0]) + (lhs[4] * rhs[3]) + (lhs[5] * rhs[6]);
-            result[4] = (lhs[3] * rhs[1]) + (lhs[4] * rhs[4]) + (lhs[5] * rhs[7]);
-            result[5] = (lhs[3] * rhs[2]) + (lhs[4] * rhs[5]) + (lhs[5] * rhs[8]);
+            result[1][0] = (lhs[1][0] * rhs[0][0]) + (lhs[1][1] * rhs[1][0]) + (lhs[1][2] * rhs[2][0]);
+            result[1][1] = (lhs[1][0] * rhs[0][1]) + (lhs[1][1] * rhs[1][1]) + (lhs[1][2] * rhs[2][1]);
+            result[1][2] = (lhs[1][0] * rhs[0][2]) + (lhs[1][1] * rhs[1][2]) + (lhs[1][2] * rhs[2][2]);
 
-            result[6] = (lhs[6] * rhs[0]) + (lhs[7] * rhs[3]) + (lhs[8] * rhs[6]);
-            result[7] = (lhs[6] * rhs[1]) + (lhs[7] * rhs[4]) + (lhs[8] * rhs[7]);
-            result[8] = (lhs[6] * rhs[2]) + (lhs[7] * rhs[5]) + (lhs[8] * rhs[8]);
+            result[2][0] = (lhs[2][0] * rhs[0][0]) + (lhs[2][1] * rhs[1][0]) + (lhs[2][2] * rhs[2][0]);
+            result[2][1] = (lhs[2][0] * rhs[0][1]) + (lhs[2][1] * rhs[1][1]) + (lhs[2][2] * rhs[2][1]);
+            result[2][2] = (lhs[2][0] * rhs[0][2]) + (lhs[2][1] * rhs[1][2]) + (lhs[2][2] * rhs[2][2]);
 
             return result;
         }
@@ -672,9 +682,12 @@ namespace Ocular
         {
             Matrix3x3<T> result;
 
-            for(unsigned i = 0; i < 9; i++)
+            for(unsigned row = 0; row < 3; row++)
             {
-                result[i] = lhs[i] * rhs;
+                for(unsigned col = 0; col < 3; col++)
+                {
+                    result[row][col] = lhs[row][col] * rhs;
+                }
             }
 
             return result;
@@ -687,9 +700,9 @@ namespace Ocular
 
             for(unsigned i = 0; i < 2; i++)
             {
-                result[(i * 3) + 0] = lhs[(i * 3) + 0] * rhs.x;
-                result[(i * 3) + 1] = lhs[(i * 3) + 1] * rhs.y;
-                result[(i * 3) + 2] = lhs[(i * 3) + 2] * rhs.z;
+                result[i][0] = lhs[i][0] * rhs.x;
+                result[i][1] = lhs[i][1] * rhs.y;
+                result[i][2] = lhs[i][2] * rhs.z;
             }
 
             return result;
