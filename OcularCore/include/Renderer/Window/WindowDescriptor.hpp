@@ -67,7 +67,7 @@ namespace Ocular
          *     </tr>
          *     <tr>
          *         <td>Display Mode</td>
-         *         <td>WINDOWED_BORDERED</td>
+         *         <td>WindowedBordered</td>
          *     </tr>
          *     <tr>
          *         <td>Exclusive Mode</td>
@@ -88,7 +88,7 @@ namespace Ocular
                 depthBits   = 8;
                 stencilBits = 8;
 
-                displayMode = WINDOW_DISPLAY_MODE::WINDOWED_BORDERED;
+                displayMode = WindowDisplayMode::WindowedBordered;
 
                 exclusiveMode = false;
             }
@@ -109,7 +109,7 @@ namespace Ocular
             unsigned depthBits;
             unsigned stencilBits;
 
-            WINDOW_DISPLAY_MODE displayMode;
+            WindowDisplayMode displayMode;
             
             bool exclusiveMode;
         };

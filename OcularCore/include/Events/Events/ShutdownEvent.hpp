@@ -46,7 +46,7 @@ namespace Ocular
              * Event notifying of application shutdown. <br/> <br/>
              *
              * String Descriptor: "ShutdownEvent" <br/>
-             * Event Priority: CRITICAL 
+             * Event Priority: Critical 
              */
             class ShutdownEvent : public AEvent 
             {

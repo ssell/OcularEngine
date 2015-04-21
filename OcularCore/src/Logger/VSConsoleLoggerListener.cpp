@@ -49,19 +49,19 @@ namespace Ocular
             std::stringstream sstream;
             switch (message.channel)
             {
-            case LOGGER_CHANNELS::DEBUG_CHANNEL:
+            case LoggerChannels::Debug:
                 sstream << "OcularEngine DEBUG: ";
                 break;
 
-            case LOGGER_CHANNELS::INFO_CHANNEL:
+            case LoggerChannels::Info:
                 sstream << "OcularEngine INFO:  ";
                 break;
 
-            case LOGGER_CHANNELS::WARNING_CHANNEL:
+            case LoggerChannels::Warning:
                 sstream << "OcularEngine WARN:  ";
                 break;
 
-            case LOGGER_CHANNELS::ERROR_CHANNEL:
+            case LoggerChannels::Error:
                 sstream << "OcularEngine ERROR: ";
                 break;
 

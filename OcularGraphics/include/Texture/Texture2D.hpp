@@ -53,7 +53,7 @@ namespace Ocular
              * \param[in] usage
              * \param[in] source
              */
-            Texture2D(unsigned width, unsigned height, TEXTURE_FILTER_MODE filter = TEXTURE_FILTER_MODE::BILINEAR, TEXTURE_USAGE_MODE usage = TEXTURE_USAGE_MODE::STATIC);
+            Texture2D(unsigned width, unsigned height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
 
             virtual ~Texture2D();
 

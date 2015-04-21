@@ -46,7 +46,7 @@ void openWindow()
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
-    descriptor.displayMode   = Ocular::Core::WINDOW_DISPLAY_MODE::WINDOWED_BORDERED;
+    descriptor.displayMode   = Ocular::Core::WindowDisplayMode::WindowedBordered;
     descriptor.exclusiveMode = false;
 
     OcularEngine.WindowManager()->openWindow(descriptor);

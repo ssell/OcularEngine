@@ -49,19 +49,19 @@ namespace Ocular
              * \param name     String name of the event
              * \param priority Priority level of the event 
              */
-            AEvent(std::string name, EVENT_PRIORITY priority = EVENT_PRIORITY::MEDIUM);
+            AEvent(std::string name, EventPriority priority = EventPriority::Medium);
             ~AEvent();            
 
             /**
              * \return The priority level of the event. 
              */
-            EVENT_PRIORITY getPriority() const;
+            EventPriority getPriority() const;
 
         protected:
 
         private:
 
-            EVENT_PRIORITY m_Priority;
+            EventPriority m_Priority;
         };
     }
     /**

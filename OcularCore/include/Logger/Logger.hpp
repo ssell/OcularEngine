@@ -74,7 +74,7 @@ namespace Ocular
             {
                 m_Mutex.lock();
 
-                m_CurrentMessage.channel = LOGGER_CHANNELS::DEBUG_CHANNEL;
+                m_CurrentMessage.channel = LoggerChannels::Debug;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
@@ -94,7 +94,7 @@ namespace Ocular
             {
                 m_Mutex.lock();
 
-                m_CurrentMessage.channel = LOGGER_CHANNELS::INFO_CHANNEL;
+                m_CurrentMessage.channel = LoggerChannels::Info;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
@@ -115,7 +115,7 @@ namespace Ocular
             {
                 m_Mutex.lock();
 
-                m_CurrentMessage.channel = LOGGER_CHANNELS::WARNING_CHANNEL;
+                m_CurrentMessage.channel = LoggerChannels::Warning;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
@@ -135,7 +135,7 @@ namespace Ocular
             {
                 m_Mutex.lock();
 
-                m_CurrentMessage.channel = LOGGER_CHANNELS::ERROR_CHANNEL;
+                m_CurrentMessage.channel = LoggerChannels::Error;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);
@@ -162,7 +162,7 @@ namespace Ocular
             {
                 m_Mutex.lock();
 
-                m_CurrentMessage.channel = LOGGER_CHANNELS::FATAL_CHANNEL;
+                m_CurrentMessage.channel = LoggerChannels::Fatal;
                 m_IncompleteMessage.str(std::string());
                 m_IncompleteMessage << first;
                 log(args...);

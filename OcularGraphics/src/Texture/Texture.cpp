@@ -26,7 +26,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture::Texture(TEXTURE_FILTER_MODE filter, TEXTURE_USAGE_MODE usage)
+        Texture::Texture(TextureFilterMode filter, TextureUsageMode usage)
             : Resource()
         {
             m_Filter = filter;
@@ -41,12 +41,12 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void Texture::setFilterMode(TEXTURE_FILTER_MODE const filter)
+        void Texture::setFilterMode(TextureFilterMode const filter)
         {
             m_Filter = filter;
         }
 
-        void Texture::setUsageMode(TEXTURE_USAGE_MODE const usage)
+        void Texture::setUsageMode(TextureUsageMode const usage)
         {
             m_Usage = usage;
         }

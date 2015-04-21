@@ -53,27 +53,27 @@ namespace Ocular
             m_IgnoreDuplicates = ignore;
         }
 
-        void EventSnooper::setIgnorePriorityLevel(EVENT_PRIORITY const priority, bool const ignore)
+        void EventSnooper::setIgnorePriorityLevel(EventPriority const priority, bool const ignore)
         {
             switch(priority)
             {
-            case MONITOR:
+            case Monitor:
                 m_IgnorePriorityMonitor = ignore;
                 break;
 
-            case CRITICAL:
+            case Critical:
                 m_IgnorePriorityCritical = ignore;
                 break;
 
-            case HIGH:
+            case High:
                 m_IgnorePriorityHigh = ignore;
                 break;
 
-            case MEDIUM:
+            case Medium:
                 m_IgnorePriorityMedium = ignore;
                 break;
 
-            case LOW:
+            case Low:
                 m_IgnorePriorityLow = ignore;
                 break;
 
@@ -93,7 +93,7 @@ namespace Ocular
             
             switch(event->getPriority())
             {
-            case MONITOR:
+            case Monitor:
             {
                 if(m_IgnorePriorityMonitor)
                 {
@@ -103,7 +103,7 @@ namespace Ocular
                 break;
             }
 
-            case CRITICAL:
+            case Critical:
             {
                 if(m_IgnorePriorityCritical)
                 {
@@ -113,7 +113,7 @@ namespace Ocular
                 break;
             }
 
-            case HIGH:
+            case High:
             {
                 if(m_IgnorePriorityHigh)
                 {
@@ -123,7 +123,7 @@ namespace Ocular
                 break;
             }
 
-            case MEDIUM:
+            case Medium:
             {
                 if(m_IgnorePriorityMedium)
                 {
@@ -133,7 +133,7 @@ namespace Ocular
                 break;
             }
 
-            case LOW:
+            case Low:
             {
                 if(m_IgnorePriorityLow)
                 {

@@ -31,7 +31,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture2D::Texture2D(unsigned const width, unsigned const height, TEXTURE_FILTER_MODE const filter, TEXTURE_USAGE_MODE const usage)
+        Texture2D::Texture2D(unsigned const width, unsigned const height, TextureFilterMode const filter, TextureUsageMode const usage)
             : Texture(filter, usage)
         {
             m_Width  = width;

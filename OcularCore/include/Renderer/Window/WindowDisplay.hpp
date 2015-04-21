@@ -33,14 +33,14 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \enum WINDOW_DISPLAY_MODE
+         * \enum WindowDisplayMode
          */
-        enum class WINDOW_DISPLAY_MODE : unsigned
+        enum class WindowDisplayMode : unsigned
         {
-            WINDOWED_BORDERED = 0,    ///< Window with dimensions equal to resolution with added border
-            WINDOWED_NO_BORDER,       ///< Window with dimensions equal to resolution and no border
-            FULLSCREEN_BORDERED,      ///< Fullscreen with border
-            FULLSCREEN_NO_BORDER      ///< Fullscreen with no border
+            WindowedBordered = 0,    ///< Window with dimensions equal to resolution with added border
+            WindowedBorderless,       ///< Window with dimensions equal to resolution and no border
+            FullscreenBordered,      ///< Fullscreen with border
+            FullscreenBorderless      ///< Fullscreen with no border
         };
     }
     /**

@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_LOGGER_CHANNELS__H__
-#define __H__OCULAR_LOGGER_CHANNELS__H__
+#ifndef __H__OCULAR_LoggerChannels__H__
+#define __H__OCULAR_LoggerChannels__H__
 
 #include <string>
 
@@ -35,15 +35,15 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \enum LOGGER_CHANNELS
+         * \enum LoggerChannels
          */
-        enum class LOGGER_CHANNELS
+        enum class LoggerChannels
         {
-            DEBUG_CHANNEL = 0,
-            INFO_CHANNEL = 1,
-            WARNING_CHANNEL = 2,
-            ERROR_CHANNEL = 3,
-            FATAL_CHANNEL
+            Debug   = 0,
+            Info    = 1,
+            Warning = 2,
+            Error   = 3,
+            Fatal   = 4
         };
 
         /**
@@ -52,7 +52,7 @@ namespace Ocular
         struct LoggerMessage
         {
             std::string message;
-            LOGGER_CHANNELS channel;
+            LoggerChannels channel;
         };
     }
     /**

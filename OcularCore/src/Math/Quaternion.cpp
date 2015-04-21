@@ -313,7 +313,7 @@ namespace Ocular
         }
 
         //------------------------------------------------------------
-        // STATIC METHODS
+        // Static METHODS
         //------------------------------------------------------------
 
         Quaternion Quaternion::createLookAtRotation(Vector3<float> const& forward, Vector3<float> const& upward)

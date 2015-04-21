@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_WINDOW_RESIZE_EVENT__H__
-#define __H__OCULAR_EVENTS_WINDOW_RESIZE_EVENT__H__
+#ifndef __H__OCULAR_EVENTS_WINDOW_Resize_EVENT__H__
+#define __H__OCULAR_EVENTS_WINDOW_Resize_EVENT__H__
 
 #include "Events/AEvent.hpp"
 #include "Renderer/Window/Window.hpp"
@@ -36,14 +36,14 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \enum WINDOW_RESIZE_TYPE
+         * \enum WindowResizeType
          * \brief Represents the type of resize event that occurred.
          */
-        enum WINDOW_RESIZE_TYPE
+        enum WindowResizeType
         {
-            RESIZE = 0,     /// Matches WinAPI SIZE_RESTORED
-            MINIMIZED = 1,  /// Matches WinAPI SIZE_MINIMIZED
-            MAXIMIZED = 2   /// Matches WinAPI SIZE_MAXIMIZED
+            Resize = 0,     /// Matches WinAPI SIZE_RESTORED
+            Minimized = 1,  /// Matches WinAPI SIZE_MINIMIZED
+            Maximized = 2   /// Matches WinAPI SIZE_MAXIMIZED
         };
 
         /**
@@ -66,18 +66,18 @@ namespace Ocular
              * </ul><br/>
              *
              * String Descriptor: "WindowResizeEvent" <br/>
-             * Event Priority: LOW 
+             * Event Priority: Low 
              */
             class WindowResizeEvent : public AEvent 
             {
             public:
 
-                WindowResizeEvent(std::shared_ptr<AWindow> window, unsigned width, unsigned height, WINDOW_RESIZE_TYPE type);
+                WindowResizeEvent(std::shared_ptr<AWindow> window, unsigned width, unsigned height, WindowResizeType type);
                 ~WindowResizeEvent();
 
                 //----------------------------------------
 
-                WINDOW_RESIZE_TYPE getResizeType() const;
+                WindowResizeType getResizeType() const;
 
                 unsigned getNewWidth() const;
                 unsigned getNewHeight() const;
@@ -93,7 +93,7 @@ namespace Ocular
                 unsigned m_NewWidth;
                 unsigned m_NewHeight;
 
-                WINDOW_RESIZE_TYPE m_Type;
+                WindowResizeType m_Type;
             };
         }
         /**

@@ -15,8 +15,8 @@
 */
 
 #pragma once
-#ifndef __H__OCULAR_EVENT_EVENT_PRIORITY__H__
-#define __H__OCULAR_EVENT_EVENT_PRIORITY__H__
+#ifndef __H__OCULAR_EVENT_EventPriority__H__
+#define __H__OCULAR_EVENT_EventPriority__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -32,13 +32,13 @@ namespace Ocular
     */
     namespace Core
     {
-        enum EVENT_PRIORITY
+        enum EventPriority
         {
-            MONITOR = 0,
-            CRITICAL = 10,
-            HIGH = 50,
-            MEDIUM = 100,
-            LOW = 150
+            Monitor = 0,
+            Critical = 10,
+            High = 50,
+            Medium = 100,
+            Low = 150
         };
     }
     /**

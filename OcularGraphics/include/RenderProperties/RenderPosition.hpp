@@ -34,11 +34,11 @@ namespace Ocular
     {
         enum class RenderPosition
         {
-            BACKGROUND           = 10000,
-            GEOMETRY_OPAQUE      = 20000,
-            GEOMETRY_ALPHA_TEST  = 30000,
-            GEOMETRY_TRANSPARENT = 40000,
-            OVERLAY              = 50000
+            Background          = 10000,
+            GeometryOpaque      = 20000,
+            GeometryAlphaTest   = 30000,
+            GeometryTransparent = 40000,
+            Overlay             = 50000
         };
     }
     /**

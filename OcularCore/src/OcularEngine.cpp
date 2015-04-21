@@ -171,7 +171,7 @@ namespace Ocular
 
     void Engine::setupEvents()
     {
-        m_EventManager->registerListener(this, Core::EVENT_PRIORITY::MEDIUM);
+        m_EventManager->registerListener(this, Core::EventPriority::Medium);
     }
 
     void Engine::setupResourceManager()

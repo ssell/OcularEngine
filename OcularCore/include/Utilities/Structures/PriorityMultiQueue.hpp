@@ -38,7 +38,7 @@ namespace Ocular
         /**
          * \class PriorityMultiQueue
          *
-         * The PriorityMultiQueue is a priority system based off of the priority levels defined in Core::EVENT_PRIORITY<br/><br/>
+         * The PriorityMultiQueue is a priority system based off of the priority levels defined in Core::EventPriority<br/><br/>
          *
          * This structure is best suited for situations where high volumes of enqueue and dequeue actions are expected,
          * and can perform up to 250 times faster than the STL std::priority_queue in this regard. Conversely, random-access
@@ -72,25 +72,25 @@ namespace Ocular
              *
              * \return TRUE if successfully enqueued.
              */
-            bool enqueue(T const element, Core::EVENT_PRIORITY priority)
+            bool enqueue(T const element, Core::EventPriority priority)
             {
                 bool result = false;
 
                 switch(priority)
                 {
-                case Core::EVENT_PRIORITY::CRITICAL:
+                case Core::EventPriority::Critical:
                     result = m_CriticalPriority.enqueue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::HIGH:
+                case Core::EventPriority::High:
                     result = m_HighPriority.enqueue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::MEDIUM:
+                case Core::EventPriority::Medium:
                     result = m_MediumPriority.enqueue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::LOW:
+                case Core::EventPriority::Low:
                     result = m_LowPriority.enqueue(element);
                     break;
                     
@@ -157,25 +157,25 @@ namespace Ocular
              * \param[out] retElement The element removed from the queue.
              * \return TRUE if an element was successfully dequeued.
              */
-            bool dequeue(Core::EVENT_PRIORITY priority, T& retElement)
+            bool dequeue(Core::EventPriority priority, T& retElement)
             {
                 bool result = false;
 
                 switch(priority)
                 {
-                case Core::EVENT_PRIORITY::CRITICAL:
+                case Core::EventPriority::Critical:
                     result = m_CriticalPriority.dequeue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::HIGH:
+                case Core::EventPriority::High:
                     result = m_HighPriority.dequeue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::MEDIUM:
+                case Core::EventPriority::Medium:
                     result = m_MediumPriority.dequeue(element);
                     break;
 
-                case Core::EVENT_PRIORITY::LOW:
+                case Core::EventPriority::Low:
                     result = m_LowPriority.dequeue(element);
                     break;
                     

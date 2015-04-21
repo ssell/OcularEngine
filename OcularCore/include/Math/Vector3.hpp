@@ -379,7 +379,7 @@ namespace Ocular
             }
 
             //------------------------------------------------------------------------------
-            // SPECIAL STATIC VECTORS
+            // SPECIAL Static VECTORS
             //------------------------------------------------------------------------------
 
             // Ocular uses a right-handed coordinate system

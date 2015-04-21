@@ -34,9 +34,9 @@ namespace Ocular
     {
         enum class RenderType
         {
-            NONE = 0,
-            OPAQUE,
-            TRANSPARENT
+            None = 0,
+            Opaque,
+            Transparent
         };
     }
     /**

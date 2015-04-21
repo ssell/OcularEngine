@@ -47,7 +47,7 @@ namespace Ocular
              * \param[in] filter
              * \param[in] usage
              */
-            Texture(TEXTURE_FILTER_MODE filter = TEXTURE_FILTER_MODE::BILINEAR, TEXTURE_USAGE_MODE usage = TEXTURE_USAGE_MODE::STATIC);
+            Texture(TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
 
             virtual ~Texture();
 
@@ -63,7 +63,7 @@ namespace Ocular
              *
              * Textures will not be updated (i.e. changes rendered) until this method is called.
              *
-             * \note Texture usage mode must be set to ::DYNAMIC in order to modify a texture at runtime.
+             * \note Texture usage mode must be set to ::Dynamic in order to modify a texture at runtime.
              */
             virtual void apply() = 0;
 
@@ -71,29 +71,29 @@ namespace Ocular
              * Sets the filter mode of the texture.<br/>
              * The filter mode determines how pixels are sampled during rendering.<br/><br/>
              *
-             * The default filter is ::BILINEAR.
+             * The default filter is ::Bilinear.
              *
              * \param[in] filter 
              */
-            virtual void setFilterMode(TEXTURE_FILTER_MODE filter);
+            virtual void setFilterMode(TextureFilterMode filter);
 
             /**
              * Sets the usage mode of the texture.
              *
              * The usage mode determines if a copy of the texture is maintained on the CPU.
-             * By setting usage to DYNAMIC, one may modify the texture at runtime. But this
+             * By setting usage to Dynamic, one may modify the texture at runtime. But this
              * also requires additional memory overhead which is unnecessary for most textures.<br/><br/>
              * 
-             * The default usage is STATIC.
+             * The default usage is Static.
              *
              * \param[in] usage
              */
-            virtual void setUsageMode(TEXTURE_USAGE_MODE usage);
+            virtual void setUsageMode(TextureUsageMode usage);
 
         protected:
 
-            TEXTURE_FILTER_MODE m_Filter;
-            TEXTURE_USAGE_MODE  m_Usage;
+            TextureFilterMode m_Filter;
+            TextureUsageMode  m_Usage;
 
         private:
         };

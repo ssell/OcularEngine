@@ -182,11 +182,11 @@ namespace Ocular
              * Sets the priority behaviour when determining which Resource to unload when 
              * the memory limit has been reached.
              *
-             * Default is LEAST_RECENTLY_USED.
+             * Default is LeastRecentlyUsed.
              *
              * \param behaviour Priority behaviour to use.
              */
-            void setPriorityBehaviour(RESOURCE_PRIORITY_BEHAVIOUR behaviour);
+            void setPriorityBehaviour(ResourcePriorityBehaviour behaviour);
 
             /**
              * Sets the blacklist for files to exclude as Resources.
@@ -285,7 +285,7 @@ namespace Ocular
             ResourceSaverManager  m_ResourceSaverManager;
             ResourceMemoryDetails m_MemoryDetails;
 
-            RESOURCE_PRIORITY_BEHAVIOUR m_PriorityBehaviour;
+            ResourcePriorityBehaviour m_PriorityBehaviour;
 
             unsigned long long m_MemoryLimit;
 

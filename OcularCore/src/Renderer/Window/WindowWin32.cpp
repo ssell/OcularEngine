@@ -47,20 +47,20 @@ namespace Ocular
             }
         }
 
-        DWORD CreateWindowStyle(WINDOW_DISPLAY_MODE const display)
+        DWORD CreateWindowStyle(WindowDisplayMode const display)
         {
             switch(display)
             {
-            case WINDOW_DISPLAY_MODE::WINDOWED_NO_BORDER:
+            case WindowDisplayMode::WindowedBorderless:
                 return WS_POPUP | WS_VISIBLE;
 
-            case WINDOW_DISPLAY_MODE::FULLSCREEN_BORDERED:
+            case WindowDisplayMode::FullscreenBordered:
                 return WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_VISIBLE;
 
-            case WINDOW_DISPLAY_MODE::FULLSCREEN_NO_BORDER:
+            case WindowDisplayMode::FullscreenBorderless:
                 return WS_POPUP | WS_MAXIMIZE | WS_VISIBLE;
 
-            case WINDOW_DISPLAY_MODE::WINDOWED_BORDERED:
+            case WindowDisplayMode::WindowedBordered:
             default:
                 return WS_OVERLAPPEDWINDOW | WS_VISIBLE;
             }
@@ -271,7 +271,7 @@ namespace Ocular
                     OcularEngine.WindowManager()->getWindow(m_UID),   // Smart pointer to this window
                     static_cast<unsigned>(LOWORD(lParam)),            // New width
                     static_cast<unsigned>(HIWORD(lParam)),            // New height
-                    static_cast<WINDOW_RESIZE_TYPE>(wParam)));        // Type of resize event
+                    static_cast<WindowResizeType>(wParam)));          // Type of resize event
                 return 0;
 
             default:

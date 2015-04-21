@@ -272,7 +272,7 @@ namespace Ocular
             m_MemoryLimit = maxMemory;
         }
 
-        void ResourceManager::setPriorityBehaviour(RESOURCE_PRIORITY_BEHAVIOUR const behaviour)
+        void ResourceManager::setPriorityBehaviour(ResourcePriorityBehaviour const behaviour)
         {
             m_PriorityBehaviour = behaviour;
         }
@@ -331,19 +331,19 @@ namespace Ocular
                 // Out of space, need to free up memory
                 switch(m_PriorityBehaviour)
                 {
-                case RESOURCE_PRIORITY_BEHAVIOUR::LEAST_FREQUENTLY_USED:
+                case ResourcePriorityBehaviour::LeastFrequentlyUsed:
                     resourceDetails = findLeastFrequentlyUsed();
                     break;
 
-                case RESOURCE_PRIORITY_BEHAVIOUR::SIZE_ASCENDING:
+                case ResourcePriorityBehaviour::SizeAscending:
                     resourceDetails = findSizeAscending();
                     break;
 
-                case RESOURCE_PRIORITY_BEHAVIOUR::SIZE_DESCENDING:
+                case ResourcePriorityBehaviour::SizeDescending:
                     resourceDetails = findSizeDescending();
                     break;
 
-                case RESOURCE_PRIORITY_BEHAVIOUR::LEAST_RECENTLY_USED:
+                case ResourcePriorityBehaviour::LeastRecentlyUsed:
                 default:
                     resourceDetails = findLeastRecentlyUsed();
                     break;

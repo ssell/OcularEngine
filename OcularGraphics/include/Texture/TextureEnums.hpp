@@ -33,18 +33,18 @@ namespace Ocular
     namespace Graphics
     {
         /*! Sample filtering modes */
-        enum class TEXTURE_FILTER_MODE : unsigned
+        enum class TextureFilterMode : unsigned
         {
-            POINT = 0x0,     ///< Use Point filtering
-            BILINEAR,        ///< Use Bilinear filtering
-            TRILINEAR,       ///< Use Trilinear filtering
-            ANISOTROPIC      ///< Use Anisotropic filtering
+            Point = 0,     ///< Use Point filtering
+            Bilinear,        ///< Use Bilinear filtering
+            Trilinear,       ///< Use Trilinear filtering
+            Anisotropic      ///< Use Anisotropic filtering
         };
 
-        enum class TEXTURE_USAGE_MODE : unsigned
+        enum class TextureUsageMode : unsigned
         {
-            STATIC = 0x0,    ///< Texture will not be updated at runtime
-            DYNAMIC          ///< Texture may be updated at runtime
+            Static = 0x0,    ///< Texture will not be updated at runtime
+            Dynamic          ///< Texture may be updated at runtime
         };
     }
     /**

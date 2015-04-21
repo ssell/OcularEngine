@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_PRIORITY_BEHAVIOUR__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_PRIORITY_BEHAVIOUR__H__
+#ifndef __H__OCULAR_RESOURCES_ResourcePriorityBehaviour__H__
+#define __H__OCULAR_RESOURCES_ResourcePriorityBehaviour__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -33,14 +33,14 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \enum RESOURCE_PRIORITY_BEHAVIOUR
+         * \enum ResourcePriorityBehaviour
          */
-        enum class RESOURCE_PRIORITY_BEHAVIOUR : unsigned
+        enum class ResourcePriorityBehaviour : unsigned
         {
-            LEAST_RECENTLY_USED = 0,     ///< Discards the least recently used Resource
-            LEAST_FREQUENTLY_USED,       ///< Discards the least frequently used Resource
-            SIZE_ASCENDING,              ///< Discards the smallest Resource
-            SIZE_DESCENDING              ///< Discards the largest Resource
+            LeastRecentlyUsed = 0,     ///< Discards the least recently used Resource
+            LeastFrequentlyUsed,       ///< Discards the least frequently used Resource
+            SizeAscending,              ///< Discards the smallest Resource
+            SizeDescending              ///< Discards the largest Resource
         };
     }
     /**
