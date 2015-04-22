@@ -202,19 +202,15 @@ namespace Ocular
             /**
              * \return The magnitude (length) of the vector.
              */
-            double getMagnitude() const
+            T getMagnitude() const
             {
-                double dX = static_cast<double>(x);
-                double dY = static_cast<double>(y);
-                double dZ = static_cast<double>(z);
-
-                return std::sqrt((dX * dX) + (dY * dY) + (dZ * dZ));
+                return std::sqrt((x * x) + (y * y) + (z * z));
             }
 
             /**
              * \return The length of the vector.
              */
-            double getLength() const
+            T getLength() const
             {
                 return getMagnitude();
             }
@@ -229,7 +225,7 @@ namespace Ocular
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
 
-                double length = getMagnitude();
+                T length = getMagnitude();
 
                 if(IsEqual<T>(length, static_cast<T>(0)))
                 {

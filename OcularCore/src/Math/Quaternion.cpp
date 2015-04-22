@@ -54,7 +54,8 @@ namespace Ocular
 
             // Also:
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
-            
+            // http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q47
+
             float m00 = rotationMatrix[0][0];
             float m01 = rotationMatrix[0][1];
             float m02 = rotationMatrix[0][2];
@@ -115,6 +116,47 @@ namespace Ocular
                 y = quat[1];
                 z = quat[2];
             }
+
+            /*
+            float trace = rotationMatrix[0][0] + rotationMatrix[1][1] + rotationMatrix[2][2];
+            float s = 0.0f;
+
+            if(trace > EPSILON_FLOAT)
+            {
+                s = sqrt(trace) * 2.0f; 
+                w = 0.25f * s;
+                x = (rotationMatrix[1][2] - rotationMatrix[2][1]) / s;
+                y = (rotationMatrix[2][0] - rotationMatrix[0][2]) / s;
+                z = (rotationMatrix[0][1] - rotationMatrix[1][0]) / s;
+            }
+            else
+            {
+                if((rotationMatrix[0][0] > rotationMatrix[1][1]) && (rotationMatrix[0][0] > rotationMatrix[2][2]))
+                {
+                    s = (1.0f + rotationMatrix[0][0] - rotationMatrix[1][1] - rotationMatrix[2][2]) * 2.0f;
+                    w = (rotationMatrix[1][2] - rotationMatrix[2][1]) / s;
+                    x = 0.25f * s;
+                    y = (rotationMatrix[0][1] + rotationMatrix[1][0]) / s;
+                    z = (rotationMatrix[2][0] + rotationMatrix[0][2]) / s;
+                }
+                else if(rotationMatrix[1][1] > rotationMatrix[2][2])
+                {
+                    s = (1.0f + rotationMatrix[1][1] - rotationMatrix[0][0] - rotationMatrix[2][2]) * 2.0f;
+                    w = (rotationMatrix[2][0] - rotationMatrix[0][2]) / s;
+                    x = (rotationMatrix[0][1] + rotationMatrix[1][0]) / s;
+                    y = 0.25f * s;
+                    z = (rotationMatrix[1][2] + rotationMatrix[2][1]) / s;
+                }
+                else
+                {
+                    s = (1.0f + rotationMatrix[2][2] - rotationMatrix[0][0] - rotationMatrix[1][1]) * 2.0f;
+                    w = (rotationMatrix[0][1] - rotationMatrix[1][0]) / s;
+                    x = (rotationMatrix[2][0] + rotationMatrix[0][2]) / s;
+                    y = (rotationMatrix[1][2] + rotationMatrix[2][1]) / s;
+                    z = 0.25f * s;
+                }
+            }
+            */
         }
 
         Quaternion::Quaternion(Euler const& euler)
@@ -321,6 +363,37 @@ namespace Ocular
             Quaternion result;
 
             // --- TODO
+
+            return result;
+        }
+
+        Quaternion Quaternion::rotateVector(Vector3<float> const& from, Vector3<float> const& to)
+        {
+            // Source: 
+            // Real-Time Rendering 3rd Edition 
+            // 4.3.2 Quaternion Transforms
+            // Page 79
+
+            /*
+                              1                  sqrt(2(1+e))
+            (qv, qw) = ( ------------ * (s X t), ------------ )
+                         sqrt(2(1+e))                 2
+            */
+
+            Quaternion result;
+
+            Vector3<float> s = from.getNormalized();
+            Vector3<float> t = to.getNormalized();
+           
+            float e = s.dot(t);
+            float v = sqrt(2.0f * (1.0f + e));
+
+            Vector3<float> imaginary = (s.cross(t)) * (1.0f / v);
+            
+            result.w = v / 2.0f;
+            result.x = imaginary.x;
+            result.y = imaginary.y;
+            result.z = imaginary.z;
 
             return result;
         }

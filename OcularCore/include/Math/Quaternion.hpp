@@ -183,6 +183,14 @@ namespace Ocular
             static Quaternion createLookAtRotation(Vector3<float> const& forward = Vector3<float>::forward(), Vector3<float> const& upward = Vector3<float>::up());
 
             /**
+             * Rotates the provided vector from a direction to another direction.
+             *
+             * \param[in] from Direction the vector is currently facing
+             * \param[in] to   Direction to rotate the vector to
+             */
+            static Quaternion rotateVector(Vector3<float> const& from, Vector3<float> const& to);
+
+            /**
              * Performs linear quaternion interpolation and returns the resulting quaternion.
              * 
              * \param[in] a The starting Quaternion (result == a when t == 0.0).

@@ -68,6 +68,18 @@ namespace Ocular
         {
             return (a == b);
         }
+
+        template<typename T>
+        static bool IsZero(T const a)
+        {
+            return IsEqual<T>(a, static_cast<T>(0));
+        }
+
+        template<typename T>
+        static bool IsOne(T const a)
+        {
+            return IsEqual<T>(a, static_cast<T>(1));
+        }
     }
     /**
      * @} End of Doxygen Groups

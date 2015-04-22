@@ -148,26 +148,25 @@ namespace Ocular
 
                 Quaternion normalized = quaternion.getNormalized();
 
-                float w = normalized.w;
-                float x = normalized.x;
-                float y = normalized.y;
-                float z = normalized.z;
+                T w = static_cast<T>(normalized.w);
+                T x = static_cast<T>(normalized.x);
+                T y = static_cast<T>(normalized.y);
+                T z = static_cast<T>(normalized.z);
 
-                float xx = x * x;
-                float yy = y * y;
-                float zz = z * z;
+                T one = static_cast<T>(1);
+                T two = static_cast<T>(2);
 
-                m_Contents[0][0] = 1.0f - 2.0f * ((y * y) + (z * z));
-                m_Contents[0][1] =        2.0f * ((x * y) + (w * z));
-                m_Contents[0][2] =        2.0f * ((x * z) - (w * y));
+                m_Contents[0][0] = one - two * ((y * y) + (z * z));
+                m_Contents[0][1] =       two * ((x * y) + (w * z));
+                m_Contents[0][2] =       two * ((x * z) - (w * y));
 
-                m_Contents[1][0] =        2.0f * ((x * y) - (w * z));
-                m_Contents[1][1] = 1.0f - 2.0f * ((x * x) + (z * z));
-                m_Contents[1][2] =        2.0f * ((y * z) + (w * x));
+                m_Contents[1][0] =       two * ((x * y) - (w * z));
+                m_Contents[1][1] = one - two * ((x * x) + (z * z));
+                m_Contents[1][2] =       two * ((y * z) + (w * x));
 
-                m_Contents[2][0] =        2.0f * ((x * z) + (w * y));
-                m_Contents[2][1] =        2.0f * ((y * z) - (w * x));
-                m_Contents[2][2] = 1.0f - 2.0f * ((x * x) + (y * y));
+                m_Contents[2][0] =       two * ((x * z) + (w * y));
+                m_Contents[2][1] =       two * ((y * z) - (w * x));
+                m_Contents[2][2] = one - two * ((x * x) + (y * y));
             }
 
             /**
@@ -528,6 +527,28 @@ namespace Ocular
                 m_Contents[(index / 3)][(index % 3)] = value;
             }
 
+            /**
+             * Calculates and returns the determinant of the matrix.
+             */
+            T getDeterminant() const
+            {
+                return (  m_Contents[0][0] * (m_Contents[1][1] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][1])
+                        - m_Contents[0][1] * (m_Contents[1][0] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][0])
+                        + m_Contents[0][2] * (m_Contents[1][0] * m_Contents[2][1] - m_Contents[1][1] * m_Contents[2][0]));
+            }
+
+            /**
+             * Returns true if the matrix is a special reflection matrix.
+             *
+             * A reflection matrix must be handled carefully as it can cause
+             * issues such as reverse vertex orders which can lead to incorrect
+             * lighting and backface culling.
+             */
+            bool isReflective() const
+            {
+                return (getDeterminant() < 0.0f);
+            }
+
             //------------------------------------------------------------------------------
             // CONVERSIONS
             //------------------------------------------------------------------------------
@@ -587,10 +608,7 @@ namespace Ocular
             {
                 Matrix3x3<T> result;
 
-                T determinant = ( + matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
-                                  - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
-                                  + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) );
-
+                T determinant = matrix.getDeterminant();
                 T oneOverDeterminant = static_cast<T>(1) / determinant;
 
                 result[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * oneOverDeterminant;
@@ -604,6 +622,36 @@ namespace Ocular
                 result[2][0] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * oneOverDeterminant;
                 result[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) * oneOverDeterminant;
                 result[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * oneOverDeterminant;
+
+                return result;
+            }
+
+            /**
+             * Creates a matrix which scales by the specified amount.
+             * \param[in] scale
+             */
+            static Matrix3x3<T> createScalingMatrix(T const& scale)
+            {
+                Matrix3x3<T> result;
+                
+                result[0][0] = scale;
+                result[1][1] = scale;
+                result[2][2] = scale;
+
+                return result;
+            }
+
+            /**
+             * Creates a matrix which scales by the specified amount.
+             * \param[in] scale
+             */
+            static Matrix3x3<T> createScalingMatrix(Vector3<T> const& scale)
+            {
+                Matrix3x3<T> result;
+                
+                result[0][0] = scale.x;
+                result[1][1] = scale.y;
+                result[2][2] = scale,z;
 
                 return result;
             }

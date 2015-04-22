@@ -164,6 +164,26 @@ namespace Ocular
             }
 
             /**
+             * \param[in] rotation
+             */
+            Matrix4x4(Quaternion const& rotation)
+            {
+                Matrix3x3<T> mat(rotation);
+
+                setIdentity();
+
+                m_Contents[0][0] = mat[0][0];
+                m_Contents[0][1] = mat[0][1];
+                m_Contents[0][2] = mat[0][2];
+                m_Contents[0][3] = mat[0][3];
+                m_Contents[1][0] = mat[1][0];
+                m_Contents[1][1] = mat[1][1];
+                m_Contents[1][2] = mat[1][2];
+                m_Contents[1][3] = mat[1][3];
+                m_Contents[2][0] = mat[2][0];
+            }
+
+            /**
              * \param[in] row0 Row 0 contents (x-rotation)
              * \param[in] row1 Row 1 contents (y-rotation)
              * \param[in] row2 Row 2 contents (z-rotation)
@@ -693,28 +713,28 @@ namespace Ocular
                 */
 
                 T coef00 = matrix[2][2] * matrix[3][3] - matrix[3][2] * matrix[2][3];
-                T coef02 = matrix[1][2]  * matrix[3][3] - matrix[3][2] * matrix[1][3];
-                T coef03 = matrix[1][2]  * matrix[2][3] - matrix[2][2] * matrix[1][3];
+                T coef02 = matrix[1][2] * matrix[3][3] - matrix[3][2] * matrix[1][3];
+                T coef03 = matrix[1][2] * matrix[2][3] - matrix[2][2] * matrix[1][3];
 
-                T coef04 = matrix[2][1]  * matrix[3][3] - matrix[3][1] * matrix[2][3];
-                T coef06 = matrix[1][1]  * matrix[3][3] - matrix[3][1] * matrix[1][3];
-                T coef07 = matrix[1][1]  * matrix[2][3] - matrix[2][1]  * matrix[1][3];
+                T coef04 = matrix[2][1] * matrix[3][3] - matrix[3][1] * matrix[2][3];
+                T coef06 = matrix[1][1] * matrix[3][3] - matrix[3][1] * matrix[1][3];
+                T coef07 = matrix[1][1] * matrix[2][3] - matrix[2][1] * matrix[1][3];
 
-                T coef08 = matrix[2][1]  * matrix[3][2] - matrix[3][1] * matrix[2][2];
-                T coef10 = matrix[1][1]  * matrix[3][2] - matrix[3][1] * matrix[1][2];
-                T coef11 = matrix[1][1]  * matrix[2][2] - matrix[2][1]  * matrix[1][2];
+                T coef08 = matrix[2][1] * matrix[3][2] - matrix[3][1] * matrix[2][2];
+                T coef10 = matrix[1][1] * matrix[3][2] - matrix[3][1] * matrix[1][2];
+                T coef11 = matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2];
 
-                T coef12 = matrix[2][0]  * matrix[3][3] - matrix[3][0] * matrix[2][3];
-                T coef14 = matrix[1][0]  * matrix[3][3] - matrix[3][0] * matrix[1][3];
-                T coef15 = matrix[1][0]  * matrix[2][3] - matrix[2][0]  * matrix[1][3];
+                T coef12 = matrix[2][0] * matrix[3][3] - matrix[3][0] * matrix[2][3];
+                T coef14 = matrix[1][0] * matrix[3][3] - matrix[3][0] * matrix[1][3];
+                T coef15 = matrix[1][0] * matrix[2][3] - matrix[2][0] * matrix[1][3];
 
-                T coef16 = matrix[2][0]  * matrix[3][2] - matrix[3][0] * matrix[2][2];
-                T coef18 = matrix[1][0]  * matrix[3][2] - matrix[3][0] * matrix[1][2];
-                T coef19 = matrix[1][0]  * matrix[2][2] - matrix[2][0]  * matrix[1][2];
+                T coef16 = matrix[2][0] * matrix[3][2] - matrix[3][0] * matrix[2][2];
+                T coef18 = matrix[1][0] * matrix[3][2] - matrix[3][0] * matrix[1][2];
+                T coef19 = matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2];
 
-                T coef20 = matrix[2][0]  * matrix[3][1] - matrix[3][0] * matrix[2][1];
-                T coef22 = matrix[1][0]  * matrix[3][1] - matrix[3][0] * matrix[1][1];
-                T coef23 = matrix[1][0]  * matrix[2][1]  - matrix[2][0]  * matrix[1][1];
+                T coef20 = matrix[2][0] * matrix[3][1] - matrix[3][0] * matrix[2][1];
+                T coef22 = matrix[1][0] * matrix[3][1] - matrix[3][0] * matrix[1][1];
+                T coef23 = matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1];
 
                 Vector4<T> fac0(coef00, coef00, coef02, coef03);
                 Vector4<T> fac1(coef04, coef04, coef06, coef07);
@@ -746,6 +766,78 @@ namespace Ocular
                 T oneOverDeterminant = static_cast<T>(1) / dot1;
 
                 return inverse * oneOverDeterminant;
+            }
+
+            /**
+             * Creates a matrix which scales by the specified amount.
+             * \param[in] scale
+             */
+            static Matrix4x4<T> createScalingMatrix(T const& scale)
+            {
+                Matrix4x4<T> result;
+                
+                result[0][0] = scale;
+                result[1][1] = scale;
+                result[2][2] = scale;
+
+                return result;
+            }
+
+            /**
+             * Creates a matrix which scales by the specified amount.
+             * \param[in] scale
+             */
+            static Matrix4x4<T> createScalingMatrix(Vector3<T> const& scale)
+            {
+                Matrix4x4<T> result;
+                
+                result[0][0] = scale.x;
+                result[1][1] = scale.y;
+                result[2][2] = scale,z;
+
+                return result;
+            }
+
+            /**
+             * Creates a new 4x4 translation, rotation, and scaling matrix.
+             *
+             * \param[in] position 
+             * \param[in] rotation
+             * \param[in] scale
+             *
+             * \return A new TRS matrix.
+             */
+            static Matrix4x4<T> createTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, T const& scale)
+            {
+                Matrix4x4<float> result;
+                Matrix4x4<float> rotationMatrix(rotation);
+                Matrix4x4<float> scaleMatrix = createScalingMatrix(scale);
+
+                result = rotationMatrix * scaleMatrix;
+                result.setPosition(position);
+
+                return result;
+            }
+
+            /**
+             * Creates a new 4x4 translation, rotation, and scaling matrix.
+             *
+             * \param[in] position 
+             * \param[in] rotation
+             * \param[in] scale
+             *
+             * \return A new TRS matrix.
+             */
+            static Matrix4x4<T> createTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, Vector3<T> const& scale)
+            {
+                Matrix4x4<float> result;
+                Matrix4x4<float> rotationMatrix(rotation);
+                Matrix4x4<float> scaleMatrix = createScalingMatrix(scale);
+
+                result = rotationMatrix * scaleMatrix;
+                result.setPosition(position);
+
+                return result;
             }
 
         protected:

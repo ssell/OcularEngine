@@ -218,20 +218,15 @@ namespace Ocular
             /**
              * \return The magnitude (length) of the vector.
              */
-            double getMagnitude() const
+            T getMagnitude() const
             {
-                double dX = static_cast<double>(x);
-                double dY = static_cast<double>(y);
-                double dZ = static_cast<double>(z);
-                double dW = static_cast<double>(w);
-
-                return std::sqrt((dX * dX) + (dY * dY) + (dZ * dZ) + (dW * dW));
+                return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
             }
 
             /**
              * \return The length of the vector.
              */
-            double getLength() const
+            T getLength() const
             {
                 return getMagnitude();
             }
