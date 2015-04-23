@@ -35,7 +35,7 @@ namespace Ocular
             CMWC131104::CMWC131104()
                 : ARandom()
             {
-                m_Q = new unsigned long[M_QSIZE];
+                m_Q = new uint32_t[M_QSIZE];
                 m_C = 0;
             }
 
@@ -52,9 +52,9 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void CMWC131104::seed(long long seed)
+            void CMWC131104::seed(int64_t seed)
             {
-                m_SeedCast = static_cast<unsigned long>(seed);
+                m_SeedCast = static_cast<uint32_t>(seed);
 
                 m_Q[0] = m_SeedCast;
                 m_Q[1] = m_SeedCast + PHI;
@@ -66,32 +66,27 @@ namespace Ocular
                 }
             }
 
-            unsigned CMWC131104::next()
+            uint32_t CMWC131104::next()
             {
-                static long i = M_QSIZE - 1;
+                static int32_t i = M_QSIZE - 1;
 
-                long t = 18782LL;
-                long a = t;
-                long x = 0xfffffffe;
-                long r = x;
+                int32_t t = 18782LL;
+                int32_t a = t;
+                int32_t x = 0xfffffffe;
+                int32_t r = x;
 
                 i = (i + 1) & 4095;
                 t = a * m_Q[i] + m_C;
-                m_C = (static_cast<unsigned long long>(t) >> 32);
+                m_C = (static_cast<uint64_t>(t) >> 32);
                 x = t + m_C;
 
-                if(x < static_cast<long>(m_C))
+                if(x < static_cast<int32_t>(m_C))
                 {
                     x++;
                     m_C++;
                 }
 
                 return (m_Q[i] = r - x);
-            }
-
-            unsigned CMWC131104::next(unsigned min, unsigned max)
-            {
-                return ARandom::next(min, max);
             }
 
             //------------------------------------------------------------------------------

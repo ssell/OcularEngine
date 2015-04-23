@@ -48,12 +48,12 @@ namespace Ocular
                 seed(OcularEngine.Clock()->getEpochMS());
             }
 
-            void ARandom::seed(long long seed)
+            void ARandom::seed(int64_t seed)
             {
                 m_Seed = seed;
             }
 
-            unsigned ARandom::next(unsigned min, unsigned max)
+            uint32_t ARandom::next(uint32_t min, uint32_t max)
             {
                 // Example:
                 //     Min: 100
@@ -64,7 +64,7 @@ namespace Ocular
                 //             12 + 100
                 //             112
 
-                unsigned value = next();
+                uint32_t value = next();
                 return (value % (max - min)) + min;
             }
 

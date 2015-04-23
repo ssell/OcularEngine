@@ -175,8 +175,9 @@
     <ClCompile Include="..\..\src\Math\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Math\Random\ARandom.cpp" />
     <ClCompile Include="..\..\src\Math\Random\CMWC.cpp" />
-    <ClCompile Include="..\..\src\Math\Random\MersenneTwister.cpp" />
-    <ClCompile Include="..\..\src\Math\Random\TinyMersenneTwister.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\MersenneTwister19937.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\MersenneTwister127.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\Random.cpp" />
     <ClCompile Include="..\..\src\Math\Random\WELL.cpp" />
     <ClCompile Include="..\..\src\Math\Random\XorShift.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
@@ -226,8 +227,9 @@
     <ClInclude Include="..\..\include\Math\Quaternion.hpp" />
     <ClInclude Include="..\..\include\Math\Random\ARandom.hpp" />
     <ClInclude Include="..\..\include\Math\Random\CMWC.hpp" />
-    <ClInclude Include="..\..\include\Math\Random\MersenneTwister.hpp" />
-    <ClInclude Include="..\..\include\Math\Random\TinyMersenneTwister.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\MersenneTwister19937.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\MersenneTwister127.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\Random.hpp" />
     <ClInclude Include="..\..\include\Math\Random\WELL.hpp" />
     <ClInclude Include="..\..\include\Math\Random\XorShift.hpp" />
     <ClInclude Include="..\..\include\Math\Vector2.hpp" />

@@ -57,13 +57,13 @@ namespace Ocular
 
                 for (unsigned i = 0; i < STATE_SIZE; i++)
                 {
-                    m_State[i] = static_cast<unsigned long>(prng.next());
+                    m_State[i] = prng.next();
                 }
             }
 
-            unsigned WELL512::next()
+            uint32_t WELL512::next()
             {
-                unsigned long a, b, c, d;
+                uint32_t a, b, c, d;
 
                 a  = m_State[m_Index];
                 c  = m_State[(m_Index + 13) & 15];
@@ -76,12 +76,7 @@ namespace Ocular
                 a = m_State[m_Index];
                 m_State[m_Index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
 
-                return static_cast<unsigned>(m_State[m_Index]);
-            }
-
-            unsigned WELL512::next(unsigned min, unsigned max)
-            {
-                return ARandom::next(min, max);
+                return m_State[m_Index];
             }
 
             //------------------------------------------------------------------------------

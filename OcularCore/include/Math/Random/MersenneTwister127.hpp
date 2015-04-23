@@ -43,24 +43,34 @@ namespace Ocular
             /**
             * \class TinyMersenneTwister
             *
-            * Implementation of the 127 periodicity variation of the Tiny Mersenne Twister PRNG using the IRandom interface.<br/>
+            * Implementation of the 127 periodicity variation of the Tiny Mersenne Twister PRNG.
             * The Tiny implementation is faster and smaller in state than the traditional Mersenne Twister (see MersenneTwister19937).
             *
             * Original implementation may be found at: http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/TINYMT/index.html
             * Copyright Mutsuo Saito and Makoto Matsumoto
             */
-            class TinyMersenneTwister : public ARandom
+            class MersenneTwister127 : public ARandom
             {
             public:
 
-                TinyMersenneTwister();
-                ~TinyMersenneTwister();
+                MersenneTwister127();
+                ~MersenneTwister127();
 
-                virtual unsigned next();
+                virtual void seed(int64_t seed);
+                virtual uint32_t next();
+
+                int64_t m_Mat1;
+                int64_t m_Mat2;
+                int64_t m_TMat;
 
             protected:
 
+                void nextState();
+                uint64_t temper();
+
             private:
+
+                int64_t m_Status[4];
             };
         }
         /**

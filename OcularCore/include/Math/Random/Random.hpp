@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_MATH_RANDOM_WELL__H__
-#define __H__OCULAR_MATH_RANDOM_WELL__H__
+#ifndef __H__OCULAR_MATH_RANDOM__H__
+#define __H__OCULAR_MATH_RANDOM__H__
 
 #include "ARandom.hpp"
+#include <memory>
 
 //------------------------------------------------------------------------------------------
 
@@ -40,31 +41,30 @@ namespace Ocular
          */
         namespace Random
         {
-            /**
-             * \class WELL512
-             *
-             * Implementation of the 512 periodicity variation of the WELL (Well Equidistributed Long-Period Linear) PRNG using the IRandom interface.<br/><br/>
-             *
-             * Original implementation may be found at: http://www.iro.umontreal.ca/~panneton/well/WELL512a.c <br/>
-             * Copyright: Francois Panneton, Pierre L'Ecuyer, and Makoto Matsumoto.
-             */
-            class WELL512 : public ARandom
+            enum PRNGImplementation
             {
-            public:
-
-                WELL512();
-                ~WELL512();
-
-                virtual void seed(long long seed);
-                virtual unsigned next();
-
-            protected:
-
-            private:
-
-                unsigned m_Index;
-                unsigned long * m_State;
+                MersenneTwister = 0,
+                TinyMersenneTwister,
+                CMWC,
+                WELL,
+                XorShift
             };
+            
+            /**
+             * Creates an instance of the specified PRNG.
+             * The PRNG will be seeded with the current time.
+             *
+             * \return A shared smart pointer of the PRNG instance.
+             */
+            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng);
+            
+            /**
+             * Creates an instance of the specified PRNG.
+             *
+             * \param[in] seed Seed value to initialize the PRNG with.
+             * \return A shared smart pointer of the PRNG instance.
+             */
+            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng, int64_t seed);
         }
         /**
          * @} End of Doxygen Groups

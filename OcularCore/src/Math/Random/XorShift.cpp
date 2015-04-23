@@ -45,16 +45,16 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void XorShift96::seed(long long seed)
+            void XorShift96::seed(int64_t seed)
             {
-                m_X = static_cast<unsigned long>(seed);
+                m_X = static_cast<uint32_t>(seed);
                 m_Y = m_X + SH1;
                 m_Z = m_Y + SH2;
             }
 
-            unsigned XorShift96::next()
+            uint32_t XorShift96::next()
             {
-                unsigned long t;
+                uint32_t t;
 
                 m_X ^= m_X << 16;
                 m_X ^= m_X >> 5;
@@ -65,12 +65,7 @@ namespace Ocular
                 m_Y = m_Z;
                 m_Z = t ^ m_X ^ m_Y;
 
-                return static_cast<unsigned>(m_Z);
-            }
-
-            unsigned XorShift96::next(unsigned min, unsigned max)
-            {
-                return ARandom::next(min, max);
+                return m_Z;
             }
 
             //------------------------------------------------------------------------------

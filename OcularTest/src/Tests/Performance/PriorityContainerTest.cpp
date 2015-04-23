@@ -17,12 +17,12 @@
 #include "Tests/Performance/PriorityContainerTest.hpp"
 #include "Utilities/Structures/PriorityList.hpp"
 #include "Utilities/Structures/PriorityMultiQueue.hpp"
-#include "Math/Random/XorShift.hpp"
+#include "Math/Random/Random.hpp"
 #include "Time/Timer.hpp"
 #include <queue>
 
-static const unsigned ACTION_SEED = 100;
-static const unsigned PRIORITY_SEED = 55;
+static const int64_t ACTION_SEED   = 100LL;
+static const int64_t PRIORITY_SEED = 55LL;
 
 //------------------------------------------------------------------------------------------
 
@@ -64,11 +64,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testSTLPriorityQueue()
         {
-            Math::Random::XorShift96 prngAction;
-            Math::Random::XorShift96 prngPriority;
-
-            prngAction.seed(ACTION_SEED);
-            prngPriority.seed(PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 
@@ -84,8 +81,8 @@ namespace Ocular
 
                 for(unsigned i = 0; i < iterations; i++)
                 {
-                    unsigned action = prngAction.next(0, 5);
-                    unsigned priority = prngPriority.next(0, 5);
+                    unsigned action = prngAction->next(0, 5);
+                    unsigned priority = prngPriority->next(0, 5);
 
                     if(action < 3)
                     {
@@ -115,11 +112,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityMultiQueue()
         {
-            Math::Random::XorShift96 prngAction;
-            Math::Random::XorShift96 prngPriority;
-
-            prngAction.seed(ACTION_SEED);
-            prngPriority.seed(PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 
@@ -137,8 +131,8 @@ namespace Ocular
 
                 for(unsigned i = 0; i < iterations; i++)
                 {
-                    unsigned action = prngAction.next(0, 5);
-                    unsigned priority = prngPriority.next(0, 5);
+                    unsigned action = prngAction->next(0, 5);
+                    unsigned priority = prngPriority->next(0, 5);
 
                     if(action < 3)
                     {
@@ -165,11 +159,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityList()
         {
-            Math::Random::XorShift96 prngAction;
-            Math::Random::XorShift96 prngPriority;
-
-            prngAction.seed(ACTION_SEED);
-            prngPriority.seed(PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 
@@ -187,8 +178,8 @@ namespace Ocular
 
                 for(unsigned i = 0; i < iterations; i++)
                 {
-                    unsigned action = prngAction.next(0, 5);
-                    unsigned priority = prngPriority.next(0, 5);
+                    unsigned action = prngAction->next(0, 5);
+                    unsigned priority = prngPriority->next(0, 5);
 
                     if(action < 3)
                     {

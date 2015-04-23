@@ -41,9 +41,10 @@ namespace Ocular
         namespace Random
         {
             /**
-            * \class MersenneTwister19937
-            * Implementation of the 19937 periodicity variation of the Mersenne Twister PRNG using the IRandom interface.
-            */
+             * \class MersenneTwister19937
+             *
+             * Implementation of the 19937 periodicity variation of the Mersenne Twister PRNG using the IRandom interface.
+             */
             class MersenneTwister19937 : public ARandom
             {
             public:

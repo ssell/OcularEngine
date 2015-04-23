@@ -51,18 +51,16 @@ namespace Ocular
                 XorShift96();
                 ~XorShift96();
 
-                virtual void seed(long long seed);
-
-                virtual unsigned next();
-                virtual unsigned next(unsigned min, unsigned max);
+                virtual void seed(int64_t seed);
+                virtual uint32_t next();
 
             protected:
 
             private:
 
-                unsigned long m_X;
-                unsigned long m_Y;
-                unsigned long m_Z;
+                uint32_t m_X;
+                uint32_t m_Y;
+                uint32_t m_Z;
             };
         }
         /**

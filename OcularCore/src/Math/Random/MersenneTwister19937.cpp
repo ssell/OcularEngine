@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-#include "Math/Random/MersenneTwister.hpp"
+#include "Math/Random/MersenneTwister19937.hpp"
 
 //------------------------------------------------------------------------------------------
 
