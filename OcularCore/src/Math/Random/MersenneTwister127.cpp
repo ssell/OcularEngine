@@ -1,28 +1,26 @@
 /**
-* Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "Math/Random/MersenneTwister127.hpp"
 
-#define TINYMT64_MEXP 127LL
-#define TINYMT64_SH0  12LL
-#define TINYMT64_SH1  11LL
-#define TINYMT64_SH8  8LL
-#define TINYMT64_MASK UINT64_C(0x7fffffffffffffff)
-#define TINYMT64_MUL (1.0 / 18446744073709551616.0)
-#define MIN_LOOP      8
+static const int64_t  TINYMT64_MEXP = 127LL;
+static const int64_t  TINYMT64_SH0  = 12LL;
+static const int64_t  TINYMT64_SH1  = 11LL;
+static const int64_t  TINYMT64_SH8  = 8LL;
+static const uint64_t TINYMT64_MASK = UINT64_C(0x7fffffffffffffff);
 
 //------------------------------------------------------------------------------------------
 
@@ -60,7 +58,7 @@ namespace Ocular
                 m_Status[0] = seed ^ (m_Mat1 << 32);
                 m_Status[1] = m_Mat2 ^ m_TMat;
 
-                for(int i = 1; i < MIN_LOOP; i++)
+                for(int i = 1; i < 8; i++)
                 {
                     m_Status[i & 1] ^= i + TINYMT64_MASK * (m_Status[(i - 1) & 1] ^ (m_Status[(i - 1) & 1] >> 62));
                 }
@@ -92,10 +90,10 @@ namespace Ocular
 
                 m_Status[0] &= TINYMT64_MASK;
 
-                x ^= x << 12ULL;
+                x ^= x << TINYMT64_SH0;
                 x ^= x >> 32ULL;
                 x ^= x << 32ULL;
-                x ^= x << 11ULL;
+                x ^= x << TINYMT64_SH1;
 
                 m_Status[0] = m_Status[1];
                 m_Status[1] = static_cast<int64_t>(x);
