@@ -263,7 +263,7 @@ namespace Ocular
                 OcularLogger->error("Provided resource is NULL", OCULAR_INTERNAL_LOG("ResourceManager", "saveResource"));
             }
 
-            return false;
+            return result;
         }
 
         void ResourceManager::setMemoryLimit(unsigned long long const maxMemory)

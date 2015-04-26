@@ -15,6 +15,7 @@
 */
 
 #include "Math/Random/ARandom.hpp"
+#include "Math/MathCommon.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -66,6 +67,22 @@ namespace Ocular
 
                 uint32_t value = next();
                 return (value % (max - min)) + min;
+            }
+
+            float ARandom::nextf(float precision)
+            {
+                float result = 0.0f;
+                precision = Clamp<float>(precision);
+
+                if(!IsZero(precision))
+                {
+                    uint32_t max = static_cast<uint32_t>(1.0f / precision);
+                    uint32_t value = next(0, max);
+
+                    result = static_cast<float>(value) * precision;
+                }
+
+                return result;
             }
 
             //------------------------------------------------------------------------------

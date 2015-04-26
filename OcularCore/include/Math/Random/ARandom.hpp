@@ -74,6 +74,15 @@ namespace Ocular
                  */
                 virtual uint32_t next(uint32_t min, uint32_t max);
 
+                /**
+                 * Retrieves the next pseudo-random number as a float in the
+                 * the range of [0.0, 1.0]. The precision dictates the, well uh,
+                 * precision of the returned value. 
+                 *
+                 * \param[in] precision
+                 */
+                virtual float nextf(float const precision = 0.0001f);
+
             protected:
 
                 int64_t m_Seed;

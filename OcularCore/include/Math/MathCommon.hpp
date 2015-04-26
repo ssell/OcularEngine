@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_ENGINE_MATH_COMMON__H__
 #define __H__OCULAR_ENGINE_MATH_COMMON__H__
 
+#include "Equality.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -160,7 +162,7 @@ namespace Ocular
          * \param[in] upper The upper bounds of the clamping region
          */
         template<typename T>
-        static T Clamp(T const value, T const lower, T const upper)
+        static T Clamp(T const value, T const lower = static_cast<T>(0), T const upper = static_cast<T>(1))
         {
             return ((value < lower) ? lower : (value > upper) ? upper : value);
         }
