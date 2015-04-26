@@ -576,10 +576,10 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
-            * Creates and returns the transpose of the provided matrix.
-            *
-            * \return The transpose matrix
-            */
+             * Creates and returns the transpose of the provided matrix.
+             *
+             * \return The transpose matrix
+             */
             static Matrix3x3<T> createTransposeMatrix(Matrix3x3<T> const &matrix)
             {
                 Matrix3x3<T> result;
@@ -600,28 +600,37 @@ namespace Ocular
             }
 
             /**
-            * Creates a returns the inverse of the provided matrix.
-            *
-            * \return The inverse matrix
-            */
-            static Matrix3x3<T> createInverseMatrix(Matrix3x3<T> const &matrix)
+             * Creates the inverse of the provided matrix.
+             *
+             * A matrix has no inverse if it's determinant is 0. See getDeterminant().
+             * If the matrix can not be inverted, then false is returned.
+             *
+             * \return TRUE if the inverse matrix was successfully calculated.
+             */
+            static bool createInverseMatrix(Matrix3x3<T> const &matrix, Matrix3x3<T>& inverse)
             {
-                Matrix3x3<T> result;
+                bool result = false;
 
                 T determinant = matrix.getDeterminant();
-                T oneOverDeterminant = static_cast<T>(1) / determinant;
 
-                result[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * oneOverDeterminant;
-                result[0][1] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]) * oneOverDeterminant;
-                result[0][2] =  (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) * oneOverDeterminant;
+                if(!IsZero<T>(determinant))
+                {
+                    T oneOverDeterminant = static_cast<T>(1) / determinant;
 
-                result[1][0] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) * oneOverDeterminant;
-                result[1][1] =  (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) * oneOverDeterminant;
-                result[1][2] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]) * oneOverDeterminant;
+                    inverse[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * oneOverDeterminant;
+                    inverse[0][1] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]) * oneOverDeterminant;
+                    inverse[0][2] =  (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) * oneOverDeterminant;
 
-                result[2][0] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * oneOverDeterminant;
-                result[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) * oneOverDeterminant;
-                result[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * oneOverDeterminant;
+                    inverse[1][0] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) * oneOverDeterminant;
+                    inverse[1][1] =  (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) * oneOverDeterminant;
+                    inverse[1][2] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]) * oneOverDeterminant;
+
+                    inverse[2][0] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * oneOverDeterminant;
+                    inverse[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) * oneOverDeterminant;
+                    inverse[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * oneOverDeterminant;
+
+                    result = true;
+                }
 
                 return result;
             }

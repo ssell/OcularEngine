@@ -201,7 +201,8 @@ TEST(Matrix3x3, Inverse)
                                              0.608333, -0.050000, -0.058333);
 
 
-    const Ocular::Math::Matrix3x3d result = Ocular::Math::Matrix3x3d::createInverseMatrix(matrix);
+    Ocular::Math::Matrix3x3d result;
+    Ocular::Math::Matrix3x3d::createInverseMatrix(matrix, result);
 
     EXPECT_TRUE(expected == result);
 }

@@ -596,6 +596,25 @@ namespace Ocular
             // OPERATIONS
             //------------------------------------------------------------------------------
 
+            float getDeterminant() const
+            {
+                return (m_Contents[0][0] * (m_Contents[1][1] * (m_Contents[2][2] * m_Contents[3][3] - m_Contents[3][2] * m_Contents[2][3]) -
+                                            m_Contents[1][2] * (m_Contents[2][1] * m_Contents[3][3] - m_Contents[3][1] * m_Contents[2][3]) +
+                                            m_Contents[1][3] * (m_Contents[2][1] * m_Contents[3][2] - m_Contents[3][1] * m_Contents[2][2])) -
+
+                        m_Contents[0][1] * (m_Contents[1][0] * (m_Contents[2][2] * m_Contents[3][3] - m_Contents[3][2] * m_Contents[2][3]) -
+                                            m_Contents[1][2] * (m_Contents[2][0] * m_Contents[3][3] - m_Contents[3][0] * m_Contents[2][3]) +
+                                            m_Contents[1][3] * (m_Contents[2][0] * m_Contents[3][2] - m_Contents[3][0] * m_Contents[2][2])) +
+
+                        m_Contents[0][2] * (m_Contents[1][0] * (m_Contents[2][1] * m_Contents[3][3] - m_Contents[3][1] * m_Contents[2][3]) -
+                                            m_Contents[1][1] * (m_Contents[2][0] * m_Contents[3][3] - m_Contents[3][0] * m_Contents[2][3]) +
+                                            m_Contents[1][3] * (m_Contents[2][0] * m_Contents[3][1] - m_Contents[3][0] * m_Contents[2][1])) -
+
+                        m_Contents[3][0] * (m_Contents[1][0] * (m_Contents[2][1] * m_Contents[3][2] - m_Contents[3][1] * m_Contents[2][2]) -
+                                            m_Contents[1][1] * (m_Contents[2][0] * m_Contents[3][2] - m_Contents[3][0] * m_Contents[2][2]) +
+                                            m_Contents[1][2] * (m_Contents[2][0] * m_Contents[3][1] - m_Contents[3][0] * m_Contents[2][1])));
+            }
+
             /**
              * Creates an orthographic projection matrix with the specified attributes.
              *
@@ -687,30 +706,16 @@ namespace Ocular
             }
 
             /**
-             * Creates a returns the inverse of the provided matrix.
-             * 
-             * \return The inverse matrix
+             * Creates the inverse of the provided matrix.
+             *
+             * A matrix has no inverse if it's determinant is 0. See getDeterminant().
+             * If the matrix can not be inverted, then false is returned.
+             *
+             * \return TRUE if the inverse matrix was successfully calculated.
              */
-            static Matrix4x4<T> createInverseMatrix(Matrix4x4<T> const &matrix)
+            static bool createInverseMatrix(Matrix4x4<T> const &matrix, Matrix4x4<T>& inverse)
             {
-                /*
-                  00  01  02  03
-                  04  05  06  07
-                  08  09  10  11
-                  12  13  14  15
-
-                  0
-                  5
-                  10
-                  15
-
-                   1 <-> 4
-                   2 <-> 8
-                   3 <-> 12
-                   6 <-> 9
-                   7 <-> 13
-                  11 <-> 14
-                */
+                bool result = false;
 
                 T coef00 = matrix[2][2] * matrix[3][3] - matrix[3][2] * matrix[2][3];
                 T coef02 = matrix[1][2] * matrix[3][3] - matrix[3][2] * matrix[1][3];
@@ -756,16 +761,23 @@ namespace Ocular
                 Vector4<T> signA(static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1));
                 Vector4<T> signB(static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1));
 
-                Matrix4x4<T> inverse(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
+                inverse = Matrix4x4<T>(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
 
                 Vector4<T> invVec(inverse[0][0], inverse[0][1], inverse[0][2], inverse[0][3]);
                 Vector4<T> rowVec(matrix[0][0],  matrix[1][0],  matrix[2][0],  matrix[3][0]);
                 Vector4<T> dot0 = rowVec * invVec;
 
                 T dot1 = (dot0.x + dot0.y) + (dot0.z + dot0.w);
-                T oneOverDeterminant = static_cast<T>(1) / dot1;
 
-                return inverse * oneOverDeterminant;
+                if(!IsZero<T>(dot1))
+                {
+                    T oneOverDeterminant = static_cast<T>(1) / dot1;
+                    inverse = inverse * oneOverDeterminant;
+
+                    result = true;
+                }
+
+                return result;
             }
 
             /**

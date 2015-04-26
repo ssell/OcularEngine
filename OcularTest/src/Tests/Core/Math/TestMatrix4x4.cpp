@@ -238,7 +238,8 @@ TEST(Matrix4x4, Inverse)
                                              0.249057, -0.100000,  0.011509, -0.100000,
                                             -0.163522,  0.066667, -0.005031,  0.000000);
 
-    const Ocular::Math::Matrix4x4d result = Ocular::Math::Matrix4x4d::createInverseMatrix(matrix);
+    Ocular::Math::Matrix4x4d result;
+    Ocular::Math::Matrix4x4d::createInverseMatrix(matrix, result);
 
     EXPECT_TRUE(expected == result);
 }
