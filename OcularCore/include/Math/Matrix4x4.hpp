@@ -616,6 +616,117 @@ namespace Ocular
             }
 
             /**
+             * Creates and returns the inverse of this matrix.
+             * \note This method can throw an exception if the determinant is zero.
+             */
+            Matrix4x4<T> getInverse() const
+            {
+                Matrix4x4<T> result;
+
+                T coef00 = m_Contents[2][2] * m_Contents[3][3] - m_Contents[3][2] * m_Contents[2][3];
+                T coef02 = m_Contents[1][2] * m_Contents[3][3] - m_Contents[3][2] * m_Contents[1][3];
+                T coef03 = m_Contents[1][2] * m_Contents[2][3] - m_Contents[2][2] * m_Contents[1][3];
+
+                T coef04 = m_Contents[2][1] * m_Contents[3][3] - m_Contents[3][1] * m_Contents[2][3];
+                T coef06 = m_Contents[1][1] * m_Contents[3][3] - m_Contents[3][1] * m_Contents[1][3];
+                T coef07 = m_Contents[1][1] * m_Contents[2][3] - m_Contents[2][1] * m_Contents[1][3];
+
+                T coef08 = m_Contents[2][1] * m_Contents[3][2] - m_Contents[3][1] * m_Contents[2][2];
+                T coef10 = m_Contents[1][1] * m_Contents[3][2] - m_Contents[3][1] * m_Contents[1][2];
+                T coef11 = m_Contents[1][1] * m_Contents[2][2] - m_Contents[2][1] * m_Contents[1][2];
+
+                T coef12 = m_Contents[2][0] * m_Contents[3][3] - m_Contents[3][0] * m_Contents[2][3];
+                T coef14 = m_Contents[1][0] * m_Contents[3][3] - m_Contents[3][0] * m_Contents[1][3];
+                T coef15 = m_Contents[1][0] * m_Contents[2][3] - m_Contents[2][0] * m_Contents[1][3];
+
+                T coef16 = m_Contents[2][0] * m_Contents[3][2] - m_Contents[3][0] * m_Contents[2][2];
+                T coef18 = m_Contents[1][0] * m_Contents[3][2] - m_Contents[3][0] * m_Contents[1][2];
+                T coef19 = m_Contents[1][0] * m_Contents[2][2] - m_Contents[2][0] * m_Contents[1][2];
+
+                T coef20 = m_Contents[2][0] * m_Contents[3][1] - m_Contents[3][0] * m_Contents[2][1];
+                T coef22 = m_Contents[1][0] * m_Contents[3][1] - m_Contents[3][0] * m_Contents[1][1];
+                T coef23 = m_Contents[1][0] * m_Contents[2][1] - m_Contents[2][0] * m_Contents[1][1];
+
+                Vector4<T> fac0(coef00, coef00, coef02, coef03);
+                Vector4<T> fac1(coef04, coef04, coef06, coef07);
+                Vector4<T> fac2(coef08, coef08, coef10, coef11);
+                Vector4<T> fac3(coef12, coef12, coef14, coef15);
+                Vector4<T> fac4(coef16, coef16, coef18, coef19);
+                Vector4<T> fac5(coef20, coef20, coef22, coef23);
+
+                Vector4<T> vec0(m_Contents[1][0], m_Contents[0][0], m_Contents[0][0], m_Contents[0][0]);
+                Vector4<T> vec1(m_Contents[1][1], m_Contents[0][1], m_Contents[0][1], m_Contents[0][1]);
+                Vector4<T> vec2(m_Contents[1][2], m_Contents[0][2], m_Contents[0][2], m_Contents[0][2]);
+                Vector4<T> vec3(m_Contents[1][3], m_Contents[0][3], m_Contents[0][3], m_Contents[0][3]);
+              
+                Vector4<T> inv0(vec1 * fac0 - vec2 * fac1 + vec3 * fac2);
+                Vector4<T> inv1(vec0 * fac0 - vec2 * fac3 + vec3 * fac4);
+                Vector4<T> inv2(vec0 * fac1 - vec1 * fac3 + vec3 * fac5);
+                Vector4<T> inv3(vec0 * fac2 - vec1 * fac4 + vec2 * fac5);
+
+                Vector4<T> signA(static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1));
+                Vector4<T> signB(static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1));
+
+                //------------------------------------
+
+                result = Matrix4x4<T>(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
+
+                Vector4<T> invVec(result[0][0], result[0][1], result[0][2], result[0][3]);
+                Vector4<T> rowVec(m_Contents[0][0], m_Contents[1][0], m_Contents[2][0], m_Contents[3][0]);
+                Vector4<T> dot0 = rowVec * invVec;
+
+                T dot1 = (dot0.x + dot0.y) + (dot0.z + dot0.w);
+
+                if(!IsZero<T>(dot1))
+                {
+                    T oneOverDeterminant = static_cast<T>(1) / dot1;
+                    result = result * oneOverDeterminant;
+                }
+                else
+                {
+                    THROW_EXCEPTION("Caught Divide By Zero (Determinant during Inversion)");
+                }
+
+                return result;
+            }
+
+            /**
+             * Creates and returns the transpose of this matrix.
+             *
+             * \return The transpose matrix
+             */
+            Matrix4x4<T> getTranspose() const
+            {
+                Matrix4x4<T> result;
+
+                result[0][0] = m_Contents[0][0];
+                result[0][1] = m_Contents[1][0];
+                result[0][2] = m_Contents[2][0];
+                result[0][3] = m_Contents[3][0];
+
+                result[1][0] = m_Contents[0][1];
+                result[1][1] = m_Contents[1][1];
+                result[1][2] = m_Contents[2][1];
+                result[1][3] = m_Contents[3][1];
+
+                result[2][0] = m_Contents[0][2];
+                result[2][1] = m_Contents[1][2];
+                result[2][2] = m_Contents[2][2];
+                result[2][3] = m_Contents[3][2];
+
+                result[3][0] = m_Contents[0][3];
+                result[3][1] = m_Contents[1][3];
+                result[3][2] = m_Contents[2][3];
+                result[3][3] = m_Contents[3][3];
+
+                return result;
+            }
+
+            //------------------------------------------------------------------------------
+            // STATIC OPERATIONS
+            //------------------------------------------------------------------------------
+
+            /**
              * Creates an orthographic projection matrix with the specified attributes.
              *
              * \param[in] xMin
@@ -671,113 +782,6 @@ namespace Ocular
 			    matrix[3][3] = 0.f;
 
                 return matrix;
-            }
-
-            /**
-             * Creates and returns the transpose of the provided matrix.
-             *
-             * \return The transpose matrix
-             */
-            static Matrix4x4<T> createTransposeMatrix(Matrix4x4<T> const &matrix)
-            {
-                Matrix4x4<T> result;
-
-                result[0][0] = matrix[0][0];
-                result[0][1] = matrix[1][0];
-                result[0][2] = matrix[2][0];
-                result[0][3] = matrix[3][0];
-
-                result[1][0] = matrix[0][1];
-                result[1][1] = matrix[1][1];
-                result[1][2] = matrix[2][1];
-                result[1][3] = matrix[3][1];
-
-                result[2][0] = matrix[0][2];
-                result[2][1] = matrix[1][2];
-                result[2][2] = matrix[2][2];
-                result[2][3] = matrix[3][2];
-
-                result[3][0] = matrix[0][3];
-                result[3][1] = matrix[1][3];
-                result[3][2] = matrix[2][3];
-                result[3][3] = matrix[3][3];
-
-                return result;
-            }
-
-            /**
-             * Creates the inverse of the provided matrix.
-             *
-             * A matrix has no inverse if it's determinant is 0. See getDeterminant().
-             * If the matrix can not be inverted, then false is returned.
-             *
-             * \return TRUE if the inverse matrix was successfully calculated.
-             */
-            static bool createInverseMatrix(Matrix4x4<T> const &matrix, Matrix4x4<T>& inverse)
-            {
-                bool result = false;
-
-                T coef00 = matrix[2][2] * matrix[3][3] - matrix[3][2] * matrix[2][3];
-                T coef02 = matrix[1][2] * matrix[3][3] - matrix[3][2] * matrix[1][3];
-                T coef03 = matrix[1][2] * matrix[2][3] - matrix[2][2] * matrix[1][3];
-
-                T coef04 = matrix[2][1] * matrix[3][3] - matrix[3][1] * matrix[2][3];
-                T coef06 = matrix[1][1] * matrix[3][3] - matrix[3][1] * matrix[1][3];
-                T coef07 = matrix[1][1] * matrix[2][3] - matrix[2][1] * matrix[1][3];
-
-                T coef08 = matrix[2][1] * matrix[3][2] - matrix[3][1] * matrix[2][2];
-                T coef10 = matrix[1][1] * matrix[3][2] - matrix[3][1] * matrix[1][2];
-                T coef11 = matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2];
-
-                T coef12 = matrix[2][0] * matrix[3][3] - matrix[3][0] * matrix[2][3];
-                T coef14 = matrix[1][0] * matrix[3][3] - matrix[3][0] * matrix[1][3];
-                T coef15 = matrix[1][0] * matrix[2][3] - matrix[2][0] * matrix[1][3];
-
-                T coef16 = matrix[2][0] * matrix[3][2] - matrix[3][0] * matrix[2][2];
-                T coef18 = matrix[1][0] * matrix[3][2] - matrix[3][0] * matrix[1][2];
-                T coef19 = matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2];
-
-                T coef20 = matrix[2][0] * matrix[3][1] - matrix[3][0] * matrix[2][1];
-                T coef22 = matrix[1][0] * matrix[3][1] - matrix[3][0] * matrix[1][1];
-                T coef23 = matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1];
-
-                Vector4<T> fac0(coef00, coef00, coef02, coef03);
-                Vector4<T> fac1(coef04, coef04, coef06, coef07);
-                Vector4<T> fac2(coef08, coef08, coef10, coef11);
-                Vector4<T> fac3(coef12, coef12, coef14, coef15);
-                Vector4<T> fac4(coef16, coef16, coef18, coef19);
-                Vector4<T> fac5(coef20, coef20, coef22, coef23);
-
-                Vector4<T> vec0(matrix[1][0], matrix[0][0], matrix[0][0], matrix[0][0]);
-                Vector4<T> vec1(matrix[1][1], matrix[0][1], matrix[0][1], matrix[0][1]);
-                Vector4<T> vec2(matrix[1][2], matrix[0][2], matrix[0][2], matrix[0][2]);
-                Vector4<T> vec3(matrix[1][3], matrix[0][3], matrix[0][3], matrix[0][3]);
-              
-                Vector4<T> inv0(vec1 * fac0 - vec2 * fac1 + vec3 * fac2);
-                Vector4<T> inv1(vec0 * fac0 - vec2 * fac3 + vec3 * fac4);
-                Vector4<T> inv2(vec0 * fac1 - vec1 * fac3 + vec3 * fac5);
-                Vector4<T> inv3(vec0 * fac2 - vec1 * fac4 + vec2 * fac5);
-
-                Vector4<T> signA(static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1));
-                Vector4<T> signB(static_cast<T>(-1), static_cast<T>(1),  static_cast<T>(-1), static_cast<T>(1));
-
-                inverse = Matrix4x4<T>(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
-
-                Vector4<T> invVec(inverse[0][0], inverse[0][1], inverse[0][2], inverse[0][3]);
-                Vector4<T> rowVec(matrix[0][0],  matrix[1][0],  matrix[2][0],  matrix[3][0]);
-                Vector4<T> dot0 = rowVec * invVec;
-
-                T dot1 = (dot0.x + dot0.y) + (dot0.z + dot0.w);
-
-                if(!IsZero<T>(dot1))
-                {
-                    T oneOverDeterminant = static_cast<T>(1) / dot1;
-                    inverse = inverse * oneOverDeterminant;
-
-                    result = true;
-                }
-
-                return result;
             }
 
             /**

@@ -268,7 +268,7 @@ namespace Ocular
                 {
                     for(unsigned col = 0; col < 3; col++)
                     {
-                        m_Contents[row][col] = rhs;
+                        m_Contents[row][col] = rhs[row][col];
                     }
                 }
 
@@ -281,7 +281,7 @@ namespace Ocular
                 {
                     for(unsigned col = 0; col < 3; col++)
                     {
-                        m_Contents[row][col] += rhs;
+                        m_Contents[row][col] += rhs[row][col];
                     }
                 }
 
@@ -294,7 +294,7 @@ namespace Ocular
                 {
                     for(unsigned col = 0; col < 3; col++)
                     {
-                        m_Contents[row][col] -= rhs;
+                        m_Contents[row][col] -= rhs[row][col];
                     }
                 }
 
@@ -326,7 +326,7 @@ namespace Ocular
                 {
                     for(unsigned col = 0; col < 3; col++)
                     {
-                        m_Contents[row][col] *= rhs;
+                        m_Contents[row][col] *= rhs[row][col];
                     }
                 }
 
@@ -527,28 +527,6 @@ namespace Ocular
                 m_Contents[(index / 3)][(index % 3)] = value;
             }
 
-            /**
-             * Calculates and returns the determinant of the matrix.
-             */
-            T getDeterminant() const
-            {
-                return (  m_Contents[0][0] * (m_Contents[1][1] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][1])
-                        - m_Contents[0][1] * (m_Contents[1][0] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][0])
-                        + m_Contents[0][2] * (m_Contents[1][0] * m_Contents[2][1] - m_Contents[1][1] * m_Contents[2][0]));
-            }
-
-            /**
-             * Returns true if the matrix is a special reflection matrix.
-             *
-             * A reflection matrix must be handled carefully as it can cause
-             * issues such as reverse vertex orders which can lead to incorrect
-             * lighting and backface culling.
-             */
-            bool isReflective() const
-            {
-                return (getDeterminant() < 0.0f);
-            }
-
             //------------------------------------------------------------------------------
             // CONVERSIONS
             //------------------------------------------------------------------------------
@@ -576,64 +554,88 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
-             * Creates and returns the transpose of the provided matrix.
-             *
-             * \return The transpose matrix
+             * Calculates and returns the determinant of the matrix.
              */
-            static Matrix3x3<T> createTransposeMatrix(Matrix3x3<T> const &matrix)
+            T getDeterminant() const
             {
-                Matrix3x3<T> result;
-
-                result[0][0] = matrix[0][0];
-                result[0][1] = matrix[1][0];
-                result[0][2] = matrix[2][0];
-
-                result[1][0] = matrix[0][1];
-                result[1][1] = matrix[1][1];
-                result[1][2] = matrix[2][1];
-
-                result[2][0] = matrix[0][2];
-                result[2][1] = matrix[1][2];
-                result[2][2] = matrix[2][2];
-
-                return result;
+                return (  m_Contents[0][0] * (m_Contents[1][1] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][1])
+                        - m_Contents[0][1] * (m_Contents[1][0] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][0])
+                        + m_Contents[0][2] * (m_Contents[1][0] * m_Contents[2][1] - m_Contents[1][1] * m_Contents[2][0]));
             }
 
             /**
-             * Creates the inverse of the provided matrix.
+             * Returns true if the matrix is a special reflection matrix.
              *
-             * A matrix has no inverse if it's determinant is 0. See getDeterminant().
-             * If the matrix can not be inverted, then false is returned.
-             *
-             * \return TRUE if the inverse matrix was successfully calculated.
+             * A reflection matrix must be handled carefully as it can cause
+             * issues such as reverse vertex orders which can lead to incorrect
+             * lighting and backface culling.
              */
-            static bool createInverseMatrix(Matrix3x3<T> const &matrix, Matrix3x3<T>& inverse)
+            bool isReflective() const
             {
-                bool result = false;
+                return (getDeterminant() < 0.0f);
+            }
 
-                T determinant = matrix.getDeterminant();
+            /**
+             * Creates and returns the inverse of this matrix.
+             * \note This method can throw an exception if the determinant is zero.
+             */
+            Matrix3x3<T> getInverse() const
+            {
+                Matrix3x3<T> result;
+
+                T determinant = getDeterminant();
 
                 if(!IsZero<T>(determinant))
                 {
                     T oneOverDeterminant = static_cast<T>(1) / determinant;
 
-                    inverse[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) * oneOverDeterminant;
-                    inverse[0][1] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]) * oneOverDeterminant;
-                    inverse[0][2] =  (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) * oneOverDeterminant;
+                    result[0][0] =  (m_Contents[1][1] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][1]) * oneOverDeterminant;
+                    result[0][1] = -(m_Contents[0][1] * m_Contents[2][2] - m_Contents[0][2] * m_Contents[2][1]) * oneOverDeterminant;
+                    result[0][2] =  (m_Contents[0][1] * m_Contents[1][2] - m_Contents[0][2] * m_Contents[1][1]) * oneOverDeterminant;
 
-                    inverse[1][0] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) * oneOverDeterminant;
-                    inverse[1][1] =  (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) * oneOverDeterminant;
-                    inverse[1][2] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]) * oneOverDeterminant;
+                    result[1][0] = -(m_Contents[1][0] * m_Contents[2][2] - m_Contents[1][2] * m_Contents[2][0]) * oneOverDeterminant;
+                    result[1][1] =  (m_Contents[0][0] * m_Contents[2][2] - m_Contents[0][2] * m_Contents[2][0]) * oneOverDeterminant;
+                    result[1][2] = -(m_Contents[0][0] * m_Contents[1][2] - m_Contents[0][2] * m_Contents[1][0]) * oneOverDeterminant;
 
-                    inverse[2][0] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) * oneOverDeterminant;
-                    inverse[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) * oneOverDeterminant;
-                    inverse[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) * oneOverDeterminant;
-
-                    result = true;
+                    result[2][0] =  (m_Contents[1][0] * m_Contents[2][1] - m_Contents[1][1] * m_Contents[2][0]) * oneOverDeterminant;
+                    result[2][1] = -(m_Contents[0][0] * m_Contents[2][1] - m_Contents[0][1] * m_Contents[2][0]) * oneOverDeterminant;
+                    result[2][2] =  (m_Contents[0][0] * m_Contents[1][1] - m_Contents[0][1] * m_Contents[1][0]) * oneOverDeterminant;
+                }
+                else
+                {
+                    THROW_EXCEPTION("Caught Divide By Zero (Determinant during Inverse)");
                 }
 
                 return result;
             }
+
+            /**
+             * Creates and returns the transpose of this matrix.
+             *
+             * \return The transpose matrix
+             */
+            Matrix3x3<T> getTranspose() const
+            {
+                Matrix3x3<T> result;
+
+                result[0][0] = m_Contents[0][0];
+                result[0][1] = m_Contents[1][0];
+                result[0][2] = m_Contents[2][0];
+
+                result[1][0] = m_Contents[0][1];
+                result[1][1] = m_Contents[1][1];
+                result[1][2] = m_Contents[2][1];
+
+                result[2][0] = m_Contents[0][2];
+                result[2][1] = m_Contents[1][2];
+                result[2][2] = m_Contents[2][2];
+
+                return result;
+            }
+
+            //------------------------------------------------------------------------------
+            // STATIC OPERATIONS
+            //------------------------------------------------------------------------------
 
             /**
              * Creates a matrix which scales by the specified amount.

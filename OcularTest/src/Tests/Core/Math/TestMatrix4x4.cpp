@@ -217,7 +217,7 @@ TEST(Matrix4x4, Perspective)
 
 TEST(Matrix4x4, Transpose)
 {
-    const Ocular::Math::Matrix4x4d result = Ocular::Math::Matrix4x4d::createTransposeMatrix(matA);
+    const Ocular::Math::Matrix4x4d result = matA.getTranspose();
     const Ocular::Math::Matrix4x4d expected(1.0,  4.0,  7.0, 10.0,
                                             2.0,  5.0,  8.0, 11.0,
                                             3.0,  6.0,  9.0, 12.0,
@@ -239,7 +239,15 @@ TEST(Matrix4x4, Inverse)
                                             -0.163522,  0.066667, -0.005031,  0.000000);
 
     Ocular::Math::Matrix4x4d result;
-    Ocular::Math::Matrix4x4d::createInverseMatrix(matrix, result);
+    
+    try
+    {
+        result = matrix.getInverse();
+    }
+    catch(Ocular::Core::Exception e)
+    {
+        FAIL();
+    }
 
     EXPECT_TRUE(expected == result);
 }

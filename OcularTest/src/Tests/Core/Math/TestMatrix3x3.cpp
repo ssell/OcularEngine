@@ -179,7 +179,7 @@ TEST(Matrix3x3, ElementIndex)
 
 TEST(Matrix3x3, Transpose)
 {
-    const Ocular::Math::Matrix3x3d result = Ocular::Math::Matrix3x3d::createTransposeMatrix(matA);
+    const Ocular::Math::Matrix3x3d result = matA.getTranspose();
     const Ocular::Math::Matrix3x3d expected(1.0, 4.0, 7.0,
                                             2.0, 5.0, 8.0,
                                             3.0, 6.0, 9.0);
@@ -202,7 +202,15 @@ TEST(Matrix3x3, Inverse)
 
 
     Ocular::Math::Matrix3x3d result;
-    Ocular::Math::Matrix3x3d::createInverseMatrix(matrix, result);
+    
+    try
+    {
+        result = matrix.getInverse();
+    }
+    catch(Ocular::Core::Exception e)
+    {
+        FAIL();
+    }
 
     EXPECT_TRUE(expected == result);
 }
