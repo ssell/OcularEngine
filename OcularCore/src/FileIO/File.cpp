@@ -41,7 +41,7 @@ namespace Ocular
             }
             else 
             {
-                m_FullPath = path;
+                m_FullPath = boost::filesystem::system_complete(boost::filesystem::path(path)).generic_string();
             }
             
             m_IsReal = false;

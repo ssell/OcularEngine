@@ -36,7 +36,7 @@ TEST(PRNG, MersenneTwister19937)
         auto prng = CreatePRNG(PRNGImplementation::MersenneTwister, SEED);
         Ocular::Graphics::RandomTexture2D* texture = new Ocular::Graphics::RandomTexture2D(prng, 800, 600);
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("C:\\OcularEngine\\OcularTest\\bin\\Debug\\TestOutput\\MersenneTwisterTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/MersenneTwisterTest.png")));
 
         delete texture;
         texture = nullptr;
@@ -50,7 +50,7 @@ TEST(PRNG, MersenneTwister127)
         auto prng = CreatePRNG(PRNGImplementation::TinyMersenneTwister, SEED);
         Ocular::Graphics::RandomTexture2D* texture = new Ocular::Graphics::RandomTexture2D(prng, 800, 600);
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("C:\\OcularEngine\\OcularTest\\bin\\Debug\\TestOutput\\TinyMersenneTwisterTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/TinyMersenneTwisterTest.png")));
 
         delete texture;
         texture = nullptr;
@@ -64,7 +64,7 @@ TEST(PRNG, CMWC131104)
         auto prng = CreatePRNG(PRNGImplementation::CMWC, SEED);
         Ocular::Graphics::RandomTexture2D* texture = new Ocular::Graphics::RandomTexture2D(prng, 800, 600);
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("C:\\OcularEngine\\OcularTest\\bin\\Debug\\TestOutput\\CMWCTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/CMWCTest.png")));
 
         delete texture;
         texture = nullptr;
@@ -78,7 +78,7 @@ TEST(PRNG, WELL512)
         auto prng = CreatePRNG(PRNGImplementation::WELL, SEED);
         Ocular::Graphics::RandomTexture2D* texture = new Ocular::Graphics::RandomTexture2D(prng, 800, 600);
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("C:\\OcularEngine\\OcularTest\\bin\\Debug\\TestOutput\\WELLTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/WELLTest.png")));
 
         delete texture;
         texture = nullptr;
@@ -92,7 +92,7 @@ TEST(PRNG, XorShift96)
         auto prng = CreatePRNG(PRNGImplementation::XorShift, SEED);
         Ocular::Graphics::RandomTexture2D* texture = new Ocular::Graphics::RandomTexture2D(prng, 800, 600);
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("C:\\OcularEngine\\OcularTest\\bin\\Debug\\TestOutput\\XorShiftTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/XorShiftTest.png")));
 
         delete texture;
         texture = nullptr;
