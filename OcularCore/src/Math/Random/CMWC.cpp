@@ -36,7 +36,7 @@ namespace Ocular
                 : ARandom()
             {
                 m_Q = new uint32_t[M_QSIZE];
-                m_C = 0;
+                m_C = M_C;
             }
 
             CMWC131104::~CMWC131104()
@@ -68,25 +68,15 @@ namespace Ocular
 
             uint32_t CMWC131104::next()
             {
-                static int32_t i = M_QSIZE - 1;
+                static uint32_t i = M_QSIZE - 1;
+                uint64_t t = 18782LL;
 
-                int32_t t = 18782LL;
-                int32_t a = t;
-                int32_t x = 0xfffffffe;
-                int32_t r = x;
+                i      = (i + 1) & 4095;
+                t      = (18705ULL * m_Q[i]) + m_C;
+                m_C    = t >> 32;
+                m_Q[i] = static_cast<uint32_t>(0xfffffffe - t);
 
-                i = (i + 1) & 4095;
-                t = a * m_Q[i] + m_C;
-                m_C = (static_cast<uint64_t>(t) >> 32);
-                x = t + m_C;
-
-                if(x < static_cast<int32_t>(m_C))
-                {
-                    x++;
-                    m_C++;
-                }
-
-                return (m_Q[i] = r - x);
+                return m_Q[i];
             }
 
             //------------------------------------------------------------------------------

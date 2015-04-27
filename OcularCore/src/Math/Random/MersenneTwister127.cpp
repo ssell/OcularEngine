@@ -90,6 +90,7 @@ namespace Ocular
 
                 m_Status[0] &= TINYMT64_MASK;
 
+                x  = m_Status[0] ^ m_Status[1];
                 x ^= x << TINYMT64_SH0;
                 x ^= x >> 32ULL;
                 x ^= x << 32ULL;
@@ -98,8 +99,8 @@ namespace Ocular
                 m_Status[0] = m_Status[1];
                 m_Status[1] = static_cast<int64_t>(x);
                 
-                m_Status[0] ^= static_cast<int64_t>(x & 1) & m_Mat1;
-                m_Status[1] ^= static_cast<int64_t>(x & 1) & static_cast<int64_t>(static_cast<uint64_t>(m_Mat2) << 32ULL);
+                m_Status[0] ^= -static_cast<int64_t>(x & 1) & m_Mat1;
+                m_Status[1] ^= -static_cast<int64_t>(x & 1) & static_cast<int64_t>(static_cast<uint64_t>(m_Mat2) << 32ULL);
             }
 
             uint64_t MersenneTwister127::temper()
@@ -107,6 +108,7 @@ namespace Ocular
                 uint64_t x;
 
                 x  = static_cast<uint64_t>(m_Status[0] + m_Status[1]);
+                x ^= static_cast<uint64_t>(m_Status[0] >> TINYMT64_SH8);
                 x ^= static_cast<uint64_t>(-static_cast<int64_t>(x & 1) & m_TMat);
 
                 return x;
