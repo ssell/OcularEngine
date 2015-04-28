@@ -216,6 +216,12 @@
     <ClCompile Include="..\..\src\Math\Random\Random.cpp">
       <Filter>Source Files\Math\Random</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp">
+      <Filter>Source Files\Math\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp">
+      <Filter>Source Files\Math\Noise</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -418,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Random\Random.hpp">
       <Filter>Header Files\Math\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Noise\ANoise.hpp">
+      <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Noise\SimplexNoise.hpp">
+      <Filter>Header Files\Math\Noise</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
