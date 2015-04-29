@@ -99,7 +99,7 @@
     <ClInclude Include="..\..\include\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp">
       <Filter>Header Files\Texture\TextureLoaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Texture\RandomTexture2D.hpp">
+    <ClInclude Include="..\..\include\Texture\NoiseTexture2D.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,7 +131,7 @@
     <ClCompile Include="..\..\src\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp">
       <Filter>Source Files\Texture\TextureLoaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Texture\RandomTexture2D.cpp">
+    <ClCompile Include="..\..\src\Texture\NoiseTexture2D.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
   </ItemGroup>

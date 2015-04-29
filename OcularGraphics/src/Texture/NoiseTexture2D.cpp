@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Texture/RandomTexture2D.hpp"
+#include "Texture/NoiseTexture2D.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        RandomTexture2D::RandomTexture2D(std::shared_ptr<Math::Random::ARandom> prng, uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
+        NoiseTexture2D::NoiseTexture2D(std::shared_ptr<Math::Random::ARandom> prng, uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
             : Texture2D(width, height, filter, usage)
         {
             uint32_t numPixels = width * height;
@@ -36,8 +36,36 @@ namespace Ocular
 
             for(uint32_t i = 0; i < numPixels; i++)
             {
-                pixelColor = prng->nextf();
+                if(prng)
+                {
+                    pixelColor = prng->nextf();
+                }
+
                 m_Pixels[i] = Color(pixelColor, pixelColor, pixelColor, 1.0f);
+            }
+
+            m_IsInMemory = true;
+        }
+
+        NoiseTexture2D::NoiseTexture2D(std::shared_ptr<Math::Noise::ANoise> noise, uint32_t width, uint32_t height, uint32_t xOffset, uint32_t yOffset, TextureFilterMode filter, TextureUsageMode usage)
+            : Texture2D(width, height, filter, usage)
+        {
+            uint32_t numPixels = width * height;
+            float pixelColor = 0.0f;
+            
+            m_Pixels.reserve(numPixels);
+
+            for(uint32_t y = 0; y < height; y++)
+            {
+                for(uint32_t x = 0; x < width; x++)
+                {
+                    if(noise)
+                    {
+                        pixelColor = noise->getValue(static_cast<float>(x + xOffset), static_cast<float>(y + yOffset));
+                    }
+
+                    m_Pixels[(y * width) + x] = Color(pixelColor, pixelColor, pixelColor, 1.0f);
+                }
             }
 
             m_IsInMemory = true;

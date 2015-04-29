@@ -19,6 +19,7 @@
 
 #include "Texture2D.hpp"
 #include "Math/Random/Random.hpp"
+#include "Math/Noise/ANoise.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,15 +36,19 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class RandomTexture2D
+         * \class NoiseTexture2D
          *
-         * Creates a Texture2D from a provided PRNG.
+         * Creates a Texture2D from a provided noise algorithm.
+         *
+         * This can either be pure noise from a PRNG or coherent noise from
+         * an algorithm in Math::Noise.
          */
-        class RandomTexture2D : public Texture2D 
+        class NoiseTexture2D : public Texture2D 
         {
         public:
 
             /**
+             * Creates a new texture from the provided PRNG.
              *
              * \param[in] prng   The pre-seeded PRNG used to generate the texture.
              * \param[in] width  Texture width.
@@ -51,7 +56,21 @@ namespace Ocular
              * \param[in] filter
              * \param[in] usage
              */
-            RandomTexture2D(std::shared_ptr<Math::Random::ARandom> prng, uint32_t width, uint32_t height, 
+            NoiseTexture2D(std::shared_ptr<Math::Random::ARandom> prng, uint32_t width, uint32_t height, 
+                TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+
+            /**
+             * Creates a new texture from the provided coherent noise generator.
+             * 
+             * \param[in] prng    The pre-seeded PRNG used to generate the texture.
+             * \param[in] width   Texture width.
+             * \param[in] height  Texture height.
+             * \param[in] xOffset X-Axis offset into the noise function to begin at
+             * \param[in] yOffset Y-Axis offset into the noise function to begin at
+             * \param[in] filter
+             * \param[in] usage
+             */
+            NoiseTexture2D(std::shared_ptr<Math::Noise::ANoise> noise, uint32_t width, uint32_t height, uint32_t xOffset = 0, uint32_t yOffset = 0,
                 TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
 
         protected:

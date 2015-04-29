@@ -19,6 +19,8 @@
 #define __H__OCULAR_ENGINE_MATH_COMMON__H__
 
 #include "Equality.hpp"
+#include <cmath>
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 
@@ -83,6 +85,26 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
+        
+        /**
+         * Performs a fast floor operation on the provided floating point value.
+         *
+         * \param[in] value
+         */
+        static int32_t Floor(const float value)
+        {
+            return (value > 0) ? static_cast<int>(value) : static_cast<int>(value) - 1;
+        }
+        
+        /**
+         * Performs a fast floor operation on the provided floating point value.
+         *
+         * \param[in] value
+         */
+        static int32_t Floor(const double value)
+        {
+            return (value > 0) ? static_cast<int>(value) : static_cast<int>(value) - 1;
+        }
 
         /**
          * Calculates the inverse square root of the value.

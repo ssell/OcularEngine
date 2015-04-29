@@ -120,6 +120,9 @@ namespace Ocular
 
             protected:
 
+                float getRawNoise(float const x, float const y);
+                float getRawNoise(float const x, float const y, float const z);
+
             private:
 
                 uint32_t m_Octaves;
