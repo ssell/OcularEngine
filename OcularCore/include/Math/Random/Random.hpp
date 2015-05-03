@@ -41,7 +41,7 @@ namespace Ocular
          */
         namespace Random
         {
-            enum PRNGImplementation
+            enum PRNG
             {
                 MersenneTwister = 0,
                 TinyMersenneTwister,
@@ -56,7 +56,7 @@ namespace Ocular
              *
              * \return A shared smart pointer of the PRNG instance.
              */
-            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng);
+            std::shared_ptr<ARandom> CreatePRNG(PRNG prng);
             
             /**
              * Creates an instance of the specified PRNG.
@@ -64,7 +64,7 @@ namespace Ocular
              * \param[in] seed Seed value to initialize the PRNG with.
              * \return A shared smart pointer of the PRNG instance.
              */
-            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng, int64_t seed);
+            std::shared_ptr<ARandom> CreatePRNG(PRNG prng, int64_t seed);
         }
         /**
          * @} End of Doxygen Groups

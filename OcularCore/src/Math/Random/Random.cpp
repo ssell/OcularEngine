@@ -37,29 +37,29 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
             
-            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng)
+            std::shared_ptr<ARandom> CreatePRNG(PRNG prng)
             {
                 std::shared_ptr<ARandom> result;
 
                 switch(prng)
                 {
-                case PRNGImplementation::TinyMersenneTwister:
+                case PRNG::TinyMersenneTwister:
                     result = std::make_shared<MersenneTwister127>();
                     break;
 
-                case PRNGImplementation::CMWC:
+                case PRNG::CMWC:
                     result = std::make_shared<CMWC131104>();
                     break;
 
-                case PRNGImplementation::WELL:
+                case PRNG::WELL:
                     result = std::make_shared<WELL512>();
                     break;
 
-                case PRNGImplementation::XorShift:
+                case PRNG::XorShift:
                     result = std::make_shared<XorShift96>();
                     break;
 
-                case PRNGImplementation::MersenneTwister:
+                case PRNG::MersenneTwister:
                 default:
                     result = std::make_shared<MersenneTwister19937>();
                     break;
@@ -68,7 +68,7 @@ namespace Ocular
                 return result;
             }
 
-            std::shared_ptr<ARandom> CreatePRNG(PRNGImplementation prng, int64_t seed)
+            std::shared_ptr<ARandom> CreatePRNG(PRNG prng, int64_t seed)
             {
                 std::shared_ptr<ARandom> result = CreatePRNG(prng);
                 result->seed(seed);

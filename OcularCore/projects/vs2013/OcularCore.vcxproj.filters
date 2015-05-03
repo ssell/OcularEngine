@@ -222,6 +222,9 @@
     <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp">
       <Filter>Source Files\Math\Noise</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp">
+      <Filter>Source Files\Math\Noise</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -429,6 +432,9 @@
       <Filter>Header Files\Math\Noise</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Noise\SimplexNoise.hpp">
+      <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Noise\PerlinNoise.hpp">
       <Filter>Header Files\Math\Noise</Filter>
     </ClInclude>
   </ItemGroup>

@@ -85,7 +85,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
-        
+
         /**
          * Performs a fast floor operation on the provided floating point value.
          *
@@ -348,6 +348,18 @@ namespace Ocular
             {
                 return down;
             }
+        }
+        
+        static float Lerp(float const from, float const to, float const frac)
+        {
+            float f = Clamp<float>(frac);
+            return (from * (1.0f - f)) + (to * f);
+        }
+        
+        static double Lerp(double const from, double const to, double const frac)
+        {
+            double f = Clamp<double>(frac);
+            return (from * (1.0 - f)) + (to * f);
         }
     }
     /**

@@ -24,7 +24,7 @@ using namespace Ocular::Math::Random;
 //------------------------------------------------------------------------------------------
 
 static const int64_t SEED = 1337;
-static const bool RUN_PRNG_TESTS = true;
+static const bool RUN_PRNG_TESTS = false;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
 //------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ TEST(PRNG, MersenneTwister19937)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNGImplementation::MersenneTwister, SEED);
+        auto prng = CreatePRNG(PRNG::MersenneTwister, SEED);
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/MersenneTwisterTest.png")));
@@ -47,7 +47,7 @@ TEST(PRNG, MersenneTwister127)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNGImplementation::TinyMersenneTwister, SEED);
+        auto prng = CreatePRNG(PRNG::TinyMersenneTwister, SEED);
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/TinyMersenneTwisterTest.png")));
@@ -61,7 +61,7 @@ TEST(PRNG, CMWC131104)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNGImplementation::CMWC, SEED);
+        auto prng = CreatePRNG(PRNG::CMWC, SEED);
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/CMWCTest.png")));
@@ -75,7 +75,7 @@ TEST(PRNG, WELL512)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNGImplementation::WELL, SEED);
+        auto prng = CreatePRNG(PRNG::WELL, SEED);
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/WELLTest.png")));
@@ -89,7 +89,7 @@ TEST(PRNG, XorShift96)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNGImplementation::XorShift, SEED);
+        auto prng = CreatePRNG(PRNG::XorShift, SEED);
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/XorShiftTest.png")));

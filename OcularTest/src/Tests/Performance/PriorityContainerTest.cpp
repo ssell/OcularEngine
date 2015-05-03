@@ -64,8 +64,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testSTLPriorityQueue()
         {
-            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
-            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 
@@ -112,8 +112,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityMultiQueue()
         {
-            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
-            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 
@@ -159,8 +159,8 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::testPriorityList()
         {
-            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, ACTION_SEED);
-            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNGImplementation::XorShift, PRIORITY_SEED);
+            auto prngAction   = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, ACTION_SEED);
+            auto prngPriority = Math::Random::CreatePRNG(Math::Random::PRNG::XorShift, PRIORITY_SEED);
 
             //----------------------------------------
 

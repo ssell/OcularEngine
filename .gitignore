@@ -25,6 +25,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+TestOutput/
 
 # Ignore 3rd Party Distributable
 External/

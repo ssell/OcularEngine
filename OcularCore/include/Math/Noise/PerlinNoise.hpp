@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_MATH_SIMPLEX_NOISE__H__
-#define __H__OCULAR_MATH_SIMPLEX_NOISE__H__
+#ifndef __H__OCULAR_MATH_PERLIN_NOISE__H__
+#define __H__OCULAR_MATH_PERLIN_NOISE__H__
 
 #include "ANoise.hpp"
 
@@ -41,43 +41,32 @@ namespace Ocular
         namespace Noise
         {
             /**
-             * \class SimplexNoise
+             * \class PerlinNoise
              *
-             * Simplex Noise is an n-dimensional noise function that produces results
-             * comparable to the class Perlin Noise, but has less computational overhead.
+             * Perlin Noise is a type of gradient noise. It was designed in 1983 by Ken Perlin, and
+             * is very similar to Simplex Noise. 
              *
-             * Originally designed by Ken Perlin (2001), this implementation is adapted 
-             * from the work done by Stefan Gustavson.
-             *
-             * Though there is no seeding of Simplex Noise like with PRNGs, once can achieve
-             * a similar 'randomized' result by applying an offset to the provided x/y/z parameters.
-             * For example:
-             *
-             *     int32_t seed = prng->next(0, 1000);
-             *     
-             *     for(uint32_t y = 0; y < 5; y++)
-             *     {
-             *         for(uint32_t x = 0; x < 5; x++)
-             *         {
-             *             float value = noise->getValue((x + seed), (y + seed));
-             *         }
-             *     }
-             *
-             * Just remember that this is a fake randomization. The value at (0,0) will always
-             * be the same throughout all runs.
-             *
-             * Ken Perlin: Making Noise
-             * http://www.noisemachine.com/talk1/32.html
-             *
-             * Stefan Gustavson: Simplex Noise Demystified
-             * http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
+             * Compared to Simplex Noise, Perlin Noise is more computationally expensive and suffers
+             * from directional artifacts. Perlin Noise also has the behaviour that values on integer
+             * coordinates will always be equal to 0.
              */
-            class SimplexNoise : public ANoise
+            class PerlinNoise : public ANoise
             {
             public:
 
-                SimplexNoise();
-                ~SimplexNoise();
+                PerlinNoise();
+                ~PerlinNoise();
+
+                /**
+                 * Returns the noise value at the specified point.
+                 *
+                 * Note: To get the raw noise value (without octaves, etc.) set the
+                 * octaves, scale, and persistence all to 1.
+                 *
+                 * \param[in] x
+                 * \return Value on range [-1.0, 1.0]
+                 */
+                virtual float getValue(float const x);
 
                 /** 
                  * Returns the noise value at the specified 2D coordinates.
@@ -102,7 +91,7 @@ namespace Ocular
                  * \param[in] y
                  * \param[in] z
                  *
-                 * \return Value on range [-1.0, 1.0]
+                 * \return Value on range [0.0, 1.0]
                  */
                 virtual float getValue(float const x, float const y, float const z);
 
@@ -143,14 +132,25 @@ namespace Ocular
 
             protected:
 
+                /**
+                 * Populates the permutation and gradient arrays with pseudo-random values.
+                 */
+                void populate();
+
+                float getRawNoise(float const x);
                 float getRawNoise(float const x, float const y);
                 float getRawNoise(float const x, float const y, float const z);
 
             private:
 
                 uint32_t m_Octaves;
-                float m_Persistence;
-                float m_Scale;
+                float    m_Persistence;
+                float    m_Scale;
+
+                int32_t m_Permutations[514];
+                float   m_Gradient1[514];
+                float   m_Gradient2[514][2];
+                float   m_Gradient3[514][3];
             };
         }
         /**

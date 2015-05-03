@@ -61,7 +61,8 @@ namespace Ocular
                 {
                     if(noise)
                     {
-                        pixelColor = noise->getValue(static_cast<float>(x + xOffset), static_cast<float>(y + yOffset));
+                        // Noise methods return on range [-1.0, 1.0] but we want [0.0, 1.0]
+                        pixelColor = (noise->getValue(static_cast<float>(x + xOffset), static_cast<float>(y + yOffset)) + 1.0f) * 0.5f;
                     }
 
                     m_Pixels[(y * width) + x] = Color(pixelColor, pixelColor, pixelColor, 1.0f);

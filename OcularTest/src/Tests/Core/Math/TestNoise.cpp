@@ -17,6 +17,7 @@
 #include "gtest/gtest.h"
 #include "Texture/NoiseTexture2D.hpp"
 #include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
+#include "Math/Noise/PerlinNoise.hpp"
 #include "Math/Noise/SimplexNoise.hpp"
 #include "OcularEngine.hpp"
 
@@ -28,6 +29,25 @@ static const bool RUN_NOISE_TESTS = true;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
 //------------------------------------------------------------------------------------------
+
+TEST(Noise, Perlin)
+{
+    if(RUN_NOISE_TESTS)
+    {
+        std::shared_ptr<PerlinNoise> noise = std::make_shared<PerlinNoise>();
+
+        noise->setOctaves(1);
+        noise->setPersistence(1.0f);
+        noise->setScale(1.0f / 400.0f);
+
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
+
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/PerlinNoise.png")));
+
+        delete texture;
+        texture = nullptr;
+    }
+}
 
 TEST(Noise, Simplex)
 {
