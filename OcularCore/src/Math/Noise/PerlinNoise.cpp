@@ -174,7 +174,7 @@ namespace Ocular
                 int32_t j = 0;
                 int32_t temp = 0;
 
-                for( ; i < 256; i++)
+                for( ; i < B; i++)
                 {
                     m_Permutations[i] = i;
                     m_Gradient1[i] = getModifiedRandom();
@@ -194,9 +194,9 @@ namespace Ocular
 
                 // Shuffle
 
-                for(i = 0; i < 256; i++)
+                for(i = 0; i < B; i++)
                 {
-                    j = m_PRNG->next(0, 255);
+                    j = m_PRNG->next(0, BM);
 
                     temp = m_Permutations[i];
                     m_Permutations[i] = m_Permutations[j];
@@ -205,26 +205,26 @@ namespace Ocular
 
                 // Essentially duplicate the list in the second halves of the tables
 
-                for(i = 0; i < 258; i++)
+                for(i = 0; i < (B + 2); i++)
                 {
-                    m_Permutations[256 + i] = m_Permutations[i];
-                    m_Gradient1[256 + i] = m_Gradient1[i];
+                    m_Permutations[B + i] = m_Permutations[i];
+                    m_Gradient1[B + i] = m_Gradient1[i];
                     
                     for(j = 0; j < 2; j++)
                     {
-                        m_Gradient2[256 + i][j] = m_Gradient2[i][j];
+                        m_Gradient2[B + i][j] = m_Gradient2[i][j];
                     }
                     
                     for(j = 0; j < 3; j++)
                     {
-                        m_Gradient3[256 + i][j] = m_Gradient3[i][j];
+                        m_Gradient3[B + i][j] = m_Gradient3[i][j];
                     }
                 }
             }
 
             float PerlinNoise::getModifiedRandom()
             {
-                return static_cast<float>((m_PRNG->nextSigned() % (512)) - 256) / 256.0f;
+                return static_cast<float>((m_PRNG->nextSigned() % (B2)) - B) / static_cast<float>(B);
             }
 
             float PerlinNoise::getRawNoise(float const x)
@@ -248,10 +248,10 @@ namespace Ocular
                  *  (x0,y0)          (x1,y0)
                  */
 
-                int32_t x0 = static_cast<int>(x);
-                int32_t x1 = x0 + 1;
-                int32_t y0 = static_cast<int>(y);
-                int32_t y1 = y0 + 1;
+                int32_t x0 = static_cast<int>(x) % BM;        // Mod 256 so we do not go out of bounds of later arrays
+                int32_t x1 = (x0 + 1) % BM;                   
+                int32_t y0 = static_cast<int>(y) % BM;
+                int32_t y1 = (y0 + 1) % BM;
 
                 float distX0 = x - static_cast<float>(x0);    // Distance to each x0, x1, y0, and y1
                 float distX1 = static_cast<float>(x1) - x;
@@ -306,9 +306,9 @@ namespace Ocular
 
             void PerlinNoise::getGridInformation(float const& axis, int32_t& grid0, int32_t& grid1, float& dist0, float& dist1)
             {
-                float t = axis + 4096;
-                grid0 = (static_cast<int32_t>(t) & 255);
-                grid1 = (grid0 + 1) & 255;
+                float t = axis + N;
+                grid0 = (static_cast<int32_t>(t) & BM);
+                grid1 = (grid0 + 1) & BM;
                 dist0 = t - static_cast<int>(t);
                 dist1 = dist0 - 1.0f;
             }
