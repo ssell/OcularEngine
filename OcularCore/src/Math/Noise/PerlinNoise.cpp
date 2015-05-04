@@ -17,6 +17,7 @@
 #include "Math/Noise/PerlinNoise.hpp"
 #include "Math/MathCommon.hpp"
 #include "Math/Random/Random.hpp"
+#include "Math/Vector2.hpp"
 
 static const uint32_t B  = 256;
 static const uint32_t BM = 255;
@@ -48,7 +49,7 @@ static void normalize3(float v[3])
 	v[2] = v[2] / s;
 }
 
-static float sCurve(const float t)
+static float sigmoidCurve(const float t)
 {
     return (t * t * (3.0f - 2.0f * t));
 }
@@ -72,6 +73,7 @@ namespace Ocular
                 m_Persistence = 0.5f;
                 m_Scale = 0.01f;
 
+                m_PRNG = Random::CreatePRNG(Random::MersenneTwister);
                 populate();
             }
 
@@ -160,56 +162,69 @@ namespace Ocular
             // PROTECTED METHODS
             //------------------------------------------------------------------------------
 
+            void PerlinNoise::seed(int64_t seed)
+            {
+                m_PRNG->seed(seed);
+                populate();
+            }
+
             void PerlinNoise::populate()
             {
-                auto prng = Random::CreatePRNG(Random::PRNG::MersenneTwister);
-
                 int32_t i = 0;
                 int32_t j = 0;
-                int32_t k = 0;
+                int32_t temp = 0;
 
-                for(i = 0; i < B; i++)
+                for( ; i < 256; i++)
                 {
                     m_Permutations[i] = i;
-                    m_Gradient1[i] = static_cast<float>((prng->next() % B2) - B) * ONE_OVER_B;
-
+                    m_Gradient1[i] = getModifiedRandom();
+                    
                     for(j = 0; j < 2; j++)
                     {
-                        m_Gradient2[i][j] = static_cast<float>((prng->next() % B2) - B) * ONE_OVER_B;
+                        m_Gradient2[i][j] = getModifiedRandom();
+                        normalize2(m_Gradient2[i]);
                     }
-
-                    normalize2(m_Gradient2[i]);
 
                     for(j = 0; j < 3; j++)
                     {
-                        m_Gradient3[i][j] = static_cast<float>((prng->next() % B2) - B) * ONE_OVER_B;
+                        m_Gradient3[i][j] = getModifiedRandom();
+                        normalize3(m_Gradient3[i]);
                     }
-
-                    normalize3(m_Gradient3[i]);
                 }
 
-                while(--i)
+                // Shuffle
+
+                for(i = 0; i < 256; i++)
                 {
-                    k = m_Permutations[i];
-                    m_Permutations[i] = m_Permutations[j = prng->next() % B];
-                    m_Permutations[j] = k;
+                    j = m_PRNG->next(0, 255);
+
+                    temp = m_Permutations[i];
+                    m_Permutations[i] = m_Permutations[j];
+                    m_Permutations[j] = temp;
                 }
 
-                for(i = 0; i < (B + 2); i++)
+                // Essentially duplicate the list in the second halves of the tables
+
+                for(i = 0; i < 258; i++)
                 {
-                    m_Permutations[B + i] = m_Permutations[i];
-		            m_Gradient1[B + i] = m_Gradient1[i];
-
-		            for (j = 0 ; j < 2 ; j++)
+                    m_Permutations[256 + i] = m_Permutations[i];
+                    m_Gradient1[256 + i] = m_Gradient1[i];
+                    
+                    for(j = 0; j < 2; j++)
                     {
-			            m_Gradient2[B + i][j] = m_Gradient2[i][j];
+                        m_Gradient2[256 + i][j] = m_Gradient2[i][j];
                     }
-
-		            for (j = 0 ; j < 3 ; j++)
+                    
+                    for(j = 0; j < 3; j++)
                     {
-			            m_Gradient3[B + i][j] = m_Gradient3[i][j];
+                        m_Gradient3[256 + i][j] = m_Gradient3[i][j];
                     }
                 }
+            }
+
+            float PerlinNoise::getModifiedRandom()
+            {
+                return static_cast<float>((m_PRNG->nextSigned() % (512)) - 256) / 256.0f;
             }
 
             float PerlinNoise::getRawNoise(float const x)
@@ -219,71 +234,83 @@ namespace Ocular
 
             float PerlinNoise::getRawNoise(float const x, float const y)
             {
-                int32_t bx0 = 0;
-                int32_t bx1 = 0;
-                int32_t by0 = 0;
-                int32_t by1 = 0;
-                int32_t b00 = 0;
-                int32_t b10 = 0;
-                int32_t b01 = 0;
-                int32_t b11 = 0;
-                int32_t i   = 0;
-                int32_t j   = 0;
+                //--------------------------------------------------------
+                // Find the grid points that surround (x,y) and the distance to them.
 
-                float rx0 = 0.0f;
-                float rx1 = 0.0f;
-                float ry0 = 0.0f;
-                float ry1 = 0.0f;
-                float sx  = 0.0f;
-                float sy  = 0.0f;
-                float a   = 0.0f;
-                float b   = 0.0f;
-                float t   = 0.0f;
-                float u   = 0.0f;
-                float v   = 0.0f;
+                /**
+                 *  (x0,y1)          (x1,y1)
+                 *     *----------------*
+                 *     |                |
+                 *     |          *     |
+                 *     |                |
+                 *     |                |
+                 *     *----------------*
+                 *  (x0,y0)          (x1,y0)
+                 */
+
+                int32_t x0 = static_cast<int>(x);
+                int32_t x1 = x0 + 1;
+                int32_t y0 = static_cast<int>(y);
+                int32_t y1 = y0 + 1;
+
+                float distX0 = x - static_cast<float>(x0);    // Distance to each x0, x1, y0, and y1
+                float distX1 = static_cast<float>(x1) - x;
+                float distY0 = y - static_cast<float>(y0);
+                float distY1 = static_cast<float>(y1) - y; 
 
                 //--------------------------------------------------------
-                // Setup
+                // Generate indices
 
-                t = x + static_cast<float>(N);
-                bx0 = static_cast<int32_t>(t) & BM;
-                bx1 = (bx0 + 1) % BM;
-                rx0 = t - Floor(t);
-                rx1 = rx0 - 1.0f;
+                int32_t indexX0 = m_Permutations[x0];
+                int32_t indexX1 = m_Permutations[x1];
 
-                t = y + static_cast<float>(N);
-                by0 = static_cast<int32_t>(t) & BM;
-                by1 = (by0 + 1) % BM;
-                ry0 = t - Floor(t);
-                ry1 = ry0 - 1.0f;
+                int32_t index00 = m_Permutations[indexX0 + y0];
+                int32_t index10 = m_Permutations[indexX1 + y0];
+                int32_t index01 = m_Permutations[indexX0 + y1];
+                int32_t index11 = m_Permutations[indexX1 + y1];
 
                 //--------------------------------------------------------
+                // Get the Sigmoid Curves
 
-                i = m_Permutations[bx0];
-                j = m_Permutations[bx1];
+                float sigmoidX = sigmoidCurve(distX0);
+                float sigmoidY = sigmoidCurve(distY0);
 
-                b00 = m_Permutations[i + by0];
-                b10 = m_Permutations[j + by0];
-                b01 = m_Permutations[i + by1];
-                b11 = m_Permutations[j + by1];
+                //--------------------------------------------------------
+                // Retrieve the pseudo-random gradients (directional vector) for 
+                // each corner of the grid. 
 
-                sx = sCurve(rx0);
-                sy = sCurve(ry0);
+                Vector2f lowerLeft(m_Gradient2[index00][0], m_Gradient2[index00][1]);
+                Vector2f lowerRight(m_Gradient2[index10][0], m_Gradient2[index10][1]);
+                Vector2f upperLeft(m_Gradient2[index01][0], m_Gradient2[index01][1]);
+                Vector2f upperRight(m_Gradient2[index11][0], m_Gradient2[index11][1]);
 
-                u = (rx0 * m_Gradient2[b00][0]) + (ry0 * m_Gradient2[b00][1]);
-                v = (rx1 * m_Gradient2[b10][0]) + (ry0 * m_Gradient2[b10][1]);
-                a = Lerp(sx, u, v);
+                float s = Vector2f(distX0, distY0).dot(lowerLeft);
+                float t = Vector2f(distX1, distY0).dot(lowerRight);
+                float u = Vector2f(distX0, distY1).dot(upperLeft);
+                float v = Vector2f(distX1, distY1).dot(upperRight);
 
-                u = (rx0 * m_Gradient2[b01][0]) + (ry1 * m_Gradient2[b01][1]);
-                v = (rx1 * m_Gradient2[b11][0]) + (ry1 * m_Gradient2[b11][1]);
-                b = Lerp(sx, u, v);
+                // Lerp across the top and bottom x axis
 
-                return Lerp(sy, a, b);
+                float a = Lerp(s, t, sigmoidX);
+                float b = Lerp(u, v, sigmoidX);
+
+                // Lerp across the y axis
+
+                return Lerp(a, b, sigmoidY);
             }
 
             float PerlinNoise::getRawNoise(float const x, float const y, float const z)
             {
                 return 0.0f;
+            }
+
+            void PerlinNoise::getGridInformation(float const& axis, int32_t& grid0, int32_t& grid1, float& dist0, float& dist1)
+            {
+                float t = axis + 4096;
+                grid0 = (static_cast<int32_t>(t) & 255);
+                grid1 = (grid0 + 1) & 255;
+                dist0 = t - static_cast<int>(t);
+                dist1 = dist0 - 1.0f;
             }
 
             //------------------------------------------------------------------------------

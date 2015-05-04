@@ -85,6 +85,18 @@ namespace Ocular
                 return result;
             }
 
+            int32_t ARandom::nextSigned()
+            {
+                uint32_t unsignedNext = next();
+                return static_cast<int32_t>(unsignedNext - static_cast<uint32_t>(INT32_MAX));
+            }
+
+            int32_t ARandom::nextSigned(int32_t min, int32_t max)
+            {
+                int32_t value = nextSigned();
+                return (value % (max - min)) + min;
+            }
+
             //------------------------------------------------------------------------------
             // PROTECTED METHODS
             //------------------------------------------------------------------------------

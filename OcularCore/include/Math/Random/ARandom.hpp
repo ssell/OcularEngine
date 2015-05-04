@@ -83,6 +83,10 @@ namespace Ocular
                  */
                 virtual float nextf(float const precision = 0.0001f);
 
+                virtual int32_t nextSigned();
+
+                virtual int32_t nextSigned(int32_t min, int32_t max);
+
             protected:
 
                 int64_t m_Seed;

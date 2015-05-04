@@ -19,6 +19,9 @@
 #define __H__OCULAR_MATH_PERLIN_NOISE__H__
 
 #include "ANoise.hpp"
+#include "Math/Random/ARandom.hpp"
+
+#include <memory>
 
 //------------------------------------------------------------------------------------------
 
@@ -130,16 +133,25 @@ namespace Ocular
                  */
                 void setScale(float const scale);
 
+                /**
+                 * Reseeds the lookup tables used to generate noise values.
+                 * \param[in] seed
+                 */
+                void seed(int64_t seed);
+
             protected:
 
                 /**
                  * Populates the permutation and gradient arrays with pseudo-random values.
                  */
                 void populate();
+                float getModifiedRandom();
 
                 float getRawNoise(float const x);
                 float getRawNoise(float const x, float const y);
                 float getRawNoise(float const x, float const y, float const z);
+
+                void getGridInformation(float const& axis, int32_t& grid0, int32_t& grid1, float& dist0, float& dist1);
 
             private:
 
@@ -147,10 +159,12 @@ namespace Ocular
                 float    m_Persistence;
                 float    m_Scale;
 
-                int32_t m_Permutations[514];
-                float   m_Gradient1[514];
-                float   m_Gradient2[514][2];
-                float   m_Gradient3[514][3];
+                uint32_t m_Permutations[514];
+                float    m_Gradient1[514];
+                float    m_Gradient2[514][2];
+                float    m_Gradient3[514][3];
+
+                std::shared_ptr<Random::ARandom> m_PRNG;
             };
         }
         /**
