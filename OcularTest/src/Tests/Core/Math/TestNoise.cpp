@@ -19,6 +19,7 @@
 #include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "Math/Noise/PerlinNoise.hpp"
 #include "Math/Noise/SimplexNoise.hpp"
+#include "Math/Noise/WaveletNoise.hpp"
 #include "OcularEngine.hpp"
 
 using namespace Ocular::Math::Noise;
@@ -32,7 +33,7 @@ static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
 TEST(Noise, Perlin)
 {
-    if(true)
+    if(false)
     {
         std::shared_ptr<PerlinNoise> noise = std::make_shared<PerlinNoise>();
 
@@ -57,6 +58,20 @@ TEST(Noise, Simplex)
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/SimplexNoise.png")));
+
+        delete texture;
+        texture = nullptr;
+    }
+}
+
+TEST(Noise, )
+{
+    if(RUN_NOISE_TESTS)
+    {
+        std::shared_ptr<WaveletNoise> noise = std::make_shared<WaveletNoise>();
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
+
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/WaveletNoise.png")));
 
         delete texture;
         texture = nullptr;

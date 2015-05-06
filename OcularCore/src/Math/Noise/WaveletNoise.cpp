@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-#include "Math/Random/CMWC.hpp"
-
-#define M_C 362436UL
-#define M_QSIZE 4096
-#define PHI 0x9e3779b9
+#include "Math/Noise/WaveletNoise.hpp"
+#include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,57 +23,30 @@ namespace Ocular
 {
     namespace Math
     {
-        namespace Random
+        namespace Noise
         {
             //------------------------------------------------------------------------------
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            CMWC131104::CMWC131104()
-                : ARandom()
+            WaveletNoise::WaveletNoise()
+                : ANoise()
             {
-                m_Q = new uint32_t[M_QSIZE];
-                m_C = M_C;
+
             }
 
-            CMWC131104::~CMWC131104()
+            WaveletNoise::~WaveletNoise()
             {
-                if(m_Q != nullptr)
-                {
-                    delete [] m_Q;
-                    m_Q = nullptr;
-                }
+            
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void CMWC131104::seed(int64_t seed)
+            float WaveletNoise::getValue(float const x, float const y)
             {
-                m_SeedCast = static_cast<uint32_t>(seed);
-
-                m_Q[0] = m_SeedCast;
-                m_Q[1] = m_SeedCast + PHI;
-                m_Q[2] = m_SeedCast + PHI + PHI;
-
-                for (int i = 3; i < M_QSIZE; i++)
-                {
-                    m_Q[i] = m_Q[i - 3] ^ m_Q[i - 2] ^ PHI ^ i;
-                }
-            }
-
-            uint32_t CMWC131104::next()
-            {
-                static uint32_t i = M_QSIZE - 1;
-                uint64_t t = 18782LL;
-
-                i      = (i + 1) & 4095;
-                t      = (18705ULL * m_Q[i]) + m_C;
-                m_C    = t >> 32;
-                m_Q[i] = static_cast<uint32_t>(0xfffffffe - t);
-
-                return m_Q[i];
+                return 0.0f;
             }
 
             //------------------------------------------------------------------------------

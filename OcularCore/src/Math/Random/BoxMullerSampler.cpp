@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Random/CMWC.hpp"
-
-#define M_C 362436UL
-#define M_QSIZE 4096
-#define PHI 0x9e3779b9
+#include "Math/Random/BoxMullerSampler.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,51 +28,43 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            CMWC131104::CMWC131104()
-                : ARandom()
+            BoxMullerSampler::BoxMullerSampler(std::shared_ptr<ARandom> const& source)
+                : ASampler(source)
             {
-                m_Q = new uint32_t[M_QSIZE];
-                m_C = M_C;
-            }
-
-            CMWC131104::~CMWC131104()
-            {
-                if(m_Q != nullptr)
-                {
-                    delete [] m_Q;
-                    m_Q = nullptr;
-                }
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void CMWC131104::seed(int64_t seed)
+            float BoxMullerSampler::next()
             {
-                m_SeedCast = static_cast<uint32_t>(seed);
+                // Sources:
+                // http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+                // https://www.taygeta.com/random/gaussian.html
 
-                m_Q[0] = m_SeedCast;
-                m_Q[1] = m_SeedCast + PHI;
-                m_Q[2] = m_SeedCast + PHI + PHI;
+                float result = 0.0f;
+                float x0 = 0.0f;
+                float x1 = 0.0f;
+                float w  = 0.0f;
 
-                for (int i = 3; i < M_QSIZE; i++)
+                do 
                 {
-                    m_Q[i] = m_Q[i - 3] ^ m_Q[i - 2] ^ PHI ^ i;
-                }
+                    x0 = (2.0f * m_PRNG->nextf()) - 1.0f;
+                    x1 = (2.0f * m_PRNG->nextf()) - 1.0f;
+                    w = (x0 * x0) + (x1 * x1);
+                } 
+                while(w >= 1.0f);
+                
+                w = sqrtf((-2.0f * log(w)) / w);
+                result = x0 * w;
+
+                return result;
             }
 
-            uint32_t CMWC131104::next()
+            float BoxMullerSampler::next(float const mu, float const sigma)
             {
-                static uint32_t i = M_QSIZE - 1;
-                uint64_t t = 18782LL;
-
-                i      = (i + 1) & 4095;
-                t      = (18705ULL * m_Q[i]) + m_C;
-                m_C    = t >> 32;
-                m_Q[i] = static_cast<uint32_t>(0xfffffffe - t);
-
-                return m_Q[i];
+                return (next() * sigma) + mu;
             }
 
             //------------------------------------------------------------------------------

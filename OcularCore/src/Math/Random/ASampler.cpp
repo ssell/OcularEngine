@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Random/CMWC.hpp"
-
-#define M_C 362436UL
-#define M_QSIZE 4096
-#define PHI 0x9e3779b9
+#include "Math/Random/ASampler.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,52 +28,19 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            CMWC131104::CMWC131104()
-                : ARandom()
+            ASampler::ASampler(std::shared_ptr<ARandom> const& source)
             {
-                m_Q = new uint32_t[M_QSIZE];
-                m_C = M_C;
+                m_PRNG = source;
             }
 
-            CMWC131104::~CMWC131104()
+            ASampler::~ASampler()
             {
-                if(m_Q != nullptr)
-                {
-                    delete [] m_Q;
-                    m_Q = nullptr;
-                }
+                m_PRNG = nullptr;
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
-
-            void CMWC131104::seed(int64_t seed)
-            {
-                m_SeedCast = static_cast<uint32_t>(seed);
-
-                m_Q[0] = m_SeedCast;
-                m_Q[1] = m_SeedCast + PHI;
-                m_Q[2] = m_SeedCast + PHI + PHI;
-
-                for (int i = 3; i < M_QSIZE; i++)
-                {
-                    m_Q[i] = m_Q[i - 3] ^ m_Q[i - 2] ^ PHI ^ i;
-                }
-            }
-
-            uint32_t CMWC131104::next()
-            {
-                static uint32_t i = M_QSIZE - 1;
-                uint64_t t = 18782LL;
-
-                i      = (i + 1) & 4095;
-                t      = (18705ULL * m_Q[i]) + m_C;
-                m_C    = t >> 32;
-                m_Q[i] = static_cast<uint32_t>(0xfffffffe - t);
-
-                return m_Q[i];
-            }
 
             //------------------------------------------------------------------------------
             // PROTECTED METHODS

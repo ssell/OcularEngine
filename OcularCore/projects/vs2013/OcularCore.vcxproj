@@ -175,8 +175,11 @@
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp" />
+    <ClCompile Include="..\..\src\Math\Noise\WaveletNoise.cpp" />
     <ClCompile Include="..\..\src\Math\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Math\Random\ARandom.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\ASampler.cpp" />
+    <ClCompile Include="..\..\src\Math\Random\BoxMullerSampler.cpp" />
     <ClCompile Include="..\..\src\Math\Random\CMWC.cpp" />
     <ClCompile Include="..\..\src\Math\Random\MersenneTwister19937.cpp" />
     <ClCompile Include="..\..\src\Math\Random\MersenneTwister127.cpp" />
@@ -230,8 +233,11 @@
     <ClInclude Include="..\..\include\Math\Noise\ANoise.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\PerlinNoise.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\SimplexNoise.hpp" />
+    <ClInclude Include="..\..\include\Math\Noise\WaveletNoise.hpp" />
     <ClInclude Include="..\..\include\Math\Quaternion.hpp" />
     <ClInclude Include="..\..\include\Math\Random\ARandom.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\ASampler.hpp" />
+    <ClInclude Include="..\..\include\Math\Random\BoxMullerSampler.hpp" />
     <ClInclude Include="..\..\include\Math\Random\CMWC.hpp" />
     <ClInclude Include="..\..\include\Math\Random\MersenneTwister19937.hpp" />
     <ClInclude Include="..\..\include\Math\Random\MersenneTwister127.hpp" />

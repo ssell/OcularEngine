@@ -94,6 +94,18 @@
     <Filter Include="Header Files\Exceptions">
       <UniqueIdentifier>{a8aa3a6c-53f1-41dc-9fd2-c8bc0e5a09c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math\Random\PRNGs">
+      <UniqueIdentifier>{94c32425-2c85-47d1-9039-4d4c0aae0292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Random\Samplers">
+      <UniqueIdentifier>{021b1230-4858-45b3-b3e3-6489617c0d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Random\PRNGs">
+      <UniqueIdentifier>{e3f06e05-fc28-49f4-84cb-a2944d91c6fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Random\Samplers">
+      <UniqueIdentifier>{9391fc9c-5042-43d3-a9f1-25d92c967789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -147,18 +159,6 @@
     <ClCompile Include="..\..\src\FileIO\Directory.cpp">
       <Filter>Source Files\FileIO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\ARandom.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\CMWC.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\WELL.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\XorShift.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
@@ -207,12 +207,6 @@
     <ClCompile Include="..\..\src\Math\Quaternion.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\MersenneTwister127.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\MersenneTwister19937.cpp">
-      <Filter>Source Files\Math\Random</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Random\Random.cpp">
       <Filter>Source Files\Math\Random</Filter>
     </ClCompile>
@@ -224,6 +218,33 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp">
       <Filter>Source Files\Math\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Noise\WaveletNoise.cpp">
+      <Filter>Source Files\Math\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\ARandom.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\CMWC.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\MersenneTwister127.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\MersenneTwister19937.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\XorShift.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\WELL.cpp">
+      <Filter>Source Files\Math\Random\PRNGs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\ASampler.cpp">
+      <Filter>Source Files\Math\Random\Samplers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Random\BoxMullerSampler.cpp">
+      <Filter>Source Files\Math\Random\Samplers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,18 +350,6 @@
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\ARandom.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\CMWC.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\WELL.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\XorShift.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp">
       <Filter>Header Files\Events\Events</Filter>
     </ClInclude>
@@ -419,12 +428,6 @@
     <ClInclude Include="..\..\include\Math\Quaternion.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\MersenneTwister127.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\MersenneTwister19937.hpp">
-      <Filter>Header Files\Math\Random</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Math\Random\Random.hpp">
       <Filter>Header Files\Math\Random</Filter>
     </ClInclude>
@@ -436,6 +439,33 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Noise\PerlinNoise.hpp">
       <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Noise\WaveletNoise.hpp">
+      <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\ARandom.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\CMWC.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\MersenneTwister127.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\MersenneTwister19937.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\WELL.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\XorShift.hpp">
+      <Filter>Header Files\Math\Random\PRNGs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\ASampler.hpp">
+      <Filter>Header Files\Math\Random\Samplers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Random\BoxMullerSampler.hpp">
+      <Filter>Header Files\Math\Random\Samplers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
