@@ -19,6 +19,7 @@
 #include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "Math/Random/BoxMullerSampler.hpp"
 #include "OcularEngine.hpp"
+#include <list>
 
 using namespace Ocular::Math::Random;
 
@@ -29,6 +30,8 @@ static const bool RUN_PRNG_TESTS = true;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 static const uint32_t TEXTURE_WIDTH = 800;
 static const uint32_t TEXTURE_HEIGHT = 600;
+
+void OutputAsCSV(std::list<float> const& values, Ocular::Core::File const& outFile);
 
 //------------------------------------------------------------------------------------------
 
@@ -101,6 +104,19 @@ TEST(PRNG, XorShift96)
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/XorShiftTest.png")));
 
+        //----------------------------------------------------------------
+
+        std::list<float> distributionValues;
+
+        for(uint32_t i = 0; i < 10000; i++)
+        {
+            distributionValues.push_back(prng->nextf() * 10.0f);
+        }
+
+        OutputAsCSV(distributionValues, Ocular::Core::File("TestOutput/XorShiftDistribution.csv"));
+
+        //----------------------------------------------------------------
+
         delete texture;
         texture = nullptr;
         prng = nullptr;
@@ -127,8 +143,44 @@ TEST(PRNGSampler, BoxMuller)
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/BoxMullerTest.png")));
 
+        //----------------------------------------------------------------
+
+        std::list<float> distributionValues;
+
+        for(uint32_t i = 0; i < 10000; i++)
+        {
+            distributionValues.push_back(sampler.next() + 5.0f);   // Essentially on range [0.0, 10.0] now
+        }
+
+        OutputAsCSV(distributionValues, Ocular::Core::File("TestOutput/BoxMullerDistribution.csv"));
+
+        //----------------------------------------------------------------
+
         delete texture;
         texture = nullptr;
         prng = nullptr;
+    }
+}
+
+void OutputAsCSV(std::list<float> const& values, Ocular::Core::File const& outFile)
+{
+    std::ofstream outStream(outFile.getFullPath(), std::ios_base::out);
+
+    if(outStream.is_open())
+    {
+        uint32_t probs[1000];
+        memset(probs, 0, sizeof(uint32_t) * 1000);
+
+        for(auto iter = values.begin(); iter != values.end(); iter++)
+        {
+            probs[static_cast<uint32_t>((*iter) * 100.0f)]++;
+        }
+
+        for(uint32_t i = 0; i < 1000; i++)
+        {
+            outStream << i << "," << probs[i] << "\n";
+        }
+
+        outStream.close();
     }
 }

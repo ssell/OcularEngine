@@ -37,7 +37,7 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            float BoxMullerSampler::next()
+            float BoxMullerSampler::next(float const mu, float const sigma)
             {
                 // Sources:
                 // http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
@@ -46,25 +46,43 @@ namespace Ocular
                 float result = 0.0f;
                 float x0 = 0.0f;
                 float x1 = 0.0f;
+                float y0 = 0.0f;
                 float w  = 0.0f;
 
-                do 
-                {
-                    x0 = (2.0f * m_PRNG->nextf()) - 1.0f;
-                    x1 = (2.0f * m_PRNG->nextf()) - 1.0f;
-                    w = (x0 * x0) + (x1 * x1);
-                } 
-                while(w >= 1.0f);
-                
-                w = sqrtf((-2.0f * log(w)) / w);
-                result = x0 * w;
+                static bool useLast = false;
+                static float y1 = 0.0f;
 
-                return result;
+                // We generate two valid values: y0 and y1. Return y0 this call, and y1 next call.
+
+                if(useLast)
+                {
+                    result = y1;
+                    useLast = false;
+                }
+                else
+                {
+                    do 
+                    {
+                        x0 = (2.0f * m_PRNG->nextf()) - 1.0f;
+                        x1 = (2.0f * m_PRNG->nextf()) - 1.0f;
+                        w = (x0 * x0) + (x1 * x1);
+                    } 
+                    while(w >= 1.0f);
+                
+                    w = sqrtf((-2.0f * log(w)) / w);
+                    y0 = x0 * w;
+                    y1 = x1 * w;
+
+                    result = y0;
+                    useLast = true;
+                }
+
+                return (result * sigma) + mu;
             }
 
-            float BoxMullerSampler::next(float const mu, float const sigma)
+            float BoxMullerSampler::next()
             {
-                return (next() * sigma) + mu;
+                return next(0.0f, 1.0f);
             }
 
             //------------------------------------------------------------------------------

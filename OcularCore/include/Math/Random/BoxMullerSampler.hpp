@@ -56,16 +56,14 @@ namespace Ocular
                 BoxMullerSampler(std::shared_ptr<ARandom> const& source);
 
                 /**
-                 * Generates a value using the standard distribution with mean 0 and deviation 1.
-                 * \return Float in the range of [0.0, 1.0]
-                 */
-                virtual float next();
-
-                /**
                  * Generates a value using the specified mean (mu) and deviation (sigma).
-                 * \return Float in the range of [0.0, 1.0]
                  */
                 float next(float const mu, float const sigma);
+
+                /**
+                 * Generates a value using the standard distribution with mean 0 and deviation 1.
+                 */
+                virtual float next();
 
             protected:
 
