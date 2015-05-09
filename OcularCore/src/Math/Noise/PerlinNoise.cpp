@@ -291,12 +291,12 @@ namespace Ocular
 
                 // Lerp across the top and bottom x axis
 
-                float a = Lerp(s, t, sigmoidX);
-                float b = Lerp(u, v, sigmoidX);
+                float a = InterpolateLinear(s, t, sigmoidX);
+                float b = InterpolateLinear(u, v, sigmoidX);
 
                 // Lerp across the y axis
 
-                return Lerp(a, b, sigmoidY);
+                return InterpolateLinear(a, b, sigmoidY);
             }
 
             float PerlinNoise::getRawNoise(float const x, float const y, float const z)

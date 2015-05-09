@@ -467,5 +467,11 @@
     <ClInclude Include="..\..\include\Math\Random\BoxMullerSampler.hpp">
       <Filter>Header Files\Math\Random\Samplers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Math\Interpolation.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Definitions.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,7 +18,9 @@
 #ifndef __H__OCULAR_ENGINE_MATH_COMMON__H__
 #define __H__OCULAR_ENGINE_MATH_COMMON__H__
 
+#include "Definitions.hpp"
 #include "Equality.hpp"
+#include "Interpolation.hpp"
 #include <cmath>
 #include <cstdint>
 
@@ -36,22 +38,6 @@ namespace Ocular
      */
     namespace Math
     {
-        //----------------------------------------------------------------------------------
-        // Common Constants
-        //----------------------------------------------------------------------------------
-
-        static const double ONE_OVER_TWO = 0.5;
-
-        static const double PI           = 3.14159265;
-        static const double PI_TWO       = 6.28318531;
-        static const double PI_OVER_TWO  = 1.57079632;
-        static const double PI_OVER_180  = 0.01745329;
-        static const double PI_UNDER_180 = 57.2957796;
-        static const double PHI          = 1.61803399;
-
-        static const double EPSILON_DOUBLE = 0.0001;
-        static const double EPSILON_FLOAT  = 0.0001f;
-
         //----------------------------------------------------------------------------------
         // Type Checking
         //----------------------------------------------------------------------------------
@@ -348,18 +334,6 @@ namespace Ocular
             {
                 return down;
             }
-        }
-        
-        static float Lerp(float const from, float const to, float const frac)
-        {
-            float f = Clamp<float>(frac);
-            return (from * (1.0f - f)) + (to * f);
-        }
-        
-        static double Lerp(double const from, double const to, double const frac)
-        {
-            double f = Clamp<double>(frac);
-            return (from * (1.0 - f)) + (to * f);
         }
     }
     /**
