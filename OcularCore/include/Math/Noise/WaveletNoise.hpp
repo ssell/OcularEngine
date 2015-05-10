@@ -54,21 +54,31 @@ namespace Ocular
             {
             public:
 
-                WaveletNoise();
+                WaveletNoise(int32_t dimensions);
                 ~WaveletNoise();
 
                 /** 
+                 * Unprojected 3D Wavelet Noise.
+                 *
                  * \param[in] x
                  * \param[in] y
+                 * \param[im] z
                  *
                  * \return Value on range [-1.0, 1.0]
                  */
-                virtual float getValue(float const x, float const y);
+                virtual float getValue(float const x, float const y, float const z);
 
             protected:
 
+                void generate();
+                void downsample(float* from, float* to, int32_t n, int32_t stride);
+                void upsample(float* from, float* to, int32_t n, int32_t stride);
+
             private:
 
+                int32_t m_Dimensions;
+                int32_t m_NoiseSize;
+                float* m_Noise;
             };
         }
         /**

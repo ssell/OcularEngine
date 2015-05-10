@@ -64,16 +64,30 @@ TEST(Noise, Simplex)
     }
 }
 
-TEST(Noise, )
+TEST(Noise, Wavelet)
 {
     if(RUN_NOISE_TESTS)
     {
-        std::shared_ptr<WaveletNoise> noise = std::make_shared<WaveletNoise>();
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
+        Ocular::Math::Noise::WaveletNoise* noise = new Ocular::Math::Noise::WaveletNoise(50);
+        Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(200, 200);
+        
+        float value = 0.0f;
+
+        for(uint32_t y = 0; y < 200; y++)
+        {
+            for(uint32_t x = 0; x < 200; x++)
+            {
+                float value = (noise->getValue(static_cast<float>(x) / 10.0f, static_cast<float>(y) / 10.0f, 5.0f) + 1.0f) * 0.5f;
+                texture->setPixel(x, y, Ocular::Color(value, value, value, 1.0f));
+            }
+        }
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/WaveletNoise.png")));
 
+        delete noise;
         delete texture;
+
+        noise = nullptr;
         texture = nullptr;
     }
 }
