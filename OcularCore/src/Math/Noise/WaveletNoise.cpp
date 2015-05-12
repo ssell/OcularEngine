@@ -54,6 +54,7 @@ namespace Ocular
 
                 m_NoiseSize = (m_Dimensions * m_Dimensions * m_Dimensions);
                 m_Noise = new float[m_NoiseSize];
+                m_Scale = 1.0f;
 
                 generate();
             }
@@ -68,7 +69,71 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
+            float WaveletNoise::getValue(float const x)
+            {
+                return getValue(x, 0.0f, 0.0f);
+            }
+
+            float WaveletNoise::getValue(float const x, float const y)
+            {
+                return getValue(x, y, 0.0f);
+            }
+
             float WaveletNoise::getValue(float const x, float const y, float const z)
+            {
+                return getValue(x, y, z, 0.0f, 0.0f, 0.0f);
+            }
+
+            float WaveletNoise::getValue(float const pX, float const pY, float const pZ, float const nX, float const nY, float nZ)
+            {
+                float result = 0.0f;
+
+                if(m_BandWeights.size() == 0)
+                {
+                    result = getRawNoise(Vector3f((pX * m_Scale), (pY * m_Scale), (pZ * m_Scale)));
+                }
+                else
+                {
+                    float variance = 0.0f;
+                    float weight = 0.0f;
+                    float q[3] = {0.0f, 0.0f, 0.0f};
+
+                    for(uint32_t band = 0; band < m_BandWeights.size(); band++)
+                    {
+                        q[0] = 2.0f * (pX * m_Scale) * static_cast<float>(pow(2.0f, band));
+                        q[1] = 2.0f * (pY * m_Scale) * static_cast<float>(pow(2.0f, band));
+                        q[2] = 2.0f * (pZ * m_Scale) * static_cast<float>(pow(2.0f, band));
+
+                        weight = m_BandWeights[band];
+                        result += weight * getRawNoise(Vector3f(q[0], q[1], q[2])); //getRawProjectedNoise(Vector3f(q[0], q[1], q[2]), Vector3f(nX, nY, nZ));
+                        variance += (weight * weight);
+                    }
+
+                    // Adjust the noise so it has a variance of 1
+                    if(variance)
+                    {
+                        result /= sqrtf(variance * 0.296f);
+                    }
+                }
+
+                return result;
+            }
+
+            void WaveletNoise::setBandWeights(std::vector<float> const& weights)
+            {
+                m_BandWeights = weights;
+            }
+
+            void WaveletNoise::setScale(float const scale)
+            {
+                m_Scale = scale;
+            }
+
+            //------------------------------------------------------------------------------
+            // PROTECTED METHODS
+            //------------------------------------------------------------------------------
+
+            float WaveletNoise::getRawNoise(Vector3f const& position)
             {
                 int32_t i = 0;
                 int32_t n = m_Dimensions;
@@ -76,7 +141,6 @@ namespace Ocular
                 int32_t c[3] = {0, 0, 0};
                 int32_t mid[3] = {0, 0, 0};
 
-                float p[3] = {x, y, z};
                 float w[3][3] = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}};
                 float t = 0.0f;
                 float result = 0.0f;
@@ -86,8 +150,8 @@ namespace Ocular
 
                 for(i = 0; i < 3; i++)
                 {
-                    mid[i] = static_cast<int32_t>(ceil(p[i] - 0.5f));
-                    t = mid[i] - (p[i] - 0.5f);
+                    mid[i] = static_cast<int32_t>(ceil(position[i] - 0.5f));
+                    t = mid[i] - (position[i] - 0.5f);
 
                     w[i][0] = t * t / 2.0f;
                     w[i][2] = (1.0f - t) * (1.0f - t) / 2.0f;
@@ -121,9 +185,83 @@ namespace Ocular
                 return result;
             }
 
-            //------------------------------------------------------------------------------
-            // PROTECTED METHODS
-            //------------------------------------------------------------------------------
+            float WaveletNoise::getRawProjectedNoise(Vector3f const& position, Vector3f const& normals)
+            {
+                float result = 0.0f;
+                float support = 0.0f;
+
+                int32_t c[3]   = {0, 0, 0};
+                int32_t min[3] = {0, 0, 0};
+                int32_t max[3] = {0, 0, 0};
+
+                //---------------------------------------------------
+                // Bound the support of the basis functions for this projection direction
+
+                for(int32_t i = 0; i < 3; i++)
+                {
+                    support = (3.0f * (abs(normals[i]))) + (3.0f * sqrt((1.0f - (normals[i] * normals[i])) / 2.0f));
+                    min[i]  = static_cast<int32_t>(ceil(position[i] - support));
+                    max[i]  = static_cast<int32_t>(ceil(position[i] + support));
+                }
+
+                //---------------------------------------------------
+                // Loop over the noise coefficients within the bound
+
+                float t      = 0.0f;
+                float t1     = 0.0f;
+                float t2     = 0.0f;
+                float t3     = 0.0f;
+                float dot    = 0.0f;
+                float weight = 0.0f;
+
+                for(c[2] = min[2]; c[2] <= max[2]; c[2]++)
+                {
+                    for(c[1] = min[1]; c[1] <= max[1]; c[1]++)
+                    {
+                        for(c[0] = min[0]; c[0] <= max[0]; c[0]++)
+                        {
+                            dot = 0.0f;
+                            weight = 1.0f;
+
+                            // Dot the normal with the vector from c to p
+                            dot += normals[0] * (position[0] - static_cast<float>(c[0]));
+                            dot += normals[1] * (position[1] - static_cast<float>(c[1]));
+                            dot += normals[2] * (position[2] - static_cast<float>(c[2]));
+
+                            // Evaluate the basis function at c moved halfway to p along the normal
+                            for(int32_t i = 0; i < 3; i++)
+                            {
+                                t  = (static_cast<float>(c[i]) + (normals[i] * dot / 2.0f)) - (position[i] - 1.5f);
+                                t1 = t - 1.0f;
+                                t2 = 2.0f - t;
+                                t3 = 3.0f - t;
+
+                                if((t <= 0.0f) || (t >= 3.0f))
+                                {
+                                    weight *= 0.0f;
+                                }
+                                else if(t < 1.0f)
+                                {
+                                    weight *= t * (t / 2.0f);
+                                }
+                                else if(t < 2.0f)
+                                {
+                                    weight *= 1.0f - ((t1 * t1) + (t2 * t2)) / 2.0f;
+                                }
+                                else 
+                                {
+                                    weight *= (t3 * t3) / 2.0f;
+                                }
+                            }
+
+                            // Evaluate the noise by weighting noice coefficients by basis function values
+                            result += weight * m_Noise[((mod(c[2], m_Dimensions) * m_Dimensions * m_Dimensions) + (mod(c[1], m_Dimensions) * m_Dimensions) + mod(c[0], m_Dimensions))];
+                        }
+                    }
+                }
+
+                return result;
+            }
 
             void WaveletNoise::generate()
             {

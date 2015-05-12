@@ -68,9 +68,18 @@ TEST(Noise, Wavelet)
 {
     if(RUN_NOISE_TESTS)
     {
-        Ocular::Math::Noise::WaveletNoise* noise = new Ocular::Math::Noise::WaveletNoise(50);
+        Ocular::Math::Noise::WaveletNoise* noise = new Ocular::Math::Noise::WaveletNoise(64);
         Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(200, 200);
         
+        std::vector<float> bandWeights;
+        bandWeights.push_back(0.1f);
+        bandWeights.push_back(0.3f);
+        bandWeights.push_back(0.6f);
+        bandWeights.push_back(0.1f);
+
+        noise->setBandWeights(bandWeights);
+        noise->setScale(0.04f);
+
         float value = 0.0f;
 
         for(uint32_t y = 0; y < 200; y++)
