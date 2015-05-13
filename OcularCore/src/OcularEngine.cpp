@@ -39,9 +39,10 @@ namespace Ocular
 
     Engine::Engine()
     {
-        m_Logger = std::make_shared<Core::Logger>();
+        m_Logger          = std::make_shared<Core::Logger>();
         m_Clock           = std::make_shared<Core::Clock>();
         m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();
+        m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
@@ -52,6 +53,14 @@ namespace Ocular
     Engine::~Engine()
     {
         m_IsRunning = false;
+
+        m_Logger          = nullptr;
+        m_Clock           = nullptr;
+        m_UIDGenerator    = nullptr;
+        m_HashGenerator   = nullptr;
+        m_EventManager    = nullptr;
+        m_ResourceManager = nullptr;
+        m_WindowManager   = nullptr;
     }
 
     //--------------------------------------------------------------------------------------
@@ -107,6 +116,11 @@ namespace Ocular
     std::shared_ptr<Core::WindowManager> Engine::WindowManager()
     {
         return m_WindowManager;
+    }
+
+    std::shared_ptr<Utils::HashGenerator> Engine::HashGenerator()
+    {
+        return m_HashGenerator;
     }
 
     std::shared_ptr<Utils::UIDGenerator> Engine::UIDGenerator()

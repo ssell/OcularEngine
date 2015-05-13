@@ -24,6 +24,7 @@
 #include "Events/EventManager.hpp"
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/UIDGenerator.hpp"
+#include "Utilities/HashGenerator.hpp"
 #include "Resources/ResourceManager.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -103,6 +104,11 @@ namespace Ocular
          * \return Reference to the primary UID Generator
          */
         std::shared_ptr<Utils::UIDGenerator> UIDGenerator();
+        
+        /**
+         * \return Reference to the primary Hash Generator
+         */
+        std::shared_ptr<Utils::HashGenerator> HashGenerator();
 
         /**
          * \return Reference to the primary ResourceManager
@@ -145,6 +151,7 @@ namespace Ocular
         std::shared_ptr<Core::ResourceManager> m_ResourceManager;
         std::shared_ptr<Core::WindowManager>   m_WindowManager;
         std::shared_ptr<Utils::UIDGenerator>   m_UIDGenerator;
+        std::shared_ptr<Utils::HashGenerator>  m_HashGenerator;
 
         bool m_IsRunning;
     };

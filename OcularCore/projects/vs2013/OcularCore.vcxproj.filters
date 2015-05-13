@@ -246,6 +246,9 @@
     <ClCompile Include="..\..\src\Math\Random\BoxMullerSampler.cpp">
       <Filter>Source Files\Math\Random\Samplers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Definitions.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -208,6 +208,7 @@
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
+    <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp" />
   </ItemGroup>
@@ -281,6 +282,7 @@
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />

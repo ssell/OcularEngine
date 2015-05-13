@@ -19,13 +19,6 @@
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
-#include "Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
-#include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
-#include "Texture/TextureLoaders/TextureResourceLoader_TGA.hpp"
-#include "Texture/Texture2D.hpp"
-
 Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
@@ -58,6 +51,18 @@ int main(int argc, char** argv)
     Ocular::Core::SystemInfo::logSystemInfo();
 
     runTests(argc, argv);
+
+    // Hash test real quick
+
+    std::string str = "Hello World!";
+    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
+    OcularLogger->info("'", str, "' 64-> ", OcularEngine.HashGenerator()->getHash64(str));
+    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
+
+    str = "Hell0 W0rld!";
+    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
+    OcularLogger->info("'", str, "' 64-> ", OcularEngine.HashGenerator()->getHash64(str));
+    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
 
     OcularEngine.shutdown();
 }
