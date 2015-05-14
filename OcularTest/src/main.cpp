@@ -18,7 +18,7 @@
 #include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
-
+#include "UUID.hpp"
 Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
@@ -52,17 +52,23 @@ int main(int argc, char** argv)
 
     runTests(argc, argv);
 
-    // Hash test real quick
-
-    std::string str = "Hello World!";
-    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
-    OcularLogger->info("'", str, "' 64-> ", OcularEngine.HashGenerator()->getHash64(str));
-    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
-
-    str = "Hell0 W0rld!";
-    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
-    OcularLogger->info("'", str, "' 64-> ", OcularEngine.HashGenerator()->getHash64(str));
-    OcularLogger->info("'", str, "' 32-> ", OcularEngine.HashGenerator()->getHash32(str));
+    // UUID test real quick
+    
+    Ocular::Core::UUID uuid0;
+    Ocular::Core::UUID uuid1;
+    Ocular::Core::UUID uuid2;
+    
+    OcularLogger->info("UUID0 String: ", uuid0.toString());
+    OcularLogger->info("UUID0 Hash32: ", uuid0.getHash32());
+    OcularLogger->info("UUID0 Hash64: ", uuid0.getHash64());
+    
+    OcularLogger->info("UUID1 String: ", uuid1.toString());
+    OcularLogger->info("UUID1 Hash32: ", uuid1.getHash32());
+    OcularLogger->info("UUID1 Hash64: ", uuid1.getHash64());
+    
+    OcularLogger->info("UUID2 String: ", uuid2.toString());
+    OcularLogger->info("UUID2 Hash32: ", uuid2.getHash32());
+    OcularLogger->info("UUID2 Hash64: ", uuid2.getHash64());
 
     OcularEngine.shutdown();
 }

@@ -56,11 +56,11 @@ namespace Ocular
 #endif
         }
 
-        void WindowManager::closeWindow(unsigned long long const uid)
+        void WindowManager::closeWindow(UUID const& uuid)
         {
             bool needNewMainWindow = false;
 
-            if((m_MainWindow != nullptr) && (m_MainWindow->getUID() == uid))
+            if((m_MainWindow != nullptr) && (m_MainWindow->getUUID() == uuid))
             {
                 // We are deleting the main window, set it to next available window when done
                 needNewMainWindow = true;
@@ -70,7 +70,7 @@ namespace Ocular
 
             for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
-                if((*iter)->getUID() == uid)
+                if((*iter)->getUUID() == uuid)
                 {
                     //--------------------------------
                     // Close, release, and stop tracking the window
@@ -110,7 +110,7 @@ namespace Ocular
         {
             while(m_Windows.size() > 0)
             {
-                closeWindow(m_Windows.front()->getUID());
+                closeWindow(m_Windows.front()->getUUID());
             }
         }
 
@@ -124,13 +124,13 @@ namespace Ocular
             return m_Windows.size();
         }
 
-        std::shared_ptr<AWindow> WindowManager::getWindow(unsigned long long const uid)
+        std::shared_ptr<AWindow> WindowManager::getWindow(UUID const& uuid)
         {
             std::list<std::shared_ptr<AWindow>>::iterator iter;
 
             for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
-                if((*iter)->getUID() == uid)
+                if((*iter)->getUUID() == uuid)
                 {
                     return (*iter);
                 }
@@ -144,9 +144,9 @@ namespace Ocular
             return m_MainWindow;
         }
 
-        void WindowManager::setMainWindow(unsigned long long const uid)
+        void WindowManager::setMainWindow(UUID const& uuid)
         {
-            m_MainWindow = getWindow(uid);
+            m_MainWindow = getWindow(uuid);
         }
         
         void WindowManager::updateWindows(long long time)

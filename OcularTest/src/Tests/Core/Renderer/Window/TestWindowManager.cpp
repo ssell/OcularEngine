@@ -15,14 +15,15 @@
  */
 
 #include "OcularEngine.hpp"
+#include "UUID.hpp"
 #include "Renderer/Window/Window.hpp"
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
 
-unsigned long long g_WindowUID0 = 0;
-unsigned long long g_WindowUID1 = 0;
-unsigned long long g_WindowUID2 = 0;
+Ocular::Core::UUID g_WindowUID0;
+Ocular::Core::UUID g_WindowUID1;
+Ocular::Core::UUID g_WindowUID2;
 
 void TestOpenWindows()
 {
@@ -42,13 +43,9 @@ void TestOpenWindows()
     EXPECT_TRUE((window1.get() != nullptr));
     EXPECT_TRUE((window2.get() != nullptr));
 
-    g_WindowUID0 = window0->getUID();
-    g_WindowUID1 = window1->getUID();
-    g_WindowUID2 = window2->getUID();
-
-    EXPECT_FALSE(g_WindowUID0 == 0);
-    EXPECT_FALSE(g_WindowUID1 == 0);
-    EXPECT_FALSE(g_WindowUID2 == 0);
+    g_WindowUID0 = window0->getUUID();
+    g_WindowUID1 = window1->getUUID();
+    g_WindowUID2 = window2->getUUID();
 }
 
 void TestRetrieveWindows()
@@ -70,12 +67,12 @@ void TestCloseWindows()
     //------------------------------------------------
     // Test MainWindow switch
 
-    unsigned long long mainWindowUID = OcularEngine.WindowManager()->getMainWindow()->getUID();
+    Ocular::Core::UUID mainWindowUID = OcularEngine.WindowManager()->getMainWindow()->getUUID();
     EXPECT_EQ(mainWindowUID, g_WindowUID0);
 
     OcularEngine.WindowManager()->closeWindow(g_WindowUID0);
 
-    mainWindowUID = OcularEngine.WindowManager()->getMainWindow()->getUID();
+    mainWindowUID = OcularEngine.WindowManager()->getMainWindow()->getUUID();
     EXPECT_EQ(mainWindowUID, g_WindowUID2);    // This will fail if any Windows were created, and not destroy, prior to this test being run.
                                                // Also remember new windows are added to front of window list, so next is line for MainWindow 
                                                // will actually be the most recently created window.

@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-#include "Object.hpp"
+#include "UUID.hpp"
 #include "OcularEngine.hpp"
+#include "Math/MathCommon.hpp"
+
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/random_generator.hpp>
 #include <sstream>
 
 //------------------------------------------------------------------------------------------
+
+static boost::uuids::random_generator g_UUIDGenerator;
 
 namespace Ocular
 {
@@ -27,73 +33,80 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-    
-        Object::Object(std::string name, std::string className)
-            : m_Name(name), m_Class(className), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
-        {
 
+        UUID::UUID()
+        {
+            boost::uuids::uuid uuid = g_UUIDGenerator();
+            memcpy(m_Data, &uuid, sizeof(uint8_t) * 16);
+
+            std::stringstream sstream;
+            sstream << static_cast<uint32_t>(m_Data[0]) << "-"
+                    << static_cast<uint32_t>(m_Data[4]) << "-"
+                    << static_cast<uint32_t>(m_Data[8]) << "-"
+                    << static_cast<uint32_t>(m_Data[12]);
+
+            m_String = sstream.str();
+            m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
+            m_Hash64 = OcularEngine.HashGenerator()->getHash64(m_String);
         }
 
-        Object::Object(std::string name)
-            : m_Name(name), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
+        UUID::~UUID()
         {
         
         }
-    
-        Object::Object()
-            : m_Name("Name"), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
-        {
-        
-        }
-    
-        Object::~Object()
-        {
-        
-        }
-    
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-    
-        void Object::setName(std::string name)
+
+        bool UUID::operator==(UUID const& rhs) const
         {
-            m_Name = name;
-        }
-    
-        std::string Object::getName() const
-        {
-            return m_Name;
+            bool result = true;
+
+            for(uint32_t i = 0; i < 16; i++)
+            {
+                if(m_Data[i] != rhs.getData(i))
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
         }
 
-        std::string Object::getClass() const
+        bool UUID::operator!=(UUID const& rhs) const
         {
-            return m_Class;
-        }
-    
-        UUID Object::getUUID() const
-        {
-            return m_UUID;
+            return !(*this == rhs);
         }
 
-        int64_t Object::getCreationTime() const
+        uint8_t UUID::getData(uint32_t const index) const
         {
-            return m_CreationTime;
+            return m_Data[Math::Clamp<uint32_t>(index, 0, 15)];
         }
-    
-        std::string Object::toString() const
+
+        std::string UUID::toString() const
         {
-            std::stringstream sstream;
-            sstream << "Class[" << m_Class << "] Name['" << m_Name << "'] UID[" << m_UUID.toString() << "]";
-        
-            return sstream.str();
+            return m_String;
         }
-    
+
+        uint32_t UUID::getHash32() const
+        {
+            return m_Hash32;
+        }
+
+        uint64_t UUID::getHash64() const
+        {
+            return m_Hash64;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-    
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
     }
 }

@@ -144,9 +144,6 @@
     <ClCompile Include="..\..\src\Events\AEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Events\EventManager.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
@@ -249,6 +246,9 @@
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -310,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\UIDGenerator.hpp">
-      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
@@ -478,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\UUID.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

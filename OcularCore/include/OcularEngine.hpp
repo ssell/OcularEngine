@@ -23,7 +23,6 @@
 #include "Time/Clock.hpp"
 #include "Events/EventManager.hpp"
 #include "Renderer/Window/WindowManager.hpp"
-#include "Utilities/UIDGenerator.hpp"
 #include "Utilities/HashGenerator.hpp"
 #include "Resources/ResourceManager.hpp"
 
@@ -99,11 +98,6 @@ namespace Ocular
          * \return Reference to the primary WindowManager
          */
         std::shared_ptr<Core::WindowManager> WindowManager();
-
-        /**
-         * \return Reference to the primary UID Generator
-         */
-        std::shared_ptr<Utils::UIDGenerator> UIDGenerator();
         
         /**
          * \return Reference to the primary Hash Generator
@@ -136,7 +130,6 @@ namespace Ocular
 
         void setupLogger();
         void setupClock();
-        void setupUID();
         void setupEvents();
         void setupWindowManager();
         void setupResourceManager();
@@ -150,7 +143,6 @@ namespace Ocular
         std::shared_ptr<Core::Logger>          m_Logger;
         std::shared_ptr<Core::ResourceManager> m_ResourceManager;
         std::shared_ptr<Core::WindowManager>   m_WindowManager;
-        std::shared_ptr<Utils::UIDGenerator>   m_UIDGenerator;
         std::shared_ptr<Utils::HashGenerator>  m_HashGenerator;
 
         bool m_IsRunning;

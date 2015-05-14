@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_UTILS_UID_GENERATOR__H__
-#define __H__OCULAR_UTILS_UID_GENERATOR__H__
+#ifndef __H__OCULAR_CORE_UUID__H__
+#define __H__OCULAR_CORE_UUID__H__
 
-#include <mutex>
+#include <cstdint>
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -29,33 +30,40 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Utils
+     * \addtogroup Core
      * @{
      */
-    namespace Utils
+    namespace Core
     {
         /**
-         * \class UIDGenerator
+         * \class UUID
          */
-        class UIDGenerator
+        class UUID
         {
         public:
 
-            UIDGenerator();
-            ~UIDGenerator();
+            UUID();
+            ~UUID();
 
-            /**
-             * \return The next UID
-             * \note This operation is thread-safe
-             */
-            unsigned long long next();
+            bool operator==(UUID const& rhs) const;
+            bool operator!=(UUID const& rhs) const;
+
+            uint8_t getData(uint32_t const index) const;
+
+            std::string toString() const;
+
+            uint32_t getHash32() const;
+            uint64_t getHash64() const;
 
         protected:
 
         private:
 
-            unsigned long long m_UID;
-            std::mutex m_Mutex;
+            uint8_t  m_Data[16];
+            uint32_t m_Hash32;
+            uint64_t m_Hash64;
+
+            std::string m_String;
         };
     }
     /**

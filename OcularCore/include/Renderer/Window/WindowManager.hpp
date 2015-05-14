@@ -68,7 +68,7 @@ namespace Ocular
              * Destroys the Window with the specified UID.
              * \param uid
              */
-            void closeWindow(unsigned long long uid);
+            void closeWindow(UUID const& uuid);
 
             /**
              * Destroys all windows.
@@ -94,7 +94,7 @@ namespace Ocular
              * \param uid
              * \return A pointer to the window. If nullptr, then no window matches the specified UID.
              */
-            std::shared_ptr<AWindow> getWindow(unsigned long long uid);
+            std::shared_ptr<AWindow> getWindow(UUID const& uuid);
 
             /**
              * Returns a pointer to the main/primary window.
@@ -107,7 +107,7 @@ namespace Ocular
              *
              * \param uid
              */
-            void setMainWindow(unsigned long long uid);
+            void setMainWindow(UUID const& uuid);
 
             /**
              * Calls the update method for all tracked windows.<br/>

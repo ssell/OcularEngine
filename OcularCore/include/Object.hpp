@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_OBJECT__H__
 #define __H__OCULAR_OBJECT__H__
 
+#include "UUID.hpp"
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -84,12 +85,12 @@ namespace Ocular
             /**
              * \return The UID of the Object
              */
-            unsigned long long getUID() const;
+            UUID getUUID() const;
 
             /**
              * \return The time this object was created in MS since engine initialization
              */
-            long long getCreationTime() const;
+            int64_t getCreationTime() const;
         
             /**
              * \return The string representation of the Object
@@ -101,8 +102,8 @@ namespace Ocular
             std::string m_Name;   /**< Non-unique name of the Object */
             std::string m_Class;  /**< Name of the class of which Object is an instance */
 
-            const unsigned long long m_UID;    /**< Unique integer identifier */
-            const long long m_CreationTime;
+            const UUID m_UUID;
+            const int64_t m_CreationTime;
         
         private:
         };

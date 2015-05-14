@@ -268,10 +268,10 @@ namespace Ocular
 
             case WM_SIZE:
                 OcularEngine.EventManager()->queueEvent(std::make_shared<Events::WindowResizeEvent>(
-                    OcularEngine.WindowManager()->getWindow(m_UID),   // Smart pointer to this window
-                    static_cast<unsigned>(LOWORD(lParam)),            // New width
-                    static_cast<unsigned>(HIWORD(lParam)),            // New height
-                    static_cast<WindowResizeType>(wParam)));          // Type of resize event
+                    OcularEngine.WindowManager()->getWindow(m_UUID),   // Smart pointer to this window
+                    static_cast<unsigned>(LOWORD(lParam)),             // New width
+                    static_cast<unsigned>(HIWORD(lParam)),             // New height
+                    static_cast<WindowResizeType>(wParam)));           // Type of resize event
                 return 0;
 
             default:

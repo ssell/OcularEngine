@@ -210,7 +210,7 @@
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringOps.cpp" />
-    <ClCompile Include="..\..\src\Utilities\UIDGenerator.cpp" />
+    <ClCompile Include="..\..\src\UUID.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
@@ -288,7 +288,7 @@
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
-    <ClInclude Include="..\..\include\Utilities\UIDGenerator.hpp" />
+    <ClInclude Include="..\..\include\UUID.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

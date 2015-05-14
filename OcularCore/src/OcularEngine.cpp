@@ -41,7 +41,6 @@ namespace Ocular
     {
         m_Logger          = std::make_shared<Core::Logger>();
         m_Clock           = std::make_shared<Core::Clock>();
-        m_UIDGenerator    = std::make_shared<Utils::UIDGenerator>();
         m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
@@ -56,7 +55,6 @@ namespace Ocular
 
         m_Logger          = nullptr;
         m_Clock           = nullptr;
-        m_UIDGenerator    = nullptr;
         m_HashGenerator   = nullptr;
         m_EventManager    = nullptr;
         m_ResourceManager = nullptr;
@@ -71,7 +69,6 @@ namespace Ocular
     {
         setupClock();
         setupLogger();
-        setupUID();
         setupEvents();
         setupWindowManager();
         setupResourceManager();
@@ -123,11 +120,6 @@ namespace Ocular
         return m_HashGenerator;
     }
 
-    std::shared_ptr<Utils::UIDGenerator> Engine::UIDGenerator()
-    {
-        return m_UIDGenerator;
-    }
-
     std::shared_ptr<Core::ResourceManager> Engine::ResourceManager()
     {
         return m_ResourceManager;
@@ -174,11 +166,6 @@ namespace Ocular
     }
 
     void Engine::setupClock()
-    {
-        
-    }
-
-    void Engine::setupUID()
     {
         
     }

@@ -163,7 +163,7 @@ namespace Ocular
             //----------------------------------------
             // Log this event
 
-            OcularEngine.Logger()->info("Event [", event->getUID(), "] Fired: "
+            OcularEngine.Logger()->info("Event [", event->getUUID().toString(), "] Fired: "
                                         "\n\tPriority: ", event->getPriority(),
                                         "\n\t    Type: ", event->getName(),
                                         "\n\t      On: ", event->getCreationTime());
