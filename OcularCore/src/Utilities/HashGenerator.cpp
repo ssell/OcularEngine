@@ -66,7 +66,15 @@ namespace Ocular
 
         uint32_t HashGenerator::getHash32(std::string const& str)
         {
-            uint32_t result = m_LastHash32;
+            uint32_t result = getHash32(str, m_LastHash32);
+            m_LastHash32 = result;
+
+            return result;
+        }
+
+        uint32_t HashGenerator::getHash32(std::string const& str, uint32_t last)
+        {
+            uint32_t result = last;
 
             const char* buffer = str.c_str();
             uint8_t* s = (uint8_t*)buffer;
@@ -80,16 +88,20 @@ namespace Ocular
                 result *= FNV_PRIME_32;
             }
 
-            //----------------------------------------
-            // Store and return result
-
-            m_LastHash32 = result;
             return result;
         }
 
         uint64_t HashGenerator::getHash64(std::string const& str)
         {
-            uint64_t result = m_LastHash64;
+            uint64_t result = getHash64(str, m_LastHash64);
+            m_LastHash64 = result;
+
+            return result;
+        }
+
+        uint64_t HashGenerator::getHash64(std::string const& str, uint64_t last)
+        {
+            uint64_t result = last;
 
             const char* buffer = str.c_str();
             uint8_t* s = (uint8_t*)buffer;
@@ -103,10 +115,6 @@ namespace Ocular
                 result *= FNV_PRIME_64;
             }
 
-            //----------------------------------------
-            // Store and return result
-
-            m_LastHash64 = result;
             return result;
         }
 

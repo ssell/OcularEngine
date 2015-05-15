@@ -39,6 +39,19 @@ namespace Ocular
          * \class HashGenerator
          *
          * Generates 32 or 64-bit hash values from strings using the FNV-1A algorithm.
+         *
+         * Internally, this class tracks the previous hash value (one 32 and one 64) to be used
+         * when computing a new hash. This is used to avoid collisions by generating different
+         * hashes for identical strings. Example:
+         *
+         *     getHash32("Hello World!")  ->  3422776359
+         *     gethash32("Hello World!")  ->  707894204
+         *
+         * If one wants to create reproducible hashes, they can use the alternate getter methods
+         * which allow the specifying of their own last hash value. Example:
+         *
+         *     getHash32("Hello World!", 0)  ->  3422776359
+         *     getHash32("Hello World!", 0)  ->  3422776359
          * 
          * Original Source:
          * http://isthe.com/chongo/tech/comp/fnv/
@@ -71,6 +84,24 @@ namespace Ocular
              * \return 64-bit hash value.
              */
             uint64_t getHash64(std::string const& str);
+
+            /**
+             * Generates a 32-bit hash value from the specified string.
+             * By specifying your own last value, you can create reproducible hash values.
+             *
+             * \param[in] str
+             * \param[in] last
+             */
+            uint32_t getHash32(std::string const& str, uint32_t last);
+
+            /**
+             * Generates a 64-bit hash value from the specified string.
+             * By specifying your own last value, you can create reproducible hash values.
+             *
+             * \param[in] str
+             * \param[in] last
+             */
+            uint64_t getHash64(std::string const& str, uint64_t last);
 
         protected:
 

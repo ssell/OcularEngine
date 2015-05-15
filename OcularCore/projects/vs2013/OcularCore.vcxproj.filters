@@ -479,5 +479,8 @@
     <ClInclude Include="..\..\include\UUID.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Math\Noise\WorleyNoise.hpp">
+      <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

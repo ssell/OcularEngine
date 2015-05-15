@@ -20,6 +20,7 @@
 
 #include <cstdint>
 #include <string>
+#include <boost/uuid/uuid.hpp>
 
 //------------------------------------------------------------------------------------------
 
@@ -48,18 +49,45 @@ namespace Ocular
             bool operator==(UUID const& rhs) const;
             bool operator!=(UUID const& rhs) const;
 
+            /**
+             * Retrieves an individual octet of the UUID. The UUID
+             * is 128 bits in total, or 16 octets.
+             *
+             * \param[in] index Octet index on range [0,16)
+             */
             uint8_t getData(uint32_t const index) const;
 
+            /**
+             * Retrieves a string representation of the UUID in the following form:
+             *
+             *     #-#-#-#
+             *
+             * Where # is a 32-bit chunk of the UUID data. Example:
+             *
+             *     131-61-182-198
+             */
             std::string toString() const;
 
+            /**
+             * Retrieves a 32-bit hash of the string representation of the UUID. Example:
+             *
+             *     131-61-182-198  ->  1972099726
+             */
             uint32_t getHash32() const;
+
+            /**
+             * Retrieves a 64-bit hash of the string representation of the UUID. Example:
+             *
+             *     131-61-182-198  ->  6721546136592699182
+             */
             uint64_t getHash64() const;
 
         protected:
 
         private:
 
-            uint8_t  m_Data[16];
+            boost::uuids::uuid m_UUID;
+
             uint32_t m_Hash32;
             uint64_t m_Hash64;
 

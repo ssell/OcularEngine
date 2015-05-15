@@ -18,7 +18,8 @@
 #include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
-#include "UUID.hpp"
+#include "Utilities/HashGenerator.hpp"
+
 Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
@@ -52,23 +53,21 @@ int main(int argc, char** argv)
 
     runTests(argc, argv);
 
-    // UUID test real quick
+    // Hash testing
+
+    Ocular::Utils::HashGenerator hashGen0;
+    Ocular::Utils::HashGenerator hashGen1;
     
-    Ocular::Core::UUID uuid0;
-    Ocular::Core::UUID uuid1;
-    Ocular::Core::UUID uuid2;
+    uint32_t hash0 = hashGen0.getHash32("Hello World!");
+    uint32_t hash1 = hashGen0.getHash32("Hello World!");
     
-    OcularLogger->info("UUID0 String: ", uuid0.toString());
-    OcularLogger->info("UUID0 Hash32: ", uuid0.getHash32());
-    OcularLogger->info("UUID0 Hash64: ", uuid0.getHash64());
+    uint32_t hash2 = hashGen1.getHash32("Hello World!", 0);
+    uint32_t hash3 = hashGen1.getHash32("Hello World!", 0);
     
-    OcularLogger->info("UUID1 String: ", uuid1.toString());
-    OcularLogger->info("UUID1 Hash32: ", uuid1.getHash32());
-    OcularLogger->info("UUID1 Hash64: ", uuid1.getHash64());
-    
-    OcularLogger->info("UUID2 String: ", uuid2.toString());
-    OcularLogger->info("UUID2 Hash32: ", uuid2.getHash32());
-    OcularLogger->info("UUID2 Hash64: ", uuid2.getHash64());
+    OcularLogger->info("Hash0: ", hash0);
+    OcularLogger->info("Hash1: ", hash1);
+    OcularLogger->info("Hash2: ", hash2);
+    OcularLogger->info("Hash3: ", hash3);
 
     OcularEngine.shutdown();
 }

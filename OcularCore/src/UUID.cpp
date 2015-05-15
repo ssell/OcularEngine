@@ -18,7 +18,6 @@
 #include "OcularEngine.hpp"
 #include "Math/MathCommon.hpp"
 
-#include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <sstream>
 
@@ -36,14 +35,13 @@ namespace Ocular
 
         UUID::UUID()
         {
-            boost::uuids::uuid uuid = g_UUIDGenerator();
-            memcpy(m_Data, &uuid, sizeof(uint8_t) * 16);
+            m_UUID = g_UUIDGenerator();
 
             std::stringstream sstream;
-            sstream << static_cast<uint32_t>(m_Data[0]) << "-"
-                    << static_cast<uint32_t>(m_Data[4]) << "-"
-                    << static_cast<uint32_t>(m_Data[8]) << "-"
-                    << static_cast<uint32_t>(m_Data[12]);
+            sstream << static_cast<uint32_t>(m_UUID.data[0]) << "-"
+                    << static_cast<uint32_t>(m_UUID.data[4]) << "-"
+                    << static_cast<uint32_t>(m_UUID.data[8]) << "-"
+                    << static_cast<uint32_t>(m_UUID.data[12]);
 
             m_String = sstream.str();
             m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
@@ -61,18 +59,17 @@ namespace Ocular
 
         bool UUID::operator==(UUID const& rhs) const
         {
-            bool result = true;
+            boost::uuids::uuid rhsUUID;
+            uint8_t rhsRaw[16];
 
             for(uint32_t i = 0; i < 16; i++)
             {
-                if(m_Data[i] != rhs.getData(i))
-                {
-                    result = false;
-                    break;
-                }
+                rhsRaw[i] = rhs.getData(i);
             }
 
-            return result;
+            memcpy(&rhsUUID, rhsRaw, sizeof(uint8_t) * 16);
+
+            return (m_UUID == rhsUUID);
         }
 
         bool UUID::operator!=(UUID const& rhs) const
@@ -82,7 +79,7 @@ namespace Ocular
 
         uint8_t UUID::getData(uint32_t const index) const
         {
-            return m_Data[Math::Clamp<uint32_t>(index, 0, 15)];
+            return m_UUID.data[Math::Clamp<uint32_t>(index, 0, 15)];
         }
 
         std::string UUID::toString() const
