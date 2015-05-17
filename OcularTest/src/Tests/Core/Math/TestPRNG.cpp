@@ -17,9 +17,11 @@
 #include "gtest/gtest.h"
 #include "Texture/NoiseTexture2D.hpp"
 #include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
-#include "Math/Random/BoxMullerSampler.hpp"
 #include "OcularEngine.hpp"
 #include <list>
+#include <random>
+
+#include "Math/Random/MersenneTwister19937.hpp"
 
 using namespace Ocular::Math::Random;
 
@@ -123,25 +125,24 @@ TEST(PRNG, XorShift96)
     }
 }
 
-TEST(PRNGSampler, BoxMuller)
+TEST(PRNGDistribution, STLGaussian)
 {
     if(RUN_PRNG_TESTS)
     {
-        auto prng = CreatePRNG(PRNG::XorShift, SEED);
+        MersenneTwister19937 generator;
+        std::normal_distribution<float> distribution(0.0f, 1.0f);
         Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(TEXTURE_WIDTH, TEXTURE_HEIGHT);
-
-        BoxMullerSampler sampler(prng);
-
+        
         for(uint32_t y = 0; y < TEXTURE_HEIGHT; y++)
         {
             for(uint32_t x = 0; x < TEXTURE_WIDTH; x++)
             {
-                float value = sampler.next();
+                float value = distribution(generator);
                 texture->setPixel(x, y, Ocular::Color(value, value, value, 1.0f));
             }
         }
 
-        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/BoxMullerTest.png")));
+        EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/STLGaussianDistributionTest.png")));
 
         //----------------------------------------------------------------
 
@@ -149,16 +150,15 @@ TEST(PRNGSampler, BoxMuller)
 
         for(uint32_t i = 0; i < 10000; i++)
         {
-            distributionValues.push_back(sampler.next() + 5.0f);   // Essentially on range [0.0, 10.0] now
+            distributionValues.push_back(distribution(generator) + 5.0f);   // Essentially on range [0.0, 10.0] now
         }
 
-        OutputAsCSV(distributionValues, Ocular::Core::File("TestOutput/BoxMullerDistribution.csv"));
+        OutputAsCSV(distributionValues, Ocular::Core::File("TestOutput/STLGaussianDistribution.csv"));
 
         //----------------------------------------------------------------
 
         delete texture;
         texture = nullptr;
-        prng = nullptr;
     }
 }
 

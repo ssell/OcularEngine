@@ -97,14 +97,8 @@
     <Filter Include="Header Files\Math\Random\PRNGs">
       <UniqueIdentifier>{94c32425-2c85-47d1-9039-4d4c0aae0292}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Math\Random\Samplers">
-      <UniqueIdentifier>{021b1230-4858-45b3-b3e3-6489617c0d57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Math\Random\PRNGs">
       <UniqueIdentifier>{e3f06e05-fc28-49f4-84cb-a2944d91c6fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Math\Random\Samplers">
-      <UniqueIdentifier>{9391fc9c-5042-43d3-a9f1-25d92c967789}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -236,12 +230,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Random\WELL.cpp">
       <Filter>Source Files\Math\Random\PRNGs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\ASampler.cpp">
-      <Filter>Source Files\Math\Random\Samplers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Random\BoxMullerSampler.cpp">
-      <Filter>Source Files\Math\Random\Samplers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp">
       <Filter>Source Files\Utilities</Filter>
@@ -460,12 +448,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Random\XorShift.hpp">
       <Filter>Header Files\Math\Random\PRNGs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\ASampler.hpp">
-      <Filter>Header Files\Math\Random\Samplers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Random\BoxMullerSampler.hpp">
-      <Filter>Header Files\Math\Random\Samplers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Interpolation.hpp">
       <Filter>Header Files\Math</Filter>

@@ -24,6 +24,17 @@ Ocular::Core::EventSnooper g_Snooper;
 
 //------------------------------------------------------------------------------------------
 
+void test(int value)
+{
+
+}
+
+void test2()
+{
+    int* value = new int[1] { 1 };
+    test(*value);
+}
+
 int runTests(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

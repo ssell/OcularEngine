@@ -44,6 +44,11 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
+            uint32_t ARandom::operator()()
+            {
+                return next();
+            }
+
             void ARandom::seed()
             {
                 seed(OcularEngine.Clock()->getEpochMS());
@@ -95,6 +100,16 @@ namespace Ocular
             {
                 int32_t value = nextSigned();
                 return (value % (max - min)) + min;
+            }
+
+            uint32_t ARandom::min()
+            {
+                return 0;
+            }
+
+            uint32_t ARandom::max()
+            {
+                return UINT32_MAX;
             }
 
             //------------------------------------------------------------------------------

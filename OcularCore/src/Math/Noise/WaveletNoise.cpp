@@ -17,7 +17,6 @@
 #include "Math/Noise/WaveletNoise.hpp"
 #include "Math/MathCommon.hpp"
 #include "Math/Random/Random.hpp"
-#include "Math/Random/BoxMullerSampler.hpp"
 
 //------------------------------------------------------------------------------------------
 
