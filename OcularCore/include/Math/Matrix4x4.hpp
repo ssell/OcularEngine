@@ -22,7 +22,7 @@
 #include "Matrix3x3.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
-#include "Equality.hpp"
+#include "MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -782,6 +782,35 @@ namespace Ocular
 			    matrix[3][3] = 0.f;
 
                 return matrix;
+            }
+
+            /**
+             * Creates a look a matrix that is centered at the specified position and looking at the given point.
+             *
+             * \param[in] eye    Origin of the matrix
+             * \param[in] lookAt Point in space to look at
+             * \param[in] up     Direction of up (default (0, 1, 0))
+             */
+            static Matrix4x4<float> createLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::up())
+            {
+                Matrix4x4<float> result;
+
+                const Vector3<float> f = (lookAt - eye).getNormalized();
+                const Vector3<float> s = f.cross(up).getNormalized();
+                const Vector3<float> u = s.cross(f);
+
+                result[0][0] =  s.x;
+                result[0][1] =  u.x;
+                result[0][2] = -f.x;
+                result[1][0] =  s.y;
+                result[1][1] =  u.y;
+                result[1][2] = -f.y;
+                result[2][0] =  s.z;
+                result[2][1] =  u.z;
+                result[2][2] = -f.z;
+                result[3][0] = -((s.x * eye.x) + (s.y * eye.y) + (s.z * eye.z));
+                result[3][1] = -((u.x * eye.x) + (u.y * eye.y) + (u.z * eye.z));
+                result[3][2] =  ((f.x * eye.x) + (f.y * eye.y) + (f.z * eye.z));
             }
 
             /**

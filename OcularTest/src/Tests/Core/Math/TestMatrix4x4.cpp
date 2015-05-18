@@ -207,12 +207,20 @@ TEST(Matrix4x4, ElementIndex)
 
 TEST(Matrix4x4, Orthographic)
 {
-    // TODO
+    /// \todo Matrix4x4 Orthographics test
+    EXPECT_TRUE(false);
 }
 
 TEST(Matrix4x4, Perspective)
 {
-    // TODO
+    /// \todo Matrix4x4 Perspective test
+    EXPECT_TRUE(false);
+}
+
+TEST(Matrix4x4, LookAt)
+{
+    /// \todo Matrix4x4 LookAt test
+    EXPECT_TRUE(false);
 }
 
 TEST(Matrix4x4, Transpose)

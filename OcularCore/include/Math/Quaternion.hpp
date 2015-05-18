@@ -75,6 +75,14 @@ namespace Ocular
              */
             Quaternion(Euler const& euler);
 
+            /**
+             * Initializes the Quaternion from a rotation around the specified axis.
+             *
+             * \param[in] axis  Normalized axis to rotate around.
+             * \param[in] angle Angle to rotate by (in degrees).
+             */
+            Quaternion(Vector3<float> const& axis, float const angle);
+
             ~Quaternion();
 
             //------------------------------------------------------------------------------
@@ -175,12 +183,13 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
-             * ...
+             * Creates a quaternion that is 'looking at' the specified point.
              *
-             * \param[in] forward
-             * \param[in] upward
+             * \param[in] eye    Origin in space
+             * \param[in] lookAt Point in space to look at
+             * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Quaternion createLookAtRotation(Vector3<float> const& forward = Vector3<float>::forward(), Vector3<float> const& upward = Vector3<float>::up());
+            static Quaternion createLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::up());
 
             /**
              * Rotates the provided vector from a direction to another direction.

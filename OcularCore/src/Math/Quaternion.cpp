@@ -53,12 +53,12 @@ namespace Ocular
 
             Euler euler = rotationMatrix.toEuler();
 
-            float cY = cos(euler.m_Yaw   * 0.5f);
-            float cP = cos(euler.m_Pitch * 0.5f);
-            float cR = cos(euler.m_Roll  * 0.5f);
-            float sY = sin(euler.m_Yaw   * 0.5f);
-            float sP = sin(euler.m_Pitch * 0.5f);
-            float sR = sin(euler.m_Roll  * 0.5f);
+            const float cY = cos(euler.m_Yaw   * 0.5f);
+            const float cP = cos(euler.m_Pitch * 0.5f);
+            const float cR = cos(euler.m_Roll  * 0.5f);
+            const float sY = sin(euler.m_Yaw   * 0.5f);
+            const float sP = sin(euler.m_Pitch * 0.5f);
+            const float sR = sin(euler.m_Roll  * 0.5f);
 
             w =  (cR * cP * cY) + (sR * sP * sY);
             x =  (cR * sP * sY) - (sR * cP * cY);
@@ -185,17 +185,30 @@ namespace Ocular
 
             // We directly access the internal contents as getYaw, etc. return in degrees and we want radians.
 
-            float cY = cos(euler.m_Yaw   * 0.5f);
-            float cP = cos(euler.m_Pitch * 0.5f);
-            float cR = cos(euler.m_Roll  * 0.5f);
-            float sY = sin(euler.m_Yaw   * 0.5f);
-            float sP = sin(euler.m_Pitch * 0.5f);
-            float sR = sin(euler.m_Roll  * 0.5f);
+            const float cY = cos(euler.m_Yaw   * 0.5f);
+            const float cP = cos(euler.m_Pitch * 0.5f);
+            const float cR = cos(euler.m_Roll  * 0.5f);
+            const float sY = sin(euler.m_Yaw   * 0.5f);
+            const float sP = sin(euler.m_Pitch * 0.5f);
+            const float sR = sin(euler.m_Roll  * 0.5f);
 
             w =  (cR * cP * cY) + (sR * sP * sY);
             x =  (cR * sP * sY) - (sR * cP * cY);
             y = -(cR * sP * cY) - (sR * cP * sY);
             z =  (cR * cP * sY) - (sR * sP * cY);
+        }
+
+        Quaternion::Quaternion(Vector3<float> const& axis, float const angle)
+        {
+            const float angleRad  = DegreesToRadians<float>(angle);
+            const float halfAngle = angleRad * 0.5f;
+            const float angleSin  = sin(halfAngle);
+            const float angleCos  = cos(halfAngle);
+
+            w = angleCos;
+            x = angleSin * axis.x;
+            y = angleSin * axis.y;
+            z = angleSin * axis.z;
         }
 
         Quaternion::~Quaternion()
@@ -378,11 +391,31 @@ namespace Ocular
         // Static METHODS
         //------------------------------------------------------------
 
-        Quaternion Quaternion::createLookAtRotation(Vector3<float> const& forward, Vector3<float> const& upward)
+        Quaternion Quaternion::createLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up)
         {
             Quaternion result;
 
-            // --- TODO
+            Vector3f forward = (lookAt - eye).getNormalized();
+            float dot = Vector3f::forward().dot(forward);
+
+            if(abs(dot + 1.0f) < EPSILON_FLOAT)
+            {
+                result.w = static_cast<float>(PI);
+                result.x = Vector3f::up().x;
+                result.y = Vector3f::up().y;
+                result.z = Vector3f::up().z;
+            }
+            else if(abs(dot - 1.0f) < EPSILON_FLOAT)
+            {
+                // Do nothing. Return identity.
+            }
+            else
+            {
+                float    rotationAngle = acos(dot);
+                Vector3f rotationAxis  = Vector3f::forward().cross(forward).getNormalized();
+
+                result = Quaternion(rotationAxis, rotationAngle);
+            }
 
             return result;
         }

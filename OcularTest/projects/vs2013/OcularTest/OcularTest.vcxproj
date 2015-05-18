@@ -89,6 +89,7 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrixStack.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestNoise.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestPRNG.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestTransform.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector2.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector3.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector4.cpp" />
