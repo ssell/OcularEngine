@@ -138,6 +138,36 @@ namespace Ocular
              */
             Matrix3x3(Quaternion const& quaternion)
             {
+                // Currently the quaternion -> matrix -> quaternion conversion is a bit off somewhere (see first chunk commented out code).
+                // But... the quaternion -> euler, and euler-> matrix work perfectly. So...
+                // See TestConversions: QuaternionMatrix for more details.
+
+                Euler euler = quaternion.toEuler();
+
+                float y = euler.m_Yaw;
+                float p = euler.m_Pitch;
+                float r = euler.m_Roll;
+
+                float cosy = std::cos(y);
+                float siny = std::sin(y);
+                float cosp = std::cos(p);
+                float sinp = std::sin(p);
+                float cosr = std::cos(r);
+                float sinr = std::sin(r);
+
+                m_Contents[0][0] = (cosr * cosy) - (sinr * sinp * siny);
+                m_Contents[0][1] = -sinr * cosp;
+                m_Contents[0][2] = (cosr * siny) + (sinr * sinp * cosy);
+
+                m_Contents[1][0] = (sinr * cosy) + (cosr * sinp * siny);
+                m_Contents[1][1] = cosr * cosp;
+                m_Contents[1][2] = (sinr * siny) - (cosr * sinp * cosy);
+
+                m_Contents[2][0] = -cosp * siny;
+                m_Contents[2][1] = sinp;
+                m_Contents[2][2] = cosp * cosy;
+
+                /*
                 // Source: 
                 // Real-Time Rendering 3rd Edition 
                 // 4.3.2 Quaternion Transforms
@@ -166,7 +196,7 @@ namespace Ocular
 
                 m_Contents[2][0] =       two * ((x * z) + (w * y));
                 m_Contents[2][1] =       two * ((y * z) - (w * x));
-                m_Contents[2][2] = one - two * ((x * x) + (y * y));
+                m_Contents[2][2] = one - two * ((x * x) + (y * y));*/
             }
 
             /**

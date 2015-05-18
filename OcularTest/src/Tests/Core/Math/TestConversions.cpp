@@ -65,10 +65,15 @@ TEST(Conversions, QuaternionMatrix)
     // this is. Need to look into it more to assure myself that
     // the correct values are being calculated and returned.
 
-    EXPECT_NEAR(quat.w, -quatConv.w, Ocular::Math::EPSILON_FLOAT);  
-    EXPECT_NEAR(quat.x, -quatConv.x, Ocular::Math::EPSILON_FLOAT);
-    EXPECT_NEAR(quat.y, -quatConv.y, Ocular::Math::EPSILON_FLOAT);
-    EXPECT_NEAR(quat.z, -quatConv.z, Ocular::Math::EPSILON_FLOAT);
+    // NOTE: The above is temporarily out-of-date as the conversions
+    // are currently just using known working conversions (mainly
+    // converting between eulers). This way a seamless chain of
+    // conversions can happen (see EulerMatrixQuaternion test).
+
+    EXPECT_NEAR(quat.w, quatConv.w, Ocular::Math::EPSILON_FLOAT);  
+    EXPECT_NEAR(quat.x, quatConv.x, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quat.y, quatConv.y, Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(quat.z, quatConv.z, Ocular::Math::EPSILON_FLOAT);
 
     // Sanity check
 
@@ -78,6 +83,15 @@ TEST(Conversions, QuaternionMatrix)
     EXPECT_NEAR(dotProduct, 1.0f, 0.1f);
 }
 
+TEST(Conversions, EulerMatrixQuaternion)
+{
+    Ocular::Math::Euler eulerStart(90.0f, 45.0f, 180.0f);
+    Ocular::Math::Euler eulerEnd = eulerStart.toRotationMatrix().toQuaternion().toEuler().toQuaternion().toRotationMatrix().toEuler();
+    
+    EXPECT_NEAR(eulerStart.getYaw(),   eulerEnd.getYaw(),   Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(eulerStart.getPitch(), eulerEnd.getPitch(), Ocular::Math::EPSILON_FLOAT);
+    EXPECT_NEAR(eulerStart.getRoll(),  eulerEnd.getRoll(),  Ocular::Math::EPSILON_FLOAT);
+}
 
 
 

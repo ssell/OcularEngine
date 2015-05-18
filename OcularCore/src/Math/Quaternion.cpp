@@ -47,6 +47,25 @@ namespace Ocular
 
         Quaternion::Quaternion(Matrix3x3f const& rotationMatrix)
         {
+            // Currently the matrix -> quaternion -> matrix conversion is a bit off somewhere (see first chunk of commented out code).
+            // But... the matrix -> euler, and euler-> quaternion work perfectly. So...
+            // See TestConversions: QuaternionMatrix for more details.
+
+            Euler euler = rotationMatrix.toEuler();
+
+            float cY = cos(euler.m_Yaw   * 0.5f);
+            float cP = cos(euler.m_Pitch * 0.5f);
+            float cR = cos(euler.m_Roll  * 0.5f);
+            float sY = sin(euler.m_Yaw   * 0.5f);
+            float sP = sin(euler.m_Pitch * 0.5f);
+            float sR = sin(euler.m_Roll  * 0.5f);
+
+            w =  (cR * cP * cY) + (sR * sP * sY);
+            x =  (cR * sP * sY) - (sR * cP * cY);
+            y = -(cR * sP * cY) - (sR * cP * sY);
+            z =  (cR * cP * sY) - (sR * sP * cY);
+
+            /*
             // Source: 
             // Real-Time Rendering 3rd Edition 
             // 4.3.2 Quaternion Transforms
@@ -115,7 +134,7 @@ namespace Ocular
                 x = quat[0];
                 y = quat[1];
                 z = quat[2];
-            }
+            }*/
 
             /*
             float trace = rotationMatrix[0][0] + rotationMatrix[1][1] + rotationMatrix[2][2];
@@ -346,6 +365,7 @@ namespace Ocular
 
         Vector3<float> Quaternion::getZRotationAxis() const
         {
+            /// \todo Is this correct? Should it instead be using Vector3f::forward() ?
             return rotate(Vector3<float>(0.0f, 0.0f, 1.0f));
         }
 
