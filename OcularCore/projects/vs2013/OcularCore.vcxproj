@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\src\Math\Random\Random.cpp" />
     <ClCompile Include="..\..\src\Math\Random\WELL.cpp" />
     <ClCompile Include="..\..\src\Math\Random\XorShift.cpp" />
+    <ClCompile Include="..\..\src\Math\Transform.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="..\..\include\Math\Random\Random.hpp" />
     <ClInclude Include="..\..\include\Math\Random\WELL.hpp" />
     <ClInclude Include="..\..\include\Math\Random\XorShift.hpp" />
+    <ClInclude Include="..\..\include\Math\Transform.hpp" />
     <ClInclude Include="..\..\include\Math\Vector2.hpp" />
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
     <ClInclude Include="..\..\include\Math\Vector4.hpp" />

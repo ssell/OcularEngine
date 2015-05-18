@@ -237,6 +237,9 @@
     <ClCompile Include="..\..\src\UUID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Transform.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Noise\WorleyNoise.hpp">
       <Filter>Header Files\Math\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Transform.hpp">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
