@@ -20,20 +20,13 @@
 #include "gtest/gtest.h"
 #include "Utilities/HashGenerator.hpp"
 
+#include "FileIO/Directory.hpp"
+
 Ocular::Core::EventSnooper g_Snooper;
 
+using namespace Ocular::Core;
+
 //------------------------------------------------------------------------------------------
-
-void test(int value)
-{
-
-}
-
-void test2()
-{
-    int* value = new int[1] { 1 };
-    test(*value);
-}
 
 int runTests(int argc, char** argv)
 {
@@ -63,22 +56,6 @@ int main(int argc, char** argv)
     Ocular::Core::SystemInfo::logSystemInfo();
 
     runTests(argc, argv);
-
-    // Hash testing
-
-    Ocular::Utils::HashGenerator hashGen0;
-    Ocular::Utils::HashGenerator hashGen1;
-    
-    uint32_t hash0 = hashGen0.getHash32("Hello World!");
-    uint32_t hash1 = hashGen0.getHash32("Hello World!");
-    
-    uint32_t hash2 = hashGen1.getHash32("Hello World!", 0);
-    uint32_t hash3 = hashGen1.getHash32("Hello World!", 0);
-    
-    OcularLogger->info("Hash0: ", hash0);
-    OcularLogger->info("Hash1: ", hash1);
-    OcularLogger->info("Hash2: ", hash2);
-    OcularLogger->info("Hash3: ", hash3);
 
     OcularEngine.shutdown();
 }

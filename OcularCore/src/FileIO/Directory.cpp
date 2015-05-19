@@ -79,20 +79,6 @@ namespace Ocular
                     for(unsigned i = 0; i < m_ChildDirectories.size(); i++)
                     {
                         m_ChildDirectories[i].explore(true);
-                        
-                        //------------------------------------------------------------------
-                        // Add all child directories to this Directory's child directories
-
-                        auto childChildDirectories = m_ChildDirectories[i].getChildDirectories();
-                        m_ChildDirectories.reserve(m_ChildDirectories.size() + childChildDirectories.size());
-                        m_ChildDirectories.insert(m_ChildDirectories.end(), childChildDirectories.begin(), childChildDirectories.end());
-                        
-                        //------------------------------------------------------------------
-                        // Add all child files to this Directory's child files
-
-                        auto childChildFiles = m_ChildDirectories[i].getChildFiles();
-                        m_ChildFiles.reserve(m_ChildFiles.size() + childChildFiles.size());
-                        m_ChildFiles.insert(m_ChildFiles.end(), childChildFiles.begin(), childChildFiles.end());
                     }
                 }
             }
