@@ -90,6 +90,14 @@ namespace Ocular
                 return result;
             }
 
+            float ARandom::nextf(float min, float max, float precision)
+            {
+                float result = nextf(precision);
+                float range = max - min;
+
+                return (min + (result * range));
+            }
+
             int32_t ARandom::nextSigned()
             {
                 uint32_t unsignedNext = next();

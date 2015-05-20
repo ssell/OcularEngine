@@ -107,7 +107,17 @@ namespace Ocular
                  *
                  * \param[in] precision
                  */
-                virtual float nextf(float const precision = 0.0001f);
+                virtual float nextf(float precision = 0.0001f);
+
+                /**
+                 * Retrieves the next pseudo-random number as a float in the
+                 * specified range of [min, max]. 
+                 *
+                 * \param[in] min Minimum value to be returned.
+                 * \param[in] max Maximum value to be returned.
+                 * \param[in] precision
+                 */
+                virtual float nextf(float min, float max, float precision = 0.0001f);
 
                 virtual int32_t nextSigned();
 

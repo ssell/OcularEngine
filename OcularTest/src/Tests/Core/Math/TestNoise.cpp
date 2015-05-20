@@ -33,12 +33,12 @@ static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
 TEST(Noise, Perlin)
 {
-    if(false)
+    if(RUN_NOISE_TESTS)
     {
         std::shared_ptr<PerlinNoise> noise = std::make_shared<PerlinNoise>();
 
-        noise->setOctaves(1);
-        noise->setPersistence(1.0f);
+        noise->setOctaves(6);
+        noise->setPersistence(0.5f);
         noise->setScale(0.1f);
 
         Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);

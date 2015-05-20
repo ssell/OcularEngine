@@ -141,17 +141,13 @@ namespace Ocular
 
             protected:
 
-                /**
-                 * Populates the permutation and gradient arrays with pseudo-random values.
-                 */
-                void populate();
-                float getModifiedRandom();
+                float getInterpolatedNoise(float const x);
+                float getInterpolatedNoise(float const x, float const y);
+                float getInterpolatedNoise(float const x, float const y, float const z);
 
-                float getRawNoise(float const x);
-                float getRawNoise(float const x, float const y);
-                float getRawNoise(float const x, float const y, float const z);
+                float getSmoothNoise(float const x, float const y);
 
-                void getGridInformation(float const& axis, int32_t& grid0, int32_t& grid1, float& dist0, float& dist1);
+                float getRandom(float const x, float const y);
 
             private:
 
@@ -163,6 +159,8 @@ namespace Ocular
                 float    m_Gradient1[514];
                 float    m_Gradient2[514][2];
                 float    m_Gradient3[514][3];
+
+                int64_t  m_Seed;
 
                 std::shared_ptr<Random::ARandom> m_PRNG;
             };
