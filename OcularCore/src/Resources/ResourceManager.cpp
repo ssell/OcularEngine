@@ -60,7 +60,7 @@ namespace Ocular
             //----------------------------------------
             // Populate the resource map
 
-            for(auto fileIter = m_FileMap.begin(); fileIter != m_FileMap.end(); fileIter++)
+            for(auto fileIter = m_FileMap.begin(); fileIter != m_FileMap.end(); ++fileIter)
             {
                 auto findResource = m_ResourceMap.find(fileIter->first);
 
@@ -390,7 +390,7 @@ namespace Ocular
 
             unsigned leastUsed = UINT_MAX;
 
-            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
                 ResourceDetails* current = findResource->second.get();
 
@@ -412,7 +412,7 @@ namespace Ocular
             
             unsigned long long lastUsed = ULLONG_MAX;
 
-            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
                 ResourceDetails* current = findResource->second.get();
 
@@ -434,7 +434,7 @@ namespace Ocular
             
             unsigned long long smallest = ULLONG_MAX;
 
-            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
                 ResourceDetails* current = findResource->second.get();
 
@@ -456,7 +456,7 @@ namespace Ocular
             
             unsigned long long largest = 0ULL;
 
-            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); findResource++)
+            for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
                 ResourceDetails* current = findResource->second.get();
 

@@ -126,7 +126,7 @@ namespace Ocular
             bool result = false;
             int filePos = 54;    // Header is always 54 bytes long and we will always be starting the pixel array immediately after it
 
-            for(auto pixelIter = pixels.begin(); pixelIter != pixels.end(); pixelIter++)
+            for(auto pixelIter = pixels.begin(); pixelIter != pixels.end(); ++pixelIter)
             {
                 // BMP stores pixel data in BGR/A format
                 fileBuffer[filePos++] = FLOAT_TO_UCHAR(pixelIter->b);

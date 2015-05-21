@@ -68,7 +68,7 @@ namespace Ocular
             m_CurrentMessage.message = m_IncompleteMessage.str();
         
             // Send the message out to the listeners
-            for(auto iter = m_Listeners.begin(); iter != m_Listeners.end(); iter++)
+            for(auto iter = m_Listeners.begin(); iter != m_Listeners.end(); ++iter)
             {
                 (*iter)->onLogMessage(m_CurrentMessage);
             }

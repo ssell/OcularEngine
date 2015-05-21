@@ -171,7 +171,7 @@ void OutputAsCSV(std::list<float> const& values, Ocular::Core::File const& outFi
         uint32_t probs[1000];
         memset(probs, 0, sizeof(uint32_t) * 1000);
 
-        for(auto iter = values.begin(); iter != values.end(); iter++)
+        for(auto iter = values.begin(); iter != values.end(); ++iter)
         {
             probs[static_cast<uint32_t>((*iter) * 100.0f)]++;
         }

@@ -45,7 +45,7 @@ namespace Ocular
         {
             m_Blacklist.clear();
 
-            for(auto iter = blacklist.begin(); iter != blacklist.end(); iter++)
+            for(auto iter = blacklist.begin(); iter != blacklist.end(); ++iter)
             {
                 if(m_Blacklist.find((*iter)) == m_Blacklist.end()) 
                 {
@@ -77,12 +77,12 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // Iterate through each discovered root directory and catalog all resource files found within them.
 
-            for(auto rootIter = rootDirectories.begin(); rootIter != rootDirectories.end(); rootIter++)
+            for(auto rootIter = rootDirectories.begin(); rootIter != rootDirectories.end(); ++rootIter)
             {
                 (*rootIter).explore(true);
                 std::vector<File> resourceFiles = (*rootIter).getChildFiles();
 
-                for(auto fileIter = resourceFiles.begin(); fileIter != resourceFiles.end(); fileIter++)
+                for(auto fileIter = resourceFiles.begin(); fileIter != resourceFiles.end(); ++fileIter)
                 {
                     if(!isBlacklisted((*fileIter).getExtension()))
                     {
@@ -121,7 +121,7 @@ namespace Ocular
             workingDir.explore(true);
             std::vector<Directory> children = workingDir.getChildDirectories();
 
-            for(auto iter = children.begin(); iter != children.end(); iter++)
+            for(auto iter = children.begin(); iter != children.end(); ++iter)
             {
                 if((*iter).getName().compare(m_DirectoryName) == 0)
                 {

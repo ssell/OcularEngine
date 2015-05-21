@@ -68,7 +68,7 @@ namespace Ocular
 
             //----------------------------------------
 
-            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
+            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); ++iter)
             {
                 if((*iter)->getUUID() == uuid)
                 {
@@ -151,7 +151,7 @@ namespace Ocular
         
         void WindowManager::updateWindows(long long time)
         {
-            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
+            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); ++iter)
             {
                 (*iter)->update(time);
             }
