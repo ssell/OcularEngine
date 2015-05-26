@@ -100,6 +100,12 @@
     <Filter Include="Source Files\Math\Random\PRNGs">
       <UniqueIdentifier>{e3f06e05-fc28-49f4-84cb-a2944d91c6fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene">
+      <UniqueIdentifier>{fb82c6f6-55e7-43d2-9d26-4b8a011765d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{ee6657ef-53c9-4f92-97b3-62426d3de23f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -239,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Transform.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneNode.cpp">
+      <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +478,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Transform.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ASceneTree.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneNode.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneObject.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Scene.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneManager.hpp">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

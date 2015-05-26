@@ -202,6 +202,7 @@
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
@@ -275,6 +276,11 @@
     <ClInclude Include="..\..\include\Resources\ResourceSaverManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
+    <ClInclude Include="..\..\include\Scene\ASceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\Scene.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneObject.hpp" />
     <ClInclude Include="..\..\include\SystemInfo.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
