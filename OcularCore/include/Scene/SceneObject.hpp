@@ -21,6 +21,8 @@
 #include "Math/Transform.hpp"
 
 #include <string>
+#include <map>
+#include <list>
 
 //------------------------------------------------------------------------------------------
 
@@ -37,11 +39,27 @@ namespace Ocular
     namespace Core
     {
         class SceneManager;
+        class Routine;
 
         /**
          * \class SceneObject
+         *
+         * A SceneObject represents the instance of an arbitrary object in a Scene.
+         * This can range from a static scenery object, such as a rock, to a particle effect,
+         * to a physics volume, to a multifaceted actor.
+         *
+         * A single SceneObject can have multiple child objects attached to it. This can be 
+         * thought of as similar to a car. A parent chassis object could have child axle objects
+         * which in turn have child wheel objects. Each level down inherits the parent's transform
+         * and active/visible status (unless otherwise overridden).
+         *
+         * Additionally, there are Routine and Renderable instances that may be attached to
+         * a SceneObject. A Routine represents the logic behind an object while the Renderable
+         * is any part of the object that is to be rendered onto the screen.
+         *
+         *
          */
-        class SceneObject : Object
+        class SceneObject : public Object
         {
             friend class SceneManager;
 
@@ -49,16 +67,31 @@ namespace Ocular
             
             ~SceneObject();
 
-            //------------------------------------------------------------------------------
+            //------------------------------------------------------------
+            // Child Object Methods
 
-            void  update(float const delta);
-            float updateTimed();
+            SceneObject* createChild(std::string const& name);
+            
+            SceneObject* findChild(std::string const& name);
+            SceneObject* findChild(UUID const& uuid);
+            SceneObject* findChild(uint32_t const index);
 
-            void preRender();
-            void render();
-            void postRender();
+            void removeChild(std::string const& name);
+            void removeChild(UUID const& uuid);
+            void removeChild(uint32_t const index);
 
-            //------------------------------------------------------------------------------
+            uint32_t getNumChildren() const;
+
+            //------------------------------------------------------------
+            // Routine Methods
+
+            void addRoutine(std::string const& name);
+
+            Routine* getRoutine(std::string const& name);
+            void getAllRoutines(std::string const& name, std::list<Routine*>& routines);
+
+            //------------------------------------------------------------
+            // Public Members
 
             Math::Transform transform;
 

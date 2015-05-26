@@ -494,5 +494,8 @@
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Routine.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

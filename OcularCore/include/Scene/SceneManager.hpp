@@ -20,6 +20,8 @@
 #include "Scene.hpp"
 #include "SceneObject.hpp"
 
+#include <map>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -65,19 +67,66 @@ namespace Ocular
              * \param[in] name 
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the user.
              */
-            SceneObject* AddObject(std::string const& name);
+            SceneObject* addObject(std::string const& name);
 
-            void RemoveObject(SceneObject* object);
-            void RemoveObject(std::string const& name);
-            void RemoveObject(UUID const& uuid);
+            /**
+             * Removes the specified SceneObject from the active scene.
+             * \param[in] object SceneObject to remove.
+             */
+            void removeObject(SceneObject* object);
 
-            SceneObject* FindObject(std::string const& name);
-            SceneObject* FindObject(UUID const& uuid);
+            /**
+             * Removes the SceneObject with the specified name from the active scene.
+             * If there are multiple SceneObjects with the given name, only the first
+             * object will be removed.
+             *
+             * \param[in] name Name of the SceneObject to remove.
+             */
+            void removeObject(std::string const& name);
+
+            /**
+             * Removes the SceneObject with the specified UUID from the active scene.
+             * \param[in] uuid UUID of the SceneObject to remove.
+             */
+            void removeObject(UUID const& uuid);
+
+            /**
+             * Finds and returns the SceneObject with the specified name.
+             * If there are multiple SceneObjects with the given name, only the first
+             * object will be removed.
+             *
+             * \param[in] name Name of the SceneObject to find.
+             * \return Pointer to the SceneObject. Returns NULL if the specified object was not found.
+             */
+            SceneObject* findObject(std::string const& name);
+            
+            /**
+             * Finds and returns the SceneObject with the specified UUID.
+             *
+             * \param[in] uuid UUID of the SceneObject to find.
+             * \return Pointer to the SceneObject. Returns NULL if the specified object was not found.
+             */
+            SceneObject* findObject(UUID const& uuid);
+
+            //------------------------------------------------------------------------------
+            // Scene Methods
+
+            /**
+             * Loads the Scene with the specified name. If no matching scene is found,
+             * then a new Scene is created. 
+             *
+             * If a Scene is already in memory, then that Scene is first unloaded.
+             *
+             * \param[in] name Name of the Scene to load.
+             */
+            void loadScene(std::string const& name);
 
         protected:
 
         private:
 
+            std::map<std::string, SceneObject*> m_Objects;
+            Scene* m_Scene;
         };
     }
     /**
