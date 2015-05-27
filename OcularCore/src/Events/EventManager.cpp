@@ -64,7 +64,7 @@ namespace Ocular
         {
             if((listener != nullptr) && (findListener(listener) == -1))
             {
-                m_Listeners.push(listener, priority);
+                m_Listeners.push(listener, static_cast<Core::Priority>(priority));
             }
         }
 

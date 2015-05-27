@@ -171,6 +171,7 @@
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Math\BoundingBox.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\..\src\Math\Random\Random.cpp" />
     <ClCompile Include="..\..\src\Math\Random\WELL.cpp" />
     <ClCompile Include="..\..\src\Math\Random\XorShift.cpp" />
+    <ClCompile Include="..\..\src\Math\Ray.cpp" />
     <ClCompile Include="..\..\src\Math\Transform.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
@@ -202,6 +204,7 @@
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
@@ -216,7 +219,6 @@
     <ClInclude Include="..\..\include\Common.hpp" />
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
-    <ClInclude Include="..\..\include\Events\EventPriority.hpp" />
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp" />
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
@@ -225,6 +227,7 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Math\BoundingBox.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
@@ -246,6 +249,7 @@
     <ClInclude Include="..\..\include\Math\Random\Random.hpp" />
     <ClInclude Include="..\..\include\Math\Random\WELL.hpp" />
     <ClInclude Include="..\..\include\Math\Random\XorShift.hpp" />
+    <ClInclude Include="..\..\include\Math\Ray.hpp" />
     <ClInclude Include="..\..\include\Math\Transform.hpp" />
     <ClInclude Include="..\..\include\Math\Vector2.hpp" />
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
@@ -257,6 +261,7 @@
     <ClInclude Include="..\..\include\Logger\LoggerChannels.hpp" />
     <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
+    <ClInclude Include="..\..\include\Priority.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp" />
@@ -277,7 +282,7 @@
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
     <ClInclude Include="..\..\include\Scene\ASceneTree.hpp" />
-    <ClInclude Include="..\..\include\Scene\Routine.hpp" />
+    <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />

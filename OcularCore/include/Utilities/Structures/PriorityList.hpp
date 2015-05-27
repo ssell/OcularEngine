@@ -69,13 +69,13 @@ namespace Ocular
              *
              * \return TRUE if push was successful.
              */
-            bool push(T const element, Priority priority)
+            bool push(T const element, uint32_t priority)
             {
                 bool retVal = false;
 
                 if(m_TrueSize < MAX_ELEMENTS)
                 {
-                    retVal = add(element, static_cast<uint32_t>(priority));
+                    retVal = add(element, priority);
                 }
 
                 return retVal;
@@ -108,7 +108,7 @@ namespace Ocular
              * \return TRUE if successfully inserted, else FALSE. 
              *         May only fail if list if full.
              */
-            bool add(T const element, Priority priority)
+            bool add(T const element, uint32_t priority)
             {
                 bool result = false;
 

@@ -18,7 +18,7 @@
 
 #include "Logger/ConsoleLoggerListener.hpp"
 #include "Logger/VSConsoleLoggerListener.hpp"
-#include "Events/Priority.hpp"
+#include "Priority.hpp"
 #include "SystemInfo.hpp"
 
 
