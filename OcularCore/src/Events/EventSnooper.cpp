@@ -53,7 +53,7 @@ namespace Ocular
             m_IgnoreDuplicates = ignore;
         }
 
-        void EventSnooper::setIgnorePriorityLevel(EventPriority const priority, bool const ignore)
+        void EventSnooper::setIgnorePriorityLevel(Priority const priority, bool const ignore)
         {
             switch(priority)
             {

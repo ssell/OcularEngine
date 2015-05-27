@@ -46,6 +46,17 @@ namespace Ocular
             ~Clock();
 
             /**
+             * Calculates and updates the delta time.
+             * \note This method should only be called once per frame (at the start) and only by it's explicit owner.
+             */
+            void tick();
+
+            /**
+             * Returns the time, in seconds, it took to complete the last frame.
+             */
+            float getDelta();
+
+            /**
              * Returns the number of milliseconds since epoch (January 1, 1970).
              */
             unsigned long long getEpochMS();
@@ -76,6 +87,9 @@ namespace Ocular
 
             std::chrono::milliseconds::rep m_CreationTimeMS;
             std::chrono::nanoseconds::rep  m_CreationTimeNS;
+
+            std::chrono::milliseconds::rep m_LastTick;
+            float m_Delta;
         };
     }
     /**

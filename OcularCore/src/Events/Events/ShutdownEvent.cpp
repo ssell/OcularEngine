@@ -29,7 +29,7 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             ShutdownEvent::ShutdownEvent()
-                : AEvent("ShutdownEvent", EventPriority::Critical)
+                : AEvent("ShutdownEvent", Priority::Critical)
             {
             }
 

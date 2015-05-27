@@ -27,7 +27,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AEvent::AEvent(std::string name, EventPriority priority)
+        AEvent::AEvent(std::string name, Priority priority)
             : Object(name, "Core::AEvent"), m_Priority(priority)
         {
         }
@@ -41,7 +41,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        EventPriority AEvent::getPriority() const
+        Priority AEvent::getPriority() const
         {
             return m_Priority;
         }

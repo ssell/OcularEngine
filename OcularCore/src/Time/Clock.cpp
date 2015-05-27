@@ -46,6 +46,20 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void Clock::tick()
+        {
+            std::chrono::milliseconds::rep currentTime = std::chrono::duration_cast<std::chrono::milliseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count();
+
+            m_Delta = static_cast<float>(currentTime - m_LastTick) / 1000.0f;
+            m_LastTick = currentTime;
+        }
+
+        float Clock::getDelta()
+        {
+            return m_Delta;
+        }
+
         unsigned long long Clock::getEpochMS()
         {
             std::chrono::milliseconds::rep currentTime = 

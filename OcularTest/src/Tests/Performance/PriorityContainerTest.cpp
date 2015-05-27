@@ -136,7 +136,7 @@ namespace Ocular
 
                     if(action < 3)
                     {
-                        queue.enqueue(5, (Core::EventPriority)priority);
+                        queue.enqueue(5, (Core::Priority)priority);
                     }
                     else if(action < 4)
                     {
@@ -183,7 +183,7 @@ namespace Ocular
 
                     if(action < 3)
                     {
-                        list.push(5, (Core::EventPriority)priority);
+                        list.push(5, (Core::Priority)priority);
                     }
                     else if(action < 4)
                     {

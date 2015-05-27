@@ -30,7 +30,7 @@ namespace Ocular
 
             WindowResizeEvent::WindowResizeEvent(
                 std::shared_ptr<AWindow> window, unsigned const width, unsigned const height, WindowResizeType const type)
-                : AEvent("WindowResizeEvent", EventPriority::Low)
+                : AEvent("WindowResizeEvent", Priority::Low)
             {
                 m_pWindow = window;
                 m_NewWidth = width;

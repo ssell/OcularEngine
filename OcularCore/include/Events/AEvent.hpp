@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_EVENTS_EVENT__H__
 #define __H__OCULAR_EVENTS_EVENT__H__
 
-#include "EventPriority.hpp"
+#include "Priority.hpp"
 #include "Object.hpp"
 
 #include <string>
@@ -49,19 +49,19 @@ namespace Ocular
              * \param name     String name of the event
              * \param priority Priority level of the event 
              */
-            AEvent(std::string name, EventPriority priority = EventPriority::Medium);
+            AEvent(std::string name, Priority priority = Priority::Medium);
             ~AEvent();            
 
             /**
              * \return The priority level of the event. 
              */
-            EventPriority getPriority() const;
+            Priority getPriority() const;
 
         protected:
 
         private:
 
-            EventPriority m_Priority;
+            Priority m_Priority;
         };
     }
     /**

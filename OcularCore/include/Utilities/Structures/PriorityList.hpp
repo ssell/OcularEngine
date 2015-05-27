@@ -19,6 +19,8 @@
 #define __H__OCULAR_UTILS_PRIORITY_LIST__H__
 
 #include "Exceptions/Exception.hpp"
+#include "Priority.hpp"
+
 #include <utility>
 
 //------------------------------------------------------------------------------------------
@@ -62,15 +64,18 @@ namespace Ocular
             /**
              * Pushes the element onto the list.
              *
+             * \param[in] element 
+             * \param[in] priority Priority level of the element. Lower is higher priority.
+             *
              * \return TRUE if push was successful.
              */
-            bool push(T const element, unsigned priority)
+            bool push(T const element, Priority priority)
             {
                 bool retVal = false;
 
                 if(m_TrueSize < MAX_ELEMENTS)
                 {
-                    retVal = add(element, priority);
+                    retVal = add(element, static_cast<uint32_t>(priority));
                 }
 
                 return retVal;
@@ -97,16 +102,19 @@ namespace Ocular
             /**
              * Attempts to add the provided element into the priority list.
              *
+             * \param[in] element 
+             * \param[in] priority Priority level of the element. Lower is higher priority.
+             *
              * \return TRUE if successfully inserted, else FALSE. 
              *         May only fail if list if full.
              */
-            bool add(T const element, unsigned priority)
+            bool add(T const element, Priority priority)
             {
                 bool result = false;
 
                 if(m_TrueSize < MAX_ELEMENTS)
                 {
-                    insertElement(element, priority);
+                    insertElement(element, static_cast<uint32_t>(priority));
                     m_TrueSize++;
                     result = true;
                 }

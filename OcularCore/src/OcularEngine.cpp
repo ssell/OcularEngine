@@ -18,7 +18,7 @@
 
 #include "Logger/ConsoleLoggerListener.hpp"
 #include "Logger/VSConsoleLoggerListener.hpp"
-#include "Events/EventPriority.hpp"
+#include "Events/Priority.hpp"
 #include "SystemInfo.hpp"
 
 
@@ -89,8 +89,9 @@ namespace Ocular
 
     void Engine::run()
     {
+        m_Clock->tick();
         Core::SystemInfo::refresh();
-
+        
         update();
         render();
     }
@@ -172,7 +173,7 @@ namespace Ocular
 
     void Engine::setupEvents()
     {
-        m_EventManager->registerListener(this, Core::EventPriority::Medium);
+        m_EventManager->registerListener(this, Core::Priority::Medium);
     }
 
     void Engine::setupResourceManager()
