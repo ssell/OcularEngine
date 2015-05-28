@@ -258,9 +258,6 @@
     <ClCompile Include="..\..\src\Math\BoundingBox.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Intersection.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -509,16 +506,10 @@
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Math\BoundingBox.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\Math\Ray.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Intersection.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Frustum.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\BoundsAABB.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
