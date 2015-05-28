@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Math\BoundingBox.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
+    <ClCompile Include="..\..\src\Math\Intersection.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp" />
@@ -227,10 +228,12 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
-    <ClInclude Include="..\..\include\Math\BoundingBox.hpp" />
+    <ClInclude Include="..\..\include\Math\BoundsAABB.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />
+    <ClInclude Include="..\..\include\Math\Frustum.hpp" />
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
+    <ClInclude Include="..\..\include\Math\Intersection.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />

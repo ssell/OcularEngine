@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_MATH_BOUNDING_BOX__H__
-#define __H__OCULAR_MATH_BOUNDING_BOX__H__
+#ifndef __H__OCULAR_MATH_FRUSTUM__H__
+#define __H__OCULAR_MATH_FRUSTUM__H__
 
 #include "Vector3.hpp"
-#include "Ray.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,38 +35,11 @@ namespace Ocular
     namespace Math
     {
         /**
-         * \class BoundingBox
+         * \class Frustum
          */
-        class BoundingBox
+        class Frustum
         {
-        public:
-
-            BoundingBox(Vector3f const& center, Vector3f const& extents);
-            BoundingBox();
-            ~BoundingBox();
-
-            void setCenter(Vector3f const& center);
-            void setExtents(Vector3f const& extents);
-
-            Vector3f const& getCenter() const;
-            Vector3f const& getExtents() const;
-
-            void expand(Vector3f const& extents);
-            void expandToContain(Vector3f const& point);
-            void expandToContain(BoundingBox const& bounds);
-
-            bool contains(Vector3f const& point) const;
-            bool contains(BoundingBox const& bounds) const;
-
-            bool intersects(BoundingBox const& bounds) const;
-            bool intersects(Ray const& ray) const;
-
-        protected:
-
-        private:
-
-            Vector3f m_Center;
-            Vector3f m_Extents;
+        
         };
     }
     /**
