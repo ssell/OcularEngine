@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/BoundingBox.hpp"
+#include "Math/BoundsAABB.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,18 +26,18 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BoundingBox::BoundingBox(Vector3f const& center, Vector3f const& extents)
+        BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
         {
             m_Center = center;
             m_Extents = extents;
         }
 
-        BoundingBox::BoundingBox()
+        BoundsAABB::BoundsAABB()
         {
         
         }
 
-        BoundingBox::~BoundingBox()
+        BoundsAABB::~BoundsAABB()
         {
         
         }
@@ -46,57 +46,47 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void BoundingBox::setCenter(Vector3f const& center)
+        void BoundsAABB::setCenter(Vector3f const& center)
         {
             m_Center = center;
         }
 
-        void BoundingBox::setExtents(Vector3f const& extents)
+        void BoundsAABB::setExtents(Vector3f const& extents)
         {
             m_Extents = extents;
         }
 
-        Vector3f const& BoundingBox::getCenter() const
+        Vector3f const& BoundsAABB::getCenter() const
         {
             return m_Center;
         }
 
-        Vector3f const& BoundingBox::getExtents() const
+        Vector3f const& BoundsAABB::getExtents() const
         {
             return m_Extents;
         }
 
-        void BoundingBox::expand(Vector3f const& extents)
+        void BoundsAABB::expand(Vector3f const& extents)
         {
         
         }
 
-        void BoundingBox::expandToContain(Vector3f const& point)
+        void BoundsAABB::expandToContain(Vector3f const& point)
         {
         
         }
 
-        void BoundingBox::expandToContain(BoundingBox const& bounds)
+        void BoundsAABB::expandToContain(BoundsAABB const& bounds)
         {
         
         }
 
-        bool BoundingBox::contains(Vector3f const& point) const
+        bool BoundsAABB::contains(Vector3f const& point) const
         {
             return false;
         }
 
-        bool BoundingBox::contains(BoundingBox const& bounds) const
-        {
-            return false;
-        }
-
-        bool BoundingBox::intersects(BoundingBox const& bounds) const
-        {
-            return false;
-        }
-
-        bool BoundingBox::intersects(Ray const& ray) const
+        bool BoundsAABB::contains(BoundsAABB const& bounds) const
         {
             return false;
         }
