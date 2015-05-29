@@ -19,7 +19,9 @@
 #define __H__OCULAR_MATH_INTERSECTION__H__
 
 #include "Ray.hpp"
+#include "BoundsSphere.hpp"
 #include "BoundsAABB.hpp"
+#include "BoundsOBB.hpp"
 #include "Frustum.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -48,15 +50,82 @@ namespace Ocular
         static bool Intersects(Ray const& rayA, Ray const& rayB, Vector3f& point);
 
         /**
+         * Performs an intersection test on a ray and bounding sphere.
+         *
+         * \param[in] ray
+         * \param[in] bounds
+         *
+         * \return TRUE if the ray and bounding sphere intersect.
+         */
+        static bool Intersects(Ray const& ray, BoundsSphere const& bounds);
+
+        /**
+         * Performs an intersection test on a ray and bounding sphere.
+         *
+         * This version of the method also returns the point at which the two intersect.
+         * If speed is of the uptmost concern and/or the exact point of intersection is
+         * not required, then the other version may be used instead.
+         *
+         * \param[in]  ray
+         * \param[in]  bounds
+         * \param[out] point    The point that the ray and bounding sphere intersects.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and bounding sphere intersect.
+         */
+        static bool Intersects(Ray const& ray, BoundsSphere const& bounds, Vector3f& point, float& distance);
+
+        /**
          * Performs an intersection test on a ray and AABB.
          *
          * \param[in]  ray
-         * \param[in]  box
-         * \param[out] point The point that the ray and AABB intersect, if they intersect.
+         * \param[in]  bounds
          *
-         * \return TRUE if the ray and bounding box intersect.
+         * \return TRUE if the ray and AABB intersect.
          */
-        static bool Intersects(Ray const& ray, BoundsAABB const& box, Vector3f& point);
+        static bool Intersects(Ray const& ray, BoundsAABB const& bounds);
+
+        /**
+         * Performs an intersection test on a ray and AABB.
+         *
+         * This version of the method also returns the point at which the two intersect.
+         * If speed is of the uptmost concern and/or the exact point of intersection is
+         * not required, then the other version may be used instead.
+         *
+         * \param[in]  ray
+         * \param[in]  bounds
+         * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and AABB intersect.
+         */
+        static bool Intersects(Ray const& ray, BoundsAABB const& bounds, Vector3f& point, float& distance);
+
+        /**
+         * Performs an intersection test on a ray and AABB.
+         *
+         * \param[in]  ray
+         * \param[in]  bounds
+         *
+         * \return TRUE if the ray and AABB intersect.
+         */
+        static bool Intersects(Ray const& ray, BoundsOBB const& bounds);
+
+        /**
+         * Performs an intersection test on a ray and OBB.
+         *
+         * This version of the method also returns the point at which the two intersect.
+         * If speed is of the uptmost concern and/or the exact point of intersection is
+         * not required, then the other version may be used instead.
+         *
+         * \param[in]  ray
+         * \param[in]  bounds
+         * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and OBB intersect.
+         */
+        static bool Intersects(Ray const& ray, BoundsOBB const& bounds, Vector3f& point, float& distance);
 
         /**
          * Performs an intersection test on a ray and frustum.

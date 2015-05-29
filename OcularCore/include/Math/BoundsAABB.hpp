@@ -62,6 +62,9 @@ namespace Ocular
             Vector3f const& getCenter() const;
             Vector3f const& getExtents() const;
 
+            Vector3f getMinPoint() const;
+            Vector3f getMaxPoint() const;
+
             void expand(Vector3f const& extents);
             void expandToContain(Vector3f const& point);
             void expandToContain(BoundsAABB const& bounds);

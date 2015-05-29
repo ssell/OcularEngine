@@ -66,6 +66,16 @@ namespace Ocular
             return m_Extents;
         }
 
+        Vector3f BoundsAABB::getMinPoint() const
+        {
+        
+        }
+
+        Vector3f BoundsAABB::getMaxPoint() const
+        {
+        
+        }
+
         void BoundsAABB::expand(Vector3f const& extents)
         {
         
