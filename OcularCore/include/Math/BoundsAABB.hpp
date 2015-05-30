@@ -52,6 +52,12 @@ namespace Ocular
         {
         public:
 
+            /**
+             * Creates a new AABB with the specified parameters.
+             *
+             * \param[in] center Center position of the AABB
+             * \param[in] extents Extents along each axis from the center. So an extents of (5.0, 5.0, 5.0) would result in a 10x10x10 AABB.
+             */
             BoundsAABB(Vector3f const& center, Vector3f const& extents);
             BoundsAABB();
             ~BoundsAABB();

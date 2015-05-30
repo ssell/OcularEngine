@@ -175,7 +175,6 @@
     <ClCompile Include="..\..\src\Math\BoundsSphere.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Frustum.cpp" />
-    <ClCompile Include="..\..\src\Math\Intersection.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp" />

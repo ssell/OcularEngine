@@ -41,8 +41,12 @@ namespace Ocular
         {
         public:
 
+            BoundsSphere(Vector3f const& center, float radius);
             BoundsSphere();
             ~BoundsSphere();
+
+            void setCenter(Vector3f const& center);
+            void setRadius(float radius);
 
             Vector3f const& getCenter() const;
             float getRadius() const;

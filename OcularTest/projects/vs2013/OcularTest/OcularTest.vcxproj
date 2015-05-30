@@ -81,6 +81,7 @@
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConversions.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestIntersections.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathCommon.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathEuler.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathQuaternion.cpp" />

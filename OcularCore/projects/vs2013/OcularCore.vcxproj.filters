@@ -255,9 +255,6 @@
     <ClCompile Include="..\..\src\Math\Ray.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Intersection.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\BoundsAABB.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>

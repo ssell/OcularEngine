@@ -30,6 +30,9 @@ namespace Ocular
         {
             m_Center = center;
             m_Extents = extents;
+
+            m_MinPoint = center - extents;
+            m_MaxPoint = center + extents;
         }
 
         BoundsAABB::BoundsAABB()

@@ -28,7 +28,7 @@ using namespace Ocular::Math::Random;
 //------------------------------------------------------------------------------------------
 
 static const int64_t SEED = 1337;
-static const bool RUN_PRNG_TESTS = true;
+static const bool RUN_PRNG_TESTS = false;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 static const uint32_t TEXTURE_WIDTH = 800;
 static const uint32_t TEXTURE_HEIGHT = 600;

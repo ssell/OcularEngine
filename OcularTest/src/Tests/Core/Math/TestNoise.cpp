@@ -26,7 +26,7 @@ using namespace Ocular::Math::Noise;
 
 //------------------------------------------------------------------------------------------
 
-static const bool RUN_NOISE_TESTS = true;
+static const bool RUN_NOISE_TESTS = false;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
 //------------------------------------------------------------------------------------------

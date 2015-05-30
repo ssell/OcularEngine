@@ -26,6 +26,12 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        BoundsSphere::BoundsSphere(Vector3f const& center, float const radius)
+        {
+            m_Center = center;
+            m_Radius = radius;
+        }
+
         BoundsSphere::BoundsSphere()
         {
         
@@ -39,6 +45,16 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        void BoundsSphere::setCenter(Vector3f const& center)
+        {
+            m_Center = center;
+        }
+
+        void BoundsSphere::setRadius(float const radius)
+        {
+            m_Radius = radius;
+        }
 
         Vector3f const& BoundsSphere::getCenter() const
         {
