@@ -62,8 +62,8 @@ namespace Ocular
             Vector3f const& getCenter() const;
             Vector3f const& getExtents() const;
 
-            Vector3f getMinPoint() const;
-            Vector3f getMaxPoint() const;
+            Vector3f const& getMinPoint() const;
+            Vector3f const& getMaxPoint() const;
 
             void expand(Vector3f const& extents);
             void expandToContain(Vector3f const& point);
@@ -78,6 +78,8 @@ namespace Ocular
 
             Vector3f m_Center;
             Vector3f m_Extents;
+            Vector3f m_MinPoint;
+            Vector3f m_MaxPoint;
         };
     }
     /**

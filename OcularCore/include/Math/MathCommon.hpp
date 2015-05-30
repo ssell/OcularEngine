@@ -71,6 +71,44 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
+        
+        /**
+         * Returns the minimum of the two values.
+         *
+         * \param[in] a
+         * \param[in] b
+         */
+        template<typename T>
+        static T Min(T const& a, T const& b)
+        {
+            if(a < b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+        }
+        
+        /**
+         * Returns the maximum of the two values.
+         *
+         * \param[in] a
+         * \param[in] b
+         */
+        template<typename T>
+        static T Max(T const& a, T const& b)
+        {
+            if(a > b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+        }
 
         /**
          * Performs a fast floor operation on the provided floating point value.

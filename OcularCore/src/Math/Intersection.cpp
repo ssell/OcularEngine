@@ -15,6 +15,7 @@
  */
 
 #include "Math/Intersection.hpp"
+#include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -76,6 +77,70 @@ namespace Ocular
         
         bool Intersects(Ray const& ray, BoundsAABB const& bounds)
         {
+            // AABB intersection test using the slabs method.
+            // Source: Real-Time Rendering, 3rd Ed. Page 743
+
+            // Nearly identical tto the OBB method except for the following:
+            //     - Calculation for e is changed
+            //     - Calculation for f is changed
+
+            static const float epsilon = 10e-20;
+
+            bool result = true;
+
+            float tMin = FLT_MIN;
+            float tMax = FLT_MAX;
+            float t0 = 0.0f;
+            float t1 = 0.0f;
+
+            const Vector3f p = bounds.getCenter() - ray.getOrigin();
+            const Vector3f d = ray.getDirection();
+            const Vector3f h = bounds.getExtents();
+
+            for(uint32_t i = 0; i < 3; i++)
+            {
+                float e = p[i];
+                float f = d[i];
+
+                if(fabs(f) > epsilon)
+                {
+                    t0 = (e + h[i]) / f;
+                    t1 = (e - h[i]) / f;
+
+                    if(t0 > t1)
+                    {
+                    }
+
+                    if(t0 > tMin)
+                    {
+                        tMin = t0;
+                    }
+
+                    if(t1 < tMax)
+                    {
+                        tMax = t1;
+                    }
+
+                    if(tMin > tMax)
+                    {
+                        result = false;
+                        break;  // No intersection
+                    }
+
+                    if(tMax < 0.0f)
+                    {
+                        result = false;
+                        break;  // No intersection
+                    }
+                }
+                else if(((-epsilon - h[i]) > 0.0f) || (-e + h[i] < 0.0f))
+                {
+                    result = false;
+                    break;  // No intersection
+                }
+            }
+
+            return result;
         }
         
         bool Intersects(Ray const& ray, BoundsAABB const& bounds, Vector3f& point, float& distance)
@@ -154,7 +219,67 @@ namespace Ocular
         
         bool Intersects(Ray const& ray, BoundsOBB const& bounds)
         {
-            return false;
+            // OBB intersection test using the slabs method.
+            // Source: Real-Time Rendering, 3rd Ed. Page 743
+
+            static const float epsilon = 10e-20;
+
+            bool result = true;
+
+            float tMin = FLT_MIN;
+            float tMax = FLT_MAX;
+            float t0 = 0.0f;
+            float t1 = 0.0f;
+            
+            const Vector3f a[3] = { bounds.getVectorU(), bounds.getVectorV(), bounds.getVectorW() };
+            const Vector3f p    = bounds.getCenter() - ray.getOrigin();
+            const Vector3f d    = ray.getDirection();
+            const Vector3f h    = bounds.getExtents();
+
+            for(uint32_t i = 0; i < 3; i++)
+            {
+                float e = a[i].dot(p);
+                float f = a[i].dot(d);
+
+                if(fabs(f) > epsilon)
+                {
+                    t0 = (e + h[i]) / f;
+                    t1 = (e - h[i]) / f;
+
+                    if(t0 > t1)
+                    {
+                    }
+
+                    if(t0 > tMin)
+                    {
+                        tMin = t0;
+                    }
+
+                    if(t1 < tMax)
+                    {
+                        tMax = t1;
+                    }
+
+                    if(tMin > tMax)
+                    {
+                        result = false;
+                        break;  // No intersection
+                    }
+
+                    if(tMax < 0.0f)
+                    {
+                        result = false;
+                        break;  // No intersection
+                    }
+                }
+                else if(((-epsilon - h[i]) > 0.0f) || (-e + h[i] < 0.0f))
+                {
+                    result = false;
+                    break;  // No intersection
+                }
+            }
+
+            return result;
         }
         
         bool Intersects(Ray const& ray, BoundsOBB const& bounds, Vector3f& point, float& distance)
@@ -227,8 +352,64 @@ namespace Ocular
 
             return result;
         }
-        
-        bool Intersects(Ray const& ray, Frustum const& frustum, Vector3f& point)
+
+        bool Intersects(BoundsSphere const& boundsA, BoundsSphere const& boundsB)
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 763
+
+            const Vector3f distance = boundsA.getCenter() - boundsB.getCenter();
+
+            const float radiiSum = boundsA.getRadius() + boundsB.getRadius();
+            const float distanceSquared = distance.dot(distance);
+            const float radiiSumSquared = radiiSum * radiiSum;
+
+            return !(distanceSquared > radiiSumSquared);
+        }
+
+        bool Intersects(BoundsSphere const& boundsA, BoundsAABB const& boundsB)
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 764
+
+            const Vector3f aabbMin = boundsB.getMinPoint();
+            const Vector3f aabbMax = boundsB.getMaxPoint();
+            const Vector3f sphereCenter = boundsA.getCenter();
+            const float    sphereRadius = boundsA.getRadius();
+
+            const Vector3f a(Max<float>((aabbMin.x - sphereCenter.x), 0.0f),
+                             Max<float>((aabbMin.y - sphereCenter.y), 0.0f),
+                             Max<float>((aabbMin.z - sphereCenter.z), 0.0f));
+
+            const Vector3f b(Max<float>((sphereCenter.x - aabbMax.x), 0.0f),
+                             Max<float>((sphereCenter.y - aabbMax.y), 0.0f),
+                             Max<float>((sphereCenter.z - aabbMax.z), 0.0f));
+
+            const Vector3f c = a + b;
+
+            float distance = c.dot(c);
+                       
+            return !(distance > (sphereRadius * sphereRadius));
+        }
+
+        bool Intersects(BoundsAABB const& boundsA, BoundsSphere const& boundsB)
+        {
+            return Intersects(boundsB, boundsA);
+        }
+
+        bool Intersects(BoundsAABB const& boundsA, BoundsAABB const& boundsB)
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 765
+
+            const Vector3f minA = boundsA.getMinPoint();
+            const Vector3f minB = boundsB.getMinPoint();
+            const Vector3f maxA = boundsA.getMaxPoint();
+            const Vector3f maxB = boundsB.getMaxPoint();
+
+            return !((minA.x > maxB.x) || (minB.x > maxA.x) ||
+                     (minA.y > maxB.y) || (minB.y > maxA.y) ||
+                     (minA.z > maxB.z) || (minB.z > maxA.z));
+        }
+
+        bool Intersects(BoundsOBB const& boundsA, BoundsOBB const& boundsB)
         {
             return false;
         }

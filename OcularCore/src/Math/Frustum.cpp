@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+#include "Math/Frustum.hpp"
 #include "Math/BoundsAABB.hpp"
+#include "Math/BoundsOBB.hpp"
+#include "Math/BoundsSphere.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,80 +29,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
-        {
-            m_Center = center;
-            m_Extents = extents;
-        }
-
-        BoundsAABB::BoundsAABB()
-        {
-        
-        }
-
-        BoundsAABB::~BoundsAABB()
-        {
-        
-        }
-
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        void BoundsAABB::setCenter(Vector3f const& center)
-        {
-            m_Center = center;
-        }
-
-        void BoundsAABB::setExtents(Vector3f const& extents)
-        {
-            m_Extents = extents;
-        }
-
-        Vector3f const& BoundsAABB::getCenter() const
-        {
-            return m_Center;
-        }
-
-        Vector3f const& BoundsAABB::getExtents() const
-        {
-            return m_Extents;
-        }
-
-        Vector3f const& BoundsAABB::getMinPoint() const
-        {
-            return m_MinPoint;
-        }
-
-        Vector3f const& BoundsAABB::getMaxPoint() const
-        {
-            return m_MaxPoint;
-        }
-
-        void BoundsAABB::expand(Vector3f const& extents)
-        {
-            m_Extents += extents;
-        }
-
-        void BoundsAABB::expandToContain(Vector3f const& point)
-        {
-            
-        }
-
-        void BoundsAABB::expandToContain(BoundsAABB const& bounds)
-        {
-        
-        }
-
-        bool BoundsAABB::contains(Vector3f const& point) const
-        {
-            return false;
-        }
-
-        bool BoundsAABB::contains(BoundsAABB const& bounds) const
-        {
-            return false;
-        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

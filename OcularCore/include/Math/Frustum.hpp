@@ -34,12 +34,58 @@ namespace Ocular
      */
     namespace Math
     {
+        class BoundsAABB;
+        class BoundsOBB;
+        class BoundsSphere;
+
         /**
          * \class Frustum
          */
         class Frustum
         {
-        
+        public:
+
+            Frustum();
+            ~Frustum();
+
+            /**
+             * Tests to determine if the frustum contains the specified bounding sphere.
+             * Returns the following:
+             *
+             *     0: Sphere is outside of the frustum
+             *     1: Sphere is contained completely within the frustum
+             *     2: Sphere is contained partly within the frustum (intersection)
+             *
+             * \param[in] bounds
+             * \return Returns whether the sphere is outside (0), inside (1), or intersects (2) the frustum.
+             */
+            int8_t contains(BoundsSphere const& bounds) const;
+            
+            /**
+             * Tests to determine if the frustum contains the specified AABB.
+             * Returns the following:
+             *
+             *     0: AABB is outside of the frustum
+             *     1: AABB is contained completely within the frustum
+             *     2: AABB is contained partly within the frustum (intersection)
+             *
+             * \param[in] bounds
+             * \return Returns whether the AABB is outside (0), inside (1), or intersects (2) the frustum.
+             */
+            int8_t contains(BoundsAABB const& bounds) const;
+            
+            /**
+             * Tests to determine if the frustum contains the specified OBB.
+             * Returns the following:
+             *
+             *     0: OBB is outside of the frustum
+             *     1: OBB is contained completely within the frustum
+             *     2: OBB is contained partly within the frustum (intersection)
+             *
+             * \param[in] bounds
+             * \return Returns whether the OBB is outside (0), inside (1), or intersects (2) the frustum.
+             */
+            int8_t contains(BoundsOBB const& bounds) const;
         };
     }
     /**

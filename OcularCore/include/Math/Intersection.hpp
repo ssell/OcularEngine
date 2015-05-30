@@ -128,13 +128,55 @@ namespace Ocular
         static bool Intersects(Ray const& ray, BoundsOBB const& bounds, Vector3f& point, float& distance);
 
         /**
-         * Performs an intersection test on a ray and frustum.
+         * Performs an intersection test on two bounding spheres.
          *
-         * \param[in]  ray
-         * \param[in]  frustum
-         * \param[out] point   The point that the ray and frustum intersect, if they intersect.
+         * \param[in] boundsA
+         * \param[in] boundsB
+         *
+         * \return TRUE if the two bounding spheres intersect.
          */
-        static bool Intersects(Ray const& ray, Frustum const& frustum, Vector3f& point);
+        static bool Intersects(BoundsSphere const& boundsA, BoundsSphere const& boundsB);
+
+        /**
+         * Performs an intersection test on a bounding sphere and AABB.
+         *
+         * \param[in] boundsA
+         * \param[in] boundsB
+         *
+         * \return TRUE if the bounding sphere and AABB intersect.
+         */
+        static bool Intersects(BoundsSphere const& boundsA, BoundsAABB const& boundsB);
+
+        /**
+         * Performs an intersection test on a bounding sphere and AABB.
+         *
+         * \param[in] boundsA
+         * \param[in] boundsB
+         *
+         * \return TRUE if the bounding sphere and AABB intersect.
+         */
+        static bool Intersects(BoundsAABB const& boundsA, BoundsSphere const& boundsB);
+        
+        /**
+         * Performs an intersection test on two AABBs.
+         *
+         * \param[in] boundsA
+         * \param[in] boundsB
+         *
+         * \return TRUE if the two AABBs intersect.
+         */
+        static bool Intersects(BoundsAABB const& boundsA, BoundsAABB const& boundsB);
+        
+        /**
+         * Performs an intersection test on two OBBs.
+         *
+         * \param[in] boundsA
+         * \param[in] boundsB
+         *
+         * \return TRUE if the two OBBs intersect.
+         */
+        static bool Intersects(BoundsOBB const& boundsA, BoundsOBB const& boundsB);
+
     }
     /**
      * @} End of Doxygen Groups
