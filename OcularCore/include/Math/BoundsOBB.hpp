@@ -36,24 +36,61 @@ namespace Ocular
     {
         /**
          * \class BoundsOBB
+         *
+         * Implementation of an Oriented Bounding Box.
+         *
+         * Essentially an OBB is an AABB that can be arbitrarily rotated.
+         * They are more expensive to create and their intersection tests
+         * are more complicated, but have the benefit of not needing to
+         * be recalculated every time their contents are rotated.
+         *
+         * Additionally, in most cases an OBB will also provide a tighter
+         * fit than an AABB.
          */
         class BoundsOBB
         {
         public:
 
+            BoundsOBB(Vector3f const& center, Vector3f const& extents, Vector3f const& xDir, Vector3f const& yDir, Vector3f const& zDir);
             BoundsOBB();
             ~BoundsOBB();
 
+            /**
+             * Returns the center of the bounding box.
+             */
             Vector3f const& getCenter() const;
+
+            /**
+             * Returns the positive half-lengths of the box.
+             * These are the distances along each local axis to the box edge.
+             */
             Vector3f const& getExtents() const;
 
-            Vector3f const& getVectorU() const;
-            Vector3f const& getVectorV() const;
-            Vector3f const& getVectorW() const;
+            /**
+             * Returns the normalized direction of the x-axis of the bounding box.
+             */
+            Vector3f const& getDirectionX() const;
+
+            /**
+             * Returns the normalized direction of the y-axis of the bounding box.
+             */
+            Vector3f const& getDirectionY() const;
+
+            /**
+             * Returns the normalized direction of the z-axis of the bounding box.
+             */
+            Vector3f const& getDirectionZ() const;
+
 
         protected:
 
         private:
+
+            Vector3f m_Center;      ///< Center point of the box
+            Vector3f m_Extents;     ///< Positive half-lengths
+            Vector3f m_DirectionX;  ///< Normalized direction of the X side direction
+            Vector3f m_DirectionY;  ///< Normalized direction of the Y side direction
+            Vector3f m_DirectionZ;  ///< Normalized direction of the Z side direction
         };
     }
     /**

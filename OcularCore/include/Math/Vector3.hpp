@@ -114,7 +114,7 @@ namespace Ocular
                 }
             }
 
-            Vector3<T>& operator=(Vector3<T> const &rhs)
+            Vector3<T>& operator=(Vector3<T> const& rhs)
             {
                 x = rhs.x;
                 y = rhs.y;
@@ -123,7 +123,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator+=(Vector3<T> const &rhs)
+            Vector3<T>& operator+=(Vector3<T> const& rhs)
             {
                 x += rhs.x;
                 y += rhs.y;
@@ -141,7 +141,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator-=(Vector3<T> const &rhs)
+            Vector3<T>& operator-=(Vector3<T> const& rhs)
             {
                 x -= rhs.x;
                 y -= rhs.y;
@@ -159,7 +159,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator*=(Vector3<T> const &rhs)
+            Vector3<T>& operator*=(Vector3<T> const& rhs)
             {
                 x *= rhs.x;
                 y *= rhs.y;
@@ -177,7 +177,7 @@ namespace Ocular
                 return *this;
             }
 
-            Vector3<T>& operator/=(Vector3<T> const &rhs)
+            Vector3<T>& operator/=(Vector3<T> const& rhs)
             {
                 x /= rhs.x;
                 y /= rhs.y;
@@ -260,7 +260,7 @@ namespace Ocular
              * \param[in] rhs The second vector to cross multiply with
              * \return The cross product of the two vectors
              */
-            Vector3<T> cross(Vector3<T> const &rhs) const
+            Vector3<T> cross(Vector3<T> const& rhs) const
             {
                 return Vector3<T>((y * rhs.z) - (z * rhs.y),
                     (z * rhs.x) - (x * rhs.z),
@@ -274,7 +274,7 @@ namespace Ocular
              * \param[in] rhs The second vector dot multiply with
              * \return The dot product of the two vectors (in radians)
              */
-            T dot(Vector3<T> const &rhs) const
+            T dot(Vector3<T> const& rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
             }
@@ -286,7 +286,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the angle with
              * \return The angle, in radians, between the vectors
              */
-            double angleBetween(Vector3<T> const &rhs) const
+            double angleBetween(Vector3<T> const& rhs) const
             {
                 Vector3<T> normalLHS = getNormalized();
                 Vector3<T> normalRHS = rhs.getNormalized();
@@ -305,7 +305,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the distance with
              * \return The distance between the two vectors
              */
-            T distanceTo(Vector3<T> const &rhs) const
+            T distanceTo(Vector3<T> const& rhs) const
             {
                 Vector3<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -322,7 +322,7 @@ namespace Ocular
              * \param[in] fraction The fraction to interpolate by.
              * \return The resultant interpolated vector.
              */
-            static Vector3<T> lerp(Vector3<T> const from, Vector3<T> const to, T fraction)
+            static Vector3<T> Lerp(Vector3<T> const from, Vector3<T> const to, T fraction)
             {
                 T zero = static_cast<T>(0);
                 T one = static_cast<T>(1);
@@ -345,7 +345,7 @@ namespace Ocular
              * \param[in] fraction The fraction to interpolate by.
              * \return The resultant interpolated vector.
              */
-            static Vector3<T> slerp(Vector3<T> const &from, Vector3<T> const &to, double fraction)
+            static Vector3<T> Slerp(Vector3<T> const& from, Vector3<T> const& to, double fraction)
             {
                 // Adapted from http://en.wikipedia.org/wiki/Slerp
 
@@ -365,7 +365,7 @@ namespace Ocular
              * \param[in] b
              * \return The midpoint vector
              */
-            static Vector3<T> midpoint(Vector3<T> const &a, Vector3<T> const &b)
+            static Vector3<T> Midpoint(Vector3<T> const& a, Vector3<T> const& b)
             {
                 T two = static_cast<T>(2);
 
@@ -404,61 +404,73 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         template<typename T>
-        bool operator==(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        bool operator==(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return IsEqual<T>(lhs.x, rhs.x) && IsEqual<T>(lhs.y, rhs.y) && IsEqual<T>(lhs.z, rhs.z);
         }
         
         template<typename T>
-        bool operator!=(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        bool operator!=(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return !(lhs == rhs);
         }
 
         template<typename T>
-        Vector3<T> operator+(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        bool operator>(Vector3<T> const& lhs, Vector3<T> const& rhs)
+        {
+            return ((lhs.x > rhs.x) && (lhs.y > rhs.y) && (lhs.z > rhs.z));
+        }
+
+        template<typename T>
+        bool operator<(Vector3<T> const& lhs, Vector3<T> const& rhs)
+        {
+            return ((lhs.x < rhs.x) && (lhs.y < rhs.y) && (lhs.z < rhs.z));
+        }
+
+        template<typename T>
+        Vector3<T> operator+(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return Vector3<T>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
         }
 
         template<typename T>
-        Vector3<T> operator+(Vector3<T> const &lhs, T const &rhs)
+        Vector3<T> operator+(Vector3<T> const& lhs, T const& rhs)
         {
             return Vector3<T>(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs);
         }
 
         template<typename T>
-        Vector3<T> operator-(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        Vector3<T> operator-(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return Vector3<T>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
         }
 
         template<typename T>
-        Vector3<T> operator-(Vector3<T> const &lhs, T const &rhs)
+        Vector3<T> operator-(Vector3<T> const& lhs, T const& rhs)
         {
             return Vector3<T>(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs);
         }
 
         template<typename T>
-        Vector3<T> operator*(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        Vector3<T> operator*(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return Vector3<T>(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
         }
 
         template<typename T>
-        Vector3<T> operator*(Vector3<T> const &lhs, T const &rhs)
+        Vector3<T> operator*(Vector3<T> const& lhs, T const& rhs)
         {
             return Vector3<T>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
         }
 
         template<typename T>
-        Vector3<T> operator/(Vector3<T> const &lhs, Vector3<T> const &rhs)
+        Vector3<T> operator/(Vector3<T> const& lhs, Vector3<T> const& rhs)
         {
             return Vector3<T>(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
         }
 
         template<typename T>
-        Vector3<T> operator/(Vector3<T> const &lhs, T const &rhs)
+        Vector3<T> operator/(Vector3<T> const& lhs, T const& rhs)
         {
             return Vector3<T>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
         }

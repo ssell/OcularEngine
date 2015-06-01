@@ -137,18 +137,18 @@ TEST(Vector3, Distance)
 TEST(Vector3, Midpoint)
 {
     const Ocular::Math::Vector3d expected = Ocular::Math::Vector3d(21.5, 10.4, 1.5);
-    const Ocular::Math::Vector3d result = Ocular::Math::Vector3d::midpoint(vecA, vecB);
+    const Ocular::Math::Vector3d result = Ocular::Math::Vector3d::Midpoint(vecA, vecB);
     
     EXPECT_TRUE((expected == result));
 }
 
 TEST(Vector3, Lerp)
 {
-    const Ocular::Math::Vector3d midpoint = Ocular::Math::Vector3d::midpoint(vecA, vecB);
+    const Ocular::Math::Vector3d midpoint = Ocular::Math::Vector3d::Midpoint(vecA, vecB);
 
-    const Ocular::Math::Vector3d resultZero = Ocular::Math::Vector3d::lerp(vecA, vecB, 0.0);
-    const Ocular::Math::Vector3d resultHalf = Ocular::Math::Vector3d::lerp(vecA, vecB, 0.5);
-    const Ocular::Math::Vector3d resultOne  = Ocular::Math::Vector3d::lerp(vecA, vecB, 1.0);
+    const Ocular::Math::Vector3d resultZero = Ocular::Math::Vector3d::Lerp(vecA, vecB, 0.0);
+    const Ocular::Math::Vector3d resultHalf = Ocular::Math::Vector3d::Lerp(vecA, vecB, 0.5);
+    const Ocular::Math::Vector3d resultOne  = Ocular::Math::Vector3d::Lerp(vecA, vecB, 1.0);
 
     EXPECT_TRUE((vecA == resultZero));
     EXPECT_TRUE((midpoint == resultHalf));

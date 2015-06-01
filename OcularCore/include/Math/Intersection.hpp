@@ -326,7 +326,7 @@ namespace Ocular
             float t0 = 0.0f;
             float t1 = 0.0f;
             
-            const Vector3f a[3] = { bounds.getVectorU(), bounds.getVectorV(), bounds.getVectorW() };
+            const Vector3f a[3] = { bounds.getDirectionX(), bounds.getDirectionY(), bounds.getDirectionZ() };
             const Vector3f p    = bounds.getCenter() - ray.getOrigin();
             const Vector3f d    = ray.getDirection();
             const Vector3f h    = bounds.getExtents();
@@ -408,7 +408,7 @@ namespace Ocular
             float t0 = 0.0f;
             float t1 = 0.0f;
             
-            const Vector3f a[3] = { bounds.getVectorU(), bounds.getVectorV(), bounds.getVectorW() };
+            const Vector3f a[3] = { bounds.getDirectionX(), bounds.getDirectionY(), bounds.getDirectionZ() };
             const Vector3f p    = bounds.getCenter() - ray.getOrigin();
             const Vector3f d    = ray.getDirection();
             const Vector3f h    = bounds.getExtents();
@@ -506,13 +506,13 @@ namespace Ocular
             const Vector3f sphereCenter = boundsA.getCenter();
             const float    sphereRadius = boundsA.getRadius();
 
-            const Vector3f a(Max<float>((aabbMin.x - sphereCenter.x), 0.0f),
-                             Max<float>((aabbMin.y - sphereCenter.y), 0.0f),
-                             Max<float>((aabbMin.z - sphereCenter.z), 0.0f));
+            const Vector3f a(Max((aabbMin.x - sphereCenter.x), 0.0f),
+                             Max((aabbMin.y - sphereCenter.y), 0.0f),
+                             Max((aabbMin.z - sphereCenter.z), 0.0f));
 
-            const Vector3f b(Max<float>((sphereCenter.x - aabbMax.x), 0.0f),
-                             Max<float>((sphereCenter.y - aabbMax.y), 0.0f),
-                             Max<float>((sphereCenter.z - aabbMax.z), 0.0f));
+            const Vector3f b(Max((sphereCenter.x - aabbMax.x), 0.0f),
+                             Max((sphereCenter.y - aabbMax.y), 0.0f),
+                             Max((sphereCenter.z - aabbMax.z), 0.0f));
 
             const Vector3f c = a + b;
 

@@ -102,6 +102,9 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestIntersections.cpp">
       <Filter>Source Files\Tests\Core\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsAABB.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

@@ -26,13 +26,17 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        BoundsAABB::BoundsAABB(std::list<Point3f> const& points)
+        {
+            construct(points);
+        }
+
         BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
         {
-            m_Center = center;
-            m_Extents = extents;
+            m_Center  = center;
+            m_Extents = Vector3f(Max(extents.x, 0.0f), Max(extents.y, 0.0f), Max(extents.z, 0.0f));
 
-            m_MinPoint = center - extents;
-            m_MaxPoint = center + extents;
+            calculateMinMaxPoints();
         }
 
         BoundsAABB::BoundsAABB()
@@ -49,14 +53,43 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void BoundsAABB::construct(std::list<Point3f> const& points)
+        {
+            float minX = FLT_MAX;
+            float minY = FLT_MAX;
+            float minZ = FLT_MAX;
+
+            float maxX = FLT_MIN;
+            float maxY = FLT_MIN;
+            float maxZ = FLT_MIN;
+
+            for(auto point : points)
+            {
+                minX = Min(minX, point.x);
+                minY = Min(minY, point.y);
+                minZ = Min(minZ, point.z);
+
+                maxX = Max(maxX, point.x);
+                maxY = Max(maxY, point.y);
+                maxZ = Max(maxZ, point.z);
+            }
+
+            m_MinPoint = Vector3f(minX, minY, minZ);
+            m_MaxPoint = Vector3f(maxX, maxY, maxZ);
+            m_Center   = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
+            m_Extents  = m_MaxPoint - m_Center;
+        }
+
         void BoundsAABB::setCenter(Vector3f const& center)
         {
             m_Center = center;
+            calculateMinMaxPoints();
         }
 
         void BoundsAABB::setExtents(Vector3f const& extents)
         {
-            m_Extents = extents;
+            m_Extents = Vector3f(Max(extents.x, 0.0f), Max(extents.y, 0.0f), Max(extents.z, 0.0f));
+            calculateMinMaxPoints();
         }
 
         Vector3f const& BoundsAABB::getCenter() const
@@ -82,31 +115,128 @@ namespace Ocular
         void BoundsAABB::expand(Vector3f const& extents)
         {
             m_Extents += extents;
+
+            m_Extents.x = Max(m_Extents.x, 0.0f);
+            m_Extents.y = Max(m_Extents.y, 0.0f);
+            m_Extents.z = Max(m_Extents.z, 0.0f);
+
+            calculateMinMaxPoints();
         }
 
         void BoundsAABB::expandToContain(Vector3f const& point)
         {
-            
+            if(!contains(point))
+            {
+                m_MinPoint = Vector3f(Min(m_MinPoint.x, point.x),
+                                      Min(m_MinPoint.y, point.y),
+                                      Min(m_MinPoint.z, point.z));
+
+                m_MaxPoint = Vector3f(Max(m_MaxPoint.x, point.x),
+                                      Max(m_MaxPoint.y, point.y),
+                                      Max(m_MaxPoint.z, point.z));
+
+                m_Center  = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
+                m_Extents = m_MaxPoint - m_Center;
+            }
         }
 
         void BoundsAABB::expandToContain(BoundsAABB const& bounds)
         {
-        
+            ContainsResult result;
+            contains(bounds, &result, true);
+
+            if(result != ContainsResult::Inside)
+            {
+                const Vector3f otherMin = bounds.getMinPoint();
+                const Vector3f otherMax = bounds.getMaxPoint();
+
+                m_MinPoint = Vector3f(Min(m_MinPoint.x, otherMin.x),
+                                      Min(m_MinPoint.y, otherMin.y),
+                                      Min(m_MinPoint.z, otherMin.z));
+
+                m_MaxPoint = Vector3f(Max(m_MaxPoint.x, otherMax.x),
+                                      Max(m_MaxPoint.y, otherMax.y),
+                                      Max(m_MaxPoint.z, otherMax.z));
+
+                m_Center  = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
+                m_Extents = m_MaxPoint - m_Center;
+            }
         }
 
-        bool BoundsAABB::contains(Vector3f const& point) const
+        bool BoundsAABB::contains(Vector3f const& point, ContainsResult* result, bool testIntersects) const
         {
-            return false;
+            ContainsResult tempResult;
+
+            // If just any one of the components lies beyond the min/max points, then it is outside.
+            if((point.x > m_MaxPoint.x) || (point.y > m_MaxPoint.y) || (point.z > m_MaxPoint.z) ||
+               (point.x < m_MinPoint.x) || (point.y < m_MinPoint.y) || (point.z < m_MinPoint.z))
+            {
+                tempResult = ContainsResult::Outside;
+            }
+            else
+            {
+                tempResult = ContainsResult::Inside;
+
+                if(testIntersects)
+                {
+                    if(IsEqual<float>(point.x, m_MaxPoint.x) || IsEqual<float>(point.y, m_MaxPoint.y) || IsEqual<float>(point.z, m_MaxPoint.z) ||
+                       IsEqual<float>(point.x, m_MinPoint.x) || IsEqual<float>(point.y, m_MinPoint.y) || IsEqual<float>(point.z, m_MinPoint.z))
+                    {
+                        tempResult = ContainsResult::Intersects;
+                    }
+                }
+            }
+
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+
+            return (tempResult == ContainsResult::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
         }
 
-        bool BoundsAABB::contains(BoundsAABB const& bounds) const
+        bool BoundsAABB::contains(BoundsAABB const& bounds, ContainsResult* result, bool testIntersects) const
         {
-            return false;
+            ContainsResult tempResult;
+
+            const Vector3f otherMin = bounds.getMinPoint();
+            const Vector3f otherMax = bounds.getMaxPoint();
+
+            if((otherMin > m_MaxPoint) || (otherMax < m_MinPoint))
+            {
+                tempResult = ContainsResult::Outside;
+            }
+            else
+            {
+                tempResult = ContainsResult::Inside;
+
+                if(testIntersects)
+                {
+                    if((otherMax.x >= m_MaxPoint.x) || (otherMax.y >= m_MaxPoint.y) || (otherMax.z >= m_MaxPoint.z) ||
+                       (otherMin.x <= m_MinPoint.x) || (otherMin.y <= m_MinPoint.y) || (otherMin.z <= m_MinPoint.z))
+                    {
+                        tempResult = ContainsResult::Intersects;
+                    }
+                }
+            }
+
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+            
+            return (tempResult == ContainsResult::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void BoundsAABB::calculateMinMaxPoints()
+        {
+            m_MinPoint = m_Center - m_Extents;
+            m_MaxPoint = m_Center + m_Extents;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

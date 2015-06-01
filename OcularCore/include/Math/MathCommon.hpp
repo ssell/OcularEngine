@@ -39,6 +39,17 @@ namespace Ocular
     namespace Math
     {
         //----------------------------------------------------------------------------------
+        // Enums
+        //----------------------------------------------------------------------------------
+
+        enum class ContainsResult : int8_t
+        {
+            Intersects = 0,   ///< The object intersects the bounds and is not fully inside or outside.
+            Outside = 1,      ///< There is no intersection and the object is full
+            Inside = 2
+        };
+
+        //----------------------------------------------------------------------------------
         // Type Checking
         //----------------------------------------------------------------------------------
 
@@ -108,6 +119,56 @@ namespace Ocular
             {
                 return b;
             }
+        }
+
+        static double Max(double const& a, double const b)
+        {
+            return Max<double>(a, b);
+        }
+
+        static float Max(float const& a, float const b)
+        {
+            return Max<float>(a, b);
+        }
+
+        static int64_t Max(int64_t const& a, int64_t const b)
+        {
+            return Max<int64_t>(a, b);
+        }
+
+        static uint64_t Max(uint64_t const& a, uint64_t const b)
+        {
+            return Max<uint64_t>(a, b);
+        }
+
+        static int32_t Max(int32_t const& a, int32_t const b)
+        {
+            return Max<int32_t>(a, b);
+        }
+
+        static uint32_t Max(uint32_t const& a, uint32_t const b)
+        {
+            return Max<uint32_t>(a, b);
+        }
+
+        static int16_t Max(int16_t const& a, int16_t const b)
+        {
+            return Max<int16_t>(a, b);
+        }
+
+        static uint16_t Max(uint16_t const& a, uint16_t const b)
+        {
+            return Max<uint16_t>(a, b);
+        }
+
+        static int8_t Max(int8_t const& a, int8_t const b)
+        {
+            return Max<int8_t>(a, b);
+        }
+
+        static uint8_t Max(uint8_t const& a, uint8_t const b)
+        {
+            return Max<uint8_t>(a, b);
         }
 
         /**
