@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_BOUNDS_SPHERE__H__
 
 #include "Vector3.hpp"
+#include <list>
 
 //------------------------------------------------------------------------------------------
 
@@ -45,6 +46,14 @@ namespace Ocular
             BoundsSphere();
             ~BoundsSphere();
 
+            /**
+             * Constructs the bounds from a collection of spatial points.
+             *
+             * \param[in] points
+             */
+            void construct(std::list<Point3f> const& points);
+
+            
             void setCenter(Vector3f const& center);
             void setRadius(float radius);
 

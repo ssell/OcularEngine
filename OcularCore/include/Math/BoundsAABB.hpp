@@ -71,6 +71,11 @@ namespace Ocular
 
             ~BoundsAABB();
 
+            /**
+             * Constructs the bounds from a collection of spatial points.
+             *
+             * \param[in] points
+             */
             void construct(std::list<Point3f> const& points);
 
             /**
