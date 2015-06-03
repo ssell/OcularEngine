@@ -42,7 +42,7 @@ namespace Ocular
         // Enums
         //----------------------------------------------------------------------------------
 
-        enum class ContainsResult : int8_t
+        enum class IntersectionType : int8_t
         {
             Intersects = 0,   ///< The object intersects the bounds and is not fully inside or outside.
             Outside = 1,      ///< There is no intersection and the object is full

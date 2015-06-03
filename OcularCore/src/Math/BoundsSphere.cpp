@@ -166,7 +166,7 @@ namespace Ocular
 
         void BoundsSphere::setRadius(float const radius)
         {
-            m_Radius = radius;
+            m_Radius = Max<float>(radius, 0.0f);
         }
 
         Vector3f const& BoundsSphere::getCenter() const
@@ -177,6 +177,112 @@ namespace Ocular
         float BoundsSphere::getRadius() const
         {
             return m_Radius;
+        }
+        
+        void BoundsSphere::expand(float const amount)
+        {
+            m_Radius = Max(m_Radius + amount, 0.0f);
+        }
+
+        void BoundsSphere::expandToContain(Point3f const& point)
+        {
+            /* 
+            This is identical to the second pass of the algorithm employed in the construct method.
+
+                - Determine if point is in sphere. If not,
+
+                - Find the difference between the distance of the point to the center
+                  and the radius of the sphere.
+
+                - This difference is the distance of how far we must expand the sphere
+                  in order to encapsulate the point.
+
+                - Increase the radius by half of the difference. The sphere is now half-way
+                  to being able to encapsulate the point.
+
+                - Shift the center the final half of the distance towards the point. The
+                  point should now be fully enclosed by the sphere.
+            */
+
+            if(!contains(point))
+            {
+                const Vector3f pointToOldCenter = point - m_Center;
+                const float pointToOldCenterDistance = pointToOldCenter.getLength();
+
+                m_Radius = (m_Radius + pointToOldCenterDistance) * 0.5f;
+
+                const float distanceDifference = pointToOldCenterDistance - m_Radius;
+
+                m_Center = ((m_Center * m_Radius) + (point * distanceDifference)) / pointToOldCenterDistance;
+            }
+        }
+
+        bool BoundsSphere::contains(Point3f const& point, IntersectionType* result) const
+        {
+            IntersectionType tempResult = IntersectionType::Outside;
+
+            const Vector3f pointToCenter = point - m_Center;
+
+            const float distanceSquared = pointToCenter.dot(pointToCenter);
+            const float radiiSquared = m_Radius * m_Radius;
+
+            if(IsEqual<float>(radiiSquared, distanceSquared))
+            {
+                tempResult = IntersectionType::Intersects;
+            }
+            else if(distanceSquared < radiiSquared)
+            {
+                tempResult = IntersectionType::Inside;
+            }
+
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+
+            return (tempResult == IntersectionType::Outside) ? false : true;
+        }
+
+        bool BoundsSphere::contains(BoundsSphere const& sphere, IntersectionType* result) const
+        {
+            IntersectionType tempResult = IntersectionType::Inside;
+
+            const Vector3f sphereToSphere = sphere.getCenter() - m_Center;
+
+            const float sphereRadius = sphere.getRadius();
+            const float sphereDistance = sphereToSphere.getLength();
+
+            if(sphereRadius > m_Radius)
+            {
+                // Can't possibly be entirely inside, so either intersects or outside
+                if(sphereDistance > sphereRadius)
+                {
+                    tempResult = IntersectionType::Outside;
+                }
+                else
+                {
+                    tempResult = IntersectionType::Intersects;
+                }
+            }
+            else
+            {
+                // Possibility of being inside, outside, or intersecting
+                if(sphereDistance > (sphereRadius + m_Radius))
+                {
+                    tempResult = IntersectionType::Outside;
+                }
+                else if(sphereDistance >= (m_Radius - sphereRadius))
+                {
+                    tempResult = IntersectionType::Intersects;
+                }
+            }
+
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+
+            return ((*result) == IntersectionType::Outside) ? false : true;
         }
 
         //----------------------------------------------------------------------------------

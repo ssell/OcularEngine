@@ -152,13 +152,11 @@ namespace Ocular
              * To test for just intersection, see the series of Ocular::Math::Intersects functions.
              *
              * \param[in]  point
-             * \param[out] result         The exact result of the containment test (intersection, outside, inside).
-             * \param[in]  testIntersects If true, performs additional steps to test if the point is fully inside or intersects.
-             *                            If false, the only possible results are Inside or Outside (an intersection would result in an Inside result).
+             * \param[out] result The exact result of the containment test (intersection, outside, inside).
              *
              * \return TRUE if point is inside or intersects.
              */
-            bool contains(Vector3f const& point, ContainsResult* result = nullptr, bool testIntersects = false) const;
+            bool contains(Vector3f const& point, IntersectionType* result = nullptr) const;
 
             /**
              * Calculates if any portion of the specified bounds is contained within the AABB.
@@ -166,13 +164,11 @@ namespace Ocular
              * To test for just intersection, see the series of Ocular::Math::Intersects functions.
              *
              * \param[in]  bounds
-             * \param[out] result         The exact result of the containment test (intersection, outside, inside).
-             * \param[in]  testIntersects If true, performs additional steps to test if the point is fully inside or intersects.
-             *                            If false, the only possible results are Inside or Outside (an intersection would result in an Inside result).
+             * \param[out] result The exact result of the containment test (intersection, outside, inside).
              *
              * \return TRUE if bounds is inside or intersects.
              */
-            bool contains(BoundsAABB const& bounds, ContainsResult* result = nullptr, bool testIntersects = false) const;
+            bool contains(BoundsAABB const& bounds, IntersectionType* result = nullptr) const;
 
         protected:
 

@@ -137,22 +137,19 @@ TEST(BoundsAABB, ContainsPoint)
     const Point3f pointC(0.0f, 0.0f, -1.0f);
     const Point3f pointD(0.0f, 0.0f, 10.0f);
 
-    ContainsResult result;
+    IntersectionType result;
 
     EXPECT_TRUE(aabb.contains(pointA, &result));
-    EXPECT_EQ(result, ContainsResult::Inside);
-    
+    EXPECT_EQ(result, IntersectionType::Inside);
+
     EXPECT_TRUE(aabb.contains(pointB, &result));
-    EXPECT_EQ(result, ContainsResult::Inside);
+    EXPECT_EQ(result, IntersectionType::Intersects);
 
-    EXPECT_TRUE(aabb.contains(pointB, &result, true));
-    EXPECT_EQ(result, ContainsResult::Intersects);
-
-    EXPECT_TRUE(aabb.contains(pointC, &result, true));
-    EXPECT_EQ(result, ContainsResult::Intersects);
+    EXPECT_TRUE(aabb.contains(pointC, &result));
+    EXPECT_EQ(result, IntersectionType::Intersects);
 
     EXPECT_FALSE(aabb.contains(pointD, &result));
-    EXPECT_EQ(result, ContainsResult::Outside);
+    EXPECT_EQ(result, IntersectionType::Outside);
 }
 
 TEST(BoundsAABB, ContainsAABB)
@@ -162,16 +159,16 @@ TEST(BoundsAABB, ContainsAABB)
     const BoundsAABB aabbC(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.5f, 0.5f, 0.5f));
     const BoundsAABB aabbD(Vector3f(5.0f, 5.0f, 5.0f), Vector3f(1.0f, 1.0f, 1.0f));
 
-    ContainsResult result;
+    IntersectionType result;
 
-    EXPECT_TRUE(aabbA.contains(aabbB, &result, true));
-    EXPECT_EQ(result, ContainsResult::Intersects);
+    EXPECT_TRUE(aabbA.contains(aabbB, &result));
+    EXPECT_EQ(result, IntersectionType::Intersects);
 
     EXPECT_TRUE(aabbA.contains(aabbC, &result));
-    EXPECT_EQ(result, ContainsResult::Inside);
+    EXPECT_EQ(result, IntersectionType::Inside);
 
     EXPECT_FALSE(aabbA.contains(aabbD, &result));
-    EXPECT_EQ(result, ContainsResult::Outside);
+    EXPECT_EQ(result, IntersectionType::Outside);
 }
 
 TEST(BoundsAABB, Construct)

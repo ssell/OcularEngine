@@ -142,10 +142,10 @@ namespace Ocular
 
         void BoundsAABB::expandToContain(BoundsAABB const& bounds)
         {
-            ContainsResult result;
-            contains(bounds, &result, true);
+            IntersectionType result;
+            contains(bounds, &result);
 
-            if(result != ContainsResult::Inside)
+            if(result != IntersectionType::Inside)
             {
                 const Vector3f otherMin = bounds.getMinPoint();
                 const Vector3f otherMax = bounds.getMaxPoint();
@@ -163,27 +163,24 @@ namespace Ocular
             }
         }
 
-        bool BoundsAABB::contains(Vector3f const& point, ContainsResult* result, bool testIntersects) const
+        bool BoundsAABB::contains(Vector3f const& point, IntersectionType* result) const
         {
-            ContainsResult tempResult;
+            IntersectionType tempResult;
 
             // If just any one of the components lies beyond the min/max points, then it is outside.
             if((point.x > m_MaxPoint.x) || (point.y > m_MaxPoint.y) || (point.z > m_MaxPoint.z) ||
                (point.x < m_MinPoint.x) || (point.y < m_MinPoint.y) || (point.z < m_MinPoint.z))
             {
-                tempResult = ContainsResult::Outside;
+                tempResult = IntersectionType::Outside;
             }
             else
             {
-                tempResult = ContainsResult::Inside;
+                tempResult = IntersectionType::Inside;
 
-                if(testIntersects)
+                if(IsEqual<float>(point.x, m_MaxPoint.x) || IsEqual<float>(point.y, m_MaxPoint.y) || IsEqual<float>(point.z, m_MaxPoint.z) ||
+                    IsEqual<float>(point.x, m_MinPoint.x) || IsEqual<float>(point.y, m_MinPoint.y) || IsEqual<float>(point.z, m_MinPoint.z))
                 {
-                    if(IsEqual<float>(point.x, m_MaxPoint.x) || IsEqual<float>(point.y, m_MaxPoint.y) || IsEqual<float>(point.z, m_MaxPoint.z) ||
-                       IsEqual<float>(point.x, m_MinPoint.x) || IsEqual<float>(point.y, m_MinPoint.y) || IsEqual<float>(point.z, m_MinPoint.z))
-                    {
-                        tempResult = ContainsResult::Intersects;
-                    }
+                    tempResult = IntersectionType::Intersects;
                 }
             }
 
@@ -192,31 +189,28 @@ namespace Ocular
                 (*result) = tempResult;
             }
 
-            return (tempResult == ContainsResult::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
+            return (tempResult == IntersectionType::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
         }
 
-        bool BoundsAABB::contains(BoundsAABB const& bounds, ContainsResult* result, bool testIntersects) const
+        bool BoundsAABB::contains(BoundsAABB const& bounds, IntersectionType* result) const
         {
-            ContainsResult tempResult;
+            IntersectionType tempResult;
 
             const Vector3f otherMin = bounds.getMinPoint();
             const Vector3f otherMax = bounds.getMaxPoint();
 
             if((otherMin > m_MaxPoint) || (otherMax < m_MinPoint))
             {
-                tempResult = ContainsResult::Outside;
+                tempResult = IntersectionType::Outside;
             }
             else
             {
-                tempResult = ContainsResult::Inside;
+                tempResult = IntersectionType::Inside;
 
-                if(testIntersects)
+                if((otherMax.x >= m_MaxPoint.x) || (otherMax.y >= m_MaxPoint.y) || (otherMax.z >= m_MaxPoint.z) ||
+                    (otherMin.x <= m_MinPoint.x) || (otherMin.y <= m_MinPoint.y) || (otherMin.z <= m_MinPoint.z))
                 {
-                    if((otherMax.x >= m_MaxPoint.x) || (otherMax.y >= m_MaxPoint.y) || (otherMax.z >= m_MaxPoint.z) ||
-                       (otherMin.x <= m_MinPoint.x) || (otherMin.y <= m_MinPoint.y) || (otherMin.z <= m_MinPoint.z))
-                    {
-                        tempResult = ContainsResult::Intersects;
-                    }
+                    tempResult = IntersectionType::Intersects;
                 }
             }
 
@@ -225,7 +219,7 @@ namespace Ocular
                 (*result) = tempResult;
             }
             
-            return (tempResult == ContainsResult::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
+            return (tempResult == IntersectionType::Outside) ? false : true;  // Avoid MSVC compiler warning from casting direct to bool
         }
 
         //----------------------------------------------------------------------------------
