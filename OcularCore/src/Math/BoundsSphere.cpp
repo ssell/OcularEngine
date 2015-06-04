@@ -26,6 +26,11 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        BoundsSphere::BoundsSphere(std::list<Point3f> const& points)
+        {
+            construct(points);
+        }
+
         BoundsSphere::BoundsSphere(Vector3f const& center, float const radius)
         {
             m_Center = center;

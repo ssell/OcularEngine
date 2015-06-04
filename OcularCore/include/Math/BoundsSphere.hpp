@@ -42,6 +42,7 @@ namespace Ocular
         {
         public:
 
+            BoundsSphere(std::list<Point3f> const& points);
             BoundsSphere(Vector3f const& center, float radius);
             BoundsSphere();
             ~BoundsSphere();

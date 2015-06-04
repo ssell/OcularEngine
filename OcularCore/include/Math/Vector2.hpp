@@ -1,44 +1,43 @@
 /**
-* Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #pragma once
 #ifndef __H__OCULAR_MATH_VECTOR_2__H__
 #define __H__OCULAR_MATH_VECTOR_2__H__
 
-#include "Equality.hpp"
 #include "MathCommon.hpp"
 #include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------
 
 /**
-* \addtogroup Ocular
-* @{
-*/
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
     /**
-    * \addtogroup Math
-    * @{
-    */
+     * \addtogroup Math
+     * @{
+     */
     namespace Math
     {
         /**
-        * \class Vector2
-        */
+         * \class Vector2
+         */
         template<typename T>
         class Vector2
         {
@@ -174,27 +173,27 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
-            * \return The magnitude (length) of the vector.
-            */
+             * \return The magnitude (length) of the vector.
+             */
             T getMagnitude() const
             {
                 return std::sqrt((x * x) + (y * y));
             }
 
             /**
-            * \return The length of the vector.
-            */
+             * \return The length of the vector.
+             */
             T getLength() const
             {
                 return getMagnitude();
             }
 
             /**
-            * Normalizes the vector. When normalized, a vector maintains its direction but its magnitude is set to 1.0.
-            *
-            * \note This method modifies the internal data stored in the vector. See getNormalized 
-            * if this is not desired.
-            */
+             * Normalizes the vector. When normalized, a vector maintains its direction but its magnitude is set to 1.0.
+             *
+             * \note This method modifies the internal data stored in the vector. See getNormalized 
+             * if this is not desired.
+             */
             void normalize()
             {
                 // Normalization is simply multiplying the vector by the reciprocal of its magnitude. 
@@ -225,24 +224,24 @@ namespace Ocular
             }
 
             /**
-            * The dot product is a value equal to the magnitudes of the two vectors multiplied
-            * together and then multiplied by the cosine of the angle between them.
-            *
-            * \param[in] rhs The second vector dot multiply with
-            * \return The dot product of the two vectors (in radians)
-            */
+             * The dot product is a value equal to the magnitudes of the two vectors multiplied
+             * together and then multiplied by the cosine of the angle between them.
+             *
+             * \param[in] rhs The second vector dot multiply with
+             * \return The dot product of the two vectors (in radians)
+             */
             T dot(Vector2<T> const &rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y);
             }
 
             /**
-            * This is equivalent to taking the acos of the dot product.<br/>
-            * The returned angle is the acute angle, i.e the smallest of the two angles.
-            *
-            * \param[in] rhs The second vector to calculate the angle with
-            * \return The angle, in radians, between the vectors
-            */
+             * This is equivalent to taking the acos of the dot product.<br/>
+             * The returned angle is the acute angle, i.e the smallest of the two angles.
+             *
+             * \param[in] rhs The second vector to calculate the angle with
+             * \return The angle, in radians, between the vectors
+             */
             double angleBetween(Vector2<T> const &rhs) const
             {
                 Vector2<T> normalLHS = getNormalized();
@@ -259,9 +258,9 @@ namespace Ocular
             }
 
             /**
-            * \param[in] rhs The second vector to calculate the distance with
-            * \return The distance between the two vectors
-            */
+             * \param[in] rhs The second vector to calculate the distance with
+             * \return The distance between the two vectors
+             */
             double distanceTo(Vector2<T> const &rhs) const
             {
                 Vector2<T> distance = (*this) - rhs;
@@ -353,12 +352,12 @@ namespace Ocular
 
     }
     /**
-    * @} End of Doxygen Groups
-    */
+     * @} End of Doxygen Groups
+     */
 }
 /**
-* @} End of Doxygen Groups
-*/
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

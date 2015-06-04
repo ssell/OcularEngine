@@ -54,6 +54,24 @@ TEST(BoundsSphere, SetRadius)
     EXPECT_NEAR(sphere.getRadius(), expectC, EPSILON_FLOAT);
 }
 
+TEST(BoundsSphere, Construct)
+{
+    const std::list<Point3f> points =
+    {
+        Point3f(-2.0f, 0.0f, 0.0f),
+        Point3f(0.0f, 0.0f, 0.0f),
+        Point3f(1.0f, 0.0f, 0.0f)
+    };
+
+    const BoundsSphere sphere(points);
+
+    const Point3f expectedCenter(-0.5f, 0.0f, 0.0f);
+    const float expectedRadius = 1.5f;
+
+    EXPECT_TRUE(sphere.getCenter() == expectedCenter);
+    EXPECT_NEAR(sphere.getRadius(), expectedRadius, EPSILON_FLOAT);
+}
+
 TEST(BoundsSphere, ExpandRadius)
 {
     BoundsSphere sphere(Vector3f(0.0f, 0.0f, 0.0f), 1.0f);

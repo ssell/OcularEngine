@@ -237,6 +237,7 @@
     <ClInclude Include="..\..\include\Math\Frustum.hpp" />
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
     <ClInclude Include="..\..\include\Math\Intersection.hpp" />
+    <ClInclude Include="..\..\include\Math\LineSegment2D.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
