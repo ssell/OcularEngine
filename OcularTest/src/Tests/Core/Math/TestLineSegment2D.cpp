@@ -19,10 +19,6 @@
 
 using namespace Ocular::Math;
 
-const int32_t LEFT    = 1;
-const int32_t RIGHT   = -1;
-const int32_t ON_LINE = 0;
-
 //------------------------------------------------------------------------------------------
 
 TEST(LineSegment2D, SetEndPoints)
@@ -72,15 +68,15 @@ TEST(LineSegment2D, WhichSide)
     const Point2f point1(5.0f, -5.0f);
     const Point2f point2(5.0f,  0.0f);
     
-    EXPECT_TRUE(segment.whichSide(point0) == LEFT);
-    EXPECT_TRUE(segment.whichSide(point1) == RIGHT);
+    EXPECT_TRUE(segment.whichSide(point0) == LeftOfSegment);
+    EXPECT_TRUE(segment.whichSide(point1) == RightOfSegment);
 
-    segment.setA(Point2f(10.0f, 0.0f));               // Reverse the direction of the segment
+    segment.setA(Point2f(10.0f, 0.0f));                        // Reverse the direction of the segment
     segment.setB(Point2f(0.0f, 0.0f));
 
-    EXPECT_TRUE(segment.whichSide(point0) == RIGHT);  // What was on the left, should now be on the right
-    EXPECT_TRUE(segment.whichSide(point1) == LEFT);
-    EXPECT_TRUE(segment.whichSide(point2) == ON_LINE);
+    EXPECT_TRUE(segment.whichSide(point0) == RightOfSegment);  // What was on the left, should now be on the right
+    EXPECT_TRUE(segment.whichSide(point1) == LeftOfSegment);
+    EXPECT_TRUE(segment.whichSide(point2) == OnSegment);
 }
 
 TEST(LineSegment2D, DistanceTo)

@@ -264,6 +264,9 @@
     <ClCompile Include="..\..\src\Math\Frustum.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\ConvexHull2D.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -531,6 +534,9 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\LineSegment2D.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\ConvexHull2D.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>

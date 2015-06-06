@@ -35,6 +35,13 @@ namespace Ocular
      */
     namespace Math
     {
+        enum LineSegmentSide
+        {
+            RightOfSegment = -1,
+            OnSegment = 0,
+            LeftOfSegment = 1
+        };
+
         /**
          * \class LineSegment2D
          * 
@@ -120,18 +127,18 @@ namespace Ocular
              * \param[in] point 
              * \return Which side the point is on: left (+1), right (-1), on the line (0).
              */
-            int32_t whichSide(Vector2<T> const& point) const
+            LineSegmentSide whichSide(Vector2<T> const& point) const
             {
-                int32_t result;
+                LineSegmentSide result;
                 const T value = ((m_B.x - m_A.x) * (point.y - m_A.y)) - ((m_B.y - m_A.y) * (point.x - m_A.x));
                 
                 if(IsZero<T>(value))
                 {
-                    result = 0;
+                    result = OnSegment;
                 }
                 else
                 {
-                    result = (value < static_cast<T>(0)) ? -1 : 1;
+                    result = (value < static_cast<T>(0)) ? RightOfSegment : LeftOfSegment;
                 }
 
                 return result;

@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Math\BoundsAABB.cpp" />
     <ClCompile Include="..\..\src\Math\BoundsSphere.cpp" />
+    <ClCompile Include="..\..\src\Math\ConvexHull2D.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Frustum.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\..\include\Math\BoundsAABB.hpp" />
     <ClInclude Include="..\..\include\Math\BoundsOBB.hpp" />
     <ClInclude Include="..\..\include\Math\BoundsSphere.hpp" />
+    <ClInclude Include="..\..\include\Math\ConvexHull2D.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />
     <ClInclude Include="..\..\include\Math\Frustum.hpp" />

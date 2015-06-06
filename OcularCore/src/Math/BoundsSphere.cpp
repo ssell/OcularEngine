@@ -171,7 +171,7 @@ namespace Ocular
 
         void BoundsSphere::setRadius(float const radius)
         {
-            m_Radius = Max<float>(radius, 0.0f);
+            m_Radius = Max(radius, 0.0f);
         }
 
         Vector3f const& BoundsSphere::getCenter() const
