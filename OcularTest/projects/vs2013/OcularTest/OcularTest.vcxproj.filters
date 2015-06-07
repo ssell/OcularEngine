@@ -111,6 +111,9 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestLineSegment2D.cpp">
       <Filter>Source Files\Tests\Core\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConvexHull2D.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

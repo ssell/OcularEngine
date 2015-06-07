@@ -67,6 +67,11 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void ConvexHull2D::sort()
+        {
+        
+        }
+
         uint32_t ConvexHull2D::getNumPoints() const
         {
             return m_Hull.size();

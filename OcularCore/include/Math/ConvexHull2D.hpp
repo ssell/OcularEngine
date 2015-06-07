@@ -41,6 +41,11 @@ namespace Ocular
          *
          * A convex hull is the minimum set of points that envelope an
          * arbitrary collection of points.
+         *
+         * By default, the points comprising the hull are stored as they
+         * are discovered and no type of order is guaranteed.
+         *
+         * The sort method may be called to order them in a counterclockwise fashion.
          */
         class ConvexHull2D
         {
@@ -58,6 +63,11 @@ namespace Ocular
             ConvexHull2D(Point2f const*, uint32_t numPoints);
 
             ~ConvexHull2D();
+
+            /**
+             * Sorts the points comprising the convex hull into an ordered counterclockwise polygon.
+             */
+            void sort();
 
             /**
              * Returns the number of points that make up the convex hull.
