@@ -90,6 +90,9 @@ namespace Ocular
 
             std::vector<Point2f> m_Points;
             std::vector<Point2f> m_Hull;
+
+            Point2f m_DistantA;     // The two most distant points. Used for sorting.
+            Point2f m_DistantB;
         };
     }
     /**

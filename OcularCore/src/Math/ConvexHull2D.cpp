@@ -69,7 +69,7 @@ namespace Ocular
 
         void ConvexHull2D::sort()
         {
-        
+            
         }
 
         uint32_t ConvexHull2D::getNumPoints() const
@@ -121,6 +121,9 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Remove the extremes from the point collection and them to our convex hull list
+
+            m_DistantA = minEndpoint;
+            m_DistantB = maxEndpoint;
 
             m_Hull.push_back(minEndpoint);
             m_Hull.push_back(maxEndpoint);
