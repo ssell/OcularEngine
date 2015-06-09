@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_MATH_POLYGON_2D__H__
 #define __H__OCULAR_MATH_POLYGON_2D__H__
 
-#include "Vector2.hpp"
+#include "Math/Vector2.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------

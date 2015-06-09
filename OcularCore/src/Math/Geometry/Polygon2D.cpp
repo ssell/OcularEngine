@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Polygon2D.hpp"
+#include "Math/Geometry/Polygon2D.hpp"
 
 //------------------------------------------------------------------------------------------
 

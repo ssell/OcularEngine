@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Frustum.hpp"
-#include "Math/BoundsAABB.hpp"
-#include "Math/BoundsOBB.hpp"
-#include "Math/BoundsSphere.hpp"
+#include "Math/Bounds/Ray.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,9 +26,50 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        Ray::Ray(Vector3f const& origin, Vector3f const& direction)
+        {
+            m_Origin = origin;
+            m_Direction = direction.getNormalized();
+        }
+
+        Ray::Ray()
+        {
+        
+        }
+
+        Ray::~Ray()
+        {
+        
+        }
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        void Ray::setOrigin(Vector3f const& origin)
+        {
+            m_Origin = origin;
+        }
+
+        void Ray::setDirection(Vector3f const& direction)
+        {
+            m_Direction = direction.getNormalized();
+        }
+
+        Vector3f const& Ray::getOrigin() const
+        {
+            return m_Origin;
+        }
+
+        Vector3f const& Ray::getDirection() const
+        {
+            return m_Direction;
+        }
+
+        Vector3f Ray::getPointAlong(float const distance) const
+        {
+            return (m_Origin + (m_Direction * distance));
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

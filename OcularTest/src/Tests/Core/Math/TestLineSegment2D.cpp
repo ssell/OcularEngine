@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/LineSegment2D.hpp"
+#include "Math/Geometry/LineSegment2D.hpp"
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;

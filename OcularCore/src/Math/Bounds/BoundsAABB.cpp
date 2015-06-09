@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
 
 //------------------------------------------------------------------------------------------
 

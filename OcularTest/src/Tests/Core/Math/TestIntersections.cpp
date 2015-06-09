@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Intersection.hpp"
+#include "Math/Bounds/Intersection.hpp"
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/ConvexHull2D.hpp"
+#include "Math/Geometry/ConvexHull2D.hpp"
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;

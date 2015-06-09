@@ -106,6 +106,18 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{ee6657ef-53c9-4f92-97b3-62426d3de23f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math\Bounds">
+      <UniqueIdentifier>{528b7d77-dff4-4aad-9072-7191ed1c793f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Bounds">
+      <UniqueIdentifier>{a1cd9500-b2a6-4304-8787-08e0aafefbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Geometry">
+      <UniqueIdentifier>{4d984d1d-52a6-4157-b272-76a582d5c085}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Geometry">
+      <UniqueIdentifier>{2cf3fd82-03b8-4f66-b2f5-3786f62b89ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -252,23 +264,23 @@
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Ray.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\BoundsAABB.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Bounds\BoundsSphere.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\BoundsSphere.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Bounds\Ray.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Frustum.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp">
+      <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\ConvexHull2D.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp">
+      <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Polygon2D.cpp">
-      <Filter>Source Files\Math</Filter>
+    <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp">
+      <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -518,32 +530,32 @@
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Ray.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Intersection.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Bounds\BoundsOBB.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Frustum.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\BoundsAABB.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Bounds\Intersection.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\BoundsOBB.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Bounds\Ray.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\BoundsSphere.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Geometry\Frustum.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\LineSegment2D.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Geometry\LineSegment2D.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\ConvexHull2D.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Geometry\Polygon2D.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Polygon2D.hpp">
-      <Filter>Header Files\Math</Filter>
+    <ClInclude Include="..\..\include\Math\Geometry\ConvexHull2D.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

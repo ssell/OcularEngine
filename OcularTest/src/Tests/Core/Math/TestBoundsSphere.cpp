@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;

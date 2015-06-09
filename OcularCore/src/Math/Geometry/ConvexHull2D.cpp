@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/ConvexHull2D.hpp"
+#include "Math/Geometry/ConvexHull2D.hpp"
 #include <algorithm>
 
 //------------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ namespace Ocular
             }
 
             //------------------------------------------------------------
-            // Remove the extremes from the point collection and them to our convex hull list
+            // Remove the extremes from the point collection and add them to our convex hull list
 
             m_DistantA = minEndpoint;
             m_DistantB = maxEndpoint;
@@ -155,7 +155,7 @@ namespace Ocular
         void ConvexHull2D::splitCollection(LineSegment2Df const& segment, std::vector<Point2f>& leftGroup, std::vector<Point2f>& rightGroup)
         {
             // Since the initial split is always somewhat horizontal we can do a
-            // quick heigh comparison. Any points that can not be grouped based
+            // quick height comparison. Any points that can not be grouped based
             // solely on their y components will need additional calculations.
 
             Vector2f highPoint = segment.getA();
@@ -181,9 +181,7 @@ namespace Ocular
                 }
                 else
                 {
-                    LineSegmentSide side = segment.whichSide(point);
-
-                    if(side == RightOfSegment)
+                    if(segment.whichSide(point) == RightOfSegment)
                     {
                         rightGroup.push_back(point);
                     }

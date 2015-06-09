@@ -18,11 +18,11 @@
 #ifndef __H__OCULAR_MATH_INTERSECTION__H__
 #define __H__OCULAR_MATH_INTERSECTION__H__
 
-#include "Ray.hpp"
-#include "BoundsSphere.hpp"
-#include "BoundsAABB.hpp"
-#include "BoundsOBB.hpp"
-#include "Frustum.hpp"
+#include "Math/Bounds/Ray.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Geometry/Frustum.hpp"
 
 //------------------------------------------------------------------------------------------
 

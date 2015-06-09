@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_MATH_FRUSTUM__H__
 #define __H__OCULAR_MATH_FRUSTUM__H__
 
-#include "Vector3.hpp"
+#include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 

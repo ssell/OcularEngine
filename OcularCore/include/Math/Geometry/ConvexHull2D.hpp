@@ -18,8 +18,8 @@
 #ifndef __H__OCULAR_MATH_CONVEX_HULL_2D__H__
 #define __H__OCULAR_MATH_CONVEX_HULL_2D__H__
 
-#include "Vector2.hpp"
-#include "LineSegment2D.hpp"
+#include "Math/Vector2.hpp"
+#include "Math/Geometry/LineSegment2D.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------

@@ -18,8 +18,8 @@
 #ifndef __H__OCULAR_MATH_LINE_SEGMENT_2D__H__
 #define __H__OCULAR_MATH_LINE_SEGMENT_2D__H__
 
-#include "MathCommon.hpp"
-#include "Vector2.hpp"
+#include "Math/MathCommon.hpp"
+#include "Math/Vector2.hpp"
 
 //------------------------------------------------------------------------------------------
 
