@@ -118,6 +118,9 @@
     <Filter Include="Source Files\Math\Geometry">
       <UniqueIdentifier>{2cf3fd82-03b8-4f66-b2f5-3786f62b89ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math\Geometry\HalfEdge">
+      <UniqueIdentifier>{a08e0982-378a-403b-a408-3652ca06ec34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -280,6 +283,9 @@
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp">
+      <Filter>Source Files\Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
@@ -556,6 +562,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Geometry\ConvexHull2D.hpp">
       <Filter>Header Files\Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeStructs.hpp">
+      <Filter>Header Files\Math\Geometry\HalfEdge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Geometry\Vertex.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeMesh.hpp">
+      <Filter>Header Files\Math\Geometry\HalfEdge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
