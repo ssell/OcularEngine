@@ -51,6 +51,7 @@ namespace Ocular
         void Frustum::setViewProjection(Matrix4x4f const& viewProjection)
         {
             // Source: http://www8.cs.umu.se/kurser/5DV051/HT12/lab/plane_extraction.pdf
+            // http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
         }
 
         bool Frustum::contains(BoundsSphere const& bounds, IntersectionType* result) const

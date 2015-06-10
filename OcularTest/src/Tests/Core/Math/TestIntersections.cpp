@@ -121,7 +121,22 @@ TEST(Intersections, OBBOBB)
 
 TEST(Intersections, PlaneAABB)
 {
-    EXPECT_TRUE(false);
+    const BoundsAABB boundsA(Vector3f( 10.0f,  10.0f,  10.0f), Vector3f(1.0f, 1.0f, 1.0f));
+    const BoundsAABB boundsB(Vector3f(  0.0f,   0.0f,   0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+    const BoundsAABB boundsC(Vector3f(-10.0f, -10.0f, -10.0f), Vector3f(1.0f, 1.0f, 1.0f));
+
+    const Plane plane(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+
+    IntersectionType intersection;
+    
+    EXPECT_FALSE(Intersects(boundsA, plane, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Outside);
+
+    EXPECT_TRUE(Intersects(boundsB, plane, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Intersects);
+
+    EXPECT_FALSE(Intersects(boundsC, plane, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Inside);
 }
 
 TEST(Intersections, PlaneOBB)

@@ -751,27 +751,89 @@ namespace Ocular
         /**
          * Performs an intersection test on a plane and AABB.
          *
+         * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Inside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Outside, then the AABB is entirely in the -y world space.
+         *
          * \param[in]  plane
          * \param[in]  bounds
          * \param[out] result Detailed intersection result.
          *
-         * \return TRUE if the plane and AABB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE.
          */
-        static bool Intersects(Plane const& plane, BoundsAABB const& bounds, IntersectionType* result)
+        static bool Intersects(Plane const& plane, BoundsAABB const& bounds, IntersectionType* result = nullptr)
         {
-            return false;
+            // Source: Real-Time Rendering, 3rd Ed. Page 756
+          
+            bool intersects = true;
+
+            const Vector3f& planeNormal  = plane.getNormal();
+            const Vector3f& boundsMax    = bounds.getMaxPoint();
+            const Vector3f& boundsMin    = bounds.getMinPoint();
+            const Vector3f& boundsCenter = bounds.getCenter();
+            const Vector3f& boundsExtent = bounds.getExtents();
+
+            const float extent = (boundsExtent.x * fabsf(planeNormal.x)) + (boundsExtent.y * fabsf(planeNormal.y)) + (boundsExtent.z * fabsf(planeNormal.z));
+            const float signedDistance = boundsCenter.dot(planeNormal) + (plane.getPoint().dot(plane.getPoint()));
+
+            if((signedDistance - extent) > 0.0f)
+            {
+                intersects = false;
+
+                if(result)
+                {
+                    (*result) = IntersectionType::Outside;
+                }
+            }
+            else if((signedDistance + extent) < 0.0f)
+            {
+                intersects = false;
+
+                if(result)
+                {
+                    (*result) = IntersectionType::Inside;
+                }
+            }
+
+            return intersects;
         }
 
         /**
          * Performs an intersection test on a plane and AABB.
          *
+         * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Inside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Outside, then the AABB is entirely in the -y world space.
+         *
          * \param[in]  bounds
          * \param[in]  plane
          * \param[out] result Detailed intersection result.
          *
-         * \return TRUE if the plane and AABB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE.
          */
-        static bool Intersects(BoundsAABB const& bounds, Plane const& plane, IntersectionType* result)
+        static bool Intersects(BoundsAABB const& bounds, Plane const& plane, IntersectionType* result = nullptr)
         {
             return Intersects(plane, bounds, result);
         }
@@ -779,27 +841,58 @@ namespace Ocular
         /**
          * Performs an intersection test on a plane and OBB.
          *
+         * If the result is Inside, then the OBB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the OBB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Inside, then the OBB is entirely in the +y world space. <br/>
+         * If the intersection test returns Outside, then the OBB is entirely in the -y world space.
+         *
          * \param[in]  plane
          * \param[in]  bounds
          * \param[out] result Detailed intersection result.
          *
-         * \return TRUE if the plane and OBB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         * \return TRUE if the plane and OBB intersects, otherwise FALSE.
          */
-        static bool Intersects(Plane const& plane, BoundsOBB const& bounds, IntersectionType* result)
+        static bool Intersects(Plane const& plane, BoundsOBB const& bounds, IntersectionType* result = nullptr)
         {
+
             return false;
         }
 
         /**
          * Performs an intersection test on a plane and OBB.
          *
+         * If the result is Inside, then the OBB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the OBB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Inside, then the OBB is entirely in the +y world space. <br/>
+         * If the intersection test returns Outside, then the OBB is entirely in the -y world space.
+         *
          * \param[in]  bounds
          * \param[in]  plane
          * \param[out] result Detailed intersection result.
          *
-         * \return TRUE if the plane and OBB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         * \return TRUE if the plane and OBB intersects, otherwise FALSE.
          */
-        static bool Intersects(BoundsOBB const& bounds, Plane const& plane, IntersectionType* result)
+        static bool Intersects(BoundsOBB const& bounds, Plane const& plane, IntersectionType* result = nullptr)
         {
             return Intersects(plane, bounds, result);
         }
