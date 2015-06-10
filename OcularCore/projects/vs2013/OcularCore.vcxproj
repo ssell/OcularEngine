@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp" />
+    <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeMesh.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeStructs.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\LineSegment2D.hpp" />
+    <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\Polygon2D.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\Vertex.hpp" />
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />

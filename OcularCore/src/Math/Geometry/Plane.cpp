@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-#include "Math/Geometry/Frustum.hpp"
-#include "Math/Bounds/BoundsAABB.hpp"
-#include "Math/Bounds/BoundsOBB.hpp"
-#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Geometry/Plane.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,17 +26,18 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Frustum::Frustum(Matrix4x4f const& viewProjection)
+        Plane::Plane(Vector3f const& point, Vector3f const& normal)
         {
-            setViewProjection(viewProjection);
+            m_Point  = point;
+            m_Normal = normal.getNormalized();
         }
 
-        Frustum::Frustum()
+        Plane::Plane()
         {
         
         }
 
-        Frustum::~Frustum()
+        Plane::~Plane()
         {
         
         }
@@ -48,24 +46,24 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void Frustum::setViewProjection(Matrix4x4f const& viewProjection)
+        void Plane::setPoint(Vector3f const& point)
         {
-            // Source: http://www8.cs.umu.se/kurser/5DV051/HT12/lab/plane_extraction.pdf
+            m_Point = point;
         }
 
-        bool Frustum::contains(BoundsSphere const& bounds, IntersectionType* result) const
+        void Plane::setNormal(Vector3f const& normal)
         {
-            return false;
+            m_Normal = normal.getNormalized();
         }
 
-        bool Frustum::contains(BoundsAABB const& bounds, IntersectionType* result) const
+        Vector3f const& Plane::getPoint() const
         {
-            return false;
+            return m_Point;
         }
 
-        bool Frustum::contains(BoundsOBB const& bounds, IntersectionType* result) const
+        Vector3f const& Plane::getNormal() const
         {
-            return false;
+            return m_Normal;
         }
 
         //----------------------------------------------------------------------------------

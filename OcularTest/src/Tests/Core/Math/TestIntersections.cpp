@@ -65,6 +65,11 @@ TEST(Intersections, RayOBB)
     EXPECT_TRUE(false);
 }
 
+TEST(Intersections, RayPlane)
+{
+    EXPECT_TRUE(false);
+}
+
 TEST(Intersections, SphereSphere)
 {
     const BoundsSphere a(Vector3f(0.0f, 0.0f, 0.0f), 10.0f);
@@ -110,6 +115,16 @@ TEST(Intersections, AABBOBB)
 }
 
 TEST(Intersections, OBBOBB)
+{
+    EXPECT_TRUE(false);
+}
+
+TEST(Intersections, PlaneAABB)
+{
+    EXPECT_TRUE(false);
+}
+
+TEST(Intersections, PlaneOBB)
 {
     EXPECT_TRUE(false);
 }

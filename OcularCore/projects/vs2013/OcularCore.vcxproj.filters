@@ -288,6 +288,9 @@
     <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp">
+      <Filter>Source Files\Math\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeMesh.hpp">
       <Filter>Header Files\Math\Geometry\HalfEdge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp">
+      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

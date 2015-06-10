@@ -42,7 +42,9 @@ namespace Ocular
         static const double PHI          = 1.61803399;
 
         static const double EPSILON_DOUBLE = 0.0001;
-        static const double EPSILON_FLOAT  = 0.0001f;
+        static const float  EPSILON_FLOAT  = 0.0001f;
+
+        static const float RAY_LINE_LENGTH = 1000000000.0f;  ///< When operations require a ray to be converted to a line, this is the length of the line used.
     }
     /**
      * @} End of Doxygen Groups

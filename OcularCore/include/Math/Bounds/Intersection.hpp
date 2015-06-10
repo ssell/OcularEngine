@@ -22,7 +22,7 @@
 #include "Math/Bounds/BoundsSphere.hpp"
 #include "Math/Bounds/BoundsAABB.hpp"
 #include "Math/Bounds/BoundsOBB.hpp"
-#include "Math/Geometry/Frustum.hpp"
+#include "Math/Geometry/Plane.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -87,6 +87,19 @@ namespace Ocular
         /**
          * Performs an intersection test on a ray and bounding sphere.
          *
+         * \param[in] bounds
+         * \param[in] ray
+         *
+         * \return TRUE if the ray and bounding sphere intersect.
+         */
+        static bool Intersects(BoundsSphere const& bounds, Ray const& ray)
+        {
+            return Intersects(ray, bounds);
+        }
+
+        /**
+         * Performs an intersection test on a ray and bounding sphere.
+         *
          * This version of the method also returns the point at which the two intersect.
          * If speed is of the uptmost concern and/or the exact point of intersection is
          * not required, then the other version may be used instead.
@@ -132,6 +145,21 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and bounding sphere.
+         *
+         * \param[in]  ray
+         * \param[in]  bounds
+         * \param[out] point    The point that the ray and bounding sphere intersects.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and bounding sphere intersect.
+         */
+        static bool Intersects(BoundsSphere const& bounds, Ray const& ray, Vector3f& point, float& distance)
+        {
+            return Intersects(ray, bounds, point, distance);
         }
 
         /**
@@ -211,6 +239,19 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and AABB.
+         *
+         * \param[in]  bounds
+         * \param[in]  ray
+         *
+         * \return TRUE if the ray and AABB intersect.
+         */
+        static bool Intersects(BoundsAABB const& bounds, Ray const& ray)
+        {
+            return Intersects(ray, bounds);
         }
 
         /**
@@ -307,6 +348,21 @@ namespace Ocular
         /**
          * Performs an intersection test on a ray and AABB.
          *
+         * \param[in]  bounds
+         * \param[in]  ray
+         * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and AABB intersect.
+         */
+        static bool Intersects(BoundsAABB const& bounds, Ray const& ray, Vector3f& point, float& distance)
+        {
+            return Intersects(ray, bounds, point, distance);
+        }
+
+        /**
+         * Performs an intersection test on a ray and AABB.
+         *
          * \param[in]  ray
          * \param[in]  bounds
          *
@@ -378,6 +434,19 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and AABB.
+         *
+         * \param[in]  bounds
+         * \param[in]  ray
+         *
+         * \return TRUE if the ray and AABB intersect.
+         */
+        static bool Intersects(BoundsOBB const& bounds, Ray const& ray)
+        {
+            return Intersects(ray, bounds);
         }
 
         /**
@@ -466,6 +535,116 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and OBB.
+         *
+         * \param[in]  bounds
+         * \param[in]  ray
+         * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection.
+         *
+         * \return TRUE if the ray and OBB intersect.
+         */
+        static bool Intersects(BoundsOBB const& bounds, Ray const& ray, Vector3f& point, float& distance)
+        {
+            return Intersects(ray, bounds, point, distance);
+        }
+
+        /**
+         * Performs an intersection test on a ray and plane.
+         *
+         * Note that this operation is actually a line-plane intersection.
+         * The line begins at ray origin and extends RAY_LINE_LENGTH.
+         *
+         * \param[in]  ray
+         * \param[in]  plane
+         * \param[out] point The point that the ray and AABB intersect, if they intersect.
+         */
+        static bool Intersects(Ray const& ray, Plane const& plane, Vector3f& point)
+        {
+            // Source: isect_line_plane_v3 https://developer.blender.org/diffusion/B/browse/master/source/blender/blenlib/intern/math_geom.c
+
+            bool result = false;
+
+            const Vector3f line0 = ray.getOrigin();
+            const Vector3f line1 = ray.getPointAlong(RAY_LINE_LENGTH);
+
+            const Vector3f planePoint  = plane.getPoint();
+            const Vector3f planeNormal = plane.getNormal();
+
+            const Vector3f u = line1 - line0;
+            const Vector3f h = line0 - planePoint;
+
+            const float dot = planeNormal.dot(u);
+
+            if(fabsf(dot) > EPSILON_FLOAT)
+            {
+                float lambda = -planeNormal.dot(h) / dot;
+
+                point  = line0 + (u * lambda);
+                result = true;
+            }
+            
+            return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and plane.
+         *
+         * \param[in]  plane
+         * \param[in]  ray
+         * \param[out] point The point that the ray and AABB intersect, if they intersect.
+         */
+        static bool Intersects(Plane const& plane, Ray const& ray, Vector3f& point)
+        {
+            return Intersects(ray, plane, point);
+        }
+
+        /**
+         * Performs an intersection test on a ray and plane.
+         *
+         * Note that this operation is actually a line-plane intersection.
+         * The line begins at ray origin and extends RAY_LINE_LENGTH.
+         *
+         * \param[in] ray
+         * \param[in] plane
+         */
+        static bool Intersects(Ray const& ray, Plane const& plane)
+        {
+            // Source: isect_line_plane_v3 https://developer.blender.org/diffusion/B/browse/master/source/blender/blenlib/intern/math_geom.c
+
+            bool result = false;
+
+            const Vector3f line0 = ray.getOrigin();
+            const Vector3f line1 = ray.getPointAlong(RAY_LINE_LENGTH);
+
+            const Vector3f planePoint  = plane.getPoint();
+            const Vector3f planeNormal = plane.getNormal();
+
+            const Vector3f u = line1 - line0;
+            const Vector3f h = line0 - planePoint;
+
+            const float dot = planeNormal.dot(u);
+
+            if(fabsf(dot) > EPSILON_FLOAT)
+            {
+                result = true;
+            }
+            
+            return result;
+        }
+
+        /**
+         * Performs an intersection test on a ray and plane.
+         *
+         * \param[in] plane
+         * \param[in] ray
+         */
+        static bool Intersects(Plane const& plane, Ray const& ray)
+        {
+            return Intersects(ray, plane);
         }
 
         /**
@@ -567,6 +746,62 @@ namespace Ocular
         static bool Intersects(BoundsOBB const& boundsA, BoundsOBB const& boundsB)
         {
             return false;
+        }
+
+        /**
+         * Performs an intersection test on a plane and AABB.
+         *
+         * \param[in]  plane
+         * \param[in]  bounds
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         */
+        static bool Intersects(Plane const& plane, BoundsAABB const& bounds, IntersectionType* result)
+        {
+            return false;
+        }
+
+        /**
+         * Performs an intersection test on a plane and AABB.
+         *
+         * \param[in]  bounds
+         * \param[in]  plane
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         */
+        static bool Intersects(BoundsAABB const& bounds, Plane const& plane, IntersectionType* result)
+        {
+            return Intersects(plane, bounds, result);
+        }
+
+        /**
+         * Performs an intersection test on a plane and OBB.
+         *
+         * \param[in]  plane
+         * \param[in]  bounds
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and OBB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         */
+        static bool Intersects(Plane const& plane, BoundsOBB const& bounds, IntersectionType* result)
+        {
+            return false;
+        }
+
+        /**
+         * Performs an intersection test on a plane and OBB.
+         *
+         * \param[in]  bounds
+         * \param[in]  plane
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and OBB intersects, otherwise FALSE. A result of Inside returns TRUE.
+         */
+        static bool Intersects(BoundsOBB const& bounds, Plane const& plane, IntersectionType* result)
+        {
+            return Intersects(plane, bounds, result);
         }
 
     }

@@ -18,7 +18,8 @@
 #ifndef __H__OCULAR_MATH_FRUSTUM__H__
 #define __H__OCULAR_MATH_FRUSTUM__H__
 
-#include "Math/Vector3.hpp"
+#include "Math/Matrix4x4.hpp"
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -45,47 +46,57 @@ namespace Ocular
         {
         public:
 
+            Frustum(Matrix4x4f const& viewProjection);
             Frustum();
+
             ~Frustum();
 
             /**
-             * Tests to determine if the frustum contains the specified bounding sphere.
-             * Returns the following:
-             *
-             *     0: Sphere is outside of the frustum
-             *     1: Sphere is contained completely within the frustum
-             *     2: Sphere is contained partly within the frustum (intersection)
-             *
-             * \param[in] bounds
-             * \return Returns whether the sphere is outside (0), inside (1), or intersects (2) the frustum.
+             * Sets the view-projection matrix that this frustum is based off of.
+             * \param[in] viewProjection
              */
-            int8_t contains(BoundsSphere const& bounds) const;
+            void setViewProjection(Matrix4x4f const& viewProjection);
+
+            /**
+             * Tests to determine if the frustum contains the specified bounding sphere.
+             *
+             * \param[in]  bounds
+             * \param[out] result
+             *
+             * \return TRUE if bounds is inside or intersects.
+             */
+            bool contains(BoundsSphere const& bounds, IntersectionType* result = nullptr) const;
             
             /**
              * Tests to determine if the frustum contains the specified AABB.
-             * Returns the following:
              *
-             *     0: AABB is outside of the frustum
-             *     1: AABB is contained completely within the frustum
-             *     2: AABB is contained partly within the frustum (intersection)
+             * \param[in]  bounds
+             * \param[out] result
              *
-             * \param[in] bounds
-             * \return Returns whether the AABB is outside (0), inside (1), or intersects (2) the frustum.
+             * \return TRUE if bounds is inside or intersects.
              */
-            int8_t contains(BoundsAABB const& bounds) const;
+            bool contains(BoundsAABB const& bounds, IntersectionType* result = nullptr) const;
             
             /**
              * Tests to determine if the frustum contains the specified OBB.
-             * Returns the following:
              *
-             *     0: OBB is outside of the frustum
-             *     1: OBB is contained completely within the frustum
-             *     2: OBB is contained partly within the frustum (intersection)
+             * \param[in]  bounds
+             * \param[out] result
              *
-             * \param[in] bounds
-             * \return Returns whether the OBB is outside (0), inside (1), or intersects (2) the frustum.
+             * \return TRUE if bounds is inside or intersects.
              */
-            int8_t contains(BoundsOBB const& bounds) const;
+            bool contains(BoundsOBB const& bounds, IntersectionType* result = nullptr) const;
+
+        protected:
+
+        private:
+
+            std::array<Vector3f, 4> m_LeftPlane;
+            std::array<Vector3f, 4> m_RightPlane;
+            std::array<Vector3f, 4> m_TopPlane;
+            std::array<Vector3f, 4> m_BottomPlane;
+            std::array<Vector3f, 4> m_NearPlane;
+            std::array<Vector3f, 4> m_FarPlane;
         };
     }
     /**
