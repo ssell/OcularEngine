@@ -67,7 +67,26 @@ TEST(Intersections, RayOBB)
 
 TEST(Intersections, RayPlane)
 {
-    EXPECT_TRUE(false);
+    const Plane planeA(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+    const Plane planeB(Vector3f(10.0f, 10.0f, 10.0f), Vector3f(1.0f, 0.0f, 0.0f));
+
+    const Ray rayA(Vector3f(0.0f, 10.0f, 0.0f), Vector3f(0.0f, -1.0f, 0.0f));
+    const Ray rayB(Vector3f(-10.0f, 0.0f, 0.0f), Vector3f(1.0f, 0.0f, 0.0f));
+
+    Point3f point;
+    float distance;
+
+    EXPECT_TRUE(Intersects(rayA, planeA, point, distance));
+    EXPECT_NEAR(distance, 10.0f, EPSILON_FLOAT);
+    EXPECT_EQ(point, Vector3f(0.0f, 0.0f, 0.0f));
+
+    EXPECT_FALSE(Intersects(rayA, planeB));
+    
+    EXPECT_TRUE(Intersects(rayB, planeB, point, distance));
+    EXPECT_NEAR(distance, 20.0f, EPSILON_FLOAT);
+    EXPECT_EQ(point, Vector3f(10.0f, 0.0f, 0.0f));
+
+    EXPECT_FALSE(Intersects(rayB, planeA));
 }
 
 TEST(Intersections, SphereSphere)

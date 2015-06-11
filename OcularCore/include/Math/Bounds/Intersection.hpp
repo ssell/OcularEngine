@@ -561,8 +561,9 @@ namespace Ocular
          * \param[in]  ray
          * \param[in]  plane
          * \param[out] point The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection
          */
-        static bool Intersects(Ray const& ray, Plane const& plane, Vector3f& point)
+        static bool Intersects(Ray const& ray, Plane const& plane, Vector3f& point, float& distance)
         {
             // Source: isect_line_plane_v3 https://developer.blender.org/diffusion/B/browse/master/source/blender/blenlib/intern/math_geom.c
 
@@ -583,8 +584,9 @@ namespace Ocular
             {
                 float lambda = -planeNormal.dot(h) / dot;
 
-                point  = line0 + (u * lambda);
-                result = true;
+                point    = line0 + (u * lambda);
+                distance = ray.getOrigin().distanceTo(point);
+                result   = true;
             }
             
             return result;
@@ -596,10 +598,11 @@ namespace Ocular
          * \param[in]  plane
          * \param[in]  ray
          * \param[out] point The point that the ray and AABB intersect, if they intersect.
+         * \param[out] distance The distance from the ray origin to the point of intersection
          */
-        static bool Intersects(Plane const& plane, Ray const& ray, Vector3f& point)
+        static bool Intersects(Plane const& plane, Ray const& ray, Vector3f& point, float& distance)
         {
-            return Intersects(ray, plane, point);
+            return Intersects(ray, plane, point, distance);
         }
 
         /**
@@ -777,6 +780,7 @@ namespace Ocular
             // Source: Real-Time Rendering, 3rd Ed. Page 756
           
             bool intersects = true;
+            IntersectionType tempResult = IntersectionType::Intersects;
 
             const Vector3f& planeNormal  = plane.getNormal();
             const Vector3f& boundsMax    = bounds.getMaxPoint();
@@ -790,20 +794,17 @@ namespace Ocular
             if((signedDistance - extent) > 0.0f)
             {
                 intersects = false;
-
-                if(result)
-                {
-                    (*result) = IntersectionType::Outside;
-                }
+                tempResult = IntersectionType::Outside;
             }
             else if((signedDistance + extent) < 0.0f)
             {
                 intersects = false;
+                tempResult = IntersectionType::Inside;
+            }
 
-                if(result)
-                {
-                    (*result) = IntersectionType::Inside;
-                }
+            if(result)
+            {
+                (*result) = tempResult;
             }
 
             return intersects;

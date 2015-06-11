@@ -85,11 +85,11 @@ TEST(LineSegment2D, DistanceTo)
 
     const Point2f point0(0.0f, 5.0f);
     const Point2f point1(5.0f, 8.0f);
-    const Point2f point2(10.0f, 7.0f);
+    const Point2f point2(10.0f, -7.0f);
 
     const float expected0 = 5.0f;
     const float expected1 = 8.0f;
-    const float expected2 = -7.0f;
+    const float expected2 = 7.0f;
     
     const float result0 = segment.distanceTo(point0);
     const float result1 = segment.distanceTo(point1);
