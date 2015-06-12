@@ -66,6 +66,20 @@ namespace Ocular
             return m_Normal;
         }
 
+        float Plane::getSignedDistance(Vector3f const& point) const
+        {
+            return (point - m_Point).dot(m_Normal);
+        }
+
+        Vector3f Plane::getClosest(Vector3f const& point) const
+        {
+            float sn = -m_Normal.dot(point - m_Point);
+            float sd = m_Normal.dot(m_Normal);
+            float sb = sn / sd;
+
+            return (point + (m_Normal * sb));
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

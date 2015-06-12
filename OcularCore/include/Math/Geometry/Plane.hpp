@@ -77,6 +77,26 @@ namespace Ocular
              */
             Vector3f const& getNormal() const;
 
+            /**
+             * Calculates the signed distance from the point to the plane.
+             * 
+             * The result is positive if the point is outside of the plane (in plane's positive half-space i.e. direction of normal). <br/>
+             * The result is negative if the point is inside of the plane. <br/>
+             * The result is 0 if the point is on the plane. <br/>
+             *
+             * \param[in] point
+             * \return Signed distance to the plane.
+             */
+            float getSignedDistance(Vector3f const& point) const;
+
+            /**
+             * Calculates the point on the plane that is closest to the specified point.
+             *
+             * \param[in] point
+             * \return Closest point on plane.
+             */
+            Vector3f getClosest(Vector3f const& point) const;
+
         protected:
 
         private:

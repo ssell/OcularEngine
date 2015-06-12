@@ -138,6 +138,31 @@ TEST(Intersections, OBBOBB)
     EXPECT_TRUE(false);
 }
 
+TEST(Intersections, PlaneSphere)
+{
+    const Plane plane(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+    
+    const BoundsSphere boundsA(Vector3f(0.0f, 10.0f, 0.0f), 5.0f);
+    const BoundsSphere boundsB(Vector3f(0.0f, 5.0f, 0.0f), 5.0f);
+    const BoundsSphere boundsC(Vector3f(-3.0f, -3.0f, 0.0f), 5.0f);
+    const BoundsSphere boundsD(Vector3f(10.0f, -10.0f, 10.0f), 5.0f);
+
+    IntersectionType intersection;
+
+    EXPECT_FALSE(Intersects(plane, boundsA, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Outside);
+
+    EXPECT_TRUE(Intersects(plane, boundsB, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Intersects);
+
+    EXPECT_TRUE(Intersects(plane, boundsC, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Intersects);
+
+    EXPECT_FALSE(Intersects(plane, boundsD, &intersection));
+    EXPECT_EQ(intersection, IntersectionType::Inside);
+    
+}
+
 TEST(Intersections, PlaneAABB)
 {
     const BoundsAABB boundsA(Vector3f( 10.0f,  10.0f,  10.0f), Vector3f(1.0f, 1.0f, 1.0f));

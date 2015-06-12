@@ -766,8 +766,87 @@ namespace Ocular
          *
          * The plane is 'facing up' along the world origin.
          *
-         * If the intersection test returns Inside, then the AABB is entirely in the +y world space. <br/>
-         * If the intersection test returns Outside, then the AABB is entirely in the -y world space.
+         * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+         *
+         * \param[in]  plane
+         * \param[in]  bounds
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE.
+         */
+        static bool Intersects(Plane const& plane, BoundsSphere const& bounds, IntersectionType* result = nullptr)
+        {
+            IntersectionType tempResult = IntersectionType::Inside;
+            bool intersects = false;
+
+            const float distance = plane.getSignedDistance(bounds.getCenter());
+            const float absDistance = fabsf(distance);
+
+            if(absDistance <= bounds.getRadius())
+            {
+                tempResult = IntersectionType::Intersects;
+                intersects = true;
+            }
+            else if(distance > 0.0f)
+            {
+                tempResult = IntersectionType::Outside;
+            }
+            
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+            
+            return intersects;
+        }
+
+        /**
+         * Performs an intersection test on a plane and AABB.
+         *
+         * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+         *
+         * \param[in]  bounds
+         * \param[in]  plane
+         * \param[out] result Detailed intersection result.
+         *
+         * \return TRUE if the plane and AABB intersects, otherwise FALSE.
+         */
+        static bool Intersects(BoundsSphere const& bounds, Plane const& plane, IntersectionType* result = nullptr)
+        {
+            return Intersects(plane, bounds, result);
+        }
+
+        /**
+         * Performs an intersection test on a plane and AABB.
+         *
+         * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+         * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+         *
+         * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+         *
+         * As an example, say we have the plane defined as:
+         *
+         *      Point: (0.0, 0.0, 0.0)
+         *     Normal: (0.0, 1.0, 0.0)
+         *
+         * The plane is 'facing up' along the world origin.
+         *
+         * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
          *
          * \param[in]  plane
          * \param[in]  bounds
@@ -825,8 +904,8 @@ namespace Ocular
          *
          * The plane is 'facing up' along the world origin.
          *
-         * If the intersection test returns Inside, then the AABB is entirely in the +y world space. <br/>
-         * If the intersection test returns Outside, then the AABB is entirely in the -y world space.
+         * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
          *
          * \param[in]  bounds
          * \param[in]  plane
@@ -854,8 +933,8 @@ namespace Ocular
          *
          * The plane is 'facing up' along the world origin.
          *
-         * If the intersection test returns Inside, then the OBB is entirely in the +y world space. <br/>
-         * If the intersection test returns Outside, then the OBB is entirely in the -y world space.
+         * If the intersection test returns Outside, then the OBB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the OBB is entirely in the -y world space.
          *
          * \param[in]  plane
          * \param[in]  bounds
@@ -884,8 +963,8 @@ namespace Ocular
          *
          * The plane is 'facing up' along the world origin.
          *
-         * If the intersection test returns Inside, then the OBB is entirely in the +y world space. <br/>
-         * If the intersection test returns Outside, then the OBB is entirely in the -y world space.
+         * If the intersection test returns Outside, then the OBB is entirely in the +y world space. <br/>
+         * If the intersection test returns Inside, then the OBB is entirely in the -y world space.
          *
          * \param[in]  bounds
          * \param[in]  plane

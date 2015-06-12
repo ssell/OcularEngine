@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_FRUSTUM__H__
 
 #include "Math/Matrix4x4.hpp"
+#include "Math/Geometry/Plane.hpp"
 #include <array>
 
 //------------------------------------------------------------------------------------------
@@ -91,12 +92,12 @@ namespace Ocular
 
         private:
 
-            std::array<Vector3f, 4> m_LeftPlane;
-            std::array<Vector3f, 4> m_RightPlane;
-            std::array<Vector3f, 4> m_TopPlane;
-            std::array<Vector3f, 4> m_BottomPlane;
-            std::array<Vector3f, 4> m_NearPlane;
-            std::array<Vector3f, 4> m_FarPlane;
+            Plane m_Left;
+            Plane m_Right;
+            Plane m_Top;
+            Plane m_Bottom;
+            Plane m_Near;
+            Plane m_Far;
         };
     }
     /**
