@@ -237,7 +237,6 @@
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsOBB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp" />
-    <ClInclude Include="..\..\include\Math\Bounds\Intersection.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\Ray.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />

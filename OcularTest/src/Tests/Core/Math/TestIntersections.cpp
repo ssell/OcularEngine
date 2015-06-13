@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-#include "Math/Bounds/Intersection.hpp"
+#include "Math/Bounds/Ray.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Geometry/Plane.hpp"
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -123,9 +128,9 @@ TEST(Intersections, AABBAABB)
     const BoundsAABB b(Vector3f(20.0f, 0.0f, 0.0f), Vector3f(15.0f, 5.0f, 5.0f));
     const BoundsAABB c(Vector3f(20.0f, 10.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 
-    EXPECT_TRUE(Intersects(a, b));
-    EXPECT_FALSE(Intersects(b, c));
-    EXPECT_FALSE(Intersects(a, c));
+    EXPECT_TRUE(a.intersects(b));
+    EXPECT_FALSE(b.intersects(c));
+    EXPECT_FALSE(a.intersects(c));
 }
 
 TEST(Intersections, AABBOBB)

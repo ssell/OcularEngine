@@ -551,9 +551,6 @@
     <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp">
       <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Math\Bounds\Intersection.hpp">
-      <Filter>Header Files\Math\Bounds</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Math\Bounds\Ray.hpp">
       <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>

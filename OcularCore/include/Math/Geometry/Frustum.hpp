@@ -61,32 +61,34 @@ namespace Ocular
             /**
              * Tests to determine if the frustum contains the specified bounding sphere.
              *
-             * \param[in]  bounds
-             * \param[out] result
-             *
+             * \param[in] point
              * \return TRUE if bounds is inside or intersects.
              */
-            bool contains(BoundsSphere const& bounds, IntersectionType* result = nullptr) const;
+            bool contains(Point3f const& point) const;
+
+            /**
+             * Tests to determine if the frustum contains the specified bounding sphere.
+             *
+             * \param[in] bounds
+             * \return TRUE if bounds is inside or intersects.
+             */
+            bool contains(BoundsSphere const& bounds) const;
             
             /**
              * Tests to determine if the frustum contains the specified AABB.
              *
-             * \param[in]  bounds
-             * \param[out] result
-             *
+             * \param[in] bounds
              * \return TRUE if bounds is inside or intersects.
              */
-            bool contains(BoundsAABB const& bounds, IntersectionType* result = nullptr) const;
+            bool contains(BoundsAABB const& bounds) const;
             
             /**
              * Tests to determine if the frustum contains the specified OBB.
              *
-             * \param[in]  bounds
-             * \param[out] result
-             *
+             * \param[in] bounds
              * \return TRUE if bounds is inside or intersects.
              */
-            bool contains(BoundsOBB const& bounds, IntersectionType* result = nullptr) const;
+            bool contains(BoundsOBB const& bounds) const;
 
         protected:
 

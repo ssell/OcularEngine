@@ -54,19 +54,140 @@ namespace Ocular
             // http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
         }
 
-        bool Frustum::contains(BoundsSphere const& bounds, IntersectionType* result) const
+        bool Frustum::contains(Point3f const& point) const
         {
-            return false;
+            // If the point is outside of a single plane, then we return false.
+            // Otherwise, if it is inside/intersects all planes then return true.
+
+             return (m_Near.getSignedDistance(point)   < EPSILON_FLOAT) &&
+                    (m_Left.getSignedDistance(point)   < EPSILON_FLOAT) &&
+                    (m_Right.getSignedDistance(point)  < EPSILON_FLOAT) &&
+                    (m_Bottom.getSignedDistance(point) < EPSILON_FLOAT) &&
+                    (m_Top.getSignedDistance(point)    < EPSILON_FLOAT) &&
+                    (m_Far.getSignedDistance(point)    < EPSILON_FLOAT);
         }
 
-        bool Frustum::contains(BoundsAABB const& bounds, IntersectionType* result) const
+        bool Frustum::contains(BoundsSphere const& bounds) const
         {
-            return false;
+            // If the bounds is outside of a single plane, then we return false.
+            // Otherwise, if it is inside/intersects all planes then return true.
+
+            IntersectionType type;
+            bool result = true;
+
+            if(!m_Near.intersects(bounds, &type))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Left.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Right.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Bottom.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Top.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Far.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            return result;
         }
 
-        bool Frustum::contains(BoundsOBB const& bounds, IntersectionType* result) const
+        bool Frustum::contains(BoundsAABB const& bounds) const
         {
-            return false;
+            // If the bounds is outside of a single plane, then we return false.
+            // Otherwise, if it is inside/intersects all planes then return true.
+
+            IntersectionType type;
+            bool result = true;
+
+            if(!m_Near.intersects(bounds, &type))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Left.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Right.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Bottom.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Top.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Far.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            return result;
+        }
+
+        bool Frustum::contains(BoundsOBB const& bounds) const
+        {
+            // If the bounds is outside of a single plane, then we return false.
+            // Otherwise, if it is inside/intersects all planes then return true.
+
+            IntersectionType type;
+            bool result = true;
+
+            if(!m_Near.intersects(bounds, &type))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Left.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Right.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Bottom.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Top.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            if((result) && (!m_Far.intersects(bounds, &type)))
+            {
+                result = (type == IntersectionType::Inside);
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
