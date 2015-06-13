@@ -35,6 +35,11 @@ namespace Ocular
      */
     namespace Math
     {
+        class Ray;
+        class BoundsSphere;
+        class BoundsOBB;
+        class Plane;
+
         /**
          * \class BoundsAABB
          *
@@ -145,6 +150,82 @@ namespace Ocular
              * \param[in] point
              */
             void expandToContain(BoundsAABB const& bounds);
+
+            //------------------------------------------------------------------------------
+            // Intersection and Containment Testing
+            //------------------------------------------------------------------------------
+            
+            /**
+             * Performs an intersection test on a ray and AABB.
+             *
+             * \param[in] ray
+             * \return TRUE if the ray and AABB intersect.
+             */
+            bool intersects(Ray const& ray) const;
+            
+            /**
+             * Performs an intersection test on a ray and AABB.
+             *
+             * This version of the method also returns the point at which the two intersect.
+             * If speed is of the uptmost concern and/or the exact point of intersection is
+             * not required, then the other version may be used instead.
+             *
+             * \param[in]  ray
+             * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and AABB intersect.
+             */
+            bool intersects(Ray const& ray, Point3f& point, float& distance) const;
+            
+            /**
+             * Performs an intersection test on a bounding sphere and AABB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the bounding sphere and AABB intersect.
+             */
+            bool intersects(BoundsSphere const& bounds) const;
+
+            /**
+             * Performs an intersection test on two AABBs.
+             *
+             * \param[in] bounds
+             * \return TRUE if the two AABBs intersect.
+             */
+            bool intersects(BoundsAABB const& bounds) const;
+            
+            /**
+             * Performs an intersection test on a bounding sphere and OBB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the bounding sphere and OBB intersect.
+             */
+            bool intersects(BoundsOBB const& bounds) const;
+            
+            /**
+             * Performs an intersection test on a plane and AABB.
+             *
+             * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+             * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+             *
+             * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+             *
+             * As an example, say we have the plane defined as:
+             *
+             *      Point: (0.0, 0.0, 0.0)
+             *     Normal: (0.0, 1.0, 0.0)
+             *
+             * The plane is 'facing up' along the world origin.
+             *
+             * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+             * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+             *
+             * \param[in]  plane
+             * \param[out] result Detailed intersection result.
+             *
+             * \return TRUE if the plane and AABB intersects, otherwise FALSE.
+             */
+            bool intersects(Plane const& plane, IntersectionType* result = nullptr) const;
 
             /**
              * Calculates if the bounds contains the specified point.

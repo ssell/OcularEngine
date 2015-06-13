@@ -15,6 +15,10 @@
  */
 
 #include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Bounds/Ray.hpp"
+#include "Math/Geometry/Plane.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -220,6 +224,86 @@ namespace Ocular
 
                 m_Center = ((m_Center * m_Radius) + (point * distanceDifference)) / pointToOldCenterDistance;
             }
+        }
+
+        //------------------------------------------------------------------------------
+        // Intersection and Containment Testing
+        //------------------------------------------------------------------------------
+
+        bool BoundsSphere::intersects(Ray const& ray) const
+        {
+            return ray.intersects((*this));
+        }
+
+        bool BoundsSphere::intersects(Ray const& ray, Point3f& point, float& distance) const
+        {
+            return ray.intersects((*this), point, distance);
+        }
+
+        bool BoundsSphere::intersects(BoundsSphere const& bounds) const
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 763
+
+            const Vector3f distance = m_Center - bounds.getCenter();
+
+            const float radiiSum = m_Radius + bounds.getRadius();
+            const float distanceSquared = distance.dot(distance);
+            const float radiiSumSquared = radiiSum * radiiSum;
+
+            return !(distanceSquared > radiiSumSquared);
+        }
+
+        bool BoundsSphere::intersects(BoundsAABB const& bounds) const
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 764
+
+            const Vector3f aabbMin = bounds.getMinPoint();
+            const Vector3f aabbMax = bounds.getMaxPoint();
+
+            const Vector3f a(Max((aabbMin.x - m_Center.x), 0.0f),
+                             Max((aabbMin.y - m_Center.y), 0.0f),
+                             Max((aabbMin.z - m_Center.z), 0.0f));
+
+            const Vector3f b(Max((m_Center.x - aabbMax.x), 0.0f),
+                             Max((m_Center.y - aabbMax.y), 0.0f),
+                             Max((m_Center.z - aabbMax.z), 0.0f));
+
+            const Vector3f c = a + b;
+
+            float distance = c.dot(c);
+                       
+            return !(distance > (m_Radius * m_Radius));
+        }
+
+        bool BoundsSphere::intersects(BoundsOBB const& bounds) const
+        {
+            return false;
+        }
+
+        bool BoundsSphere::intersects(Plane const& plane, IntersectionType* result) const
+        {
+            IntersectionType tempResult = IntersectionType::Inside;
+            bool intersects = false;
+
+            const float distance = plane.getSignedDistance(m_Center);
+            const float absDistance = fabsf(distance);
+
+            if(absDistance <= m_Radius)
+            {
+                tempResult = IntersectionType::Intersects;
+                intersects = true;
+            }
+            else if(distance > 0.0f)
+            {
+                tempResult = IntersectionType::Outside;
+            }
+            
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+            
+            return intersects;
         }
 
         bool BoundsSphere::contains(Point3f const& point, IntersectionType* result) const

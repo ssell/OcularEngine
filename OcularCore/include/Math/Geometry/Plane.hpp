@@ -37,6 +37,11 @@ namespace Ocular
      */
     namespace Math
     {
+        class Ray;
+        class BoundsSphere;
+        class BoundsAABB;
+        class BoundsOBB;
+
         /**
          * \class Plane
          *
@@ -96,6 +101,111 @@ namespace Ocular
              * \return Closest point on plane.
              */
             Vector3f getClosest(Vector3f const& point) const;
+
+            //------------------------------------------------------------------------------
+            // Intersection and Containment Testing
+            //------------------------------------------------------------------------------
+            
+            /**
+             * Performs an intersection test on a ray and plane.
+             *
+             * Note that this operation is actually a line-plane intersection.
+             * The line begins at ray origin and extends RAY_LINE_LENGTH.
+             *
+             * \param[in] )
+             * \return TRUE if the ray and plane intersect.
+             */
+            bool intersects(Ray const& ray) const;
+
+            /**
+             * Performs an intersection test on a ray and plane.
+             *
+             * Note that this operation is actually a line-plane intersection.
+             * The line begins at ray origin and extends RAY_LINE_LENGTH.
+             *
+             * \param[in]  ray
+             * \param[out] point The point that the ray and AABB intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and plane intersect.
+             */
+            bool intersects(Ray const& ray, Vector3f& point, float& distance) const;
+
+            /**
+             * Performs an intersection test on a plane and sphere.
+             *
+             * If the result is Inside, then the sphere is located entirely within the plane's positive half space. <br/>
+             * If the result is Outside, then the sphere is located entirely outside the plane's positive half space.
+             *
+             * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+             *
+             * As an example, say we have the plane defined as:
+             *
+             *      Point: (0.0, 0.0, 0.0)
+             *     Normal: (0.0, 1.0, 0.0)
+             *
+             * The plane is 'facing up' along the world origin.
+             *
+             * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+             * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+             *
+             * \param[in]  bounds
+             * \param[out] result Detailed intersection result.
+             *
+             * \return TRUE if the plane sphere AABB intersects, otherwise FALSE.
+             */
+            bool intersects(BoundsSphere const& bounds, IntersectionType* result = nullptr) const;
+
+            /**
+             * Performs an intersection test on a plane and AABB.
+             *
+             * If the result is Inside, then the AABB is located entirely within the plane's positive half space. <br/>
+             * If the result is Outside, then the AABB is located entirely outside the plane's positive half space.
+             *
+             * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+             *
+             * As an example, say we have the plane defined as:
+             *
+             *      Point: (0.0, 0.0, 0.0)
+             *     Normal: (0.0, 1.0, 0.0)
+             *
+             * The plane is 'facing up' along the world origin.
+             *
+             * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+             * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+             *
+             * \param[in]  bounds
+             * \param[out] result Detailed intersection result.
+             *
+             * \return TRUE if the plane and AABB intersects, otherwise FALSE.
+             */
+            bool intersects(BoundsAABB const& bounds, IntersectionType* result = nullptr) const;
+
+            /**
+             * Performs an intersection test on a plane and OBB.
+             *
+             * If the result is Inside, then the OBB is located entirely within the plane's positive half space. <br/>
+             * If the result is Outside, then the OBB is located entirely outside the plane's positive half space.
+             *
+             * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+             *
+             * As an example, say we have the plane defined as:
+             *
+             *      Point: (0.0, 0.0, 0.0)
+             *     Normal: (0.0, 1.0, 0.0)
+             *
+             * The plane is 'facing up' along the world origin.
+             *
+             * If the intersection test returns Outside, then the OBB is entirely in the +y world space. <br/>
+             * If the intersection test returns Inside, then the OBB is entirely in the -y world space.
+             *
+             * \param[in]  bounds
+             * \param[in]  plane
+             * \param[out] result Detailed intersection result.
+             *
+             * \return TRUE if the plane and OBB intersects, otherwise FALSE.
+             */
+            bool intersects(BoundsOBB const& bounds, IntersectionType* result = nullptr) const;
 
         protected:
 

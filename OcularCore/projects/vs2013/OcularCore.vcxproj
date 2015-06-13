@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp" />
+    <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsSphere.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\Ray.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />

@@ -36,11 +36,11 @@ TEST(Intersections, RaySphere)
     Vector3f intersectionPoint;
     float intersectionDistance;
 
-    EXPECT_TRUE(Intersects(goodRay, sphere, intersectionPoint, intersectionDistance));
+    EXPECT_TRUE(goodRay.intersects(sphere, intersectionPoint, intersectionDistance));
     EXPECT_TRUE((intersectionPoint == Vector3f(5.0f, 0.0f, 0.0f)));
     EXPECT_NEAR(intersectionDistance, 5.0f, EPSILON_FLOAT);
 
-    EXPECT_FALSE(Intersects(badRay, sphere));
+    EXPECT_FALSE(badRay.intersects(sphere));
 }
 
 TEST(Intersections, RayAABB)
@@ -53,11 +53,11 @@ TEST(Intersections, RayAABB)
     Vector3f intersectionPoint;
     float intersectionDistance;
 
-    EXPECT_TRUE(Intersects(goodRay, aabb, intersectionPoint, intersectionDistance));
+    EXPECT_TRUE(goodRay.intersects(aabb, intersectionPoint, intersectionDistance));
     EXPECT_TRUE((intersectionPoint == Vector3f(5.0f, 0.0f, 0.0f)));
     EXPECT_NEAR(intersectionDistance, 5.0f, EPSILON_FLOAT);
 
-    EXPECT_FALSE(Intersects(badRay, aabb));
+    EXPECT_FALSE(badRay.intersects(aabb));
 }
 
 TEST(Intersections, RayOBB)
@@ -76,17 +76,17 @@ TEST(Intersections, RayPlane)
     Point3f point;
     float distance;
 
-    EXPECT_TRUE(Intersects(rayA, planeA, point, distance));
+    EXPECT_TRUE(rayA.intersects(planeA, point, distance));
     EXPECT_NEAR(distance, 10.0f, EPSILON_FLOAT);
     EXPECT_EQ(point, Vector3f(0.0f, 0.0f, 0.0f));
 
-    EXPECT_FALSE(Intersects(rayA, planeB));
+    EXPECT_FALSE(rayA.intersects(planeB));
     
-    EXPECT_TRUE(Intersects(rayB, planeB, point, distance));
+    EXPECT_TRUE(rayB.intersects(planeB, point, distance));
     EXPECT_NEAR(distance, 20.0f, EPSILON_FLOAT);
     EXPECT_EQ(point, Vector3f(10.0f, 0.0f, 0.0f));
 
-    EXPECT_FALSE(Intersects(rayB, planeA));
+    EXPECT_FALSE(rayB.intersects(planeA));
 }
 
 TEST(Intersections, SphereSphere)
@@ -96,10 +96,10 @@ TEST(Intersections, SphereSphere)
     const BoundsSphere c(Vector3f(20.0f, 20.0f, 20.0f), 1.0f);
     const BoundsSphere d(Vector3f(15.0f, 0.0f, 0.0f), 10.0f);
     
-    EXPECT_TRUE(Intersects(a, b));
-    EXPECT_TRUE(Intersects(a, d));
-    EXPECT_FALSE(Intersects(a, c));
-    EXPECT_FALSE(Intersects(b, c));
+    EXPECT_TRUE(a.intersects(b));
+    EXPECT_TRUE(a.intersects(d));
+    EXPECT_FALSE(a.intersects(c));
+    EXPECT_FALSE(b.intersects(c));
 }
 
 TEST(Intersections, SphereAABB)
@@ -108,8 +108,8 @@ TEST(Intersections, SphereAABB)
     const BoundsAABB aabbA(Vector3f(12.0f, 0.0f, 0.0f), Vector3f(5.0f, 5.0f, 5.0f));
     const BoundsAABB aabbB(Vector3f(30.0f, 0.0f, 0.0f), Vector3f(10.0f, 10.0f, 10.0f));
 
-    EXPECT_TRUE(Intersects(sphere, aabbA));
-    EXPECT_FALSE(Intersects(sphere, aabbB));
+    EXPECT_TRUE(sphere.intersects(aabbA));
+    EXPECT_FALSE(sphere.intersects(aabbB));
 }
 
 TEST(Intersections, SphereOBB)
@@ -149,16 +149,16 @@ TEST(Intersections, PlaneSphere)
 
     IntersectionType intersection;
 
-    EXPECT_FALSE(Intersects(plane, boundsA, &intersection));
+    EXPECT_FALSE(plane.intersects(boundsA, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Outside);
 
-    EXPECT_TRUE(Intersects(plane, boundsB, &intersection));
+    EXPECT_TRUE(plane.intersects(boundsB, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Intersects);
 
-    EXPECT_TRUE(Intersects(plane, boundsC, &intersection));
+    EXPECT_TRUE(plane.intersects(boundsC, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Intersects);
 
-    EXPECT_FALSE(Intersects(plane, boundsD, &intersection));
+    EXPECT_FALSE(plane.intersects(boundsD, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Inside);
     
 }
@@ -173,13 +173,13 @@ TEST(Intersections, PlaneAABB)
 
     IntersectionType intersection;
     
-    EXPECT_FALSE(Intersects(boundsA, plane, &intersection));
+    EXPECT_FALSE(plane.intersects(boundsA, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Outside);
 
-    EXPECT_TRUE(Intersects(boundsB, plane, &intersection));
+    EXPECT_TRUE(plane.intersects(boundsB, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Intersects);
 
-    EXPECT_FALSE(Intersects(boundsC, plane, &intersection));
+    EXPECT_FALSE(plane.intersects(boundsC, &intersection));
     EXPECT_EQ(intersection, IntersectionType::Inside);
 }
 

@@ -15,6 +15,10 @@
  */
 
 #include "Math/Geometry/Plane.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Bounds/Ray.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -78,6 +82,35 @@ namespace Ocular
             float sb = sn / sd;
 
             return (point + (m_Normal * sb));
+        }
+
+        //------------------------------------------------------------------------------
+        // Intersection and Containment Testing
+        //------------------------------------------------------------------------------
+
+        bool Plane::intersects(Ray const& ray) const
+        {
+            return ray.intersects((*this));
+        }
+
+        bool Plane::intersects(Ray const& ray, Vector3f& point, float& distance) const
+        {
+            return ray.intersects((*this), point, distance);
+        }
+
+        bool Plane::intersects(BoundsSphere const& bounds, IntersectionType* result) const
+        {
+            return bounds.intersects((*this), result);
+        }
+
+        bool Plane::intersects(BoundsAABB const& bounds, IntersectionType* result) const
+        {
+            return bounds.intersects((*this), result);
+        }
+
+        bool Plane::intersects(BoundsOBB const& bounds, IntersectionType* result) const
+        {
+            return false;
         }
 
         //----------------------------------------------------------------------------------

@@ -34,6 +34,11 @@ namespace Ocular
      */
     namespace Math
     {
+        class BoundsSphere;
+        class BoundsAABB;
+        class BoundsOBB;
+        class Plane;
+
         /**
          * \class Ray
          *
@@ -78,6 +83,131 @@ namespace Ocular
              * Returns the point that lies the given distance along the ray
              */
             Vector3f getPointAlong(float distance) const;
+
+            //------------------------------------------------------------------------------
+            // Intersection and Containment Testing
+            //------------------------------------------------------------------------------
+            
+            /**
+             * Performs an intersection test on a ray and point.
+             * 
+             * \param[in] point
+             * \return TRUE if the two rays intersect.
+             */
+            bool intersects(Point3f const& point) const;
+
+            /**
+             * Performs an intersection test on two rays.
+             * 
+             * \param[in] other
+             * \return TRUE if the two rays intersect.
+             */
+            bool intersects(Ray const& other) const;
+
+            /**
+             * Performs an intersection test on two rays.
+             * 
+             * \param[in]  other
+             * \param[out] point    The point that the rays intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the two rays intersect.
+             */
+            bool intersects(Ray const& other, Point3f& point, float& distance) const;
+            
+            /**
+             * Performs an intersection test on a ray and bounding sphere.
+             *
+             * \param[in] bounds
+             * \return TRUE if the ray and bounding sphere intersect.
+             */
+            bool intersects(BoundsSphere const& bounds) const;
+
+            /**
+             * Performs an intersection test on a ray and bounding sphere.
+             *
+             * This version of the method also returns the point at which the two intersect.
+             * If speed is of the uptmost concern and/or the exact point of intersection is
+             * not required, then the other version may be used instead.
+             *
+             * \param[in]  bounds
+             * \param[out] point    The point that the ray and bounding sphere intersects.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and bounding sphere intersect.
+             */
+            bool intersects(BoundsSphere const& bounds, Point3f& point, float& distance) const;
+            
+            /**
+             * Performs an intersection test on a ray and AABB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the ray and AABB intersect.
+             */
+            bool intersects(BoundsAABB const& bounds) const;
+            
+            /**
+             * Performs an intersection test on a ray and AABB.
+             *
+             * This version of the method also returns the point at which the two intersect.
+             * If speed is of the uptmost concern and/or the exact point of intersection is
+             * not required, then the other version may be used instead.
+             *
+             * \param[in]  bounds
+             * \param[out] point    The point that the ray and AABB intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and AABB intersect.
+             */
+            bool intersects(BoundsAABB const& bounds, Point3f& point, float& distance) const;
+            
+            /**
+             * Performs an intersection test on a ray and OBB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the ray and OBB intersect.
+             */
+            bool intersects(BoundsOBB const& bounds) const;
+            
+            /**
+             * Performs an intersection test on a ray and OBB.
+             *
+             * This version of the method also returns the point at which the two intersect.
+             * If speed is of the uptmost concern and/or the exact point of intersection is
+             * not required, then the other version may be used instead.
+             *
+             * \param[in]  bounds
+             * \param[out] point    The point that the ray and OBB intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and OBB intersect.
+             */
+            bool intersects(BoundsOBB const& bounds, Point3f& point, float& distance) const;
+
+            /**
+             * Performs an intersection test on a ray and plane.
+             *
+             * Note that this operation is actually a line-plane intersection.
+             * The line begins at ray origin and extends RAY_LINE_LENGTH.
+             *
+             * \param[in] plane
+             * \return TRUE if the ray and plane intersect.
+             */
+            bool intersects(Plane const& plane) const;
+
+            /**
+             * Performs an intersection test on a ray and plane.
+             *
+             * Note that this operation is actually a line-plane intersection.
+             * The line begins at ray origin and extends RAY_LINE_LENGTH.
+             *
+             * \param[in]  plane
+             * \param[out] point The point that the ray and AABB intersect, if they intersect.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and plane intersect.
+             */
+            bool intersects(Plane const& plane, Vector3f& point, float& distance) const;
 
         protected:
 

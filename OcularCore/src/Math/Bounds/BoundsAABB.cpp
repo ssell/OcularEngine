@@ -15,6 +15,10 @@
  */
 
 #include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Bounds/Ray.hpp"
+#include "Math/Geometry/Plane.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -161,6 +165,73 @@ namespace Ocular
                 m_Center  = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
                 m_Extents = m_MaxPoint - m_Center;
             }
+        }
+
+        //------------------------------------------------------------------------------
+        // Intersection and Containment Testing
+        //------------------------------------------------------------------------------
+
+        bool BoundsAABB::intersects(Ray const& ray) const
+        {
+            return ray.intersects((*this));
+        }
+
+        bool BoundsAABB::intersects(Ray const& ray, Point3f& point, float& distance) const
+        {
+            return ray.intersects((*this), point, distance);
+        }
+
+        bool BoundsAABB::intersects(BoundsSphere const& bounds) const
+        {
+            return bounds.intersects((*this));
+        }
+
+        bool BoundsAABB::intersects(BoundsAABB const& bounds) const
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 765
+
+            const Vector3f minB = bounds.getMinPoint();
+            const Vector3f maxB = bounds.getMaxPoint();
+
+            return !((m_MinPoint.x > maxB.x) || (minB.x > m_MaxPoint.x) ||
+                     (m_MinPoint.y > maxB.y) || (minB.y > m_MaxPoint.y) ||
+                     (m_MinPoint.z > maxB.z) || (minB.z > m_MaxPoint.z));
+        }
+
+        bool BoundsAABB::intersects(BoundsOBB const& bounds) const
+        {
+            return false;
+        }
+
+        bool BoundsAABB::intersects(Plane const& plane, IntersectionType* result) const
+        {
+            // Source: Real-Time Rendering, 3rd Ed. Page 756
+          
+            bool intersects = true;
+            IntersectionType tempResult = IntersectionType::Intersects;
+
+            const Vector3f& planeNormal  = plane.getNormal();
+
+            const float extent = (m_Extents.x * fabsf(planeNormal.x)) + (m_Extents.y * fabsf(planeNormal.y)) + (m_Extents.z * fabsf(planeNormal.z));
+            const float signedDistance = m_Center.dot(planeNormal) + (plane.getPoint().dot(plane.getPoint()));
+
+            if((signedDistance - extent) > 0.0f)
+            {
+                intersects = false;
+                tempResult = IntersectionType::Outside;
+            }
+            else if((signedDistance + extent) < 0.0f)
+            {
+                intersects = false;
+                tempResult = IntersectionType::Inside;
+            }
+
+            if(result)
+            {
+                (*result) = tempResult;
+            }
+
+            return intersects;
         }
 
         bool BoundsAABB::contains(Vector3f const& point, IntersectionType* result) const

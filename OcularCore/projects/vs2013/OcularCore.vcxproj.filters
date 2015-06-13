@@ -291,6 +291,9 @@
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

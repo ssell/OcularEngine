@@ -35,6 +35,11 @@ namespace Ocular
      */
     namespace Math
     {
+        class Ray;
+        class BoundsAABB;
+        class BoundsOBB;
+        class Plane;
+
         /**
          * \class BoundsSphere
          */
@@ -89,10 +94,84 @@ namespace Ocular
              */
             void expandToContain(Point3f const& point);
 
+            //------------------------------------------------------------------------------
+            // Intersection and Containment Testing
+            //------------------------------------------------------------------------------
+            
+            /**
+             * Performs an intersection test on a ray and bounding sphere.
+             *
+             * \param[in] ray
+             * \return TRUE if the ray and bounding sphere intersect.
+             */
+            bool intersects(Ray const& ray) const;
+
+            /**
+             * Performs an intersection test on a ray and bounding sphere.
+             *
+             * This version of the method also returns the point at which the two intersect.
+             * If speed is of the uptmost concern and/or the exact point of intersection is
+             * not required, then the other version may be used instead.
+             *
+             * \param[in]  ray
+             * \param[out] point    The point that the ray and bounding sphere intersects.
+             * \param[out] distance The distance from the ray origin to the point of intersection
+             *
+             * \return TRUE if the ray and bounding sphere intersect.
+             */
+            bool intersects(Ray const& ray, Point3f& point, float& distance) const;
+
+            /**
+             * Performs an intersection test on two bounding spheres.
+             *
+             * \param[in] bounds
+             * \return TRUE if the two bounding spheres intersect.
+             */
+            bool intersects(BoundsSphere const& bounds) const;
+
+            /**
+             * Performs an intersection test on a bounding sphere and AABB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the bounding sphere and AABB intersect.
+             */
+            bool intersects(BoundsAABB const& bounds) const;
+
+            /**
+             * Performs an intersection test on a bounding sphere and OBB.
+             *
+             * \param[in] bounds
+             * \return TRUE if the bounding sphere and OBB intersect.
+             */
+            bool intersects(BoundsOBB const& bounds) const;
+
+            /**
+             * Performs an intersection test on a plane and sphere.
+             *
+             * If the result is Inside, then the sphere is located entirely within the plane's positive half space. <br/>
+             * If the result is Outside, then the sphere is located entirely outside the plane's positive half space.
+             *
+             * The positive half space of the plane is the direction that the plane is facing, as described by it's normal.
+             *
+             * As an example, say we have the plane defined as:
+             *
+             *      Point: (0.0, 0.0, 0.0)
+             *     Normal: (0.0, 1.0, 0.0)
+             *
+             * The plane is 'facing up' along the world origin.
+             *
+             * If the intersection test returns Outside, then the AABB is entirely in the +y world space. <br/>
+             * If the intersection test returns Inside, then the AABB is entirely in the -y world space.
+             *
+             * \param[in]  plane
+             * \param[out] result Detailed intersection result.
+             *
+             * \return TRUE if the plane sphere AABB intersects, otherwise FALSE.
+             */
+            bool intersects(Plane const& plane, IntersectionType* result = nullptr) const;
+
             /**
              * Calculates if the bounds contains the specified point.
-             *
-             * To test for just intersection, see the series of Ocular::Math::Intersects functions.
              *
              * \param[in]  point
              * \param[out] result The exact result of the containment test (intersection, outside, inside).
@@ -103,8 +182,6 @@ namespace Ocular
 
             /**
              * Calculates if any portion of the specified bounding sphere is contained within the spere.
-             *
-             * To test for just intersection, see the series of Ocular::Math::Intersects functions.
              *
              * \param[in]  sphere
              * \param[out] result The exact result of the containment test (intersection, outside, inside).
