@@ -388,10 +388,10 @@ namespace Ocular
         }
 
         //------------------------------------------------------------
-        // Static METHODS
+        // STATIC METHODS
         //------------------------------------------------------------
 
-        Quaternion Quaternion::createLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up)
+        Quaternion Quaternion::CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up)
         {
             Quaternion result;
 
@@ -420,7 +420,7 @@ namespace Ocular
             return result;
         }
 
-        Quaternion Quaternion::rotateVector(Vector3<float> const& from, Vector3<float> const& to)
+        Quaternion Quaternion::RotateVector(Vector3<float> const& from, Vector3<float> const& to)
         {
             // Source: 
             // Real-Time Rendering 3rd Edition 
@@ -451,17 +451,17 @@ namespace Ocular
             return result;
         }
 
-        Quaternion Quaternion::lerp(Quaternion const& a, Quaternion const& b, float const& t)
+        Quaternion Quaternion::Lerp(Quaternion const& a, Quaternion const& b, float const& t)
         {
             return (a * (1.0f - t)) + (b * t);
         }
 
-        Quaternion Quaternion::bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y)
+        Quaternion Quaternion::Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y)
         {
-            return lerp(lerp(q00, q10, x), lerp(q01, q11, x), y);
+            return Lerp(Lerp(q00, q10, x), Lerp(q01, q11, x), y);
         }
 
-        Quaternion Quaternion::slerp(Quaternion const& a, Quaternion const& b, float const& t)
+        Quaternion Quaternion::Slerp(Quaternion const& a, Quaternion const& b, float const& t)
         {
             Quaternion result;
             Quaternion c = b;
@@ -477,7 +477,7 @@ namespace Ocular
             if(theta > (1.0f - EPSILON_FLOAT))
             {
                 // Perform a lerp when close to 1 to avoid division by 0
-                result = lerp(a, b, t);
+                result = Lerp(a, b, t);
             }
             else
             {

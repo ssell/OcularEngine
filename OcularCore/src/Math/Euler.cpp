@@ -16,6 +16,7 @@
 
 #include "Math/Euler.hpp"
 #include "Math/Matrix3x3.hpp"
+#include "Math/Vector3.hpp"
 #include "Math/Quaternion.hpp"
 #include "Math/Equality.hpp"
 
@@ -41,6 +42,15 @@ namespace Ocular
             m_Yaw   = DegreesToRadians<float>(pYaw);
             m_Pitch = DegreesToRadians<float>(pPitch);
             m_Roll  = DegreesToRadians<float>(pRoll);
+        }
+
+        Euler::Euler(Vector3<float> const& vector)
+        {
+            Vector3<float> normalized = vector.getNormalized();
+
+            m_Yaw   = vector.x;
+            m_Pitch = vector.y;
+            m_Roll  = vector.z;
         }
 
         Euler::Euler(Matrix3x3f const& rotationMatrix)

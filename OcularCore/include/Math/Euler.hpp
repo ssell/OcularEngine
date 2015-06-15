@@ -35,6 +35,7 @@ namespace Ocular
         // Forward Declarations
 
         template<typename T> class Matrix3x3;
+        template<typename T> class Vector3;
         class Quaternion;
 
         //----------------------------------------------------------------
@@ -66,6 +67,8 @@ namespace Ocular
              * \param[in] pRoll
              */
             Euler(float const pYaw, float const pPitch, float const pRoll);
+
+            Euler(Vector3<float> const& vector);
 
             /**
              * Initializes the Euler angles from a rotation matrix.

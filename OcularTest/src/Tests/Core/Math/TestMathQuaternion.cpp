@@ -133,7 +133,7 @@ TEST(Quaternion, Lerp)
 
     quatA.normalize();
     quatB.normalize();
-    quatC = Quaternion::lerp(quatA, quatB, 0.695f);
+    quatC = Quaternion::Lerp(quatA, quatB, 0.695f);
     
     EXPECT_NEAR(quatC.w,  0.481401503f,  EPSILON_FLOAT);
     EXPECT_NEAR(quatC.x,  0.874915540f,  EPSILON_FLOAT);
@@ -158,7 +158,7 @@ TEST(Quaternion, Slerp)
 
     quatA.normalize();
     quatB.normalize();
-    quatC = Quaternion::slerp(quatA, quatB, 0.695f);
+    quatC = Quaternion::Slerp(quatA, quatB, 0.695f);
     
     EXPECT_NEAR(quatC.w,  0.481756449f,  EPSILON_FLOAT);
     EXPECT_NEAR(quatC.x,  0.875574708f,  EPSILON_FLOAT);

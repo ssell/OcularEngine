@@ -745,8 +745,7 @@ namespace Ocular
              *
              * \return The orthographic projection matrix
              */
-            static Matrix4x4<T> createOrthographicMatrix(float const &xMin, float const &xMax, float const &yMin, float const &yMax, 
-                                                         float const &nearClip, float const &farClip)
+            static Matrix4x4<T> CreateOrthographicMatrix(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -770,7 +769,7 @@ namespace Ocular
              *
              * \return The perspective projection matrix
              */
-            static Matrix4x4<T> createPerspectiveMatrix(float const &fov, float const &aspectRatio, float const &nearClip, float const &farClip)
+            static Matrix4x4<T> CreatePerspectiveMatrix(float const &fov, float const &aspectRatio, float const &nearClip, float const &farClip)
             {
                 Matrix4x4<T> matrix;
 
@@ -798,7 +797,7 @@ namespace Ocular
              * \param[in] lookAt Point in space to look at
              * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Matrix4x4<float> createLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::up())
+            static Matrix4x4<float> CreateLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::up())
             {
                 Matrix4x4<float> result;
 
@@ -824,7 +823,7 @@ namespace Ocular
              * Creates a matrix which scales by the specified amount.
              * \param[in] scale
              */
-            static Matrix4x4<T> createScalingMatrix(T const& scale)
+            static Matrix4x4<T> CreateScalingMatrix(T const& scale)
             {
                 Matrix4x4<T> result;
                 
@@ -839,7 +838,7 @@ namespace Ocular
              * Creates a matrix which scales by the specified amount.
              * \param[in] scale
              */
-            static Matrix4x4<T> createScalingMatrix(Vector3<T> const& scale)
+            static Matrix4x4<T> CreateScalingMatrix(Vector3<T> const& scale)
             {
                 Matrix4x4<T> result;
                 
@@ -859,7 +858,7 @@ namespace Ocular
              *
              * \return A new TRS matrix.
              */
-            static Matrix4x4<T> createTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, T const& scale)
+            static Matrix4x4<T> CeateTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, T const& scale)
             {
                 Matrix4x4<float> result;
                 Matrix4x4<float> rotationMatrix(rotation);
@@ -880,7 +879,7 @@ namespace Ocular
              *
              * \return A new TRS matrix.
              */
-            static Matrix4x4<T> createTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, Vector3<T> const& scale)
+            static Matrix4x4<T> CreateTRSMatrix(Vector3<T> const& position, Quaternion const& rotation, Vector3<T> const& scale)
             {
                 Matrix4x4<float> result;
                 Matrix4x4<float> rotationMatrix(rotation);

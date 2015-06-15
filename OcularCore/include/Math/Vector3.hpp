@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_VECTOR_3__H__
 
 #include "Vector2.hpp"
+#include "Euler.hpp"
 #include "Equality.hpp"
 #include "Exceptions/Exception.hpp"
 
@@ -45,6 +46,13 @@ namespace Ocular
         class Vector3
         {
         public:
+
+            Vector3(Euler const& euler)
+            {
+                x = static_cast<T>(euler.getYaw());
+                y = static_cast<T>(euler.getPitch());
+                z = static_cast<T>(euler.getRoll());
+            }
 
             Vector3(Vector2<T> const& vec)
             {
@@ -112,6 +120,11 @@ namespace Ocular
                     THROW_EXCEPTION("Out-Of-Bounds Vector Access");
                     return x;
                 }
+            }
+
+            Vector3<T> operator-()
+            {
+                return Vector3<T>(-x, -y, -z);
             }
 
             Vector3<T>& operator=(Vector3<T> const& rhs)
@@ -375,7 +388,7 @@ namespace Ocular
             }
 
             //------------------------------------------------------------------------------
-            // SPECIAL Static VECTORS
+            // SPECIAL STATIC VECTORS
             //------------------------------------------------------------------------------
 
             // Ocular uses a right-handed coordinate system

@@ -58,8 +58,23 @@ namespace Ocular
              * \param[in] normal The direction of the plane.
              */
             Plane(Vector3f const& point, Vector3f const& normal);
-            Plane();
 
+            /**
+             * Creates a new plane from three points.
+             *
+             * The given points must all lie on the plane and be given in 
+             * a counter-clockwise order.
+             *
+             * The point of the plane is set to 'b'. <br/>
+             * The normal is set to (b - a) x (c - a) normalized.
+             *
+             * \param[in] a The first point on the plane
+             * \param[in] b The second point on the plane
+             * \param[in] c The third point on the plane
+             */
+            Plane(Point3f const& a, Point3f const& b, Point3f const& c);
+
+            Plane();
             ~Plane();
 
             /**

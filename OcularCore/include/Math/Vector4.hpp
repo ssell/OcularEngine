@@ -120,6 +120,11 @@ namespace Ocular
                     return x;
                 }
             }
+            
+            Vector4<T> operator-()
+            {
+                return Vector4<T>(-x, -y, -z, -w);
+            }
 
             Vector4<T>& operator=(Vector4<T> const &rhs)
             {

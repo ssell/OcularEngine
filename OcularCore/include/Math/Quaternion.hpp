@@ -189,7 +189,7 @@ namespace Ocular
              * \param[in] lookAt Point in space to look at
              * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Quaternion createLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::up());
+            static Quaternion CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::up());
 
             /**
              * Rotates the provided vector from a direction to another direction.
@@ -197,7 +197,7 @@ namespace Ocular
              * \param[in] from Direction the vector is currently facing
              * \param[in] to   Direction to rotate the vector to
              */
-            static Quaternion rotateVector(Vector3<float> const& from, Vector3<float> const& to);
+            static Quaternion RotateVector(Vector3<float> const& from, Vector3<float> const& to);
 
             /**
              * Performs linear quaternion interpolation and returns the resulting quaternion.
@@ -208,7 +208,7 @@ namespace Ocular
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion lerp(Quaternion const& a, Quaternion const& b, float const& t);
+            static Quaternion Lerp(Quaternion const& a, Quaternion const& b, float const& t);
 
             /**
              * Performs bilinear quaternion interpolation and returns the result quaternion.
@@ -220,7 +220,7 @@ namespace Ocular
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y);
+            static Quaternion Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y);
 
             /**
              * Performs spherical interpolation and returns the resulting quaternion.
@@ -231,7 +231,7 @@ namespace Ocular
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion slerp(Quaternion const& a, Quaternion const& b, float const& t);
+            static Quaternion Slerp(Quaternion const& a, Quaternion const& b, float const& t);
 
             //------------------------------------------------------------------------------
             // PUBLIC VARIABLES

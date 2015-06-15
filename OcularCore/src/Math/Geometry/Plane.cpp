@@ -36,6 +36,17 @@ namespace Ocular
             m_Normal = normal.getNormalized();
         }
 
+        Plane::Plane(Point3f const& a, Point3f const& b, Point3f const& c)
+        {
+            const Vector3f bToA = (b - a);
+            const Vector3f cToA = (c - a);
+
+            m_Normal = bToA.cross(cToA);
+            m_Normal.normalize();
+
+            m_Point = b;
+        }
+
         Plane::Plane()
         {
         

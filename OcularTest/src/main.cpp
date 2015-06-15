@@ -18,13 +18,13 @@
 #include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
-#include "Utilities/HashGenerator.hpp"
 
-#include "FileIO/Directory.hpp"
+#include "Math/Vector3.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
+using namespace Ocular::Math;
 
 //------------------------------------------------------------------------------------------
 
@@ -55,6 +55,8 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
+    Vector3f vector(0.0f, 1.0f, 0.0f);
+    
     runTests(argc, argv);
 
     OcularEngine.shutdown();
