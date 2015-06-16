@@ -66,6 +66,11 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
+             * \param[in] forwardVector
+             */
+            void setForward(Vector3f const& forwardVector);
+
+            /**
              * \param[in] upVector
              */
             void setUp(Vector3f const& upVector);
@@ -80,9 +85,10 @@ namespace Ocular
              * Sets the position and rotation that defines the view matrix of this frustum.
              *
              * \param[in] position
-             * \param[in] rotation
+             * \param[in] forwardVector
+             * \param[in] upVector
              */
-            void setView(Vector3f const& position, Quaternion const& rotation);
+            void setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector);
 
             /**
              * Sets the projection matrix that helps to define this frustum.
@@ -127,19 +133,51 @@ namespace Ocular
             /**
              * \return The point this frustum originates from.
              */
-            Vector3f const& getPointOfView() const;
+            Vector3f const& getOrigin() const;
 
             /**
              * \return The direction this frustum is facing.
              */
-            Vector3f const& getDirection() const;
+            Vector3f const& getForward() const;
+
+            /**
+             * \return The up direction
+             */
+            Vector3f const& getUp() const;
+
+            /**
+             * \return The right direction
+             */
+            Vector3f const& getRight() const;
+
+            /**
+             * Returns the four corners the comprise the finite portion of the near clip plane.
+             * These corners are ordered counter-clockwise from the bottom left:
+             *
+             *     [0] : Bottom left
+             *     [1] : Bottom right
+             *     [2] : Top right
+             *     [3] : Top left
+             */
+            std::array<Vector3f, 4> const& getNearClipCorners() const;
+
+            /**
+             * Returns the four corners the comprise the finite portion of the far clip plane.
+             * These corners are ordered counter-clockwise from the bottom left:
+             *
+             *     [0] : Bottom left
+             *     [1] : Bottom right
+             *     [2] : Top right
+             *     [3] : Top left
+             */
+            std::array<Vector3f, 4> const& getFarClipCorners() const;
 
             //------------------------------------------------------------
             // Containment Testing
             //------------------------------------------------------------
 
             /**
-             * Tests to determine if the frustum contains the specified bounding sphere.
+             * Tests to determine if the frustum contains the specified point.
              *
              * \param[in] point
              * \return TRUE if bounds is inside or intersects.
@@ -222,10 +260,13 @@ namespace Ocular
 
         private:
 
-            Vector3f m_PointOfView;
-            Vector3f m_Direction;
+            Vector3f m_Origin;
+            Vector3f m_Forward;
             Vector3f m_Right;
             Vector3f m_Up;
+
+            std::array<Vector3f, 4> m_NearCorners;  ///< Corners of the finite near clip plane ordered counter-clockwise from bottom left
+            std::array<Vector3f, 4> m_FarCorners;   ///< Corners of the finite far clip plane ordered counter-clockwise from bottom left
 
             Plane m_LeftPlane;
             Plane m_RightPlane;

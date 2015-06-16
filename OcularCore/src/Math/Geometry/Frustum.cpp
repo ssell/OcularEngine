@@ -47,10 +47,16 @@ namespace Ocular
         // View and Projection matrix setting
         //----------------------------------------------------------------------------------
 
+        void Frustum::setForward(Vector3f const& forwardVector)
+        {
+            m_Forward = forwardVector;
+            m_Right = m_Forward.cross(m_Up);
+        }
+
         void Frustum::setUp(Vector3f const& upVector)
         {
             m_Up = upVector.getNormalized();
-            m_Right = m_Up.cross(m_Direction);
+            m_Right = m_Forward.cross(m_Up);
         }
 
         void Frustum::setView(Matrix4x4f const& viewMatrix)
@@ -58,11 +64,12 @@ namespace Ocular
         
         }
         
-        void Frustum::setView(Vector3f const& position, Quaternion const& rotation)
+        void Frustum::setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector)
         {
-            m_PointOfView = position;
-            m_Direction = rotation.toEuler();
-            m_Right = m_Up.cross(m_Direction);
+            m_Origin  = position;
+            m_Forward = forwardVector;
+            m_Up      = upVector;
+            m_Right   = m_Forward.cross(m_Up);
         }
         
         void Frustum::setProjection(Matrix4x4f const& projectionMatrix)
@@ -96,14 +103,34 @@ namespace Ocular
         // Misc Getters
         //----------------------------------------------------------------
 
-        Vector3f const& Frustum::getPointOfView() const
+        Vector3f const& Frustum::getOrigin() const
         {
-            return m_PointOfView;
+            return m_Origin;
         }
 
-        Vector3f const& Frustum::getDirection() const
+        Vector3f const& Frustum::getForward() const
         {
-            return m_Direction;
+            return m_Forward;
+        }
+
+        Vector3f const& Frustum::getUp() const
+        {
+            return m_Up;
+        }
+
+        Vector3f const& Frustum::getRight() const
+        {
+            return m_Right;
+        }
+
+        std::array<Vector3f, 4> const& Frustum::getNearClipCorners() const
+        {
+            return m_NearCorners;
+        }
+
+        std::array<Vector3f, 4> const& Frustum::getFarClipCorners() const
+        {
+            return m_FarCorners;
         }
 
         //----------------------------------------------------------------
@@ -115,12 +142,15 @@ namespace Ocular
             // If the point is outside of a single plane, then we return false.
             // Otherwise, if it is inside/intersects all planes then return true.
 
-             return (m_NearPlane.getSignedDistance(point)   < EPSILON_FLOAT) &&
-                    (m_LeftPlane.getSignedDistance(point)   < EPSILON_FLOAT) &&
-                    (m_RightPlane.getSignedDistance(point)  < EPSILON_FLOAT) &&
-                    (m_BottomPlane.getSignedDistance(point) < EPSILON_FLOAT) &&
-                    (m_TopPlane.getSignedDistance(point)    < EPSILON_FLOAT) &&
-                    (m_FarPlane.getSignedDistance(point)    < EPSILON_FLOAT);
+            // If distance is 0 then there is an intersection.
+            // If distance is negative it is inside the plane.
+
+            return (m_NearPlane.getSignedDistance(point)   < EPSILON_FLOAT) &&
+                   (m_LeftPlane.getSignedDistance(point)   < EPSILON_FLOAT) &&
+                   (m_RightPlane.getSignedDistance(point)  < EPSILON_FLOAT) &&
+                   (m_BottomPlane.getSignedDistance(point) < EPSILON_FLOAT) &&
+                   (m_TopPlane.getSignedDistance(point)    < EPSILON_FLOAT) &&
+                   (m_FarPlane.getSignedDistance(point)    < EPSILON_FLOAT);
         }
 
         bool Frustum::contains(BoundsSphere const& bounds) const
@@ -336,27 +366,27 @@ namespace Ocular
             const float nearHalfWidth  = (xMax - xMin) * 0.5f;
             const float nearHalfHeight = (yMax - yMin) * 0.5f;
 
-            const Vector3f nearCenter = m_PointOfView + (m_Direction * m_NearClip);
-            const Vector3f farCenter  = m_PointOfView + (m_Direction * m_FarClip);
+            const Vector3f nearCenter = m_Origin + (m_Forward * m_NearClip);
+            const Vector3f farCenter  = m_Origin + (m_Forward * m_FarClip);
             
             const Vector3f nearTopDiff   = (m_Up * nearHalfHeight);
             const Vector3f nearRightDiff = (m_Right * nearHalfWidth);
-
-            const Vector3f nearTopLeft     = (nearCenter + nearTopDiff) - nearRightDiff;
-            const Vector3f nearTopRight    = (nearCenter + nearTopDiff) + nearRightDiff;
-            const Vector3f nearBottomLeft  = (nearCenter - nearTopDiff) - nearRightDiff;
-            const Vector3f nearBottomRight = (nearCenter - nearTopDiff) + nearRightDiff;
+            
+            m_NearCorners[0] = (nearCenter - nearTopDiff) - nearRightDiff;
+            m_NearCorners[1] = (nearCenter - nearTopDiff) + nearRightDiff;
+            m_NearCorners[2] = (nearCenter + nearTopDiff) + nearRightDiff;
+            m_NearCorners[3] = (nearCenter + nearTopDiff) - nearRightDiff;
 
             //------------------------------------------------------------
             // Construct the planes from the discovered points
 
-            m_NearPlane   = Plane(m_PointOfView + (m_Direction * m_NearClip), -m_Direction);
-            m_FarPlane    = Plane(m_PointOfView + (m_Direction * m_FarClip), m_Direction);
+            m_NearPlane   = Plane(m_Origin + (m_Forward * m_NearClip), -m_Forward);
+            m_FarPlane    = Plane(m_Origin + (m_Forward * m_FarClip),   m_Forward);
             
-            m_LeftPlane   = Plane(m_PointOfView, nearBottomLeft,  nearTopLeft);
-            m_RightPlane  = Plane(m_PointOfView, nearBottomRight, nearTopRight);
-            m_TopPlane    = Plane(m_PointOfView, nearTopRight,    nearTopLeft);
-            m_BottomPlane = Plane(m_PointOfView, nearBottomRight, nearBottomLeft);
+            m_LeftPlane   = Plane(m_Origin, m_NearCorners[0], m_NearCorners[3]);
+            m_RightPlane  = Plane(m_Origin, m_NearCorners[1], m_NearCorners[2]);
+            m_TopPlane    = Plane(m_Origin, m_NearCorners[2], m_NearCorners[3]);
+            m_BottomPlane = Plane(m_Origin, m_NearCorners[1], m_NearCorners[0]);
         }
 
         //----------------------------------------------------------------------------------

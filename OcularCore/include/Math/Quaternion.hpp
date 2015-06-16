@@ -75,6 +75,8 @@ namespace Ocular
              */
             Quaternion(Euler const& euler);
 
+            Quaternion(Vector3<float> const& eulerVector);
+
             /**
              * Initializes the Quaternion from a rotation around the specified axis.
              *

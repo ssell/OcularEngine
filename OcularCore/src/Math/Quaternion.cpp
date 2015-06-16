@@ -198,6 +198,23 @@ namespace Ocular
             z =  (cR * cP * sY) - (sR * sP * cY);
         }
 
+        Quaternion::Quaternion(Vector3<float> const& eulerVector)
+        {
+            const Euler euler(eulerVector.getNormalized());
+
+            const float cY = cos(euler.m_Yaw   * 0.5f);
+            const float cP = cos(euler.m_Pitch * 0.5f);
+            const float cR = cos(euler.m_Roll  * 0.5f);
+            const float sY = sin(euler.m_Yaw   * 0.5f);
+            const float sP = sin(euler.m_Pitch * 0.5f);
+            const float sR = sin(euler.m_Roll  * 0.5f);
+
+            w =  (cR * cP * cY) + (sR * sP * sY);
+            x =  (cR * sP * sY) - (sR * cP * cY);
+            y = -(cR * sP * cY) - (sR * cP * sY);
+            z =  (cR * cP * sY) - (sR * sP * cY);
+        }
+
         Quaternion::Quaternion(Vector3<float> const& axis, float const angle)
         {
             const float angleRad  = DegreesToRadians<float>(angle);
