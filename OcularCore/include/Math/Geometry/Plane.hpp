@@ -117,6 +117,10 @@ namespace Ocular
              */
             Vector3f getClosest(Vector3f const& point) const;
 
+            void normalize();
+
+            Plane getNormalized() const;
+
             //------------------------------------------------------------------------------
             // Intersection and Containment Testing
             //------------------------------------------------------------------------------

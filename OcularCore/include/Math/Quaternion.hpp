@@ -191,7 +191,7 @@ namespace Ocular
              * \param[in] lookAt Point in space to look at
              * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Quaternion CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::up());
+            static Quaternion CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::Up());
 
             /**
              * Rotates the provided vector from a direction to another direction.

@@ -95,6 +95,20 @@ namespace Ocular
             return (point + (m_Normal * sb));
         }
 
+        void Plane::normalize() 
+        {
+            float normalLength = m_Normal.getLength();
+            m_Normal /= normalLength;
+        }
+
+        Plane Plane::getNormalized() const
+        {
+            Plane plane = (*this);
+            plane.normalize();
+
+            return plane;
+        }
+
         //------------------------------------------------------------------------------
         // Intersection and Containment Testing
         //------------------------------------------------------------------------------

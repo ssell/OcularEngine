@@ -95,8 +95,50 @@ namespace Ocular
 
         void Frustum::setViewProjection(Matrix4x4f const& viewProjection)
         {
-            // Source: http://www8.cs.umu.se/kurser/5DV051/HT12/lab/plane_extraction.pdf
-            // http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
+            m_LeftPlane.setPoint(m_Origin);
+            m_LeftPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[0][0], viewProjection[3][1] + viewProjection[0][1], viewProjection[3][2] + viewProjection[0][2]));
+            m_LeftPlane.normalize();
+
+            m_RightPlane.setPoint(m_Origin);
+            m_RightPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[0][0], viewProjection[3][1] - viewProjection[0][1], viewProjection[3][2] - viewProjection[0][2]));
+            m_RightPlane.normalize();
+
+            m_BottomPlane.setPoint(m_Origin);
+            m_BottomPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[1][0], viewProjection[3][1] + viewProjection[1][1], viewProjection[3][2] + viewProjection[1][2]));
+            m_BottomPlane.normalize();
+
+            m_TopPlane.setPoint(m_Origin);
+            m_TopPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[1][0], viewProjection[3][1] - viewProjection[1][1], viewProjection[3][2] - viewProjection[1][2]));
+            m_TopPlane.normalize();
+
+            m_NearPlane.setPoint(m_Origin);
+            m_NearPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[2][0], viewProjection[3][1] + viewProjection[2][1], viewProjection[3][2] + viewProjection[2][2]));
+            m_NearPlane.normalize();
+
+            m_FarPlane.setPoint(m_Origin);
+            m_FarPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[2][0], viewProjection[3][1] - viewProjection[2][1], viewProjection[3][2] - viewProjection[2][2]));
+            m_FarPlane.normalize();
+
+            //------------------------------------------------------------------------------
+            // Transform unit cube by inverse viewProj matrix to turn it into a frustum.
+
+            const Matrix4x4f inverseMatrix = viewProjection.getInverse();
+            
+            m_NearCorners[0] = Vector3f(-0.5f, -0.5f, 0.0f);
+            m_NearCorners[1] = Vector3f( 0.5f, -0.5f, 0.0f);
+            m_NearCorners[2] = Vector3f( 0.5f,  0.5f, 0.0f);
+            m_NearCorners[3] = Vector3f(-0.5f,  0.5f, 0.0f);
+            
+            m_FarCorners[0] = Vector3f(-0.5f, -0.5f, 1.0f);
+            m_FarCorners[1] = Vector3f( 0.5f, -0.5f, 1.0f);
+            m_FarCorners[2] = Vector3f( 0.5f,  0.5f, 1.0f);
+            m_FarCorners[3] = Vector3f(-0.5f,  0.5f, 1.0f);
+
+            for(int i = 0; i < 4; i++)
+            {
+                m_NearCorners[i] = inverseMatrix.transform(m_NearCorners[i]);
+                m_FarCorners[i]  = inverseMatrix.transform(m_FarCorners[i]);
+            }
         }
 
         //----------------------------------------------------------------

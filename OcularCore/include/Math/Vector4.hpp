@@ -44,12 +44,12 @@ namespace Ocular
         {
         public:
 
-            Vector4(Vector3<T> const& vec)
+            Vector4(Vector3<T> const& vec, T pW = static_cast<T>(1.0f))
             {
                 x = vec.x;
                 y = vec.y;
                 z = vec.z;
-                w = 1.0f;
+                w = pW;
             }
 
             Vector4(T const &pX, T const &pY, T const &pZ, T const &pW)
@@ -314,6 +314,17 @@ namespace Ocular
             {
                 Vector4<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
+            }
+
+            /**
+             * Homegenizes the vector (divides all components by w so that w == 1)
+             */
+            void homogenize()
+            {
+                x /= w;
+                y /= w;
+                z /= w;
+                w /= w;
             }
 
             //------------------------------------------------------------------------------

@@ -729,6 +729,38 @@ namespace Ocular
                 return result;
             }
 
+            /**
+             * Transforms the vector by the matrix. If the point is not homegenous, then it is homogenized.
+             * \param[in] vector Vector to transform.
+             */
+            Vector4<T> transform(Vector4<T> const& vector) const
+            {
+                Vector4<T> result;
+                Vector4<T> temp = vector;
+
+                if(!IsOne<T>(temp.w))
+                {
+                    temp.homogenize();
+                }
+                
+                result.x = (m_Contents[0][0] * temp.x) + (m_Contents[0][1] * temp.y) + (m_Contents[0][2] * temp.z) + m_Contents[0][3];
+                result.y = (m_Contents[1][0] * temp.x) + (m_Contents[1][1] * temp.y) + (m_Contents[1][2] * temp.z) + m_Contents[1][3];
+                result.z = (m_Contents[2][0] * temp.x) + (m_Contents[2][1] * temp.y) + (m_Contents[2][2] * temp.z) + m_Contents[2][3];
+                result.w = static_cast<T>(1.0);
+
+                return result;
+            }
+            
+            /**
+             * Transforms the vector by the matrix.
+             * \param[in] vector Vector to transform.
+             */
+            Vector3<T> transform(Vector3<T> const& vector) const
+            {
+                Vector4<T> result = transform(Vector4<T>(vector, static_cast<T>(1.0)));
+                return Vector3<T>(result.x, result.y, result.z);
+            }
+
             //------------------------------------------------------------------------------
             // STATIC OPERATIONS
             //------------------------------------------------------------------------------
@@ -736,58 +768,119 @@ namespace Ocular
             /**
              * Creates an orthographic projection matrix with the specified attributes.
              *
-             * \param[in] xMin
-             * \param[in] xMax
-             * \param[in] yMin
-             * \param[in] yMax
-             * \param[in] nearClip
-             * \param[in] farClip
+             * Note that this creates an API-independent orthographic projection. Both OpenGL
+             * and DirectX require further transformations in order to use it. See ....
+             *
+             * \param[in] xMin     Left-side of near clip plane
+             * \param[in] xMax     Right-side of near clip plane
+             * \param[in] yMin     Bottom-side of near clip plane
+             * \param[in] yMax     Top-side of near clip plane
+             * \param[in] nearClip Distance from point-of-view to near clip plane.
+             * \param[in] farClip  Distance from point-of-view to far clip plane.
              *
              * \return The orthographic projection matrix
              */
-            static Matrix4x4<T> CreateOrthographicMatrix(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
+            static Matrix4x4<T> CreateOrthographicMatrix(T const xMin, T const xMax, T const yMin, T const yMax, T const nearClip, T const farClip)
             {
+                // Source: http://stackoverflow.com/a/850836/735425
+
                 Matrix4x4<T> matrix;
 
-                matrix[0][0] = 2.0f / (xMax - xMin);
-                matrix[1][1] = 2.0f / (yMax - yMin);
-                matrix[2][2] = -2.0f / (farClip - nearClip);
-                matrix[3][0] = -((xMax + xMin) / (xMax - xMin));
-                matrix[3][1] = -((yMax + yMin) / (yMax - yMin));
-                matrix[3][2] = -((farClip + nearClip) / (farClip - nearClip));
+                const T width  = xMax - xMin;
+                const T height = yMax - yMin;
+                const T depth  = farClip - nearClip;
+
+                matrix[0][0] = static_cast<T>(2.0) / width;
+                matrix[1][1] = static_cast<T>(2.0) / height;
+                matrix[2][2] = static_cast<T>(1.0) / depth;
+                matrix[2][3] = -nearClip / depth;
 
                 return matrix;
             }
 
             /**
-             * Creates a perspective projection matrix with the specified attributes.
+             * Creates a persective projection matrix. This may be symmetric (xMin = -xMax; yMin = -yMax) or asymmetric (stereo rendering, etc.).
              *
-             * \param[in] fov
-             * \param[in] aspectRatio Screen Width / Screen Height
-             * \param[in] nearClip
-             * \param[in] farClip
+             * For the near and far clipping planes: 0.0 > near clip > far clip.
+             *
+             * Note that this creates an API-independent perspective projection. Both OpenGL
+             * and DirectX require further transformations in order to use it. See ....
+             *
+             * \param[in] xMin     Left-side of near clip plane
+             * \param[in] xMax     Right-side of near clip plane
+             * \param[in] yMin     Bottom-side of near clip plane
+             * \param[in] yMax     Top-side of near clip plane
+             * \param[in] nearClip Distance from point-of-view to near clip plane.
+             * \param[in] farClip  Distance from point-of-view to far clip plane.
              *
              * \return The perspective projection matrix
              */
-            static Matrix4x4<T> CreatePerspectiveMatrix(float const &fov, float const &aspectRatio, float const &nearClip, float const &farClip)
+            static Matrix4x4<T> CreatePerspectiveMatrix(T const xMin, T const xMax, T const yMin, T const yMax, T const nearClip, T const farClip)
             {
                 Matrix4x4<T> matrix;
 
-                float yMax = nearClip * std::tanf(fov * 0.5f);
-                float yMin = -yMax;
-                float xMin = yMin * aspectRatio;
-                float xMax = -xMin;
+                const T twoN = static_cast<T>(2.0) * nearClip;
 
-                matrix[0][0] = (2.f * nearClip) / (xMax - xMin);
-			    matrix[1][1] = (2.f * nearClip) / (yMax - yMin);
-			    matrix[2][0] = (xMax + xMin) / (xMax - xMin);
-			    matrix[2][1] = (yMax + yMin) / (yMax - yMin);
-			    matrix[2][2] = -((farClip + nearClip) / (farClip - nearClip));
-			    matrix[2][3] = -1.f;
-			    matrix[3][2] = -((2.f * (farClip * nearClip)) / (farClip - nearClip));
-			    matrix[3][3] = 0.f;
+                matrix[0][0] = twoN / (xMax - xMin);
+                matrix[0][2] = -((xMax + xMin) / (xMax - xMin));
+                matrix[1][1] = twoN / (yMax - yMin);
+                matrix[1][2] = -((yMax + yMin) / (yMax - yMin));
+                matrix[2][2] = (farClip + nearClip) / (farClip - nearClip);
+                matrix[2][3] = -((twoN * farClip) / (farClip - nearClip));
+                matrix[3][2] = static_cast<T>(1.0);
+                matrix[3][3] = static_cast<T>(0.0);
 
                 return matrix;
+            }
+
+            /**
+             * Creates a symmetrical perspective projection matrix with the specified attributes.
+             *
+             * For the near and far clipping planes: 0.0 > near clip > far clip.
+             *
+             * Note that this creates an API-independent perspective projection. Both OpenGL
+             * and DirectX require further transformations in order to use it. See ....
+             *
+             * \param[in] fov         Specifies the field of view angle, in degrees, in the y direction.
+             * \param[in] aspectRatio Specifies the aspect ratio that determines the field of view in the x direction. The aspect ratio is the ratio of width to height.
+             * \param[in] nearClip    Distance from point-of-view to near clip plane.
+             * \param[in] farClip     Distance from point-of-view to far clip plane.
+             *
+             * \return The perspective projection matrix
+             */
+            static Matrix4x4<T> CreatePerspectiveMatrix(T const fov, T const aspectRatio, T const nearClip, T const farClip)
+            {
+                /**
+                 * Calculate the lower-left and upper-right corners of the near clip plane.
+                 * We know the distance to the plane (nearClip) as well as the angle to the top/bottom edge (1/2 field-of-view).
+                 *
+                 * Side View:
+                 *                             
+                 *           /|               / |
+                 *          / |             /   | ?
+                 *         /  |           /     |
+                 *  Origin ---|    ->   /_______|
+                 *         \  |      near clip distance
+                 *          \ |
+                 *           \|    Angle = field-of-view * 0.5
+                 *
+                 *
+                 * Then the distance from near clip plane center to the left/right edge is 
+                 * just the aspect ratio (width / height) times the distance from top/bottom.
+                 *
+                 * We then pass these into the asymmetric perspective method (though they are symmetric).
+                 */
+
+                const double dFov = static_cast<double>(DegreesToRadians<T>(fov));
+                const double y = tan(dFov * 0.5) * nearClip;
+
+                const double dAsp = static_cast<double>(aspectRatio);
+                const double x = dAsp * y;
+
+                const T tX = static_cast<T>(x);
+                const T tY = static_cast<T>(y);
+
+                return CreatePerspectiveMatrix(tX, -tX, tY, -tY, nearClip, farClip);
             }
 
             /**
@@ -797,26 +890,16 @@ namespace Ocular
              * \param[in] lookAt Point in space to look at
              * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Matrix4x4<float> CreateLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::up())
+            static Matrix4x4<float> CreateLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::Up())
             {
-                Matrix4x4<float> result;
+                const Vector3<float> vectorZ = (eye - lookAt).getNormalized();
+                const Vector3<float> vectorX = up.cross(vectorZ).getNormalized();
+                const Vector3<float> vectorY = vectorZ.cross(vectorX);
 
-                const Vector3<float> f = (lookAt - eye).getNormalized();
-                const Vector3<float> s = f.cross(up).getNormalized();
-                const Vector3<float> u = s.cross(f);
-
-                result[0][0] =  s.x;
-                result[0][1] =  u.x;
-                result[0][2] = -f.x;
-                result[1][0] =  s.y;
-                result[1][1] =  u.y;
-                result[1][2] = -f.y;
-                result[2][0] =  s.z;
-                result[2][1] =  u.z;
-                result[2][2] = -f.z;
-                result[3][0] = -((s.x * eye.x) + (s.y * eye.y) + (s.z * eye.z));
-                result[3][1] = -((u.x * eye.x) + (u.y * eye.y) + (u.z * eye.z));
-                result[3][2] =  ((f.x * eye.x) + (f.y * eye.y) + (f.z * eye.z));
+                return Matrix4x4<float>(Vector4<float>(vectorX, 0.0f), 
+                                        Vector4<float>(vectorY, 0.0f),
+                                        Vector4<float>(vectorZ, 0.0f),
+                                        Vector4<float>(eye, 1.0f));
             }
 
             /**

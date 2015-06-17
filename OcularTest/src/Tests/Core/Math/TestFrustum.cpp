@@ -25,9 +25,22 @@ TEST(Frustum, Test)
 {
     Frustum frustum;
 
-    frustum.setView(Vector3f(0.0f, 0.0f, 0.0f), Vector3f::forward(), Vector3f::up());
+    frustum.setView(Vector3f(0.0f, 0.0f, 0.0f), Vector3f::Forward(), Vector3f::Up());
     frustum.setProjection(60.0f, 1024.0f / 768.0f, 1.0f, 100.0f);
 
     const Vector3f origin = frustum.getOrigin();
     const Vector3f forward = frustum.getForward();
+}
+
+TEST(Frustum, Hmmm)
+{
+    const Matrix4x4f viewMatrix = Matrix4x4f::CreateLookAtMatrix(Vector3f::Identity(), Vector3f::Forward(), Vector3f::Up());
+    const Matrix4x4f projMatrix = Matrix4x4f::CreatePerspectiveMatrix(60.0f, (1024.0f / 768.0f), -10.0f, -100.0f);
+    const Matrix4x4f viewProjMatrix = viewMatrix * projMatrix;
+
+    Frustum frustum;
+    frustum.setViewProjection(viewProjMatrix);
+
+    int a = 0;
+    a++;
 }

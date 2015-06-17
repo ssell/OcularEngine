@@ -393,13 +393,13 @@ namespace Ocular
 
             // Ocular uses a right-handed coordinate system
 
-            static Vector3<T> identity() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
-            static Vector3<T> up()       { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 1.0f), static_cast<T>( 0.0f)); }
-            static Vector3<T> down()     { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>(-1.0f), static_cast<T>( 0.0f)); }
-            static Vector3<T> left()     { return Vector3<T>(static_cast<T>(-1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
-            static Vector3<T> right()    { return Vector3<T>(static_cast<T>( 1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
-            static Vector3<T> forward()  { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>(-1.0f)); }
-            static Vector3<T> backward() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 1.0f)); }
+            static Vector3<T> Identity() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> Up()       { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 1.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> Down()     { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>(-1.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> Left()     { return Vector3<T>(static_cast<T>(-1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> Right()    { return Vector3<T>(static_cast<T>( 1.0f), static_cast<T>( 0.0f), static_cast<T>( 0.0f)); }
+            static Vector3<T> Forward()  { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>(-1.0f)); }
+            static Vector3<T> Backward() { return Vector3<T>(static_cast<T>( 0.0f), static_cast<T>( 0.0f), static_cast<T>( 1.0f)); }
 
             //------------------------------------------------------------------------------
             // VARIABLES

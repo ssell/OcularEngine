@@ -124,7 +124,7 @@ namespace Ocular
              * \param[in] point    Point position in space to look at.
              * \param[in] upVector Vector that specifies the new up vector.
              */
-            void lookAt(Vector3f const& point, Vector3f const& upVector = Vector3f::up());
+            void lookAt(Vector3f const& point, Vector3f const& upVector = Vector3f::Up());
 
         protected:
 

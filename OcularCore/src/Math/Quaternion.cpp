@@ -413,14 +413,14 @@ namespace Ocular
             Quaternion result;
 
             Vector3f forward = (lookAt - eye).getNormalized();
-            float dot = Vector3f::forward().dot(forward);
+            float dot = Vector3f::Forward().dot(forward);
 
             if(abs(dot + 1.0f) < EPSILON_FLOAT)
             {
                 result.w = static_cast<float>(PI);
-                result.x = Vector3f::up().x;
-                result.y = Vector3f::up().y;
-                result.z = Vector3f::up().z;
+                result.x = Vector3f::Up().x;
+                result.y = Vector3f::Up().y;
+                result.z = Vector3f::Up().z;
             }
             else if(abs(dot - 1.0f) < EPSILON_FLOAT)
             {
@@ -429,7 +429,7 @@ namespace Ocular
             else
             {
                 float    rotationAngle = acos(dot);
-                Vector3f rotationAxis  = Vector3f::forward().cross(forward).getNormalized();
+                Vector3f rotationAxis  = Vector3f::Forward().cross(forward).getNormalized();
 
                 result = Quaternion(rotationAxis, rotationAngle);
             }
