@@ -19,6 +19,7 @@
 #include "Math/Bounds/BoundsAABB.hpp"
 #include "Math/Bounds/BoundsOBB.hpp"
 #include "Math/Bounds/Ray.hpp"
+#include "Math/Matrix3x3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -136,6 +137,23 @@ namespace Ocular
         bool Plane::intersects(BoundsOBB const& bounds, IntersectionType* result) const
         {
             return false;
+        }
+
+        Vector3f Plane::GetIntersectionPoint(Plane const& a, Plane const& b, Plane const& c)
+        {
+            // Source: Real-Time Rendering 3rd Ed. Page 783
+
+            const Vector3f p1 = a.getPoint();
+            const Vector3f n1 = a.getNormal();
+            const Vector3f p2 = b.getPoint();
+            const Vector3f n2 = b.getNormal();
+            const Vector3f p3 = c.getPoint();
+            const Vector3f n3 = c.getNormal();
+
+            const Vector3f numerator = ((n2.cross(n3)) * (p1.dot(n1))) + ((n3.cross(n1)) * (p2.dot(n2))) + ((n1.cross(n2)) * (p3.dot(n3)));
+            const float denominator = Matrix3x3f(n1, n2, n3).getDeterminant();
+
+            return (numerator / denominator);
         }
 
         //----------------------------------------------------------------------------------

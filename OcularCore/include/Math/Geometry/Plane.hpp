@@ -226,6 +226,19 @@ namespace Ocular
              */
             bool intersects(BoundsOBB const& bounds, IntersectionType* result = nullptr) const;
 
+            //------------------------------------------------------------------------------
+            // Static Methods
+            //------------------------------------------------------------------------------
+
+            /**
+             * Calculates and returns the point at which three planes intersect.
+             *
+             * \param[in] a 
+             * \param[in] b
+             * \param[in] c
+             */
+            static Vector3f GetIntersectionPoint(Plane const& a, Plane const& b, Plane const& c);
+
         protected:
 
         private:

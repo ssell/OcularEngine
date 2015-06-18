@@ -62,3 +62,23 @@ TEST(Plane, GetClosest)
     EXPECT_TRUE(resultB == expectedB);
     EXPECT_TRUE(resultC == expectedC);
 }
+
+TEST(Plane, ThreePlaneIntersection)
+{
+    Plane a(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+    Plane b(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 0.0f, 0.0f));
+    Plane c(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, 1.0f));
+
+    Vector3f expected(0.0f, 0.0f, 0.0f);
+    Vector3f result = Plane::GetIntersectionPoint(a, b, c);
+
+    EXPECT_TRUE(result == expected);
+
+    b.setPoint(Vector3f(10.0f, 0.0f, 0.0f));
+    c.setPoint(Vector3f(10.0f, 0.0f, 10.0f));
+
+    expected = Vector3f(10.0f, 0.0f, 10.0f);
+    result = Plane::GetIntersectionPoint(a, b, c);
+
+    EXPECT_TRUE(result == expected);
+}

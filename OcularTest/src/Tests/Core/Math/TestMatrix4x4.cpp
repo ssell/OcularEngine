@@ -266,3 +266,8 @@ TEST(Matrix4x4, Inverse)
 
     EXPECT_TRUE(expected == result);
 }
+
+TEST(Matrix4x4, TransformPoint)
+{
+    EXPECT_TRUE(false);
+}

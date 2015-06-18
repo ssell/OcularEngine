@@ -66,20 +66,21 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
+             * Rebuilds the frustum using the current view and projection settings.
+             */
+            void rebuild();
+
+            /**
              * \param[in] forwardVector
+             * \note Must call rebuild to update the frustum.
              */
             void setForward(Vector3f const& forwardVector);
 
             /**
              * \param[in] upVector
+             * \note Must call rebuild to update the frustum.
              */
             void setUp(Vector3f const& upVector);
-
-            /**
-             * Sets the view matrix that helps to define this frustum.
-             * \param[in] viewMatrix
-             */
-            void setView(Matrix4x4f const& viewMatrix);
 
             /**
              * Sets the position and rotation that defines the view matrix of this frustum.
@@ -87,14 +88,10 @@ namespace Ocular
              * \param[in] position
              * \param[in] forwardVector
              * \param[in] upVector
+             *
+             * \note Must call rebuild to update the frustum.
              */
             void setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector);
-
-            /**
-             * Sets the projection matrix that helps to define this frustum.
-             * \param[in] projectionMatrix
-             */
-            void setProjection(Matrix4x4f const& projectionMatrix);
 
             /**
              * Sets the properties of an orthographic projection that defines the
@@ -106,6 +103,8 @@ namespace Ocular
              * \param[in] yMax     Top-side of near clip plane
              * \param[in] nearClip Distance from point-of-view to near clip plane.
              * \param[in] farClip  Distance from point-of-view to far clip plane.
+             *
+             * \note Must call rebuild to update the frustum.
              */
             void setProjection(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
 
@@ -117,14 +116,10 @@ namespace Ocular
              * \param[in] aspectRatio Specifies the aspect ratio that determines the field of view in the x direction. The aspect ratio is the ratio of width to height.
              * \param[in] nearClip    Distance from point-of-view to near clip plane.
              * \param[in] farClip     Distance from point-of-view to far clip plane.
+             *
+             * \note Must call rebuild to update the frustum.
              */
             void setProjection(float fov, float aspectRatio, float nearClip, float farClip);
-
-            /**
-             * Sets the combination view-projection matrix that this frustum is based off of.
-             * \param[in] viewProjection
-             */
-            void setViewProjection(Matrix4x4f const& viewProjection);
 
             //------------------------------------------------------------
             // Misc Getters
@@ -256,9 +251,14 @@ namespace Ocular
 
         protected:
 
-            void createPlanes(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
-
         private:
+
+            float m_MinX;
+            float m_MaxX;
+            float m_MinY;
+            float m_MaxY;
+            float m_NearClip;
+            float m_FarClip;
 
             Vector3f m_Origin;
             Vector3f m_Forward;
@@ -274,9 +274,6 @@ namespace Ocular
             Plane m_BottomPlane;
             Plane m_NearPlane;
             Plane m_FarPlane;
-
-            float m_NearClip;
-            float m_FarClip;
         };
     }
     /**

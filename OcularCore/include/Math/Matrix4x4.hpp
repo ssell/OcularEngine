@@ -735,6 +735,8 @@ namespace Ocular
              */
             Vector4<T> transform(Vector4<T> const& vector) const
             {
+                // Source: https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations
+
                 Vector4<T> result;
                 Vector4<T> temp = vector;
 
@@ -817,6 +819,7 @@ namespace Ocular
              */
             static Matrix4x4<T> CreatePerspectiveMatrix(T const xMin, T const xMax, T const yMin, T const yMax, T const nearClip, T const farClip)
             {
+                // Source: Real-Time Rendering, 3rd Ed. Page 95
                 Matrix4x4<T> matrix;
 
                 const T twoN = static_cast<T>(2.0) * nearClip;
@@ -871,16 +874,19 @@ namespace Ocular
                  * We then pass these into the asymmetric perspective method (though they are symmetric).
                  */
 
-                const double dFov = static_cast<double>(DegreesToRadians<T>(fov));
-                const double y = tan(dFov * 0.5) * nearClip;
+                // Alternatively, found http://www.songho.ca/opengl/gl_transform.html which does the same thing.
+                // Nice to have confirmation that my maths were correct though.
 
-                const double dAsp = static_cast<double>(aspectRatio);
-                const double x = dAsp * y;
+                const double dFov = static_cast<double>(fov);
+                const double dAspectRatio = static_cast<double>(aspectRatio);
+                const double dNearClip = static_cast<double>(nearClip);
+                const double dFarClip = static_cast<double>(farClip);
 
-                const T tX = static_cast<T>(x);
-                const T tY = static_cast<T>(y);
+                const double tangent = tan(DegreesToRadians<double>(dFov * 0.5));
+                const double height = dNearClip * tangent;
+                const double width = height * dAspectRatio;
 
-                return CreatePerspectiveMatrix(tX, -tX, tY, -tY, nearClip, farClip);
+                return CreatePerspectiveMatrix(-static_cast<T>(width), static_cast<T>(width), -static_cast<T>(height), static_cast<T>(height), nearClip, farClip);
             }
 
             /**

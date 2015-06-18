@@ -58,11 +58,6 @@ namespace Ocular
             m_Up = upVector.getNormalized();
             m_Right = m_Forward.cross(m_Up);
         }
-
-        void Frustum::setView(Matrix4x4f const& viewMatrix)
-        {
-        
-        }
         
         void Frustum::setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector)
         {
@@ -71,15 +66,16 @@ namespace Ocular
             m_Up      = upVector;
             m_Right   = m_Forward.cross(m_Up);
         }
-        
-        void Frustum::setProjection(Matrix4x4f const& projectionMatrix)
-        {
-        
-        }
 
         void Frustum::setProjection(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
         {
-            createPlanes(xMin, xMax, yMin, yMax, nearClip, farClip);
+            m_MinX = xMin;
+            m_MaxX = xMax;
+            m_MinY = yMin;
+            m_MaxY = yMax;
+
+            m_NearClip = nearClip;
+            m_FarClip  = farClip;
         }
 
         void Frustum::setProjection(float const fov, float const aspectRatio, float const nearClip, float const farClip)
@@ -90,9 +86,16 @@ namespace Ocular
             const float height  = nearClip * tangent;
             const float width   = height * aspectRatio;
 
-            createPlanes(-width, width, -height, height, nearClip, farClip);
+            m_MinX = -width;
+            m_MaxX =  width;
+            m_MinY = -height;
+            m_MaxY =  height;
+
+            m_NearClip = nearClip;
+            m_FarClip  = farClip;
         }
 
+        /*
         void Frustum::setViewProjection(Matrix4x4f const& viewProjection)
         {
             m_LeftPlane.setPoint(m_Origin);
@@ -124,15 +127,15 @@ namespace Ocular
 
             const Matrix4x4f inverseMatrix = viewProjection.getInverse();
             
-            m_NearCorners[0] = Vector3f(-0.5f, -0.5f, 0.0f);
-            m_NearCorners[1] = Vector3f( 0.5f, -0.5f, 0.0f);
-            m_NearCorners[2] = Vector3f( 0.5f,  0.5f, 0.0f);
-            m_NearCorners[3] = Vector3f(-0.5f,  0.5f, 0.0f);
+            m_NearCorners[0] = Vector3f(-1.0f, -1.0f, -1.0f);
+            m_NearCorners[1] = Vector3f( 1.0f, -1.0f, -1.0f);
+            m_NearCorners[2] = Vector3f( 1.0f,  1.0f, -1.0f);
+            m_NearCorners[3] = Vector3f(-1.0f,  1.0f, -1.0f);
             
-            m_FarCorners[0] = Vector3f(-0.5f, -0.5f, 1.0f);
-            m_FarCorners[1] = Vector3f( 0.5f, -0.5f, 1.0f);
-            m_FarCorners[2] = Vector3f( 0.5f,  0.5f, 1.0f);
-            m_FarCorners[3] = Vector3f(-0.5f,  0.5f, 1.0f);
+            m_FarCorners[0] = Vector3f(-1.0f, -1.0f, 1.0f);
+            m_FarCorners[1] = Vector3f( 1.0f, -1.0f, 1.0f);
+            m_FarCorners[2] = Vector3f( 1.0f,  1.0f, 1.0f);
+            m_FarCorners[3] = Vector3f(-1.0f,  1.0f, 1.0f);
 
             for(int i = 0; i < 4; i++)
             {
@@ -140,6 +143,7 @@ namespace Ocular
                 m_FarCorners[i]  = inverseMatrix.transform(m_FarCorners[i]);
             }
         }
+        */
 
         //----------------------------------------------------------------
         // Misc Getters
@@ -362,11 +366,7 @@ namespace Ocular
             return m_FarPlane;
         }
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
-
-        void Frustum::createPlanes(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
+        void Frustum::rebuild()
         {
             // Source: http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
 
@@ -399,14 +399,11 @@ namespace Ocular
              *     Bottom: (origin, near bottom right, near top left)
              */
 
-            m_NearClip = nearClip;
-            m_FarClip  = farClip;
-
             //------------------------------------------------------------
             // Find the individual points for the planes
 
-            const float nearHalfWidth  = (xMax - xMin) * 0.5f;
-            const float nearHalfHeight = (yMax - yMin) * 0.5f;
+            const float nearHalfWidth  = (m_MaxX - m_MinX) * 0.5f;
+            const float nearHalfHeight = (m_MaxY - m_MinY) * 0.5f;
 
             const Vector3f nearCenter = m_Origin + (m_Forward * m_NearClip);
             const Vector3f farCenter  = m_Origin + (m_Forward * m_FarClip);
@@ -414,6 +411,9 @@ namespace Ocular
             const Vector3f nearTopDiff   = (m_Up * nearHalfHeight);
             const Vector3f nearRightDiff = (m_Right * nearHalfWidth);
             
+            //------------------------------------------------------------
+            // Find the near corner points
+
             m_NearCorners[0] = (nearCenter - nearTopDiff) - nearRightDiff;
             m_NearCorners[1] = (nearCenter - nearTopDiff) + nearRightDiff;
             m_NearCorners[2] = (nearCenter + nearTopDiff) + nearRightDiff;
@@ -429,7 +429,19 @@ namespace Ocular
             m_RightPlane  = Plane(m_Origin, m_NearCorners[1], m_NearCorners[2]);
             m_TopPlane    = Plane(m_Origin, m_NearCorners[2], m_NearCorners[3]);
             m_BottomPlane = Plane(m_Origin, m_NearCorners[1], m_NearCorners[0]);
+
+            //------------------------------------------------------------
+            // Find the far corner points
+
+            m_FarCorners[0] = Plane::GetIntersectionPoint(m_FarPlane, m_LeftPlane,  m_BottomPlane);
+            m_FarCorners[1] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_BottomPlane);
+            m_FarCorners[2] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_TopPlane);
+            m_FarCorners[3] = Plane::GetIntersectionPoint(m_FarPlane, m_LeftPlane,  m_TopPlane);
         }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
