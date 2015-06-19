@@ -425,10 +425,10 @@ namespace Ocular
             m_NearPlane   = Plane(m_Origin + (m_Forward * m_NearClip), -m_Forward);
             m_FarPlane    = Plane(m_Origin + (m_Forward * m_FarClip),   m_Forward);
             
-            m_LeftPlane   = Plane(m_Origin, m_NearCorners[0], m_NearCorners[3]);
+            m_LeftPlane   = Plane(m_Origin, m_NearCorners[3], m_NearCorners[0]);
             m_RightPlane  = Plane(m_Origin, m_NearCorners[1], m_NearCorners[2]);
             m_TopPlane    = Plane(m_Origin, m_NearCorners[2], m_NearCorners[3]);
-            m_BottomPlane = Plane(m_Origin, m_NearCorners[1], m_NearCorners[0]);
+            m_BottomPlane = Plane(m_Origin, m_NearCorners[0], m_NearCorners[1]);
 
             //------------------------------------------------------------
             // Find the far corner points
