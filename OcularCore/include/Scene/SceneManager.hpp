@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_CORE_SCENE_MANAGER__H__
 #define __H__OCULAR_CORE_SCENE_MANAGER__H__
 
@@ -65,9 +66,18 @@ namespace Ocular
              * Creates and adds a new SceneObject to the active scene.
              * 
              * \param[in] name 
-             * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the user.
+             * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
-            SceneObject* addObject(std::string const& name);
+            SceneObject* createObject(std::string const& name);
+
+            /**
+             * Creates and adds a new SceneObject to the active scene that is an
+             * exact duplicate of the provided object.
+             *
+             * \param[in] object Object instance to duplicate.
+             * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
+             */
+            SceneObject* duplicateObject(SceneObject* object);
 
             /**
              * Removes the specified SceneObject from the active scene.

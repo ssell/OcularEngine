@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_NODE__H__
-#define __H__OCULAR_CORE_SCENE_NODE__H__
+#ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
+#define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
-#include <list>
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -34,46 +34,24 @@ namespace Ocular
      */
     namespace Core
     {
-        class ISceneTree;
-        class SceneObject;
-
-        /**
-         * \class SceneNode
-         *
-         * Base node of a SceneTree. The behaviour of nodes varies based on the type of
-         * SceneTree it is part of (oct, bounding-volume, bsp, etc.) but they are generally
-         * either static or contain only static SceneObjects.
-         */
-        class SceneNode
+        
+        class ARenderable
         {
-            friend class ISceneTree;
-
         public:
 
-            SceneNode();
-            ~SceneNode();
+            ARenderable(std::string const& name);
+            virtual ~ARenderable();
 
-            void attachObject(SceneObject* object);
+            virtual bool preRender();
+            virtual bool render();
+            virtual bool postRender();
 
         protected:
 
-            SceneNode* previous;
-            SceneNode* next;
-            SceneNode* parent;
-
-            std::list<SceneObject*> sceneObjects;
-
         private:
-
         };
     }
-    /**
-     * @} End of Doxygen Groups
-     */
 }
-/**
- * @} End of Doxygen Groups
- */
 
 //------------------------------------------------------------------------------------------
 

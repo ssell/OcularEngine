@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_CORE_SCENE__H__
 #define __H__OCULAR_CORE_SCENE__H__
 
@@ -32,7 +33,7 @@ namespace Ocular
     namespace Core
     {
         class SceneManager;
-        class SceneTree;
+        class ISceneTree;
 
         /**
          * \class Scene
@@ -47,6 +48,9 @@ namespace Ocular
 
             ~Scene();
 
+            void addObject(SceneObject* object);
+            void removeObject(SceneObject* object);
+
             void update();
             void render();
 
@@ -56,7 +60,7 @@ namespace Ocular
 
         private:
 
-            SceneTree* m_SceneTree;
+            ISceneTree* m_SceneTree;
         };
     }
     /**

@@ -521,9 +521,6 @@
     <ClInclude Include="..\..\include\Math\Transform.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\ASceneTree.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
@@ -577,6 +574,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp">
       <Filter>Header Files\Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ISceneTree.hpp">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

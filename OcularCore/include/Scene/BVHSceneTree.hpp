@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef __H__OCULAR_CORE_ASCENE_TREE__H__
-#define __H__OCULAR_CORE_ASCENE_TREE__H__
+#pragma once
+#ifndef __H__OCULAR_CORE_SCENE_BVH_SCENE_TREE__H__
+#define __H__OCULAR_CORE_SCENE_BVH_SCENE_TREE__H__
 
-#include "SceneNode.hpp"
+#include "ISceneTree.hpp"
+#include "SceneObject.hpp"
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -33,37 +36,19 @@ namespace Ocular
      */
     namespace Core
     {
-        /**
-         * \class SceneTree
-         */
-        class ASceneTree
+        class BVHSceneTree : ISceneTree
         {
         public:
 
-            ASceneTree();
-            ~ASceneTree();
-
-            virtual void addNode(std::shared_ptr<SceneNode>& node) = 0;
-            
-            virtual std::shared_ptr<SceneNode> getNode(UUID const& uuid) const = 0;
-            virtual std::shared_ptr<SceneNode> getNode(std::string const& name) const = 0;
-
-            virtual void getAllNodes(std::list<std::shared_ptr<SceneNode>>& nodes) const = 0;
-            virtual void getAllVisibleNodes(std::list<std::shared_ptr<SceneNode>>& nodes) const = 0;
-            virtual void getAllActiveNodes(std::list<std::shared_ptr<SceneNode>>& nodes) const = 0;
+            BVHSceneTree();
+            ~BVHSceneTree();
 
         protected:
 
         private:
         };
     }
-    /**
-     * @} End of Doxygen Groups
-     */
 }
-/**
- * @} End of Doxygen Groups
- */
 
 //------------------------------------------------------------------------------------------
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_CORE_SCENE_AROUTINE__H__
 #define __H__OCULAR_CORE_SCENE_AROUTINE__H__
 
@@ -34,6 +35,8 @@ namespace Ocular
      */
     namespace Core
     {
+        class SceneObject;
+
         /**
          * \class ARoutine
          */
@@ -125,6 +128,8 @@ namespace Ocular
 
             Priority m_Priority;
             std::string m_Name;
+
+            SceneObject* sceneObject;    ///< The SceneObject instance that this routine is attached to.
 
         private:
 

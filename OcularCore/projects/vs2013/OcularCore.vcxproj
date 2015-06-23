@@ -298,8 +298,10 @@
     <ClInclude Include="..\..\include\Resources\ResourceSaverManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
-    <ClInclude Include="..\..\include\Scene\ASceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\ARenderable.hpp" />
+    <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
+    <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />
