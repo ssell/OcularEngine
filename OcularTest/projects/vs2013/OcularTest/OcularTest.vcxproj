@@ -104,6 +104,7 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Utilities\Structures\TestPriorityList.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
+    <ClCompile Include="TestMortonCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Foo.hpp" />

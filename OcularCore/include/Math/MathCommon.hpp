@@ -23,6 +23,7 @@
 #include "Interpolation.hpp"
 #include <cmath>
 #include <cstdint>
+#include <algorithm>
 
 //------------------------------------------------------------------------------------------
 

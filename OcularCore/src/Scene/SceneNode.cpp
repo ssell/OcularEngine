@@ -28,23 +28,19 @@ namespace Ocular
 
         SceneNode::SceneNode()
         {
-            previous = nullptr;
-            next = nullptr;
             parent = nullptr;
         }
 
         SceneNode::~SceneNode()
         {
-            previous = nullptr;
-            next = nullptr;
             parent = nullptr;
 
-            for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); ++iter)
+            for(auto iter = childObjects.begin(); iter != childObjects.end(); ++iter)
             {
                 (*iter) = nullptr;
             }
 
-            sceneObjects.clear();
+            childObjects.clear();
         }
 
         //----------------------------------------------------------------------------------

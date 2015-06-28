@@ -22,7 +22,7 @@
 #include "UUID.hpp"
 #include "Math/Bounds/Ray.hpp"
 
-#include <list>
+#include <vector>
 #include <memory>
 
 //------------------------------------------------------------------------------------------
@@ -52,13 +52,34 @@ namespace Ocular
              */
             virtual void restructure() = 0;
             
+            /**
+             * Destroys the SceneTree and all nodes contained within. Does not destroy any SceneObjects.
+             */
             virtual void destroy() = 0;
 
             /**
              * Adds the object to the scene tree.
+             *
+             * \note The object will not be instantly added to the tree proper. Instead, they will be added next time
+             *       the restructure method is invoked. The restructure method is automatically called by the
+             *       engine periodically. If one needs the object to be immediately available in the tree, then
+             *       they must manually call the restructure method themselves.
+             *
              * \param[in] object
              */
             virtual void addObject(SceneObject* object) = 0;
+
+            /**
+             * Adds a collection of objects to the scene tree.
+             *
+             * \note The objects will not be instantly added to the tree proper. Instead, they will be added next time
+             *       the restructure method is invoked. The restructure method is automatically called by the
+             *       engine periodically. If one needs the object to be immediately available in the tree, then
+             *       they must manually call the restructure method themselves.
+             *
+             * \param[in] objects
+             */
+            virtual void addObjects(std::vector<SceneObject*> const& objects) = 0;
 
             /**
              * Removes the object from the scene tree.
@@ -77,7 +98,7 @@ namespace Ocular
              *
              * \param[out] objects List of all objects in the scene tree.
              */
-            virtual void getAllObjects(std::list<SceneObject*>& objects) const = 0;
+            virtual void getAllObjects(std::vector<SceneObject*>& objects) const = 0;
 
             /**
              * Returns a flat list of all visbile objects in the scene tree.
@@ -85,7 +106,7 @@ namespace Ocular
              *
              * \param[out] objects List of all visible objects in the scene tree.
              */
-            virtual void getAllVisibleObjects(std::list<SceneObject*>& objects) const = 0;
+            virtual void getAllVisibleObjects(std::vector<SceneObject*>& objects) const = 0;
 
             /**
              * Returns a flat list of all active objects in the scene tree.
@@ -93,7 +114,7 @@ namespace Ocular
              *
              * \param[out] objects List of all active objects in the scene tree.
              */
-            virtual void getAllActiveObjects(std::list<SceneObject*>& objects) const = 0;
+            virtual void getAllActiveObjects(std::vector<SceneObject*>& objects) const = 0;
 
             /**
              * Returns a list of all scene objects that intersect with the specified ray. The objects are given in the order they are
@@ -102,9 +123,11 @@ namespace Ocular
              * \param[in]  ray
              * \param[out] objects List of objects intersected by the specified ray.
              */
-            virtual void getIntersections(Math::Ray const& ray, std::list<SceneObject*>& objects) const = 0;
+            virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const = 0;
 
         protected:
+
+            std::vector<SceneObject*> m_NewObjects;    ///< Newly added objects that are waiting to be added to the tree.
 
         private:
         };

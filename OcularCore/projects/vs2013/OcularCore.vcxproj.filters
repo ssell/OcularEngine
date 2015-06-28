@@ -294,6 +294,12 @@
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp">
       <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\MortonCode.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -583,6 +589,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp">
       <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\MortonCode.hpp">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

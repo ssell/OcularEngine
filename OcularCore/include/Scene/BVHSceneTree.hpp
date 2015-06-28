@@ -20,6 +20,7 @@
 
 #include "ISceneTree.hpp"
 #include "SceneObject.hpp"
+#include "BVHSceneNode.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -36,19 +37,48 @@ namespace Ocular
      */
     namespace Core
     {
-        class BVHSceneTree : ISceneTree
+        /**
+         * \class BVHSceneTree
+         *
+         * Implementation of a Bounding Volume Hierarchy (BVH) Scene Tree.
+         */
+        class BVHSceneTree : public ISceneTree
         {
         public:
 
             BVHSceneTree();
-            ~BVHSceneTree();
+            virtual ~BVHSceneTree();
+
+            //------------------------------------------------------------
+            // Inherited Methods
+
+            virtual void restructure() override;
+            virtual void destroy() override;
+            virtual void addObject(SceneObject* object) override;
+            virtual void addObjects(std::vector<SceneObject*> const& objects) override;
+            virtual void removeObject(SceneObject* object) override;
+            virtual void getAllObjects(std::vector<SceneObject*>& objects) const override;
+            virtual void getAllVisibleObjects(std::vector<SceneObject*>& objects) const override;
+            virtual void getAllActiveObjects(std::vector<SceneObject*>& objects) const override;
+            virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const override;
 
         protected:
+
+            /**
+             * Checks to see if the tree needs to be rebuilt.
+             */
+            bool rebuildNeeded() const;
 
         private:
         };
     }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

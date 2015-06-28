@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
+    <ClCompile Include="..\..\src\Math\MortonCode.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\SimplexNoise.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
+    <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
@@ -254,6 +256,7 @@
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />
+    <ClInclude Include="..\..\include\Math\MortonCode.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\ANoise.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\PerlinNoise.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\SimplexNoise.hpp" />
@@ -299,6 +302,7 @@
     <ClInclude Include="..\..\include\Resources\ResourceSaverRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
     <ClInclude Include="..\..\include\Scene\ARenderable.hpp" />
+    <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp" />
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />

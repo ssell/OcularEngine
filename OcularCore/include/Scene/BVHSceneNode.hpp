@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_NODE__H__
-#define __H__OCULAR_CORE_SCENE_NODE__H__
+#ifndef __H__OCULAR_CORE_SCENE_BVH_SCENE_NODE__H__
+#define __H__OCULAR_CORE_SCENE_BVH_SCENE_NODE__H__
 
-#include <list>
+#include "SceneNode.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,27 +35,19 @@ namespace Ocular
      */
     namespace Core
     {
-        class SceneObject;
-
         /**
-         * \class SceneNode
-         *
-         * Base node of a SceneTree.
+         * \class BVHSceneNode
          */
-        class SceneNode
+        class BVHSceneNode : public SceneNode
         {
         public:
 
-            SceneNode();
-            ~SceneNode();
+            BVHSceneNode();
+            virtual ~BVHSceneNode();
 
-            virtual void attachObject(SceneObject* object);
-
-            SceneNode* parent;
+            Math::BoundsAABB bounds;         ///< Bounds of this BVH node that encompass all children.
 
         protected:
-
-            std::list<SceneObject*> childObjects;
 
         private:
 
