@@ -150,7 +150,8 @@ namespace Ocular
 
         uint64_t MortonCode::calculate(uint32_t x, uint32_t y, uint32_t z)
         {
-            // Source: http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
+            // Source: Morton encoding/decoding through bit interleaving: Implementations
+		    // http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
 
             uint64_t result = 0;
 

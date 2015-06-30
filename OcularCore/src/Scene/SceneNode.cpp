@@ -34,13 +34,6 @@ namespace Ocular
         SceneNode::~SceneNode()
         {
             parent = nullptr;
-
-            for(auto iter = childObjects.begin(); iter != childObjects.end(); ++iter)
-            {
-                (*iter) = nullptr;
-            }
-
-            childObjects.clear();
         }
 
         //----------------------------------------------------------------------------------
