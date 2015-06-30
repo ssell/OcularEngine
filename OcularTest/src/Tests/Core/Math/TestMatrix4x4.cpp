@@ -17,8 +17,8 @@
 #include "Math/Matrix4x4.hpp"
 #include "gtest/gtest.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
 
 using namespace Ocular::Math;
 

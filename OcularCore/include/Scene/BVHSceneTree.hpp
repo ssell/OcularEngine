@@ -41,6 +41,38 @@ namespace Ocular
          * \class BVHSceneTree
          *
          * Implementation of a Bounding Volume Hierarchy (BVH) Scene Tree.
+		 *
+		 * The BVH Tree is implemented as a binary tree where each leaf node contains exactly
+		 * one child SceneObject. This SceneObject may itself have child objects attached to
+		 * it of course, but each node is limited to a single object.
+		 *
+		 * Internal nodes have exactly two child nodes. In the event of an odd amount of leaf
+		 * nodes, the root node can have direct child leaf nodes.
+		 *
+		 * Enforcing these rules allows for the following to be expected:
+		 *
+		 *     A tree has a single root node
+		 *     A tree has N leaf nodes
+		 *     A tree has N-1 internal nodes
+		 *     A tree has a total of 2N nodes
+		 *
+		 * Each node has a corresponding bounding box that encompasses all of it's children.
+		 * Thus, the bounds of a leaf node are equal to that of it's attached object. The bounds
+		 * of a internal node contains both of it's children. The bounds of the root then must
+		 * encompass all objects within the entire scene.
+		 *
+		 * The implementation of this tree is based on several sources:
+		 *
+		 *     Tero Karras, NVIDIA Research
+		 *     Thinking Parallel, Parts I-III
+		 *     http://devblogs.nvidia.com/parallelforall/thinking-parallel-part-ii-tree-traversal-gpu/
+		 *
+		 *     Real-Time Rendering, 3rd Edition
+		 *     ...
+		 *
+		 *     Daniel Kopta, et al. 
+		 *     Fast, Effective BVH Updates for Animated Scenes
+		 *     http://www.cs.utah.edu/~thiago/papers/rotations.pdf
          */
         class BVHSceneTree : public ISceneTree
         {
@@ -51,6 +83,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Inherited Methods
+			//------------------------------------------------------------
 
             virtual void restructure() override;
             virtual void destroy() override;
@@ -69,7 +102,28 @@ namespace Ocular
              */
             bool rebuildNeeded() const;
 
+			/**
+			 * Safely destroys the specified node and all children.
+			 */
+			void destroyNode(BVHSceneNode* node) const;
+
+			//------------------------------------------------------------
+			// Build methods
+			//------------------------------------------------------------
+			
+			/**
+			 * Builds the tree from the collection of objects stored in m_AllObjects.
+			 */
+			void build();
+
+			BVHSceneNode* createRootNode() const;
+			BVHSceneNode* createInternalNode(BVHSceneNode* parent) const;
+			BVHSceneNode* createLeafNode(BVHSceneNode* parent) const;
+
         private:
+
+			BVHSceneNode* m_Root;                     ///< Root scene node of the tree.
+			std::vector<SceneObject*> m_AllObjects;   ///< Convenience container for tree reconstruction. Prevents the need of a full-traversal.
         };
     }
     /**

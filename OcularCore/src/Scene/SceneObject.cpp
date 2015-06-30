@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Scene/SceneNode.hpp"
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,14 +26,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneNode::SceneNode()
+        SceneObject::SceneObject()
+            : Object("SceneObject")
         {
-            parent = nullptr;
+        
         }
 
-        SceneNode::~SceneNode()
+        SceneObject::~SceneObject()
         {
-            parent = nullptr;
+        
         }
 
         //----------------------------------------------------------------------------------
@@ -47,6 +48,5 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
     }
 }

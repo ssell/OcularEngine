@@ -213,8 +213,10 @@
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
+    <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneObject.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />

@@ -121,6 +121,12 @@
     <Filter Include="Header Files\Math\Geometry\HalfEdge">
       <UniqueIdentifier>{a08e0982-378a-403b-a408-3652ca06ec34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene\BVHTree">
+      <UniqueIdentifier>{e66941e4-28cb-4528-8879-a1732491de8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\BVHTree">
+      <UniqueIdentifier>{f4f65a17-a0fc-4edc-a1fd-51db110b59ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -294,11 +300,17 @@
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp">
       <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\MortonCode.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp">
+      <Filter>Source Files\Scene\BVHTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp">
+      <Filter>Source Files\Scene\BVHTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneObject.cpp">
+      <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -581,20 +593,20 @@
     <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp">
       <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Math\MortonCode.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp">
+      <Filter>Header Files\Scene\BVHTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp">
+      <Filter>Header Files\Scene\BVHTree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,6 +20,9 @@
 
 #include "Object.hpp"
 #include "Math/Transform.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
 
 #include <string>
 #include <map>
@@ -66,10 +69,12 @@ namespace Ocular
 
         public:
             
+            SceneObject();
             ~SceneObject();
 
             //------------------------------------------------------------
             // General Misc. Methods
+            //------------------------------------------------------------
 
             /**
              * Sets whether this object is visible or not. Note that this method
@@ -140,6 +145,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Child Object Methods
+            //------------------------------------------------------------
 
             SceneObject* createChild(std::string const& name);
             
@@ -155,6 +161,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Routine Methods
+            //------------------------------------------------------------
 
             void addRoutine(std::string const& name);
 
@@ -163,12 +170,15 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Public Members
+            //------------------------------------------------------------
 
             Math::Transform transform;
 
-        protected:
+            Math::BoundsSphere boundsSphere;
+            Math::BoundsAABB   boundsAABB;
+            Math::BoundsOBB    boundsOBB;
 
-            SceneObject();
+        protected:
 
         private:
 
