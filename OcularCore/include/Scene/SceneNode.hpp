@@ -36,12 +36,12 @@ namespace Ocular
     {
         class SceneObject;
 
-		enum class SceneNodeType
-		{
-			Root = 0,
-			Internal,
-			Leaf
-		};
+        enum class SceneNodeType
+        {
+            Root = 0,
+            Internal,
+            Leaf
+        };
 
         /**
          * \class SceneNode
@@ -54,17 +54,17 @@ namespace Ocular
 
             SceneNode();
             ~SceneNode();
-
-			/**
-			 * Attaches the specified parent object to this scene node.
-			 * \param[in] object
-			 */
+ 
+            /**
+             * Attaches the specified parent object to this scene node.
+             * \param[in] object
+             */
             virtual void attachObject(SceneObject* object) = 0;
 
-			//------------------------------------------------------------
-			// Public Variables
+            //------------------------------------------------------------
+           // Public Variables
 
-			SceneNodeType type;                         ///< What type of node this scene node is.
+            SceneNodeType type;                         ///< What type of node this scene node is.
             SceneNode*    parent;                       ///< Parent node (null if this is root).
 
         protected:

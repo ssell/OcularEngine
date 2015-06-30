@@ -28,12 +28,12 @@ namespace Ocular
 
         BVHSceneTree::BVHSceneTree()
         {
-			m_Root = nullptr;
+            m_Root = nullptr;
         }
 
         BVHSceneTree::~BVHSceneTree()
         {
-			destroy();
+            destroy();
         }
 
         //----------------------------------------------------------------------------------
@@ -42,44 +42,47 @@ namespace Ocular
 
         void BVHSceneTree::restructure()
         {
-			if(rebuildNeeded())
-			{
-				//--------------------------------------------------------------------
-				// Destroy the tree structure but preserve the objects
+            if(rebuildNeeded())
+            {
+                //--------------------------------------------------------------------
+                // Destroy the tree structure but preserve the objects
 
-				destroyNode(m_Root);
-				m_Root = nullptr;
+                destroyNode(m_Root);
+                m_Root = nullptr;
 
-				//--------------------------------------------------------------------
-				// Add any new objects
+                //--------------------------------------------------------------------
+                // Add any new objects
 
-				uint32_t numNewObjects = m_NewObjects.size();
-				uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
+                uint32_t numNewObjects = m_NewObjects.size();
+                uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
 
-				if(numNewObjects > 0)
-				{
-					m_AllObjects.reserve(numTotalObjects);
+                if(numNewObjects > 0)
+                {
+                    m_AllObjects.reserve(numTotalObjects);
+<<<<<<< HEAD
                     m_AllObjects.insert(m_AllObjects.end(), m_NewObjects.begin(), m_NewObjects.end());
                     m_NewObjects.clear();
-				}
+=======
+>>>>>>> origin/master
+                }
 
-				//--------------------------------------------------------------------
-				// Build the new tree
+                //--------------------------------------------------------------------
+                // Build the new tree
 
-				build();
-			}
+                build();
+            }
         }
         
         void BVHSceneTree::destroy()
         {
-			if(m_Root)
-			{
-				destroyNode(m_Root);
-				m_Root = nullptr;
+            if(m_Root)
+            {
+                destroyNode(m_Root);
+                m_Root = nullptr;
 
-				m_NewObjects.clear();
-				m_AllObjects.clear();
-			}
+                m_NewObjects.clear();
+                m_AllObjects.clear();
+            }
         }
         
         void BVHSceneTree::addObject(SceneObject* object)
@@ -146,68 +149,68 @@ namespace Ocular
             return result;
         }
 
-		void BVHSceneTree::destroyNode(BVHSceneNode* node) const
-		{
-			if(node)
-			{
-				destroyNode(node->left);
-				destroyNode(node->right);
+        void BVHSceneTree::destroyNode(BVHSceneNode* node) const
+        {
+            if(node)
+            {
+                destroyNode(node->left);
+                destroyNode(node->right);
 
-				delete node;
-				node = nullptr;
-			}
-		}
+                delete node;
+                node = nullptr;
+            }
+        }
 
-		//----------------------------------------------------------------------
-		// Build Methods
-		//----------------------------------------------------------------------
+        //----------------------------------------------------------------------
+        // Build Methods
+        //----------------------------------------------------------------------
 
-		void BVHSceneTree::build()
-		{
-			m_Root = createRootNode();
+        void BVHSceneTree::build()
+        {
+            m_Root = createRootNode();
 
-			if(!m_AllObjects.empty())
-			{
-				const uint32_t numLeafs = m_AllObjects.size();
-				const uint32_t numInternals = numLeafs - 1;
-			}
-		}
+            if(!m_AllObjects.empty())
+            {
+                const uint32_t numLeafs = m_AllObjects.size();
+                const uint32_t numInternals = numLeafs - 1;
+            }
+        }
 
-		BVHSceneNode* BVHSceneTree::createRootNode() const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+        BVHSceneNode* BVHSceneTree::createRootNode() const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
 
-			result->parent = nullptr;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Root;
+            result->parent = nullptr;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Root;
 
-			return result;
-		}
+            return result;
+        }
 
-		BVHSceneNode* BVHSceneTree::createInternalNode(BVHSceneNode* parent) const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+        BVHSceneNode* BVHSceneTree::createInternalNode(BVHSceneNode* parent) const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
 
-			result->parent = parent;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Internal;
+            result->parent = parent;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Internal;
 
-			return result;
-		}
+            return result;
+        }
 
-		BVHSceneNode* BVHSceneTree::createLeafNode(BVHSceneNode* parent) const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+        BVHSceneNode* BVHSceneTree::createLeafNode(BVHSceneNode* parent) const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
 
-			result->parent = parent;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Leaf;
+            result->parent = parent;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Leaf;
 
-			return result;
-		}
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

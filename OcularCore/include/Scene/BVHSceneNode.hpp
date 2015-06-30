@@ -37,9 +37,9 @@ namespace Ocular
     {
         /**
          * \class BVHSceneNode
-		 *
-		 * Implementation of a node of a Bounding Volume Hierarchy Tree. 
-		 * See the BVHSceneTree for more information.
+         *
+         * Implementation of a node of a Bounding Volume Hierarchy Tree. 
+         * See the BVHSceneTree for more information.
          */
         class BVHSceneNode : public SceneNode
         {
@@ -50,16 +50,16 @@ namespace Ocular
 
             virtual void attachObject(SceneObject* object) override;
 
-			//------------------------------------------------------------
-			// Public Variables
+            //------------------------------------------------------------
+            // Public Variables
 
             Math::BoundsAABB bounds;         ///< Bounds of this BVH node that encompass all children.
-			uint64_t morton;                 ///< The morton index value for this node.
+            uint64_t morton;                 ///< The morton index value for this node.
 
-			BVHSceneNode* left;              ///< The 'left' child node (null if this is a leaf).
-			BVHSceneNode* right;             ///< The 'right' child node (null if this is a leaf).
+            BVHSceneNode* left;              ///< The 'left' child node (null if this is a leaf).
+            BVHSceneNode* right;             ///< The 'right' child node (null if this is a leaf).
 
-			SceneObject* object;             ///< The object attached to this node (null unless this is a leaf).
+            SceneObject* object;             ///< The object attached to this node (null unless this is a leaf).
 
         protected:
 
