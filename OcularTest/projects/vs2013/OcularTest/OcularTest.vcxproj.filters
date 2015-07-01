@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Tests\Core\Renderer\Window">
       <UniqueIdentifier>{5ce9fba1-587d-42ec-8693-e7da0f9823fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tests\Core\Scene">
+      <UniqueIdentifier>{2d952603-4397-403b-b973-623953ee55b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="TestMortonCode.cpp">
       <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestBVHSceneTree.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -69,10 +69,12 @@ namespace Ocular
 
         public:
             
+            SceneObject();
             ~SceneObject();
 
             //------------------------------------------------------------
             // General Misc. Methods
+            //------------------------------------------------------------
 
             /**
              * Sets whether this object is visible or not. Note that this method
@@ -143,6 +145,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Child Object Methods
+            //------------------------------------------------------------
 
             SceneObject* createChild(std::string const& name);
             
@@ -158,6 +161,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Routine Methods
+            //------------------------------------------------------------
 
             void addRoutine(std::string const& name);
 
@@ -166,6 +170,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Public Members
+            //------------------------------------------------------------
 
             Math::Transform transform;
 
@@ -173,9 +178,7 @@ namespace Ocular
 			Math::BoundsAABB   boundsAABB;
 			Math::BoundsOBB    boundsOBB;
 
-        protected:
-
-            SceneObject();
+        protected::
 
         private:
 

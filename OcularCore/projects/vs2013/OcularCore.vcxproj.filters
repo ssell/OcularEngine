@@ -309,6 +309,9 @@
     <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp">
       <Filter>Source Files\Scene\BVHTree</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneObject.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

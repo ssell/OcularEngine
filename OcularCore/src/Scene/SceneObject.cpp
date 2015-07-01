@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "Scene/BVHSceneNode.hpp"
 #include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -27,29 +26,20 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BVHSceneNode::BVHSceneNode()
-            : SceneNode()
+        SceneObject::SceneObject()
+            : Object("SceneObject")
         {
-            type   = SceneNodeType::Root;
-            morton = 0;
-            left   = nullptr;
-            right  = nullptr;
-            object = nullptr;
+        
         }
 
-        BVHSceneNode::~BVHSceneNode()
+        SceneObject::~SceneObject()
         {
-
+        
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        void BVHSceneNode::attachObject(SceneObject* object)
-        {
-    
-        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

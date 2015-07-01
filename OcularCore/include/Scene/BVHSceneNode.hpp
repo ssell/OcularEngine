@@ -48,6 +48,8 @@ namespace Ocular
             BVHSceneNode();
             virtual ~BVHSceneNode();
 
+            virtual void attachObject(SceneObject* object) override;
+
             //------------------------------------------------------------
             // Public Variables
 

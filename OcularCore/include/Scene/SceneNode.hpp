@@ -54,13 +54,13 @@ namespace Ocular
 
             SceneNode();
             ~SceneNode();
-
+ 
             /**
              * Attaches the specified parent object to this scene node.
              * \param[in] object
              */
-            virtual void attachObject(SceneObject* object);
-
+            virtual void attachObject(SceneObject* object) = 0;
+            
             //------------------------------------------------------------
             // Public Variables
 

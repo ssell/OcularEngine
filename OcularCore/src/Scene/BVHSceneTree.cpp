@@ -60,6 +60,9 @@ namespace Ocular
                 if(numNewObjects > 0)
                 {
                     m_AllObjects.reserve(numTotalObjects);
+                    m_AllObjects.insert(m_AllObjects.end(), m_NewObjects.begin(), m_NewObjects.end());
+
+                    m_NewObjects.clear();
                 }
 
                 //--------------------------------------------------------------------
