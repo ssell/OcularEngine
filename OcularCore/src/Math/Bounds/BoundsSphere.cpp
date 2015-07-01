@@ -175,7 +175,7 @@ namespace Ocular
 
         void BoundsSphere::setRadius(float const radius)
         {
-            m_Radius = Max(radius, 0.0f);
+            m_Radius = fmaxf(radius, 0.0f);
         }
 
         Vector3f const& BoundsSphere::getCenter() const
@@ -190,7 +190,7 @@ namespace Ocular
         
         void BoundsSphere::expand(float const amount)
         {
-            m_Radius = Max(m_Radius + amount, 0.0f);
+            m_Radius = fmaxf(m_Radius + amount, 0.0f);
         }
 
         void BoundsSphere::expandToContain(Point3f const& point)
@@ -260,13 +260,13 @@ namespace Ocular
             const Vector3f aabbMin = bounds.getMinPoint();
             const Vector3f aabbMax = bounds.getMaxPoint();
 
-            const Vector3f a(Max((aabbMin.x - m_Center.x), 0.0f),
-                             Max((aabbMin.y - m_Center.y), 0.0f),
-                             Max((aabbMin.z - m_Center.z), 0.0f));
+            const Vector3f a(fmaxf((aabbMin.x - m_Center.x), 0.0f),
+                             fmaxf((aabbMin.y - m_Center.y), 0.0f),
+                             fmaxf((aabbMin.z - m_Center.z), 0.0f));
 
-            const Vector3f b(Max((m_Center.x - aabbMax.x), 0.0f),
-                             Max((m_Center.y - aabbMax.y), 0.0f),
-                             Max((m_Center.z - aabbMax.z), 0.0f));
+            const Vector3f b(fmaxf((m_Center.x - aabbMax.x), 0.0f),
+                             fmaxf((m_Center.y - aabbMax.y), 0.0f),
+                             fmaxf((m_Center.z - aabbMax.z), 0.0f));
 
             const Vector3f c = a + b;
 

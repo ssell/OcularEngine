@@ -15,6 +15,7 @@
  */
 
 #include "Scene/BVHSceneTree.hpp"
+#include "Math/MortonCode.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,12 +29,12 @@ namespace Ocular
 
         BVHSceneTree::BVHSceneTree()
         {
-			m_Root = nullptr;
+            m_Root = nullptr;
         }
 
         BVHSceneTree::~BVHSceneTree()
         {
-			destroy();
+            destroy();
         }
 
         //----------------------------------------------------------------------------------
@@ -42,42 +43,42 @@ namespace Ocular
 
         void BVHSceneTree::restructure()
         {
-			if(rebuildNeeded())
-			{
-				//--------------------------------------------------------------------
-				// Destroy the tree structure but preserve the objects
+            if(rebuildNeeded())
+            {
+                //--------------------------------------------------------------------
+                // Destroy the tree structure but preserve the objects
 
-				destroyNode(m_Root);
-				m_Root = nullptr;
+                destroyNode(m_Root);
+                m_Root = nullptr;
 
-				//--------------------------------------------------------------------
-				// Add any new objects
+                //--------------------------------------------------------------------
+                // Add any new objects
 
-				uint32_t numNewObjects = m_NewObjects.size();
-				uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
+                uint32_t numNewObjects = m_NewObjects.size();
+                uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
 
-				if(numNewObjects > 0)
-				{
-					m_AllObjects.reserve(numTotalObjects);
-				}
+                if(numNewObjects > 0)
+                {
+                    m_AllObjects.reserve(numTotalObjects);
+                }
 
-				//--------------------------------------------------------------------
-				// Build the new tree
+                //--------------------------------------------------------------------
+                // Build the new tree
 
-				build();
-			}
+                build();
+            }
         }
         
         void BVHSceneTree::destroy()
         {
-			if(m_Root)
-			{
-				destroyNode(m_Root);
-				m_Root = nullptr;
+            if(m_Root)
+            {
+                destroyNode(m_Root);
+                m_Root = nullptr;
 
-				m_NewObjects.clear();
-				m_AllObjects.clear();
-			}
+                m_NewObjects.clear();
+                m_AllObjects.clear();
+            }
         }
         
         void BVHSceneTree::addObject(SceneObject* object)
@@ -144,70 +145,113 @@ namespace Ocular
             return result;
         }
 
-		void BVHSceneTree::destroyNode(BVHSceneNode* node) const
-		{
-			if(node)
-			{
-				destroyNode(node->left);
-				destroyNode(node->right);
+        void BVHSceneTree::destroyNode(BVHSceneNode* node) const
+        {
+            if(node)
+            {
+                destroyNode(node->left);
+                destroyNode(node->right);
 
-				delete node;
-				node = nullptr;
-			}
-		}
+                delete node;
+                node = nullptr;
+            }
+        }
 
-		//----------------------------------------------------------------------
-		// Build Methods
-		//----------------------------------------------------------------------
+        //----------------------------------------------------------------------
+        // Build Methods
+        //----------------------------------------------------------------------
 
-		void BVHSceneTree::build()
-		{
-			m_Root = createRootNode();
+        void BVHSceneTree::build()
+        {
+            m_Root = createRootNode();
 
-			if(!m_AllObjects.empty())
-			{
-				const uint32_t numLeafs = m_AllObjects.size();
-				const uint32_t numInternals = numLeafs - 1;
+            if(!m_AllObjects.empty())
+            {
+                std::vector<uint64_t> mortonCodes;
+                createMortonCodes(mortonCodes);
 
-				// ...
-			}
-		}
+                int doStuff = 0;
+            }
+        }
 
-		BVHSceneNode* BVHSceneTree::createRootNode() const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+        void BVHSceneTree::createMortonCodes(std::vector<uint64_t>& codes) const
+        {
+            // MortonCode::calculate(vector) performs the same essential steps as below.
+            // We do not use that method as it would require allocating and filling
+            // an additional vector with N points.
 
-			result->parent = nullptr;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Root;
+            //------------------------------------------------------------
+            // Find the minimum and maximum component extents
 
-			return result;
-		}
+            float minValue = FLT_MAX;
+            float maxValue = FLT_MIN;
 
-		BVHSceneNode* BVHSceneTree::createInternalNode(BVHSceneNode* parent) const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+            for(auto object : m_AllObjects)
+            {
+                const Math::Vector3f center = object->boundsAABB.getCenter();
 
-			result->parent = parent;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Internal;
+                minValue = fminf(minValue, fminf(center.x, fminf(center.y, center.z)));
+                maxValue = fmaxf(maxValue, fmaxf(center.x, fmaxf(center.y, center.z)));
+            }
 
-			return result;
-		}
+            //------------------------------------------------------------
+            // Find the transform values needed to transform all values to the range [0,1]
 
-		BVHSceneNode* BVHSceneTree::createLeafNode(BVHSceneNode* parent) const
-		{
-			BVHSceneNode* result = new BVHSceneNode();
+            float scaleValue = 1.0f / fmaxf(FLT_EPSILON, (maxValue - minValue));
+            float offsetValue = (minValue < 0.0f) ? -minValue : 0.0f;
 
-			result->parent = parent;
-			result->left   = nullptr;
-			result->right  = nullptr;
-			result->type   = SceneNodeType::Leaf;
+            //------------------------------------------------------------
+            // Create and sort the codes
 
-			return result;
-		}
+            codes.reserve(m_AllObjects.size());
+
+            for(auto object : m_AllObjects)
+            {
+                Math::Vector3f transformedCenter = (object->boundsAABB.getCenter() + offsetValue) * scaleValue;
+                codes.push_back(Math::MortonCode::calculate(transformedCenter));
+            }
+
+            std::sort(codes.begin(), codes.end());
+
+            //------------------------------------------------------------
+            // Handle any duplicates
+        }
+
+        BVHSceneNode* BVHSceneTree::createRootNode() const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
+
+            result->parent = nullptr;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Root;
+
+            return result;
+        }
+
+        BVHSceneNode* BVHSceneTree::createInternalNode(BVHSceneNode* parent) const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
+
+            result->parent = parent;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Internal;
+
+            return result;
+        }
+
+        BVHSceneNode* BVHSceneTree::createLeafNode(BVHSceneNode* parent) const
+        {
+            BVHSceneNode* result = new BVHSceneNode();
+
+            result->parent = parent;
+            result->left   = nullptr;
+            result->right  = nullptr;
+            result->type   = SceneNodeType::Leaf;
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

@@ -17,6 +17,8 @@
 #include "Math/MathCommon.hpp"
 #include "gtest/gtest.h"
 
+#include <boost/utility/binary.hpp>
+
 //------------------------------------------------------------------------------------------
 
 TEST(MathCommon, Normalise)
@@ -181,4 +183,46 @@ TEST(MathCommon, RoundPowTen)
 
     EXPECT_NEAR(expectA, resultA, Ocular::Math::EPSILON_DOUBLE);
     EXPECT_NEAR(expectB, resultB, Ocular::Math::EPSILON_DOUBLE);
+}
+
+TEST(MathCommon, Clz32)
+{
+	const uint32_t valueA    = 100;
+	const uint32_t expectedA = 25;
+	const uint32_t resultA   = Ocular::Math::Clz(valueA);
+
+	EXPECT_EQ(expectedA, resultA);
+
+	const uint32_t valueB    = 4294967295;
+	const uint32_t expectedB = 0;
+	const uint32_t resultB   = Ocular::Math::Clz(valueB);
+
+	EXPECT_EQ(expectedB, resultB);
+
+	const uint32_t valueC    = 1;
+	const uint32_t expectedC = 31;
+	const uint32_t resultC   = Ocular::Math::Clz(valueC);
+
+	EXPECT_EQ(expectedC, resultC);
+}
+
+TEST(MathCommon, Clz64)
+{
+	const uint64_t valueA    = 100;
+	const uint64_t expectedA = 57;
+	const uint64_t resultA   = Ocular::Math::Clz(valueA);
+
+	EXPECT_EQ(expectedA, resultA);
+
+	const uint64_t valueB    = 4294967295;
+	const uint64_t expectedB = 32;
+	const uint64_t resultB   = Ocular::Math::Clz(valueB);
+
+	EXPECT_EQ(expectedB, resultB);
+
+	const uint64_t valueC    = 1;
+	const uint64_t expectedC = 63;
+	const uint64_t resultC   = Ocular::Math::Clz(valueC);
+
+	EXPECT_EQ(expectedC, resultC);
 }

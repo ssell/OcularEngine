@@ -38,7 +38,7 @@ namespace Ocular
         BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
         {
             m_Center  = center;
-            m_Extents = Vector3f(Max(extents.x, 0.0f), Max(extents.y, 0.0f), Max(extents.z, 0.0f));
+            m_Extents = Vector3f(fmaxf(extents.x, 0.0f), fmaxf(extents.y, 0.0f), fmaxf(extents.z, 0.0f));
 
             calculateMinMaxPoints();
         }
@@ -69,13 +69,13 @@ namespace Ocular
 
             for(auto point : points)
             {
-                minX = Min(minX, point.x);
-                minY = Min(minY, point.y);
-                minZ = Min(minZ, point.z);
+                minX = fminf(minX, point.x);
+                minY = fminf(minY, point.y);
+                minZ = fminf(minZ, point.z);
 
-                maxX = Max(maxX, point.x);
-                maxY = Max(maxY, point.y);
-                maxZ = Max(maxZ, point.z);
+                maxX = fmaxf(maxX, point.x);
+                maxY = fmaxf(maxY, point.y);
+                maxZ = fmaxf(maxZ, point.z);
             }
 
             m_MinPoint = Vector3f(minX, minY, minZ);
@@ -92,7 +92,7 @@ namespace Ocular
 
         void BoundsAABB::setExtents(Vector3f const& extents)
         {
-            m_Extents = Vector3f(Max(extents.x, 0.0f), Max(extents.y, 0.0f), Max(extents.z, 0.0f));
+            m_Extents = Vector3f(fmaxf(extents.x, 0.0f), fmaxf(extents.y, 0.0f), fmaxf(extents.z, 0.0f));
             calculateMinMaxPoints();
         }
 
@@ -120,9 +120,9 @@ namespace Ocular
         {
             m_Extents += extents;
 
-            m_Extents.x = Max(m_Extents.x, 0.0f);
-            m_Extents.y = Max(m_Extents.y, 0.0f);
-            m_Extents.z = Max(m_Extents.z, 0.0f);
+            m_Extents.x = fmaxf(m_Extents.x, 0.0f);
+            m_Extents.y = fmaxf(m_Extents.y, 0.0f);
+            m_Extents.z = fmaxf(m_Extents.z, 0.0f);
 
             calculateMinMaxPoints();
         }
@@ -131,13 +131,13 @@ namespace Ocular
         {
             if(!contains(point))
             {
-                m_MinPoint = Vector3f(Min(m_MinPoint.x, point.x),
-                                      Min(m_MinPoint.y, point.y),
-                                      Min(m_MinPoint.z, point.z));
+                m_MinPoint = Vector3f(fminf(m_MinPoint.x, point.x),
+                                      fminf(m_MinPoint.y, point.y),
+                                      fminf(m_MinPoint.z, point.z));
 
-                m_MaxPoint = Vector3f(Max(m_MaxPoint.x, point.x),
-                                      Max(m_MaxPoint.y, point.y),
-                                      Max(m_MaxPoint.z, point.z));
+                m_MaxPoint = Vector3f(fmaxf(m_MaxPoint.x, point.x),
+                                      fmaxf(m_MaxPoint.y, point.y),
+                                      fmaxf(m_MaxPoint.z, point.z));
 
                 m_Center  = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
                 m_Extents = m_MaxPoint - m_Center;
@@ -154,13 +154,13 @@ namespace Ocular
                 const Vector3f otherMin = bounds.getMinPoint();
                 const Vector3f otherMax = bounds.getMaxPoint();
 
-                m_MinPoint = Vector3f(Min(m_MinPoint.x, otherMin.x),
-                                      Min(m_MinPoint.y, otherMin.y),
-                                      Min(m_MinPoint.z, otherMin.z));
+                m_MinPoint = Vector3f(fminf(m_MinPoint.x, otherMin.x),
+                                      fminf(m_MinPoint.y, otherMin.y),
+                                      fminf(m_MinPoint.z, otherMin.z));
 
-                m_MaxPoint = Vector3f(Max(m_MaxPoint.x, otherMax.x),
-                                      Max(m_MaxPoint.y, otherMax.y),
-                                      Max(m_MaxPoint.z, otherMax.z));
+                m_MaxPoint = Vector3f(fmaxf(m_MaxPoint.x, otherMax.x),
+                                      fmaxf(m_MaxPoint.y, otherMax.y),
+                                      fmaxf(m_MaxPoint.z, otherMax.z));
 
                 m_Center  = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
                 m_Extents = m_MaxPoint - m_Center;

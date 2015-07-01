@@ -20,6 +20,9 @@
 
 #include "Object.hpp"
 #include "Math/Transform.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
 
 #include <string>
 #include <map>
@@ -165,6 +168,10 @@ namespace Ocular
             // Public Members
 
             Math::Transform transform;
+
+			Math::BoundsSphere boundsSphere;
+			Math::BoundsAABB   boundsAABB;
+			Math::BoundsOBB    boundsOBB;
 
         protected:
 

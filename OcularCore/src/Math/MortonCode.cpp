@@ -15,6 +15,8 @@
  */
 
 #include "Math/MortonCode.hpp"
+#include "Math/Vector3.hpp"
+#include <algorithm>
 
 //------------------------------------------------------------------------------------------
 
@@ -133,6 +135,19 @@ namespace Ocular
 {
     namespace Math
     {
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        uint64_t MortonCode::calculate(Vector3f vector)
+        {
+            return calculate(vector.x, vector.y, vector.z);
+        }
+
         uint64_t MortonCode::calculate(float x, float y, float z)
         {
             uint64_t result = 0;
@@ -151,7 +166,7 @@ namespace Ocular
         uint64_t MortonCode::calculate(uint32_t x, uint32_t y, uint32_t z)
         {
             // Source: Morton encoding/decoding through bit interleaving: Implementations
-		    // http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
+            // http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
 
             uint64_t result = 0;
 
@@ -161,5 +176,54 @@ namespace Ocular
 
             return result;
         }
+
+        void MortonCode::calculate(std::vector<Vector3<float>> const& vectors, std::vector<uint64_t>& mortonCodes, bool areInRange, bool sortCodes)
+        {
+            float scaleFactor  = 1.0f;
+            float offsetFactor = 0.0f;
+
+            if(!areInRange)
+            {
+                getTransformFactors(vectors, scaleFactor, offsetFactor);
+            }
+
+            mortonCodes.clear();
+            mortonCodes.reserve(vectors.size());
+
+            for(auto const& vector : vectors)
+            {
+                mortonCodes.push_back(calculate((vector + offsetFactor) * scaleFactor));
+            }
+
+            if(sortCodes)
+            {
+                std::sort(mortonCodes.begin(), mortonCodes.end());
+            }
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        void MortonCode::getTransformFactors(std::vector<Vector3<float>> const& vectors, float& scaleFactor, float& offsetFactor)
+        {
+            float minValue = FLT_MAX;
+            float maxValue = FLT_MIN;
+
+            for(auto const& vector : vectors)
+            {
+                minValue = std::fminf(minValue, std::fminf(vector.x, std::fminf(vector.y, vector.z)));
+                maxValue = std::fmaxf(maxValue, std::fmaxf(vector.x, std::fmaxf(vector.y, vector.z)));
+            }
+
+            float difference = std::fmaxf(EPSILON_FLOAT, (maxValue - minValue));  // Avoid division by 0
+
+            scaleFactor  = (1.0f / difference);
+            offsetFactor = (minValue < 0.0f) ? -minValue : 0.0f;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
 }

@@ -21,6 +21,7 @@
 #include "Definitions.hpp"
 #include "Equality.hpp"
 #include "Interpolation.hpp"
+
 #include <cmath>
 #include <cstdint>
 #include <algorithm>
@@ -83,94 +84,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
-        
-        /**
-         * Returns the minimum of the two values.
-         *
-         * \param[in] a
-         * \param[in] b
-         */
-        template<typename T>
-        static T Min(T const& a, T const& b)
-        {
-            if(a < b)
-            {
-                return a;
-            }
-            else
-            {
-                return b;
-            }
-        }
-        
-        /**
-         * Returns the maximum of the two values.
-         *
-         * \param[in] a
-         * \param[in] b
-         */
-        template<typename T>
-        static T Max(T const& a, T const& b)
-        {
-            if(a > b)
-            {
-                return a;
-            }
-            else
-            {
-                return b;
-            }
-        }
-
-        static double Max(double const& a, double const b)
-        {
-            return Max<double>(a, b);
-        }
-
-        static float Max(float const& a, float const b)
-        {
-            return Max<float>(a, b);
-        }
-
-        static int64_t Max(int64_t const& a, int64_t const b)
-        {
-            return Max<int64_t>(a, b);
-        }
-
-        static uint64_t Max(uint64_t const& a, uint64_t const b)
-        {
-            return Max<uint64_t>(a, b);
-        }
-
-        static int32_t Max(int32_t const& a, int32_t const b)
-        {
-            return Max<int32_t>(a, b);
-        }
-
-        static uint32_t Max(uint32_t const& a, uint32_t const b)
-        {
-            return Max<uint32_t>(a, b);
-        }
-
-        static int16_t Max(int16_t const& a, int16_t const b)
-        {
-            return Max<int16_t>(a, b);
-        }
-
-        static uint16_t Max(uint16_t const& a, uint16_t const b)
-        {
-            return Max<uint16_t>(a, b);
-        }
-
-        static int8_t Max(int8_t const& a, int8_t const b)
-        {
-            return Max<int8_t>(a, b);
-        }
-
-        static uint8_t Max(uint8_t const& a, uint8_t const b)
-        {
-            return Max<uint8_t>(a, b);
-        }
 
         /**
          * Performs a fast floor operation on the provided floating point value.
@@ -435,6 +348,116 @@ namespace Ocular
                 return down;
             }
         }
+
+		/**
+		 * Counts and returns the number of leading zeros in the provided 32-bit unsigned integer.
+		 * 
+		 * \param[in] value
+		 * \return Number of leading zeros.
+		 */
+		static inline uint32_t Clz(uint32_t const value)
+		{
+			// Yes, there are multiple intrinsic methods available (_lzcnt, _lzcnt_u32, __builtin_clz) but Ocular
+			// is not targetting a specific architecture, compiler, OS, etc. and there are no native C++ calls for this op.
+
+			// Source: http://embeddedgurus.com/state-space/2014/09/fast-deterministic-and-portable-counting-leading-zeros/
+
+			static uint8_t const table[] = {
+				32U, 31U, 30U, 30U, 29U, 29U, 29U, 29U,
+				28U, 28U, 28U, 28U, 28U, 28U, 28U, 28U,
+				27U, 27U, 27U, 27U, 27U, 27U, 27U, 27U,
+				27U, 27U, 27U, 27U, 27U, 27U, 27U, 27U,
+				26U, 26U, 26U, 26U, 26U, 26U, 26U, 26U,
+				26U, 26U, 26U, 26U, 26U, 26U, 26U, 26U,
+				26U, 26U, 26U, 26U, 26U, 26U, 26U, 26U,
+				26U, 26U, 26U, 26U, 26U, 26U, 26U, 26U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				25U, 25U, 25U, 25U, 25U, 25U, 25U, 25U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U,
+				24U, 24U, 24U, 24U, 24U, 24U, 24U, 24U
+			};
+
+			uint32_t n;
+
+			if(value >= (1U << 16))
+			{
+				if(value >= (1U << 24))
+				{
+					n = 24U;
+				}
+				else
+				{
+					n = 16U;
+				}
+			}
+			else
+			{
+				if(value >= (1U << 8))
+				{
+					n = 8U;
+				}
+				else
+				{
+					n = 0U;
+				}
+			}
+
+			return (uint32_t)(table[value >> n]) - n;
+		}
+
+		/**
+		 * Counts and returns the number of leading zeros in the provided 64-bit unsigned integer.
+		 * 
+		 * \param[in] value
+		 * \return Number of leading zeros.
+		 */
+		static inline uint32_t Clz(uint64_t value)
+		{
+			// Yes, there are multiple intrinsic methods available (_lzcnt64, _lzcnt_u64, __builtin_clz) but Ocular
+			// is not targetting a specific architecture, compiler, OS, etc. and there are no native C++ calls for this op.
+			
+			// Naive implementation, yes. But all of the 'fancy' solutions seem to break down with 64-bit values.
+
+			// Source: http://codingforspeed.com/counting-the-number-of-leading-zeros-for-a-32-bit-integer-signed-or-unsigned/
+
+			uint32_t result = 0;
+
+			if(value == 0)
+			{
+				result = 64;
+			}
+			else
+			{
+				while(value >>= 1)
+				{
+					result++;
+				}
+
+				result = (64 - (result + 1));
+			}
+
+			return result;
+		}
     }
     /**
      * @} End of Doxygen Groups
