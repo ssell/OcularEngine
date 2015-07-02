@@ -138,7 +138,22 @@ namespace Ocular
              */
             BVHSceneNode* generateTree(BVHSceneNode* parent, std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const;
 
+            /**
+             * Finds the index to split the remaining objects to fit the tree.
+             *
+             * \param[in] pairs Sorted list of morton code/scene object pairings.
+             * \param[in] first Index of first object remaining to be added to the tree
+             * \param[in] last  Index of the last object remaining to be added to the tree
+             * 
+             * \return Best index to split the remaining objects.
+             */
             uint32_t findSplit(std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const;
+
+            /**
+             * Adjusts the bounds of the specified node to fit over it's children.
+             * \param[in] node Node to adjust the bounds of.
+             */
+            void fitNodeBounds(BVHSceneNode* node) const;
 
         private:
 

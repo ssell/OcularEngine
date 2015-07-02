@@ -167,6 +167,10 @@ namespace Ocular
 
         void BVHSceneTree::build()
         {
+            // 1. Generate the morton codes for each scene object and sort them
+            // 2. Recursively build the tree top-down
+            // 3. Recursively fit the bounds of each node around it's children
+
             uint32_t numObjects = m_AllObjects.size();
 
             if(numObjects > 0)
@@ -182,6 +186,8 @@ namespace Ocular
                 m_Root = new BVHSceneNode();
                 m_Root->type = SceneNodeType::Root;
             }
+
+            fitNodeBounds(m_Root);
         }
 
         void BVHSceneTree::createMortonPairs(std::vector<MortonPair>& pairs) const
@@ -310,6 +316,48 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void BVHSceneTree::fitNodeBounds(BVHSceneNode* node) const
+        {
+            if(node)
+            {
+                if(node->type == SceneNodeType::Leaf)
+                {
+                    node->bounds = node->object->boundsAABB;
+                }
+                else if(node->type == SceneNodeType::Internal)
+                {
+                    fitNodeBounds(node->left);
+                    fitNodeBounds(node->right);
+
+                    node->bounds = node->left->bounds;
+                    node->bounds.expandToContain(node->right->bounds);
+                }
+                else
+                {
+                    // Care must be taken with the root node as it is 
+                    // the only internal node that can have null children.
+
+                    fitNodeBounds(node->left);
+                    fitNodeBounds(node->right);
+
+                    if(node->left)
+                    {
+                        node->bounds = node->left->bounds;
+
+                        if(node->right)
+                        {
+                            node->bounds.expandToContain(node->right->bounds);
+                        }
+                    }
+                  //else
+                  //{
+                        // There will never be a root node with the left child
+                        // null while the right child is not null.
+                  //}
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------
