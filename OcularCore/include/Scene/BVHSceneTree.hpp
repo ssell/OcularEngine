@@ -21,7 +21,9 @@
 #include "ISceneTree.hpp"
 #include "SceneObject.hpp"
 #include "BVHSceneNode.hpp"
+
 #include <vector>
+#include <utility>
 
 //------------------------------------------------------------------------------------------
 
@@ -65,7 +67,7 @@ namespace Ocular
          *
          *     Tero Karras, NVIDIA Research
          *     Thinking Parallel, Parts I-III
-         *     http://devblogs.nvidia.com/parallelforall/thinking-parallel-part-ii-tree-traversal-gpu/
+         *     http://devblogs.nvidia.com/parallelforall/thinking-parallel-part-i-collision-detection-gpu/
          *
          *     Real-Time Rendering, 3rd Edition
          *     ...
@@ -76,6 +78,8 @@ namespace Ocular
          */
         class BVHSceneTree : public ISceneTree
         {
+            typedef std::pair<uint64_t, SceneObject*> MortonPair;  ///< Pairing of morton codes and associated scene object
+
         public:
 
             BVHSceneTree();
@@ -118,13 +122,23 @@ namespace Ocular
 
             /**
              * Calculates and sorts the Morton Codes for all objects in the tree.
-             * \param[out] codes Container to be filled with the sorted Morton Codes.
+             * \param[out] pairs Container to be filled with the sorted Morton Codes and their associated SceneObject
              */
-            void createMortonCodes(std::vector<uint64_t>& codes) const;
+            void createMortonPairs(std::vector<MortonPair>& pairs) const;
 
-            BVHSceneNode* createRootNode() const;
-            BVHSceneNode* createInternalNode(BVHSceneNode* parent) const;
-            BVHSceneNode* createLeafNode(BVHSceneNode* parent) const;
+            /**
+             * Recursively generates the tree in a top-down manner beginning at the root.
+             *
+             * \param[in] parent The node calling this recursive sequence.
+             * \param[in] pairs  Sorted list of morton code/scene object pairings.
+             * \param[in] first  First node in the current split
+             * \param[in] last   Last node in the current split (inclusive)
+             *
+             * \return Pointer to the root node of the newly generated tree.
+             */
+            BVHSceneNode* generateTree(BVHSceneNode* parent, std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const;
+
+            uint32_t findSplit(std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const;
 
         private:
 

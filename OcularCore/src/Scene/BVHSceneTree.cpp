@@ -16,6 +16,7 @@
 
 #include "Scene/BVHSceneTree.hpp"
 #include "Math/MortonCode.hpp"
+#include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -166,18 +167,24 @@ namespace Ocular
 
         void BVHSceneTree::build()
         {
-            m_Root = createRootNode();
+            uint32_t numObjects = m_AllObjects.size();
 
-            if(!m_AllObjects.empty())
+            if(numObjects > 0)
             {
-                std::vector<uint64_t> mortonCodes;
-                createMortonCodes(mortonCodes);
+                std::vector<MortonPair> mortonPairs;  
+                createMortonPairs(mortonPairs);
 
-                int doStuff = 0;
+                m_Root = generateTree(nullptr, mortonPairs, 0, (numObjects) - 1);
+                m_Root->type = SceneNodeType::Root;
+            }
+            else
+            {
+                m_Root = new BVHSceneNode();
+                m_Root->type = SceneNodeType::Root;
             }
         }
 
-        void BVHSceneTree::createMortonCodes(std::vector<uint64_t>& codes) const
+        void BVHSceneTree::createMortonPairs(std::vector<MortonPair>& pairs) const
         {
             // MortonCode::calculate(vector) performs the same essential steps as below.
             // We do not use that method as it would require allocating and filling
@@ -189,7 +196,7 @@ namespace Ocular
             float minValue = FLT_MAX;
             float maxValue = FLT_MIN;
 
-            for(auto object : m_AllObjects)
+            for(auto const object : m_AllObjects)
             {
                 const Math::Vector3f center = object->boundsAABB.getCenter();
 
@@ -200,58 +207,107 @@ namespace Ocular
             //------------------------------------------------------------
             // Find the transform values needed to transform all values to the range [0,1]
 
-            float scaleValue = 1.0f / fmaxf(FLT_EPSILON, (maxValue - minValue));
+            float scaleValue = 1.0f / fmaxf(Math::EPSILON_FLOAT, (maxValue - minValue));
             float offsetValue = (minValue < 0.0f) ? -minValue : 0.0f;
-
+            
             //------------------------------------------------------------
             // Create and sort the codes
 
-            codes.reserve(m_AllObjects.size());
+            pairs.reserve(m_AllObjects.size());
 
-            for(auto object : m_AllObjects)
+            for(auto const object : m_AllObjects)
             {
                 Math::Vector3f transformedCenter = (object->boundsAABB.getCenter() + offsetValue) * scaleValue;
-                codes.push_back(Math::MortonCode::calculate(transformedCenter));
+                uint64_t mortonCode = Math::MortonCode::calculate(transformedCenter);
+
+                pairs.push_back(std::make_pair(mortonCode, object));
             }
 
-            std::sort(codes.begin(), codes.end());
+            std::sort(pairs.begin(), pairs.end(), [](MortonPair const& a, MortonPair const& b)
+            {
+                return (a.first < b.first);
+            });
 
             //------------------------------------------------------------
             // Handle any duplicates
+
+            // ...
         }
 
-        BVHSceneNode* BVHSceneTree::createRootNode() const
+        BVHSceneNode* BVHSceneTree::generateTree(BVHSceneNode* parent, std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const
         {
-            BVHSceneNode* result = new BVHSceneNode();
+            BVHSceneNode* result = nullptr;
 
-            result->parent = nullptr;
-            result->left   = nullptr;
-            result->right  = nullptr;
-            result->type   = SceneNodeType::Root;
+            if(first == last)
+            {
+                // Split contains only one item. This is a leaf node.
+                result = new BVHSceneNode();
+                result->parent = parent;
+                result->type   = SceneNodeType::Leaf;
+                result->object = pairs[first].second;
+            }
+            else
+            {
+                // Multiple objects. Determine where to split the collection.
+                uint32_t split = findSplit(pairs, first, last);
+
+                // Create a new internal node and it's children.
+                result = new BVHSceneNode();
+                result->parent = parent;
+                result->type   = SceneNodeType::Internal;
+
+                BVHSceneNode* childA = generateTree(result, pairs, first, split);
+                BVHSceneNode* childB = generateTree(result, pairs, (split + 1), last);
+
+                result->left  = childA;
+                result->right = childB;
+            }
 
             return result;
         }
 
-        BVHSceneNode* BVHSceneTree::createInternalNode(BVHSceneNode* parent) const
+        uint32_t BVHSceneTree::findSplit(std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const
         {
-            BVHSceneNode* result = new BVHSceneNode();
+            uint32_t result = first;
 
-            result->parent = parent;
-            result->left   = nullptr;
-            result->right  = nullptr;
-            result->type   = SceneNodeType::Internal;
+            const uint64_t firstCode = pairs[first].first;
+            const uint64_t lastCode = pairs[last].first;
 
-            return result;
-        }
+            if(firstCode == lastCode)
+            {
+                // Identical morton codes, so split the range in the middle
+                result = (first + last) >> 1;
+            }
+            else
+            {
+                // Calculate the number of highest bits are the same for all objects.
 
-        BVHSceneNode* BVHSceneTree::createLeafNode(BVHSceneNode* parent) const
-        {
-            BVHSceneNode* result = new BVHSceneNode();
+                uint32_t commonPrefix = Math::Clz((firstCode ^ lastCode));
 
-            result->parent = parent;
-            result->left   = nullptr;
-            result->right  = nullptr;
-            result->type   = SceneNodeType::Leaf;
+                // Use binary search to find where the next bit differs.
+                // We are looking for the highest object that shares more than
+                // just the commonPrefix bits with the first one.
+
+                uint32_t stepSize = (last - first);
+                uint32_t newSplit = result;
+
+                do
+                {
+                    stepSize = (stepSize + 1) >> 1;    // Exponential decrease
+                    newSplit = (result + stepSize);    // Proposed new position
+
+                    if(newSplit < last)
+                    {
+                        uint64_t splitCode   = pairs[newSplit].first;
+                        uint32_t splitPrefix = Math::Clz((firstCode ^ splitCode));
+
+                        if(splitPrefix > commonPrefix)
+                        {
+                            result = newSplit;         // Accept the new split
+                        }
+                    }
+                } while(stepSize > 1);
+            }
 
             return result;
         }

@@ -178,7 +178,7 @@ namespace Ocular
 			Math::BoundsAABB   boundsAABB;
 			Math::BoundsOBB    boundsOBB;
 
-        protected::
+        protected:
 
         private:
 

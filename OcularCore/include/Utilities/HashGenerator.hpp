@@ -53,8 +53,7 @@ namespace Ocular
          *     getHash32("Hello World!", 0)  ->  3422776359
          *     getHash32("Hello World!", 0)  ->  3422776359
          * 
-         * Original Source:
-         * http://isthe.com/chongo/tech/comp/fnv/
+         * Source: http://isthe.com/chongo/tech/comp/fnv/
          */
         class HashGenerator
         {

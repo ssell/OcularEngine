@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
 #include "Scene/BVHSceneTree.hpp"
 #include "gtest/gtest.h"
 
@@ -53,9 +54,17 @@ void populateObjects(std::vector<SceneObject*>& objects)
     objects.push_back(new SceneObject());
     objects.push_back(new SceneObject());
     
+    objects.push_back(new SceneObject());
+    objects.push_back(new SceneObject());
+    objects.push_back(new SceneObject());
+    
     objects[0]->boundsAABB = BoundsAABB(Vector3f(-6.0f, -1.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
     objects[1]->boundsAABB = BoundsAABB(Vector3f(-3.0f,  3.0f, 0.0f), Vector3f(2.0f, 2.0f, 2.0f));
     objects[2]->boundsAABB = BoundsAABB(Vector3f(-2.0f, -4.0f, 0.0f), Vector3f(2.0f, 2.0f, 2.0f));
     objects[3]->boundsAABB = BoundsAABB(Vector3f( 2.0f,  0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
     objects[4]->boundsAABB = BoundsAABB(Vector3f( 6.0f,  6.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+    
+    objects[4]->boundsAABB = BoundsAABB(Vector3f( 7.0f,  6.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+    objects[4]->boundsAABB = BoundsAABB(Vector3f( 6.0f,  7.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+    objects[4]->boundsAABB = BoundsAABB(Vector3f( 7.0f,  7.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 }
