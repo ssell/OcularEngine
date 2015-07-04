@@ -20,7 +20,12 @@
 
 #include "SceneNode.hpp"
 #include "UUID.hpp"
+
 #include "Math/Bounds/Ray.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Geometry/Frustum.hpp"
 
 #include <vector>
 #include <memory>
@@ -104,26 +109,50 @@ namespace Ocular
              * Returns a flat list of all visbile objects in the scene tree.
              * No order is guaranteed for the returned objects.
              *
+             * \param[in]  frustum Viewing frustum to check visibility against.
              * \param[out] objects List of all visible objects in the scene tree.
              */
-            virtual void getAllVisibleObjects(std::vector<SceneObject*>& objects) const = 0;
+            virtual void getAllVisibleObjects(Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const = 0;
 
             /**
-             * Returns a flat list of all active objects in the scene tree.
-             * No order is guaranteed for the returned objects.
+             * Returns a list of all scene objects that intersect with the specified ray. 
+             * The objects are given in the order they are encountered along the ray.
              *
-             * \param[out] objects List of all active objects in the scene tree.
-             */
-            virtual void getAllActiveObjects(std::vector<SceneObject*>& objects) const = 0;
-
-            /**
-             * Returns a list of all scene objects that intersect with the specified ray. The objects are given in the order they are
-             * encountered (the first object is the first intersected, the last object is the last intersected).
+             * For example, if a ray is created with the origin at the camera and extends along
+             * the view direction, then objects[0] will be the object closest to the camera and
+             * objects[size-1] will be the object farthest away from the camera.
              *
              * \param[in]  ray
              * \param[out] objects List of objects intersected by the specified ray.
              */
             virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const = 0;
+
+            /**
+             * Returns a list of all scene objects that intersect with the sphere.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            virtual void getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const = 0;
+
+            /**
+             * Returns a list of all scene objects that intersect with the specified AABB.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            virtual void getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const = 0;
+
+            /**
+             * Returns a list of all scene objects that intersect with the specified OBB.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            virtual void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const = 0;
 
         protected:
 

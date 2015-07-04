@@ -15,6 +15,9 @@
  */
 
 #include "Math/Bounds/BoundsOBB.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/Ray.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -68,6 +71,35 @@ namespace Ocular
         Vector3f const& BoundsOBB::getDirectionZ() const
         {
             return m_DirectionZ;
+        }
+
+        //----------------------------------------------------------------------------------
+        // Intersection and Containment Testing
+        //----------------------------------------------------------------------------------
+
+        bool BoundsOBB::intersects(Ray const& ray) const
+        {
+            return false;
+        }
+
+        bool BoundsOBB::intersects(BoundsSphere const& bounds) const
+        {
+            return false;
+        }
+
+        bool BoundsOBB::intersects(BoundsAABB const& bounds) const
+        {
+            return false;
+        }
+
+        bool BoundsOBB::intersects(BoundsOBB const& bounds) const
+        {
+            return false;
+        }
+
+        bool BoundsOBB::intersects(Plane const& plane, IntersectionType* result) const
+        {
+            return false;
         }
 
         //----------------------------------------------------------------------------------

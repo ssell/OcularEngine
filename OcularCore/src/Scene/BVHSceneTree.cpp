@@ -31,6 +31,7 @@ namespace Ocular
         BVHSceneTree::BVHSceneTree()
         {
             m_Root = nullptr;
+            m_IsDirty = true;
         }
 
         BVHSceneTree::~BVHSceneTree()
@@ -64,6 +65,9 @@ namespace Ocular
                     m_AllObjects.insert(m_AllObjects.end(), m_NewObjects.begin(), m_NewObjects.end());
 
                     m_NewObjects.clear();
+
+                    // May want to sort objects by if they are forced visible here.
+                    // Could potentially speed up visibility tests on large scenes.
                 }
 
                 //--------------------------------------------------------------------
@@ -90,43 +94,81 @@ namespace Ocular
             if(object)
             {
                 m_NewObjects.emplace_back(object);
+                m_IsDirty = true;
             }
         }
 
         void BVHSceneTree::addObjects(std::vector<SceneObject*> const& objects)
         {
-            for(auto object : objects)
+            if(objects.size() > 0)
             {
-                if(object)
+                for(auto object : objects)
                 {
-                    m_NewObjects.emplace_back(object);
+                    if(object)
+                    {
+                        m_NewObjects.emplace_back(object);
+                    }
                 }
+
+                m_IsDirty = true;
             }
         }
         
         void BVHSceneTree::removeObject(SceneObject* object)
         {
-        
+            if(object)
+            {
+                auto findObject = std::find(m_AllObjects.begin(), m_AllObjects.end(), object);
+
+                if(findObject != m_AllObjects.end())
+                {
+                    m_AllObjects.erase(findObject);
+                    m_IsDirty = true;
+                }
+            }
         }
         
         void BVHSceneTree::getAllObjects(std::vector<SceneObject*>& objects) const
         {
-        
+            objects.reserve(m_AllObjects.size());
+            std::copy(m_AllObjects.begin(), m_AllObjects.end(), objects.begin());
         }
         
-        void BVHSceneTree::getAllVisibleObjects(std::vector<SceneObject*>& objects) const
+        void BVHSceneTree::getAllVisibleObjects(Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const
         {
-        
-        }
+            objects.clear();
+            objects.reserve(m_AllObjects.size());
 
-        void BVHSceneTree::getAllActiveObjects(std::vector<SceneObject*>& objects) const
-        {
-        
+            findVisible(m_Root, frustum, objects);
         }
 
         void BVHSceneTree::getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const
         {
-        
+            objects.clear();
+        }
+
+        void BVHSceneTree::getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            objects.clear();
+            objects.reserve(m_AllObjects.size());
+
+            findIntersections(m_Root, bounds, objects);
+        }
+
+        void BVHSceneTree::getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            objects.clear();
+            objects.reserve(m_AllObjects.size());
+
+            findIntersections(m_Root, bounds, objects);
+        }
+
+        void BVHSceneTree::getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            objects.clear();
+            objects.reserve(m_AllObjects.size());
+
+            findIntersections(m_Root, bounds, objects);
         }
 
         //----------------------------------------------------------------------------------
@@ -137,13 +179,13 @@ namespace Ocular
         {
             bool result = false;
 
-            if(m_NewObjects.size() > 0)
+            if(m_IsDirty)
             {
                 result = true;
             }
             else
             {
-                
+                // ...
             }
 
             return result;
@@ -160,6 +202,90 @@ namespace Ocular
                 node = nullptr;
             }
         }
+
+        //----------------------------------------------------------------------
+        // Traversal Methods
+        //----------------------------------------------------------------------
+
+
+        void BVHSceneTree::findVisible(BVHSceneNode* node, Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const
+        {
+            if(node)
+            {
+                if(frustum.contains(node->bounds))
+                {
+                    if((node->type == SceneNodeType::Leaf) && (node->object))
+                    {
+                        objects.push_back(node->object);
+                    }
+                    else
+                    {
+                        findVisible(node->left, frustum, objects);
+                        findVisible(node->right, frustum, objects);
+                    }
+                }
+            }
+        }
+
+        void BVHSceneTree::findIntersections(BVHSceneNode* node, Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(node)
+            {
+                if(bounds.intersects(node->bounds))
+                {
+                    if((node->type == SceneNodeType::Leaf) && (node->object))
+                    {
+                        objects.push_back(node->object);
+                    }
+                    else
+                    {
+                        findIntersections(node->left, bounds, objects);
+                        findIntersections(node->right, bounds, objects);
+                    }
+                }
+
+                // Do nothing if there is no intersection.
+            }
+        }
+
+        void BVHSceneTree::findIntersections(BVHSceneNode* node, Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(node)
+            {
+                if(bounds.intersects(node->bounds))
+                {
+                    if(node->type == SceneNodeType::Leaf)
+                    {
+                        objects.push_back(node->object);
+                    }
+                    else
+                    {
+                        findIntersections(node->left, bounds, objects);
+                        findIntersections(node->right, bounds, objects);
+                    }
+                }
+            }
+        }
+
+        void BVHSceneTree::findIntersections(BVHSceneNode* node, Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(node)
+            {
+                if(bounds.intersects(node->bounds))
+                {
+                    if(node->type == SceneNodeType::Leaf)
+                    {
+                        objects.push_back(node->object);
+                    }
+                    else
+                    {
+                        findIntersections(node->left, bounds, objects);
+                        findIntersections(node->right, bounds, objects);
+                    }
+                }
+            }
+        }
+
 
         //----------------------------------------------------------------------
         // Build Methods

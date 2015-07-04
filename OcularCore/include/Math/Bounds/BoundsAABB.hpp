@@ -195,7 +195,7 @@ namespace Ocular
             bool intersects(BoundsAABB const& bounds) const;
             
             /**
-             * Performs an intersection test on a bounding sphere and OBB.
+             * Performs an intersection test on a AABB and OBB.
              *
              * \param[in] bounds
              * \return TRUE if the bounding sphere and OBB intersect.

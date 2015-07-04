@@ -42,7 +42,8 @@ namespace Ocular
         /**
          * \class BVHSceneTree
          *
-         * Implementation of a Bounding Volume Hierarchy (BVH) Scene Tree.
+         * Linear implementation of a Bounding Volume Hierarchy (BVH) Scene Tree. <br/>
+         * For a parallel implementation (GPU) please see ... (does not exist yet).
          *
          * The BVH Tree is implemented as a binary tree where each leaf node contains exactly
          * one child SceneObject. This SceneObject may itself have child objects attached to
@@ -53,10 +54,8 @@ namespace Ocular
          *
          * Enforcing these rules allows for the following to be expected:
          *
-         *     A tree has a single root node
          *     A tree has N leaf nodes
-         *     A tree has N-1 internal nodes
-         *     A tree has a total of 2N nodes
+         *     A tree has N-1 internal nodes (including root)
          *
          * Each node has a corresponding bounding box that encompasses all of it's children.
          * Thus, the bounds of a leaf node are equal to that of it's attached object. The bounds
@@ -95,9 +94,11 @@ namespace Ocular
             virtual void addObjects(std::vector<SceneObject*> const& objects) override;
             virtual void removeObject(SceneObject* object) override;
             virtual void getAllObjects(std::vector<SceneObject*>& objects) const override;
-            virtual void getAllVisibleObjects(std::vector<SceneObject*>& objects) const override;
-            virtual void getAllActiveObjects(std::vector<SceneObject*>& objects) const override;
+            virtual void getAllVisibleObjects(Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const override;
             virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const override;
+            virtual void getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const override;
+            virtual void getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const override;
+            virtual void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const override;
 
         protected:
 
@@ -112,7 +113,41 @@ namespace Ocular
             void destroyNode(BVHSceneNode* node) const;
 
             //------------------------------------------------------------
-            // Build methods
+            // Traversal Methods
+            //------------------------------------------------------------
+
+
+            void findVisible(BVHSceneNode* node, Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Recursively finds all SceneObjects that intersect with the specified bounds.
+             *
+             * \param[in]  node    Current node.
+             * \param[in]  bounds  Bounds to test against.
+             * \param[out] objects All discovered SceneObjects that intersect.
+             */
+            void findIntersections(BVHSceneNode* node, Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Recursively finds all SceneObjects that intersect with the specified bounds.
+             *
+             * \param[in]  node    Current node.
+             * \param[in]  bounds  Bounds to test against.
+             * \param[out] objects All discovered SceneObjects that intersect.
+             */
+            void findIntersections(BVHSceneNode* node, Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Recursively finds all SceneObjects that intersect with the specified bounds.
+             *
+             * \param[in]  node    Current node.
+             * \param[in]  bounds  Bounds to test against.
+             * \param[out] objects All discovered SceneObjects that intersect.
+             */
+            void findIntersections(BVHSceneNode* node, Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const;
+
+            //------------------------------------------------------------
+            // Build Methods
             //------------------------------------------------------------
             
             /**
@@ -157,6 +192,8 @@ namespace Ocular
 
         private:
 
+            bool m_IsDirty;                           ///< Dirty flag indicating if the tree needs to be updated
+                              
             BVHSceneNode* m_Root;                     ///< Root scene node of the tree.
             std::vector<SceneObject*> m_AllObjects;   ///< Convenience container for tree reconstruction. Prevents the need of a full-traversal.
         };
