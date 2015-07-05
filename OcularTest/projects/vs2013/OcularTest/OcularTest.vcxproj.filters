@@ -132,6 +132,9 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestBVHSceneTree.cpp">
       <Filter>Source Files\Tests\Core\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp">
+      <Filter>Source Files\Tests\Performance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
@@ -147,6 +150,9 @@
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp">
+      <Filter>Header Files\Tests\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp">
       <Filter>Header Files\Tests\Performance</Filter>
     </ClInclude>
   </ItemGroup>

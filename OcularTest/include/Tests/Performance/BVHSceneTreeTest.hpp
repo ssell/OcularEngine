@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_TEST_PRIORITY_CONTAINER_COMPARISON__H__
-#define __H__OCULAR_TEST_PRIORITY_CONTAINER_COMPARISON__H__
+#ifndef __H__OCULAR_TEST_BVH_SCENE_TREE__H__
+#define __H__OCULAR_TEST_BVH_SCENE_TREE__H__
 
 #include "Tests/ATest.hpp"
 
@@ -28,6 +28,12 @@
  */
 namespace Ocular
 {
+    namespace Core
+    {
+        class SceneObject;
+        class BVHSceneTree;
+    }
+
     /**
      * \addtogroup Tests
      * @{
@@ -35,57 +41,43 @@ namespace Ocular
     namespace Tests
     {
         /**
-         * \class PriorityContainerComparisonTest
+         * \class BVHSceneTreeTest
          *
-         * This tests compares the runtime performance between 
-         * the following priority containers:<br/><br/>
+         * This test is used to evalualte the runtime efficiency of the BVH SceneTree.
          *
-         * <ul>
-         *     <li>STL PriorityQueue</li>
-         *     <li>Ocular PriorityMultiQueue</li>
-         *     <li>Ocular PriorityList</li>
-         * </ul><br/><br/>
+         * The following features are tested:
          *
-         * The test performs an X amount of random, but identical, 
-         * actions. The actions tested are:<br/><br/>
+         *     - Tree Construction
+         *     - Intersection Testing
          *
-         * <ul>
-         *     <li>Enqueue/Add</li>
-         *     <li>Dequeue/Remove</li>
-         *     <li>Remove All</li>
-         * </ul><br/><br/>
+         * With the following number of objects:
          *
-         * It tests these actions the following amount of times:<br/><br/>
-         *
-         * <ul>
-         *     <li>10</li>
-         *     <li>100</li>
-         *     <li>1000</li>
-         *     <li>10000</li>
-         *     <li>100000</li>
-         *     <li>1000000</li>
-         *     <li>10000000</li>
-         * </ul><br/><br/>
+         *     - 10
+         *     - 100
+         *     - 1000
+         *     - 10000
          *
          * Since this is a performance test, it may take a non-trivial amount
          * of time to complete, and thus should not be run as part of the 
          * normal testing package.
          *
          */
-        class PriorityContainerComparisonTest : public ATest 
+        class BVHSceneTreeTest : public ATest 
         {
         public:
 
-            PriorityContainerComparisonTest();
-            ~PriorityContainerComparisonTest();
+            BVHSceneTreeTest();
+            ~BVHSceneTreeTest();
 
             virtual void run() override;
 
         protected:
 
-            void testSTLPriorityQueue();
-            void testPriorityMultiQueue();
-            void testPriorityList();
+            void buildTree(uint32_t numObjects, uint64_t& elapsed);
+            void buildObjects(uint32_t numObjects, std::vector<Core::SceneObject*>& objects);
+
+            void cleanTree(Core::BVHSceneTree* tree);
+            void cleanObjects(std::vector<Core::SceneObject*>& objects);
 
         private:
         };

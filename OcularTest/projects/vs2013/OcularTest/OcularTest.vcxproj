@@ -104,6 +104,7 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestBVHSceneTree.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Utilities\Structures\TestPriorityList.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
     <ClCompile Include="TestMortonCode.cpp" />
   </ItemGroup>
@@ -111,6 +112,7 @@
     <ClInclude Include="..\..\..\include\Foo.hpp" />
     <ClInclude Include="..\..\..\include\Tests.hpp" />
     <ClInclude Include="..\..\..\include\Tests\ATest.hpp" />
+    <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp" />
   </ItemGroup>

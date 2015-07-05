@@ -17,9 +17,10 @@
 #include "OcularEngine.hpp"
 #include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
-#include "gtest/gtest.h"
+//#include "gtest/gtest.h"
 
 #include "Math/Vector3.hpp"
+#include "Tests/Performance/BVHSceneTreeTest.hpp"
 
 Ocular::Core::EventSnooper g_Snooper;
 
@@ -30,8 +31,9 @@ using namespace Ocular::Math;
 
 int runTests(int argc, char** argv)
 {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    //::testing::InitGoogleTest(&argc, argv);
+    //return RUN_ALL_TESTS();
+    return 0;
 }
 
 void openWindow()
@@ -55,9 +57,10 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    Vector3f vector(0.0f, 1.0f, 0.0f);
-    
-    runTests(argc, argv);
+    Ocular::Tests::BVHSceneTreeTest test;
+    test.run();
+
+    //runTests(argc, argv);
 
     OcularEngine.shutdown();
 }
