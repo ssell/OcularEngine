@@ -127,6 +127,9 @@
     <Filter Include="Source Files\Scene\BVHTree">
       <UniqueIdentifier>{f4f65a17-a0fc-4edc-a1fd-51db110b59ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Performance">
+      <UniqueIdentifier>{c40c0113-d9bb-424e-a203-876f95723497}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -607,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp">
       <Filter>Header Files\Scene\BVHTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Performance\Profiler.hpp">
+      <Filter>Header Files\Performance</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

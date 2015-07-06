@@ -21,6 +21,7 @@
 
 #include "Math/Vector3.hpp"
 #include "Tests/Performance/BVHSceneTreeTest.hpp"
+#include <boost/current_function.hpp>
 
 Ocular::Core::EventSnooper g_Snooper;
 
@@ -28,6 +29,16 @@ using namespace Ocular::Core;
 using namespace Ocular::Math;
 
 //------------------------------------------------------------------------------------------
+
+class SomeClass
+{
+public:
+
+    SomeClass() { }
+    ~SomeClass() { }
+
+    int speak(std::string butts) { OcularLogger->info(BOOST_CURRENT_FUNCTION); return 0; };
+};
 
 int runTests(int argc, char** argv)
 {
@@ -52,13 +63,20 @@ void openWindow()
     OcularEngine.WindowManager()->openWindow(descriptor);
 }
 
+void thisIsAFunction()
+{
+    OcularLogger->info("Function Name: ", BOOST_CURRENT_FUNCTION);
+    SomeClass foo;
+    foo.speak("");
+}
+
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    Ocular::Tests::BVHSceneTreeTest test;
-    test.run();
+    OcularLogger->info("Function Name: ", BOOST_CURRENT_FUNCTION);
+    thisIsAFunction();
 
     //runTests(argc, argv);
 

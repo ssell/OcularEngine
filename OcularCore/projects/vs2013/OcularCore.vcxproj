@@ -283,6 +283,7 @@
     <ClInclude Include="..\..\include\Logger\LoggerChannels.hpp" />
     <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
+    <ClInclude Include="..\..\include\Performance\Profiler.hpp" />
     <ClInclude Include="..\..\include\Priority.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />
