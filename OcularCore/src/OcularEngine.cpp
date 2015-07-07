@@ -21,8 +21,6 @@
 #include "Priority.hpp"
 #include "SystemInfo.hpp"
 
-
-
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -45,6 +43,7 @@ namespace Ocular
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
+        m_Profiler        = std::make_shared<Core::Profiler>();
 
         m_IsRunning = false;
     }
@@ -59,6 +58,7 @@ namespace Ocular
         m_EventManager    = nullptr;
         m_ResourceManager = nullptr;
         m_WindowManager   = nullptr;
+        m_Profiler        = nullptr;
     }
 
     //--------------------------------------------------------------------------------------
@@ -124,6 +124,11 @@ namespace Ocular
     std::shared_ptr<Core::ResourceManager> Engine::ResourceManager()
     {
         return m_ResourceManager;
+    }
+
+    std::shared_ptr<Core::Profiler> Engine::Profiler()
+    {
+        return m_Profiler;
     }
 
     bool Engine::isRunning() const

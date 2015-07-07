@@ -25,6 +25,7 @@
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/HashGenerator.hpp"
 #include "Resources/ResourceManager.hpp"
+#include "Performance/Profiler.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -109,6 +110,11 @@ namespace Ocular
          */
         std::shared_ptr<Core::ResourceManager> ResourceManager();
 
+        /**
+         * \return Reference to the primary Profiler
+         */
+        std::shared_ptr<Core::Profiler> Profiler();
+
         //----------------------------------------------------------------------------------
         
     protected:
@@ -144,6 +150,7 @@ namespace Ocular
         std::shared_ptr<Core::ResourceManager> m_ResourceManager;
         std::shared_ptr<Core::WindowManager>   m_WindowManager;
         std::shared_ptr<Utils::HashGenerator>  m_HashGenerator;
+        std::shared_ptr<Core::Profiler>        m_Profiler;
 
         bool m_IsRunning;
     };

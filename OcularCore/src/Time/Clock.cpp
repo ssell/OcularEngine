@@ -60,32 +60,32 @@ namespace Ocular
             return m_Delta;
         }
 
-        unsigned long long Clock::getEpochMS()
+        uint64_t Clock::getEpochMS()
         {
             std::chrono::milliseconds::rep currentTime = 
                 std::chrono::duration_cast<std::chrono::milliseconds>
                 (std::chrono::system_clock::now().time_since_epoch()).count();
 
-            return static_cast<unsigned long long>(currentTime);
+            return static_cast<uint64_t>(currentTime);
         }
 
-        unsigned long long Clock::getEpochNS()
+        uint64_t Clock::getEpochNS()
         {
             std::chrono::nanoseconds::rep currentTime =
                 std::chrono::duration_cast<std::chrono::nanoseconds>
                 (std::chrono::system_clock::now().time_since_epoch()).count();
     
-            return static_cast<unsigned long long>(currentTime);
+            return static_cast<uint64_t>(currentTime);
         }
 
-        unsigned long long Clock::getElapsedMS()
+        uint64_t Clock::getElapsedMS()
         {
-            return getEpochMS() - static_cast<unsigned long long>(m_CreationTimeMS);
+            return getEpochMS() - static_cast<uint64_t>(m_CreationTimeMS);
         }
 
-        unsigned long long Clock::getElapsedNS()
+        uint64_t Clock::getElapsedNS()
         {
-            return getEpochNS() - static_cast<unsigned long long>(m_CreationTimeNS);
+            return getEpochNS() - static_cast<uint64_t>(m_CreationTimeNS);
         }
 
         DateTime Clock::getDateTime()

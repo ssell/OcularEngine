@@ -130,6 +130,9 @@
     <Filter Include="Header Files\Performance">
       <UniqueIdentifier>{c40c0113-d9bb-424e-a203-876f95723497}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Performance">
+      <UniqueIdentifier>{7ea6c81e-8606-4657-906a-a59526207fbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -314,6 +317,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\SceneObject.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Performance\ProfilerNode.cpp">
+      <Filter>Source Files\Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Performance\Profiler.cpp">
+      <Filter>Source Files\Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Performance\ProfilerScope.cpp">
+      <Filter>Source Files\Performance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -612,6 +624,12 @@
       <Filter>Header Files\Scene\BVHTree</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Performance\Profiler.hpp">
+      <Filter>Header Files\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Performance\ProfilerNode.hpp">
+      <Filter>Header Files\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Performance\ProfilerScope.hpp">
       <Filter>Header Files\Performance</Filter>
     </ClInclude>
   </ItemGroup>

@@ -200,6 +200,9 @@
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
     <ClCompile Include="..\..\src\Logger\VSConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Object.cpp" />
+    <ClCompile Include="..\..\src\Performance\Profiler.cpp" />
+    <ClCompile Include="..\..\src\Performance\ProfilerNode.cpp" />
+    <ClCompile Include="..\..\src\Performance\ProfilerScope.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
@@ -284,6 +287,8 @@
     <ClInclude Include="..\..\include\Logger\VSConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Object.hpp" />
     <ClInclude Include="..\..\include\Performance\Profiler.hpp" />
+    <ClInclude Include="..\..\include\Performance\ProfilerScope.hpp" />
+    <ClInclude Include="..\..\include\Performance\ProfilerNode.hpp" />
     <ClInclude Include="..\..\include\Priority.hpp" />
     <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />

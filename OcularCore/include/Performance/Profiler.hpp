@@ -18,13 +18,22 @@
 #ifndef __H__OCULAR_CORE_PERFORMANCE_PROFILER__H__
 #define __H__OCULAR_CORE_PERFORMANCE_PROFILER__H__
 
-#include <string>
+#include "ProfilerNode.hpp"
+
+#include <sstream>
+#include <boost/current_function.hpp>    // I do not like directly referencing boost in a common header.
 
 //------------------------------------------------------------------------------------------
+// Macros
+//------------------------------------------------------------------------------------------
 
-#define PROFILE(x)
-#define PROFILE_START(x)
-#define PROFILE_END(x)
+#define OCULAR_PROFILE()        Ocular::Core::ProfilerScope OCULAR_INTERNAL_PROFILE_SCOPE(BOOST_CURRENT_FUNCTION);
+#define OCULAR_PROFILE_START(x) OcularEngine.Profiler()->beginBlock(BOOST_CURRENT_FUNCTION, x);
+#define OCULAR_PROFILE_STOP()   OcularEngine.Profiler()->endBlock();
+
+//------------------------------------------------------------------------------------------
+// Classes
+//------------------------------------------------------------------------------------------
 
 /**
  * \addtogroup Ocular
@@ -88,24 +97,24 @@ namespace Ocular
          *         PROFILE_END()
          *     }
          *
-         * Which results in the following log output:
+         * Which results in the following output (when printed to console or as plain-text):
          *
-         *     - ParentMethod [100.0ms] [100.0ms] [1]
-         *       - ChildMethod [100.0ms] [100.0ms] [1]
-         *         - SubchildMethod "Segment A" [50.0ms] [50.0ms] [1]
-         *         - SubchildMethod "Segment B" [50.0ms] [50.0ms] [1]
+         *     - ParentMethod [1] [100.0ms] [100.0ms]
+         *       - ChildMethod [1] [100.0ms] [100.0ms]
+         *         - SubchildMethod "Segment A" [1] [50.0ms] [50.0ms]
+         *         - SubchildMethod "Segment B" [1] [50.0ms] [50.0ms]
          *
          * The output lines are formatted as follows:
          *
-         *     Name Specifier Elapsed Average Calls
+         *     Name Segment Calls Elapsed Average 
          *
          * Where,
          *
          *          Name: Name of the profiled function/method
-         *     Specifier: Segment specifier 
+         *       Segment: Name of the block segment (optional)
+         *         Calls: Total amount of times this segment of code had been called
          *       Elapsed: Total amount of elapsed time spent in the code segment
          *       Average: Average amount of time spent executing the code segment
-         *         Calls: Total amount of times this segment of code had been called
          */
         class Profiler
         {
@@ -114,12 +123,25 @@ namespace Ocular
             Profiler();
             ~Profiler();
 
-            void beginBlock(std::string name);
+            void beginBlock(std::string const& name, std::string const& segment);
             void endBlock();
+
+            void printToConsole(bool prettify = true) const;
 
         protected:
 
+            void destroy();
+            void destroyNode(ProfilerNode* node) const;
+
+            void createLogBuffer(std::stringstream& stream, bool prettify) const;
+            void createLogForNode(ProfilerNode* node, std::stringstream& stream, bool prettify) const;
+
+            std::string prettifyName(std::string const& name) const;
+
         private:
+
+            ProfilerNode* m_RootNode;
+            ProfilerNode* m_CurrentNode;
         };
     }
     /**

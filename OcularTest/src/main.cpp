@@ -30,16 +30,6 @@ using namespace Ocular::Math;
 
 //------------------------------------------------------------------------------------------
 
-class SomeClass
-{
-public:
-
-    SomeClass() { }
-    ~SomeClass() { }
-
-    int speak(std::string butts) { OcularLogger->info(BOOST_CURRENT_FUNCTION); return 0; };
-};
-
 int runTests(int argc, char** argv)
 {
     //::testing::InitGoogleTest(&argc, argv);
@@ -63,22 +53,21 @@ void openWindow()
     OcularEngine.WindowManager()->openWindow(descriptor);
 }
 
-void thisIsAFunction()
-{
-    OcularLogger->info("Function Name: ", BOOST_CURRENT_FUNCTION);
-    SomeClass foo;
-    foo.speak("");
-}
-
 int main(int argc, char** argv)
 {
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    OcularLogger->info("Function Name: ", BOOST_CURRENT_FUNCTION);
-    thisIsAFunction();
+    OCULAR_PROFILE_START("main");
+
+    Ocular::Tests::BVHSceneTreeTest test;
+    test.run();
 
     //runTests(argc, argv);
+
+    OCULAR_PROFILE_STOP();
+
+    OcularEngine.Profiler()->printToConsole();
 
     OcularEngine.shutdown();
 }
