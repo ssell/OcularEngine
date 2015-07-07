@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_PERFORMANCE_PROFILER__H__
 
 #include "ProfilerNode.hpp"
+#include "ProfilerScope.hpp"
 
 #include <sstream>
 #include <boost/current_function.hpp>    // I do not like directly referencing boost in a common header.

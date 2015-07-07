@@ -18,6 +18,9 @@
 #include "Math/MortonCode.hpp"
 #include "Math/MathCommon.hpp"
 
+#include "OcularEngine.hpp"
+#include "Performance/Profiler.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -47,6 +50,8 @@ namespace Ocular
         {
             if(rebuildNeeded())
             {
+                OCULAR_PROFILE()
+
                 //--------------------------------------------------------------------
                 // Destroy the tree structure but preserve the objects
 
@@ -293,6 +298,8 @@ namespace Ocular
 
         void BVHSceneTree::build()
         {
+            OCULAR_PROFILE()
+
             // 1. Generate the morton codes for each scene object and sort them
             // 2. Recursively build the tree top-down
             // 3. Recursively fit the bounds of each node around it's children
@@ -318,6 +325,8 @@ namespace Ocular
 
         void BVHSceneTree::createMortonPairs(std::vector<MortonPair>& pairs) const
         {
+            OCULAR_PROFILE()
+
             // MortonCode::calculate(vector) performs the same essential steps as below.
             // We do not use that method as it would require allocating and filling
             // an additional vector with N points.
@@ -368,6 +377,8 @@ namespace Ocular
 
         BVHSceneNode* BVHSceneTree::generateTree(BVHSceneNode* parent, std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const
         {
+            OCULAR_PROFILE()
+
             BVHSceneNode* result = nullptr;
 
             if(first == last)
@@ -400,6 +411,8 @@ namespace Ocular
 
         uint32_t BVHSceneTree::findSplit(std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const
         {
+            OCULAR_PROFILE()
+
             uint32_t result = first;
 
             const uint64_t firstCode = pairs[first].first;
@@ -446,6 +459,8 @@ namespace Ocular
 
         void BVHSceneTree::fitNodeBounds(BVHSceneNode* node) const
         {
+            OCULAR_PROFILE()
+
             if(node)
             {
                 if(node->type == SceneNodeType::Leaf)

@@ -90,12 +90,12 @@ namespace Ocular
 
             m_CurrentNode->localElapsed += (time - m_CurrentNode->blockStart);
             m_CurrentNode->totalElapsed += m_CurrentNode->localElapsed;
-            m_CurrentNode->localElapsed  = 0;
 
             if(m_CurrentNode->parent)
             {
                 m_CurrentNode->parent->localElapsed += m_CurrentNode->localElapsed;
                 m_CurrentNode->parent->blockStart = time;
+                m_CurrentNode->localElapsed  = 0;
                 
                 m_CurrentNode = m_CurrentNode->parent;
 
@@ -105,6 +105,10 @@ namespace Ocular
                     m_CurrentNode->totalElapsed += m_CurrentNode->localElapsed;
                     m_CurrentNode->localElapsed  = 0;
                 }
+            }
+            else
+            {
+                m_CurrentNode->localElapsed  = 0;
             }
         }
 
