@@ -28,9 +28,18 @@
 // Macros
 //------------------------------------------------------------------------------------------
 
-#define OCULAR_PROFILE()        Ocular::Core::ProfilerScope OCULAR_INTERNAL_PROFILE_SCOPE(BOOST_CURRENT_FUNCTION);
-#define OCULAR_PROFILE_START(x) OcularEngine.Profiler()->beginBlock(BOOST_CURRENT_FUNCTION, x);
-#define OCULAR_PROFILE_STOP()   OcularEngine.Profiler()->endBlock();
+#define OCULAR_PERFORM_PROFILING
+
+#ifdef OCULAR_PERFORM_PROFILING
+#define OCULAR_PROFILE()         Ocular::Core::ProfilerScope OCULAR_INTERNAL_PROFILE_SCOPE(BOOST_CURRENT_FUNCTION);
+#define OCULAR_PROFILE_START(x)  OcularEngine.Profiler()->beginBlock(BOOST_CURRENT_FUNCTION, x);
+#define OCULAR_PROFILE_STOP()    OcularEngine.Profiler()->endBlock();
+#else
+#define OCULAR_PROFILE()
+#define OCULAR_PROFILE_START(x) do { } while(false);
+#define OCULAR_PROFILE_STOP() 
+#endif
+
 
 //------------------------------------------------------------------------------------------
 // Classes

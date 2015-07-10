@@ -73,7 +73,7 @@ namespace Ocular
 
         protected:
 
-            void buildTree(uint32_t numObjects, uint64_t& elapsed);
+            void buildTree(uint32_t numObjects, double& elapsed);
             void buildObjects(uint32_t numObjects, std::vector<Core::SceneObject*>& objects);
 
             void cleanTree(Core::BVHSceneTree* tree);

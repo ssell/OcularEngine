@@ -29,11 +29,12 @@ namespace Ocular
         ProfilerNode::ProfilerNode(ProfilerNode* parent, std::string const& name, std::string const& segment)
             : parent(parent), name(name), segment(segment)
         {
-            totalCalls   = 0;
-            totalElapsed = 0;
-            localElapsed = 0;
-            blockStart   = 0;
-            blockDepth   = 0;
+            totalCalls     = 0;
+            totalElapsed   = 0;
+            localElapsed   = 0;
+            blockStart     = 0;
+            blockDepth     = 0;
+            recursiveDepth = 0;
         }
 
         ProfilerNode::~ProfilerNode()

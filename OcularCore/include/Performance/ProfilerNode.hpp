@@ -53,6 +53,7 @@ namespace Ocular
 
             uint32_t totalCalls;                     ///< Total amount of times this node has been profiled
             uint32_t blockDepth;                     ///< Depth of the block (used for printing)
+            uint32_t recursiveDepth;                 ///< If in a recursive function, the current depth
 
             uint64_t blockStart;                     ///< Start time (ns) of the latest block
             uint64_t localElapsed;                   ///< Amount of time elapsed in the local block

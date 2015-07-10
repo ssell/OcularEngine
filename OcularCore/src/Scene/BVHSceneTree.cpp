@@ -19,7 +19,6 @@
 #include "Math/MathCommon.hpp"
 
 #include "OcularEngine.hpp"
-#include "Performance/Profiler.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -48,10 +47,10 @@ namespace Ocular
 
         void BVHSceneTree::restructure()
         {
+            OCULAR_PROFILE()
+
             if(rebuildNeeded())
             {
-                OCULAR_PROFILE()
-
                 //--------------------------------------------------------------------
                 // Destroy the tree structure but preserve the objects
 
@@ -354,6 +353,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Create and sort the codes
 
+            OCULAR_PROFILE_START("Create Morton Codes")
+
             pairs.reserve(m_AllObjects.size());
 
             for(auto const object : m_AllObjects)
@@ -364,15 +365,21 @@ namespace Ocular
                 pairs.push_back(std::make_pair(mortonCode, object));
             }
 
+            OCULAR_PROFILE_STOP()
+            OCULAR_PROFILE_START("Sort Morton Codes")
+
             std::sort(pairs.begin(), pairs.end(), [](MortonPair const& a, MortonPair const& b)
             {
                 return (a.first < b.first);
             });
+            
+            OCULAR_PROFILE_STOP()
 
             //------------------------------------------------------------
             // Handle any duplicates
 
             // ...
+
         }
 
         BVHSceneNode* BVHSceneTree::generateTree(BVHSceneNode* parent, std::vector<MortonPair> const& pairs, uint32_t first, uint32_t last) const
