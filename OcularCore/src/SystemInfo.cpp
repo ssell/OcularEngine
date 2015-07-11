@@ -19,6 +19,8 @@
 #include "Common.hpp"
 #include "Utilities/StringOps.hpp"
 
+#include <thread>
+
 #ifdef OCULAR_WINDOWS
 #include <Windows.h>
 #endif
@@ -34,11 +36,12 @@ namespace Ocular
         Endianness             SystemInfo::m_Endianness            = Endianness::Unknown;
         OpenGLLevels           SystemInfo::m_OpenGLLevel           = OpenGLLevels::Unknown;
         DirectXLevels          SystemInfo::m_DirectXLevel          = DirectXLevels::Unknown;
-        unsigned long long     SystemInfo::m_TotalRAM              = 0;
-        unsigned long long     SystemInfo::m_FreeRAM               = 0;
-        unsigned long long     SystemInfo::m_TotalGPUMemory        = 0;
-        unsigned long long     SystemInfo::m_FreeGPUMemory         = 0;
-        unsigned int           SystemInfo::m_NumberOfChannels      = 0;
+        uint64_t               SystemInfo::m_TotalRAM              = 0;
+        uint64_t               SystemInfo::m_FreeRAM               = 0;
+        uint64_t               SystemInfo::m_TotalGPUMemory        = 0;
+        uint64_t               SystemInfo::m_FreeGPUMemory         = 0;
+        uint32_t               SystemInfo::m_NumberOfChannels      = 0;
+        uint32_t               SystemInfo::m_NumberOfThreads       = 0;
         Core::Directory        SystemInfo::m_WorkingDirectory      = Core::Directory();
 
         //------------------------------------------------------------------------------------------
@@ -61,6 +64,8 @@ namespace Ocular
 
         void SystemInfo::initialize()
         {
+            // Values that should not change during the program's lifetime.
+
             discoverOperatingSystem();
             discoverProcessorArchitecture();
             discoverEndianness();
@@ -68,12 +73,15 @@ namespace Ocular
             discoverDirectXLevel();
             discoverInstalledRAM();
             discoverInstalledGPUMemory();
+            discoverNumberOfThreads();
 
             refresh();
         }
 
         void SystemInfo::refresh()
         {
+            // Values that can can change during the program's lifetime.
+
             discoverAvailableRAM();
             discoverAvailableGPUMemory();
             discoverChannels();
@@ -147,6 +155,7 @@ namespace Ocular
            OcularLogger->info("System Information:", 
                "\n\t- Operating System: ", osString, 
                "\n\t- Architecture:     ", archString,
+               "\n\t- Thread Count:     ", m_NumberOfThreads,
                "\n\t- Endianness:       ", endianString, 
                "\n\t- OpenGL Support:   ", openglString, 
                "\n\t- DirectX Support:  ", directxString, 
@@ -182,29 +191,34 @@ namespace Ocular
             return m_DirectXLevel;
         }
 
-        unsigned long long SystemInfo::getTotalRAM()
+        uint64_t SystemInfo::getTotalRAM()
         {
             return m_TotalRAM;
         }
 
-        unsigned long long SystemInfo::getFreeRAM()
+        uint64_t SystemInfo::getFreeRAM()
         {
             return m_FreeRAM;
         }
 
-        unsigned long long SystemInfo::getTotalGPUMemory()
+        uint64_t SystemInfo::getTotalGPUMemory()
         {
             return m_TotalGPUMemory;
         }
 
-        unsigned long long SystemInfo::getFreeGPUMemory()
+        uint64_t SystemInfo::getFreeGPUMemory()
         {
             return m_FreeGPUMemory;
         }
 
-        unsigned int SystemInfo::getNumberOfChannels()
+        uint32_t SystemInfo::getNumberOfChannels()
         {
             return m_NumberOfChannels;
+        }
+
+        uint32_t SystemInfo::getNumberOfThreads()
+        {
+            return m_NumberOfThreads;
         }
 
         Core::Directory SystemInfo::getWorkingDirectory()
@@ -256,7 +270,7 @@ namespace Ocular
             {
                 union 
                 {
-                    int  i;
+                    int32_t i;
                     char c[4];
                 } endianCheck = { 0x01020304 };
 
@@ -340,6 +354,11 @@ namespace Ocular
         void SystemInfo::discoverChannels()
         {
         
+        }
+
+        void SystemInfo::discoverNumberOfThreads()
+        {
+            m_NumberOfThreads = std::thread::hardware_concurrency();
         }
 
         //------------------------------------------------------------------------------------------

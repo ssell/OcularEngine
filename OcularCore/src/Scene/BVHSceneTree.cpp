@@ -338,7 +338,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                const Math::Vector3f center = object->boundsAABB.getCenter();
+                const Math::Vector3f center = object->getBoundsAABB().getCenter();
 
                 minValue = fminf(minValue, fminf(center.x, fminf(center.y, center.z)));
                 maxValue = fmaxf(maxValue, fmaxf(center.x, fmaxf(center.y, center.z)));
@@ -359,7 +359,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                Math::Vector3f transformedCenter = (object->boundsAABB.getCenter() + offsetValue) * scaleValue;
+                Math::Vector3f transformedCenter = (object->getBoundsAABB().getCenter() + offsetValue) * scaleValue;
                 uint64_t mortonCode = Math::MortonCode::calculate(transformedCenter);
 
                 pairs.push_back(std::make_pair(mortonCode, object));
@@ -394,6 +394,7 @@ namespace Ocular
                 result = new BVHSceneNode();
                 result->parent = parent;
                 result->type   = SceneNodeType::Leaf;
+                result->morton = pairs[first].first;
                 result->object = pairs[first].second;
             }
             else
@@ -472,7 +473,7 @@ namespace Ocular
             {
                 if(node->type == SceneNodeType::Leaf)
                 {
-                    node->bounds = node->object->boundsAABB;
+                    node->bounds = node->object->getBoundsAABB();
                 }
                 else if(node->type == SceneNodeType::Internal)
                 {
@@ -481,6 +482,7 @@ namespace Ocular
 
                     node->bounds = node->left->bounds;
                     node->bounds.expandToContain(node->right->bounds);
+                    node->morton = Math::MortonCode::calculate(node->bounds.getCenter());
                 }
                 else
                 {
@@ -498,6 +500,8 @@ namespace Ocular
                         {
                             node->bounds.expandToContain(node->right->bounds);
                         }
+                        
+                        node->morton = Math::MortonCode::calculate(node->bounds.getCenter());
                     }
                   //else
                   //{

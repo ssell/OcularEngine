@@ -19,10 +19,6 @@
 #define __H__OCULAR_CORE_SCENE_OBJECT__H__
 
 #include "Object.hpp"
-#include "Math/Transform.hpp"
-#include "Math/Bounds/BoundsSphere.hpp"
-#include "Math/Bounds/BoundsAABB.hpp"
-#include "Math/Bounds/BoundsOBB.hpp"
 
 #include <string>
 #include <map>
@@ -36,6 +32,14 @@
  */
 namespace Ocular
 {
+    namespace Math
+    {
+        class Transform;
+        class BoundsSphere;
+        class BoundsAABB;
+        class BoundsOBB;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -75,6 +79,29 @@ namespace Ocular
             //------------------------------------------------------------
             // General Misc. Methods
             //------------------------------------------------------------
+
+            /**
+             * Returns the current transform of this object.
+             */
+            Math::Transform const& getTransform() const;
+
+            /**
+             * Returns the current Bounding Sphere for this object.
+             * Note that this bounds encloses all children and attached renderables.
+             */
+            Math::BoundsSphere const& getBoundsSphere() const;
+
+            /**
+             * Returns the current Axis-Aligned Bounding Box for this object.
+             * Note that this bounds encloses all children and attached renderables.
+             */
+            Math::BoundsAABB const& getBoundsAABB() const;
+
+            /**
+             * Returns the current Orientated Bounding Box for this object.
+             * Note that this bounds encloses all children and attached renderables.
+             */
+            Math::BoundsOBB const& getBoundsOBB() const;
 
             /**
              * Sets whether this object is visible or not. Note that this method
@@ -172,15 +199,10 @@ namespace Ocular
             // Public Members
             //------------------------------------------------------------
 
-            Math::Transform transform;
-
-			Math::BoundsSphere boundsSphere;
-			Math::BoundsAABB   boundsAABB;
-			Math::BoundsOBB    boundsOBB;
-
         protected:
 
-        private:
+            //------------------------------------------------------------
+            // General Characteristics
 
             std::string m_Name;        ///< Unique name for this SceneObject instance.
             
@@ -194,6 +216,17 @@ namespace Ocular
             bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
 
             uint32_t m_Layer;          ///< The render layer this object is part of.
+
+            //------------------------------------------------------------
+            // Physical Characteristics
+
+            Math::Transform m_Transform;
+
+			Math::BoundsSphere m_BoundsSphere;
+			Math::BoundsAABB   m_BoundsAABB;
+			Math::BoundsOBB    m_BoundsOBB;
+
+        private:
         };
     }
     /**

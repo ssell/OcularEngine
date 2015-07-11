@@ -21,6 +21,8 @@
 #include "FileIO/Directory.hpp"
 #include "Common.hpp"
 
+#include <cstdint>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -86,31 +88,36 @@ namespace Ocular
              * Returns the total amount of physical RAM on this system (in bytes).
              * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static unsigned long long getTotalRAM();
+            static uint64_t getTotalRAM();
 
             /**
              * Returns the total amount of physical RAM that is available on the system (in bytes).
              * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static unsigned long long getFreeRAM();
+            static uint64_t getFreeRAM();
 
             /**
              * Returns the total amount of memory on the GPUs (both used and unused) (in bytes).
              * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static unsigned long long getTotalGPUMemory();
+            static uint64_t getTotalGPUMemory();
 
             /**
              * Returns the total amount of memory that is free and not in use on the GPUs (in bytes).
              * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static unsigned long long getFreeGPUMemory();
+            static uint64_t getFreeGPUMemory();
 
             /**
              * Returns number of output channels (monitors, etc.) on the system.
              * \note A return value of 0 indicates unknown. Either Ocular failed to retrieve the data, or refresh needs to be called.
              */
-            static unsigned int getNumberOfChannels();
+            static uint32_t getNumberOfChannels();
+
+            /**
+             * Returns the number of supported concurrent threads.
+             */
+            static uint32_t getNumberOfThreads();
 
             /**
              * Returns the directory that the executable is running from.
@@ -130,6 +137,7 @@ namespace Ocular
             static void discoverDirectXLevel();
             static void discoverInstalledRAM();
             static void discoverInstalledGPUMemory();
+            static void discoverNumberOfThreads();
 
             //----------------------------------------
             // System specific that can change during program runtime
@@ -147,12 +155,13 @@ namespace Ocular
             static OpenGLLevels m_OpenGLLevel;
             static DirectXLevels m_DirectXLevel;
 
-            static unsigned long long m_TotalRAM;
-            static unsigned long long m_FreeRAM;
-            static unsigned long long m_TotalGPUMemory;
-            static unsigned long long m_FreeGPUMemory;
+            static uint64_t m_TotalRAM;
+            static uint64_t m_FreeRAM;
+            static uint64_t m_TotalGPUMemory;
+            static uint64_t m_FreeGPUMemory;
 
-            static unsigned int m_NumberOfChannels;
+            static uint32_t m_NumberOfChannels;
+            static uint32_t m_NumberOfThreads;
 
             static Core::Directory m_WorkingDirectory;
         };
