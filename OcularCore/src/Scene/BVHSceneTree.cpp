@@ -107,16 +107,82 @@ namespace Ocular
         {
             if(object)
             {
-                auto findObject = std::find(m_AllObjects.begin(), m_AllObjects.end(), object);
+                BVHSceneNode* leaf = findParent(m_Root, object);
 
-                if(findObject != m_AllObjects.end())
+                if(leaf)
                 {
-                    m_AllObjects.erase(findObject);
-                    m_IsDirty = true;
+                    //----------------------------------------------------
+                    // Must remove the leaf node and organize the tree.
+
+                    BVHSceneNode* parent = dynamic_cast<BVHSceneNode*>(leaf->parent);
+
+                    if(parent->type == SceneNodeType::Root)
+                    {
+                        // If the parent is the root, we can simply remove the leaf.
+
+                        if(parent->left == leaf)
+                        {
+                            // Remove the left child and shift the right over
+
+                            delete leaf;
+                            leaf = nullptr;
+
+                            parent->left = parent->right;
+                            parent->right = nullptr;
+                        }
+                        else
+                        {
+                            // This is the right child of the root. Can simply remove.
+
+                            delete leaf;
+                            leaf = nullptr;
+                            parent->right = nullptr;
+                        }
+
+                        m_Root->morton = m_Root->left->morton;
+                        fitNodeBounds(m_Root);
+                    }
+                    else
+                    {
+                        // The parent is a non-root internal node.
+
+                        // The parent will be removed and the remaining child will be moved
+                        // to be a child of the parent's parent.
+
+                        BVHSceneNode* survivingChild = (parent->left == leaf) ? parent->right : parent->left;
+                        BVHSceneNode* parentParent = dynamic_cast<BVHSceneNode*>(parent->parent);
+
+                        if(parentParent->left == parent)
+                        {
+                            parentParent->left = survivingChild;
+                        }
+                        else
+                        {
+                            parentParent->right = survivingChild;
+                        }
+
+                        delete leaf;
+                        delete parent;
+
+                        leaf = nullptr;
+                        parent = nullptr;
+
+                        parentParent->morton = (parentParent->left->morton + parentParent->right->morton) / 2;
+                        fitNodeBounds(parentParent);
+                    }
+
+                    //----------------------------------------------------
+                    // Remove from object collection
+
+                    auto findObject = std::find(m_AllObjects.begin(), m_AllObjects.end(), object);
+
+                    if(findObject != m_AllObjects.end())
+                    {
+                        m_AllObjects.erase(findObject);
+                        m_IsDirty = true;
+                    }
                 }
             }
-
-            /// \todo Remove object's node from tree
         }
         
         void BVHSceneTree::getAllObjects(std::vector<SceneObject*>& objects) const
@@ -135,10 +201,35 @@ namespace Ocular
 
         void BVHSceneTree::getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const
         {
+            //------------------------------------------------------------
+            // Find intersections and their distances from the origin.
+
+            std::vector<std::pair<SceneObject*, float>> intersections;
+            intersections.reserve(m_AllObjects.size());
+
+            findIntersections(m_Root, ray, intersections);
+
+            //------------------------------------------------------------
+            // Sort the objects based on distance from origin.
+            // This is done such that the object nearest the origin is first.
+
+            const Math::Vector3f rayOrigin = ray.getOrigin();
+
+            std::sort(objects.begin(), objects.end(), [&rayOrigin](std::pair<SceneObject*, float> const& first, std::pair<SceneObject*, float> const& second)->bool
+            {
+                return (first.second) < (second.second);
+            });
+
+            //------------------------------------------------------------
+            // Return the sorted intersections
+
             objects.clear();
+            objects.reserve(intersections.size());
 
-
-            /// \todo Perform ray intersection
+            for(auto pair : intersections)
+            {
+                objects.emplace_back(pair.first);
+            }
         }
 
         void BVHSceneTree::getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const
@@ -347,6 +438,30 @@ namespace Ocular
         // Traversal Methods
         //----------------------------------------------------------------------
 
+        BVHSceneNode* BVHSceneTree::findParent(BVHSceneNode* node, SceneObject* object) const
+        {
+            BVHSceneNode* parent = nullptr;
+
+            if(node->type == SceneNodeType::Leaf)
+            {
+                if(node->object == object)
+                {
+                    parent = node;
+                }
+            }
+            else
+            {
+                parent = findParent(node->left, object);
+
+                if(parent == nullptr)
+                {
+                    parent = findParent(node->right, object);
+                }
+            }
+
+            return parent;
+        }
+
         BVHSceneNode* BVHSceneTree::findNearest(BVHSceneNode* node, uint64_t const& morton) const
         {
             if(morton < node->morton)
@@ -375,12 +490,34 @@ namespace Ocular
                 {
                     if((node->type == SceneNodeType::Leaf) && (node->object))
                     {
-                        objects.push_back(node->object);
+                        objects.emplace_back(node->object);
                     }
                     else
                     {
                         findVisible(node->left, frustum, objects);
                         findVisible(node->right, frustum, objects);
+                    }
+                }
+            }
+        }
+
+        void BVHSceneTree::findIntersections(BVHSceneNode* node, Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const
+        {
+            if(node)
+            {
+                Math::Vector3f point;
+                float distance;
+
+                if(ray.intersects(ray, point, distance))
+                {
+                    if((node->type == SceneNodeType::Leaf) && (node->object))
+                    {
+                        objects.emplace_back(std::make_pair(node->object, distance));
+                    }
+                    else
+                    {
+                        findIntersections(node->left, ray, objects);
+                        findIntersections(node->right, ray, objects);
                     }
                 }
             }
@@ -394,7 +531,7 @@ namespace Ocular
                 {
                     if((node->type == SceneNodeType::Leaf) && (node->object))
                     {
-                        objects.push_back(node->object);
+                        objects.emplace_back(node->object);
                     }
                     else
                     {
@@ -415,7 +552,7 @@ namespace Ocular
                 {
                     if(node->type == SceneNodeType::Leaf)
                     {
-                        objects.push_back(node->object);
+                        objects.emplace_back(node->object);
                     }
                     else
                     {
@@ -434,7 +571,7 @@ namespace Ocular
                 {
                     if(node->type == SceneNodeType::Leaf)
                     {
-                        objects.push_back(node->object);
+                        objects.emplace_back(node->object);
                     }
                     else
                     {

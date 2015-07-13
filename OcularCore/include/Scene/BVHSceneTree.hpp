@@ -144,6 +144,16 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
+             * Finds the leaf node that owns the specified object in the tree.
+             *
+             * \param[in] node   Current node.
+             * \param[in] object The object to find.
+             *
+             * \return The parent node.
+             */
+            BVHSceneNode* findParent(BVHSceneNode* node, SceneObject* object) const;
+
+            /**
              * Finds the node with the nearest morton code to the one specified.
              * 
              * \param[in] node   Current node.
@@ -160,6 +170,15 @@ namespace Ocular
              * \param[out] objects All discovered SceneObjects that intersect.
              */
             void findVisible(BVHSceneNode* node, Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Recursively finds all SceneObjects that intersect with the specified ray. The results are unordered.
+             *
+             * \param[in]  node    Current node.
+             * \param[in]  ray     Ray to test against.
+             * \param[out] objects All discovered SceneObjects that intersect and their intersection points.
+             */
+            void findIntersections(BVHSceneNode* node, Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const;
 
             /**
              * Recursively finds all SceneObjects that intersect with the specified bounds.
