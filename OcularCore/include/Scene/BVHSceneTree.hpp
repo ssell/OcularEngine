@@ -103,6 +103,27 @@ namespace Ocular
         protected:
 
             /**
+             * Performs a complete rebuild of the tree.
+             *
+             * This is a potentially costly operation and should only be called when absolutely necessary 
+             * (either on initial tree construction or when a significant number of new objects have been added).
+             */
+            void rebuild();
+
+            /**
+             * Individually inserts new objects into the tree.
+             *
+             * If the number of new objects that need to be added is significant, then a complete tree rebuild
+             * will often be faster and more accurate.
+             */
+            void insertNewObjects();
+
+            /**
+             * Updates all dirty nodes (leafs) whose objects have either moved or rotated.
+             */
+            void updateDirtyNodes();
+
+            /**
              * Checks to see if the tree needs to be rebuilt.
              */
             bool rebuildNeeded() const;
@@ -112,11 +133,32 @@ namespace Ocular
              */
             void destroyNode(BVHSceneNode* node) const;
 
+            /**
+             * Inserts a single new object into the tree.
+             * \param[in] object
+             */
+            void insertObject(SceneObject* object);
+
             //------------------------------------------------------------
             // Traversal Methods
             //------------------------------------------------------------
 
+            /**
+             * Finds the node with the nearest morton code to the one specified.
+             * 
+             * \param[in] node   Current node.
+             * \param[in] morton Morton code to compare against
+             *
+             * \return The nearest node.
+             */
+            BVHSceneNode* findNearest(BVHSceneNode* node, uint64_t const& morton) const;
 
+            /**
+             * 
+             * \param[in]  node    Current node.
+             * \param[in]  frustum Frustum to test against.
+             * \param[out] objects All discovered SceneObjects that intersect.
+             */
             void findVisible(BVHSceneNode* node, Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const;
 
             /**
@@ -192,10 +234,12 @@ namespace Ocular
 
         private:
 
-            bool m_IsDirty;                           ///< Dirty flag indicating if the tree needs to be updated
+            bool m_IsDirty;                            ///< Dirty flag indicating if the tree needs to be updated
                               
-            BVHSceneNode* m_Root;                     ///< Root scene node of the tree.
-            std::vector<SceneObject*> m_AllObjects;   ///< Convenience container for tree reconstruction. Prevents the need of a full-traversal.
+            BVHSceneNode* m_Root;                      ///< Root scene node of the tree.
+            
+            std::vector<BVHSceneNode*> m_DirtyNodes;   ///< Container of all dirty nodes that need to be updated
+            std::vector<SceneObject*>  m_AllObjects;   ///< Convenience container for tree reconstruction. Prevents the need of a full-traversal.
         };
     }
     /**

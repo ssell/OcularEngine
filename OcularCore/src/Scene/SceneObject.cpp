@@ -15,10 +15,6 @@
  */
 
 #include "Scene/SceneObject.hpp"
-#include "Math/Transform.hpp"
-#include "Math/Bounds/BoundsSphere.hpp"
-#include "Math/Bounds/BoundsAABB.hpp"
-#include "Math/Bounds/BoundsOBB.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -52,21 +48,6 @@ namespace Ocular
         Math::Transform const& SceneObject::getTransform() const
         {
             return m_Transform;
-        }
-
-        Math::BoundsSphere const& SceneObject::getBoundsSphere() const
-        {
-            return m_BoundsSphere;
-        }
-
-        Math::BoundsAABB const& SceneObject::getBoundsAABB() const
-        {
-            return m_BoundsAABB;
-        }
-
-        Math::BoundsOBB const& SceneObject::getBoundsOBB() const
-        {
-            return m_BoundsOBB;
         }
 
         void SceneObject::setVisible(bool visible)
@@ -110,22 +91,22 @@ namespace Ocular
 
         SceneObject* SceneObject::createChild(std::string const& name)
         {
-
+            return nullptr;
         }
 
         SceneObject* SceneObject::findChild(std::string const& name)
         {
-
+            return nullptr;
         }
 
         SceneObject* SceneObject::findChild(UUID const& uuid)
         {
-
+            return nullptr;
         }
 
         SceneObject* SceneObject::findChild(uint32_t const index)
         {
-
+            return nullptr;
         }
 
         void SceneObject::removeChild(std::string const& name)
@@ -145,7 +126,7 @@ namespace Ocular
 
         uint32_t SceneObject::getNumChildren() const
         {
-
+            return 0;
         }
 
         //----------------------------------------------------------------
@@ -159,7 +140,7 @@ namespace Ocular
 
         ARoutine* SceneObject::getRoutine(std::string const& name)
         {
-
+            return nullptr;
         }
 
         void getAllRoutines(std::string const& name, std::list<ARoutine*>& routines)

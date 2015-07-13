@@ -51,7 +51,14 @@ namespace Ocular
             void addObject(SceneObject* object);
             void removeObject(SceneObject* object);
 
+            /**
+             * Envokes the various update methods for all SceneObjects in the current SceneTree.
+             */
             void update();
+
+            /**
+             * Envokes the various render methods for all SceneObjects in the current SceneTree.
+             */
             void render();
 
         protected:

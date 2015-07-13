@@ -49,35 +49,20 @@ namespace Ocular
         {
             OCULAR_PROFILE()
 
-            if(rebuildNeeded())
+            if(m_IsDirty)
             {
-                //--------------------------------------------------------------------
-                // Destroy the tree structure but preserve the objects
-
-                destroyNode(m_Root);
-                m_Root = nullptr;
-
-                //--------------------------------------------------------------------
-                // Add any new objects
-
-                uint32_t numNewObjects = m_NewObjects.size();
-                uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
-
-                if(numNewObjects > 0)
+                if(rebuildNeeded())
                 {
-                    m_AllObjects.reserve(numTotalObjects);
-                    m_AllObjects.insert(m_AllObjects.end(), m_NewObjects.begin(), m_NewObjects.end());
-
-                    m_NewObjects.clear();
-
-                    // May want to sort objects by if they are forced visible here.
-                    // Could potentially speed up visibility tests on large scenes.
+                    // A complete rebuild is needed.
+                    rebuild();
+                }
+                else
+                {
+                    insertNewObjects();
+                    updateDirtyNodes();
                 }
 
-                //--------------------------------------------------------------------
-                // Build the new tree
-
-                build();
+                m_IsDirty = false;
             }
         }
         
@@ -130,6 +115,8 @@ namespace Ocular
                     m_IsDirty = true;
                 }
             }
+
+            /// \todo Remove object's node from tree
         }
         
         void BVHSceneTree::getAllObjects(std::vector<SceneObject*>& objects) const
@@ -149,6 +136,9 @@ namespace Ocular
         void BVHSceneTree::getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const
         {
             objects.clear();
+
+
+            /// \todo Perform ray intersection
         }
 
         void BVHSceneTree::getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const
@@ -179,6 +169,57 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void BVHSceneTree::rebuild()
+        {
+            //------------------------------------------------------------
+            // Destroy the tree structure but preserve the objects
+
+            destroyNode(m_Root);
+            m_Root = nullptr;
+
+            //------------------------------------------------------------
+            // Add any new objects
+
+            uint32_t numNewObjects = m_NewObjects.size();
+            uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
+
+            if(numNewObjects > 0)
+            {
+                m_AllObjects.reserve(numTotalObjects);
+                m_AllObjects.insert(m_AllObjects.end(), m_NewObjects.begin(), m_NewObjects.end());
+
+                m_NewObjects.clear();
+
+                // May want to sort objects by if they are forced visible here.
+                // Could potentially speed up visibility tests on large scenes.
+            }
+
+            //------------------------------------------------------------
+            // Build the new tree
+
+            build();
+        }
+
+        void BVHSceneTree::insertNewObjects()
+        {
+            // There are new objects that need to be added to the tree, 
+            // but not enough to require a complete rebuild.
+
+            for(auto object : m_NewObjects) 
+            {
+                insertObject(object);
+            }
+
+            m_NewObjects.clear();
+
+            fitNodeBounds(m_Root);
+        }
+
+        void BVHSceneTree::updateDirtyNodes()
+        {
+            /// \todo Update dirty nodes
+        }
+
         bool BVHSceneTree::rebuildNeeded() const
         {
             bool result = false;
@@ -207,10 +248,124 @@ namespace Ocular
             }
         }
 
+        void BVHSceneTree::insertObject(SceneObject* object)
+        {
+            if(object)
+            {
+                const uint64_t morton = Math::MortonCode::calculate(object->boundsAABB.getCenter());
+
+                BVHSceneNode* newLeafNode = new BVHSceneNode();
+                newLeafNode->morton = morton;
+                newLeafNode->object = object;
+                newLeafNode->type   = SceneNodeType::Leaf;
+
+
+                if(m_AllObjects.size() < 2)
+                {
+                    //----------------------------------------------------
+                    // Insert into the root
+
+                    if(m_Root == nullptr)
+                    {
+                        m_Root = new BVHSceneNode();
+                        m_Root->type = SceneNodeType::Root;
+                    }
+
+                    newLeafNode->parent = m_Root;
+
+                    if(m_Root->left == nullptr)
+                    {
+                        m_Root->left = newLeafNode;
+                    }
+                    else
+                    {
+                        if(m_Root->left->morton < morton)
+                        {
+                            m_Root->right = newLeafNode;
+                        }
+                        else
+                        {
+                            m_Root->right = m_Root->left;
+                            m_Root->left = newLeafNode;
+                        }
+                    }
+                }
+                else
+                {
+                    //----------------------------------------------------
+                    // Insert into an arbitrary node
+
+                    // Get the nearest leaf node
+                    BVHSceneNode* nearestLeafNode = findNearest(m_Root, morton);
+                    BVHSceneNode* nearestParent = dynamic_cast<BVHSceneNode*>(nearestLeafNode->parent);
+
+                    // Insert our new leaf into the internal parent of the one we just found.
+                    // The parent will already have two children. So we will need to create
+                    // a new internal node as three children can not belong to a single parent.
+
+                    BVHSceneNode* newInternalNode = new BVHSceneNode();
+                    newInternalNode->type = SceneNodeType::Internal;
+                    newInternalNode->parent = nearestParent;
+
+                    // One of the three children will remain direct descendents of the parent,
+                    // the other two children will move to be descendents of the new internal.
+
+                    // The left-most child (smallest morton code) will remain as the direct descendent (left).
+                    // The other two, will move to the new internal and place in order of their morton value.
+
+                    if(newLeafNode->morton <= nearestParent->left->morton)
+                    {
+                        newInternalNode->left = nearestParent->left;
+                        newInternalNode->right = nearestParent->right;
+
+                        nearestParent->left = newLeafNode;
+                    }
+                    else if(newLeafNode->morton <= nearestParent->right->morton)
+                    {
+                        newInternalNode->left = newLeafNode;
+                        newInternalNode->right = nearestParent->right;
+                    }
+                    else
+                    {
+                        newInternalNode->left = nearestParent->right;
+                        newInternalNode->right = newLeafNode;
+                    }
+
+                    nearestParent->right = newInternalNode;
+
+                    // Refit the morton codes
+
+                    newInternalNode->morton = (newInternalNode->left->morton + newInternalNode->right->morton) / 2;
+                    nearestParent->morton = (nearestParent->left->morton + nearestParent->right->morton) / 2;
+
+                    // Bounds are fit by the caller method. No need to do so here.
+                }
+            }
+        }
+
         //----------------------------------------------------------------------
         // Traversal Methods
         //----------------------------------------------------------------------
 
+        BVHSceneNode* BVHSceneTree::findNearest(BVHSceneNode* node, uint64_t const& morton) const
+        {
+            if(morton < node->morton)
+            {
+                if(node->left)
+                {
+                    return findNearest(node->left, morton);
+                }
+            }
+            else if(morton > node->morton)
+            {
+                if(node->right)
+                {
+                    return findNearest(node->right, morton);
+                }
+            }
+
+            return node;
+        }
 
         void BVHSceneTree::findVisible(BVHSceneNode* node, Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const
         {
@@ -338,7 +493,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                const Math::Vector3f center = object->getBoundsAABB().getCenter();
+                const Math::Vector3f center = object->boundsAABB.getCenter();
 
                 minValue = fminf(minValue, fminf(center.x, fminf(center.y, center.z)));
                 maxValue = fmaxf(maxValue, fmaxf(center.x, fmaxf(center.y, center.z)));
@@ -359,7 +514,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                Math::Vector3f transformedCenter = (object->getBoundsAABB().getCenter() + offsetValue) * scaleValue;
+                Math::Vector3f transformedCenter = (object->boundsAABB.getCenter() + offsetValue) * scaleValue;
                 uint64_t mortonCode = Math::MortonCode::calculate(transformedCenter);
 
                 pairs.push_back(std::make_pair(mortonCode, object));
@@ -473,7 +628,7 @@ namespace Ocular
             {
                 if(node->type == SceneNodeType::Leaf)
                 {
-                    node->bounds = node->object->getBoundsAABB();
+                    node->bounds = node->object->boundsAABB;
                 }
                 else if(node->type == SceneNodeType::Internal)
                 {
