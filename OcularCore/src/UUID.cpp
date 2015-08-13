@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+#ifdef _MSC_VER
+// Removes the following error:
+// c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility(2811): error C4996: 'std::_Fill_n': Function call with parameters that may be unsafe - 
+// this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. 
+#pragma warning(push)
+#pragma warning(disable:4996)
+#endif
+
 #include "UUID.hpp"
 #include "OcularEngine.hpp"
 #include "Math/MathCommon.hpp"
@@ -107,3 +115,7 @@ namespace Ocular
 
     }
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

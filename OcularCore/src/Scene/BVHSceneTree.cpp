@@ -215,10 +215,10 @@ namespace Ocular
 
             const Math::Vector3f rayOrigin = ray.getOrigin();
 
-            std::sort(objects.begin(), objects.end(), [&rayOrigin](std::pair<SceneObject*, float> const& first, std::pair<SceneObject*, float> const& second)->bool
-            {
-                return (first.second) < (second.second);
-            });
+            //std::sort(objects.begin(), objects.end(), [&rayOrigin](std::pair<SceneObject*, float> const& first, std::pair<SceneObject*, float> const& second)->bool
+            //{
+            //    return (first.second) < (second.second);
+            //});
 
             //------------------------------------------------------------
             // Return the sorted intersections

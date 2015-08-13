@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularCore", "..\..\OcularCore\projects\vs2015\OcularCore.vcxproj", "{3926028B-B885-4FF1-AC6A-3F048BAF21A6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularGraphics", "..\..\OcularGraphics\projects\vs2015\OcularGraphics.vcxproj", "{59EF17CE-EE17-4665-B206-CB64A77D8027}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6} = {3926028B-B885-4FF1-AC6A-3F048BAF21A6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularTest", "..\..\OcularTest\projects\vs2015\OcularTest\OcularTest.vcxproj", "{066D9C0A-E3A8-4517-A989-6611D5DF4751}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6} = {3926028B-B885-4FF1-AC6A-3F048BAF21A6}
+		{59EF17CE-EE17-4665-B206-CB64A77D8027} = {59EF17CE-EE17-4665-B206-CB64A77D8027}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Debug|x64.ActiveCfg = Debug|x64
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Debug|x64.Build.0 = Debug|x64
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Debug|x86.ActiveCfg = Debug|Win32
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Debug|x86.Build.0 = Debug|Win32
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Release|x64.ActiveCfg = Release|x64
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Release|x64.Build.0 = Release|x64
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Release|x86.ActiveCfg = Release|Win32
+		{3926028B-B885-4FF1-AC6A-3F048BAF21A6}.Release|x86.Build.0 = Release|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Debug|x64.ActiveCfg = Debug|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Debug|x86.ActiveCfg = Debug|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Debug|x86.Build.0 = Debug|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Release|x64.ActiveCfg = Release|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Release|x86.ActiveCfg = Release|Win32
+		{59EF17CE-EE17-4665-B206-CB64A77D8027}.Release|x86.Build.0 = Release|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Debug|x64.ActiveCfg = Debug|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Debug|x86.ActiveCfg = Debug|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Debug|x86.Build.0 = Debug|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Release|x64.ActiveCfg = Release|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Release|x86.ActiveCfg = Release|Win32
+		{066D9C0A-E3A8-4517-A989-6611D5DF4751}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -181,12 +181,26 @@ namespace Ocular
             
             /**
              * Converts from big endian to little endian, and vice versa.
+             *
+             * NOTE, this method is temporarily unavailable:
+             *
+             * > Support for floating point types was removed from Boost 1.58.0 because there was not enough time to resolve reliability concerns. 
+             * > It is expected that floating point support will be available in Boost 1.59.0.
+             * > http://www.boost.org/doc/libs/1_58_0/libs/endian/doc/index.html
+             *
              * \param[in,out] value
              */
             void convertToReverse(float& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
+             *
+             * NOTE, this method is temporarily unavailable:
+             *
+             * > Support for floating point types was removed from Boost 1.58.0 because there was not enough time to resolve reliability concerns. 
+             * > It is expected that floating point support will be available in Boost 1.59.0.
+             * > http://www.boost.org/doc/libs/1_58_0/libs/endian/doc/index.html
+
              * \param[in,out] value
              */
             void convertToReverse(double& value);

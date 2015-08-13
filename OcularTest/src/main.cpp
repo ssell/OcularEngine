@@ -227,8 +227,8 @@ int main(int argc, char** argv)
 
     OCULAR_PROFILE_START("main");
 
-    Ocular::Tests::BVHSceneTreeTest test;
-    test.run();
+    //Ocular::Tests::BVHSceneTreeTest test;
+    //test.run();
 
     //runTests(argc, argv);
 

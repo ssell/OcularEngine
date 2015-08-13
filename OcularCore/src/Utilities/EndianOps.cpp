@@ -275,12 +275,12 @@ namespace Ocular
 
             void convertToReverse(float& value)
             {
-                value = boost::endian::endian_reverse(value);
+                //value = boost::endian::endian_reverse(value);
             }
 
             void convertToReverse(double& value)
             {
-                value = boost::endian::endian_reverse(value);
+                //value = boost::endian::endian_reverse(value);
             }
         }
     }
