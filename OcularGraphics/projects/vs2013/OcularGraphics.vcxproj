@@ -39,9 +39,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)D</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc120\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_msvc120d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -49,15 +49,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\External\include;$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>OcularCoreD.lib;libpng16d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\OcularCore\bin\$(Configuration)\;$(SolutionDir)..\External\libs\win32\debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularCore_msvc120d.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\;$(ProjectDir)..\..\..\OcularCore\bin\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

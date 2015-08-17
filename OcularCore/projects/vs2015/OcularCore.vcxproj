@@ -67,10 +67,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
-    <TargetName>$(ProjectName)D</TargetName>
+    <TargetName>$(ProjectName)_msvc140d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.lib</TargetExt>
@@ -100,7 +100,7 @@
       <AdditionalDependencies>libboost_filesystem-vc140-mt-gd-1_59.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>"$(SolutionDir)..\..\External\libs\msvc-14.0\debug"</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

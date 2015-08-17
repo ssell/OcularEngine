@@ -51,9 +51,6 @@
     <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
@@ -135,18 +132,15 @@
     <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
-      <Filter>Header Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Foo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Tests.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp">
@@ -154,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp">
       <Filter>Header Files\Tests\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Foo.hpp">
+      <Filter>Header Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@
 #include "OcularEngine.hpp"
 #include "SystemInfo.hpp"
 #include "Events/EventSnooper.hpp"
-//#include "gtest/gtest.h"
+#include "gtest/gtest.h"
 
 #include "Tests/Performance/BVHSceneTreeTest.hpp"
 

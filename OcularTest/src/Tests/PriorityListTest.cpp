@@ -48,10 +48,10 @@ namespace Ocular
 
         void PriorityListTest::run()
         {
-            RUN_TEST(testAdd);
-            RUN_TEST(testContains);
-            RUN_TEST(testRemoveElement);
-            RUN_TEST(testRemoveIndex);
+            OCULAR_RUN_TEST(testAdd);
+            OCULAR_RUN_TEST(testContains);
+            OCULAR_RUN_TEST(testRemoveElement);
+            OCULAR_RUN_TEST(testRemoveIndex);
 
             ATest::run();
         }
@@ -71,29 +71,29 @@ namespace Ocular
             m_List.add(m_FooC, 2);
             m_List.add(m_FooD, 3);
 
-            EXPECT_TRUE((m_List.size() == 4));
+            OCULAR_EXPECT_TRUE((m_List.size() == 4));
         }
 
         void PriorityListTest::testContains()
         {
-            EXPECT_TRUE(m_List.contains(m_FooC));
-            EXPECT_FALSE(m_List.contains(m_FooE));
+            OCULAR_EXPECT_TRUE(m_List.contains(m_FooC));
+            OCULAR_EXPECT_FALSE(m_List.contains(m_FooE));
         }
 
         void PriorityListTest::testRemoveElement()
         {
             m_List.removeElement(m_FooC);
 
-            EXPECT_FALSE(m_List.contains(m_FooC));
-            EXPECT_TRUE((m_List.size() == 3));
+            OCULAR_EXPECT_FALSE(m_List.contains(m_FooC));
+            OCULAR_EXPECT_TRUE((m_List.size() == 3));
         }
 
         void PriorityListTest::testRemoveIndex()
         {
             m_List.removeIndex(1);
 
-            EXPECT_FALSE(m_List.contains(m_FooB));
-            EXPECT_TRUE((m_List.size() == 2));
+            OCULAR_EXPECT_FALSE(m_List.contains(m_FooB));
+            OCULAR_EXPECT_TRUE((m_List.size() == 2));
         }
     }
 }

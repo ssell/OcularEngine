@@ -51,9 +51,9 @@ namespace Ocular
 
         void PriorityContainerComparisonTest::run()
         {
-            RUN_TEST(testSTLPriorityQueue);
-            RUN_TEST(testPriorityMultiQueue);
-            RUN_TEST(testPriorityList);
+            OCULAR_RUN_TEST(testSTLPriorityQueue);
+            OCULAR_RUN_TEST(testPriorityMultiQueue);
+            OCULAR_RUN_TEST(testPriorityList);
 
             ATest::run();
         }

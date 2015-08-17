@@ -40,9 +40,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)D</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_msvc140d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -57,8 +57,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>OcularCoreD.lib;libpng16d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\OcularCore\bin\$(Configuration)\;$(SolutionDir)..\..\External\libs\msvc-14.0\debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularCore_msvc140d.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\$(Configuration)\;$(ProjectDir)..\..\..\OcularCore\bin\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

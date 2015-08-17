@@ -25,10 +25,10 @@
 
 //------------------------------------------------------------------------------------------
 
-#define RUN_TEST(funcName) m_CurrentTest = #funcName; m_NumTests++; funcName();
-#define FAIL_TEST          fail(__LINE__); return;
-#define EXPECT_TRUE(expr)  if(!expr){ FAIL_TEST }
-#define EXPECT_FALSE(expr) if(expr){ FAIL_TEST }
+#define OCULAR_RUN_TEST(funcName) m_CurrentTest = #funcName; m_NumTests++; funcName();
+#define OCULAR_FAIL_TEST          fail(__LINE__); return;
+#define OCULAR_EXPECT_TRUE(expr)  if(!expr){ OCULAR_FAIL_TEST }
+#define OCULAR_EXPECT_FALSE(expr) if(expr){ OCULAR_FAIL_TEST }
 
 /**
 * \addtogroup Ocular
