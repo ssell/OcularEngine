@@ -52,20 +52,20 @@ namespace Ocular
         {
             //double elapsedConstruction10 = 0.0;
             //double elapsedConstruction100 = 0.0;
-            //double elapsedConstruction1000 = 0.0;
-            double elapsedConstruction10000 = 0.0;
+            double elapsedConstruction1000 = 0.0;
+            //double elapsedConstruction10000 = 0.0;
             
-            /*buildTree(10, elapsedConstruction10);
-            OcularLogger->info("BVH[10]:    ", elapsedConstruction10, "ms");
+            //buildTree(10, elapsedConstruction10);
+           // OcularLogger->info("BVH[10]:    ", elapsedConstruction10, "ms");
 
-            buildTree(100, elapsedConstruction100);
-            OcularLogger->info("BVH[100]:   ", elapsedConstruction100, "ms");
+            //buildTree(100, elapsedConstruction100);
+            //OcularLogger->info("BVH[100]:   ", elapsedConstruction100, "ms");
 
             buildTree(1000, elapsedConstruction1000);
-            OcularLogger->info("BVH[1000]:  ", elapsedConstruction1000, "ms");*/
+            OcularLogger->info("BVH[1000]:  ", elapsedConstruction1000, "ms");
 
-            buildTree(10000, elapsedConstruction10000);
-            OcularLogger->info("BVH[10000]: ", elapsedConstruction10000, "ms");
+            //buildTree(10000, elapsedConstruction10000);
+            //OcularLogger->info("BVH[10000]: ", elapsedConstruction10000, "ms");
 
             ATest::run();
         }

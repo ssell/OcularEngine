@@ -18,6 +18,7 @@
 #include "OcularEngine.hpp"
 #include <iostream>
 #include <regex>
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -142,6 +143,27 @@ namespace Ocular
             createLogBuffer(logStream, prettify);
 
             std::cout << logStream.str();
+        }
+
+        void Profiler::printToTXT(std::string const& path) const
+        {
+            std::ofstream fstream(path, std::ios_base::out);
+
+            if(fstream.is_open())
+            {
+                std::stringstream logStream;
+                createLogBuffer(logStream, true);
+
+                fstream << logStream.str();
+
+                fstream.close();
+            }           
+        }
+
+        void Profiler::printToHTML(std::string const& path) const
+        {
+            /// \todo Profiler output to HTML
+            // Perhaps use https://github.com/ludo/jquery-treetable
         }
 
         //----------------------------------------------------------------------------------

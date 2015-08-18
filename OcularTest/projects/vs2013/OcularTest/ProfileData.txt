@@ -1,0 +1,12 @@
+
+*** Ocular Engine Execution Profiler ***
+- Ocular Engine [1] [323.416ms] [323.416ms]
+  - main "main" [1] [251.098ms] [251.098ms]
+    - Ocular::Core::BVHSceneTree::restructure [2] [42.0636ms] [21.0318ms]
+      - Ocular::Core::BVHSceneTree::build [2] [42.0636ms] [21.0318ms]
+        - Ocular::Core::BVHSceneTree::createMortonPairs [2] [3.0143ms] [1.50715ms]
+          - Ocular::Core::BVHSceneTree::createMortonPairs "Create Morton Codes" [2] [1.0023ms] [0.50115ms]
+          - Ocular::Core::BVHSceneTree::createMortonPairs "Sort Morton Codes" [2] [2.012ms] [1.006ms]
+        - Ocular::Core::BVHSceneTree::generateTree [2014] [27.0305ms] [0.0134213ms]
+          - Ocular::Core::BVHSceneTree::findSplit [1006] [2.501ms] [0.00248608ms]
+        - Ocular::Core::BVHSceneTree::fitNodeBounds [2014] [12.0188ms] [0.00596763ms]

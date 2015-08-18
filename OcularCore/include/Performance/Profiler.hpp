@@ -133,10 +133,42 @@ namespace Ocular
             Profiler();
             ~Profiler();
 
+            /**
+             * Begins a new block of code to profile.
+             *
+             * \param[in] name    Name of the code block.
+             * \param[in] segment Optional segment name if part of a larger block of profiled code.
+             *                    Use this if, for example, you are profiling multiple individual
+             *                    segments of a single function.
+             */
             void beginBlock(std::string const& name, std::string const& segment);
+
+            /**
+             * Ends the current profile block.
+             */
             void endBlock();
 
+            /**
+             * Prints the current profiler data to the console (standard out).
+             *
+             * \param[in] prettify If TRUE, function signatures are trimmed to just their names (namespace::class:method).
+             */
             void printToConsole(bool prettify = true) const;
+
+            /**
+             * Prints the current profiler data to the specified .txt file. Output is formatted in the same
+             * manner as the prettified console output.
+             *
+             * \param[in] path File path to output the data to (expects a .txt)
+             */
+            void printToTXT(std::string const& path) const;
+
+            /**
+             * Prints the current profiler data as a pre-formatted HTML/JS tree table to the specified location.
+             *
+             * \param[in] path File path to output the data to (expects a .html)
+             */
+            void printToHTML(std::string const& path) const;
 
         protected:
 
