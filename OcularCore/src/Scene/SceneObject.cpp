@@ -26,6 +26,12 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        SceneObject::SceneObject(std::string const& name)
+            : Object(name)
+        {
+        
+        }
+
         SceneObject::SceneObject()
             : Object("SceneObject")
         {

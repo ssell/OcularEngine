@@ -211,13 +211,11 @@ namespace Ocular
             //------------------------------------------------------------
             // Sort the objects based on distance from origin.
             // This is done such that the object nearest the origin is first.
-
-            const Math::Vector3f rayOrigin = ray.getOrigin();
-
-            //std::sort(objects.begin(), objects.end(), [&rayOrigin](std::pair<SceneObject*, float> const& first, std::pair<SceneObject*, float> const& second)->bool
-            //{
-            //    return (first.second) < (second.second);
-            //});
+            
+            std::sort(intersections.begin(), intersections.end(), [](std::pair<SceneObject*, float>& first, std::pair<SceneObject*, float>& second)->bool
+            {
+                return (first.second) < (second.second);
+            });
 
             //------------------------------------------------------------
             // Return the sorted intersections
@@ -507,7 +505,7 @@ namespace Ocular
                 Math::Vector3f point;
                 float distance;
 
-                if(ray.intersects(ray, point, distance))
+                if(ray.intersects(node->bounds, point, distance))
                 {
                     if((node->type == SceneNodeType::Leaf) && (node->object))
                     {
