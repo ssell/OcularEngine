@@ -1,3 +1,0 @@
-
-*** Ocular Engine Execution Profiler ***
-- Ocular Engine [1] [0ms] [0ms]
