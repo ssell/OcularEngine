@@ -187,8 +187,7 @@ namespace Ocular
         
         void BVHSceneTree::getAllObjects(std::vector<SceneObject*>& objects) const
         {
-            objects.reserve(m_AllObjects.size());
-            std::copy(m_AllObjects.begin(), m_AllObjects.end(), objects.begin());
+            objects = m_AllObjects;
         }
         
         void BVHSceneTree::getAllVisibleObjects(Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const

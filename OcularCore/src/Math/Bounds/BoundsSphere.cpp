@@ -43,7 +43,7 @@ namespace Ocular
 
         BoundsSphere::BoundsSphere()
         {
-        
+            m_Radius = 0.0f;
         }
 
         BoundsSphere::~BoundsSphere()

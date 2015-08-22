@@ -213,7 +213,7 @@ namespace Ocular
             const Vector3f& planeNormal  = plane.getNormal();
 
             const float extent = (m_Extents.x * fabsf(planeNormal.x)) + (m_Extents.y * fabsf(planeNormal.y)) + (m_Extents.z * fabsf(planeNormal.z));
-            const float signedDistance = m_Center.dot(planeNormal) + (plane.getPoint().dot(plane.getPoint()));
+            const float signedDistance = m_Center.dot(planeNormal);// + (plane.getPoint().dot(plane.getPoint()));
 
             if((signedDistance - extent) > 0.0f)
             {

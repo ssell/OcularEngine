@@ -28,7 +28,7 @@
 // Macros
 //------------------------------------------------------------------------------------------
 
-#define OCULAR_PERFORM_PROFILING
+//#define OCULAR_PERFORM_PROFILING
 
 #ifdef OCULAR_PERFORM_PROFILING
 #define OCULAR_PROFILE()         Ocular::Core::ProfilerScope OCULAR_INTERNAL_PROFILE_SCOPE(BOOST_CURRENT_FUNCTION);
