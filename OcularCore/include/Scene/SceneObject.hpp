@@ -69,7 +69,7 @@ namespace Ocular
 
         public:
             
-            SceneObject(std::string const& nam);
+            SceneObject(std::string const& name);
             SceneObject();
 
             ~SceneObject();

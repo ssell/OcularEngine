@@ -15,10 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE__H__
-#define __H__OCULAR_CORE_SCENE__H__
-
-#include <vector>
+#ifndef __H__OCULAR_SCENE_TREE_TYPE__H__
+#define __H__OCULAR_SCENE_TREE_TYPE__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -34,47 +32,16 @@ namespace Ocular
      */
     namespace Core
     {
-        class SceneManager;
-        class ISceneTree;
-        class SceneObject;
-
-        /**
-         * \class Scene
-         *
-         * A Scene something something
-         */
-        class Scene
+        enum class SceneTreeType
         {
-            friend class SceneManager;
-
-        public:
-
-            ~Scene();
-
-            void addObject(SceneObject* object);
-            void addObjects(std::vector<SceneObject*> const& objects);
-
-            void removeObject(SceneObject* object);
-            void removeObjects(std::vector<SceneObject*> const& objects);
-            void removeAllObjects();
-
-            /**
-             * Envokes the various update methods for all SceneObjects in the current SceneTree.
-             */
-            void update();
-
-            /**
-             * Envokes the various render methods for all SceneObjects in the current SceneTree.
-             */
-            void render();
-
-        protected:
-
-            Scene();
-
-            ISceneTree* m_SceneTree;
-
-        private:
+            BoundingVolumeHierarchyCPU,    ///< CPU-based implementation of a BVH tree. See BVHSceneTree class.
+            BoundingVolumeHieracrhyGPU,    ///< GPU-based implementation of a BVH tree. Not yet implemented.
+            QuadTreeCPU,                   ///< CPU-based implementation of a Quad tree. Not yet implemented.
+            QuadTreeGPU,                   ///< GPU-based implementation of a Quad tree. Not yet implemented.
+            OctTreeCPU,                    ///< CPU-based implementation of a Oct tree. Not yet implemented.
+            OctTreeGPU,                    ///< GPU-based implementation of a Oct tree. Not yet implemented.
+            BinarySpacePartitioningCPU,    ///< CPU-based implementation of a BSP tree. Not yet implemented.
+            BinarySpacePartitioningGPU     ///< GPU-based implementation of a BSP tree. Not yet implemented.
         };
     }
     /**

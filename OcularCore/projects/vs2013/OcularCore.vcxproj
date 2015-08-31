@@ -219,6 +219,8 @@
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
+    <ClCompile Include="..\..\src\Scene\Scene.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneObject.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
@@ -319,6 +321,7 @@
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneObject.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp" />
     <ClInclude Include="..\..\include\SystemInfo.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />

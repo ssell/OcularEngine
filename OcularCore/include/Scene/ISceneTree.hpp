@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_SCENE_ASCENE_TREE__H__
 
 #include "SceneNode.hpp"
+#include "SceneTreeType.hpp"
 #include "UUID.hpp"
 
 #include "Math/Bounds/Ray.hpp"
@@ -153,6 +154,11 @@ namespace Ocular
              * \param[out] objects List of objects intersected by the specified bounds.
              */
             virtual void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const = 0;
+
+            /**
+             * Returns the type of SceneTree this implementation is.
+             */
+            virtual SceneTreeType getType() const = 0;
 
         protected:
 

@@ -327,6 +327,12 @@
     <ClCompile Include="..\..\src\Performance\ProfilerScope.cpp">
       <Filter>Source Files\Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneManager.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Scene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -631,6 +637,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Performance\ProfilerScope.hpp">
       <Filter>Header Files\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

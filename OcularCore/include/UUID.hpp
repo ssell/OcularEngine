@@ -65,6 +65,8 @@ namespace Ocular
              * Where # is a 32-bit chunk of the UUID data. Example:
              *
              *     131-61-182-198
+             *
+             * \note The string representation is precomputed.
              */
             std::string toString() const;
 
@@ -72,6 +74,8 @@ namespace Ocular
              * Retrieves a 32-bit hash of the string representation of the UUID. Example:
              *
              *     131-61-182-198  ->  1972099726
+             *
+             * \note The hash is precomputed.
              */
             uint32_t getHash32() const;
 
@@ -79,6 +83,8 @@ namespace Ocular
              * Retrieves a 64-bit hash of the string representation of the UUID. Example:
              *
              *     131-61-182-198  ->  6721546136592699182
+             *
+             * \note The hash is precomputed.
              */
             uint64_t getHash64() const;
 

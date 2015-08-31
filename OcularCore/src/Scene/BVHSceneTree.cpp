@@ -253,6 +253,11 @@ namespace Ocular
             findIntersections(m_Root, bounds, objects);
         }
 
+        SceneTreeType BVHSceneTree::getType() const
+        {
+            return SceneTreeType::BoundingVolumeHierarchyCPU;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

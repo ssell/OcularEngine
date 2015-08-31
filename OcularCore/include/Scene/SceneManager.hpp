@@ -20,8 +20,9 @@
 
 #include "Scene.hpp"
 #include "SceneObject.hpp"
+#include "SceneTreeType.hpp"
 
-#include <map>
+#include <unordered_map>
 
 //------------------------------------------------------------------------------------------
 
@@ -63,12 +64,12 @@ namespace Ocular
             // SceneObject Methods
 
             /**
-             * Creates and adds a new SceneObject to the active scene.
+             * Creates and adds a new empty SceneObject to the active scene.
              * 
              * \param[in] name 
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
-            SceneObject* createObject(std::string const& name);
+            SceneObject* createObject(std::string const& name = "Unnamed");
 
             /**
              * Creates and adds a new SceneObject to the active scene that is an
@@ -77,25 +78,32 @@ namespace Ocular
              * \param[in] object Object instance to duplicate.
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
-            SceneObject* duplicateObject(SceneObject* object);
+            SceneObject* duplicateObject(SceneObject const* object);
 
             /**
-             * Removes the specified SceneObject from the active scene.
+             * Removes the specified SceneObject from the active scene. The object is deleted upon removal.
+             
+             * \note Removing by pointer is less efficient than by UUID.
              * \param[in] object SceneObject to remove.
              */
             void removeObject(SceneObject* object);
 
             /**
              * Removes the SceneObject with the specified name from the active scene.
-             * If there are multiple SceneObjects with the given name, only the first
+             *
+             * By default, if there are multiple SceneObjects with the given name, only the first
              * object will be removed.
              *
              * \param[in] name Name of the SceneObject to remove.
+             * \param[in] bool If there are multiple SceneObjects with the given name, and this parameter is set TRUE, then
+             *                 all objects with the matching name will be removed.
              */
-            void removeObject(std::string const& name);
+            void removeObject(std::string const& name, bool removeAll = false);
 
             /**
              * Removes the SceneObject with the specified UUID from the active scene.
+             *
+             * \note Removing by name is less efficient than by UUID.
              * \param[in] uuid UUID of the SceneObject to remove.
              */
             void removeObject(UUID const& uuid);
@@ -105,10 +113,11 @@ namespace Ocular
              * If there are multiple SceneObjects with the given name, only the first
              * object will be removed.
              *
+             * \note Searching by name is less efficient than by UUID.
              * \param[in] name Name of the SceneObject to find.
              * \return Pointer to the SceneObject. Returns NULL if the specified object was not found.
              */
-            SceneObject* findObject(std::string const& name);
+            SceneObject* findObject(std::string const& name) const;
             
             /**
              * Finds and returns the SceneObject with the specified UUID.
@@ -116,7 +125,7 @@ namespace Ocular
              * \param[in] uuid UUID of the SceneObject to find.
              * \return Pointer to the SceneObject. Returns NULL if the specified object was not found.
              */
-            SceneObject* findObject(UUID const& uuid);
+            SceneObject* findObject(UUID const& uuid) const;
 
             //------------------------------------------------------------------------------
             // Scene Methods
@@ -128,14 +137,15 @@ namespace Ocular
              * If a Scene is already in memory, then that Scene is first unloaded.
              *
              * \param[in] name Name of the Scene to load.
+             * \param[in] treeType The type of scene tree to be used.
              */
-            void loadScene(std::string const& name);
+            void loadScene(std::string const& name, SceneTreeType treeType = SceneTreeType::BoundingVolumeHierarchyCPU);
 
         protected:
 
         private:
 
-            std::map<std::string, SceneObject*> m_Objects;
+            std::unordered_map<std::string, SceneObject*> m_Objects; 
             Scene* m_Scene;
         };
     }
