@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
+
 #include "Scene/Scene.hpp"
 #include "Scene/ISceneTree.hpp"
 #include "Scene/SceneObject.hpp"
+
+// SceneTree implementations
+
+#include "Scene/BVHSceneTree.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,9 +34,19 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Scene::Scene()
+        Scene::Scene(SceneTreeType treeType)
         {
-            m_SceneTree = nullptr;
+            switch(treeType)
+            {
+            case SceneTreeType::BoundingVolumeHierarchyCPU:
+                m_SceneTree = new BVHSceneTree();
+                break;
+
+            default:
+                m_SceneTree = nullptr;
+                OcularLogger->error("Unsupported SceneTree Type specified for new SceneTree", OCULAR_INTERNAL_LOG("Scene", "Scene"));
+                break;
+            }
         }
 
         Scene::~Scene()
@@ -52,7 +68,10 @@ namespace Ocular
 
         void Scene::addObjects(std::vector<SceneObject*> const& objects)
         {
-
+            if(m_SceneTree)
+            {
+                m_SceneTree->addObjects(objects);
+            }
         }
 
         void Scene::removeObject(SceneObject* object)
@@ -65,12 +84,18 @@ namespace Ocular
 
         void Scene::removeObjects(std::vector<SceneObject*> const& objects)
         {
-
+            if(m_SceneTree)
+            {
+                m_SceneTree->removeObjects(objects);
+            }
         }
 
         void Scene::removeAllObjects()
         {
-
+            if(m_SceneTree)
+            {
+                m_SceneTree->destroy();
+            }
         }
 
         void Scene::update()

@@ -42,6 +42,7 @@ namespace Ocular
         m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
+        m_SceneManager    = std::make_shared<Core::SceneManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
         m_Profiler        = std::make_shared<Core::Profiler>();
 
@@ -57,6 +58,7 @@ namespace Ocular
         m_HashGenerator   = nullptr;
         m_EventManager    = nullptr;
         m_ResourceManager = nullptr;
+        m_SceneManager    = nullptr;
         m_WindowManager   = nullptr;
         m_Profiler        = nullptr;
     }
@@ -72,6 +74,7 @@ namespace Ocular
         setupEvents();
         setupWindowManager();
         setupResourceManager();
+        setupSceneManager();
         
         Core::SystemInfo::initialize();
 
@@ -96,37 +99,42 @@ namespace Ocular
         render();
     }
 
-    std::shared_ptr<Core::Logger> Engine::Logger()
+    std::shared_ptr<Core::Logger> Engine::Logger() const
     {
         return m_Logger;
     }
 
-    std::shared_ptr<Core::Clock> Engine::Clock()
+    std::shared_ptr<Core::Clock> Engine::Clock() const
     {
         return m_Clock;
     }
 
-    std::shared_ptr<Core::EventManager> Engine::EventManager()
+    std::shared_ptr<Core::EventManager> Engine::EventManager() const
     {
         return m_EventManager;
     }
 
-    std::shared_ptr<Core::WindowManager> Engine::WindowManager()
+    std::shared_ptr<Core::WindowManager> Engine::WindowManager() const
     {
         return m_WindowManager;
     }
 
-    std::shared_ptr<Utils::HashGenerator> Engine::HashGenerator()
+    std::shared_ptr<Utils::HashGenerator> Engine::HashGenerator() const
     {
         return m_HashGenerator;
     }
 
-    std::shared_ptr<Core::ResourceManager> Engine::ResourceManager()
+    std::shared_ptr<Core::ResourceManager> Engine::ResourceManager() const
     {
         return m_ResourceManager;
     }
 
-    std::shared_ptr<Core::Profiler> Engine::Profiler()
+    std::shared_ptr<Core::SceneManager> Engine::SceneManager() const
+    {
+        return m_SceneManager;
+    }
+
+    std::shared_ptr<Core::Profiler> Engine::Profiler() const
     {
         return m_Profiler;
     }
@@ -184,6 +192,11 @@ namespace Ocular
     void Engine::setupResourceManager()
     {
         
+    }
+
+    void Engine::setupSceneManager()
+    {
+
     }
 
     void Engine::setupWindowManager()

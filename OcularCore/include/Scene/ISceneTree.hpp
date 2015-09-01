@@ -99,6 +99,17 @@ namespace Ocular
             virtual void removeObject(SceneObject* object) = 0;
 
             /**
+             * Removes all objects from the scene tree.
+             *
+             * Note that this simply removes the reference to the object and 
+             * does not actually delete/deallocate the object as that should
+             * be handled by the scene manager.
+             *
+             * \param[in] object
+             */
+            virtual void removeObjects(std::vector<SceneObject*> const& objects) = 0;
+
+            /**
              * Returns a flat list of all objects in the scene tree.
              * No order is guaranteed for the returned objects.
              *

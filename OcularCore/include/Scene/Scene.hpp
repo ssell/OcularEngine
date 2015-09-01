@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_CORE_SCENE__H__
 #define __H__OCULAR_CORE_SCENE__H__
 
+#include "SceneTreeType.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -51,11 +52,44 @@ namespace Ocular
 
             ~Scene();
 
+            /**
+             * Adds the specified object to the scene's tree.
+             * \param[in] object
+             */
             void addObject(SceneObject* object);
+
+            /**
+             * Adds a collection of objects to the scene's tree.
+             * \param[in] objects
+             */
             void addObjects(std::vector<SceneObject*> const& objects);
 
+            /**
+             * Removes the specified object from the scene's tree.
+             * 
+             * \note This does not destroy the object itself. Only the SceneManager can/should
+             *       perform object destruction.
+             *
+             * \param[in] object
+             */
             void removeObject(SceneObject* object);
+
+            /**
+             * Removes a collection of objects from the scene's tree.
+             *
+             * \note This does not destroy any of the objects. Only the SceneManager can/should
+             *       perform object destruction.
+             *
+             * \param[in] objects
+             */
             void removeObjects(std::vector<SceneObject*> const& objects);
+
+            /**
+             * Removes all objects from the scene's tree.
+             *
+             * \note That this does not destroy any of the objects. Only the SceneManager can/should
+             *       perform object destruction.
+             */
             void removeAllObjects();
 
             /**
@@ -70,7 +104,7 @@ namespace Ocular
 
         protected:
 
-            Scene();
+            Scene(SceneTreeType treeType);
 
             ISceneTree* m_SceneTree;
 

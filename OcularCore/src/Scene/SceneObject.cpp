@@ -81,12 +81,12 @@ namespace Ocular
             return m_IsStatic;
         }
 
-        void SceneObject::setPersists(bool persists)
+        void SceneObject::setPersistent(bool persists)
         {
             m_Persists = persists;
         }
 
-        bool SceneObject::doesPersist() const
+        bool SceneObject::isPersistent() const
         {
             return m_Persists;
         }

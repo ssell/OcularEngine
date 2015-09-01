@@ -143,12 +143,12 @@ namespace Ocular
              *
              * \param[in] persists
              */
-            void setPersists(bool persists);
+            void setPersistent(bool persists);
 
             /**
              * \return TRUE if this object persists between scenes.
              */
-            bool doesPersist() const;
+            bool isPersistent() const;
 
             //------------------------------------------------------------
             // Child Object Methods

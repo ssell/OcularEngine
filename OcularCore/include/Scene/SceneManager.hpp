@@ -143,6 +143,8 @@ namespace Ocular
 
         protected:
 
+            void unloadScene();
+
         private:
 
             std::unordered_map<std::string, SceneObject*> m_Objects; 

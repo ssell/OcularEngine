@@ -26,6 +26,7 @@
 #include "Utilities/HashGenerator.hpp"
 #include "Resources/ResourceManager.hpp"
 #include "Performance/Profiler.hpp"
+#include "Scene/SceneManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -83,37 +84,42 @@ namespace Ocular
         /**
          * \return Reference to the primary Logger
          */
-        std::shared_ptr<Core::Logger> Logger();
+        std::shared_ptr<Core::Logger> Logger() const;
 
         /**
          * \return Reference to the primary Clock
          */
-        std::shared_ptr<Core::Clock> Clock();
+        std::shared_ptr<Core::Clock> Clock() const;
 
         /**
          * \return Reference to the primary EventManager
          */
-        std::shared_ptr<Core::EventManager> EventManager();
+        std::shared_ptr<Core::EventManager> EventManager() const;
 
         /**
          * \return Reference to the primary WindowManager
          */
-        std::shared_ptr<Core::WindowManager> WindowManager();
+        std::shared_ptr<Core::WindowManager> WindowManager() const;
         
         /**
          * \return Reference to the primary Hash Generator
          */
-        std::shared_ptr<Utils::HashGenerator> HashGenerator();
+        std::shared_ptr<Utils::HashGenerator> HashGenerator() const;
 
         /**
          * \return Reference to the primary ResourceManager
          */
-        std::shared_ptr<Core::ResourceManager> ResourceManager();
+        std::shared_ptr<Core::ResourceManager> ResourceManager() const;
+
+        /**
+         * \return Reference to the primary SceneManager
+         */
+        std::shared_ptr<Core::SceneManager> SceneManager() const;
 
         /**
          * \return Reference to the primary Profiler
          */
-        std::shared_ptr<Core::Profiler> Profiler();
+        std::shared_ptr<Core::Profiler> Profiler() const;
 
         //----------------------------------------------------------------------------------
         
@@ -139,6 +145,7 @@ namespace Ocular
         void setupEvents();
         void setupWindowManager();
         void setupResourceManager();
+        void setupSceneManager();
 
         void shutdownWindowManager();
         
@@ -148,6 +155,7 @@ namespace Ocular
         std::shared_ptr<Core::EventManager>    m_EventManager;
         std::shared_ptr<Core::Logger>          m_Logger;
         std::shared_ptr<Core::ResourceManager> m_ResourceManager;
+        std::shared_ptr<Core::SceneManager>    m_SceneManager;
         std::shared_ptr<Core::WindowManager>   m_WindowManager;
         std::shared_ptr<Utils::HashGenerator>  m_HashGenerator;
         std::shared_ptr<Core::Profiler>        m_Profiler;
@@ -164,5 +172,8 @@ namespace Ocular
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"
+// Example usage:
+// OcularLogger->error("Some error message", OCULAR_INTERNAL_LOG("ClassWithError", "MethodWithError"));
+// Outputs: OCULAR ERROR
 
 #endif

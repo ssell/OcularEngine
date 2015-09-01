@@ -80,11 +80,9 @@ namespace Ocular
 
                         break;
                     }
-                    else
-                    {
-                        ++iter;
-                    }
                 }
+
+                ++iter;
             }
         }
 
@@ -111,11 +109,9 @@ namespace Ocular
                             break;
                         }
                     }
-                    else
-                    {
-                        ++iter;
-                    }
                 }
+
+                ++iter;
             }
         }
 
@@ -150,11 +146,9 @@ namespace Ocular
                         result = iter->second;
                         break;
                     }
-                    else
-                    {
-                        ++iter;
-                    }
                 }
+
+                ++iter;
             }
 
             return result;
@@ -175,12 +169,69 @@ namespace Ocular
 
         void SceneManager::loadScene(std::string const& name, SceneTreeType treeType)
         {
+            /**
+             * Loading a scene requires the following steps:
+             *
+             *     1. Ensure the old scene (if valid) is completely unloaded.
+             *     2. Load or create a new scene.
+             *     3. Add all persistent objects to the scene.
+             */
 
+            if(m_Scene)
+            {
+                unloadScene();
+            }
+
+            /// \todo Search for a scene file and load it. But for now, always create a new scene.
+            m_Scene = new Scene(treeType);
+            
+            std::vector<SceneObject*> persistentObjects(m_Objects.size());
+
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
+            {
+                persistentObjects.emplace_back(iter->second);
+            }
+
+            m_Scene->addObjects(persistentObjects);
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void SceneManager::unloadScene()
+        {
+            /**
+             * Unloading a scene requires the following steps:
+             *
+             *    1. Remove all objects from that scene's tree
+             *    2. Delete all objects that are not marked as persistant.
+             *    3. Delete the scene itself.
+             */
+
+            m_Scene->removeAllObjects();
+
+            auto objectIter = m_Objects.begin();
+
+            while(objectIter != m_Objects.end())
+            {
+                if(objectIter->second)
+                {
+                    if(!objectIter->second->isPersistent())
+                    {
+                        delete objectIter->second;
+                        objectIter = m_Objects.erase(objectIter);
+
+                        continue;
+                    }
+                }
+
+                ++objectIter;
+            }
+
+            delete m_Scene;
+            m_Scene = nullptr;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

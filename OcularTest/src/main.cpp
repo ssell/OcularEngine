@@ -55,15 +55,7 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    OCULAR_PROFILE_START("main");
-
-    //Ocular::Tests::BVHSceneTreeTest test;
-    //test.run();
-
-    runTests(argc, argv);
-
-    OCULAR_PROFILE_STOP();
-    OcularEngine.Profiler()->printToTXT("ProfileData.txt");
+    OcularEngine.SceneManager()->loadScene("Test Scene", SceneTreeType::BoundingVolumeHierarchyCPU);
 
     OcularEngine.shutdown();
 }

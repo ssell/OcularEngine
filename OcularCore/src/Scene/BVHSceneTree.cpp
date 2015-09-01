@@ -184,6 +184,14 @@ namespace Ocular
                 }
             }
         }
+
+        void BVHSceneTree::removeObjects(std::vector<SceneObject*> const& objects)
+        {
+            for(auto iter = objects.begin(); iter != objects.end(); ++iter)
+            {
+                removeObject((*iter));
+            }
+        }
         
         void BVHSceneTree::getAllObjects(std::vector<SceneObject*>& objects) const
         {
