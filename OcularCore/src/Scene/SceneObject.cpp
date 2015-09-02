@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "OcularEngine.hpp"
 #include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -29,18 +30,18 @@ namespace Ocular
         SceneObject::SceneObject(std::string const& name)
             : Object(name)
         {
-        
+            OcularScene->addObject(this);
         }
 
         SceneObject::SceneObject()
             : Object("SceneObject")
         {
-        
+            OcularScene->addObject(this);
         }
 
         SceneObject::~SceneObject()
         {
-        
+            OcularScene->removeObject(m_UUID);  // Remove via UUID as it is faster
         }
 
         //----------------------------------------------------------------------------------
@@ -94,6 +95,19 @@ namespace Ocular
         //----------------------------------------------------------------
         // Child Object Methods
         //----------------------------------------------------------------
+
+        void SceneObject::setParent(SceneObject* parent)
+        {
+            // Have to ensure the scene tree is updated with all the changes that 
+            // could cascade from this action...
+
+            m_Parent = parent;
+        }
+
+        SceneObject* SceneObject::getParent() const
+        {
+            return m_Parent;
+        }
 
         SceneObject* SceneObject::createChild(std::string const& name)
         {

@@ -169,6 +169,7 @@ namespace Ocular
 
 #define OcularEngine Ocular::Engine::get()
 #define OcularLogger Ocular::Engine::get().Logger()
+#define OcularScene  Ocular::Engine::get().SceneManager()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"

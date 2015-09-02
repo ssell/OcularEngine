@@ -61,7 +61,21 @@ namespace Ocular
          * a SceneObject. A Routine represents the logic behind an object while the Renderable
          * is any part of the object that is to be rendered onto the screen.
          *
+         * When a SceneObject is created, it is automatically added to the current SceneManager which
+         * then takes ownership of the object. This means it will be automatically destroyed when
+         * the current Scene is unloaded or when the SceneManager is destroyed in the case of an
+         * object marked as persistent.
          *
+         * There are two options when creating/destroying a standalone object:
+         *
+         *     SceneObject* object = new SceneObject();
+         *     delete object;
+         *
+         *     SceneObject* object = OcularScene->createObject();
+         *     OcularScene->destroyObject();
+         *
+         * In either case, the SceneManager owns the object and handles adding it to the Scene,
+         * invoking the Routines and Renderables, intersection testing, etc.
          */
         class SceneObject : public Object
         {
@@ -69,7 +83,23 @@ namespace Ocular
 
         public:
             
+            /**
+             * Creates a new SceneObject with the specified name.
+             *
+             * \note The object is automatically added to the Ocular SceneManager, and the SceneManager
+             *       takes ownership of it. If a completely unmanaged object is required see ... (not yet available)
+             *
+             * \param[in] name Identifier name of the object. Note that the name does not need to be unique as
+             *                 all objects are already uniquely identified via a UUID (see getUUID()).
+             */
             SceneObject(std::string const& name);
+
+            /**
+             * Creates a new SceneObject with the default name of "SceneObject".
+             *
+             * \note The object is automatically added to the Ocular SceneManager, and the SceneManager
+             *       takes ownership of it. If a completely unmanaged object is required see ... (not yet available)
+             */
             SceneObject();
 
             ~SceneObject();
@@ -154,6 +184,9 @@ namespace Ocular
             // Child Object Methods
             //------------------------------------------------------------
 
+            void setParent(SceneObject* parent);
+            SceneObject* getParent() const;
+
             SceneObject* createChild(std::string const& name);
             
             SceneObject* findChild(std::string const& name);
@@ -184,6 +217,8 @@ namespace Ocular
 			Math::BoundsOBB    boundsOBB;
 
         protected:
+
+            SceneObject* m_Parent;
 
             //------------------------------------------------------------
             // General Characteristics

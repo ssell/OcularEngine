@@ -72,6 +72,16 @@ namespace Ocular
             SceneObject* createObject(std::string const& name = "Unnamed");
 
             /**
+             * Adds the provided SceneObject to the current Scene. 
+             *
+             * The SceneManager will take ownership of the object and will delete it when the current scene
+             * is unloaded (or if the object is persistent, when the SceneManager is destroyed).
+             *
+             * \param[in] object
+             */
+            void addObject(SceneObject* object);
+
+            /**
              * Creates and adds a new SceneObject to the active scene that is an
              * exact duplicate of the provided object.
              *
@@ -81,15 +91,60 @@ namespace Ocular
             SceneObject* duplicateObject(SceneObject const* object);
 
             /**
-             * Removes the specified SceneObject from the active scene. The object is deleted upon removal.
-             
+             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
+             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
+             * be part of any culling, collision, etc. tests.
+             *
+             * It will be up to the caller of this method to destroy the object.
+             *
+             * If you wish to remove AND destroy the object, see the destroyObject() methods.
+             *
              * \note Removing by pointer is less efficient than by UUID.
              * \param[in] object SceneObject to remove.
              */
             void removeObject(SceneObject* object);
 
             /**
-             * Removes the SceneObject with the specified name from the active scene.
+             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
+             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
+             * be part of any culling, collision, etc. tests.
+             *
+             * It will be up to the caller of this method to destroy the object.
+             *
+             * If you wish to remove AND destroy the object, see the destroyObject() methods.
+             *
+             * \param[in]  name    Name of the SceneObject to remove.
+             * \param[out] objects Collection of all objects removed with the matching name. If removeAll is FALSE, then there will only be at most one object in the collection.
+             * \param[in]  bool    If there are multiple SceneObjects with the given name, and this parameter is set TRUE, then all objects with the matching name will be removed.
+             */
+            void removeObject(std::string const& name, std::vector<SceneObject*>& objects, bool removeAll = false);
+
+            /**
+             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
+             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
+             * be part of any culling, collision, etc. tests.
+             *
+             * It will be up to the caller of this method to destroy the object.
+             *
+             * If you wish to remove AND destroy the object, see the destroyObject() methods.
+             *
+             * \note Removing by name is less efficient than by UUID.
+             * \param[in] uuid UUID of the SceneObject to remove.
+             *
+             * \return Pointer to the SceneObject as it is no longer managed by the SceneManager.
+             */
+            SceneObject* removeObject(UUID const& uuid);
+
+            /**
+             * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
+             *
+             * \note Removing by pointer is less efficient than by UUID.
+             * \param[in] object SceneObject to remove.
+             */
+            void destroyObject(SceneObject* object);
+
+            /**
+             * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
              *
              * By default, if there are multiple SceneObjects with the given name, only the first
              * object will be removed.
@@ -98,26 +153,37 @@ namespace Ocular
              * \param[in] bool If there are multiple SceneObjects with the given name, and this parameter is set TRUE, then
              *                 all objects with the matching name will be removed.
              */
-            void removeObject(std::string const& name, bool removeAll = false);
+            void destroyObject(std::string const& name, bool removeAll = false);
 
             /**
-             * Removes the SceneObject with the specified UUID from the active scene.
+             * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
              *
              * \note Removing by name is less efficient than by UUID.
              * \param[in] uuid UUID of the SceneObject to remove.
              */
-            void removeObject(UUID const& uuid);
+            void destroyObject(UUID const& uuid);
 
             /**
              * Finds and returns the SceneObject with the specified name.
+             *
              * If there are multiple SceneObjects with the given name, only the first
-             * object will be removed.
+             * object will be removed. If you need all objects with a given name, then
+             * use the findObjects() method.
              *
              * \note Searching by name is less efficient than by UUID.
+             *
              * \param[in] name Name of the SceneObject to find.
              * \return Pointer to the SceneObject. Returns NULL if the specified object was not found.
              */
             SceneObject* findObject(std::string const& name) const;
+
+            /**
+             * Finds and returns all SceneObjects with names that match the specified one.
+             *
+             * \param[in]  name    Name of the SceneObject(s) to find.
+             * \param[out] objects Collection of all SceneObjects whose names match the provided.
+             */
+            void findObjects(std::string const& name, std::vector<SceneObject*>& objects) const;
             
             /**
              * Finds and returns the SceneObject with the specified UUID.

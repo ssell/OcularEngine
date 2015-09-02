@@ -42,17 +42,31 @@ namespace Ocular
 
         SceneObject* SceneManager::createObject(std::string const& name)
         {
-            SceneObject* newObject = new SceneObject(name);
-
-            const std::pair<std::string, SceneObject*> pair(newObject->getUUID().toString(), newObject);
-            m_Objects.insert(pair);  // std::make_pair did not want to work here...
-
-            if(m_Scene)
-            {
-                m_Scene->addObject(newObject);
-            }
-
+            SceneObject* newObject = new SceneObject(name);  // The constructor calls addObject which will do the rest...
             return newObject;
+        }
+
+        void SceneManager::addObject(SceneObject* object)
+        {
+            // Ensure that the object isn't already managed by the SceneManager...
+            
+            if(object)
+            {
+                SceneObject* obj = findObject(object->getUUID());
+
+                if(obj == nullptr)
+                {
+                    // Not already tracked. Add it.
+
+                    const std::pair<std::string, SceneObject*> pair(object->getUUID().toString(), object);
+                    m_Objects.insert(pair);
+
+                    if(m_Scene)
+                    {
+                        m_Scene->addObject(object);
+                    }
+                }
+            }
         }
 
         SceneObject* SceneManager::duplicateObject(SceneObject const* object)
@@ -62,9 +76,7 @@ namespace Ocular
 
         void SceneManager::removeObject(SceneObject* object)
         {
-            auto iter = m_Objects.begin();
-
-            while(iter != m_Objects.end())
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
             {
                 if(iter->second)
                 {
@@ -72,13 +84,42 @@ namespace Ocular
                     {
                         if(m_Scene)
                         {
+                            m_Scene->removeObject(object);
+                        }
+
+                        m_Objects.erase(iter);
+                        break;
+                    }
+                }
+            }
+        }
+
+        void SceneManager::removeObject(std::string const& name, std::vector<SceneObject*>& objects, bool removeAll)
+        {
+            auto iter = m_Objects.begin();
+
+            while(iter != m_Objects.end())
+            {
+                if(iter->second)
+                {
+                    if(iter->second->getName().compare(name) == 0)
+                    {
+                        if(m_Scene)
+                        {
                             m_Scene->removeObject(iter->second);
                         }
 
-                        delete iter->second;
+                        objects.emplace_back(iter->second);
                         iter = m_Objects.erase(iter);
 
-                        break;
+                        if(removeAll)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
 
@@ -86,7 +127,50 @@ namespace Ocular
             }
         }
 
-        void SceneManager::removeObject(std::string const& name, bool removeAll)
+        SceneObject* SceneManager::removeObject(UUID const& uuid)
+        {
+            SceneObject* result = nullptr;
+            const auto findObject = m_Objects.find(uuid.toString());
+
+            if(findObject != m_Objects.end())
+            {
+                if(m_Scene)
+                {
+                    m_Scene->removeObject(findObject->second);
+                }
+
+                result = findObject->second;
+                m_Objects.erase(findObject);
+            }
+
+            return result;
+        }
+
+        void SceneManager::destroyObject(SceneObject* object)
+        {
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
+            {
+                if(iter->second)
+                {
+                    if(iter->second == object)
+                    {
+                        if(m_Scene)
+                        {
+                            m_Scene->removeObject(object);
+                        }
+
+                        m_Objects.erase(iter);
+
+                        delete object;
+                        object = nullptr;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        void SceneManager::destroyObject(std::string const& name, bool removeAll)
         {
             auto iter = m_Objects.begin();
 
@@ -104,7 +188,11 @@ namespace Ocular
                         delete iter->second;
                         iter = m_Objects.erase(iter);
 
-                        if(!removeAll)
+                        if(removeAll)
+                        {
+                            continue;
+                        }
+                        else
                         {
                             break;
                         }
@@ -115,7 +203,7 @@ namespace Ocular
             }
         }
 
-        void SceneManager::removeObject(UUID const& uuid)
+        void SceneManager::destroyObject(UUID const& uuid)
         {
             SceneObject* result = nullptr;
             const auto findObject = m_Objects.find(uuid.toString());
@@ -152,6 +240,20 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void SceneManager::findObjects(std::string const& name, std::vector<SceneObject*>& objects) const
+        {
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
+            {
+                if(iter->second)
+                {
+                    if(iter->second->getName().compare(name) == 0)
+                    {
+                        objects.emplace_back(iter->second);
+                    }
+                }
+            }
         }
 
         SceneObject* SceneManager::findObject(UUID const& uuid) const
