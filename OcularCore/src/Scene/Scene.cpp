@@ -60,47 +60,91 @@ namespace Ocular
 
         void Scene::addObject(SceneObject* object)
         {
-            if(m_SceneTree)
+            if(object)
             {
-                m_SceneTree->addObject(object);
+                if(object->isStatic())
+                {
+                    if(m_StaticSceneTree)
+                    {
+                        m_StaticSceneTree->addObject(object);
+                    }
+                }
+                else
+                {
+                    if(m_DynamicSceneTree)
+                    {
+                        m_DynamicSceneTree->addObject(object);
+                    }
+                }
             }
         }
 
         void Scene::addObjects(std::vector<SceneObject*> const& objects)
         {
-            if(m_SceneTree)
+            for(auto iter = objects.begin(); iter != objects.end(); ++iter)
             {
-                m_SceneTree->addObjects(objects);
+                addObject((*iter));
             }
         }
 
         void Scene::removeObject(SceneObject* object)
         {
-            if(m_SceneTree)
+            bool result = true;
+
+            if(object)
             {
-                m_SceneTree->removeObject(object);
+                if(object->isStatic())
+                {
+                    if(m_StaticSceneTree)
+                    {
+                        result = m_StaticSceneTree->removeObject(object);
+                    }
+                }
+
+                if(!object->isStatic() || !result)
+                {
+                    // Object is dynamic or was not found in the static tree to remove...
+
+                    if(m_DynamicSceneTree)
+                    {
+                        m_DynamicSceneTree->removeObject(object);
+                    }
+                }
             }
         }
 
         void Scene::removeObjects(std::vector<SceneObject*> const& objects)
         {
-            if(m_SceneTree)
+            for(auto iter = objects.begin(); iter != objects.end(); ++iter)
             {
-                m_SceneTree->removeObjects(objects);
+                removeObject((*iter));
             }
         }
 
         void Scene::removeAllObjects()
         {
-            if(m_SceneTree)
+            if(m_StaticSceneTree)
             {
-                m_SceneTree->destroy();
+                m_StaticSceneTree->destroy();
+            }
+
+            if(m_DynamicSceneTree)
+            {
+                m_DynamicSceneTree->destroy();
             }
         }
 
         void Scene::update()
         {
+            if(m_StaticSceneTree)
+            {
+                m_StaticSceneTree->restructure();
+            }
 
+            if(m_DynamicSceneTree)
+            {
+                m_DynamicSceneTree->restructure();
+            }
         }
 
         void Scene::render()

@@ -96,7 +96,7 @@ namespace Ocular
              *
              * \param[in] object
              */
-            virtual void removeObject(SceneObject* object) = 0;
+            virtual bool removeObject(SceneObject* object) = 0;
 
             /**
              * Removes all objects from the scene tree.

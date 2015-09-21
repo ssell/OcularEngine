@@ -103,8 +103,10 @@ namespace Ocular
             }
         }
         
-        void BVHSceneTree::removeObject(SceneObject* object)
+        bool BVHSceneTree::removeObject(SceneObject* object)
         {
+            bool result = false;
+
             if(object)
             {
                 BVHSceneNode* leaf = findParent(m_Root, object);
@@ -181,8 +183,12 @@ namespace Ocular
                         m_AllObjects.erase(findObject);
                         m_IsDirty = true;
                     }
+
+                    result = true;
                 }
             }
+
+            return result;
         }
 
         void BVHSceneTree::removeObjects(std::vector<SceneObject*> const& objects)

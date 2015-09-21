@@ -211,6 +211,17 @@ namespace Ocular
 
             void unloadScene();
 
+            /**
+             * Tells the current Scene to update and restructure it's SceneTrees. Also calls the various update methods
+             * for all active SceneObjects.
+             */
+            void update();
+
+            /**
+             * Tells the current Scene to retrieve all visible SceneObjects and perform envoke their render methods.
+             */
+            void render();
+
         private:
 
             std::unordered_map<std::string, SceneObject*> m_Objects; 

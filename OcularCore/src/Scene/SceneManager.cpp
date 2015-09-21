@@ -335,6 +335,24 @@ namespace Ocular
             m_Scene = nullptr;
         }
 
+        void SceneManager::update()
+        {
+            if(m_Scene)
+            {
+                m_Scene->update();
+            }
+
+            
+        }
+
+        void SceneManager::render()
+        {
+            if(m_Scene)
+            {
+                m_Scene->render();
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

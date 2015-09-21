@@ -224,16 +224,6 @@ namespace Ocular
             // General Characteristics
 
             std::string m_Name;        ///< Unique name for this SceneObject instance.
-            
-            bool m_IsStatic;           ///< Boolean if this object is static. If static, no movement or rotation calls will have any affect. Default: false.
-            bool m_IsActive;           ///< If active, an object's Routines will be invoked.
-            bool m_IsVisible;          ///< If visible, an object's Renderables will be invoked.
-            bool m_ForcedVisible;      ///< If true, the object will be forced visible and the Renderable will always be invoked irregardless of any frustum, cull, etc. tests. Default: false.
-            bool m_InheritsPosition;   ///< If true, the object's local position will inherit and be based off of any parent object. Default: true.
-            bool m_InheritsRotation;   ///< If true, the object's local rotation will inherit and be based off of any parent object. Default: true.
-            bool m_InheritsScale;      ///< If true, the objects' local scale will inherit and be based off of any parent object. Default: true.
-            bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
-
             uint32_t m_Layer;          ///< The render layer this object is part of.
 
             //------------------------------------------------------------
@@ -242,6 +232,12 @@ namespace Ocular
             Math::Transform m_Transform;
 
         private:
+            
+            bool m_IsStatic;           ///< Boolean if this object is static. If static, no movement or rotation calls will have any affect. Determines which SceneTree it will reside in. Default: false.
+            bool m_IsActive;           ///< If active, an object's Routines will be invoked. Default: true.
+            bool m_IsVisible;          ///< If visible, an object's Renderables will be invoked. Default: false.
+            bool m_ForcedVisible;      ///< If true, the object will be forced visible and the Renderable will always be invoked irregardless of any frustum, cull, etc. tests. Default: false.
+            bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
         };
     }
     /**

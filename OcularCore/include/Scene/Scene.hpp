@@ -42,7 +42,16 @@ namespace Ocular
         /**
          * \class Scene
          *
-         * A Scene something something
+         * A Scene owns the dual-SceneTrees which control all active SceneObjects. The system
+         * of dual trees is used in order to separate static and dynamic objects, and to aid in
+         * object caching and other performance improving techniques.
+         *
+         * By default, the static tree uses a (yet to be created) QuadTree implementation while 
+         * the dynamic tree employs a BVH implementation.
+         *
+         * In addition to managing object addition, removal, and movement within the trees, the 
+         * Scene is also responsible for retrieving the set of all non-culled SceneObjects and handing
+         * them off to the dedicated renderer which will sort them and envoke their render methods.
          */
         class Scene
         {
@@ -93,12 +102,12 @@ namespace Ocular
             void removeAllObjects();
 
             /**
-             * Envokes the various update methods for all SceneObjects in the current SceneTree.
+             * Updates the SceneTrees (calls their member restructure methods).
              */
             void update();
 
             /**
-             * Envokes the various render methods for all SceneObjects in the current SceneTree.
+             * Retrieves all non-culled SceneObjects and passes them to the dedicated renderer.
              */
             void render();
 
@@ -106,7 +115,8 @@ namespace Ocular
 
             Scene(SceneTreeType treeType);
 
-            ISceneTree* m_SceneTree;
+            ISceneTree* m_StaticSceneTree;
+            ISceneTree* m_DynamicSceneTree;
 
         private:
         };
