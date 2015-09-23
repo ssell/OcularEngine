@@ -55,6 +55,8 @@ namespace Ocular
          */
         class SceneManager
         {
+            friend class SceneObject;
+
         public:
 
             SceneManager();
@@ -221,6 +223,21 @@ namespace Ocular
              * Tells the current Scene to retrieve all visible SceneObjects and perform envoke their render methods.
              */
             void render();
+
+            /**
+             * Called when a SceneObject's SetActive method is envoked.
+             */
+            void objectActiveChanged(SceneObject* object);
+
+            /**
+             * Called when a SceneObject's SetForcedVisible method is envoked.
+             */
+            void objectVisibleChanged(SceneObject* object);
+
+            /**
+             * Called when a SceneObject's SetStatic method is envoked.
+             */
+            void objectStaticChanged(SceneObject* object);
 
         private:
 

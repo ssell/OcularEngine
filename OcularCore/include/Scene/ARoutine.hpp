@@ -49,6 +49,9 @@ namespace Ocular
              */
             ARoutine(std::string const& name);
             ~ARoutine();
+            
+            bool operator<(ARoutine const& rhs);
+            bool operator>(ARoutine const& rhs);
 
             /**
              * Called when the active Scene is started. Note that this will typically only
@@ -122,7 +125,18 @@ namespace Ocular
              */
             virtual void onPostRender();
 
+            /**
+             * Called when an event occurs that the routine is registered as a listener for.
+             *
+             * \param[in] event Pointer to the event
+             * \return TRUE to keep processing this event after this listener, FALSE to consume this event
+             */
             virtual bool onEvent(std::shared_ptr<AEvent> event);
+
+            /**
+             *
+             */
+            Priority getPriorityLevel() const;
 
         protected:
 

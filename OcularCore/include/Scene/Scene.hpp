@@ -19,7 +19,10 @@
 #define __H__OCULAR_CORE_SCENE__H__
 
 #include "SceneTreeType.hpp"
+
 #include <vector>
+#include <queue>
+#include <functional>
 
 //------------------------------------------------------------------------------------------
 
@@ -38,6 +41,7 @@ namespace Ocular
         class SceneManager;
         class ISceneTree;
         class SceneObject;
+        class ARoutine;
 
         /**
          * \class Scene
@@ -115,8 +119,14 @@ namespace Ocular
 
             Scene(SceneTreeType treeType);
 
+            void objectTreeChanged(SceneObject* object);
+
+            //------------------------------------------------------------
+
             ISceneTree* m_StaticSceneTree;
             ISceneTree* m_DynamicSceneTree;
+
+            std::priority_queue<ARoutine*, std::vector<ARoutine*>, std::greater<ARoutine*>> m_RoutineQueue;  // Min queue (first is 0, move up)
 
         private:
         };

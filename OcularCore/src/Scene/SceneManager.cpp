@@ -353,6 +353,33 @@ namespace Ocular
             }
         }
 
+        void SceneManager::objectActiveChanged(SceneObject* object)
+        {
+            if(object)
+            {
+
+            }
+        }
+
+        void SceneManager::objectVisibleChanged(SceneObject* object)
+        {
+            if(object)
+            {
+
+            }
+        }
+
+        void SceneManager::objectStaticChanged(SceneObject* object)
+        {
+            if(object)
+            {
+                if(m_Scene)
+                {
+                    m_Scene->objectTreeChanged(object);
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

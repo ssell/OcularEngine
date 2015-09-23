@@ -41,6 +41,16 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        bool ARoutine::operator<(ARoutine const& rhs)
+        {
+            return (m_Priority < rhs.getPriorityLevel());
+        }
+
+        bool ARoutine::operator>(ARoutine const& rhs)
+        {
+            return (m_Priority > rhs.getPriorityLevel());
+        }
+
         void ARoutine::onSceneStart()
         {
         
@@ -94,6 +104,11 @@ namespace Ocular
         bool ARoutine::onEvent(std::shared_ptr<AEvent> event)
         {
             return true;
+        }
+
+        Priority ARoutine::getPriorityLevel() const
+        {
+            return m_Priority;
         }
 
         //----------------------------------------------------------------------------------

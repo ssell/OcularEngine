@@ -28,13 +28,23 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         SceneObject::SceneObject(std::string const& name)
-            : Object(name)
+            : Object(name),
+              m_IsStatic(false),
+              m_IsActive(true),
+              m_IsVisible(false),
+              m_ForcedVisible(false),
+              m_Persists(false)
         {
             OcularScene->addObject(this);
         }
 
         SceneObject::SceneObject()
-            : Object("SceneObject")
+            : Object("SceneObject"),
+              m_IsStatic(false),
+              m_IsActive(true),
+              m_IsVisible(false),
+              m_ForcedVisible(false),
+              m_Persists(false)
         {
             OcularScene->addObject(this);
         }
@@ -57,6 +67,20 @@ namespace Ocular
             return m_Transform;
         }
 
+        void SceneObject::SetActive(bool active)
+        {
+            if(m_IsActive != active)
+            {
+                m_IsActive = active;
+                OcularEngine.SceneManager()->objectActiveChanged(this);
+            }
+        }
+
+        bool SceneObject::IsActive() const
+        {
+            return m_IsActive;
+        }
+
         void SceneObject::setVisible(bool visible)
         {
             m_IsVisible = visible;
@@ -64,7 +88,11 @@ namespace Ocular
 
         void SceneObject::setForcedVisible(bool forced)
         {
-            m_ForcedVisible = forced;
+            if(m_ForcedVisible != forced)
+            {
+                m_ForcedVisible = forced;
+                OcularEngine.SceneManager()->objectVisibleChanged(this);
+            }
         }
 
         bool SceneObject::isVisible() const
@@ -74,7 +102,11 @@ namespace Ocular
 
         void SceneObject::setStatic(bool isStatic)
         {
-            m_IsStatic = isStatic;
+            if(m_IsStatic != isStatic)
+            {
+                m_IsStatic = isStatic;
+                OcularEngine.SceneManager()->objectStaticChanged(this);
+            }
         }
 
         bool SceneObject::isStatic() const

@@ -39,13 +39,19 @@ namespace Ocular
             switch(treeType)
             {
             case SceneTreeType::BoundingVolumeHierarchyCPU:
-                m_SceneTree = new BVHSceneTree();
+            {
+                m_StaticSceneTree = new BVHSceneTree();
+                m_DynamicSceneTree = new BVHSceneTree();
                 break;
+            }
 
             default:
-                m_SceneTree = nullptr;
+            {
+                m_StaticSceneTree = nullptr;
+                m_DynamicSceneTree = nullptr;
                 OcularLogger->error("Unsupported SceneTree Type specified for new SceneTree", OCULAR_INTERNAL_LOG("Scene", "Scene"));
                 break;
+            }
             }
         }
 
@@ -147,14 +153,49 @@ namespace Ocular
             }
         }
 
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
         void Scene::render()
         {
 
         }
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
+        void Scene::objectTreeChanged(SceneObject* object)
+        {
+            if(object)
+            {
+                if(object->isStatic())
+                {
+                    // Was dynamic, is now static.
+
+                    if(m_DynamicSceneTree)
+                    {
+                        m_DynamicSceneTree->removeObject(object);
+                    }
+
+                    if(m_StaticSceneTree)
+                    {
+                        m_StaticSceneTree->addObject(object);
+                    }
+                }
+                else
+                {
+                    // Was static, is now dynamic.
+
+                    if(m_StaticSceneTree)
+                    {
+                        m_StaticSceneTree->removeObject(object);
+                    }
+                    
+                    if(m_DynamicSceneTree)
+                    {
+                        m_DynamicSceneTree->addObject(object);
+                    }
+                }
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

@@ -114,6 +114,19 @@ namespace Ocular
             Math::Transform const& getTransform() const;
 
             /**
+             * Sets whether this object is active or not. An inactive object 
+             * will not have it's render or update methods called.
+             *
+             * \param[in] active (default TRUE)
+             */
+            void SetActive(bool active);
+
+            /**
+             * Returns if the object is active.
+             */
+            bool IsActive() const;
+
+            /**
              * Sets whether this object is visible or not. Note that this method
              * is called every frame by the scene, and thus manually calling it
              * will have little or no effect.
