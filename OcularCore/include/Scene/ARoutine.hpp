@@ -45,9 +45,11 @@ namespace Ocular
         public:
 
             /**
-             * \param[in] name Unique name of the Routine.
+             * \param[in] name   Unique name of the Routine.
+             * \param[in] parent SceneObject that owns this Routine. If no SceneObject is provided (NULL), then
+             *                   the various update methods will never be called.
              */
-            ARoutine(std::string const& name);
+            ARoutine(std::string const& name, SceneObject* parent);
             ~ARoutine();
             
             bool operator<(ARoutine const& rhs);
@@ -67,6 +69,9 @@ namespace Ocular
 
             /**
              * Called when the parent SceneObject is added to the active Scene.
+             *
+             * If this Routine is added after the SceneObject has already been created,
+             * then this method is called on Routine creation.
              */
             virtual void onCreation();
 
@@ -134,16 +139,26 @@ namespace Ocular
             virtual bool onEvent(std::shared_ptr<AEvent> event);
 
             /**
-             *
+             * \routine The priority level of this Routine.
              */
             Priority getPriorityLevel() const;
 
+            /**
+             * \return The parent SceneObject that this Routine instance is attached to.
+             */
+            SceneObject* getParent() const;
+
+            /**
+             *
+             */
+            std::string getName() const;
+
         protected:
 
-            Priority m_Priority;
+            Priority m_Priority;      ///< Priority level of this Routine in the Routine Queue.
             std::string m_Name;
 
-            SceneObject* sceneObject;    ///< The SceneObject instance that this routine is attached to.
+            SceneObject* m_Parent;    ///< The SceneObject instance that this routine is attached to.
 
         private:
 

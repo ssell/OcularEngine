@@ -16,6 +16,7 @@
 
 #include "OcularEngine.hpp"
 #include "Scene/SceneObject.hpp"
+#include "Scene/ARoutine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -67,7 +68,7 @@ namespace Ocular
             return m_Transform;
         }
 
-        void SceneObject::SetActive(bool active)
+        void SceneObject::setActive(bool active)
         {
             if(m_IsActive != active)
             {
@@ -76,7 +77,7 @@ namespace Ocular
             }
         }
 
-        bool SceneObject::IsActive() const
+        bool SceneObject::isActive() const
         {
             return m_IsActive;
         }
@@ -187,17 +188,107 @@ namespace Ocular
 
         void SceneObject::addRoutine(std::string const& name)
         {
+            ARoutine* routine = nullptr;
 
+            // ...
+
+            if(routine)
+            {
+                OcularEngine.SceneManager()->objectAddedRoutine(routine);
+                routine->onCreation();
+            }
+        }
+
+        void SceneObject::removeRoutine(std::string const& name)
+        {
+            for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+            {
+                ARoutine* routine = (*iter);
+
+                if(routine)
+                {
+                    if(routine->getName().compare(name) == 0)
+                    {
+                        m_Routines.erase(iter);
+
+                        OcularEngine.SceneManager()->objectRemovedRoutine(routine);
+                        routine->onDestruction();
+
+                        delete routine;
+                        routine = nullptr;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        void SceneObject::removeRoutine(ARoutine* routine)
+        {
+            if(routine)
+            {
+                for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+                {
+                    ARoutine* iterRoutine = (*iter);
+
+                    if(iterRoutine == routine)
+                    {
+                        m_Routines.erase(iter);
+
+                        OcularEngine.SceneManager()->objectRemovedRoutine(routine);
+                        routine->onDestruction();
+
+                        delete routine;
+                        routine = nullptr;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        void SceneObject::removeAllRoutines()
+        {
+            while(m_Routines.size() > 0)
+            {
+                ARoutine* routine = (*m_Routines.begin());
+                m_Routines.erase(m_Routines.begin());
+
+                if(routine)
+                {
+                    OcularEngine.SceneManager()->objectRemovedRoutine(routine);
+                    routine->onDestruction();
+
+                    delete routine;
+                    routine = nullptr;
+                }
+            }
         }
 
         ARoutine* SceneObject::getRoutine(std::string const& name)
         {
-            return nullptr;
+            ARoutine* result = nullptr;
+
+            for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+            {
+                ARoutine* routine = (*iter);
+
+                if(routine)
+                {
+                    if(routine->getName().compare(name) == 0)
+                    {
+                        result = routine;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
-        void getAllRoutines(std::string const& name, std::list<ARoutine*>& routines)
+        std::vector<ARoutine*> const& SceneObject::getAllRoutines() const
         {
-
+            return m_Routines;
         }
 
         //----------------------------------------------------------------------------------

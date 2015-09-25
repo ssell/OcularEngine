@@ -26,7 +26,7 @@
 
 #include <string>
 #include <map>
-#include <list>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -44,6 +44,7 @@ namespace Ocular
     {
         class SceneManager;
         class ARoutine;
+        class ARenderable;
 
         /**
          * \class SceneObject
@@ -119,12 +120,12 @@ namespace Ocular
              *
              * \param[in] active (default TRUE)
              */
-            void SetActive(bool active);
+            void setActive(bool active);
 
             /**
              * Returns if the object is active.
              */
-            bool IsActive() const;
+            bool isActive() const;
 
             /**
              * Sets whether this object is visible or not. Note that this method
@@ -218,8 +219,12 @@ namespace Ocular
 
             void addRoutine(std::string const& name);
 
+            void removeRoutine(std::string const& name);
+            void removeRoutine(ARoutine* routine);
+            void removeAllRoutines();
+
             ARoutine* getRoutine(std::string const& name);
-            void getAllRoutines(std::string const& name, std::list<ARoutine*>& routines);
+            std::vector<ARoutine*> const& getAllRoutines() const;
 
             //------------------------------------------------------------
             // Public Members
@@ -251,6 +256,10 @@ namespace Ocular
             bool m_IsVisible;          ///< If visible, an object's Renderables will be invoked. Default: false.
             bool m_ForcedVisible;      ///< If true, the object will be forced visible and the Renderable will always be invoked irregardless of any frustum, cull, etc. tests. Default: false.
             bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
+
+            std::vector<ARoutine*> m_Routines;
+            std::vector<ARenderable*> m_Renderables;
+            std::vector<SceneObject*> m_Children;
         };
     }
     /**

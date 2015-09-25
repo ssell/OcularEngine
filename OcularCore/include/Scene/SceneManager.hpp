@@ -239,6 +239,16 @@ namespace Ocular
              */
             void objectStaticChanged(SceneObject* object);
 
+            /**
+             * Called when a SceneObject adds a new ARoutine instance.
+             */
+            void objectAddedRoutine(ARoutine* routine);
+
+            /**
+             * Called when a SceneObject removes a ARoutine instance.
+             */
+            void objectRemovedRoutine(ARoutine* routine);
+
         private:
 
             std::unordered_map<std::string, SceneObject*> m_Objects; 

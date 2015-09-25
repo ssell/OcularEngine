@@ -26,10 +26,11 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARoutine::ARoutine(std::string const& name)
+        ARoutine::ARoutine(std::string const& name, SceneObject* parent)
         {
             m_Name = name;
             m_Priority = Priority::Medium;
+            m_Parent = parent;
         }
 
         ARoutine::~ARoutine()
@@ -109,6 +110,16 @@ namespace Ocular
         Priority ARoutine::getPriorityLevel() const
         {
             return m_Priority;
+        }
+
+        SceneObject* ARoutine::getParent() const
+        {
+            return m_Parent;
+        }
+
+        std::string ARoutine::getName() const
+        {
+            return m_Name;
         }
 
         //----------------------------------------------------------------------------------

@@ -19,6 +19,7 @@
 #include "Scene/Scene.hpp"
 #include "Scene/ISceneTree.hpp"
 #include "Scene/SceneObject.hpp"
+#include "Scene/ARoutine.hpp"
 
 // SceneTree implementations
 
@@ -36,6 +37,8 @@ namespace Ocular
 
         Scene::Scene(SceneTreeType treeType)
         {
+            m_RoutinesAreDirty = false;
+
             switch(treeType)
             {
             case SceneTreeType::BoundingVolumeHierarchyCPU:
@@ -142,6 +145,21 @@ namespace Ocular
 
         void Scene::update()
         {
+            updateTrees();
+            updateRoutines();
+        }
+
+        void Scene::render()
+        {
+
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        void Scene::updateTrees()
+        {
             if(m_StaticSceneTree)
             {
                 m_StaticSceneTree->restructure();
@@ -153,13 +171,39 @@ namespace Ocular
             }
         }
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
-
-        void Scene::render()
+        void Scene::updateRoutines()
         {
+            sortRoutines();
+            
+            const float delta = OcularEngine.Clock()->getDelta();
 
+            for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+            {
+                ARoutine* routine = (*iter);
+
+                if(routine)
+                {
+                    SceneObject* parent = routine->getParent();
+
+                    if(parent && parent->isActive())
+                    {
+                        routine->onUpdate(delta);
+                    }
+                }
+            }
+        }
+
+        void Scene::sortRoutines()
+        {
+            if(m_RoutinesAreDirty)
+            {
+                std::sort(m_Routines.begin(), m_Routines.end(), [](ARoutine const* lhs, ARoutine const* rhs)->bool
+                {
+                    return (lhs->getPriorityLevel() > rhs->getPriorityLevel());
+                });
+
+                m_RoutinesAreDirty = false;
+            }
         }
 
         void Scene::objectTreeChanged(SceneObject* object)
@@ -192,6 +236,30 @@ namespace Ocular
                     if(m_DynamicSceneTree)
                     {
                         m_DynamicSceneTree->addObject(object);
+                    }
+                }
+            }
+        }
+
+        void Scene::routineAdded(ARoutine* routine)
+        {
+            if(routine)
+            {
+                m_Routines.insert(m_Routines.begin(), routine);
+                m_RoutinesAreDirty = true;
+            }
+        }
+
+        void Scene::routineRemoved(ARoutine* routine)
+        {
+            if(routine)
+            {
+                for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+                {
+                    if((*iter) == routine)
+                    {
+                        m_Routines.erase(iter);
+                        break;
                     }
                 }
             }

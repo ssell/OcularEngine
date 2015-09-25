@@ -21,6 +21,7 @@
 #include "SceneTreeType.hpp"
 
 #include <vector>
+#include <list>
 #include <queue>
 #include <functional>
 
@@ -119,16 +120,42 @@ namespace Ocular
 
             Scene(SceneTreeType treeType);
 
-            void objectTreeChanged(SceneObject* object);
+            void updateTrees();
+
+            void updateRoutines();
+            void sortRoutines();
 
             //------------------------------------------------------------
+            // Object State Change Methods
+
+            /**
+             * Alerts that the SceneObject needs to be placed in a different SceneTree.
+             * This happens when the SceneObject::SetStatic() method is called.
+             *
+             * \param[in] object
+             */
+            void objectTreeChanged(SceneObject* object);
+
+            /**
+             * Alerts when a new routine has been created and added to a SceneObject.
+             * \param[in] routine
+             */
+            void routineAdded(ARoutine* routine);
+
+            /**
+             * Alerts when a routine is being destroyed and removed from a SceneObject.
+             * \param[in] routine
+             */
+            void routineRemoved(ARoutine* routine);
+
+        private:
 
             ISceneTree* m_StaticSceneTree;
             ISceneTree* m_DynamicSceneTree;
 
-            std::priority_queue<ARoutine*, std::vector<ARoutine*>, std::greater<ARoutine*>> m_RoutineQueue;  // Min queue (first is 0, move up)
+            std::vector<ARoutine*> m_Routines;
+            bool m_RoutinesAreDirty;
 
-        private:
         };
     }
     /**

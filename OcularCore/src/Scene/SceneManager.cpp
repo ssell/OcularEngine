@@ -380,6 +380,28 @@ namespace Ocular
             }
         }
 
+        void SceneManager::objectAddedRoutine(ARoutine* routine)
+        {
+            if(routine)
+            {
+                if(m_Scene)
+                {
+                    m_Scene->routineAdded(routine);
+                }
+            }
+        }
+
+        void SceneManager::objectRemovedRoutine(ARoutine* routine)
+        {
+            if(routine)
+            {
+                if(m_Scene)
+                {
+                    m_Scene->routineRemoved(routine);
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
