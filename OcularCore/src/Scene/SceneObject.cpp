@@ -28,13 +28,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneObject::SceneObject(std::string const& name)
+        SceneObject::SceneObject(std::string const& name, SceneObject* parent)
             : Object(name),
               m_IsStatic(false),
               m_IsActive(true),
               m_IsVisible(false),
               m_ForcedVisible(false),
-              m_Persists(false)
+              m_Persists(false),
+              m_Parent(parent)
         {
             OcularScene->addObject(this);
         }
@@ -45,7 +46,8 @@ namespace Ocular
               m_IsActive(true),
               m_IsVisible(false),
               m_ForcedVisible(false),
-              m_Persists(false)
+              m_Persists(false),
+              m_Parent(nullptr)
         {
             OcularScene->addObject(this);
         }
@@ -74,6 +76,19 @@ namespace Ocular
             {
                 m_IsActive = active;
                 OcularEngine.SceneManager()->objectActiveChanged(this);
+
+                //--------------------------------------------------------
+                // Propagate the state change to the child objects
+
+                for(auto iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+                {
+                    SceneObject* object = (*iter);
+
+                    if(object)
+                    {
+                        object->setActive(active);
+                    }
+                }
             }
         }
 
@@ -87,18 +102,36 @@ namespace Ocular
             m_IsVisible = visible;
         }
 
+        bool SceneObject::isVisible() const
+        {
+            return m_IsVisible;
+        }
+
         void SceneObject::setForcedVisible(bool forced)
         {
             if(m_ForcedVisible != forced)
             {
                 m_ForcedVisible = forced;
                 OcularEngine.SceneManager()->objectVisibleChanged(this);
+
+                //--------------------------------------------------------
+                // Propagate the state change to the child objects
+
+                for(auto iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+                {
+                    SceneObject* object = (*iter);
+
+                    if(object)
+                    {
+                        object->setForcedVisible(forced);
+                    }
+                }
             }
         }
 
-        bool SceneObject::isVisible() const
+        bool SceneObject::isForcedVisible() const
         {
-            return m_IsVisible;
+            return m_ForcedVisible;
         }
 
         void SceneObject::setStatic(bool isStatic)
@@ -131,10 +164,25 @@ namespace Ocular
 
         void SceneObject::setParent(SceneObject* parent)
         {
-            // Have to ensure the scene tree is updated with all the changes that 
-            // could cascade from this action...
+            if(parent != m_Parent)
+            {
+                if(parent)
+                {
+                    parent->addChild(this);
+                }
+                else
+                {
+                    SceneObject* oldParent = m_Parent;
 
-            m_Parent = parent;
+                    if(oldParent)
+                    {
+                        oldParent->removeChild(this);
+                    }
+
+                    m_Parent = parent;
+                    OcularEngine.SceneManager()->objectParentChanged(this, oldParent);
+                }
+            }
         }
 
         SceneObject* SceneObject::getParent() const
@@ -147,34 +195,109 @@ namespace Ocular
             return nullptr;
         }
 
+        void SceneObject::addChild(SceneObject* child)
+        {
+            if(child)
+            {
+                SceneObject* oldParent = child->getParent();
+                oldParent->removeChild(child);
+
+                child->m_Parent = this;
+                child->setActive(isActive());
+                child->setForcedVisible(isForcedVisible());
+                child->setStatic(isStatic());
+
+                m_Children.emplace_back(child);
+
+                OcularEngine.SceneManager()->objectParentChanged(child, oldParent);
+            }
+        }
+
         SceneObject* SceneObject::findChild(std::string const& name)
         {
-            return nullptr;
+            SceneObject* result = nullptr;
+
+            for(auto iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+            {
+                SceneObject* child = (*iter);
+
+                if(child)
+                {
+                    if(child->getName().compare(name) == 0)
+                    {
+                        result = child;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
         SceneObject* SceneObject::findChild(UUID const& uuid)
         {
-            return nullptr;
+            SceneObject* result = nullptr;
+
+            for(auto iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+            {
+                SceneObject* child = (*iter);
+
+                if(child)
+                {
+                    if(child->getUUID() == uuid)
+                    {
+                        result = child;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
-        SceneObject* SceneObject::findChild(uint32_t const index)
+        SceneObject* SceneObject::findChild(SceneObject const* object)
         {
-            return nullptr;
+            SceneObject* result = nullptr;
+
+            for(auto iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+            {
+                SceneObject* child = (*iter);
+
+                if(child == object)
+                {
+                    result = child;
+                    break;
+                }
+            }
+
+            return result;
         }
 
-        void SceneObject::removeChild(std::string const& name)
+        bool SceneObject::removeChild(std::string const& name)
         {
+            bool result = false;
 
+            // ...
+
+            return result;
         }
 
-        void SceneObject::removeChild(UUID const& uuid)
+        bool SceneObject::removeChild(UUID const& uuid)
         {
+            bool result = false;
 
+            // ...
+
+            return result;
         }
 
-        void SceneObject::removeChild(uint32_t const index)
+        bool SceneObject::removeChild(SceneObject const* object)
         {
+            bool result = false;
 
+            // ...
+
+            return result;
         }
 
         uint32_t SceneObject::getNumChildren() const
@@ -182,12 +305,18 @@ namespace Ocular
             return 0;
         }
 
+        std::vector<SceneObject*> const& SceneObject::getAllChildren() const
+        {
+            return m_Children;
+        }
+
         //----------------------------------------------------------------
         // Routine Methods
         //----------------------------------------------------------------
 
-        void SceneObject::addRoutine(std::string const& name)
+        bool SceneObject::addRoutine(std::string const& name)
         {
+            bool result = false;
             ARoutine* routine = nullptr;
 
             // ...
@@ -196,11 +325,17 @@ namespace Ocular
             {
                 OcularEngine.SceneManager()->objectAddedRoutine(routine);
                 routine->onCreation();
+
+                result = true;
             }
+
+            return result;
         }
 
-        void SceneObject::removeRoutine(std::string const& name)
+        bool SceneObject::removeRoutine(std::string const& name)
         {
+            bool result = false;
+
             for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
             {
                 ARoutine* routine = (*iter);
@@ -217,14 +352,19 @@ namespace Ocular
                         delete routine;
                         routine = nullptr;
 
+                        result = true;
                         break;
                     }
                 }
             }
+
+            return result;
         }
 
-        void SceneObject::removeRoutine(ARoutine* routine)
+        bool SceneObject::removeRoutine(ARoutine* routine)
         {
+            bool result = false;
+
             if(routine)
             {
                 for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
@@ -241,10 +381,13 @@ namespace Ocular
                         delete routine;
                         routine = nullptr;
 
+                        result = true;
                         break;
                     }
                 }
             }
+
+            return result;
         }
 
         void SceneObject::removeAllRoutines()

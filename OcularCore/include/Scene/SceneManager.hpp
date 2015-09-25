@@ -140,6 +140,9 @@ namespace Ocular
             /**
              * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
              *
+             * This will remove the object from the scene and parent. Will also destroy (delete) the object
+             * and any children.
+             *
              * \note Removing by pointer is less efficient than by UUID.
              * \param[in] object SceneObject to remove.
              */
@@ -147,6 +150,9 @@ namespace Ocular
 
             /**
              * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
+             *
+             * This will remove the object from the scene and parent. Will also destroy (delete) the object
+             * and any children.
              *
              * By default, if there are multiple SceneObjects with the given name, only the first
              * object will be removed.
@@ -159,6 +165,9 @@ namespace Ocular
 
             /**
              * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
+             *
+             * This will remove the object from the scene and parent. Will also destroy (delete) the object
+             * and any children.
              *
              * \note Removing by name is less efficient than by UUID.
              * \param[in] uuid UUID of the SceneObject to remove.
@@ -226,30 +235,45 @@ namespace Ocular
 
             /**
              * Called when a SceneObject's SetActive method is envoked.
+             * \param[in] object
              */
             void objectActiveChanged(SceneObject* object);
 
             /**
              * Called when a SceneObject's SetForcedVisible method is envoked.
+             * \param[in] object
              */
             void objectVisibleChanged(SceneObject* object);
 
             /**
              * Called when a SceneObject's SetStatic method is envoked.
+             * \param[in] object
              */
             void objectStaticChanged(SceneObject* object);
 
             /**
              * Called when a SceneObject adds a new ARoutine instance.
+             * \param[in] routine
              */
             void objectAddedRoutine(ARoutine* routine);
 
             /**
              * Called when a SceneObject removes a ARoutine instance.
+             * \param[in] routine
              */
             void objectRemovedRoutine(ARoutine* routine);
 
+            /**
+             * Called when an object's parent is changed.
+             * 
+             * \param[in] object    The object that has a new parent.
+             * \param[in] oldParent The old parent of the object.
+             */
+            void objectParentChanged(SceneObject* object, SceneObject* oldParent);
+
         private:
+
+            void deleteObject(SceneObject* object);
 
             std::unordered_map<std::string, SceneObject*> m_Objects; 
             Scene* m_Scene;

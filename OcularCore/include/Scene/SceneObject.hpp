@@ -90,10 +90,11 @@ namespace Ocular
              * \note The object is automatically added to the Ocular SceneManager, and the SceneManager
              *       takes ownership of it. If a completely unmanaged object is required see ... (not yet available)
              *
-             * \param[in] name Identifier name of the object. Note that the name does not need to be unique as
-             *                 all objects are already uniquely identified via a UUID (see getUUID()).
+             * \param[in] name   Identifier name of the object. Note that the name does not need to be unique as
+             *                   all objects are already uniquely identified via a UUID (see getUUID()).
+             * \param[in] parent 
              */
-            SceneObject(std::string const& name);
+            SceneObject(std::string const& name, SceneObject* parent = nullptr);
 
             /**
              * Creates a new SceneObject with the default name of "SceneObject".
@@ -118,6 +119,7 @@ namespace Ocular
              * Sets whether this object is active or not. An inactive object 
              * will not have it's render or update methods called.
              *
+             * \note The active state propagates to child SceneObjects.
              * \param[in] active (default TRUE)
              */
             void setActive(bool active);
@@ -140,6 +142,11 @@ namespace Ocular
             void setVisible(bool visible);
 
             /**
+             * \return If TRUE, then the object is being rendered.
+             */
+            bool isVisible() const;
+
+            /**
              * Sets whether this object is forced visible. If an object is forced
              * visible, then it's renderables will always be rendered irregardless
              * of whether or not it is in view or passes any culling tests.
@@ -152,9 +159,9 @@ namespace Ocular
             void setForcedVisible(bool forced);
 
             /**
-             * \return If TRUE, then the object is being rendered.
+             * \return TRUE if the object is being forced visible and being rendered irregardless of culling tests.
              */
-            bool isVisible() const;
+            bool isForcedVisible() const;
 
             /**
              * Sets whether this object is static or not. If an object is static,
@@ -198,32 +205,80 @@ namespace Ocular
             // Child Object Methods
             //------------------------------------------------------------
 
+            /**
+             * Sets the specified SceneOject as the parent of this SceneObject.
+             * 
+             * If the new parent is not null, then the cascading states of the parent
+             * (active, forced visible, static/dynamic, etc.) are applied to this object.
+             *
+             * \param[in] parent New parent of this object. Pass NULL if no parent is desired.
+             */
             void setParent(SceneObject* parent);
             SceneObject* getParent() const;
 
             SceneObject* createChild(std::string const& name);
-            
+            void addChild(SceneObject* child);
+
             SceneObject* findChild(std::string const& name);
             SceneObject* findChild(UUID const& uuid);
-            SceneObject* findChild(uint32_t const index);
+            SceneObject* findChild(SceneObject const* object);
 
-            void removeChild(std::string const& name);
-            void removeChild(UUID const& uuid);
-            void removeChild(uint32_t const index);
+            bool removeChild(std::string const& name);
+            bool removeChild(UUID const& uuid);
+            bool removeChild(SceneObject const* object);
 
             uint32_t getNumChildren() const;
+
+            std::vector<SceneObject*> const& getAllChildren() const;
 
             //------------------------------------------------------------
             // Routine Methods
             //------------------------------------------------------------
 
-            void addRoutine(std::string const& name);
+            /**
+             * Adds a new instance of the specified routine to the SceneObject.
+             *
+             * \param[in] name Name of the ARoutine implementation to add.
+             * \return TRUE if the ARoutine implementation was successfully added. If it fails,
+             *         then no matching implementation with that name was discovered.
+             */
+            bool addRoutine(std::string const& name);
 
-            void removeRoutine(std::string const& name);
-            void removeRoutine(ARoutine* routine);
+            /**
+             * Removes an instance of the specified routine implementation from the SceneObject.
+             * Will only remove the first instance of the implementation that it finds.
+             *
+             * \param[in] name Name of the ARoutine implementation to remove.
+             * \return TRUE if the routine implementation was successfully removed. If it fails,
+             *         then no matching implementation instance with that name was discovered.
+             */
+            bool removeRoutine(std::string const& name);
+
+            /**
+             * Removes the specified ARoutine instance from the SceneObject.
+             *
+             * \param[in] routine Routine instance to remove from the SceneObject.
+             * \return TRUE if the routine instance was successfully discovered and removed.
+             *         If it fails, then no matching instance was discovered.
+             */
+            bool removeRoutine(ARoutine* routine);
+
+            /**
+             * Removes all routine instances that belong to this SceneObject.
+             */
             void removeAllRoutines();
 
+            /**
+             * Retrieves the first discovered instance of the specified ARoutine implementation.
+             *
+             * \param[in] name 
+             * \return The ARoutine instance or NULL if no matching routines were discovered.
+             */
             ARoutine* getRoutine(std::string const& name);
+
+            /**
+             * Returns a collection of all routines that are owned by this SceneObject.
+             */
             std::vector<ARoutine*> const& getAllRoutines() const;
 
             //------------------------------------------------------------

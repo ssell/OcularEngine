@@ -69,21 +69,15 @@ namespace Ocular
 
         void Scene::addObject(SceneObject* object)
         {
-            if(object)
+            if(object && verifySceneTrees())
             {
                 if(object->isStatic())
                 {
-                    if(m_StaticSceneTree)
-                    {
-                        m_StaticSceneTree->addObject(object);
-                    }
+                    m_StaticSceneTree->addObject(object);
                 }
                 else
                 {
-                    if(m_DynamicSceneTree)
-                    {
-                        m_DynamicSceneTree->addObject(object);
-                    }
+                    m_DynamicSceneTree->addObject(object);
                 }
             }
         }
@@ -100,24 +94,17 @@ namespace Ocular
         {
             bool result = true;
 
-            if(object)
+            if(object && verifySceneTrees())
             {
                 if(object->isStatic())
                 {
-                    if(m_StaticSceneTree)
-                    {
-                        result = m_StaticSceneTree->removeObject(object);
-                    }
+                    result = m_StaticSceneTree->removeObject(object);
                 }
 
                 if(!object->isStatic() || !result)
                 {
                     // Object is dynamic or was not found in the static tree to remove...
-
-                    if(m_DynamicSceneTree)
-                    {
-                        m_DynamicSceneTree->removeObject(object);
-                    }
+                    m_DynamicSceneTree->removeObject(object);
                 }
             }
         }
@@ -132,13 +119,9 @@ namespace Ocular
 
         void Scene::removeAllObjects()
         {
-            if(m_StaticSceneTree)
+            if(verifySceneTrees())
             {
                 m_StaticSceneTree->destroy();
-            }
-
-            if(m_DynamicSceneTree)
-            {
                 m_DynamicSceneTree->destroy();
             }
         }
@@ -160,13 +143,9 @@ namespace Ocular
 
         void Scene::updateTrees()
         {
-            if(m_StaticSceneTree)
+            if(verifySceneTrees())
             {
                 m_StaticSceneTree->restructure();
-            }
-
-            if(m_DynamicSceneTree)
-            {
                 m_DynamicSceneTree->restructure();
             }
         }
@@ -208,32 +187,73 @@ namespace Ocular
 
         void Scene::objectTreeChanged(SceneObject* object)
         {
-            if(object)
+            if(object && verifySceneTrees())
             {
                 if(object->isStatic())
                 {
                     // Was dynamic, is now static.
-
-                    if(m_DynamicSceneTree)
-                    {
-                        m_DynamicSceneTree->removeObject(object);
-                    }
-
-                    if(m_StaticSceneTree)
-                    {
-                        m_StaticSceneTree->addObject(object);
-                    }
+                    m_DynamicSceneTree->removeObject(object);
+                    m_StaticSceneTree->addObject(object);
                 }
                 else
                 {
                     // Was static, is now dynamic.
+                    m_StaticSceneTree->removeObject(object);
+                    m_DynamicSceneTree->addObject(object);
+                }
+            }
+        }
 
-                    if(m_StaticSceneTree)
+        void Scene::objectParentChanged(SceneObject* object, SceneObject* oldParent)
+        {
+            if(object && verifySceneTrees())
+            {
+                /**
+                    * A change in object parentage can have an effect on the SceneTrees.
+                    * 
+                    * If the old parent is null, then the object used to be a top-level
+                    * object and thus the appropriate SceneTree will need to be updated.
+                    * As far as the tree is concerned, the object was removed as they
+                    * only deal with top-level parents.
+                    *
+                    * The the new parent is null, then the appropriate SceneTree will
+                    * need to add the object as a new top-level parent.
+                    *
+                    * If neither the old parent or the new parent are null, then the
+                    * SceneTrees do not need to do anything as they do not interact
+                    * while child objects.
+                    */
+
+                if(oldParent == nullptr)
+                {
+                    bool removed = false;
+
+                    if(object->isStatic())
                     {
-                        m_StaticSceneTree->removeObject(object);
+                        removed = m_StaticSceneTree->removeObject(object);
                     }
-                    
-                    if(m_DynamicSceneTree)
+
+                    if(!removed)
+                    {
+                        removed = m_DynamicSceneTree->removeObject(object);\
+                    }
+
+                    if(!removed)
+                    {
+                        // Was not successfully removed from either tree.
+                        // Means the object is not part of the proper Scene ecosystem.
+
+                        OcularLogger->warning("Failed to properly handle new parent change. SceneObject is invalid.", OCULAR_INTERNAL_LOG("Scene", "objectParentChanged"));
+                    }
+                }
+
+                if(object->getParent() == nullptr)
+                {
+                    if(object->isStatic())
+                    {
+                        m_StaticSceneTree->addObject(object);
+                    }
+                    else
                     {
                         m_DynamicSceneTree->addObject(object);
                     }
@@ -269,5 +289,23 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
+        bool Scene::verifySceneTrees() const
+        {
+            bool result = true;
+
+            if(m_StaticSceneTree == nullptr)
+            {
+                result = false;
+                OcularLogger->error("Attempting to use static SceneTree that was not properly created", OCULAR_INTERNAL_LOG("Scene", "verifySceneTrees"));
+            }
+
+            if(m_DynamicSceneTree == nullptr)
+            {
+                result = false;
+                OcularLogger->error("Attempting to use dynamic SceneTree that was not properly created", OCULAR_INTERNAL_LOG("Scene", "verifySceneTrees"));
+            }
+
+            return result;
+        }
     }
 }

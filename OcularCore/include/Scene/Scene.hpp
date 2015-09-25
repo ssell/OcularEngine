@@ -137,6 +137,15 @@ namespace Ocular
             void objectTreeChanged(SceneObject* object);
 
             /**
+             * Alerts when the SceneObject's parent has been changed. 
+             * This happens when the SceneObject::SetParent() method is called.
+             *
+             * \param[in] object
+             * \param[in] oldParent
+             */
+            void objectParentChanged(SceneObject* object, SceneObject* oldParent);
+
+            /**
              * Alerts when a new routine has been created and added to a SceneObject.
              * \param[in] routine
              */
@@ -149,6 +158,10 @@ namespace Ocular
             void routineRemoved(ARoutine* routine);
 
         private:
+
+            bool verifySceneTrees() const;
+
+            //------------------------------------------------------------------------------
 
             ISceneTree* m_StaticSceneTree;
             ISceneTree* m_DynamicSceneTree;

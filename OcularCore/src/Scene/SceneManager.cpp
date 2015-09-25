@@ -154,15 +154,8 @@ namespace Ocular
                 {
                     if(iter->second == object)
                     {
-                        if(m_Scene)
-                        {
-                            m_Scene->removeObject(object);
-                        }
-
+                        deleteObject(object);
                         m_Objects.erase(iter);
-
-                        delete object;
-                        object = nullptr;
 
                         break;
                     }
@@ -176,16 +169,13 @@ namespace Ocular
 
             while(iter != m_Objects.end())
             {
-                if(iter->second)
-                {
-                    if(iter->second->getName().compare(name) == 0)
-                    {
-                        if(m_Scene)
-                        {
-                            m_Scene->removeObject(iter->second);
-                        }
+                SceneObject* object = iter->second;
 
-                        delete iter->second;
+                if(object)
+                {
+                    if(object->getName().compare(name) == 0)
+                    {
+                        deleteObject(object);
                         iter = m_Objects.erase(iter);
 
                         if(removeAll)
@@ -210,13 +200,11 @@ namespace Ocular
 
             if(findObject != m_Objects.end())
             {
-                if(m_Scene)
-                {
-                    m_Scene->removeObject(findObject->second);
-                }
+                SceneObject* object = findObject->second;
 
-                delete findObject->second;
-                m_Objects.erase(uuid.toString());
+                deleteObject(object);
+
+                m_Objects.erase(findObject);
             }
         }
 
@@ -402,9 +390,48 @@ namespace Ocular
             }
         }
 
+        void SceneManager::objectParentChanged(SceneObject* object, SceneObject* oldParent)
+        {
+            if(m_Scene)
+            {
+                m_Scene->objectParentChanged(object, oldParent);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
+        void SceneManager::deleteObject(SceneObject* object)
+        {
+            if(object)
+            {
+                //----------------------------------------------------
+                // 1. Remove the object from it's parent
+
+                object->setParent(nullptr);
+
+                if(m_Scene)
+                {
+                    m_Scene->removeObject(object);
+                }
+
+                //----------------------------------------------------
+                // 2. Destroy any child objects
+
+                auto children = object->getAllChildren();
+
+                for(auto child = children.begin(); child != children.end(); ++child)
+                {
+                    destroyObject((*child)->getUUID());
+                }
+                
+                //----------------------------------------------------
+                // 3. Delete the object
+
+                delete object;
+                object = nullptr;
+            }
+        }
     }
 }

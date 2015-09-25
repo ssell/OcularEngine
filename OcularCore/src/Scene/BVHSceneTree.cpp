@@ -188,6 +188,22 @@ namespace Ocular
                 }
             }
 
+            if(!result)
+            {
+                // Possibility that we are being asked to remove an item that is still in the
+                // new object collection (added and removed prior to a restructure call)
+
+                for(auto iter = m_NewObjects.begin(); iter != m_NewObjects.end(); ++iter)
+                {
+                    if((*iter) == object)
+                    {
+                        result = true;
+                        m_NewObjects.erase(iter);
+                        break;
+                    }
+                }
+            }
+
             return result;
         }
 
