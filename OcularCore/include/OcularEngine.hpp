@@ -22,6 +22,7 @@
 #include "Logger/Logger.hpp"
 #include "Time/Clock.hpp"
 #include "Events/EventManager.hpp"
+#include "Input/InputHandler.hpp"
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/HashGenerator.hpp"
 #include "Resources/ResourceManager.hpp"
@@ -132,6 +133,11 @@ namespace Ocular
          */
         std::shared_ptr<Core::Profiler> Profiler() const;
 
+        /**
+         * \return Reference to the primary InputHandler.
+         */
+        std::shared_ptr<Core::InputHandler> Input() const;
+
         //----------------------------------------------------------------------------------
         
     protected:
@@ -164,6 +170,7 @@ namespace Ocular
 
         std::shared_ptr<Core::Clock>           m_Clock;
         std::shared_ptr<Core::EventManager>    m_EventManager;
+        std::shared_ptr<Core::InputHandler>    m_InputHandler;
         std::shared_ptr<Core::Logger>          m_Logger;
         std::shared_ptr<Core::ResourceManager> m_ResourceManager;
         std::shared_ptr<Core::SceneManager>    m_SceneManager;
@@ -179,13 +186,14 @@ namespace Ocular
  */
 
 #define OcularEngine    Ocular::Engine::get()
-#define OcularLogger    Ocular::Engine::get().Logger()
-#define OcularClock     Ocular::Engine::get().Clock()
-#define OcularScene     Ocular::Engine::get().SceneManager()
-#define OcularEvents    Ocular::Engine::get().EventManager()
-#define OcularResources Ocular::Engine::get().ResourceManager()
-#define OcularWindows   Ocular::Engine::get().WindowManager()
-#define OcularProfiler  Ocular::Engine::get().Profiler()
+#define OcularLogger    OcularEngine.Logger()
+#define OcularClock     OcularEngine.Clock()
+#define OcularScene     OcularEngine.SceneManager()
+#define OcularEvents    OcularEngine.EventManager()
+#define OcularInput     OcularEngine.Input()
+#define OcularResources OcularEngine.ResourceManager()
+#define OcularWindows   OcularEngine.WindowManager()
+#define OcularProfiler  OcularEngine.Profiler()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"

@@ -41,6 +41,7 @@ namespace Ocular
         m_Clock           = std::make_shared<Core::Clock>();
         m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
         m_EventManager    = std::make_shared<Core::EventManager>();
+        m_InputHandler    = std::make_shared<Core::InputHandler>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
         m_SceneManager    = std::make_shared<Core::SceneManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
@@ -53,6 +54,7 @@ namespace Ocular
     {
         m_IsRunning = false;
 
+        m_InputHandler    = nullptr;
         m_Logger          = nullptr;
         m_Clock           = nullptr;
         m_HashGenerator   = nullptr;
@@ -170,6 +172,7 @@ namespace Ocular
         Core::SystemInfo::refresh();
 
         m_WindowManager->updateWindows(OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT);
+        m_InputHandler->update();
         m_EventManager->processEvents(1000);
         m_SceneManager->update();
     }

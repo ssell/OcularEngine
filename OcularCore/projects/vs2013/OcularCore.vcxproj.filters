@@ -145,6 +145,12 @@
     <Filter Include="Source Files\Scene\Routine">
       <UniqueIdentifier>{f36a69a4-37e0-41aa-8aa5-bd0fdb4a1979}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{c0bdfb8f-ee6f-4398-8eed-8437daaae98e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{4252400d-9449-4fd9-be4c-50a92a5f50a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -347,6 +353,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp">
       <Filter>Source Files\Scene\Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\KeyboardInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseButtonInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseMoveInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -658,6 +676,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp">
       <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\InputHandler.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\Keys.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\KeyboardInputEvent.hpp">
+      <Filter>Header Files\Events\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseButtonInputEvent.hpp">
+      <Filter>Header Files\Events\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp">
+      <Filter>Header Files\Events\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

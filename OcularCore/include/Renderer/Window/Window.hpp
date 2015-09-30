@@ -74,6 +74,8 @@ namespace Ocular
             WindowDescriptor getDescriptor() const;
             void setDescriptor(WindowDescriptor descriptor);
 
+            bool hasFocus() const;
+
         protected:
 
             /**
