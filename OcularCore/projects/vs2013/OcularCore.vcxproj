@@ -219,6 +219,7 @@
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
+    <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />

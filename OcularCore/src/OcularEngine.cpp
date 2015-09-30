@@ -90,13 +90,15 @@ namespace Ocular
         return true;
     }
 
-    void Engine::run()
+    bool Engine::run()
     {
-        m_Clock->tick();
-        Core::SystemInfo::refresh();
-        
-        update();
-        render();
+        if(m_IsRunning)
+        {
+            update();
+            render();
+        }
+
+        return m_IsRunning;
     }
 
     std::shared_ptr<Core::Logger> Engine::Logger() const
@@ -164,13 +166,20 @@ namespace Ocular
 
     void Engine::update()
     {
+        m_Clock->tick();
+        Core::SystemInfo::refresh();
+
         m_WindowManager->updateWindows(OCULAR_SYS_MESSAGE_PROCESS_TIMEOUT);
         m_EventManager->processEvents(1000);
+        m_SceneManager->update();
     }
 
     void Engine::render()
     {
-
+        if(m_SceneManager)
+        {
+            m_SceneManager->render();
+        }
     }
 
     void Engine::setupLogger()

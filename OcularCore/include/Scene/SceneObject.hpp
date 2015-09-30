@@ -214,21 +214,122 @@ namespace Ocular
              * \param[in] parent New parent of this object. Pass NULL if no parent is desired.
              */
             void setParent(SceneObject* parent);
+
+            /**
+             * \return Parent of this SceneObject (NULL if no parent)
+             */
             SceneObject* getParent() const;
 
+            /**
+             * Creates a new SceneObject with the specified name and adds it 
+             * as a child of this SceneObject.
+             *
+             * Calling this method is functionally identical to:
+             *
+             *     OcularEngine.SceneManager()->createObject(name, thisObject);
+             *
+             * \param[in] name Name for the new object (does not have to be unique).
+             * \return Pointer to the new object.
+             */
             SceneObject* createChild(std::string const& name);
+
+            /**
+             * Adds the specified object as a child of this SceneObject and removes
+             * it from it's previous parent.
+             *
+             * The object's parent will change, and it's state will be modified
+             * to reflect it's new parent (active, forced visible, static/dynamic, etc.).
+             *
+             * \param[in] child
+             */
             void addChild(SceneObject* child);
 
+            /**
+             * \param[in] name Name to search for.
+             * \return Pointer to first discovered child with specified name (NULL if not found).
+             */
             SceneObject* findChild(std::string const& name);
+
+            /**
+             * \param[in] uuid UUID to search for.
+             * \return Pointer to child with matching UUID (NULL if not found).
+             */
             SceneObject* findChild(UUID const& uuid);
-            SceneObject* findChild(SceneObject const* object);
 
-            bool removeChild(std::string const& name);
-            bool removeChild(UUID const& uuid);
-            bool removeChild(SceneObject const* object);
+            /**
+             * Removes the first discovered child with the specified name.
+             *
+             * This does not delete the child object, but simply removes it
+             * from this SceneObject. The removed object will continue to exist,
+             * along with all of it's routines, renderables, and children.
+             *
+             * A pointer to the removed object is returned. If you desired to
+             * fully destroy the object, then you must call:
+             *
+             *     OcularEngine.SceneManager()->removeObject(object);
+             *
+             * Note that the removed object will retain the state of it's old
+             * parent (active, forced visible, static/dynamic, etc.). It's transform
+             * will also be unmodified, but may appear to move as it is no longer
+             * being based on the parent but now on the world.
+             *
+             * \param[in] name
+             * \return Pointer to the removed object (NULL if no matching child was found).
+             */
+            SceneObject* removeChild(std::string const& name);
 
+            /**
+             * Removes the first discovered child with the specified UUID.
+             *
+             * This does not delete the child object, but simply removes it
+             * from this SceneObject. The removed object will continue to exist,
+             * along with all of it's routines, renderables, and children.
+             *
+             * A pointer to the removed object is returned. If you desired to
+             * fully destroy the object, then you must call:
+             *
+             *    OcularScene->removeObject(object);
+             *
+             * Note that the removed object will retain the state of it's old
+             * parent (active, forced visible, static/dynamic, etc.). It's transform
+             * will also be unmodified, but may appear to move as it is no longer
+             * being based on the parent but now on the world.
+             *
+             * \param[in] uuid
+             * \return Pointer to the removed object (NULL if no matching child was found).
+             */
+            SceneObject* removeChild(UUID const& uuid);
+
+            /**
+             * Removes the first discovered child with the specified name.
+             *
+             * This does not delete the child object, but simply removes it
+             * from this SceneObject. The removed object will continue to exist,
+             * along with all of it's routines, renderables, and children.
+             *
+             * A pointer to the removed object is returned. If you desired to
+             * fully destroy the object, then you must call:
+             *
+             *     OcularScene->removeObject(object);
+             *
+             * Note that the removed object will retain the state of it's old
+             * parent (active, forced visible, static/dynamic, etc.). It's transform
+             * will also be unmodified, but may appear to move as it is no longer
+             * being based on the parent but now on the world.
+             *
+             * \param[in] object
+             * \return Pointer to the removed object (NULL if no matching child was found).
+             */
+            SceneObject* removeChild(SceneObject const* object);
+
+            /**
+             * \return The number of child objects owned by this SceneObject.
+             */
             uint32_t getNumChildren() const;
 
+            /**
+             * \return A vector containing pointers to all children owned by this SceneObject.
+             */
             std::vector<SceneObject*> const& getAllChildren() const;
 
             //------------------------------------------------------------
@@ -305,6 +406,10 @@ namespace Ocular
             Math::Transform m_Transform;
 
         private:
+
+            void removeChild(std::vector<SceneObject*>::iterator& child);
+
+            //------------------------------------------------------------
             
             bool m_IsStatic;           ///< Boolean if this object is static. If static, no movement or rotation calls will have any affect. Determines which SceneTree it will reside in. Default: false.
             bool m_IsActive;           ///< If active, an object's Routines will be invoked. Default: true.

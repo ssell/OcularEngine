@@ -19,8 +19,6 @@
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
-#include "Tests/Performance/BVHSceneTreeTest.hpp"
-
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
@@ -38,7 +36,7 @@ void openWindow()
 {
     Ocular::Core::WindowDescriptor descriptor;
 
-    descriptor.displayName   = "Demo Application";
+    descriptor.displayName   = "Ocular Engine";
     descriptor.width         = 800;
     descriptor.height        = 600;
     descriptor.colorBits     = 8;
@@ -55,7 +53,9 @@ int main(int argc, char** argv)
     OcularEngine.initialize();
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    OcularEngine.SceneManager()->loadScene("Test Scene", SceneTreeType::BoundingVolumeHierarchyCPU);
+    openWindow();
+
+    while(OcularEngine.run());
 
     OcularEngine.shutdown();
 }

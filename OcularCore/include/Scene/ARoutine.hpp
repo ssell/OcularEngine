@@ -39,6 +39,20 @@ namespace Ocular
 
         /**
          * \class ARoutine
+         *
+         * |    Event    |                          Called By                          |
+         * | ----------: | :---------------------------------------------------------- |
+         * |  SceneStart | TBD                                                         |
+         * |    SceneEnd | During Scene destruction (Scene::~Scene)                    |
+         * |    Creation | When routine is created (SceneObject::addRoutine)           |
+         * | Destruction | When routine is destroyed (SceneObject::~SceneObject)       |
+         * |       Pause | TBD                                                         |
+         * |     Unpause | TBD                                                         |
+         * |      Update | During Scene update (Scene::update)                         |
+         * | TimedUpdate | TBD                                                         |
+         * |   PreRender | TBD                                                         |
+         * |  PostRender | TBD                                                         |
+         * |       Event | TBD                                                         |
          */
         class ARoutine : public AEventListener
         {

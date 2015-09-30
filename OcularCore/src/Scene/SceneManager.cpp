@@ -40,110 +40,38 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        SceneObject* SceneManager::createObject(std::string const& name)
+        SceneObject* SceneManager::createObject(std::string const& name, SceneObject* parent)
         {
             SceneObject* newObject = new SceneObject(name);  // The constructor calls addObject which will do the rest...
-            return newObject;
-        }
 
-        void SceneManager::addObject(SceneObject* object)
-        {
-            // Ensure that the object isn't already managed by the SceneManager...
-            
-            if(object)
+            if(m_Scene)
             {
-                SceneObject* obj = findObject(object->getUUID());
+                /**
+                 * Do we need to add it to the scene?
+                 *
+                 * As a brand-new object it will not have any renderables or routines.
+                 * So our only concern is if it does not have a parent. 
+                 * 
+                 * If there is no parent, then it is a 'top-level' object and will
+                 * need to be known to the SceneTrees.
+                 */
 
-                if(obj == nullptr)
+                if(parent)
                 {
-                    // Not already tracked. Add it.
-
-                    const std::pair<std::string, SceneObject*> pair(object->getUUID().toString(), object);
-                    m_Objects.insert(pair);
-
-                    if(m_Scene)
-                    {
-                        m_Scene->addObject(object);
-                    }
+                    parent->addChild(newObject);
+                }
+                else
+                {
+                    m_Scene->addObject(newObject);
                 }
             }
+
+            return newObject;
         }
 
         SceneObject* SceneManager::duplicateObject(SceneObject const* object)
         {
             return nullptr;
-        }
-
-        void SceneManager::removeObject(SceneObject* object)
-        {
-            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
-            {
-                if(iter->second)
-                {
-                    if(iter->second == object)
-                    {
-                        if(m_Scene)
-                        {
-                            m_Scene->removeObject(object);
-                        }
-
-                        m_Objects.erase(iter);
-                        break;
-                    }
-                }
-            }
-        }
-
-        void SceneManager::removeObject(std::string const& name, std::vector<SceneObject*>& objects, bool removeAll)
-        {
-            auto iter = m_Objects.begin();
-
-            while(iter != m_Objects.end())
-            {
-                if(iter->second)
-                {
-                    if(iter->second->getName().compare(name) == 0)
-                    {
-                        if(m_Scene)
-                        {
-                            m_Scene->removeObject(iter->second);
-                        }
-
-                        objects.emplace_back(iter->second);
-                        iter = m_Objects.erase(iter);
-
-                        if(removeAll)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                ++iter;
-            }
-        }
-
-        SceneObject* SceneManager::removeObject(UUID const& uuid)
-        {
-            SceneObject* result = nullptr;
-            const auto findObject = m_Objects.find(uuid.toString());
-
-            if(findObject != m_Objects.end())
-            {
-                if(m_Scene)
-                {
-                    m_Scene->removeObject(findObject->second);
-                }
-
-                result = findObject->second;
-                m_Objects.erase(findObject);
-            }
-
-            return result;
         }
 
         void SceneManager::destroyObject(SceneObject* object)
@@ -289,38 +217,73 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void SceneManager::addObject(SceneObject* object, SceneObject* parent)
+        {
+            // Ensure that the object isn't already managed by the SceneManager...
+            
+            if(object)
+            {
+                SceneObject* obj = findObject(object->getUUID());
+
+                if(obj == nullptr)
+                {
+                    // Not already tracked. Add it.
+
+                    const std::pair<std::string, SceneObject*> pair(object->getUUID().toString(), object);
+                    m_Objects.insert(pair);
+
+                    if(m_Scene)
+                    {
+                        if(parent)
+                        {
+                            parent->addChild(object);
+                        }
+                        else
+                        {
+                            m_Scene->addObject(object);
+                        }
+                    }
+                }
+            }
+        }
+
         void SceneManager::unloadScene()
         {
-            /**
-             * Unloading a scene requires the following steps:
-             *
-             *    1. Remove all objects from that scene's tree
-             *    2. Delete all objects that are not marked as persistant.
-             *    3. Delete the scene itself.
-             */
+            //------------------------------------------------------------
+            // Delete the Scene
 
-            m_Scene->removeAllObjects();
+            if(m_Scene)
+            {
+                delete m_Scene;
+                m_Scene = nullptr;
+            }
+
+            //------------------------------------------------------------
+            // Destroy all objects that are not marked as persistent
 
             auto objectIter = m_Objects.begin();
 
             while(objectIter != m_Objects.end())
             {
-                if(objectIter->second)
-                {
-                    if(!objectIter->second->isPersistent())
-                    {
-                        delete objectIter->second;
-                        objectIter = m_Objects.erase(objectIter);
+                SceneObject* object = objectIter->second;
 
-                        continue;
+                if(object)
+                {
+                    if(!object->isPersistent())
+                    {
+                        deleteObject(object);
+                        objectIter = m_Objects.erase(objectIter);
+                    }
+                    else
+                    {
+                        ++objectIter;
                     }
                 }
-
-                ++objectIter;
+                else
+                {
+                    objectIter = m_Objects.erase(objectIter);
+                }
             }
-
-            delete m_Scene;
-            m_Scene = nullptr;
         }
 
         void SceneManager::update()
@@ -406,18 +369,21 @@ namespace Ocular
         {
             if(object)
             {
-                //----------------------------------------------------
-                // 1. Remove the object from it's parent
-
-                object->setParent(nullptr);
+                //--------------------------------------------------------
+                // 1. Remove the object from the Scene
 
                 if(m_Scene)
                 {
+                    // Also removes it from it's parent
                     m_Scene->removeObject(object);
                 }
+                else
+                {
+                    object->setParent(nullptr);
+                }
 
-                //----------------------------------------------------
-                // 2. Destroy any child objects
+                //--------------------------------------------------------
+                // 3. Destroy any child objects
 
                 auto children = object->getAllChildren();
 
@@ -426,8 +392,8 @@ namespace Ocular
                     destroyObject((*child)->getUUID());
                 }
                 
-                //----------------------------------------------------
-                // 3. Delete the object
+                //--------------------------------------------------------
+                // 4. Delete the object
 
                 delete object;
                 object = nullptr;

@@ -50,8 +50,20 @@ namespace Ocular
             SystemInfo();
             ~SystemInfo();
 
+            /**
+             * Populates with all available system info.
+             */
             static void initialize();
 
+            /**
+             * Forces a refresh of variables that can change during program lifetime. These include:
+             *
+             *     - Available RAM
+             *     - Available GPU Memory
+             *     - Available Channels
+             *
+             * This method is called automatically at the start of each frame.
+             */
             static void refresh();
 
             /**

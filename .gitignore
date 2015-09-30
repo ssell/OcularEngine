@@ -5,6 +5,12 @@
 html/
 latex/
 
+# Archives
+*.zip
+*.rar
+*.7zip
+*.tgz
+
 # Misc Files
 *.log
 *.tlog

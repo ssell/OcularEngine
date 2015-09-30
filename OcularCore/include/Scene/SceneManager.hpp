@@ -32,6 +32,10 @@
  */
 namespace Ocular
 {
+    // Forward Declaration
+
+    class Engine;
+
     /**
      * \addtogroup Core
      * @{
@@ -55,6 +59,7 @@ namespace Ocular
          */
         class SceneManager
         {
+            friend class Engine;
             friend class SceneObject;
 
         public:
@@ -69,19 +74,11 @@ namespace Ocular
              * Creates and adds a new empty SceneObject to the active scene.
              * 
              * \param[in] name 
+             * \param[in] parent Optional parent SceneObject
+             *
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
-            SceneObject* createObject(std::string const& name = "Unnamed");
-
-            /**
-             * Adds the provided SceneObject to the current Scene. 
-             *
-             * The SceneManager will take ownership of the object and will delete it when the current scene
-             * is unloaded (or if the object is persistent, when the SceneManager is destroyed).
-             *
-             * \param[in] object
-             */
-            void addObject(SceneObject* object);
+            SceneObject* createObject(std::string const& name = "Unnamed", SceneObject* parent = nullptr);
 
             /**
              * Creates and adds a new SceneObject to the active scene that is an
@@ -91,51 +88,6 @@ namespace Ocular
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
             SceneObject* duplicateObject(SceneObject const* object);
-
-            /**
-             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
-             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
-             * be part of any culling, collision, etc. tests.
-             *
-             * It will be up to the caller of this method to destroy the object.
-             *
-             * If you wish to remove AND destroy the object, see the destroyObject() methods.
-             *
-             * \note Removing by pointer is less efficient than by UUID.
-             * \param[in] object SceneObject to remove.
-             */
-            void removeObject(SceneObject* object);
-
-            /**
-             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
-             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
-             * be part of any culling, collision, etc. tests.
-             *
-             * It will be up to the caller of this method to destroy the object.
-             *
-             * If you wish to remove AND destroy the object, see the destroyObject() methods.
-             *
-             * \param[in]  name    Name of the SceneObject to remove.
-             * \param[out] objects Collection of all objects removed with the matching name. If removeAll is FALSE, then there will only be at most one object in the collection.
-             * \param[in]  bool    If there are multiple SceneObjects with the given name, and this parameter is set TRUE, then all objects with the matching name will be removed.
-             */
-            void removeObject(std::string const& name, std::vector<SceneObject*>& objects, bool removeAll = false);
-
-            /**
-             * Removes the SceneObject from the control of the SceneManager. This will also cause it to be removed
-             * from the active scene, and it's Routines/Renderables/etc. will no longer be called. It will also not
-             * be part of any culling, collision, etc. tests.
-             *
-             * It will be up to the caller of this method to destroy the object.
-             *
-             * If you wish to remove AND destroy the object, see the destroyObject() methods.
-             *
-             * \note Removing by name is less efficient than by UUID.
-             * \param[in] uuid UUID of the SceneObject to remove.
-             *
-             * \return Pointer to the SceneObject as it is no longer managed by the SceneManager.
-             */
-            SceneObject* removeObject(UUID const& uuid);
 
             /**
              * Destroys the specified SceneObject and removes it completely from the SceneManager/Scene/etc.
@@ -220,6 +172,15 @@ namespace Ocular
 
         protected:
 
+            /**
+             * Adds the provided SceneObject to the current Scene.
+             * \param[in] object
+             */
+            void addObject(SceneObject* object, SceneObject* parent = nullptr);
+
+            /**
+             *
+             */
             void unloadScene();
 
             /**

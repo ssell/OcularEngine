@@ -60,7 +60,35 @@ namespace Ocular
 
         Scene::~Scene()
         {
+            //------------------------------------------------------------
+            // Tell the routines the scene is ending
 
+            for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
+            {
+                ARoutine* routine = (*iter);
+
+                if(routine)
+                {
+                    routine->onSceneEnd();
+                }
+            }
+
+            m_Routines.clear();
+
+            //------------------------------------------------------------
+            // Destroy the SceneTrees
+
+            if(m_StaticSceneTree)
+            {
+                delete m_StaticSceneTree;
+                m_StaticSceneTree = nullptr;
+            }
+
+            if(m_DynamicSceneTree)
+            {
+                delete m_DynamicSceneTree;
+                m_DynamicSceneTree = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -94,18 +122,45 @@ namespace Ocular
         {
             bool result = true;
 
-            if(object && verifySceneTrees())
+            if(object)
             {
-                if(object->isStatic())
+                SceneObject* parent = object->getParent();
+
+                if(parent)
                 {
-                    result = m_StaticSceneTree->removeObject(object);
+                    parent->removeChild(object);
+                }
+                else
+                {
+                    //----------------------------------------------------
+                    // Remove the object from the SceneTrees
+
+                    if(object->isStatic())
+                    {
+                        result = m_StaticSceneTree->removeObject(object);
+                    }
+
+                    if(!object->isStatic() || !result)
+                    {
+                        // Object is dynamic or was not found in the static tree to remove...
+                        m_DynamicSceneTree->removeObject(object);
+                    }
                 }
 
-                if(!object->isStatic() || !result)
+                //--------------------------------------------------------
+                // Remove it's Routines
+
+                auto routines = object->getAllRoutines();
+
+                for(auto routine = routines.begin(); routine != routines.end(); ++routine)
                 {
-                    // Object is dynamic or was not found in the static tree to remove...
-                    m_DynamicSceneTree->removeObject(object);
+                    routineRemoved((*routine));
                 }
+
+                //--------------------------------------------------------
+                // Remove it's Renderables
+
+                /// \todo Remove renderables
             }
         }
 
@@ -124,6 +179,8 @@ namespace Ocular
                 m_StaticSceneTree->destroy();
                 m_DynamicSceneTree->destroy();
             }
+
+            m_Routines.clear();
         }
 
         void Scene::update()

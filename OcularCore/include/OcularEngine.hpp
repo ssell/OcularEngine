@@ -74,9 +74,20 @@ namespace Ocular
         bool isRunning() const;
 
         /**
+         * Runs a single frame of the engine. Each frame consists of the following
+         * actions in the specified order:
          *
+         *     1. Update
+         *          I. Clock tick
+         *         II. System info refresh
+         *        III. Windows updated (system messages)
+         *         IV. Event queue processed
+         *          V. Scene update (tree restructures, routines update)
+         *     2. Render
+         *
+         * \return Returns true as long as no shutdown message (Core::Events::ShutdownEvent) has been received (value of isRunning).
          */
-        void run();
+        bool run();
 
         //----------------------------------------------------------------------------------
         // Core Subsystem Retrieval
@@ -167,9 +178,14 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-#define OcularEngine Ocular::Engine::get()
-#define OcularLogger Ocular::Engine::get().Logger()
-#define OcularScene  Ocular::Engine::get().SceneManager()
+#define OcularEngine    Ocular::Engine::get()
+#define OcularLogger    Ocular::Engine::get().Logger()
+#define OcularClock     Ocular::Engine::get().Clock()
+#define OcularScene     Ocular::Engine::get().SceneManager()
+#define OcularEvents    Ocular::Engine::get().EventManager()
+#define OcularResources Ocular::Engine::get().ResourceManager()
+#define OcularWindows   Ocular::Engine::get().WindowManager()
+#define OcularProfiler  Ocular::Engine::get().Profiler()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"

@@ -133,6 +133,18 @@
     <Filter Include="Source Files\Performance">
       <UniqueIdentifier>{7ea6c81e-8606-4657-906a-a59526207fbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene\Routine">
+      <UniqueIdentifier>{daa949cf-fb54-4a1b-981c-369d8ea9b017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Renderable">
+      <UniqueIdentifier>{a1b62256-2657-4cb9-b3f3-ad6012343d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Renderable">
+      <UniqueIdentifier>{95e8422a-d35e-40a6-8ed9-cfae952be8b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Routine">
+      <UniqueIdentifier>{f36a69a4-37e0-41aa-8aa5-bd0fdb4a1979}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -276,9 +288,6 @@
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp">
       <Filter>Source Files\Math\Bounds</Filter>
     </ClCompile>
@@ -332,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\Scene.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
+      <Filter>Source Files\Scene\Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp">
+      <Filter>Source Files\Scene\Routine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,9 +590,6 @@
     <ClInclude Include="..\..\include\Priority.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp">
       <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
@@ -614,9 +626,6 @@
     <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp">
       <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
@@ -640,6 +649,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp">
       <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
+      <Filter>Header Files\Scene\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
+      <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp">
+      <Filter>Header Files\Scene\Routine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

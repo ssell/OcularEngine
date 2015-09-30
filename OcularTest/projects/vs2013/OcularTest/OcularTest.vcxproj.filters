@@ -135,6 +135,12 @@
     <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneManager.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneObject.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
