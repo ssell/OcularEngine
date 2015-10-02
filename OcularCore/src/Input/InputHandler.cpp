@@ -59,8 +59,9 @@ namespace Ocular
             m_BufferTime = time;
         }
 
-        void InputHandler::triggerKeyboardKeyDown(KeyboardKeys const key)
+        void InputHandler::triggerKeyboardKeyDown(KeyboardKeys key)
         {
+            shiftConvertKey(key);
             m_KeyboardStateCurrent[static_cast<uint8_t>(key)] = true;
         }
 
@@ -69,8 +70,17 @@ namespace Ocular
             m_MouseStateCurrent[static_cast<uint8_t>(button)] = true;
         }
 
-        void InputHandler::triggerKeyboardKeyUp(KeyboardKeys const key)
+        void InputHandler::triggerKeyboardKeyUp(KeyboardKeys key)
         {
+            if((key == KeyboardKeys::ShiftLeft) || (key == KeyboardKeys::ShiftRight))
+            {
+                swapShiftSpecialKeys();
+            }
+            else
+            {
+                shiftConvertKey(key);
+            }
+
             m_KeyboardStateCurrent[static_cast<uint8_t>(key)] = false;
         }
 
@@ -279,6 +289,232 @@ namespace Ocular
                 OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePositionPrevious, m_MousePositionCurrent));
 
                 m_MousePositionPrevious = m_MousePositionCurrent;
+            }
+        }
+
+        void InputHandler::shiftConvertKey(KeyboardKeys& key)
+        {
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ShiftLeft)] ||
+               m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ShiftRight)])
+            {
+                switch(key)
+                {
+                case KeyboardKeys::Apostrophe:
+                    key = KeyboardKeys::Tilde;
+                    break;
+
+                case KeyboardKeys::Mainpad1:
+                    key = KeyboardKeys::ExclamationMark;
+                    break;
+
+                case KeyboardKeys::Mainpad2:
+                    key = KeyboardKeys::Ampersat;
+                    break;
+
+                case KeyboardKeys::Mainpad3:
+                    key = KeyboardKeys::Hash;
+                    break;
+
+                case KeyboardKeys::Mainpad4:
+                    key = KeyboardKeys::DollarSign;
+                    break;
+
+                case KeyboardKeys::Mainpad5:
+                    key = KeyboardKeys::PercentSign;
+                    break;
+
+                case KeyboardKeys::Mainpad6:
+                    key = KeyboardKeys::Caret;
+                    break;
+
+                case KeyboardKeys::Mainpad7:
+                    key = KeyboardKeys::Ampersand;
+                    break;
+
+                case KeyboardKeys::Mainpad8:
+                    key = KeyboardKeys::Multiply;
+                    break;
+
+                case KeyboardKeys::Mainpad9:
+                    key = KeyboardKeys::ParenthesisLeft;
+                    break;
+
+                case KeyboardKeys::Mainpad0:
+                    key = KeyboardKeys::ParenthesisRight;
+                    break;
+
+                case KeyboardKeys::Subtract:
+                    key = KeyboardKeys::Underscore;
+                    break;
+
+                case KeyboardKeys::Equals:
+                    key = KeyboardKeys::Plus;
+                    break;
+
+                case KeyboardKeys::BracketLeft:
+                    key = KeyboardKeys::CurlyBracketLeft;
+                    break;
+
+                case KeyboardKeys::BracketRight:
+                    key = KeyboardKeys::CurlyBracketRight;
+                    break;
+
+                case KeyboardKeys::Backslash:
+                    key = KeyboardKeys::Pipe;
+                    break;
+
+                case KeyboardKeys::Semicolon:
+                    key = KeyboardKeys::Colon;
+                    break;
+
+                case KeyboardKeys::QuotationSingle:
+                    key = KeyboardKeys::QuotationDouble;
+                    break; 
+
+                case KeyboardKeys::Comma:
+                    key = KeyboardKeys::AngleBracketLeft;
+                    break;
+
+                case KeyboardKeys::Period:
+                    key = KeyboardKeys::AngleBracketRight;
+                    break;
+
+                case KeyboardKeys::ForwardSlash:
+                    key = KeyboardKeys::QuestionMark;
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
+
+        void InputHandler::swapShiftSpecialKeys()
+        {
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Tilde)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Tilde)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Apostrophe)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ExclamationMark)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ExclamationMark)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad1)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersat)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersat)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad2)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Hash)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Hash)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad3)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::DollarSign)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::DollarSign)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad4)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::PercentSign)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::PercentSign)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad5)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Caret)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Caret)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad6)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersand)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersand)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad7)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad8)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisLeft)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisLeft)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad9)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisRight)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisRight)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad0)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Underscore)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Underscore)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Subtract)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Equals)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketLeft)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketLeft)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::BracketLeft)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketRight)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketRight)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::BracketRight)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Pipe)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Pipe)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Backslash)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Colon)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Colon)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Semicolon)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationDouble)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationDouble)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationSingle)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketLeft)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketLeft)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Comma)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketRight)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketRight)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Period)] = true;
+            }
+            
+            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuestionMark)])
+            {
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuestionMark)] = false;
+                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ForwardSlash)] = true;
             }
         }
     }

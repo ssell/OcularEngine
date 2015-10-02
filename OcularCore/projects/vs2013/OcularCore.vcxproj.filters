@@ -37,9 +37,6 @@
     <Filter Include="Source Files\Time">
       <UniqueIdentifier>{9b2f2705-e11c-4874-9760-38f699c8b8a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Events">
-      <UniqueIdentifier>{89c21572-12eb-4192-81cc-94e441b211fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{62f997aa-740e-450b-8415-51f209ccb7fb}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     </Filter>
     <Filter Include="Source Files\Events\Events">
       <UniqueIdentifier>{8983c53a-50e4-447f-b90d-926aa6e09d4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Events\Events">
-      <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\FileIO">
       <UniqueIdentifier>{8842a039-9519-4f8e-9ceb-67fd6a79be74}</UniqueIdentifier>
@@ -150,6 +144,12 @@
     </Filter>
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{4252400d-9449-4fd9-be4c-50a92a5f50a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event">
+      <UniqueIdentifier>{89c21572-12eb-4192-81cc-94e441b211fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event\Events">
+      <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -414,10 +414,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\EventManager.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\AEvent.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
@@ -429,10 +429,10 @@
       <Filter>Header Files\Utilities\Structures</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\AEventListener.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\File.hpp">
       <Filter>Header Files\FileIO</Filter>
@@ -465,10 +465,10 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
@@ -684,13 +684,13 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\KeyboardInputEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\MouseButtonInputEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

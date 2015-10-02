@@ -88,7 +88,7 @@ namespace Ocular
             DownArrow         = 0x15,
             Select            = 0x16,
             Execute           = 0x17,
-            Print             = 0x18,
+            PrintScreen       = 0x18,
             Insert            = 0x19,
             Delete            = 0x1A,
             Help              = 0x1B,
@@ -119,10 +119,12 @@ namespace Ocular
             Ampersat          = 0x34,     /// @
             Hash              = 0x35,     /// #
             DollarSign        = 0x36,     /// $
-            Modulo            = 0x37,     /// %
+            PercentSign       = 0x37,     /// %
             Caret             = 0x38,     /// ^
             Ampersand         = 0x39,     /// &
             Multiply          = 0x3A,     /// *
+            ParenthesisLeft   = 0x3B,     /// (
+            ParenthesisRight  = 0x3C,     /// )
             
             //------------------------------------------------------------
             // Numpad Keys reserved 76-100
@@ -143,6 +145,7 @@ namespace Ocular
             NumpadDivide      = 0x59,     /// The '/' key on the numpad. Not to be confused with 'ForwardSlash'
             NumpadDecimal     = 0x5A,     /// The '.' key on the numpad. Not to be confused with 'Period'
             NumpadSeparator   = 0x5B,
+            NumpadEnter       = 0x5C,
 
             //------------------------------------------------------------
             // Alphanumeric Keys reserved 101-150
@@ -183,6 +186,7 @@ namespace Ocular
             Mainpad7          = 0x86,     /// The '7' key on the main keypad. Not to be confused with 'Numpad7'
             Mainpad8          = 0x87,     /// The '8' key on the main keypad. Not to be confused with 'Numpad8'
             Mainpad9          = 0x88,     /// The '9' key on the main keypad. Not to be confused with 'Numpad9'
+            MainpadEnter      = 0x89,
 
             //------------------------------------------------------------
             // Function Keys reserved 151-175
@@ -215,7 +219,7 @@ namespace Ocular
             //------------------------------------------------------------
             // Other
 
-            // ...
+            Undefined         = 0xFF
         };
     }
     /**

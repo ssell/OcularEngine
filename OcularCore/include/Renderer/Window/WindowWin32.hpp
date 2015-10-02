@@ -117,8 +117,27 @@ namespace Ocular
              */
             WNDCLASS createWndClass(WNDPROC wndProc);
 
+            /**
+             * Registers to listen for raw input messages.
+             */
+            void registerRawInput();
+
+            /**
+             *
+             */
+            void handleRawKeyboardInput(RAWKEYBOARD const& data);
+
+            /**
+             * 
+             */
+            void handleRawMouseInput(RAWMOUSE const& data);
+
+            //------------------------------------------------------------
+
             HWND      m_HWND;
             HINSTANCE m_HINSTANCE;
+
+            RAWINPUTDEVICE m_RawDevices[2];      ///< The raw input devices. Currently support just two: mouse and keyboard.
         };
     }
     /**

@@ -118,6 +118,11 @@ namespace Ocular
         return m_EventManager;
     }
 
+    std::shared_ptr<Core::InputHandler> Engine::Input() const
+    {
+        return m_InputHandler;
+    }
+
     std::shared_ptr<Core::WindowManager> Engine::WindowManager() const
     {
         return m_WindowManager;

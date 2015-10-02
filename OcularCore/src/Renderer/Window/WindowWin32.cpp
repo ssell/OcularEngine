@@ -101,7 +101,7 @@ namespace Ocular
 
                 if(m_HINSTANCE == nullptr)
                 {
-                    DWORD error = GetLastError();
+                    const DWORD error = GetLastError();
                     std::stringstream stream;
                     stream << "Failed to get HINSTANCE [WinApi error " << error << "]";
 
@@ -144,7 +144,7 @@ namespace Ocular
 
                 if(m_HWND == nullptr) 
                 {
-                    DWORD error = GetLastError();
+                    const DWORD error = GetLastError();
                     std::stringstream stream;
                     stream << "Failed to create window [WinApi error " << error << "]";
 
@@ -159,6 +159,8 @@ namespace Ocular
                 ShowWindow(m_HWND, SW_SHOW);
                 SetForegroundWindow(m_HWND);
                 SetFocus(m_HWND);
+
+                registerRawInput();
             }
         }
 
@@ -186,7 +188,7 @@ namespace Ocular
             {
                 if(!DestroyWindow(m_HWND))
                 {
-                    DWORD error = GetLastError();
+                    const DWORD error = GetLastError();
                     std::stringstream stream;
                     stream << "Failed to destroy window handle '" << m_HWND
                            << "' [WinApi error " << error << "]";
@@ -199,7 +201,7 @@ namespace Ocular
 
             if(!UnregisterClass(TEXT(m_Name.c_str()), m_HINSTANCE))
             {
-                DWORD error = GetLastError();
+                const DWORD error = GetLastError();
                 std::stringstream stream;
                 stream << "Failed to unregister class '" << m_Name 
                        << "' [WinApi error " << error << "]";
@@ -258,13 +260,15 @@ namespace Ocular
 
         LRESULT CALLBACK WindowWin32::processMessage(HWND const hWnd, UINT const uMsg, WPARAM const wParam, LPARAM const lParam)
         {
+            LRESULT result = 0;
+
             switch(uMsg)
             {
             case WM_DESTROY:
             case WM_CLOSE:
             case WM_QUIT:
                 OcularEngine.EventManager()->queueEvent(std::make_shared<Events::ShutdownEvent>());
-                return 0;
+                break;
 
             case WM_SIZE:
                 OcularEngine.EventManager()->queueEvent(std::make_shared<Events::WindowResizeEvent>(
@@ -272,11 +276,362 @@ namespace Ocular
                     static_cast<unsigned>(LOWORD(lParam)),             // New width
                     static_cast<unsigned>(HIWORD(lParam)),             // New height
                     static_cast<WindowResizeType>(wParam)));           // Type of resize event
-                return 0;
+                break;
+
+            case WM_INPUT:
+            {
+                char buffer[sizeof(RAWINPUT)];
+                uint32_t size = sizeof(RAWINPUT);
+
+                if(GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, buffer, &size, sizeof(RAWINPUTHEADER)) != -1)
+                {
+                    RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(buffer);
+
+                    if(raw->header.dwType == RIM_TYPEKEYBOARD)
+                    {
+                        handleRawKeyboardInput(raw->data.keyboard);
+                    }
+                    else if(raw->header.dwType == RIM_TYPEMOUSE)
+                    {
+                        handleRawMouseInput(raw->data.mouse);
+                    }
+                }
+                else
+                {
+                    const DWORD error = GetLastError();
+                    OcularLogger->warning("Failed to get raw input data [WinApi error ", error, "]",
+                                          OCULAR_INTERNAL_LOG("WindowWin32", "processMessage"));
+                }
+
+                break;
+            }
 
             default:
-                return DefWindowProc(hWnd, uMsg, wParam, lParam);
+                result = DefWindowProc(hWnd, uMsg, wParam, lParam);
+                break;
             }
+
+            return result;
+        }
+
+        void WindowWin32::registerRawInput()
+        {
+            /**
+             * Raw Input Introduction: https://msdn.microsoft.com/en-us/library/ms645546(v=vs.85).aspx
+             * Raw Input Usage Pages:  http://www.usb.org/developers/hidpage/Hut1_12v2.pdf
+             *
+             * Brief extract of the above PDF incase it goes down (been several revisions and deadlinks):
+             *
+             * | Page ID |        Page Name         |
+             * | :-----: | :----------------------: |
+             * |   00    |        Undefined         |
+             * |   01    | Generic Desktop Controls |
+             * |   02    |    Simulation Controls   |
+             * |   03    |       VR Controls        |
+             * |   04    |      Sport Controls      |
+             * |   05    |       Game Controls      |
+             * |   06    |  Generic Device Controls |
+             * |   07    |     Keyboard / Keypad    |
+             * |   08    |           LEDs           |
+             * |   09    |          Button          |
+             *
+             * We are primarily interested in the 'Generic Desktop Controls' page:
+             *
+             * | Usage ID |      Usage Name       |
+             * | :------: | :-------------------: |
+             * |    00    |      Undefined        |
+             * |    01    |       Pointer         |
+             * |    02    |        Mouse          |
+             * |    03    |       Reserved        |
+             * |    04    |       Joystick        |
+             * |    05    |       Game Pad        |
+             * |    06    |       Keyboard        |
+             * |    07    |        Keypad         |
+             * |    08    | Multi-axis Controller |
+             */
+
+            // Register for keyboard messages
+
+            m_RawDevices[0].usUsagePage = 0x01;
+            m_RawDevices[0].usUsage     = 0x06;
+            m_RawDevices[0].dwFlags     = RIDEV_NOLEGACY;   // Add HID keyboard and ignore legacy keyboard messages
+            m_RawDevices[0].hwndTarget  = m_HWND;           // Target only this window. We do not care about messages that are out of focus.
+
+            // Register for mouse messages
+
+            m_RawDevices[1].usUsagePage = 0x01;
+            m_RawDevices[1].usUsage     = 0x02;
+            m_RawDevices[1].dwFlags     = RIDEV_NOLEGACY;
+            m_RawDevices[1].hwndTarget  = m_HWND;
+
+            if(RegisterRawInputDevices(m_RawDevices, 2, sizeof(m_RawDevices[0])) == FALSE)
+            {
+                const DWORD error = GetLastError();
+                OcularLogger->error("Failed to register for raw input devices [WinApi error ", error, "]", 
+                                    OCULAR_INTERNAL_LOG("WindowWin32", "registerRawInput"));
+            }
+        }
+
+        void WindowWin32::handleRawKeyboardInput(RAWKEYBOARD const& data)
+        {
+            // http://blog.molecular-matters.com/2011/09/05/properly-handling-keyboard-input/#more-143
+            // Helped with the trickier key strokes
+
+            uint32_t virtualKey = data.VKey;
+            uint32_t scanCode = data.MakeCode;
+            uint32_t flags = data.Flags;
+
+            if(virtualKey != 255)
+            {
+                if(virtualKey == VK_SHIFT)
+                {
+                    // Use MapVirtualKey to map to left or right shift
+                    virtualKey = MapVirtualKey(scanCode, MAPVK_VSC_TO_VK_EX);
+                }
+                else if(virtualKey == VK_NUMLOCK)
+                {
+                    // Numlock sends the same scancode as pause/break; Handle that.
+                    scanCode = (MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC) | 0x100);
+                }
+
+                //--------------------------------------------------------
+                // Check for special escape sequences
+                // http://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
+
+                const bool isE0 = ((flags & RI_KEY_E0) != 0);
+                const bool isE1 = ((flags & RI_KEY_E1) != 0);
+
+                if(isE1)
+                {
+                    if(virtualKey == VK_PAUSE)
+                    {
+                        scanCode = 0x45;
+                    }
+                    else
+                    {
+                        scanCode = MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC);
+                    }
+                }
+
+                //--------------------------------------------------------
+                // Get the actual key that was pressed/released
+
+                KeyboardKeys key = KeyboardKeys::Undefined;
+
+                switch(virtualKey)
+                {
+                    //------------------------------------
+                    // Shift, Ctrl, Alt
+
+                case VK_LSHIFT:
+                    key = KeyboardKeys::ShiftLeft;
+                    break;
+
+                case VK_RSHIFT:
+                    key = KeyboardKeys::ShiftRight;
+                    break;
+
+                case VK_CONTROL:
+                    key = (isE0 ? KeyboardKeys::CtrlRight : KeyboardKeys::CtrlLeft);
+                    break;
+
+                case VK_MENU:
+                    key = (isE0 ? KeyboardKeys::AltRight : KeyboardKeys::AltLeft);
+                    break;
+
+                    //------------------------------------
+                    // Special Keys
+
+                case VK_BACK:
+                    key = KeyboardKeys::Backspace;
+                    break;
+
+                case VK_TAB:
+                    key = KeyboardKeys::Tab;
+                    break;
+
+                case VK_ESCAPE:
+                    key = KeyboardKeys::Escape;
+                    break;
+
+                case VK_SPACE:
+                    key = KeyboardKeys::Space;
+                    break;
+
+                case VK_CAPITAL:
+                    key = KeyboardKeys::CapsLock;
+                    break;
+
+                case VK_PAUSE:
+                    key = KeyboardKeys::Pause;
+                    break;
+                case VK_EXECUTE:
+                    key = KeyboardKeys::Execute;
+                    break;
+
+                case VK_SNAPSHOT:
+                    key = KeyboardKeys::PrintScreen;
+                    break;
+
+                case VK_OEM_PLUS:
+                    key = KeyboardKeys::Plus;
+                    break;
+
+                case VK_OEM_MINUS:
+                    key = KeyboardKeys::Subtract;
+                    break;
+
+                case VK_OEM_1:
+                    key = KeyboardKeys::Semicolon;
+                    break;
+
+                case VK_OEM_2:
+                    key = KeyboardKeys::ForwardSlash;
+                    break;
+
+                case VK_OEM_3:
+                    key = KeyboardKeys::Apostrophe;
+                    break;
+
+                case VK_OEM_4:
+                    key = KeyboardKeys::BracketLeft;
+                    break;
+
+                case VK_OEM_5:
+                    key = KeyboardKeys::Backslash;
+                    break;
+
+                case VK_OEM_6:
+                    key = KeyboardKeys::BracketRight;
+                    break;
+
+                case VK_OEM_7:
+                    key = KeyboardKeys::QuotationSingle;
+                    break;
+
+                case VK_OEM_PERIOD:
+                    key = KeyboardKeys::Period;
+                    break;
+
+                case VK_OEM_COMMA:
+                    key = KeyboardKeys::Comma;
+                    break;
+
+                    //------------------------------------
+                    // Numpad Keys
+
+                case VK_DIVIDE:
+                    key = KeyboardKeys::NumpadDivide;
+                    break;
+
+                case VK_MULTIPLY:
+                    key = KeyboardKeys::NumpadMultiply;
+                    break;
+
+                case VK_SUBTRACT:
+                    key = KeyboardKeys::NumpadSubtract;
+                    break;
+
+                case VK_DECIMAL:
+                    key = KeyboardKeys::NumpadDecimal;
+                    break;
+
+                case VK_RETURN:
+                    key = (isE0 ? KeyboardKeys::NumpadEnter : KeyboardKeys::MainpadEnter);
+                    break;
+
+                case VK_INSERT:
+                    key = (isE0 ? KeyboardKeys::Insert : KeyboardKeys::Numpad0);
+                    break;
+
+                case VK_DELETE:
+                    key = (isE0 ? KeyboardKeys::Delete : KeyboardKeys::NumpadDecimal);
+                    break;
+
+                case VK_HOME:
+                    key = (isE0 ? KeyboardKeys::Home : KeyboardKeys::Numpad7);
+                    break;
+
+                case VK_END:
+                    key = (isE0 ? KeyboardKeys::End : KeyboardKeys::Numpad1);
+                    break;
+
+                case VK_PRIOR:
+                    key = (isE0 ? KeyboardKeys::PageUp : KeyboardKeys::Numpad9);
+                    break;
+
+                case VK_NEXT:
+                    key = (isE0 ? KeyboardKeys::PageDown : KeyboardKeys::Numpad3);
+                    break;
+
+                case VK_LEFT:
+                    key = (isE0 ? KeyboardKeys::LeftArrow : KeyboardKeys::Numpad4);
+                    break;
+
+                case VK_RIGHT:
+                    key = (isE0 ? KeyboardKeys::RightArrow : KeyboardKeys::Numpad6);
+                    break;
+
+                case VK_UP:
+                    key = (isE0 ? KeyboardKeys::UpArrow : KeyboardKeys::Numpad8);
+                    break;
+
+                case VK_DOWN:
+                    key = (isE0 ? KeyboardKeys::DownArrow : KeyboardKeys::Numpad2);
+                    break;
+
+                case VK_CLEAR:
+                    key = (isE0 ? KeyboardKeys::Clear : KeyboardKeys::Numpad5);
+                    break;
+
+                case VK_LWIN:
+                case VK_RWIN:
+                    key = KeyboardKeys::OSKey;
+                    break;
+
+                default:
+
+                    if(virtualKey >= 0x30 && virtualKey <= 0x39)
+                    {
+                        // Mainpad 0-9
+                        key = static_cast<KeyboardKeys>(static_cast<uint32_t>(KeyboardKeys::Mainpad0) + (virtualKey - 0x30));
+                    }
+                    else if((virtualKey >= 0x41) && (virtualKey <= 0x5A))
+                    {
+                        // A-Z 
+                        key = static_cast<KeyboardKeys>(static_cast<uint32_t>(KeyboardKeys::A) + (virtualKey - 0x41));
+                    }
+                    else if((virtualKey >= 0x70) && (virtualKey <= 0x87))
+                    {
+                        // F1-F24
+                        key = static_cast<KeyboardKeys>(static_cast<uint32_t>(KeyboardKeys::F1) + (virtualKey - 0x70));
+                    }
+                }
+
+                //--------------------------------------------------------
+                // Alert the input handler
+
+                if(key != KeyboardKeys::Undefined)
+                {
+                    const bool wasUp = ((flags & RI_KEY_BREAK) != 0);
+
+                    if(wasUp)
+                    {
+                        // Is now pressed down
+                        OcularInput->triggerKeyboardKeyDown(key);
+                    }
+                    else
+                    {
+                        // Is now released up
+                        OcularInput->triggerKeyboardKeyUp(key);
+                    }
+                }
+            }
+        }
+
+        void WindowWin32::handleRawMouseInput(RAWMOUSE const& data)
+        {
+
         }
     }
 }

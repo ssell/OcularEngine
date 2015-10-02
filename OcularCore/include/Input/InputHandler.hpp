@@ -248,6 +248,23 @@ namespace Ocular
             void processKeyboardChanges();
             void processMouseChanges();
 
+            /**
+             * Handles conversion of keys when a shift key is held down.
+             * \param[out] key Key to convert.
+             */
+            void shiftConvertKey(KeyboardKeys& key);
+
+            /**
+             * If a key is held down that requires shift, and shift is released,
+             * then that key should be released and the non-shifted version should
+             * be pressed down instead.
+             *
+             * For example, if one holds down shift and '5', then the '%' key will
+             * be flagged as pressed down. But if the shift is released prior to the
+             * other key, then the '%' should be released and '5' should be pressed.
+             */
+            void swapShiftSpecialKeys();
+
             //------------------------------------------------------------
 
             float m_BufferTime;
