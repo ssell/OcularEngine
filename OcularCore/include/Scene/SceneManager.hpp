@@ -21,6 +21,7 @@
 #include "Scene.hpp"
 #include "SceneObject.hpp"
 #include "SceneTreeType.hpp"
+#include "RoutineFactory.hpp"
 
 #include <unordered_map>
 
@@ -170,6 +171,11 @@ namespace Ocular
              */
             void loadScene(std::string const& name, SceneTreeType treeType = SceneTreeType::BoundingVolumeHierarchyCPU);
 
+            /**
+             *
+             */
+            RoutineFactory& getRoutineFactory();
+
         protected:
 
             /**
@@ -238,6 +244,8 @@ namespace Ocular
 
             std::unordered_map<std::string, SceneObject*> m_Objects; 
             Scene* m_Scene;
+
+            RoutineFactory m_RoutineFactory;
         };
     }
     /**

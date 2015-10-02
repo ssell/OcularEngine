@@ -20,6 +20,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <functional>
 
 //------------------------------------------------------------------------------------------
 
@@ -44,14 +45,31 @@ namespace Ocular
         {
         public:
 
-            static ARoutine* Create(std::string const& name);
-            static bool Register(std::string const& name);
+            RoutineFactory();
+            ~RoutineFactory();
+
+            ARoutine* createRoutine(std::string const& name);
+
+            template<class T>
+            bool registerRoutine(std::string name)
+            {
+                bool result = false;
+                const auto find = m_RoutineMap.find(name);
+
+                if(find == m_RoutineMap.end())
+                {
+                    m_RoutineMap.insert(std::make_pair(name, [](){ return new T; }));
+                    result = true;
+                }
+
+                return result;
+            }
 
         protected:
 
         private:
 
-            static std::unordered_map<std::string, int> m_RoutineMap;
+            std::unordered_map<std::string, std::function<ARoutine*()>> m_RoutineMap;
         };
     }
     /**

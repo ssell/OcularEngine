@@ -213,6 +213,11 @@ namespace Ocular
             m_Scene->addObjects(persistentObjects);
         }
 
+        RoutineFactory& SceneManager::getRoutineFactory()
+        {
+            return m_RoutineFactory;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

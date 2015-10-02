@@ -18,6 +18,7 @@
 #include "Scene/SceneObject.hpp"
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
+#include "Scene/RoutineFactory.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -412,12 +413,13 @@ namespace Ocular
         bool SceneObject::addRoutine(std::string const& name)
         {
             bool result = false;
-            ARoutine* routine = nullptr;
-
-            // Find premade routine implementations...
+            ARoutine* routine = OcularScene->getRoutineFactory().createRoutine(name);
 
             if(routine)
             {
+                routine->setParent(this);
+                routine->setName(name);
+
                 OcularScene->objectAddedRoutine(routine);
                 routine->onCreation();
 

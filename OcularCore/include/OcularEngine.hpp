@@ -158,11 +158,7 @@ namespace Ocular
         // Setup
 
         void setupLogger();
-        void setupClock();
         void setupEvents();
-        void setupWindowManager();
-        void setupResourceManager();
-        void setupSceneManager();
 
         void shutdownWindowManager();
         

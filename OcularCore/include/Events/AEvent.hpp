@@ -57,6 +57,11 @@ namespace Ocular
              */
             Priority getPriority() const;
 
+            /**
+             * 
+             */
+            bool isType(std::string const& name) const;
+
         protected:
 
         private:

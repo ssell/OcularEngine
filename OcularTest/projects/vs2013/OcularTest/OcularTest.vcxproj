@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsAABB.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsSphere.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp" />
+    <ClInclude Include="..\..\..\include\Tests\Routines\InputLoggerRoutine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

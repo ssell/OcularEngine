@@ -56,14 +56,11 @@ namespace Ocular
          */
         class ARoutine : public AEventListener
         {
+            friend class SceneObject;
+
         public:
 
-            /**
-             * \param[in] name   Unique name of the Routine.
-             * \param[in] parent SceneObject that owns this Routine. If no SceneObject is provided (NULL), then
-             *                   the various update methods will never be called.
-             */
-            ARoutine(std::string const& name, SceneObject* parent);
+            ARoutine();
             ~ARoutine();
             
             bool operator<(ARoutine const& rhs);
@@ -168,6 +165,9 @@ namespace Ocular
             std::string getName() const;
 
         protected:
+
+            void setParent(SceneObject* object);
+            void setName(std::string const& name);
 
             Priority m_Priority;      ///< Priority level of this Routine in the Routine Queue.
             std::string m_Name;

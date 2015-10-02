@@ -517,6 +517,11 @@ namespace Ocular
                     key = KeyboardKeys::Comma;
                     break;
 
+                case VK_LWIN:
+                case VK_RWIN:
+                    key = KeyboardKeys::OSKey;
+                    break;
+
                     //------------------------------------
                     // Numpad Keys
 
@@ -582,11 +587,6 @@ namespace Ocular
 
                 case VK_CLEAR:
                     key = (isE0 ? KeyboardKeys::Clear : KeyboardKeys::Numpad5);
-                    break;
-
-                case VK_LWIN:
-                case VK_RWIN:
-                    key = KeyboardKeys::OSKey;
                     break;
 
                 default:

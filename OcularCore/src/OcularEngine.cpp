@@ -71,12 +71,8 @@ namespace Ocular
 
     bool Engine::initialize()
     {
-        setupClock();
         setupLogger();
         setupEvents();
-        setupWindowManager();
-        setupResourceManager();
-        setupSceneManager();
         
         Core::SystemInfo::initialize();
 
@@ -196,29 +192,9 @@ namespace Ocular
         m_Logger->registerListener(new Core::VSConsoleLoggerListener());
     }
 
-    void Engine::setupClock()
-    {
-        
-    }
-
     void Engine::setupEvents()
     {
         m_EventManager->registerListener(this, Core::Priority::Medium);
-    }
-
-    void Engine::setupResourceManager()
-    {
-        
-    }
-
-    void Engine::setupSceneManager()
-    {
-
-    }
-
-    void Engine::setupWindowManager()
-    {
-        
     }
 
     void Engine::shutdownWindowManager()

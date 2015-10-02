@@ -26,11 +26,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARoutine::ARoutine(std::string const& name, SceneObject* parent)
+        ARoutine::ARoutine()
         {
-            m_Name = name;
             m_Priority = Priority::Medium;
-            m_Parent = parent;
+            m_Parent = nullptr;
         }
 
         ARoutine::~ARoutine()
@@ -125,6 +124,16 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void ARoutine::setParent(SceneObject* object)
+        {
+            m_Parent = object;
+        }
+
+        void ARoutine::setName(std::string const& name)
+        {
+            m_Name = name;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

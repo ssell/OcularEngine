@@ -692,5 +692,8 @@
     <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp">
       <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp">
+      <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

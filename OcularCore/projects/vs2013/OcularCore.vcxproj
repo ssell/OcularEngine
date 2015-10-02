@@ -328,6 +328,7 @@
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
+    <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />

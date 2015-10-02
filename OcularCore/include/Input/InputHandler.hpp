@@ -241,6 +241,13 @@ namespace Ocular
              */
             bool isRightMouseDown(bool queryLatest = false) const;
 
+            //------------------------------------------------------------
+            // Misc.
+            
+            static std::string ToString(KeyState state);
+            static std::string ToString(MouseButtons button);
+            static std::string ToString(KeyboardKeys key);
+
         protected:
 
         private:

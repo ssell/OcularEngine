@@ -49,7 +49,7 @@ namespace Ocular
             ~ResourceLoaderManager();
 
             /**
-             * Registers a new resource loader with the manager. Note this this method should generally
+             * Registers a new resource loader with the manager. Note that this method should generally
              * never be directly called, instead a ReasourceLoaderRegistrar should be used instead.
              *
              * If the manager already has a ResourceLoader registered with the supported extension,

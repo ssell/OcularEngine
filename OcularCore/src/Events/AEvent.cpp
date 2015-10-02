@@ -46,6 +46,11 @@ namespace Ocular
             return m_Priority;
         }
 
+        bool AEvent::isType(std::string const& name) const
+        {
+            return (m_Name.compare(name) == 0);
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

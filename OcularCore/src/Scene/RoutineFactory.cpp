@@ -15,6 +15,8 @@
  */
 
 #include "Scene/RoutineFactory.hpp"
+#include "Scene/ARoutine.hpp"
+
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -27,36 +29,28 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        RoutineFactory::RoutineFactory()
+        {
+
+        }
+
+        RoutineFactory::~RoutineFactory()
+        {
+
+        }
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        ARoutine* RoutineFactory::Create(std::string const& name)
+        ARoutine* RoutineFactory::createRoutine(std::string const& name)
         {
             ARoutine* result = nullptr;
             const auto find = m_RoutineMap.find(name);
 
             if(find != m_RoutineMap.end())
             {
-
-            }
-
-            return result;
-        }
-
-        bool RoutineFactory::Register(std::string const& name)
-        {
-            bool result = false;
-            const auto find = m_RoutineMap.find(name);
-
-            if(find == m_RoutineMap.end())
-            {
-                result = true;
-            }
-            else
-            {
-                OcularLogger->error("Failed to register routine with name '", name, "'. Name already in use.",
-                                    OCULAR_INTERNAL_LOG("RoutineFactory", "Register"));
+                result = find->second();
             }
 
             return result;

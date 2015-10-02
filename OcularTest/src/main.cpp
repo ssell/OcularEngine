@@ -55,6 +55,9 @@ int main(int argc, char** argv)
 
     openWindow();
 
+    SceneObject* object = OcularScene->createObject("Test Object");
+    object->addRoutine("InputLogger");
+
     while(OcularEngine.run());
 
     OcularEngine.shutdown();
