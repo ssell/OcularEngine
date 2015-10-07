@@ -74,9 +74,17 @@ namespace Ocular
             }
             else
             {
-                shiftConvertKey(key);
+                if(m_KeyboardState[static_cast<uint8_t>(key)])
+                {
+                    toggleKeyState(key);
+                    return;
+                }
+                else
+                {
+                    shiftConvertKey(key);
+                }
             }
-
+            
             if(m_KeyboardState[static_cast<uint8_t>(key)])
             {
                 toggleKeyState(key);
