@@ -22,6 +22,7 @@
 #include "Time/Timer.hpp"
 
 #include <sstream>
+#include <bitset>
 
 //------------------------------------------------------------------------------------------
 
@@ -630,6 +631,104 @@ namespace Ocular
         }
 
         void WindowWin32::handleRawMouseInput(RAWMOUSE const& data)
+        {
+            if(data.usButtonFlags)
+            {
+                handleRawMouseButtonInput(data);
+            }
+        }
+
+        void WindowWin32::handleRawMouseButtonInput(RAWMOUSE const& data)
+        {
+            /**
+             * Multiple buttons can (rarely) be pressed/released at the exact same time,
+             * which we do not want to risk missing. Must check the following bits:
+             *
+             *     0000 0000 0001: Left Mouse Down
+             *     0000 0000 0010: Left Mouse Up
+             *     0000 0000 0100: Right Mouse Down
+             *     0000 0000 1000: Right Mouse Up
+             *     0000 0001 0000: Middle Mouse Down
+             *     0000 0010 0000: Middle Mouse Up
+             *     0000 0100 0000: XButton1 Down
+             *     0000 1000 0000: XButton1 Up
+             *     0001 0000 0000: XButton2 Down
+             *     0010 0000 0000: XButton2 Up
+             *     0100 0000 0000: Mouse Wheel Changed
+             */
+
+            const std::bitset<16> bits(data.usButtonFlags);
+
+            //--------------------------------------------------------
+            // Check for left button press/release
+
+            if(bits[0])
+            {
+                OcularInput->triggerMouseButtonDown(MouseButtons::Left);
+            }
+            else if(bits[1])
+            {
+                OcularInput->triggerMouseButtonUp(MouseButtons::Left);
+            }
+
+            //--------------------------------------------------------
+            // Check for right button press/release
+
+            if(bits[2])
+            {
+                OcularInput->triggerMouseButtonDown(MouseButtons::Right);
+            }
+            else if(bits[3])
+            {
+                OcularInput->triggerMouseButtonUp(MouseButtons::Right);
+            }
+
+            //--------------------------------------------------------
+            // Check for middle button press/release
+
+            if(bits[4])
+            {
+                OcularInput->triggerMouseButtonDown(MouseButtons::Middle);
+            }
+            else if(bits[5])
+            {
+                OcularInput->triggerMouseButtonUp(MouseButtons::Middle);
+            }
+
+            //--------------------------------------------------------
+            // Check for XButton1 press/release
+
+            if(bits[6])
+            {
+                OcularInput->triggerMouseButtonDown(MouseButtons::XButton1);
+            }
+            else if(bits[7])
+            {
+                OcularInput->triggerMouseButtonUp(MouseButtons::XButton1);
+            }
+
+            //--------------------------------------------------------
+            // Check for XButton2 press/release
+
+            if(bits[8])
+            {
+                OcularInput->triggerMouseButtonDown(MouseButtons::XButton2);
+            }
+            else if(bits[9])
+            {
+                OcularInput->triggerMouseButtonUp(MouseButtons::XButton2);
+            }
+
+            //--------------------------------------------------------
+            // Handle mouse wheel change
+
+            if(bits[10])
+            {
+                OcularInput->triggerMouseScrollDelta(static_cast<int8_t>(data.usButtonData));
+            }
+        }
+
+        void WindowWin32::handleRawMouseMoveInput(RAWMOUSE const& data)
         {
 
         }

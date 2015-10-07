@@ -20,6 +20,7 @@
 #include "Events/Events/KeyboardInputEvent.hpp"
 #include "Events/Events/MouseButtonInputEvent.hpp"
 #include "Events/Events/MouseMoveInputEvent.hpp"
+#include "Events/Events/MouseScrollInputEvent.hpp"
 
 #include <algorithm>
 
@@ -99,14 +100,26 @@ namespace Ocular
             }
         }
 
-        void InputHandler::setMousePosition(Math::Vector2f const& position)
+        void InputHandler::triggerMouseScrollDelta(int8_t const delta)
         {
-            m_MousePositionCurrent = position;
+            if(delta != 0)
+            {
+                OcularEvents->queueEvent(std::make_shared<Events::MouseScrollInputEvent>(delta));
+            }
         }
 
-        Math::Vector2f const& InputHandler::getMousePosition() const
+        void InputHandler::setMousePosition(Math::Vector2ui const& position)
         {
-            return m_MousePositionCurrent;
+            if(m_MousePosition != position)
+            {
+                OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePosition, position));
+                m_MousePosition = position;
+            }
+        }
+
+        Math::Vector2ui const& InputHandler::getMousePosition() const
+        {
+            return m_MousePosition;
         }
 
         bool InputHandler::isKeyboardKeyDown(KeyboardKeys const key) const
@@ -428,25 +441,45 @@ namespace Ocular
 
         std::string InputHandler::ToString(KeyState const state)
         {
-            static std::string stringArray[2] =
+            static const std::string stringArray[3] =
             {
                 "Released",
-                "Pressed"
+                "Pressed",
+                "Undefined"
             };
 
-            return stringArray[static_cast<uint8_t>(state)];
+            std::string result = "Undefined";
+            const uint8_t index = static_cast<uint8_t>(state);
+
+            if(index < 3)
+            {
+                result = stringArray[index];
+            }
+
+            return result;
         }
 
         std::string InputHandler::ToString(MouseButtons const button)
         {
-            static std::string stringArray[3] =
+            static std::string stringArray[6] =
             {
                 "Left",
                 "Right",
-                "Middle"
+                "Middle",
+                "XButton1",
+                "XButton2",
+                "Undefined"
             };
 
-            return stringArray[static_cast<uint8_t>(button)];
+            std::string result = "Undefined";
+            const uint8_t index = static_cast<uint8_t>(button);
+
+            if(index < 6)
+            {
+                result = stringArray[index];
+            }
+
+            return result;
         }
 
         std::string InputHandler::ToString(KeyboardKeys const key)
@@ -710,7 +743,15 @@ namespace Ocular
                 "Undefined"
             };
 
-            return stringArray[static_cast<uint8_t>(key)];
+            std::string result = "Undefined";
+            const uint8_t index = static_cast<uint8_t>(key);
+
+            if(index < 255)
+            {
+                result = stringArray[index];
+            }
+
+            return result;
         }
     }
 }

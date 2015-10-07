@@ -132,6 +132,16 @@ namespace Ocular
              */
             void handleRawMouseInput(RAWMOUSE const& data);
 
+            /**
+             * 
+             */
+            void handleRawMouseButtonInput(RAWMOUSE const& data);
+
+            /**
+             * 
+             */
+            void handleRawMouseMoveInput(RAWMOUSE const& data);
+
             //------------------------------------------------------------
 
             HWND      m_HWND;

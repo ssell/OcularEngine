@@ -349,8 +349,10 @@ namespace Ocular
         //--------------------------------------------
         // Common vector formats
 
-        typedef Vector2<float> Vector2f;
-        typedef Vector2<double> Vector2d;
+        typedef Vector2<int32_t>  Vector2i;
+        typedef Vector2<uint32_t> Vector2ui;
+        typedef Vector2<float>    Vector2f;
+        typedef Vector2<double>   Vector2d;
 
         typedef Vector2f Point2f;
         typedef Vector2d Point2d;

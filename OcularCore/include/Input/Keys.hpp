@@ -38,8 +38,9 @@ namespace Ocular
          */
         enum class KeyState : uint8_t
         {
-            Released = 0x00,
-            Pressed  = 0x01
+            Released  = 0x00,
+            Pressed   = 0x01,
+            Undefined = 0x02
         };
 
         /**
@@ -49,9 +50,12 @@ namespace Ocular
          */
         enum class MouseButtons : uint8_t
         {
-            Left   = 0x00,
-            Right  = 0x01,
-            Middle = 0x02
+            Left      = 0x00,
+            Right     = 0x01,
+            Middle    = 0x02,
+            XButton1  = 0x03,
+            XButton2  = 0x04,
+            Undefined = 0x05
         };
 
         /**

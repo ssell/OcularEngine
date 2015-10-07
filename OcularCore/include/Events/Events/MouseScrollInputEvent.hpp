@@ -15,12 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_MOUSE_MOVE_INPUT_EVENT__H__
-#define __H__OCULAR_EVENTS_MOUSE_MOVE_INPUT_EVENT__H__
+#ifndef __H__OCULAR_EVENTS_MOUSE_SCROLL_INPUT_EVENT__H__
+#define __H__OCULAR_EVENTS_MOUSE_SCROLL_INPUT_EVENT__H__
 
 #include "Events/AEvent.hpp"
 #include "Input/Keys.hpp"
-#include "Math/Vector2.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -43,23 +42,22 @@ namespace Ocular
         namespace Events
         {
             /**
-             * \class MouseMoveInputEvent
+             * \class MouseScrollInputEvent
              *
-             * Event notifying of mouse movement input.
+             * Event notifying of mouse scrolling input.
              *
-             * String Descriptor: "MouseMoveInputEvent" <br/>
+             * String Descriptor: "MouseScrollInputEvent" <br/>
              * Event Priority: Medium 
              */
-            class MouseMoveInputEvent : public AEvent 
+            class MouseScrollInputEvent : public AEvent 
             {
             public:
 
-                MouseMoveInputEvent(Math::Vector2ui const& prev, Math::Vector2ui const& curr);
-                MouseMoveInputEvent();
-                ~MouseMoveInputEvent();
+                MouseScrollInputEvent(int8_t delta);
+                MouseScrollInputEvent();
+                ~MouseScrollInputEvent();
 
-                Math::Vector2ui prevPosition;
-                Math::Vector2ui currPosition;
+                int8_t delta;
 
             protected:
 

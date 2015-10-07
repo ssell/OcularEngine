@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Events/Events/MouseMoveInputEvent.hpp"
+#include "Events/Events/MouseScrollInputEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,19 +28,19 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            MouseMoveInputEvent::MouseMoveInputEvent(Math::Vector2ui const& prev, Math::Vector2ui const& curr)
-                : AEvent("MouseMoveInputEvent", Priority::Medium), prevPosition(prev), currPosition(curr)
+            MouseScrollInputEvent::MouseScrollInputEvent(int8_t delta)
+                : AEvent("MouseScrollInputEvent", Priority::Medium), delta(delta)
             {
 
             }
 
-            MouseMoveInputEvent::MouseMoveInputEvent()
-                : AEvent("MouseMoveInputEvent", Priority::Medium)
+            MouseScrollInputEvent::MouseScrollInputEvent()
+                : AEvent("MouseScrollInputEvent", Priority::Medium), delta(0)
             {
 
             }
 
-            MouseMoveInputEvent::~MouseMoveInputEvent()
+            MouseScrollInputEvent::~MouseScrollInputEvent()
             {
         
             }

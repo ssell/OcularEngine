@@ -52,36 +52,6 @@ namespace Ocular
         };
 
         //----------------------------------------------------------------------------------
-        // Type Checking
-        //----------------------------------------------------------------------------------
-
-        /**
-         * \struct TypeIsInteger
-         * \brief Used to determine if a template type is an integer.
-         *
-         * Example of usage:
-         *
-         *     if(TypeIsInteger<T>::value)
-         *     {
-         *         // Do integer-based operation
-         *     }
-         *     else
-         *     {
-         *         // Do floating-point operation
-         *     }
-         *
-         * Value will be equal to TRUE in all cases except for when T is a float or double.
-         */
-        template<typename T>
-        struct TypeIsInteger { static const bool value = true; };
-
-        template<>
-        struct TypeIsInteger<float> { static const bool value = false; };
-
-        template<>
-        struct TypeIsInteger<double> { static const bool value = false; };
-
-        //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
 

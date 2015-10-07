@@ -108,7 +108,13 @@ namespace Ocular
              *
              * \param[in] position New mouse position.
              */
-            void setMousePosition(Math::Vector2f const& position);
+            void setMousePosition(Math::Vector2ui const& position);
+
+            /**
+             * Applies a delta value to the mouse wheel.
+             * \param[in] delta
+             */
+            void triggerMouseScrollDelta(int8_t delta);
 
             //------------------------------------------------------------
             // Query Methods
@@ -116,7 +122,7 @@ namespace Ocular
             /**
              * Retrieves the current mouse position in window coordinates. 
              */
-            Math::Vector2f const& getMousePosition() const;
+            Math::Vector2ui const& getMousePosition() const;
 
             /**
              * Checks if the specified keyboard key is down.
@@ -250,10 +256,9 @@ namespace Ocular
             //------------------------------------------------------------
 
             std::array<bool, 255> m_KeyboardState; 
-            std::array<bool, 3> m_MouseState;
+            std::array<bool, 5> m_MouseState;
 
-            Math::Vector2f m_MousePositionCurrent;
-            Math::Vector2f m_MousePositionPrevious;
+            Math::Vector2ui m_MousePosition;
         };
     }
     /**

@@ -16,7 +16,11 @@
 
 #include "Tests/Routines/InputLoggerRoutine.hpp"
 #include "Scene/RoutineRegistrar.hpp"
+
 #include "Events/Events/KeyboardInputEvent.hpp"
+#include "Events/Events/MouseButtonInputEvent.hpp"
+#include "Events/Events/MouseMoveInputEvent.hpp"
+#include "Events/Events/MouseScrollInputEvent.hpp"
 
 using namespace Ocular;
 using namespace Ocular::Core;
@@ -53,6 +57,37 @@ bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
             OcularLogger->info("The '", InputHandler::ToString(inputEvent->key), "' key was ", InputHandler::ToString(inputEvent->state));
         }
     }
+    else if(event->isType("MouseButtonInputEvent"))
+    {
+        Events::MouseButtonInputEvent* inputEvent = dynamic_cast<Events::MouseButtonInputEvent*>(event.get());
+
+        if(inputEvent)
+        {
+            OcularLogger->info("The '", InputHandler::ToString(inputEvent->button), "' button was ", InputHandler::ToString(inputEvent->state));
+        }
+    }
+    else if(event->isType("MouseMoveInputEvent"))
+    {
+        Events::MouseMoveInputEvent* inputEvent = dynamic_cast<Events::MouseMoveInputEvent*>(event.get());
+
+        if(inputEvent)
+        {
+            const Ocular::Math::Vector2ui prev = inputEvent->prevPosition;
+            const Ocular::Math::Vector2ui curr = inputEvent->currPosition;
+
+            OcularLogger->info("Mouse moved to (", curr.x, ", ",curr.y, ") from (", prev.x, ", ", prev.y, ")");
+        }
+    }
+    else if(event->isType("MouseScrollInputEvent"))
+    {
+        Events::MouseScrollInputEvent* inputEvent = dynamic_cast<Events::MouseScrollInputEvent*>(event.get());
+
+        if(inputEvent)
+        {
+            OcularLogger->info("The mouse wheel has scrolled ", static_cast<int32_t>(inputEvent->delta));
+        }
+    }
+
 
     return true;
 }

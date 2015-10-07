@@ -366,6 +366,9 @@
     <ClCompile Include="..\..\src\Events\Events\MouseMoveInputEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseScrollInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -694,6 +697,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp">
       <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseScrollInputEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
