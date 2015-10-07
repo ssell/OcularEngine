@@ -56,7 +56,7 @@ namespace Ocular
             return m_Resource;
         }
 
-        unsigned long long ResourceDetails::getTimeOfLastRequest() const
+        uint64_t ResourceDetails::getTimeOfLastRequest() const
         {
             return m_LastRequest;
         }
@@ -66,9 +66,9 @@ namespace Ocular
             return m_NumberOfRequests;
         }
 
-        unsigned long long ResourceDetails::getSize() const
+        uint64_t ResourceDetails::getSize() const
         {
-            unsigned long long result = 0ULL;
+            uint64_t result = 0ULL;
 
             if(m_Resource != nullptr)
             {

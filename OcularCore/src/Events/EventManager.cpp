@@ -42,7 +42,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void EventManager::processEvents(unsigned long long const duration)
+        void EventManager::processEvents(uint64_t const duration)
         {
             Timer timer;
             timer.start();
@@ -60,7 +60,7 @@ namespace Ocular
             }
         }
 
-        void EventManager::registerListener(AEventListener* listener, unsigned const priority)
+        void EventManager::registerListener(AEventListener* listener, uint32_t const priority)
         {
             if((listener != nullptr) && (findListener(listener) == -1))
             {

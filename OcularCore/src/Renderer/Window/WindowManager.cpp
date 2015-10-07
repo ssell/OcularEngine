@@ -149,7 +149,7 @@ namespace Ocular
             m_MainWindow = getWindow(uuid);
         }
         
-        void WindowManager::updateWindows(long long time)
+        void WindowManager::updateWindows(int64_t time)
         {
             for(auto iter = m_Windows.begin(); iter != m_Windows.end(); ++iter)
             {

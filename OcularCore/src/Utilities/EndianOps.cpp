@@ -27,7 +27,7 @@ namespace Ocular
     {
         namespace EndianOps
         {
-            void convert(Endianness from, Endianness to, char& value)
+            void convert(Endianness from, Endianness to, int8_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -50,7 +50,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, short& value)
+            void convert(Endianness from, Endianness to, int16_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -70,7 +70,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, int& value)
+            void convert(Endianness from, Endianness to, int32_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -90,7 +90,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, long long& value)
+            void convert(Endianness from, Endianness to, int64_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -110,7 +110,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, unsigned char& value)
+            void convert(Endianness from, Endianness to, uint8_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -130,7 +130,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, unsigned short& value)
+            void convert(Endianness from, Endianness to, uint16_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -150,7 +150,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, unsigned int& value)
+            void convert(Endianness from, Endianness to, uint32_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -170,7 +170,7 @@ namespace Ocular
                 }
             }
 
-            void convert(Endianness from, Endianness to, unsigned long long& value)
+            void convert(Endianness from, Endianness to, uint64_t& value)
             {
                 if((from != Endianness::Unknown) && (to != Endianness::Unknown) && (from != to))
                 {
@@ -234,43 +234,43 @@ namespace Ocular
             // CONVERT TO REVERSE
             //------------------------------------------------------------------------------
 
-            void convertToReverse(char& value)
+            void convertToReverse(int8_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<int8_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
 
-            void convertToReverse(short& value)
+            void convertToReverse(int16_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<int16_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
-            void convertToReverse(int& value)
+            void convertToReverse(int32_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<int32_t>(value));
-            }
-
-            void convertToReverse(long long& value)
-            {
-                value = boost::endian::endian_reverse(static_cast<int64_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
 
-            void convertToReverse(unsigned char& value)
+            void convertToReverse(int64_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<uint8_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
 
-            void convertToReverse(unsigned short& value)
+            void convertToReverse(uint8_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<uint16_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
 
-            void convertToReverse(unsigned int& value)
+            void convertToReverse(uint16_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<uint32_t>(value));
+                value = boost::endian::endian_reverse(value);
             }
 
-            void convertToReverse(unsigned long long& value)
+            void convertToReverse(uint32_t& value)
             {
-                value = boost::endian::endian_reverse(static_cast<uint64_t>(value));
+                value = boost::endian::endian_reverse(value);
+            }
+
+            void convertToReverse(uint64_t& value)
+            {
+                value = boost::endian::endian_reverse(value);
             }
 
             void convertToReverse(float& value)

@@ -55,7 +55,7 @@ namespace Ocular
                 WELL512();
                 ~WELL512();
 
-                virtual void seed(long long seed);
+                virtual void seed(int64_t seed);
                 virtual unsigned next();
 
             protected:

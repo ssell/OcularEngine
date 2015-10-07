@@ -20,6 +20,7 @@
 
 #include "ResourceType.hpp"
 #include "FileIO/File.hpp"
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ namespace Ocular
             /**
              * \return The size, in bytes, of the Resource
              */
-            unsigned long long getSize() const;
+            uint64_t getSize() const;
 
             /**
              * \return The type of resource.
@@ -94,7 +95,7 @@ namespace Ocular
             File m_SourceFile;
             bool m_IsInMemory;
 
-            unsigned long long m_SizeInMemory;
+            uint64_t m_SizeInMemory;
 
         private:
 

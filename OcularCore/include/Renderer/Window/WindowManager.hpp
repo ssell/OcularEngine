@@ -115,7 +115,7 @@ namespace Ocular
              *
              * \param[in] time The amount of time (in MS) to allow a window to digest and dispatch system messages.
              */
-            void updateWindows(long long time);
+            void updateWindows(int64_t time);
 
         protected:
 

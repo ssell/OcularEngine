@@ -64,7 +64,7 @@ namespace Ocular
             return m_IsInMemory;
         }
 
-        unsigned long long Resource::getSize() const
+        uint64_t Resource::getSize() const
         {
             return m_SizeInMemory;
         }

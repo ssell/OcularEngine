@@ -109,7 +109,7 @@ namespace Ocular
                 return errorMessage;
             }
 
-            std::string bytesToString(unsigned long long bytes)
+            std::string bytesToString(uint64_t bytes)
             {
                 std::string result = "";
 

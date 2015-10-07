@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 
 #include <string>
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 
@@ -84,7 +85,7 @@ namespace Ocular
              * \param[in] bytes
              * \return Formatted string
              */
-            std::string bytesToString(unsigned long long bytes);
+            std::string bytesToString(uint64_t bytes);
         }
         /**
          * @} End of Doxygen Groups

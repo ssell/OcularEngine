@@ -19,6 +19,7 @@
 #define __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
 
 #include "Common.hpp"
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 
@@ -41,12 +42,21 @@ namespace Ocular
         {
             /**
              * Converts between the specified endianness orders.
-             * 
+             *
              * \param[in] from      Endianness of the incoming value
-             * \param[in] to        Endianness to convert the incoming value to.  
+             * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, char& value);
+            void convert(Endianness from, Endianness to, int8_t& value);
+            
+            /**
+             * Converts between the specified endianness orders.
+             *
+             * \param[in] from      Endianness of the incoming value
+             * \param[in] to        Endianness to convert the incoming value to.
+             * \param[in,out] value Object to convert.
+             */
+            void convert(Endianness from, Endianness to, int16_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -55,7 +65,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, short& value);
+            void convert(Endianness from, Endianness to, int32_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -64,7 +74,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, int& value);
+            void convert(Endianness from, Endianness to, int64_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -73,7 +83,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, long long& value);
+            void convert(Endianness from, Endianness to, uint8_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -82,7 +92,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, unsigned char& value);
+            void convert(Endianness from, Endianness to, uint16_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -91,7 +101,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, unsigned short& value);
+            void convert(Endianness from, Endianness to, uint32_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -100,16 +110,7 @@ namespace Ocular
              * \param[in] to        Endianness to convert the incoming value to.
              * \param[in,out] value Object to convert.
              */
-            void convert(Endianness from, Endianness to, unsigned int& value);
-
-            /**
-             * Converts between the specified endianness orders.
-             *
-             * \param[in] from      Endianness of the incoming value
-             * \param[in] to        Endianness to convert the incoming value to.
-             * \param[in,out] value Object to convert.
-             */
-            void convert(Endianness from, Endianness to, unsigned long long& value);
+            void convert(Endianness from, Endianness to, uint64_t& value);
 
             /**
              * Converts between the specified endianness orders.
@@ -135,49 +136,49 @@ namespace Ocular
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(char& value);
+            void convertToReverse(int8_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(short& value);
+            void convertToReverse(int16_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(int& value);
+            void convertToReverse(int32_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(long long& value);
+            void convertToReverse(int64_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(unsigned char& value);
+            void convertToReverse(uint8_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(unsigned short& value);
+            void convertToReverse(uint16_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(unsigned int& value);
+            void convertToReverse(uint32_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.
              * \param[in,out] value
              */
-            void convertToReverse(unsigned long long& value);
+            void convertToReverse(uint64_t& value);
             
             /**
              * Converts from big endian to little endian, and vice versa.

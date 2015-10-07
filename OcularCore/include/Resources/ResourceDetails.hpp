@@ -59,7 +59,7 @@ namespace Ocular
             /**
              *
              */
-            unsigned long long getTimeOfLastRequest() const;
+            uint64_t getTimeOfLastRequest() const;
 
             /**
              *
@@ -69,7 +69,7 @@ namespace Ocular
             /**
              *
              */
-            unsigned long long getSize() const;
+            uint64_t getSize() const;
 
             /**
              *
@@ -82,7 +82,7 @@ namespace Ocular
 
             std::shared_ptr<Resource> m_Resource;
 
-            unsigned long long m_LastRequest;  /// In NS
+            uint64_t m_LastRequest;  /// In NS
             unsigned m_NumberOfRequests;
         };
     }

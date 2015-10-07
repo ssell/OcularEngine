@@ -70,7 +70,7 @@ namespace Ocular
              *
              * \return Amount of time elapsed in milliseconds
              */
-            unsigned long long getElapsedMS();
+            uint64_t getElapsedMS();
 
         protected:
 
@@ -80,8 +80,8 @@ namespace Ocular
 
             bool m_Stopped;
 
-            unsigned long long m_ElapsedMS;
-            unsigned long long m_LastUpdate;
+            uint64_t m_ElapsedMS;
+            uint64_t m_LastUpdate;
         };
     }
     /**

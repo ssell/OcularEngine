@@ -176,7 +176,7 @@ namespace Ocular
              *
              * \param[in] maxMemory Amount of memory to allocate to Resources
              */
-            void setMemoryLimit(unsigned long long maxMemory);
+            void setMemoryLimit(uint64_t maxMemory);
 
             /**
              * Sets the priority behaviour when determining which Resource to unload when 
@@ -287,7 +287,7 @@ namespace Ocular
 
             ResourcePriorityBehaviour m_PriorityBehaviour;
 
-            unsigned long long m_MemoryLimit;
+            uint64_t m_MemoryLimit;
 
         };
     }

@@ -47,9 +47,9 @@ namespace Ocular
             EventManager();
             ~EventManager();
 
-            void processEvents(unsigned long long const duration);
+            void processEvents(uint64_t duration);
            
-            void registerListener(AEventListener* listener, unsigned const priority);
+            void registerListener(AEventListener* listener, uint32_t const priority);
             void unregisterListener(AEventListener* listener);
 
             void queueEvent(std::shared_ptr<AEvent> event);

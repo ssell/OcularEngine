@@ -50,7 +50,7 @@ namespace Ocular
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
 
-            void WELL512::seed(long long seed)
+            void WELL512::seed(int64_t seed)
             {
                 XorShift96 prng;
                 prng.seed(seed);

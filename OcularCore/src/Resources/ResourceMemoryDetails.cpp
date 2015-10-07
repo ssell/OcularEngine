@@ -55,7 +55,7 @@ namespace Ocular
             if((resource != nullptr) && (resource->isInMemory()))
             {
                 ResourceType resourceType = resource->getResourceType();
-                unsigned long long memoryUsed = resource->getSize();
+                uint64_t memoryUsed = resource->getSize();
 
                 m_TotalUsage += memoryUsed;
                 m_MemoryMap[resourceType] += memoryUsed;
@@ -67,19 +67,19 @@ namespace Ocular
             if((resource != nullptr) && (!resource->isInMemory()))
             {
                 ResourceType resourceType = resource->getResourceType();
-                unsigned long long memoryFreed = resource->getSize();
+                uint64_t memoryFreed = resource->getSize();
 
                 m_TotalUsage -= memoryFreed;
                 m_MemoryMap[resourceType] -= memoryFreed;
             }
         }
 
-        unsigned long long ResourceMemoryDetails::getTotalMemoryUsage() const
+        uint64_t ResourceMemoryDetails::getTotalMemoryUsage() const
         {
             return m_TotalUsage;
         }
 
-        unsigned long long ResourceMemoryDetails::getMemoryUsage(ResourceType const type) const
+        uint64_t ResourceMemoryDetails::getMemoryUsage(ResourceType const type) const
         {
             return m_MemoryMap.find(type)->second;
         }

@@ -266,7 +266,7 @@ namespace Ocular
             return result;
         }
 
-        void ResourceManager::setMemoryLimit(unsigned long long const maxMemory)
+        void ResourceManager::setMemoryLimit(uint64_t const maxMemory)
         {
             // Need a way to check max system memory
             m_MemoryLimit = maxMemory;
@@ -366,7 +366,7 @@ namespace Ocular
                 }
                 else 
                 {
-                    unsigned long long newLimit = m_MemoryLimit;
+                    uint64_t newLimit = m_MemoryLimit;
 
                     if(newLimit == 0ULL)
                     {
@@ -410,7 +410,7 @@ namespace Ocular
         {
             ResourceDetails* result = nullptr;
             
-            unsigned long long lastUsed = ULLONG_MAX;
+            uint64_t lastUsed = ULLONG_MAX;
 
             for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
@@ -432,7 +432,7 @@ namespace Ocular
         {
             ResourceDetails* result = nullptr;
             
-            unsigned long long smallest = ULLONG_MAX;
+            uint64_t smallest = ULLONG_MAX;
 
             for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {
@@ -454,7 +454,7 @@ namespace Ocular
         {
             ResourceDetails* result = nullptr;
             
-            unsigned long long largest = 0ULL;
+            uint64_t largest = 0ULL;
 
             for(auto findResource = m_ResourceMap.begin(); findResource != m_ResourceMap.end(); ++findResource)
             {

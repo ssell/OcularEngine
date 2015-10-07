@@ -165,7 +165,7 @@ namespace Ocular
             }
         }
 
-        void WindowWin32::update(unsigned long long const time)
+        void WindowWin32::update(uint64_t const time)
         {
             MSG message;
 

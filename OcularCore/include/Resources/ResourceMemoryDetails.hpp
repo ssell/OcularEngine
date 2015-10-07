@@ -62,21 +62,21 @@ namespace Ocular
             /** 
              * \return The total amount of memory, in bytes, in use by tracked Resources.
              */
-            unsigned long long getTotalMemoryUsage() const;
+            uint64_t getTotalMemoryUsage() const;
 
             /**
              * \param[in] type Type of Resource to query about
              * \return The total amount of memory, in bytes, used by all Resources of the specified type.
              */
-            unsigned long long getMemoryUsage(ResourceType type) const;
+            uint64_t getMemoryUsage(ResourceType type) const;
 
         protected:
 
         private:
 
-            unsigned long long m_TotalUsage;
+            uint64_t m_TotalUsage;
 
-            std::unordered_map<ResourceType, unsigned long long> m_MemoryMap;
+            std::unordered_map<ResourceType, uint64_t> m_MemoryMap;
         };
     }
     /**

@@ -320,7 +320,7 @@ namespace Ocular
         }
 
 		/**
-		 * Counts and returns the number of leading zeros in the provided 32-bit unsigned integer.
+		 * Counts and returns the number of leading zeros in the provided 32-bit uint32_teger.
 		 * 
 		 * \param[in] value
 		 * \return Number of leading zeros.
@@ -396,7 +396,7 @@ namespace Ocular
 		}
 
 		/**
-		 * Counts and returns the number of leading zeros in the provided 64-bit unsigned integer.
+		 * Counts and returns the number of leading zeros in the provided 64-bit uint32_teger.
 		 * 
 		 * \param[in] value
 		 * \return Number of leading zeros.
