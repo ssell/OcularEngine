@@ -28,7 +28,7 @@ namespace Ocular
             // CONSTRUCTORS
             //------------------------------------------------------------------------------
 
-            MouseMoveInputEvent::MouseMoveInputEvent(Math::Vector2ui const& prev, Math::Vector2ui const& curr)
+            MouseMoveInputEvent::MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr)
                 : AEvent("MouseMoveInputEvent", Priority::Medium), prevPosition(prev), currPosition(curr)
             {
 

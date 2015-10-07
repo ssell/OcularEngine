@@ -636,6 +636,8 @@ namespace Ocular
             {
                 handleRawMouseButtonInput(data);
             }
+
+            handleRawMouseMoveInput(data);
         }
 
         void WindowWin32::handleRawMouseButtonInput(RAWMOUSE const& data)
@@ -730,7 +732,10 @@ namespace Ocular
 
         void WindowWin32::handleRawMouseMoveInput(RAWMOUSE const& data)
         {
-
+            if(data.lLastX != 0 || data.lLastY != 0)
+            {
+                //OcularInput->triggerMouseMoveDelta(Math::Vector2i(data.lLastX, data.lLastY));
+            }
         }
     }
 }

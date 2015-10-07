@@ -54,12 +54,12 @@ namespace Ocular
             {
             public:
 
-                MouseMoveInputEvent(Math::Vector2ui const& prev, Math::Vector2ui const& curr);
+                MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr);
                 MouseMoveInputEvent();
                 ~MouseMoveInputEvent();
 
-                Math::Vector2ui prevPosition;
-                Math::Vector2ui currPosition;
+                Math::Vector2i prevPosition;
+                Math::Vector2i currPosition;
 
             protected:
 

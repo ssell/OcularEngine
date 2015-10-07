@@ -108,7 +108,18 @@ namespace Ocular
             }
         }
 
-        void InputHandler::setMousePosition(Math::Vector2ui const& position)
+        void InputHandler::triggerMouseMoveDelta(Math::Vector2i const& delta)
+        {
+            if(delta.x != 0 || delta.y != 0)
+            {
+                const Math::Vector2i newPosition = m_MousePosition + delta;
+                OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePosition, newPosition));
+
+                m_MousePosition = newPosition;
+            }
+        }
+
+        void InputHandler::setMousePosition(Math::Vector2i const& position)
         {
             if(m_MousePosition != position)
             {
@@ -117,7 +128,7 @@ namespace Ocular
             }
         }
 
-        Math::Vector2ui const& InputHandler::getMousePosition() const
+        Math::Vector2i const& InputHandler::getMousePosition() const
         {
             return m_MousePosition;
         }

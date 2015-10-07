@@ -72,8 +72,8 @@ bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
 
         if(inputEvent)
         {
-            const Ocular::Math::Vector2ui prev = inputEvent->prevPosition;
-            const Ocular::Math::Vector2ui curr = inputEvent->currPosition;
+            const Ocular::Math::Vector2i prev = inputEvent->prevPosition;
+            const Ocular::Math::Vector2i curr = inputEvent->currPosition;
 
             OcularLogger->info("Mouse moved to (", curr.x, ", ",curr.y, ") from (", prev.x, ", ", prev.y, ")");
         }

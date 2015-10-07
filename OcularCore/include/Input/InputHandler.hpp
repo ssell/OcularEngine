@@ -101,6 +101,13 @@ namespace Ocular
             void triggerMouseButtonUp(MouseButtons button);
 
             /**
+             *
+             * \param[in] xDelta
+             * \param[in] yDelta
+             */
+            void triggerMouseMoveDelta(Math::Vector2i const& delta);
+
+            /**
              * Sets the mouse position.
              *
              * Typically used by the low-level input readers,
@@ -108,7 +115,7 @@ namespace Ocular
              *
              * \param[in] position New mouse position.
              */
-            void setMousePosition(Math::Vector2ui const& position);
+            void setMousePosition(Math::Vector2i const& position);
 
             /**
              * Applies a delta value to the mouse wheel.
@@ -122,7 +129,7 @@ namespace Ocular
             /**
              * Retrieves the current mouse position in window coordinates. 
              */
-            Math::Vector2ui const& getMousePosition() const;
+            Math::Vector2i const& getMousePosition() const;
 
             /**
              * Checks if the specified keyboard key is down.
@@ -258,7 +265,7 @@ namespace Ocular
             std::array<bool, 255> m_KeyboardState; 
             std::array<bool, 5> m_MouseState;
 
-            Math::Vector2ui m_MousePosition;
+            Math::Vector2i m_MousePosition;
         };
     }
     /**
