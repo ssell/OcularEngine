@@ -43,10 +43,6 @@ namespace Ocular
          * and mouse devices, and generates appropriate input events off of them.
          *
          * Also allows for any-time querying of the state of the input devices.
-         *
-         * All input is buffered. This means that the input events are only created
-         * at specific durations (default once every 20ms) in order to reduce event
-         * load and to filter out extraneous input.
          */
         class InputHandler
         {
@@ -60,14 +56,6 @@ namespace Ocular
              * Input events are generated if any keys or buttons have been changed.
              */
             void update();
-
-            /**
-             * Sets the amount of time, in sec, to wait inbetween input event triggers.
-             * The default buffer time is 20ms (0.02f), or at a rate of 50FPS.
-             *
-             * \param[in] time Time in seconds.
-             */
-            void setBufferTime(float time);
 
             //------------------------------------------------------------
             // Trigger Methods
@@ -127,31 +115,26 @@ namespace Ocular
 
             /**
              * Retrieves the current mouse position in window coordinates. 
-             * \param[in] queryLatest Queries the absolutest latest mouse position which may be 'unstable'.
              */
-            Math::Vector2f const& getMousePosition(bool queryLatest = false) const;
+            Math::Vector2f const& getMousePosition() const;
 
             /**
              * Checks if the specified keyboard key is down.
              * See Ocular::Core::KeyboardKeys for supported keys to query.
              *
              * \param[in] key         Which key to check the state of.
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
-
              * \return TRUE if the key is currently down and has not yet been released.
              */
-            bool isKeyboardKeyDown(KeyboardKeys key, bool queryLatest = false) const;
+            bool isKeyboardKeyDown(KeyboardKeys key) const;
 
             /**
              * Checks if the specified mouse key is down.
              * See Ocular::Core::MouseButtons for supported keys to query.
              *
              * \param[in] button      Which key to check the state of.
-             * \param[in] queryLatest Queries the absolutest latest button state which may be 'unstable'.
-
              * \return TRUE if the key is currently down and has not yet been released.
              */
-            bool isMouseButtonDown(MouseButtons button, bool queryLatest = false) const;
+            bool isMouseButtonDown(MouseButtons button) const;
 
             /**
              * Checks if the left shift keyboard key is down. 
@@ -159,10 +142,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::ShiftLeft);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they left shift key is currently down and has not yet been released.
              */
-            bool isLeftShiftDown(bool queryLatest = false) const;
+            bool isLeftShiftDown() const;
 
             /**
              * Checks if the right shift keyboard key is down. 
@@ -170,10 +152,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::ShiftRight);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they right shift key is currently down and has not yet been released.
              */
-            bool isRightShiftDown(bool queryLatest = false) const;
+            bool isRightShiftDown() const;
 
             /**
              * Checks if the left ctrl keyboard key is down. 
@@ -181,10 +162,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::CtrlLeft);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they left ctrl key is currently down and has not yet been released.
              */
-            bool isLeftCtrlDown(bool queryLatest = false) const;
+            bool isLeftCtrlDown() const;
 
             /**
              * Checks if the right ctrl keyboard key is down. 
@@ -192,10 +172,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::CtrlRight);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they right ctrl key is currently down and has not yet been released.
              */
-            bool isRightCtrlDown(bool queryLatest = false) const;
+            bool isRightCtrlDown() const;
 
             /**
              * Checks if the left alt keyboard key is down. 
@@ -203,10 +182,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::AltLeft);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they left alt key is currently down and has not yet been released.
              */
-            bool isLeftAltDown(bool queryLatest = false) const;
+            bool isLeftAltDown() const;
 
             /**
              * Checks if the right alt keyboard key is down. 
@@ -214,10 +192,9 @@ namespace Ocular
              *
              *    isKeyboardKeyDown(KeyboardKeys::AltRight);
              *
-             * \param[in] queryLatest Queries the absolutest latest key state which may be 'unstable'.
              * \return TRUE if they right alt key is currently down and has not yet been released.
              */
-            bool isRightAltDown(bool queryLatest = false) const;
+            bool isRightAltDown() const;
 
             /**
              * Checks if the left mouse button is down.
@@ -225,10 +202,9 @@ namespace Ocular
              *
              *    isMouseButtonDown(MouseButtons::Left);
              *
-             * \param[in] queryLatest Queries the absolutest latest button state which may be 'unstable'.
              * \return TRUE if the left mouse key is currently down and has not yet been released.
              */
-            bool isLeftMouseDown(bool queryLatest = false) const;
+            bool isLeftMouseDown() const;
 
             /**
              * Checks if the right mouse button is down.
@@ -236,10 +212,9 @@ namespace Ocular
              *
              *    isMouseButtonDown(MouseButtons::Right);
              *
-             * \param[in] queryLatest Queries the absolutest latest button state which may be 'unstable'.
              * \return TRUE if the right mouse key is currently down and has not yet been released.
              */
-            bool isRightMouseDown(bool queryLatest = false) const;
+            bool isRightMouseDown() const;
 
             //------------------------------------------------------------
             // Misc.
@@ -252,8 +227,8 @@ namespace Ocular
 
         private:
 
-            void processKeyboardChanges();
-            void processMouseChanges();
+            void toggleKeyState(KeyboardKeys key);
+            void toggleButtonState(MouseButtons button);
 
             /**
              * Handles conversion of keys when a shift key is held down.
@@ -274,20 +249,8 @@ namespace Ocular
 
             //------------------------------------------------------------
 
-            float m_BufferTime;
-            float m_ElapsedTotal;
-            
-            // The current states are potentially updated multiple times a refresh 
-            // period and are thus potentially unstable.
-
-            // The previous states are the 'current official' state and are used when
-            // a down query is made or an event is generated.
-
-            std::array<bool, 255> m_KeyboardStateCurrent;     /// Current state of each keyboard key. If TRUE, the key is currently pressed down.
-            std::array<bool, 255> m_KeyboardStatePrevious;    /// State of each keyboard key at last refresh. If TRUE, the key is currently pressed down.
-            
-            std::array<bool, 3>   m_MouseStateCurrent;        /// Current state of each mouse button. If TRUE, the button is currently pressed down.
-            std::array<bool, 3>   m_MouseStatePrevious;       /// State of each mouse button at last refresh. If TRUE, the button is currently pressed down.
+            std::array<bool, 255> m_KeyboardState; 
+            std::array<bool, 3> m_MouseState;
 
             Math::Vector2f m_MousePositionCurrent;
             Math::Vector2f m_MousePositionPrevious;

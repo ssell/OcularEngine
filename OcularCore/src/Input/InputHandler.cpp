@@ -35,14 +35,8 @@ namespace Ocular
 
         InputHandler::InputHandler()
         {
-            m_KeyboardStateCurrent.fill(false);
-            m_KeyboardStatePrevious.fill(false);
-
-            m_MouseStateCurrent.fill(false);
-            m_MouseStatePrevious.fill(false);
-
-            m_BufferTime   = 0.02f;   // 20ms
-            m_ElapsedTotal = 0.0f;
+            m_KeyboardState.fill(false);
+            m_MouseState.fill(false);
         }
 
         InputHandler::~InputHandler()
@@ -54,20 +48,22 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void InputHandler::setBufferTime(float const time)
-        {
-            m_BufferTime = time;
-        }
-
         void InputHandler::triggerKeyboardKeyDown(KeyboardKeys key)
         {
             shiftConvertKey(key);
-            m_KeyboardStateCurrent[static_cast<uint8_t>(key)] = true;
+
+            if(!m_KeyboardState[static_cast<uint8_t>(key)])
+            {
+                toggleKeyState(key);
+            }
         }
 
         void InputHandler::triggerMouseButtonDown(MouseButtons const button)
         {
-            m_MouseStateCurrent[static_cast<uint8_t>(button)] = true;
+            if(!m_MouseState[static_cast<uint8_t>(button)])
+            {
+                toggleButtonState(button);
+            }
         }
 
         void InputHandler::triggerKeyboardKeyUp(KeyboardKeys key)
@@ -81,12 +77,18 @@ namespace Ocular
                 shiftConvertKey(key);
             }
 
-            m_KeyboardStateCurrent[static_cast<uint8_t>(key)] = false;
+            if(m_KeyboardState[static_cast<uint8_t>(key)])
+            {
+                toggleKeyState(key);
+            }
         }
 
         void InputHandler::triggerMouseButtonUp(MouseButtons const button)
         {
-            m_MouseStateCurrent[static_cast<uint8_t>(button)] = false;
+            if(m_MouseState[static_cast<uint8_t>(button)])
+            {
+                toggleButtonState(button);
+            }
         }
 
         void InputHandler::setMousePosition(Math::Vector2f const& position)
@@ -94,136 +96,59 @@ namespace Ocular
             m_MousePositionCurrent = position;
         }
 
-        Math::Vector2f const& InputHandler::getMousePosition(bool const queryLatest) const
+        Math::Vector2f const& InputHandler::getMousePosition() const
         {
-            if(queryLatest)
-            {
-                return m_MousePositionCurrent;
-            }
-            else
-            {
-                return m_MousePositionPrevious;
-            }
+            return m_MousePositionCurrent;
         }
 
-        bool InputHandler::isKeyboardKeyDown(KeyboardKeys const key, bool const queryLatest) const
+        bool InputHandler::isKeyboardKeyDown(KeyboardKeys const key) const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[static_cast<uint8_t>(key)];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[static_cast<uint8_t>(key)];
-            }
+            return m_KeyboardState[static_cast<uint8_t>(key)];
         }
 
-        bool InputHandler::isMouseButtonDown(MouseButtons const button, bool const queryLatest) const
+        bool InputHandler::isMouseButtonDown(MouseButtons const button) const
         {
-            if(queryLatest)
-            {
-                return m_MouseStateCurrent[static_cast<uint8_t>(button)];
-            }
-            else
-            {
-                return m_MouseStatePrevious[static_cast<uint8_t>(button)];
-            }
+            return m_KeyboardState[static_cast<uint8_t>(button)];
         }
 
-        bool InputHandler::isLeftShiftDown(bool const queryLatest) const
+        bool InputHandler::isLeftShiftDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[4];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[4];
-            }
+            return m_KeyboardState[4];
         }
 
-        bool InputHandler::isRightShiftDown(bool const queryLatest) const
+        bool InputHandler::isRightShiftDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[5];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[5];
-            }
+            return m_KeyboardState[5];
         }
 
-        bool InputHandler::isLeftCtrlDown(bool const queryLatest) const
+        bool InputHandler::isLeftCtrlDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[6];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[6];
-            }
+            return m_KeyboardState[6];
         }
 
-        bool InputHandler::isRightCtrlDown(bool const queryLatest) const
+        bool InputHandler::isRightCtrlDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[7];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[7];
-            }
+            return m_KeyboardState[7];
         }
 
-        bool InputHandler::isLeftAltDown(bool const queryLatest) const
+        bool InputHandler::isLeftAltDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[8];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[8];
-            }
+            return m_KeyboardState[8];
         }
 
-        bool InputHandler::isRightAltDown(bool const queryLatest) const
+        bool InputHandler::isRightAltDown() const
         {
-            if(queryLatest)
-            {
-                return m_KeyboardStateCurrent[9];
-            }
-            else
-            {
-                return m_KeyboardStatePrevious[9];
-            }
+            return m_KeyboardState[9];
         }
 
-        bool InputHandler::isLeftMouseDown(bool const queryLatest) const
+        bool InputHandler::isLeftMouseDown() const
         {
-            if(queryLatest)
-            {
-                return m_MouseStateCurrent[0];
-            }
-            else
-            {
-                return m_MouseStatePrevious[0];
-            }
+            return m_MouseState[0];
         }
 
-        bool InputHandler::isRightMouseDown(bool const queryLatest) const
+        bool InputHandler::isRightMouseDown() const
         {
-            if(queryLatest)
-            {
-                return m_MouseStateCurrent[1];
-            }
-            else
-            {
-                return m_MouseStatePrevious[1];
-            }
+            return m_MouseState[1];
         }
 
         //----------------------------------------------------------------------------------
@@ -232,70 +157,41 @@ namespace Ocular
 
         void InputHandler::update()
         {
-            m_ElapsedTotal += OcularClock->getDelta();
 
-            if(m_ElapsedTotal > m_BufferTime)
-            {
-                processKeyboardChanges();
-                processMouseChanges();
-
-                m_ElapsedTotal = 0.0f;
-            }
         }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        void InputHandler::processKeyboardChanges()
+        void InputHandler::toggleKeyState(KeyboardKeys const key)
         {
-            for(uint8_t i = 0; i < m_KeyboardStateCurrent.size(); i++)
-            {
-                if(m_KeyboardStateCurrent[i] != m_KeyboardStatePrevious[i])
-                {
-                    // Keyboard key state has changed. Generate an event.
+            // Toggle the state and generate an event
 
-                    const KeyboardKeys key = static_cast<KeyboardKeys>(i);
-                    const KeyState state = (m_KeyboardStateCurrent[i] ? KeyState::Pressed : KeyState::Released);
+            const uint8_t index = static_cast<uint8_t>(key);
+            const KeyState state = (!m_KeyboardState[index] ? KeyState::Pressed : KeyState::Released);
 
-                    OcularEvents->queueEvent(std::make_shared<Events::KeyboardInputEvent>(key, state));
+            OcularEvents->queueEvent(std::make_shared<Events::KeyboardInputEvent>(key, state));
 
-                    m_KeyboardStatePrevious[i] = m_KeyboardStateCurrent[i];
-                }
-            }
+            m_KeyboardState[index] = !m_KeyboardState[index];
         }
 
-        void InputHandler::processMouseChanges()
+        void InputHandler::toggleButtonState(MouseButtons const button)
         {
-            for(uint8_t i = 0; i < m_MouseStateCurrent.size(); i++)
-            {
-                if(m_MouseStateCurrent[i] != m_MouseStatePrevious[i])
-                {
-                    // Mouse button state has changed. Generate an event.
+            // Toggle the state and generate an event
 
-                    const MouseButtons button = static_cast<MouseButtons>(i);
-                    const KeyState state = (m_MouseStateCurrent[i] ? KeyState::Pressed : KeyState::Released);
+            const uint8_t index = static_cast<uint8_t>(button);
+            const KeyState state = (!m_MouseState[index] ? KeyState::Pressed : KeyState::Released);
 
-                    OcularEvents->queueEvent(std::make_shared<Events::MouseButtonInputEvent>(button, state));
+            OcularEvents->queueEvent(std::make_shared<Events::MouseButtonInputEvent>(button, state));
 
-                    m_MouseStatePrevious[i] = m_MouseStateCurrent[i];
-                }
-            }
-
-            if(m_MousePositionCurrent != m_MousePositionPrevious)
-            {
-                // Mouse position has changed. Generate an event.
-
-                OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePositionPrevious, m_MousePositionCurrent));
-
-                m_MousePositionPrevious = m_MousePositionCurrent;
-            }
+            m_MouseState[index] = !m_MouseState[index];
         }
 
         void InputHandler::shiftConvertKey(KeyboardKeys& key)
         {
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ShiftLeft)] ||
-               m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ShiftRight)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::ShiftLeft)] ||
+               m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::ShiftRight)])
             {
                 switch(key)
                 {
@@ -391,130 +287,130 @@ namespace Ocular
 
         void InputHandler::swapShiftSpecialKeys()
         {
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Tilde)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Tilde)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Tilde)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Apostrophe)] = true;
+                toggleKeyState(KeyboardKeys::Tilde);
+                toggleKeyState(KeyboardKeys::Apostrophe);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ExclamationMark)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::ExclamationMark)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ExclamationMark)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad1)] = true;
+                toggleKeyState(KeyboardKeys::ExclamationMark);
+                toggleKeyState(KeyboardKeys::Mainpad1);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersat)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Ampersat)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersat)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad2)] = true;
+                toggleKeyState(KeyboardKeys::Ampersat);
+                toggleKeyState(KeyboardKeys::Mainpad2);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Hash)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Hash)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Hash)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad3)] = true;
+                toggleKeyState(KeyboardKeys::Hash);
+                toggleKeyState(KeyboardKeys::Mainpad3);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::DollarSign)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::DollarSign)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::DollarSign)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad4)] = true;
+                toggleKeyState(KeyboardKeys::DollarSign);
+                toggleKeyState(KeyboardKeys::Mainpad4);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::PercentSign)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::PercentSign)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::PercentSign)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad5)] = true;
+                toggleKeyState(KeyboardKeys::PercentSign);
+                toggleKeyState(KeyboardKeys::Mainpad5);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Caret)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Caret)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Caret)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad6)] = true;
+                toggleKeyState(KeyboardKeys::Caret);
+                toggleKeyState(KeyboardKeys::Mainpad6);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersand)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Ampersand)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Ampersand)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad7)] = true;
+                toggleKeyState(KeyboardKeys::Ampersand);
+                toggleKeyState(KeyboardKeys::Mainpad7);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Multiply)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad8)] = true;
+                toggleKeyState(KeyboardKeys::Multiply);
+                toggleKeyState(KeyboardKeys::Mainpad8);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisLeft)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::ParenthesisLeft)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisLeft)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad9)] = true;
+                toggleKeyState(KeyboardKeys::ParenthesisLeft);
+                toggleKeyState(KeyboardKeys::Mainpad9);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisRight)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::ParenthesisRight)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ParenthesisRight)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Mainpad0)] = true;
+                toggleKeyState(KeyboardKeys::ParenthesisRight);
+                toggleKeyState(KeyboardKeys::Mainpad0);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Underscore)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Underscore)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Underscore)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Subtract)] = true;
+                toggleKeyState(KeyboardKeys::Underscore);
+                toggleKeyState(KeyboardKeys::Subtract);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Multiply)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Multiply)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Equals)] = true;
+                toggleKeyState(KeyboardKeys::Multiply);
+                toggleKeyState(KeyboardKeys::Equals);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketLeft)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::CurlyBracketLeft)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketLeft)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::BracketLeft)] = true;
+                toggleKeyState(KeyboardKeys::CurlyBracketLeft);
+                toggleKeyState(KeyboardKeys::BracketLeft);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketRight)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::CurlyBracketRight)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::CurlyBracketRight)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::BracketRight)] = true;
+                toggleKeyState(KeyboardKeys::CurlyBracketRight);
+                toggleKeyState(KeyboardKeys::BracketRight);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Pipe)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Pipe)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Pipe)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Backslash)] = true;
+                toggleKeyState(KeyboardKeys::Pipe);
+                toggleKeyState(KeyboardKeys::Backslash);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Colon)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::Colon)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Colon)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Semicolon)] = true;
+                toggleKeyState(KeyboardKeys::Colon);
+                toggleKeyState(KeyboardKeys::Semicolon);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationDouble)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::QuotationDouble)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationDouble)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuotationSingle)] = true;
+                toggleKeyState(KeyboardKeys::QuotationDouble);
+                toggleKeyState(KeyboardKeys::QuotationSingle);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketLeft)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::AngleBracketLeft)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketLeft)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Comma)] = true;
+                toggleKeyState(KeyboardKeys::AngleBracketLeft);
+                toggleKeyState(KeyboardKeys::Comma);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketRight)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::AngleBracketRight)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::AngleBracketRight)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::Period)] = true;
+                toggleKeyState(KeyboardKeys::AngleBracketRight);
+                toggleKeyState(KeyboardKeys::Period);
             }
             
-            if(m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuestionMark)])
+            if(m_KeyboardState[static_cast<uint8_t>(KeyboardKeys::QuestionMark)])
             {
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::QuestionMark)] = false;
-                m_KeyboardStateCurrent[static_cast<uint8_t>(KeyboardKeys::ForwardSlash)] = true;
+                toggleKeyState(KeyboardKeys::QuestionMark);
+                toggleKeyState(KeyboardKeys::ForwardSlash);
             }
         }
 

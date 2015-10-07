@@ -615,7 +615,7 @@ namespace Ocular
                 {
                     const bool wasUp = ((flags & RI_KEY_BREAK) != 0);
 
-                    if(wasUp)
+                    if(!wasUp)
                     {
                         // Is now pressed down
                         OcularInput->triggerKeyboardKeyDown(key);
