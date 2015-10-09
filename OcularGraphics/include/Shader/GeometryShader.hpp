@@ -44,7 +44,7 @@ namespace Ocular
             GeometryShader();
             ~GeometryShader();
 
-            virtual void load(Core::File const source) = 0;
+            virtual void unload() = 0;
             virtual void bind() = 0;
             virtual void unbind() = 0;
 

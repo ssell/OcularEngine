@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_GRAPHICS_SHADER__H__
 #define __H__OCULAR_GRAPHICS_SHADER__H__
 
-#include "FileIO/File.hpp"
+#include "Resources/Resource.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,20 +37,26 @@ namespace Ocular
         /**
          * \class Shader
          */
-        class Shader 
+        class Shader : public Core::Resource
         {
         public:
 
             Shader();
             ~Shader();
 
-            virtual void load(Core::File const source) = 0;
+            virtual void unload() = 0;
+
+            /**
+             * Binds the shader and sets it as the active render shader.
+             */
             virtual void bind() = 0;
+
+            /**
+             * Unbinds the shader as the active render shader.
+             */
             virtual void unbind() = 0;
 
         protected:
-
-            Core::File m_SourceFile;
 
         private:
         };

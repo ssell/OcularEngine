@@ -37,6 +37,15 @@
     <Filter Include="Source Files\Texture\TextureSavers">
       <UniqueIdentifier>{8c06e00e-efd6-43fe-bbcd-959ae1ebbf75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{6ac578ab-197b-41e5-983f-7c007bde95f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Material">
+      <UniqueIdentifier>{3484b23c-6178-48fa-bbbd-eba219959a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Material">
+      <UniqueIdentifier>{c60a5728-8564-48fe-984f-687cf67095ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\HeaderTemplate.hpp">
@@ -102,6 +111,9 @@
     <ClInclude Include="..\..\include\Texture\NoiseTexture2D.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Material\Material.hpp">
+      <Filter>Header Files\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Texture\Texture.cpp">
@@ -133,6 +145,24 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\NoiseTexture2D.cpp">
       <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\VertexShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\GeometryShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\FragmentShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\PreTesselationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\PostTesselationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Material\Material.cpp">
+      <Filter>Source Files\Material</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
