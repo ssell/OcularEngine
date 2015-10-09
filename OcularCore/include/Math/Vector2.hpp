@@ -229,6 +229,14 @@ namespace Ocular
             }
 
             /**
+             * 
+             */
+            T getDeterminant(Vector2<T> const& rhs)
+            {
+                return (x * rhs.y) - (rhs.x * y);
+            }
+
+            /**
              * The dot product is a value equal to the magnitudes of the two vectors multiplied
              * together and then multiplied by the cosine of the angle between them.
              *

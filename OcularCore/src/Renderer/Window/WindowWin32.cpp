@@ -158,6 +158,8 @@ namespace Ocular
 
                 // Show the window
                 ShowWindow(m_HWND, SW_SHOW);
+                UpdateWindow(m_HWND);
+
                 SetForegroundWindow(m_HWND);
                 SetFocus(m_HWND);
 
@@ -168,17 +170,18 @@ namespace Ocular
         void WindowWin32::update(uint64_t const time)
         {
             MSG message;
+            BOOL retVal;
 
-            Timer timer;
-            timer.start();
-
-            // Allow the message digestion time to process all new messages
-            while(timer.getElapsedMS() < time)
+            while((retVal = PeekMessage(&message, 0, 0, 0, PM_REMOVE)) != 0)
             {
-                if(GetMessage(&message, m_HWND, NULL, NULL) > 0)
+                if(retVal != -1)
                 {
                     TranslateMessage(&message);
                     DispatchMessage(&message);
+                }
+                else
+                {
+                    OcularLogger->error("Unexpected error occurred while processing system messages", OCULAR_INTERNAL_LOG("WindowWin32", "update"));
                 }
             }
         }

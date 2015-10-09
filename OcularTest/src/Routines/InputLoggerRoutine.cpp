@@ -21,6 +21,7 @@
 #include "Events/Events/MouseButtonInputEvent.hpp"
 #include "Events/Events/MouseMoveInputEvent.hpp"
 #include "Events/Events/MouseScrollInputEvent.hpp"
+#include "Events/Events/ShutdownEvent.hpp"
 
 using namespace Ocular;
 using namespace Ocular::Core;
@@ -55,6 +56,11 @@ bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
         if(inputEvent)
         {
             OcularLogger->info("The '", InputHandler::ToString(inputEvent->key), "' key was ", InputHandler::ToString(inputEvent->state));
+
+            if((inputEvent->key == KeyboardKeys::Escape) && (inputEvent->state == KeyState::Released))
+            {
+                OcularEvents->queueEvent(std::make_shared<Events::ShutdownEvent>());
+            }
         }
     }
     else if(event->isType("MouseButtonInputEvent"))
