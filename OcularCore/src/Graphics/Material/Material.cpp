@@ -16,6 +16,7 @@
 
 #include "Graphics/Material/Material.hpp"
 
+#include "OcularEngine.hpp"
 #include "Graphics/Texture/Texture.hpp"
 #include "Graphics/Shader/VertexShader.hpp"
 #include "Graphics/Shader/GeometryShader.hpp"
@@ -56,34 +57,34 @@ namespace Ocular
         // Texture Methods
         //--------------------------------------------
 
-        void Material::setMainTexture(std::string const& name)
-        {
-        
-        }
-
-        void Material::setMainTexture(Texture* texture)
-        {
-        
-        }
-
         void Material::setTexture(std::string const& identifier, std::string const& name)
         {
-        
+            Texture* texture = OcularResources->getResource<Texture>(name);
+
+            if(texture)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_TextureMap[identifier] = texture;
+            }
         }
 
         void Material::setTexture(std::string const& identifier, Texture* texture)
         {
-        
-        }
-
-        Texture* Material::getMainTexture() const
-        {
-            return nullptr;
+            // Allow to set for null here to 'disable' the texture.
+            m_TextureMap[identifier] = texture;
         }
 
         Texture* Material::getTexture(std::string const& identifier) const
         {
-            return nullptr;
+            Texture* result = nullptr;
+            const auto findTexture = m_TextureMap.find(identifier);
+
+            if(findTexture != m_TextureMap.end())
+            {
+                result = findTexture->second;
+            }
+
+            return result;
         }
 
         //--------------------------------------------
@@ -92,51 +93,86 @@ namespace Ocular
 
         void Material::setVertexShader(std::string const& name)
         {
-        
+            VertexShader* shader = OcularResources->getResource<VertexShader>(name);
+
+            if(shader)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_VertexShader = shader;
+            }
         }
 
         void Material::setVertexShader(VertexShader* shader)
         {
+            // Allow to set for null here to 'disable' the shader.
             m_VertexShader = shader;
         }
 
         void Material::setGeometryShader(std::string const& name)
         {
-        
+            GeometryShader* shader = OcularResources->getResource<GeometryShader>(name);
+
+            if(shader)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_GeometryShader = shader;
+            }
         }
 
         void Material::setGeometryShader(GeometryShader* shader)
         {
+            // Allow to set for null here to 'disable' the shader.
             m_GeometryShader = shader;
         }
 
         void Material::setFragmentShader(std::string const& name)
         {
-        
+            FragmentShader* shader = OcularResources->getResource<FragmentShader>(name);
+
+            if(shader)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_FragmentShader = shader;
+            }
         }
 
         void Material::setFragmentShader(FragmentShader* shader)
         {
+            // Allow to set for null here to 'disable' the shader.
             m_FragmentShader = shader;
         }
 
         void Material::setPreTesselationShader(std::string const& name)
         {
-        
+            PreTesselationShader* shader = OcularResources->getResource<PreTesselationShader>(name);
+
+            if(shader)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_PreTesselationShader = shader;
+            }
         }
 
         void Material::setPreTesselationShader(PreTesselationShader* shader)
         {
+            // Allow to set for null here to 'disable' the shader.
             m_PreTesselationShader = shader;
         }
 
         void Material::setPostTesselationShader(std::string const& name)
         {
-        
+            PostTesselationShader* shader = OcularResources->getResource<PostTesselationShader>(name);
+
+            if(shader)
+            {
+                // Do not accept null here as we assume they are trying to use a valid identifier.
+                m_PostTesselationShader = shader;
+            }
         }
 
         void Material::setPostTesselationShader(PostTesselationShader* shader)
         {
+            // Allow to set for null here to 'disable' the shader.
             m_PostTesselationShader = shader;
         }
 

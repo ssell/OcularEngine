@@ -53,7 +53,7 @@ namespace Ocular
 
             //----------------------------------------
             // Virtual Methods
-            
+
             /**
              * Frees all memory used by this Resource.
              */
@@ -87,6 +87,11 @@ namespace Ocular
              * \return The type of resource.
              */
             ResourceType getResourceType() const;
+
+            /**
+             * Forces this Resource to be loaded into memory.
+             */
+            void forceLoad();
 
         protected:
 

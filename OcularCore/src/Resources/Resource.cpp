@@ -30,14 +30,14 @@ namespace Ocular
         {
             m_SourceFile = source;
             m_SizeInMemory = 0;
-            m_Type = ResourceType::UNKNOWN;
+            m_Type = ResourceType::Undefined;
         }
 
         Resource::Resource()
         {
             m_SourceFile = File();
             m_SizeInMemory = 0;
-            m_Type = ResourceType::UNKNOWN;
+            m_Type = ResourceType::Undefined;
         }
 
         Resource::~Resource()

@@ -36,12 +36,11 @@ namespace Ocular
     {
         enum class ResourceType : unsigned
         {
-            UNKNOWN = 0,     // Unknown must always be first as some loops use it as a sentinel
-            TEXTURE,
-            MODEL,
-            SHADER,
-            DATA,
-            OTHER            // Other must always be last as some loops use it as a sentinel
+            Texture = 0,
+            Mesh,
+            Shader,
+            Data,
+            Undefined            
         };
     }
     /**

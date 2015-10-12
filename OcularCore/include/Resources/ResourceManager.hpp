@@ -71,7 +71,40 @@ namespace Ocular
          *
          * You would retrieve the `GrassGreen.tga` texture as follows:
          *
-         *     ResourceManager->getResource("Textures/Terrain/GrassGreen");
+         *     Texture* texture = nullptr;
+         *     Resource* resource = ResourceManager->getResource("Textures/Terrain/GrassGreen");
+         *
+         *     if(resource->getResourceType() == ResourceType::Texture)
+         *     {
+         *         texture = dynamic_cast<Texture*>(resource);
+         *
+         *         if(texture)
+         *         {
+         *             // ...
+         *         }
+         *     }
+         *
+         * or:
+         *
+         *     Texture* texture = OcularResources->getResource<Texture>("Textures/Terrain/GrassGreen");
+         *
+         *     if(texture)
+         *     {
+         *         // ...
+         *     }
+         *
+         * The returned Resource pointer will always be valid as long as the ResourceManager
+         * instances exists (so the life of the Engine). But, the internal data of the
+         * resource itself may not be valid. So before use of the Resource itself, one 
+         * should verify that the Resource is loaded. Example:
+         *
+         *     if(!texture->isInMemory())
+         *     {
+         *         texture->forceLoad();
+         *     }
+         *
+         * Note that a retrieved texture (getTexture) is guaranteed to be fully loaded into
+         * memory (at least until the next getTexture request).
          */
         class ResourceManager 
         {
@@ -124,6 +157,15 @@ namespace Ocular
              * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
              */
             std::shared_ptr<Resource> getResource(std::string const& path);
+
+            /**
+             * Returns the resource at the specified path if it exists. 
+             * The resource is loaded in memory if it is not already.
+             *
+             * \param[in] path Resource path and name
+             * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
+             */
+            template<class T> T* getResource(std::string const& path) { return dynamic_cast<T*>(getResource(path).get()); };
 
             /**
              * \param[in] path Resource path and name

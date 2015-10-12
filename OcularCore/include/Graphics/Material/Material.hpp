@@ -36,7 +36,6 @@ namespace Ocular
     namespace Graphics
     {
         class Texture;
-
         class VertexShader;
         class GeometryShader;
         class FragmentShader;
@@ -57,27 +56,6 @@ namespace Ocular
             // Texture Methods
 
             /**
-             * Sets the texture to be bound as the main diffuse texture.
-             * This method is identical to using:
-             *
-             *     setTexture("Main", name);
-             *
-             * \param[in] name Name of the texture to assign.
-             */
-            void setMainTexture(std::string const& name);
-
-            /**
-             * Sets the texture to be bound as the main diffuse texture.
-             * This method is identical to using:
-             *
-             *     setTexture("Main", texture);
-             *
-             * \param[in] texture Pointer to the texture resource to be used as
-             *                    the main diffuse texture.
-             */
-            void setMainTexture(Texture* texture);
-
-            /**
              * Expand upon this description once there is an implementation...
              *
              * \param[in] identifier 
@@ -92,14 +70,6 @@ namespace Ocular
              * \param[in] texture
              */
             void setTexture(std::string const& identifier, Texture* texture);
-
-            /**
-             * Retrieves the main diffuse texture resource.
-             * This method is identical to using:
-             *
-             *     getTexture("Main");
-             */
-            Texture* getMainTexture() const;
 
             /**
              * Retrieves the texture stored at the specified identifier.

@@ -31,11 +31,9 @@ namespace Ocular
             m_TotalUsage = 0ULL;
 
             // Set up the map
+            const unsigned stop = static_cast<unsigned>(ResourceType::Undefined);
 
-            unsigned start = static_cast<unsigned>(ResourceType::UNKNOWN);
-            unsigned stop  = static_cast<unsigned>(ResourceType::OTHER);
-
-            for(unsigned i = start; i <= stop; i++)
+            for(unsigned i = 0; i <= stop; i++)
             {
                 m_MemoryMap.insert(std::make_pair(static_cast<ResourceType>(i), 0ULL));
             }
