@@ -15,8 +15,8 @@
  */
 
 #include "gtest/gtest.h"
-#include "Texture/NoiseTexture2D.hpp"
-#include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
+#include "Graphics/Texture/NoiseTexture2D.hpp"
+#include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "Math/Noise/PerlinNoise.hpp"
 #include "Math/Noise/SimplexNoise.hpp"
 #include "Math/Noise/WaveletNoise.hpp"

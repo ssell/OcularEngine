@@ -97,7 +97,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\</AdditionalLibraryDirectories>
@@ -176,6 +176,22 @@
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\PostTesselationShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\PreTesselationShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture2D.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceLoader_PNG.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp" />
     <ClCompile Include="..\..\src\Input\InputHandler.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
@@ -254,6 +270,26 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\PostTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\PreTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture2D.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureEnums.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_PNG.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.hpp" />
     <ClInclude Include="..\..\include\Input\InputHandler.hpp" />
     <ClInclude Include="..\..\include\Input\Keys.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp" />

@@ -151,6 +151,42 @@
     <Filter Include="Header Files\Event\Events">
       <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{cd1ce661-1df2-4169-b8a4-9ea7d779ed0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Material">
+      <UniqueIdentifier>{898e2053-3268-44a3-877e-3ced49dbb254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Shader">
+      <UniqueIdentifier>{b2e42bc2-3cb2-4c43-903b-e15c7a7f0df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture">
+      <UniqueIdentifier>{a90ed6a6-f4be-4e56-a89b-b5db8eaed2b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture\TextureLoaders">
+      <UniqueIdentifier>{1a78ca9d-6829-4f19-86c0-4528bd352bd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture\TextureSavers">
+      <UniqueIdentifier>{5501dfba-7d57-4b0b-b892-e8bee43c670d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{16236a83-cb9a-402e-b4cd-4d9e00c89e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Material">
+      <UniqueIdentifier>{b37ef229-f0ef-4dd6-b310-a0f2741db132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shader">
+      <UniqueIdentifier>{8900306e-3c09-4db0-b910-1188b46d2911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture">
+      <UniqueIdentifier>{3537954a-92bc-418f-a926-32d4dc34a428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture\TextureLoaders">
+      <UniqueIdentifier>{729a4deb-a09e-4f96-888d-d432f432997a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture\TextureSavers">
+      <UniqueIdentifier>{769d585d-2196-45ed-956a-566e2012a7c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -368,6 +404,54 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Events\Events\MouseScrollInputEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\Material.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture2D.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceLoader_PNG.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\PostTesselationShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\PreTesselationShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -700,6 +784,66 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\MouseScrollInputEvent.hpp">
       <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\Material.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture2D.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureEnums.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_PNG.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\PostTesselationShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\PreTesselationShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,13 +15,14 @@
  */
 
 #include "gtest/gtest.h"
-#include "Texture/NoiseTexture2D.hpp"
-#include "Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "OcularEngine.hpp"
+#include "Graphics/Texture/NoiseTexture2D.hpp"
+#include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
+#include "Math/Random/MersenneTwister19937.hpp"
+
 #include <list>
 #include <random>
 
-#include "Math/Random/MersenneTwister19937.hpp"
 
 using namespace Ocular::Math::Random;
 
