@@ -72,7 +72,7 @@ namespace Ocular
          * You would retrieve the `GrassGreen.tga` texture as follows:
          *
          *     Texture* texture = nullptr;
-         *     Resource* resource = ResourceManager->getResource("Textures/Terrain/GrassGreen");
+         *     Resource* resource = OcularResources->getResource("Textures/Terrain/GrassGreen");
          *
          *     if(resource->getResourceType() == ResourceType::Texture)
          *     {
@@ -94,7 +94,7 @@ namespace Ocular
          *     }
          *
          * The returned Resource pointer will always be valid as long as the ResourceManager
-         * instances exists (so the life of the Engine). But, the internal data of the
+         * instance exists (so the life of the Engine). But, the internal data of the
          * resource itself may not be valid. So before use of the Resource itself, one 
          * should verify that the Resource is loaded. Example:
          *
@@ -103,8 +103,8 @@ namespace Ocular
          *         texture->forceLoad();
          *     }
          *
-         * Note that a retrieved texture (getTexture) is guaranteed to be fully loaded into
-         * memory (at least until the next getTexture request).
+         * Note that a retrieved texture (getResource) is guaranteed to be fully loaded into
+         * memory (at least until the next getResource request).
          */
         class ResourceManager 
         {
