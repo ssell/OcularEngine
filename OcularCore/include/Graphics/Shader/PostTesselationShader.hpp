@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#pragma
+#pragma once
 #ifndef __H__OCULAR_GRAPHICS_POSTTESSELATION_SHADER__H__
 #define __H__OCULAR_GRAPHICS_POSTTESSELATION_SHADER__H__
 

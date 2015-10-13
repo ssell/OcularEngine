@@ -15,10 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_FRAGMENT_SHADER__H__
-#define __H__OCULAR_GRAPHICS_FRAGMENT_SHADER__H__
-
-#include "Shader.hpp"
+#ifndef __H__OCULAR_GRAPHICS_MESH__H__
+#define __H__OCULAR_GRAPHICS_MESH__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -35,25 +33,19 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class FragmentShader 
+         * \class Mesh 
          */
-        class FragmentShader : public Shader 
+        class Mesh
         {
         public:
 
-            FragmentShader();
-            ~FragmentShader();
-
-            virtual void unload() = 0;
-            virtual void bind() = 0;
-            virtual void unbind() = 0;
+            Mesh();
+            ~Mesh();
 
         protected:
 
         private:
         };
-
-        typedef FragmentShader PixelShader;
     }
     /**
      * @} End of Doxygen Groups

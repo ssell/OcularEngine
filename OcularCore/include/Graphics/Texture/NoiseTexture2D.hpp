@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #ifndef __H__OCULAR_GRAPHICS_RANDOM_TEXTURE2D__
 #define __H__OCULAR_GRAPHICS_RANDOM_TEXTURE2D__
 

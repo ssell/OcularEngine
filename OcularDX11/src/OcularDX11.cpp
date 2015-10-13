@@ -14,53 +14,18 @@
  * limitations under the License.
  */
 
-#pragma once
-#ifndef __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
-#define __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
-
-#include "Shader.hpp"
+#include "OcularDX11.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
-/**
- * \addtogroup Ocular
- * @{
- */
 namespace Ocular
 {
-    /**
-     * \addtogroup Graphics
-     * @{
-     */
-    namespace Graphics
+    namespace DX11
     {
-        /**
-         * \class VertexShader 
-         */
-        class VertexShader : public Shader 
+        void generateBinary()
         {
-        public:
 
-            VertexShader();
-            ~VertexShader();
-
-            virtual void unload() = 0;
-            virtual void bind() = 0;
-            virtual void unbind() = 0;
-
-        protected:
-
-        private:
-        };
+        }
     }
-    /**
-     * @} End of Doxygen Groups
-     */
 }
-/**
- * @} End of Doxygen Groups
- */
-
-//------------------------------------------------------------------------------------------
-
-#endif

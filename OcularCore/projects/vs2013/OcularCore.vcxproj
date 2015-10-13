@@ -177,6 +177,9 @@
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\PostTesselationShader.cpp" />
@@ -273,6 +276,9 @@
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\PostTesselationShader.hpp" />

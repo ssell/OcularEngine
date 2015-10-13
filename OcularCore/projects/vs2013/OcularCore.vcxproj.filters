@@ -187,6 +187,12 @@
     <Filter Include="Source Files\Graphics\Texture\TextureSavers">
       <UniqueIdentifier>{769d585d-2196-45ed-956a-566e2012a7c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Mesh">
+      <UniqueIdentifier>{4cda2bbc-edc2-412b-80f7-f192e9ba0c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh">
+      <UniqueIdentifier>{aee1c94a-3209-444d-a8e0-de7d22a34451}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -452,6 +458,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp">
       <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -844,6 +859,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

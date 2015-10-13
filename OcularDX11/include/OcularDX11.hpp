@@ -15,10 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_FRAGMENT_SHADER__H__
-#define __H__OCULAR_GRAPHICS_FRAGMENT_SHADER__H__
-
-#include "Shader.hpp"
+#ifndef __H__OCULAR_DX11__H__
+#define __H__OCULAR_DX11__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -29,31 +27,12 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Graphics
+     * \addtogroup DX11
      * @{
      */
-    namespace Graphics
+    namespace DX11
     {
-        /**
-         * \class FragmentShader 
-         */
-        class FragmentShader : public Shader 
-        {
-        public:
-
-            FragmentShader();
-            ~FragmentShader();
-
-            virtual void unload() = 0;
-            virtual void bind() = 0;
-            virtual void unbind() = 0;
-
-        protected:
-
-        private:
-        };
-
-        typedef FragmentShader PixelShader;
+        void generateBinary();
     }
     /**
      * @} End of Doxygen Groups
