@@ -869,5 +869,8 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp">
       <Filter>Header Files\Graphics\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

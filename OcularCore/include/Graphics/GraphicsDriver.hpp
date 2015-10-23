@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_DX11__H__
-#define __H__OCULAR_DX11__H__
+#ifndef __H__OCULAR_GRAPHICS_DRIVER__H__
+#define __H__OCULAR_GRAPHICS_DRIVER__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -27,12 +27,24 @@
 namespace Ocular
 {
     /**
-     * \addtogroup DX11
+     * \addtogroup Graphics
      * @{
      */
-    namespace DX11
+    namespace Graphics
     {
-        void generateBinary();
+        /**
+         * \class GraphicsDriver
+         */
+        class GraphicsDriver
+        {
+        public:
+
+            virtual bool initialize() = 0;
+
+        protected:
+
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

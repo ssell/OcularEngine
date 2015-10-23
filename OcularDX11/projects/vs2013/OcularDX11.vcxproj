@@ -50,6 +50,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\..\External\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,10 +74,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\OcularDX11.hpp" />
+    <ClInclude Include="..\..\include\GraphicsDriverDX11.hpp" />
+    <ClInclude Include="..\..\include\stdafx.hpp" />
+    <ClInclude Include="..\..\include\Texture\Texture2DDX11.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\OcularDX11.cpp" />
+    <ClCompile Include="..\..\src\GraphicsDriverDX11.cpp" />
+    <ClCompile Include="..\..\src\stdafx.cpp" />
+    <ClCompile Include="..\..\src\Texture\Texture2DDX11.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

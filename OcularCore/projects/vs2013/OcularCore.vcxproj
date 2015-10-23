@@ -273,6 +273,7 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />

@@ -14,18 +14,4 @@
  * limitations under the License.
  */
 
-#include "OcularDX11.hpp"
-#include "OcularEngine.hpp"
-
-//------------------------------------------------------------------------------------------
-
-namespace Ocular
-{
-    namespace DX11
-    {
-        void generateBinary()
-        {
-
-        }
-    }
-}
+#include "stdafx.hpp"
