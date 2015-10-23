@@ -56,7 +56,7 @@ namespace Ocular
              * \param[in] height Height of the texture.
              * \return TRUE if the file was successfully saved.
              */
-            virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height);
+            virtual bool saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height);
 
         private:
 

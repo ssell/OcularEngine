@@ -51,7 +51,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceSaver_BMP::saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height)
+        bool TextureResourceSaver_BMP::saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height)
         {
             bool result = false;
 
@@ -121,7 +121,7 @@ namespace Ocular
             return true;
         }
 
-        bool TextureResourceSaver_BMP::writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Color> const& pixels, unsigned width, unsigned height)
+        bool TextureResourceSaver_BMP::writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Core::Color> const& pixels, unsigned width, unsigned height)
         {
             bool result = false;
             int filePos = 54;    // Header is always 54 bytes long and we will always be starting the pixel array immediately after it

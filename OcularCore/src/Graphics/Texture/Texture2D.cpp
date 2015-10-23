@@ -43,7 +43,7 @@ namespace Ocular
             
             for(unsigned i = 0; i < size; i++)
             {
-                m_Pixels.push_back(Color());
+                m_Pixels.push_back(Core::Color());
             }
         }
 
@@ -67,9 +67,9 @@ namespace Ocular
             // OpenGL and DirectX childs will have to update texture on GPU
         }
 
-        Color Texture2D::getPixel(unsigned const x, unsigned const y)
+        Core::Color Texture2D::getPixel(unsigned const x, unsigned const y)
         {
-            Color result(0.0f, 0.0f, 0.0f, 1.0f);
+            Core::Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
             if((x >= 0) && (x < m_Width) && (y >= 0) && (y < m_Height))
             {
@@ -79,7 +79,7 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixel(unsigned const x, unsigned const y, Color const& color)
+        bool Texture2D::setPixel(unsigned const x, unsigned const y, Core::Color const& color)
         {
             bool result = false;
 
@@ -93,7 +93,7 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::getPixels(std::vector<Color>& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
+        bool Texture2D::getPixels(std::vector<Core::Color>& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
         {
             bool result = false;
 
@@ -126,7 +126,7 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixels(std::vector<Color> const& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
+        bool Texture2D::setPixels(std::vector<Core::Color> const& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
         {
             bool result = false;
 

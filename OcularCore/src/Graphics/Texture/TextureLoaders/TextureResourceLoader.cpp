@@ -53,7 +53,7 @@ namespace Ocular
 
             if(isFileValid(file))
             {
-                std::vector<Color> pixels;
+                std::vector<Core::Color> pixels;
 
                 unsigned width = 0;
                 unsigned height = 0;
@@ -121,7 +121,7 @@ namespace Ocular
             return result;
         }
 
-        bool TextureResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height)
+        bool TextureResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const& width, unsigned const& height)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
 

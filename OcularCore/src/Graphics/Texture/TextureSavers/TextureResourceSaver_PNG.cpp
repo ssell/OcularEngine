@@ -52,7 +52,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceSaver_PNG::saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height)
+        bool TextureResourceSaver_PNG::saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height)
         {
             bool result = false;
 

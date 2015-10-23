@@ -32,6 +32,11 @@ struct IDXGISwapChain;
  */
 namespace Ocular
 {
+    namespace Core
+    {
+        class AWindow;
+    }
+
     /**
      * \addtogroup Graphics
      * @{
@@ -60,6 +65,9 @@ namespace Ocular
             ID3D11DeviceContext* getDeviceContext() const;
 
         protected:
+
+            bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
+            bool createDeviceAndSwapChain(std::shared_ptr<Core::AWindow> window, HWND hwnd);
 
         private:
 

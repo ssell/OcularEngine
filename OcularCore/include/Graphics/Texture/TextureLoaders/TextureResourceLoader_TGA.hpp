@@ -46,7 +46,7 @@ namespace Ocular
 
         protected:
 
-            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height);
+            virtual bool readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height);
 
         private:
         };

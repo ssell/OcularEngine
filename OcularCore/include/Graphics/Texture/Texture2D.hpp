@@ -21,7 +21,7 @@
 #include "Graphics/Texture/Texture.hpp"
 #include "Graphics/Texture/TextureEnums.hpp"
 
-#include "Math/Vector4.hpp"
+#include "Math/Color.hpp"
 
 #include <vector>
 
@@ -74,7 +74,7 @@ namespace Ocular
              * \param[in] y
              * \return Color of the pixel located at (x,y) in the texture.
              */
-            Color getPixel(unsigned x, unsigned y);
+            Core::Color getPixel(unsigned x, unsigned y);
 
             /**
              * Sets the specified pixel in the texture.
@@ -87,7 +87,7 @@ namespace Ocular
              *
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixel(unsigned x, unsigned y, Color const& color);
+            bool setPixel(unsigned x, unsigned y, Core::Color const& color);
 
             /**
              * Retrieves the pixels in the specified bounds of the texture.
@@ -105,7 +105,7 @@ namespace Ocular
              * \param[in]  width  If set to -1, retrieves pixels from startX to end of texture.
              * \param[in]  height If set to -1, retrieves pixels from startY to end of texture.
              */
-            bool getPixels(std::vector<Color>& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
+            bool getPixels(std::vector<Core::Color>& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
             
             /**
              * Sets the pixels in the specified bounds of the texture.
@@ -124,7 +124,7 @@ namespace Ocular
              * \param[in]  height If set to -1, sets pixels from startY to end of texture.
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixels(std::vector<Color> const& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
+            bool setPixels(std::vector<Core::Color> const& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
 
             /**
              * \return Width of the texture
@@ -154,7 +154,7 @@ namespace Ocular
 
             //----------------------------------------
 
-            std::vector<Color> m_Pixels;
+            std::vector<Core::Color> m_Pixels;
 
             unsigned m_Width;
             unsigned m_Height;

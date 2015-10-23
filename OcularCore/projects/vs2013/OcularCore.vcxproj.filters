@@ -468,6 +468,9 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp">
       <Filter>Source Files\Graphics\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Color.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -871,6 +874,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Color.hpp">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

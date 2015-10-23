@@ -41,7 +41,7 @@ namespace Ocular
                     pixelColor = prng->nextf();
                 }
 
-                m_Pixels[i] = Color(pixelColor, pixelColor, pixelColor, 1.0f);
+                m_Pixels[i] = Core::Color(pixelColor, pixelColor, pixelColor, 1.0f);
             }
 
             m_IsInMemory = true;
@@ -65,7 +65,7 @@ namespace Ocular
                         pixelColor = (noise->getValue(static_cast<float>(x + xOffset), static_cast<float>(y + yOffset)) + 1.0f) * 0.5f;
                     }
 
-                    m_Pixels[(y * width) + x] = Color(pixelColor, pixelColor, pixelColor, 1.0f);
+                    m_Pixels[(y * width) + x] = Core::Color(pixelColor, pixelColor, pixelColor, 1.0f);
                 }
             }
 

@@ -56,12 +56,12 @@ namespace Ocular
              * \param[in] height Height of the texture.
              * \return TRUE if the file was successfully saved.
              */
-            virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height);
+            virtual bool saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height);
 
         private:
 
             bool writeHeaders(std::vector<unsigned char>& fileBuffer, long width, long height);
-            bool writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Color> const& pixels, unsigned width, unsigned height);
+            bool writePixelArray(std::vector<unsigned char>& fileBuffer, std::vector<Core::Color> const& pixels, unsigned width, unsigned height);
         };
     }
     /**

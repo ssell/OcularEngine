@@ -56,7 +56,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader_PNG::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
+        bool TextureResourceLoader_PNG::readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
 
@@ -76,7 +76,7 @@ namespace Ocular
                 {
                     if(png_image_finish_read(&image, NULL, buffer, 0, NULL))
                     {
-                        Color newPixel;
+                        Core::Color newPixel;
 
                         unsigned numPixels = image.width * image.height;
                         unsigned bufferPos = 0;

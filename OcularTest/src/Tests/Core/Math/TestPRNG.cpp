@@ -139,7 +139,7 @@ TEST(PRNGDistribution, STLGaussian)
             for(uint32_t x = 0; x < TEXTURE_WIDTH; x++)
             {
                 float value = distribution(generator);
-                texture->setPixel(x, y, Ocular::Color(value, value, value, 1.0f));
+                texture->setPixel(x, y, Ocular::Core::Color(value, value, value, 1.0f));
             }
         }
 

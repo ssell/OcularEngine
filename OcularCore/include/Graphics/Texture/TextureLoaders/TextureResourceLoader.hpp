@@ -19,7 +19,7 @@
 #define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER__H__
 
 #include "Resources/ResourceLoader.hpp"
-#include "Math/Vector4.hpp"
+#include "Math/Color.hpp"
 #include "Common.hpp"
 
 #include <vector>
@@ -68,7 +68,7 @@ namespace Ocular
              * \param[out] height Height of the texture.
              * \return TRUE if file was read in successfully.
              */
-            virtual bool readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height) = 0;
+            virtual bool readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height) = 0;
 
             /**
              * Verifies the file on the following conditions:
@@ -92,7 +92,7 @@ namespace Ocular
              * \param[in]  height   Height of the texture.
              * \return TRUE if creation was successful.
              */
-            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Color> const& pixels, unsigned const& width, unsigned const& height);
+            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const& width, unsigned const& height);
             
             /**
              * Attempts to load the binary contents of the specified file into the provided empty buffer.

@@ -200,6 +200,7 @@
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsSphere.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\Ray.cpp" />
+    <ClCompile Include="..\..\src\Math\Color.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
@@ -303,6 +305,7 @@
     <ClInclude Include="..\..\include\Math\Bounds\BoundsOBB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\Ray.hpp" />
+    <ClInclude Include="..\..\include\Math\Color.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\ConvexHull2D.hpp" />

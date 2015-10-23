@@ -19,7 +19,7 @@
 #define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_SAVER__H__
 
 #include "Resources/ResourceSaver.hpp"
-#include "Math/Vector4.hpp"
+#include "Math/Color.hpp"
 #include "Common.hpp"
 
 #include <vector>
@@ -75,7 +75,7 @@ namespace Ocular
              *
              * \return TRUE if the file was successfully saved.
              */
-            virtual bool saveFile(Core::File const& file, std::vector<Color> const& pixels, unsigned const width, unsigned const height) = 0;
+            virtual bool saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height) = 0;
 
             /**
              * Checks if the specified file is valid. It can be valid in one of two ways:

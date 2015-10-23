@@ -87,7 +87,7 @@ TEST(Noise, Wavelet)
             for(uint32_t x = 0; x < 200; x++)
             {
                 float value = (noise->getValue(static_cast<float>(x) / 10.0f, static_cast<float>(y) / 10.0f, 5.0f) + 1.0f) * 0.5f;
-                texture->setPixel(x, y, Ocular::Color(value, value, value, 1.0f));
+                texture->setPixel(x, y, Ocular::Core::Color(value, value, value, 1.0f));
             }
         }
 

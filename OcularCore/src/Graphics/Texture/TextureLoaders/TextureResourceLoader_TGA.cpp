@@ -37,8 +37,8 @@ struct TGAHeader
 
 bool isValidHeader(TGAHeader const& header);
 bool readHeader(std::vector<unsigned char> const& buffer, TGAHeader& header);
-bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels);
-bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels);
+bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels);
+bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels);
 
 //------------------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader_TGA::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
+        bool TextureResourceLoader_TGA::readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
 
@@ -177,7 +177,7 @@ bool isValidHeader(TGAHeader const& header)
     return result;
 }
 
-bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels)
+bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels)
 {
     bool result = false;
     
@@ -204,10 +204,10 @@ bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned ch
             r = buffer[bufferPos++];
             a = (header.bpp == 4 ? buffer[bufferPos++] : 255);
 
-            pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
-                                           static_cast<float>(g) / 255.0f, 
-                                           static_cast<float>(b) / 255.0f, 
-                                           static_cast<float>(a) / 255.0f));
+            pixels.push_back(Ocular::Core::Color(static_cast<float>(r) / 255.0f, 
+                                                 static_cast<float>(g) / 255.0f, 
+                                                 static_cast<float>(b) / 255.0f, 
+                                                 static_cast<float>(a) / 255.0f));
         }
 
         result = true;
@@ -220,7 +220,7 @@ bool readUncompressedTrueVision(TGAHeader const& header, std::vector<unsigned ch
     return result;
 }
 
-bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels)
+bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels)
 {
     bool result = true;
 
@@ -269,10 +269,10 @@ bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char
                 r = buffer[bufferPos++];
                 a = (header.bpp == 4 ? buffer[bufferPos++] : 255);
 
-                pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
-                                                static_cast<float>(g) / 255.0f, 
-                                                static_cast<float>(b) / 255.0f, 
-                                                static_cast<float>(a) / 255.0f));
+                pixels.push_back(Ocular::Core::Color(static_cast<float>(r) / 255.0f, 
+                                                     static_cast<float>(g) / 255.0f, 
+                                                     static_cast<float>(b) / 255.0f, 
+                                                     static_cast<float>(a) / 255.0f));
 
                 pixelCount++;
             }
@@ -289,10 +289,10 @@ bool readCompressedTrueVision(TGAHeader const& header, std::vector<unsigned char
 
             for(unsigned i = 0; i < chunkValue; i++)
             {
-                pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
-                                                static_cast<float>(g) / 255.0f, 
-                                                static_cast<float>(b) / 255.0f, 
-                                                static_cast<float>(a) / 255.0f));
+                pixels.push_back(Ocular::Core::Color(static_cast<float>(r) / 255.0f, 
+                                                     static_cast<float>(g) / 255.0f, 
+                                                     static_cast<float>(b) / 255.0f, 
+                                                     static_cast<float>(a) / 255.0f));
 
                 pixelCount++;
             }

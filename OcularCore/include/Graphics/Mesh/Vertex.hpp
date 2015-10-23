@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER_PNG__H__
-#define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_LOADER_PNG__H__
+#ifndef __H__OCULAR_GRAPHICS_VERTEX__H__
+#define __H__OCULAR_GRAPHICS_VERTEX__H__
 
-#include "TextureResourceLoader.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,21 +34,11 @@ namespace Ocular
      */
     namespace Graphics
     {
-        /**
-         * \class TextureResourceLoader_PNG
-         */
-        class TextureResourceLoader_PNG : public TextureResourceLoader
+        struct Vertex
         {
-        public:
-
-            TextureResourceLoader_PNG();
-            virtual ~TextureResourceLoader_PNG();
-
-        protected:
-
-            virtual bool readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height);
-
-        private:
+            Math::Vector3f position;    ///< Spatial coordinates of the vertex
+            Math::Vector3f normal;      ///< Normal coordinates of the vertex
+            Math::Vector2f uv;          ///< Texture coordinates of the vertex
         };
     }
     /**

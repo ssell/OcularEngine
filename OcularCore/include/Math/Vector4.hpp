@@ -412,8 +412,6 @@ namespace Ocular
     /**
      * @} End of Doxygen Groups
      */
-
-    typedef Math::Vector4f Color;
 }
 /**
  * @} End of Doxygen Groups

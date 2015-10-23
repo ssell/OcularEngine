@@ -39,8 +39,8 @@ struct BMPHeader
 
 bool isHeaderValid(BMPHeader const& header);
 bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header);
-bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels);
-bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels);
+bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels);
+bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels);
 
 //------------------------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader_BMP::readFile(Core::File const& file, std::vector<Color>& pixels, unsigned& width, unsigned& height)
+        bool TextureResourceLoader_BMP::readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height)
         {
             bool result = false;
 
@@ -168,7 +168,7 @@ bool readHeader(std::vector<unsigned char> const& buffer, BMPHeader& header)
     return result;
 }
 
-bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels)
+bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels)
 {
     // Image data starts in the lower-left corner and is in BGRA order. 
     // If the reported height in the header is negative, then the data 
@@ -205,10 +205,10 @@ bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> c
                 unsigned char r = buffer[i + (j + 2)];
                 unsigned char a = (pixelSize == 3 ? 255 : buffer[i + (j + 3)]);  // If no alpha-channel, set to 255
 
-                pixels.push_back(Ocular::Color(static_cast<float>(r) / 255.0f, 
-                                               static_cast<float>(g) / 255.0f, 
-                                               static_cast<float>(b) / 255.0f, 
-                                               static_cast<float>(a) / 255.0f));
+                pixels.push_back(Ocular::Core::Color(static_cast<float>(r) / 255.0f, 
+                                                     static_cast<float>(g) / 255.0f, 
+                                                     static_cast<float>(b) / 255.0f, 
+                                                     static_cast<float>(a) / 255.0f));
                 pixelPos++;
             }
         }
@@ -222,7 +222,7 @@ bool createPixelDataUncompressed(BMPHeader& header, std::vector<unsigned char> c
     return result;
 }
 
-bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Color>& pixels)
+bool createPixelDataCompressed(BMPHeader& header, std::vector<unsigned char> const& buffer, std::vector<Ocular::Core::Color>& pixels)
 {
     bool result = false;
 

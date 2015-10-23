@@ -59,7 +59,7 @@ namespace Ocular
                 {
                     Texture2D* texture = dynamic_cast<Texture2D*>(resource);
 
-                    std::vector<Color> pixels;
+                    std::vector<Core::Color> pixels;
                     texture->getPixels(pixels);
 
                     if(saveFile(file, pixels, texture->getWidth(), texture->getHeight()))
