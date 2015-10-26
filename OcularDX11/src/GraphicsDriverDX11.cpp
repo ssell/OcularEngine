@@ -75,11 +75,13 @@ namespace Ocular
 
             if(m_Device == nullptr)
             {
-                auto mainWindow = OcularWindows->getMainWindow();
+                std::shared_ptr<Core::AWindow> mainWindow = OcularWindows->getMainWindow();
 
                 if(validateWindow(mainWindow, hwnd))
                 {
-                    if(createDeviceAndSwapChain(mainWindow, hwnd))
+                    Core::WindowWin32* windowWin32 = dynamic_cast<Core::WindowWin32*>(mainWindow.get());
+
+                    if(createDeviceAndSwapChain(windowWin32, hwnd))
                     {
                         // Set default states
                         // ...
@@ -152,12 +154,99 @@ namespace Ocular
             return result;
         }
 
-        bool GraphicsDriverDX11::createDeviceAndSwapChain(std::shared_ptr<Core::AWindow> window, HWND const hwnd)
+        bool GraphicsDriverDX11::createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd)
         {
             bool result = false;
 
+            //------------------------------------------------------------
+            // Set up for device creation
+
+            uint32_t createDeviceFlags = 0;
+
+#ifdef _DEBUG
+            createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+            const D3D_DRIVER_TYPE driverTypes[] =
+            {
+                D3D_DRIVER_TYPE_HARDWARE,
+                D3D_DRIVER_TYPE_WARP,
+                D3D_DRIVER_TYPE_REFERENCE
+            };
+
+            const D3D_FEATURE_LEVEL featureLevels[] =
+            {
+                D3D_FEATURE_LEVEL_11_1,
+                D3D_FEATURE_LEVEL_11_0
+            };
+
+            D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
+
+            //------------------------------------------------------------
+            // Create the Swap Chain descriptor
+
+            const DXGI_SWAP_CHAIN_DESC swapChainDesc = createSwapChainDescription(window);
+
+            //------------------------------------------------------------
+            // Create the devices and swap chain
+
+            const HRESULT hResult = D3D11CreateDeviceAndSwapChain(
+                    nullptr,
+                    D3D_DRIVER_TYPE_HARDWARE,
+                    nullptr,
+                    createDeviceFlags,
+                    featureLevels,
+                    2,
+                    D3D11_SDK_VERSION,
+                    &swapChainDesc,
+                    &m_SwapChain,
+                    &m_Device,
+                    &featureLevel,
+                    &m_DeviceContext
+                );
+
+            //------------------------------------------------------------
+            // Handle multiple swap chains here?
+
+            //------------------------------------------------------------
+            // Error handling
+
+            if(hResult != S_OK)
+            {
+                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error: ", hResult, OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
+                result = false;
+            }
+
             return result;
         }
+
+        DXGI_SWAP_CHAIN_DESC GraphicsDriverDX11::createSwapChainDescription(Core::WindowWin32 const* window) const
+        {
+            Core::WindowDescriptor windowDesc = window->getDescriptor();
+
+            DXGI_SWAP_CHAIN_DESC result;
+            ZeroMemory(&result, sizeof(result));
+
+            result.BufferCount                        = 1;
+            result.BufferDesc.Width                   = windowDesc.width;
+            result.BufferDesc.Height                  = windowDesc.height;
+            result.BufferDesc.Format                  = DXGI_FORMAT_R8G8B8A8_UNORM;
+            result.BufferDesc.RefreshRate.Numerator   = 60;
+            result.BufferDesc.RefreshRate.Denominator = 1;
+            result.BufferUsage                        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+            result.OutputWindow                       = window->getHWND();
+            result.SampleDesc.Count                   = 1;
+            result.SampleDesc.Quality                 = 0;
+            result.BufferDesc.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+            result.BufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+            result.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
+            result.Flags                              = 0;
+            result.Windowed                           = ((windowDesc.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
+                                                         (windowDesc.displayMode == Core::WindowDisplayMode::WindowedBorderless));
+
+            return result;
+        }
+
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

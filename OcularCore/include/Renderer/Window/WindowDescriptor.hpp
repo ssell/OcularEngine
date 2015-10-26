@@ -102,12 +102,12 @@ namespace Ocular
 
             std::string displayName;  ///< Name used for display purposes (such as the title bar)
 
-            union {unsigned width, xResolution; };
-            union {unsigned height, yResolution; };
+            union {uint32_t width, xResolution; };
+            union {uint32_t height, yResolution; };
 
-            unsigned colorBits;
-            unsigned depthBits;
-            unsigned stencilBits;
+            uint32_t colorBits;
+            uint32_t depthBits;
+            uint32_t stencilBits;
 
             WindowDisplayMode displayMode;
             

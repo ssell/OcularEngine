@@ -25,6 +25,7 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct IDXGISwapChain;
+struct DXGI_SWAP_CHAIN_DESC;
 
 /**
  * \addtogroup Ocular
@@ -35,6 +36,7 @@ namespace Ocular
     namespace Core
     {
         class AWindow;
+        class WindowWin32;
     }
 
     /**
@@ -67,7 +69,8 @@ namespace Ocular
         protected:
 
             bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
-            bool createDeviceAndSwapChain(std::shared_ptr<Core::AWindow> window, HWND hwnd);
+            bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND hwnd);
+            DXGI_SWAP_CHAIN_DESC createSwapChainDescription(Core::WindowWin32 const* window) const;
 
         private:
 
