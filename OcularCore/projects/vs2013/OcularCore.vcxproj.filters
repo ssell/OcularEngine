@@ -471,6 +471,9 @@
     <ClCompile Include="..\..\src\Math\Color.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\RenderTexture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -880,6 +883,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Color.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

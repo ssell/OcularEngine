@@ -23,6 +23,8 @@
 #include "WindowDisplay.hpp"
 #include "WindowDescriptor.hpp"
 
+#include "Graphics/Texture/RenderTexture.hpp"
+
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -71,10 +73,40 @@ namespace Ocular
 
             //--------------------------------------------
 
+            /**
+             * \return The WindowDescriptor for this window instance.
+             */
             WindowDescriptor getDescriptor() const;
-            void setDescriptor(WindowDescriptor descriptor);
 
+            /**
+             * Sets the WindowDescriptor for this window instance.
+             * \param[in] descriptor
+             */
+            void setDescriptor(WindowDescriptor const& descriptor);
+
+            /**
+             * \return TRUE if this window currently has input focus.
+             */
             bool hasFocus() const;
+
+            /**
+             * \return The current backbuffer RenderTexture.
+             */
+            Graphics::RenderTexture const* getRenderTexture() const;
+
+            /**
+             * Sets the RenderTexture to use as the backbuffer.
+             * 
+             * This method is typically called automatically during window creation
+             * and/or GraphicsDriver initialization. Except for special circumstances
+             * it not be called externally.
+             *
+             * \note When set, the window assumes ownership of the texture and will 
+             *       destroy it when it is no longer in use.
+             *
+             * \param[in] renderTexture
+             */
+            void setRenderTexture(Graphics::RenderTexture* renderTexture);
 
         protected:
 
@@ -96,6 +128,7 @@ namespace Ocular
             //----------------------------------------
 
             WindowDescriptor m_Descriptor;
+            Graphics::RenderTexture* m_RenderTexture;
 
         private:
         };

@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.hpp"
-#include "GraphicsDriverDX11.hpp"
+#include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -28,14 +28,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        GraphicsDriverDX11::GraphicsDriverDX11()
+        D3D11GraphicsDriver::D3D11GraphicsDriver()
         {
             m_Device = nullptr;
             m_DeviceContext = nullptr;
             m_SwapChain = nullptr;
         }
 
-        GraphicsDriverDX11::~GraphicsDriverDX11()
+        D3D11GraphicsDriver::~D3D11GraphicsDriver()
         {
             if(m_Device)
             {
@@ -60,7 +60,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool GraphicsDriverDX11::initialize()
+        bool D3D11GraphicsDriver::initialize()
         {
             /**
              * Initialization follows the steps below:
@@ -106,12 +106,12 @@ namespace Ocular
             return result;
         }
 
-        ID3D11Device* GraphicsDriverDX11::getDevice() const
+        ID3D11Device* D3D11GraphicsDriver::getD3DDevice() const
         {
             return m_Device;
         }
 
-        ID3D11DeviceContext* GraphicsDriverDX11::getDeviceContext() const
+        ID3D11DeviceContext* D3D11GraphicsDriver::getD3DDeviceContext() const
         {
             return m_DeviceContext;
         }
@@ -120,7 +120,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool GraphicsDriverDX11::validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const
+        bool D3D11GraphicsDriver::validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const
         {
             bool result = false;
 
@@ -154,7 +154,7 @@ namespace Ocular
             return result;
         }
 
-        bool GraphicsDriverDX11::createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd)
+        bool D3D11GraphicsDriver::createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd)
         {
             bool result = false;
 
@@ -220,7 +220,7 @@ namespace Ocular
             return result;
         }
 
-        DXGI_SWAP_CHAIN_DESC GraphicsDriverDX11::createSwapChainDescription(Core::WindowWin32 const* window) const
+        DXGI_SWAP_CHAIN_DESC D3D11GraphicsDriver::createSwapChainDescription(Core::WindowWin32 const* window) const
         {
             Core::WindowDescriptor windowDesc = window->getDescriptor();
 

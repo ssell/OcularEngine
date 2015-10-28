@@ -14,63 +14,33 @@
  * limitations under the License.
  */
 
-#include "Renderer\Window\Window.hpp"
+#include "stdafx.hpp"
+#include "Texture/D3D11Texture2D.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(WindowDescriptor const descriptor)
-            : Object(descriptor.displayName, "AWindow")
+        D3D11Texture2D::D3D11Texture2D(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
+            : Texture2D(width, height, filter, usage)
         {
-            m_Descriptor = descriptor;
-            m_RenderTexture = nullptr;
+
         }
 
-        AWindow::~AWindow()
+        D3D11Texture2D::~D3D11Texture2D()
         {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        WindowDescriptor AWindow::getDescriptor() const
-        {
-            return m_Descriptor;
-        }
-
-        void AWindow::setDescriptor(WindowDescriptor const& descriptor)
-        {
-            m_Descriptor = descriptor;
-        }
-
-        Graphics::RenderTexture const* AWindow::getRenderTexture() const
-        {
-            return m_RenderTexture;
-        }
-
-        void AWindow::setRenderTexture(Graphics::RenderTexture* renderTexture)
-        {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
-
-            m_RenderTexture = renderTexture;
-        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

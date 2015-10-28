@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#include "stdafx.hpp"
-#include "Texture/Texture2DDX11.hpp"
+#include "Graphics/Texture/RenderTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,13 +26,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture2DDX11::Texture2DDX11(unsigned width, unsigned height, TextureFilterMode filter, TextureUsageMode usage)
+        RenderTexture::RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
             : Texture2D(width, height, filter, usage)
         {
 
         }
 
-        Texture2DDX11::~Texture2DDX11()
+        RenderTexture::~RenderTexture()
         {
 
         }

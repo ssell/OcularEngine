@@ -15,12 +15,14 @@
  */
 
 #pragma once
-#ifndef __OCULAR_DX11_TEXTURE_2D__H__
-#define __OCULAR_DX11_TEXTURE_2D__H__
+#ifndef __OCULAR_D3D11_RENDER_TEXTURE__H__
+#define __OCULAR_D3D11_RENDER_TEXTURE__H__
 
-#include "Graphics/Texture/Texture2D.hpp"
+#include "Graphics/Texture/RenderTexture.hpp"
 
 //------------------------------------------------------------------------------------------
+
+struct ID3D11RenderTargetView;
 
 /**
  * \addtogroup Ocular
@@ -34,14 +36,21 @@ namespace Ocular
      */
     namespace Graphics
     {
-        class Texture2DDX11 : public Texture2D
+        class D3D11RenderTexture : public RenderTexture
         {
         public:
 
-            Texture2DDX11(unsigned width, unsigned height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
-            ~Texture2DDX11();
+            D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            ~D3D11RenderTexture();
+
+            void apply() override;
+            void unload() override;
+
+            ID3D11RenderTargetView* getD3DRenderTargetView();
 
         protected:
+
+            ID3D11RenderTargetView* m_D3DRenderTargetView;
 
         private:
         };

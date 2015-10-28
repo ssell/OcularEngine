@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularDX11", "OcularDX11.vcxproj", "{FCFE3C0E-9566-459C-9E1B-37465D8812D1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OcularD3D11", "OcularD3D11.vcxproj", "{FCFE3C0E-9566-459C-9E1B-37465D8812D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

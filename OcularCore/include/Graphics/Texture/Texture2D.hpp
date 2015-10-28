@@ -53,7 +53,7 @@ namespace Ocular
              * \param[in] usage
              * \param[in] source
              */
-            Texture2D(unsigned width, unsigned height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            Texture2D(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
 
             virtual ~Texture2D();
 
@@ -74,7 +74,7 @@ namespace Ocular
              * \param[in] y
              * \return Color of the pixel located at (x,y) in the texture.
              */
-            Core::Color getPixel(unsigned x, unsigned y);
+            Core::Color getPixel(uint32_t x, uint32_t y) const;
 
             /**
              * Sets the specified pixel in the texture.
@@ -87,7 +87,7 @@ namespace Ocular
              *
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixel(unsigned x, unsigned y, Core::Color const& color);
+            bool setPixel(uint32_t x, uint32_t y, Core::Color const& color);
 
             /**
              * Retrieves the pixels in the specified bounds of the texture.
@@ -102,10 +102,10 @@ namespace Ocular
              * \param[out] pixels
              * \param[in]  startX
              * \param[in]  startY
-             * \param[in]  width  If set to -1, retrieves pixels from startX to end of texture.
-             * \param[in]  height If set to -1, retrieves pixels from startY to end of texture.
+             * \param[in]  width  If set to 0, retrieves pixels from startX to end of texture.
+             * \param[in]  height If set to 0, retrieves pixels from startY to end of texture.
              */
-            bool getPixels(std::vector<Core::Color>& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
+            bool getPixels(std::vector<Core::Color>& pixels, uint32_t startX = 0, uint32_t startY = 0, uint32_t width = 0, uint32_t height = 0) const;
             
             /**
              * Sets the pixels in the specified bounds of the texture.
@@ -120,11 +120,11 @@ namespace Ocular
              * \param[out] pixels
              * \param[in]  startX
              * \param[in]  startY
-             * \param[in]  width  If set to -1, sets pixels from startX to end of texture.
-             * \param[in]  height If set to -1, sets pixels from startY to end of texture.
+             * \param[in]  width  If set to 0, sets pixels from startX to end of texture.
+             * \param[in]  height If set to 0, sets pixels from startY to end of texture.
              * \note apply must be called after any pixel setting in order for the texture on GPU to be updated.
              */
-            bool setPixels(std::vector<Core::Color> const& pixels, unsigned startX = 0, unsigned startY = 0, int width = -1, int height = -1);
+            bool setPixels(std::vector<Core::Color> const& pixels, uint32_t startX = 0, uint32_t startY = 0, uint32_t width = 0, uint32_t height = 0);
 
             /**
              * \return Width of the texture
@@ -135,7 +135,7 @@ namespace Ocular
              * \param[in] width
              * \note apply must be called after any dimension changes in order for the texture on GPU to be updated.
              */
-            void setWidth(unsigned const& width);
+            void setWidth(uint32_t const& width);
 
             /**
              * \return Height of the texture
@@ -146,18 +146,18 @@ namespace Ocular
              * \param[in] height
              * \note apply must be called after any dimension changes in order for the texture on GPU to be updated.
              */
-            void setHeight(unsigned const& height);
+            void setHeight(uint32_t const& height);
 
         protected:
 
-            void getTrueDimensions(unsigned startX, unsigned startY, int& trueWidth, int& trueHeight);
+            void getTrueDimensions(uint32_t startX, uint32_t startY, uint32_t& trueWidth, uint32_t& trueHeight) const;
 
             //----------------------------------------
 
             std::vector<Core::Color> m_Pixels;
 
-            unsigned m_Width;
-            unsigned m_Height;
+            uint32_t m_Width;
+            uint32_t m_Height;
 
         private:
         };

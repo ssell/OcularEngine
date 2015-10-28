@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_DX11_GRAPHICS_DRIVER__H__
-#define __H__OCULAR_DX11_GRAPHICS_DRIVER__H__
+#ifndef __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
+#define __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
 
 #include "Graphics/GraphicsDriver.hpp"
 
@@ -48,12 +48,12 @@ namespace Ocular
         /**
          * \class GraphicsDriver
          */
-        class GraphicsDriverDX11 : public GraphicsDriver
+        class D3D11GraphicsDriver : public GraphicsDriver
         {
         public:
 
-            GraphicsDriverDX11();
-            ~GraphicsDriverDX11();
+            D3D11GraphicsDriver();
+            ~D3D11GraphicsDriver();
 
             //------------------------------------------------------------
             // Inherited Methods
@@ -63,8 +63,8 @@ namespace Ocular
             //------------------------------------------------------------
             // DX Specific Methods
 
-            ID3D11Device* getDevice() const;
-            ID3D11DeviceContext* getDeviceContext() const;
+            ID3D11Device* getD3DDevice() const;
+            ID3D11DeviceContext* getD3DDeviceContext() const;
 
         protected:
 

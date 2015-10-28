@@ -24,22 +24,28 @@
     <ClInclude Include="..\..\include\stdafx.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Texture\Texture2DDX11.hpp">
+    <ClInclude Include="..\..\include\Texture\D3D11Texture2D.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GraphicsDriverDX11.hpp">
+    <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11RenderTexture.hpp">
+      <Filter>Header Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Texture\Texture2DDX11.cpp">
+    <ClCompile Include="..\..\src\Texture\D3D11Texture2D.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GraphicsDriverDX11.cpp">
+    <ClCompile Include="..\..\src\D3D11GraphicsDriver.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11RenderTexture.cpp">
+      <Filter>Source Files\Texture</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

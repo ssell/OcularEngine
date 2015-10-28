@@ -14,62 +14,51 @@
  * limitations under the License.
  */
 
-#include "Renderer\Window\Window.hpp"
+#include "stdafx.hpp"
+#include "Texture/D3D11RenderTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(WindowDescriptor const descriptor)
-            : Object(descriptor.displayName, "AWindow")
+        D3D11RenderTexture::D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
+            : RenderTexture(width, height, filter, usage)
         {
-            m_Descriptor = descriptor;
-            m_RenderTexture = nullptr;
+            m_D3DRenderTargetView = nullptr;
         }
 
-        AWindow::~AWindow()
+        D3D11RenderTexture::~D3D11RenderTexture()
         {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
+            unload();
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        WindowDescriptor AWindow::getDescriptor() const
+        void D3D11RenderTexture::apply()
         {
-            return m_Descriptor;
+
         }
 
-        void AWindow::setDescriptor(WindowDescriptor const& descriptor)
+        void D3D11RenderTexture::unload()
         {
-            m_Descriptor = descriptor;
-        }
-
-        Graphics::RenderTexture const* AWindow::getRenderTexture() const
-        {
-            return m_RenderTexture;
-        }
-
-        void AWindow::setRenderTexture(Graphics::RenderTexture* renderTexture)
-        {
-            if(m_RenderTexture)
+            if(m_D3DRenderTargetView)
             {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
+                m_D3DRenderTargetView->Release();
+                m_D3DRenderTargetView = nullptr;
             }
+        }
 
-            m_RenderTexture = renderTexture;
+        ID3D11RenderTargetView* D3D11RenderTexture::getD3DRenderTargetView()
+        {
+            return m_D3DRenderTargetView;
         }
 
         //----------------------------------------------------------------------------------
@@ -79,5 +68,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
     }
 }

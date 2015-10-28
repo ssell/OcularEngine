@@ -31,13 +31,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture2D::Texture2D(unsigned const width, unsigned const height, TextureFilterMode const filter, TextureUsageMode const usage)
+        Texture2D::Texture2D(uint32_t const width, uint32_t const height, TextureFilterMode const filter, TextureUsageMode const usage)
             : Texture(filter, usage)
         {
             m_Width  = width;
             m_Height = height;
 
-            unsigned size = width * height;
+            const uint32_t size = width * height;
 
             m_Pixels.reserve(size);
             
@@ -67,7 +67,7 @@ namespace Ocular
             // OpenGL and DirectX childs will have to update texture on GPU
         }
 
-        Core::Color Texture2D::getPixel(unsigned const x, unsigned const y)
+        Core::Color Texture2D::getPixel(uint32_t const x, uint32_t const y) const
         {
             Core::Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -79,7 +79,7 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixel(unsigned const x, unsigned const y, Core::Color const& color)
+        bool Texture2D::setPixel(uint32_t const x, uint32_t const y, Core::Color const& color)
         {
             bool result = false;
 
@@ -93,14 +93,14 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::getPixels(std::vector<Core::Color>& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
+        bool Texture2D::getPixels(std::vector<Core::Color>& pixels, uint32_t const startX, uint32_t const startY, uint32_t const width, uint32_t const height) const
         {
             bool result = false;
 
             if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
             {
-                int workingWidth  = width;     // The width and height of the subsection of the texture to get
-                int workingHeight = height;
+                uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to get
+                uint32_t workingHeight = height;
 
                 getTrueDimensions(startX, startY, workingWidth, workingHeight);
 
@@ -111,9 +111,9 @@ namespace Ocular
                     pixels.clear();
                     pixels.reserve(totalSize);
 
-                    for(unsigned iterY = startY; iterY < (startY + workingHeight); iterY++)
+                    for(uint32_t iterY = startY; iterY < (startY + workingHeight); iterY++)
                     {
-                        for(unsigned iterX = startX; iterX < (startX + workingWidth); iterX++)
+                        for(uint32_t iterX = startX; iterX < (startX + workingWidth); iterX++)
                         {
                             pixels.push_back(getPixel(iterX, iterY));  // Use getPixel instead of direct access for the added
                         }                                              // safety-checks provided in that method
@@ -126,14 +126,14 @@ namespace Ocular
             return result;
         }
 
-        bool Texture2D::setPixels(std::vector<Core::Color> const& pixels, unsigned const startX, unsigned const startY, int const width, int const height)
+        bool Texture2D::setPixels(std::vector<Core::Color> const& pixels, uint32_t const startX, uint32_t const startY, uint32_t const width, uint32_t const height)
         {
             bool result = false;
 
             if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
             {
-                int workingWidth  = width;     // The width and height of the subsection of the texture to set
-                int workingHeight = height;
+                uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to set
+                uint32_t workingHeight = height;
 
                 getTrueDimensions(startX, startY, workingWidth, workingHeight);
 
@@ -144,9 +144,9 @@ namespace Ocular
                     int index = 0;
                     result = true;
 
-                    for(unsigned iterY = startY; (iterY < (startY + workingHeight)) && (result); iterY++)   // Break out if we had a failed pixel set
+                    for(uint32_t iterY = startY; (iterY < (startY + workingHeight)) && (result); iterY++)   // Break out if we had a failed pixel set
                     {
-                        for(unsigned iterX = startX; (iterX < (startX + workingWidth)) && (result); iterX++)
+                        for(uint32_t iterX = startX; (iterX < (startX + workingWidth)) && (result); iterX++)
                         {
                             result = setPixel(iterX, iterY, pixels[(iterY * width) + iterX]);  // Use setPixel instead of direct access for the added safety-checks provided in that method
                         }
@@ -158,12 +158,12 @@ namespace Ocular
             return result;
         }
 
-        unsigned Texture2D::getWidth() const
+        uint32_t Texture2D::getWidth() const
         {
             return m_Width;
         }
 
-        void Texture2D::setWidth(unsigned const& width)
+        void Texture2D::setWidth(uint32_t const& width)
         {
             if(width > 0)
             {
@@ -171,12 +171,12 @@ namespace Ocular
             }
         }
 
-        unsigned Texture2D::getHeight() const
+        uint32_t Texture2D::getHeight() const
         {
             return m_Height;
         }
 
-        void Texture2D::setHeight(unsigned const& height)
+        void Texture2D::setHeight(uint32_t const& height)
         {
             if(height > 0)
             {
@@ -188,16 +188,16 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void Texture2D::getTrueDimensions(unsigned const startX, unsigned const startY, int& trueWidth, int& trueHeight)
+        void Texture2D::getTrueDimensions(uint32_t const startX, uint32_t const startY, uint32_t& trueWidth, uint32_t& trueHeight) const
         {
-            if((trueWidth < 0) ||                    // Specified to use remainder of width from startX
-               ((startX + trueWidth) > m_Width))     // Provided width is too wide; Scale it back.
+            if((trueWidth == 0) ||                    // Specified to use remainder of width from startX
+               ((startX + trueWidth) > m_Width))      // Provided width is too wide; Scale it back.
             {
                 trueWidth = m_Width - startX;
             }
 
-            if((trueHeight < 0) ||                   // Specified to use remainder of height from startY
-              ((startY + trueHeight) > m_Height))   // Provided height is too tall; Scale it back.
+            if((trueHeight == 0) ||                   // Specified to use remainder of height from startY
+              ((startY + trueHeight) > m_Height))    // Provided height is too tall; Scale it back.
             {
                 trueHeight = m_Height - startY;
             }
