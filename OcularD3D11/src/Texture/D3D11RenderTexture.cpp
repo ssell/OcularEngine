@@ -30,6 +30,7 @@ namespace Ocular
         D3D11RenderTexture::D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
             : RenderTexture(width, height, filter, usage)
         {
+            m_D3DTexture = nullptr;
             m_D3DRenderTargetView = nullptr;
         }
 
@@ -42,6 +43,44 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        bool D3D11RenderTexture::create(ID3D11Device const* device)
+        {
+            bool result = false;
+
+            if(m_D3DRenderTargetView)
+            {
+                // Texture is already created
+                result = true;
+            }
+            else
+            {
+                if(device)
+                {
+                    D3D11_TEXTURE2D_DESC rtvDescr;
+                    ZeroMemory(&rtvDescr, sizeof(D3D11_TEXTURE2D_DESC));
+
+                    rtvDescr.Width = m_Width;
+                    rtvDescr.Height = m_Height;
+                }
+                else
+                {
+                    OcularLogger->warning("D3D Device is NULL", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "create"));
+                }
+            }
+
+            return result;
+        }
+
+        ID3D11Texture2D* D3D11RenderTexture::getD3DTexture()
+        {
+            return m_D3DTexture;
+        }
+
+        ID3D11RenderTargetView* D3D11RenderTexture::getD3DRenderTargetView()
+        {
+            return m_D3DRenderTargetView;
+        }
+
         void D3D11RenderTexture::apply()
         {
 
@@ -49,16 +88,17 @@ namespace Ocular
 
         void D3D11RenderTexture::unload()
         {
+            if(m_D3DTexture)
+            {
+                m_D3DTexture->Release();
+                m_D3DTexture = nullptr;
+            }
+
             if(m_D3DRenderTargetView)
             {
                 m_D3DRenderTargetView->Release();
                 m_D3DRenderTargetView = nullptr;
             }
-        }
-
-        ID3D11RenderTargetView* D3D11RenderTexture::getD3DRenderTargetView()
-        {
-            return m_D3DRenderTargetView;
         }
 
         //----------------------------------------------------------------------------------

@@ -22,8 +22,6 @@
 
 //------------------------------------------------------------------------------------------
 
-struct ID3D11RenderTargetView;
-
 /**
  * \addtogroup Ocular
  * @{
@@ -43,13 +41,21 @@ namespace Ocular
             D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
             ~D3D11RenderTexture();
 
+            bool create(ID3D11Device const* device);
+
+            ID3D11Texture2D* getD3DTexture();
+            ID3D11RenderTargetView* getD3DRenderTargetView();
+
+            //------------------------------------------------------------
+            // Inherited Methods
+
             void apply() override;
             void unload() override;
 
-            ID3D11RenderTargetView* getD3DRenderTargetView();
 
         protected:
 
+            ID3D11Texture2D* m_D3DTexture;
             ID3D11RenderTargetView* m_D3DRenderTargetView;
 
         private:

@@ -17,6 +17,7 @@
 #include "stdafx.hpp"
 #include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
+#include "Texture/D3D11RenderTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -83,8 +84,10 @@ namespace Ocular
 
                     if(createDeviceAndSwapChain(windowWin32, hwnd))
                     {
-                        // Set default states
-                        // ...
+                        const Core::WindowDescriptor windowDescr = windowWin32->getDescriptor();
+                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(windowDescr.width, windowDescr.height);
+
+                        windowWin32->setRenderTexture(renderTexture);
 
                         result = true;
                     }
@@ -134,6 +137,8 @@ namespace Ocular
 
                     if(IsWindow(hwnd))
                     {
+                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture();
+
                         result = true;
                     }
                     else
@@ -246,7 +251,6 @@ namespace Ocular
 
             return result;
         }
-
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
