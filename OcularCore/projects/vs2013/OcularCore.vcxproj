@@ -293,6 +293,7 @@
     <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\Texture2D.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureDescriptor.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\TextureEnums.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />

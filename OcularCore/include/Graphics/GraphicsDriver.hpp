@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_GRAPHICS_DRIVER__H__
 #define __H__OCULAR_GRAPHICS_DRIVER__H__
 
+#include "Texture/RenderTexture.hpp"
+#include "Texture/TextureDescriptor.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -64,6 +67,39 @@ namespace Ocular
              * \return TRUE if rendered successfully. 
              */
             virtual bool renderMesh(Mesh const* mesh) = 0;
+
+            //------------------------------------------------------------------------------
+            // Creation Methods
+
+            /**
+             * Creates a new API-specific implementation of the Texture class.
+             *
+             * \param[in] descriptor
+             * \return Returns the new instantiated texture. The caller must assume
+             *         ownership of the texture and handle any cleanup. May return
+             *         NULL if texture creation failed.
+             */
+            virtual Texture* createTexture(TextureDescriptor const& descriptor) = 0;
+            
+            /**
+             * Creates a new API-specific implementation of the Texture2D class.
+             *
+             * \param[in] descriptor
+             * \return Returns the new instantiated texture. The caller must assume
+             *         ownership of the texture and handle any cleanup. May return
+             *         NULL if texture creation failed.
+             */
+            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) = 0;
+            
+            /**
+             * Creates a new API-specific implementation of the RenderTexture class.
+             *
+             * \param[in] descriptor
+             * \return Returns the new instantiated texture. The caller must assume
+             *         ownership of the texture and handle any cleanup. May return
+             *         NULL if texture creation failed.
+             */
+            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) = 0;
 
         protected:
 

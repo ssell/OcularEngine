@@ -887,5 +887,8 @@
     <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp">
       <Filter>Header Files\Graphics\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureDescriptor.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

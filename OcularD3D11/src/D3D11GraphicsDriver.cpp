@@ -85,11 +85,25 @@ namespace Ocular
                     if(createDeviceAndSwapChain(windowWin32, hwnd))
                     {
                         const Core::WindowDescriptor windowDescr = windowWin32->getDescriptor();
-                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(windowDescr.width, windowDescr.height);
 
-                        windowWin32->setRenderTexture(renderTexture);
+                        TextureDescriptor rtDescr;
+                        rtDescr.width     = windowDescr.width;
+                        rtDescr.height    = windowDescr.height;
+                        rtDescr.type      = TextureType::RenderTexture2D;
+                        rtDescr.cpuAccess = TextureAccess::None;
+                        rtDescr.gpuAccess = TextureAccess::ReadWrite;
+                        rtDescr.filter    = TextureFilterMode::Point;
 
-                        result = true;
+                        D3D11RenderTexture* renderTexture = dynamic_cast<D3D11RenderTexture*>(createRenderTexture(rtDescr));
+
+                        if(renderTexture)
+                        {
+                            windowWin32->setRenderTexture(renderTexture);
+                        }
+                        else
+                        {
+                        
+                        }
                     }
                     else
                     {
@@ -106,6 +120,60 @@ namespace Ocular
                 OcularLogger->warning("Graphics Driver already initialized", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
             }
             
+            return result;
+        }
+
+        Texture* D3D11GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
+        {
+            Texture* result = nullptr;
+
+            switch(descriptor.type) 
+            {
+            case TextureType::Texture2D:
+                result = createTexture2D(descriptor);
+                break;
+
+            case TextureType::RenderTexture2D:
+                result = createRenderTexture(descriptor);
+                break;
+
+            default:
+                OcularLogger->error("Unsupported texture type for D3D11", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createTexture"));
+                break;
+            }
+
+            return result;
+        }
+
+        Texture2D* D3D11GraphicsDriver::createTexture2D(TextureDescriptor const& descriptor)
+        {
+            Texture2D* result = nullptr;
+
+            if(descriptor.type == TextureType::Texture2D)
+            {
+            
+            }
+            else
+            {
+                OcularLogger->error("Invalid texture type specified", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createTexture2D"));
+            }
+
+            return result;
+        }
+
+        RenderTexture* D3D11GraphicsDriver::createRenderTexture(TextureDescriptor const& descriptor)
+        {
+            RenderTexture* result = nullptr;
+
+            if(descriptor.type == TextureType::RenderTexture2D)
+            {
+                
+            }
+            else
+            {
+                OcularLogger->error("Invalid texture type specified", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createRenderTexture"));
+            }
+
             return result;
         }
 
@@ -137,8 +205,6 @@ namespace Ocular
 
                     if(IsWindow(hwnd))
                     {
-                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture();
-
                         result = true;
                     }
                     else

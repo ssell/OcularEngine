@@ -15,8 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_TEXTURE_ENUMS__H__
-#define __H__OCULAR_GRAPHICS_TEXTURE_ENUMS__H__
+#ifndef __H__OCULAR_GRAPHICS_TEXTURE_DESCRIPTOR__H__
+#define __H__OCULAR_GRAPHICS_TEXTURE_DESCRIPTOR__H__
+
+#include <cstdint>
+#include "TextureEnums.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -33,39 +36,23 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \enum TextureFilterMode
-         * \brief Sample filtering modes 
+         * \struct TextureDescriptor
+         *
+         * A generic texture descriptor. Typically supplied
+         * to the GraphicsDriver to create the API specific
+         * texture instances.
          */
-        enum class TextureFilterMode : unsigned
+        struct TextureDescriptor
         {
-            Point = 0,       ///< Use Point filtering
-            Bilinear,        ///< Use Bilinear filtering
-            Trilinear,       ///< Use Trilinear filtering
-            Anisotropic      ///< Use Anisotropic filtering
-        };
+            uint32_t width;                      ///< Width of the texture in pixels
+            uint32_t height;                     ///< Height of the texture in pixels
 
-        /**
-         * \enum TextureAccess
-         * \brief Describes how the texture will be used
-         */
-        enum class TextureAccess : unsigned 
-        {
-            None = 0,
-            ReadWrite,
-            ReadOnly,
-            WriteOnly
-        };
+            TextureType type;                    ///< The type of texture 
+            
+            TextureFilterMode filter;            ///< Filtering mode to apply to the texture when rendered
 
-        /**
-         * \enum TextureType
-         * \note Not all texture types are supported by all APIs
-         */
-        enum class TextureType : unsigned
-        {
-            Texture1D = 0,
-            Texture2D,
-            RenderTexture1D,
-            RenderTexture2D
+            TextureAccess gpuAccess;             ///< The level of access required by the GPU
+            TextureAccess cpuAccess;             ///< The level of access requried by the CPU
         };
     }
     /**

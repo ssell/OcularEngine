@@ -60,6 +60,10 @@ namespace Ocular
 
             virtual bool initialize() override;
 
+            virtual Texture* createTexture(TextureDescriptor const& descriptor) override;
+            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) override;
+            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) override;
+
             //------------------------------------------------------------
             // DX Specific Methods
 
