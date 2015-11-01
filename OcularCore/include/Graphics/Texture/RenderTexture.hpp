@@ -45,8 +45,9 @@ namespace Ocular
             RenderTexture(TextureDescriptor const& descriptor);
             virtual ~RenderTexture();
 
-            virtual void unload() = 0;
-            virtual void apply() = 0;
+            virtual void unload();
+            virtual void apply();
+            virtual void refresh();
 
         protected:
 

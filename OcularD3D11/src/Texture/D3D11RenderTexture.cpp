@@ -55,13 +55,6 @@ namespace Ocular
             return m_D3DRenderTargetView;
         }
 
-        void D3D11RenderTexture::apply()
-        {
-            RenderTexture::apply();
-
-
-        }
-
         void D3D11RenderTexture::unload()
         {
             RenderTexture::unload();
@@ -77,6 +70,45 @@ namespace Ocular
                 m_D3DRenderTargetView->Release();
                 m_D3DRenderTargetView = nullptr;
             }
+        }
+
+        void D3D11RenderTexture::apply()
+        {
+            RenderTexture::apply();
+
+            if((m_D3DRenderTargetView == nullptr) || (m_D3DTexture == nullptr))
+            {
+                // We are (re)creating the resources and not just applying changes...
+                // Upon creation we can provide source texture data
+
+                // Unload just incase for some reason one or the other is null and the other isn't (which should never ever happen)
+                unload();
+
+                if(!createD3DResources())
+                {
+                    OcularLogger->error("Failed to create D3D resources", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "apply"));
+                    unload();
+                }
+            }
+            else
+            {
+                // We are (attempting) to apply changes to the resources
+                if((m_Descriptor.cpuAccess == TextureAccess::WriteOnly) || (m_Descriptor.cpuAccess == TextureAccess::ReadWrite))
+                {
+                    /// \todo Apply CPU changes to RTV
+                }
+                else
+                {
+                    OcularLogger->warning("Unable to apply changes to textures created without CPU write access", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "apply"));
+                }
+            }
+        }
+
+        void D3D11RenderTexture::refresh()
+        {
+            RenderTexture::refresh();
+
+            /// \todo Refresh CPU data with RTV
         }
 
         //----------------------------------------------------------------------------------
@@ -121,15 +153,20 @@ namespace Ocular
             
             if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
             {
-                HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, NULL, &m_D3DTexture);
+                D3D11_SUBRESOURCE_DATA initData;
+                initData.pSysMem          = &m_Pixels[0];
+                initData.SysMemPitch      = (m_Descriptor.width * sizeof(float));
+                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * sizeof(float));
 
-                if(hResult = S_OK)
+                HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
+
+                if(hResult == S_OK)
                 {
                     result = true;
                 }
                 else
                 {
-                
+                    OcularLogger->error("Failed to create D3D11Texture2D with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
             else
@@ -142,7 +179,14 @@ namespace Ocular
 
         bool D3D11RenderTexture::createD3DRenderTarget()
         {
-            bool result = false;
+            bool result = true;
+            HRESULT hResult = m_D3DDevice->CreateRenderTargetView(m_D3DTexture, nullptr, &m_D3DRenderTargetView);
+
+            if(hResult != S_OK)
+            {
+                OcularLogger->error("Failed to create D3D11RenderTargetView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DRenderTarget"));
+                result = false;
+            }
 
             return result;
         }

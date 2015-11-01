@@ -48,13 +48,19 @@ namespace Ocular
 
         void Texture2D::unload()
         {
-            
+            // Delete all CPU data
+
+            m_Pixels.clear();
         }
 
         void Texture2D::apply()
         {
-            // Adjust for potential new width/height
-            // OpenGL and DirectX childs will have to update texture on GPU
+            // Empty body so that API-independent instances of Texture2D may be created.
+        }
+
+        void Texture2D::refresh()
+        {
+            // Empty body so that API-independent instances of Texture2D may be created.
         }
 
         Core::Color Texture2D::getPixel(uint32_t const x, uint32_t const y) const

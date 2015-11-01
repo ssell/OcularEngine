@@ -38,10 +38,19 @@ namespace Ocular
         {
         public:
 
-            D3D11Texture2D(TextureDescriptor const& descriptor);
+            D3D11Texture2D(TextureDescriptor const& descriptor, ID3D11Device* device);
             ~D3D11Texture2D();
 
+            virtual void unload() override;
+            virtual void apply() override;
+            virtual void refresh() override;
+
         protected:
+
+            bool createD3DTexture2D();
+
+            ID3D11Device*    m_D3DDevice;
+            ID3D11Texture2D* m_D3DTexture;
 
         private:
         };

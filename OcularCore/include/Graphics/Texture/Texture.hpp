@@ -59,15 +59,23 @@ namespace Ocular
 
             virtual void unload() = 0;
 
-            //----------------------------------------
-
             /**
-             * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.
+             * Applies any manually made pixel changes of the texture to the GPU.
              * Textures will not be updated (i.e. changes rendered) until this method is called.
              *
-             * \note Texture usage mode must be set to ::Dynamic in order to modify a texture at runtime.
+             * \note Texture CPU access must be set to TextureAccess::WriteOnly or TextureAccess::ReadWrite
+             *       in order to modify a texture at runtime.
              */
             virtual void apply() = 0;
+
+            /**
+             * Refreshes the CPU texture data with any data stored on the GPU.
+             * This action can overwrite pre-existing CPU data.
+             *
+             * \note Texture CPU access must be set to TextureAccess::ReadOnly or TextureAccess::ReadWrite
+             *       in order to refresh the CPU data at runtime.
+             */
+            virtual void refresh() = 0;
 
         protected:
 

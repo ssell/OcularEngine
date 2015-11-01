@@ -46,10 +46,10 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Inherited Methods
-
-            void apply() override;
-            void unload() override;
-
+            
+            virtual void unload() override;
+            virtual void apply() override;
+            virtual void refresh() override;
 
         protected:
 

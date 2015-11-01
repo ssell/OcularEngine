@@ -423,7 +423,7 @@ namespace Ocular
 
             if(hResult != S_OK)
             {
-                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error: ", hResult, OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
+                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error ", hResult, OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
                 result = false;
             }
 

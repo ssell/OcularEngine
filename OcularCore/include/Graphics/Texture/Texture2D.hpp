@@ -60,8 +60,16 @@ namespace Ocular
             //----------------------------------------
             // Inherited
 
+            /**
+             * Unloads all CPU data related to this texture.
+             *
+             * If this is an instance of an API-specific texture implementation 
+             * (such as D3D11Texture2D), then all GPU-related data will also be 
+             * freed and all API-specific structures released.
+             */
             virtual void unload();
             virtual void apply();
+            virtual void refresh();
 
             //----------------------------------------
 
