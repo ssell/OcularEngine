@@ -70,17 +70,21 @@ namespace Ocular
             ID3D11Device* getD3DDevice() const;
             ID3D11DeviceContext* getD3DDeviceContext() const;
 
+            static bool convertTextureDescriptor(TextureDescriptor const& source, D3D11_TEXTURE2D_DESC& dest);
+
         protected:
 
             bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
             bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND hwnd);
             DXGI_SWAP_CHAIN_DESC createSwapChainDescription(Core::WindowWin32 const* window) const;
 
+            static bool validateTextureDescriptor(TextureDescriptor const& descriptor);
+
         private:
 
-            ID3D11Device* m_Device;
-            ID3D11DeviceContext* m_DeviceContext;
-            IDXGISwapChain* m_SwapChain;
+            ID3D11Device* m_D3DDevice;
+            ID3D11DeviceContext* m_D3DDeviceContext;
+            IDXGISwapChain* m_D3DSwapChain;
         };
     }
     /**

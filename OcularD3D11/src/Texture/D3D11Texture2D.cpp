@@ -27,8 +27,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11Texture2D::D3D11Texture2D(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
-            : Texture2D(width, height, filter, usage)
+        D3D11Texture2D::D3D11Texture2D(TextureDescriptor const& descriptor)
+            : Texture2D(descriptor)
         {
 
         }

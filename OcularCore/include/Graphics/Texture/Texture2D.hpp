@@ -53,7 +53,7 @@ namespace Ocular
              * \param[in] usage
              * \param[in] source
              */
-            Texture2D(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            Texture2D(TextureDescriptor const& descriptor);
 
             virtual ~Texture2D();
 
@@ -155,9 +155,6 @@ namespace Ocular
             //----------------------------------------
 
             std::vector<Core::Color> m_Pixels;
-
-            uint32_t m_Width;
-            uint32_t m_Height;
 
         private:
         };

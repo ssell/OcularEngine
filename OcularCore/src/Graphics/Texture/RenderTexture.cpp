@@ -26,8 +26,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        RenderTexture::RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
-            : Texture2D(width, height, filter, usage)
+        RenderTexture::RenderTexture(TextureDescriptor const& descriptor)
+            : Texture2D(descriptor)
         {
 
         }

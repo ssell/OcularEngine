@@ -19,7 +19,7 @@
 
 #include <algorithm>
 
-#define TEXTURE_INDEX(x,y) m_Pixels[((y * m_Width) + x)]
+#define TEXTURE_INDEX(x,y) m_Pixels[((y * m_Descriptor.width) + x)]
 
 //------------------------------------------------------------------------------------------
 
@@ -31,20 +31,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Texture2D::Texture2D(uint32_t const width, uint32_t const height, TextureFilterMode const filter, TextureUsageMode const usage)
-            : Texture(filter, usage)
+        Texture2D::Texture2D(TextureDescriptor const& descriptor)
+            : Texture(descriptor)
         {
-            m_Width  = width;
-            m_Height = height;
-
-            const uint32_t size = width * height;
-
-            m_Pixels.reserve(size);
-            
-            for(unsigned i = 0; i < size; i++)
-            {
-                m_Pixels.push_back(Core::Color());
-            }
+            m_Pixels = std::vector<Core::Color>((descriptor.width * descriptor.height), Core::Color());
         }
 
         Texture2D::~Texture2D()
@@ -71,7 +61,7 @@ namespace Ocular
         {
             Core::Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
-            if((x >= 0) && (x < m_Width) && (y >= 0) && (y < m_Height))
+            if((x >= 0) && (x < m_Descriptor.width) && (y >= 0) && (y < m_Descriptor.height))
             {
                 result = TEXTURE_INDEX(x, y);
             }
@@ -83,7 +73,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((x >= 0) && (x < m_Width) && (y >= 0) && (y < m_Height))
+            if((x >= 0) && (x < m_Descriptor.width) && (y >= 0) && (y < m_Descriptor.height))
             {
                 TEXTURE_INDEX(x, y) = color;
                 result = true;
@@ -97,7 +87,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
+            if((startX >= 0) && (startX < m_Descriptor.width) && (startY >= 0) && (startY < m_Descriptor.height))
             {
                 uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to get
                 uint32_t workingHeight = height;
@@ -130,7 +120,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Width) && (startY >= 0) && (startY < m_Height))
+            if((startX >= 0) && (startX < m_Descriptor.width) && (startY >= 0) && (startY < m_Descriptor.height))
             {
                 uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to set
                 uint32_t workingHeight = height;
@@ -160,27 +150,27 @@ namespace Ocular
 
         uint32_t Texture2D::getWidth() const
         {
-            return m_Width;
+            return m_Descriptor.width;
         }
 
         void Texture2D::setWidth(uint32_t const& width)
         {
             if(width > 0)
             {
-                m_Width = width;
+                m_Descriptor.width = width;
             }
         }
 
         uint32_t Texture2D::getHeight() const
         {
-            return m_Height;
+            return m_Descriptor.height;
         }
 
         void Texture2D::setHeight(uint32_t const& height)
         {
             if(height > 0)
             {
-                m_Height = height;
+                m_Descriptor.height = height;
             }
         }
 
@@ -191,15 +181,15 @@ namespace Ocular
         void Texture2D::getTrueDimensions(uint32_t const startX, uint32_t const startY, uint32_t& trueWidth, uint32_t& trueHeight) const
         {
             if((trueWidth == 0) ||                    // Specified to use remainder of width from startX
-               ((startX + trueWidth) > m_Width))      // Provided width is too wide; Scale it back.
+               ((startX + trueWidth) > m_Descriptor.width))      // Provided width is too wide; Scale it back.
             {
-                trueWidth = m_Width - startX;
+                trueWidth = m_Descriptor.width - startX;
             }
 
             if((trueHeight == 0) ||                   // Specified to use remainder of height from startY
-              ((startY + trueHeight) > m_Height))    // Provided height is too tall; Scale it back.
+              ((startY + trueHeight) > m_Descriptor.height))    // Provided height is too tall; Scale it back.
             {
-                trueHeight = m_Height - startY;
+                trueHeight = m_Descriptor.height - startY;
             }
         }
 

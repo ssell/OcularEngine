@@ -131,7 +131,16 @@ namespace Ocular
 
             if(resource == nullptr)
             {
-                resource = new Texture2D(width, height);
+                TextureDescriptor descr;
+                descr.width     = width;
+                descr.height    = height;
+                descr.cpuAccess = TextureAccess::ReadWrite;
+                descr.gpuAccess = TextureAccess::ReadWrite;
+                descr.filter    = TextureFilterMode::Point;
+                descr.format    = TextureFormat::None;
+                descr.type      = TextureType::Texture2D;
+                
+                resource = new Texture2D(descr);
                 resource->setSourceFile(file);
             }
 

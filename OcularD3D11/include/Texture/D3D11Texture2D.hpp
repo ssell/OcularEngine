@@ -38,7 +38,7 @@ namespace Ocular
         {
         public:
 
-            D3D11Texture2D(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            D3D11Texture2D(TextureDescriptor const& descriptor);
             ~D3D11Texture2D();
 
         protected:

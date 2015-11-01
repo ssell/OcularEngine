@@ -19,7 +19,10 @@
 #define __H__OCULAR_GRAPHICS_TEXTURE__H__
 
 #include "Resources/Resource.hpp"
-#include "TextureEnums.hpp"
+#include "TextureDescriptor.hpp"
+
+#define OCULAR_MAX_TEXTURE_WIDTH  16384
+#define OCULAR_MAX_TEXTURE_HEIGHT 16384
 
 //------------------------------------------------------------------------------------------
 
@@ -47,7 +50,7 @@ namespace Ocular
              * \param[in] filter
              * \param[in] usage
              */
-            Texture(TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            Texture(TextureDescriptor const& descriptor);
 
             virtual ~Texture();
 
@@ -60,40 +63,15 @@ namespace Ocular
 
             /**
              * Applies the changes made to the texture. This uploads the newly modified texture to the GPU.
-             *
              * Textures will not be updated (i.e. changes rendered) until this method is called.
              *
              * \note Texture usage mode must be set to ::Dynamic in order to modify a texture at runtime.
              */
             virtual void apply() = 0;
 
-            /**
-             * Sets the filter mode of the texture.<br/>
-             * The filter mode determines how pixels are sampled during rendering.<br/><br/>
-             *
-             * The default filter is ::Bilinear.
-             *
-             * \param[in] filter 
-             */
-            virtual void setFilterMode(TextureFilterMode filter);
-
-            /**
-             * Sets the usage mode of the texture.
-             *
-             * The usage mode determines if a copy of the texture is maintained on the CPU.
-             * By setting usage to Dynamic, one may modify the texture at runtime. But this
-             * also requires additional memory overhead which is unnecessary for most textures.<br/><br/>
-             * 
-             * The default usage is Static.
-             *
-             * \param[in] usage
-             */
-            virtual void setUsageMode(TextureUsageMode usage);
-
         protected:
 
-            TextureFilterMode m_Filter;
-            TextureUsageMode  m_Usage;
+            TextureDescriptor m_Descriptor;
 
         private:
         };

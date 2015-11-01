@@ -49,6 +49,8 @@ namespace Ocular
 
             TextureType type;                    ///< The type of texture 
             
+            TextureFormat format;                ///< The format of this texture
+
             TextureFilterMode filter;            ///< Filtering mode to apply to the texture when rendered
 
             TextureAccess gpuAccess;             ///< The level of access required by the GPU

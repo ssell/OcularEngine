@@ -38,10 +38,8 @@ namespace Ocular
         {
         public:
 
-            D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device);
             ~D3D11RenderTexture();
-
-            bool create(ID3D11Device const* device);
 
             ID3D11Texture2D* getD3DTexture();
             ID3D11RenderTargetView* getD3DRenderTargetView();
@@ -55,6 +53,11 @@ namespace Ocular
 
         protected:
 
+            bool createD3DResources();
+            bool createD3DTexture2D();
+            bool createD3DRenderTarget();
+
+            ID3D11Device* m_D3DDevice;
             ID3D11Texture2D* m_D3DTexture;
             ID3D11RenderTargetView* m_D3DRenderTargetView;
 

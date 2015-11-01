@@ -91,7 +91,7 @@ namespace Ocular
             /**
              * Forces this Resource to be loaded into memory.
              */
-            void forceLoad();
+            virtual void forceLoad();
 
         protected:
 

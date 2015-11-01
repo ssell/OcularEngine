@@ -50,10 +50,10 @@ namespace Ocular
          */
         enum class TextureAccess : unsigned 
         {
-            None = 0,
-            ReadWrite,
+            ReadWrite = 0,
             ReadOnly,
-            WriteOnly
+            WriteOnly,
+            None
         };
 
         /**
@@ -62,10 +62,16 @@ namespace Ocular
          */
         enum class TextureType : unsigned
         {
-            Texture1D = 0,
-            Texture2D,
-            RenderTexture1D,
+            Texture2D = 0,
             RenderTexture2D
+        };
+
+        /**
+         * \enum TextureFormat
+         */
+        enum class TextureFormat : unsigned
+        {
+            None = 0
         };
     }
     /**

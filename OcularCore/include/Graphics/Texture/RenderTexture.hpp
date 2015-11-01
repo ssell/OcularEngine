@@ -42,7 +42,7 @@ namespace Ocular
         {
         public:
 
-            RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter = TextureFilterMode::Bilinear, TextureUsageMode usage = TextureUsageMode::Static);
+            RenderTexture(TextureDescriptor const& descriptor);
             virtual ~RenderTexture();
 
             virtual void unload() = 0;

@@ -16,6 +16,7 @@
 
 #include "stdafx.hpp"
 #include "Texture/D3D11RenderTexture.hpp"
+#include "D3D11GraphicsDriver.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,9 +28,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11RenderTexture::D3D11RenderTexture(uint32_t width, uint32_t height, TextureFilterMode filter, TextureUsageMode usage)
-            : RenderTexture(width, height, filter, usage)
+        D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
+            : RenderTexture(descriptor)
         {
+            m_D3DDevice = device;
             m_D3DTexture = nullptr;
             m_D3DRenderTargetView = nullptr;
         }
@@ -43,34 +45,6 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool D3D11RenderTexture::create(ID3D11Device const* device)
-        {
-            bool result = false;
-
-            if(m_D3DRenderTargetView)
-            {
-                // Texture is already created
-                result = true;
-            }
-            else
-            {
-                if(device)
-                {
-                    D3D11_TEXTURE2D_DESC rtvDescr;
-                    ZeroMemory(&rtvDescr, sizeof(D3D11_TEXTURE2D_DESC));
-
-                    rtvDescr.Width = m_Width;
-                    rtvDescr.Height = m_Height;
-                }
-                else
-                {
-                    OcularLogger->warning("D3D Device is NULL", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "create"));
-                }
-            }
-
-            return result;
-        }
-
         ID3D11Texture2D* D3D11RenderTexture::getD3DTexture()
         {
             return m_D3DTexture;
@@ -83,11 +57,15 @@ namespace Ocular
 
         void D3D11RenderTexture::apply()
         {
+            RenderTexture::apply();
+
 
         }
 
         void D3D11RenderTexture::unload()
         {
+            RenderTexture::unload();
+
             if(m_D3DTexture)
             {
                 m_D3DTexture->Release();
@@ -104,6 +82,70 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool D3D11RenderTexture::createD3DResources()
+        {
+            bool result = false;
+            
+            if(m_D3DDevice)
+            {
+                if(createD3DTexture2D())
+                {
+                    if(createD3DRenderTarget())
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to create D3D11 Render Target", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DResources"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to create D3D11 Texture2D", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DResources"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("D3D11 Device is NULL", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DResources"));
+            }
+
+            return result;
+        }
+
+        bool D3D11RenderTexture::createD3DTexture2D()
+        {
+            bool result = false;
+
+            D3D11_TEXTURE2D_DESC descriptor;
+            
+            if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
+            {
+                HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, NULL, &m_D3DTexture);
+
+                if(hResult = S_OK)
+                {
+                    result = true;
+                }
+                else
+                {
+                
+                }
+            }
+            else
+            {
+                OcularLogger->error("Invalid TextureDescriptor", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
+            }
+
+            return result;
+        }
+
+        bool D3D11RenderTexture::createD3DRenderTarget()
+        {
+            bool result = false;
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
