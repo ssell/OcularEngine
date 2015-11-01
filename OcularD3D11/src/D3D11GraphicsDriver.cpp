@@ -233,7 +233,82 @@ namespace Ocular
 
                 switch(src.format)
                 {
-                
+                case TextureFormat::R32G32B32A32Float:
+                    dest.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+                    break;
+
+                case TextureFormat::R32G32B32A32Unsigned:
+                    dest.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+                    break;
+
+                case TextureFormat::R32G32B32A32Signed:
+                    dest.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+                    break;
+
+                case TextureFormat::R32G32B32Float:
+                    dest.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+                    break;
+
+                case TextureFormat::R32G32B32Unsigned:
+                    dest.Format = DXGI_FORMAT_R32G32B32_UINT;
+                    break;
+
+                case TextureFormat::R32G32B32Signed:
+                    dest.Format = DXGI_FORMAT_R32G32B32_SINT;
+                    break;
+
+                case TextureFormat::R32G32Float:
+                    dest.Format = DXGI_FORMAT_R32G32_FLOAT;
+                    break;
+
+                case TextureFormat::R32G32Unsigned:
+                    dest.Format = DXGI_FORMAT_R32G32_UINT;
+                    break;
+
+                case TextureFormat::R32G32Signed:
+                    dest.Format = DXGI_FORMAT_R32G32_SINT;
+                    break;
+
+                case TextureFormat::R32Float:
+                    dest.Format = DXGI_FORMAT_R32_FLOAT;
+                    break;
+
+                case TextureFormat::R32Unsigned:
+                    dest.Format = DXGI_FORMAT_R32_UINT;
+                    break;
+
+                case TextureFormat::R32Signed:
+                    dest.Format = DXGI_FORMAT_R32_SINT;
+                    break;
+
+                case TextureFormat::R8G8B8A8Unsigned:
+                    dest.Format = DXGI_FORMAT_R8G8B8A8_UINT;
+                    break;
+
+                case TextureFormat::R8G8B8A8Signed:
+                    dest.Format = DXGI_FORMAT_R8G8B8A8_SINT;
+                    break;
+
+                case TextureFormat::R8G8Unsigned:
+                    dest.Format = DXGI_FORMAT_R8G8_UINT;
+                    break;
+
+                case TextureFormat::R8G8Signed:
+                    dest.Format = DXGI_FORMAT_R8G8_SINT;
+                    break;
+
+                case TextureFormat::R8Unsigned:
+                    dest.Format = DXGI_FORMAT_R8_UINT;
+                    break;
+
+                case TextureFormat::R8Signed:
+                    dest.Format = DXGI_FORMAT_R8_SINT;
+                    break;
+
+                default:
+                    OcularLogger->warning("Unsupported texture format for D3D11. Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                    dest.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+                    break;
                 }
 
                 switch(src.type)
@@ -501,11 +576,6 @@ namespace Ocular
                 OcularLogger->error("Unsupported GPU access level. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
                 result = false;
             }
-
-            //------------------------------------------------------------
-            // Format
-
-
 
             //------------------------------------------------------------
             // Type

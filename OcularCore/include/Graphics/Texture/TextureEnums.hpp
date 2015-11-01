@@ -71,7 +71,42 @@ namespace Ocular
          */
         enum class TextureFormat : unsigned
         {
-            None = 0
+            R32G32B32A32Float = 0,    ///< Four-component 128-bit floating-point format with 32-bits per channel (RGBA)
+            R32G32B32A32Unsigned,     ///< Four-component 128-bit unsigned integer format with 32-bits per channel (RGBA)
+            R32G32B32A32Signed,       ///< Four-component 128-bit signed integer format with 32-bits per channel (RGBA)
+            R32G32B32Float,           ///< Three-component 96-bit floating-point format with 32-bits per channel (RGB)
+            R32G32B32Unsigned,        ///< Three-component 96-bit unsigned integer format with 32-bits per channel (RGB)
+            R32G32B32Signed,          ///< Three-component 96 bit signed integer format with 32-bits per channel (RGB)
+            R32G32Float,              ///< Two-component 64-bit floating-point format with 32-bits per channel (RG)
+            R32G32Unsigned,           ///< Two-component 64-bit unsigned integer format with 32-bits per channel (RG)
+            R32G32Signed,             ///< Two-component 64-bit signed integer format with 32-bits per channel (RG)
+            R32Float,                 ///< Single component 32-bit floating-point format with 32-bits per channel (R)
+            R32Unsigned,              ///< Single component 32-bit unsigned integer format with 32-bits per channel (R)
+            R32Signed,                ///< Single component 32-bit signed integer format with 32-bits per channel (R)
+            R16G16B16A16Float,        ///< Four-component 64-bit floating-point format with 16-bits per channel (RGBA)
+            R16G16B16A16Unsigned,     ///< Four-component 64-bit unsigned integer format with 16-bits per channel (RGBA)
+            R16G16B16A16Signed,       ///< Four-component 64-bit signed integer format with 16-bits per channel (RGBA)
+            R16G16B16Float,           ///< Three-component 48-bit floating-point format with 16-bits per channel (RGB)
+            R16G16B16Unsigned,        ///< Three-component 48-bit unsigned integer format with 16-bits per channel (RGB)
+            R16G16B16Signed,          ///< Three-component 48 bit signed integer format with 16-bits per channel (RGB)
+            R16G16Float,              ///< Two-component 32-bit floating-point format with 16-bits per channel (RG)
+            R16G16Unsigned,           ///< Two-component 32-bit unsigned integer format with 16-bits per channel (RG)
+            R16G16Signed,             ///< Two-component 32-bit signed integer format with 16-bits per channel (RG)
+            R16Float,                 ///< Single component 16-bit floating-point format with 16-bits per channel (R)
+            R16Unsigned,              ///< Single component 16-bit unsigned integer format with 16-bits per channel (R)
+            R16Signed,                ///< Single component 16-bit signed integer format with 16-bits per channel (R)
+            R8G8B8A8Float,            ///< Four-component 16-bit floating-point format with 8-bits per channel (RGBA)
+            R8G8B8A8Unsigned,         ///< Four-component 16-bit unsigned integer format with 8-bits per channel (RGBA)
+            R8G8B8A8Signed,           ///< Four-component 16-bit signed integer format with 8-bits per channel (RGBA)
+            R8G8B8Float,              ///< Three-component 24-bit floating-point format with 8-bits per channel (RGB)
+            R8G8B8Unsigned,           ///< Three-component 24-bit unsigned integer format with 8-bits per channel (RGB)
+            R8G8B8Signed,             ///< Three-component 24 bit signed integer format with 8-bits per channel (RGB)
+            R8G8Float,                ///< Two-component 16-bit floating-point format with 8-bits per channel (RG)
+            R8G8Unsigned,             ///< Two-component 16-bit unsigned integer format with 8-bits per channel (RG)
+            R8G8Signed,               ///< Two-component 16-bit signed integer format with 8-bits per channel (RG)
+            R8Float,                  ///< Single component 8-bit floating-point format with 8-bits per channel (R)
+            R8Unsigned,               ///< Single component 8-bit unsigned integer format with 8-bits per channel (R)
+            R8Signed                  ///< Single component 8-bit signed integer format with 8-bits per channel (R)
         };
     }
     /**
