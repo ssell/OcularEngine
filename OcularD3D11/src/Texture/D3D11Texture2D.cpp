@@ -105,8 +105,8 @@ namespace Ocular
             {
                 D3D11_SUBRESOURCE_DATA initData;
                 initData.pSysMem          = &m_Pixels[0];
-                initData.SysMemPitch      = (m_Descriptor.width * sizeof(float));
-                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * sizeof(float));
+                initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
+                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
 
                 HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
 

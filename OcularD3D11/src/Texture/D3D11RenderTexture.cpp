@@ -34,6 +34,16 @@ namespace Ocular
             m_D3DDevice = device;
             m_D3DTexture = nullptr;
             m_D3DRenderTargetView = nullptr;
+            m_D3DSwapChain = nullptr;
+        }
+
+        D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain)
+            : RenderTexture(descriptor)
+        {
+            m_D3DDevice = device;
+            m_D3DTexture = nullptr;
+            m_D3DRenderTargetView = nullptr;
+            m_D3DSwapChain = swapchain;
         }
 
         D3D11RenderTexture::~D3D11RenderTexture()
@@ -148,17 +158,36 @@ namespace Ocular
         bool D3D11RenderTexture::createD3DTexture2D()
         {
             bool result = false;
-
+            HRESULT hResult = S_OK;
             D3D11_TEXTURE2D_DESC descriptor;
-            
-            if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
+
+            if(m_D3DSwapChain)
+            {
+                hResult = m_D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_D3DTexture);
+                
+                if(hResult)
+                {
+                    m_D3DTexture->GetDesc(&descriptor);
+                    m_Descriptor.width = descriptor.Width;
+                    m_Descriptor.height = descriptor.Height;
+                    
+                    //
+
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
+                }
+            }
+            else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
             {
                 D3D11_SUBRESOURCE_DATA initData;
                 initData.pSysMem          = &m_Pixels[0];
-                initData.SysMemPitch      = (m_Descriptor.width * sizeof(float));
-                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * sizeof(float));
+                initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
+                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
 
-                HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
+                hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
 
                 if(hResult == S_OK)
                 {

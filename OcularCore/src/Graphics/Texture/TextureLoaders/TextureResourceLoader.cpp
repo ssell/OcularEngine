@@ -137,7 +137,7 @@ namespace Ocular
                 descr.cpuAccess = TextureAccess::ReadWrite;
                 descr.gpuAccess = TextureAccess::ReadWrite;
                 descr.filter    = TextureFilterMode::Point;
-                descr.format    = TextureFormat::None;
+                descr.format    = TextureFormat::R32G32B32A32Float;
                 descr.type      = TextureType::Texture2D;
                 
                 resource = new Texture2D(descr);
