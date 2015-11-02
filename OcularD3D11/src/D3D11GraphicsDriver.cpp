@@ -89,22 +89,13 @@ namespace Ocular
                         TextureDescriptor rtDescr;
                         rtDescr.width     = windowDescr.width;
                         rtDescr.height    = windowDescr.height;
-                        rtDescr.type      = TextureType::RenderTexture2D;
-                        rtDescr.cpuAccess = TextureAccess::None;
-                        rtDescr.gpuAccess = TextureAccess::ReadWrite;
-                        rtDescr.filter    = TextureFilterMode::Point;
 
-                        D3D11RenderTexture* renderTexture = dynamic_cast<D3D11RenderTexture*>(createRenderTexture(rtDescr));
+                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtDescr, m_D3DDevice, m_D3DSwapChain);
 
-                        if(renderTexture)
-                        {
-                            windowWin32->setRenderTexture(renderTexture);
-                            result = true;
-                        }
-                        else
-                        {
-                            OcularLogger->fatal("Failed to create Backbuffer RTV", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
-                        }
+                        renderTexture->apply();
+                        windowWin32->setRenderTexture(renderTexture);
+
+                        result = true;
                     }
                     else
                     {
@@ -321,6 +312,158 @@ namespace Ocular
                     dest.BindFlags = 0;
                     break;
                 }
+            }
+
+            return result;
+        }
+
+        bool D3D11GraphicsDriver::convertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest)
+        {
+            bool result = true;
+
+            //------------------------------------------------------------
+            // Dimensions
+
+            dest.width = source.Width;
+            dest.height = source.Height;
+            
+            //------------------------------------------------------------
+            // CPU Access
+
+            if((source.CPUAccessFlags & D3D11_CPU_ACCESS_READ) && (source.CPUAccessFlags & D3D11_CPU_ACCESS_WRITE))
+            {
+                dest.cpuAccess = TextureAccess::ReadWrite;
+            }
+            else if(source.CPUAccessFlags & D3D11_CPU_ACCESS_READ)
+            {
+                dest.cpuAccess = TextureAccess::ReadOnly;
+            }
+            else if(source.CPUAccessFlags & D3D11_CPU_ACCESS_WRITE)
+            {
+                dest.cpuAccess = TextureAccess::WriteOnly;
+            }
+            else
+            {
+                dest.cpuAccess = TextureAccess::None;
+            }
+
+            //------------------------------------------------------------
+            // GPU Access
+
+            if(source.Usage == D3D11_USAGE_DEFAULT)
+            {
+                dest.gpuAccess = TextureAccess::ReadWrite;
+            }
+            else if((source.Usage == D3D11_USAGE_IMMUTABLE) || (source.Usage == D3D11_USAGE_DYNAMIC))
+            {
+                dest.gpuAccess = TextureAccess::ReadOnly;
+            }
+            else
+            {
+                OcularLogger->warning("Unsupported D3D11 Texture2D usage flag ", source.Usage, "; Defaulting to full GPU access", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                dest.gpuAccess = TextureAccess::ReadWrite;
+                result = false;
+            }
+
+            //------------------------------------------------------------
+            // Type
+
+            if(source.BindFlags == 0)
+            {
+                dest.type = TextureType::Texture2D;
+            }
+            else if(source.BindFlags == D3D10_BIND_RENDER_TARGET)
+            {
+                dest.type = TextureType::RenderTexture2D;
+            }
+            else
+            {
+                OcularLogger->warning("Unsupported D3D11 Texture2D bind flag ", source.BindFlags, "; Defaulting to Texture2D", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                dest.type = TextureType::Texture2D;
+                result = false;
+            }
+            //------------------------------------------------------------
+            // Format
+
+            switch(source.Format)
+            {
+            case DXGI_FORMAT_R32G32B32A32_FLOAT:
+                dest.format = TextureFormat::R32G32B32A32Float;
+                break;
+
+            case DXGI_FORMAT_R32G32B32A32_UINT:
+                dest.format = TextureFormat::R32G32B32A32Unsigned;
+                break;
+
+            case DXGI_FORMAT_R32G32B32A32_SINT:
+                dest.format = TextureFormat::R32G32B32A32Signed;
+                break;
+
+            case DXGI_FORMAT_R32G32B32_FLOAT:
+                dest.format = TextureFormat::R32G32B32Float;
+                break;
+
+            case DXGI_FORMAT_R32G32B32_UINT:
+                dest.format = TextureFormat::R32G32B32Unsigned;
+                break;
+
+            case DXGI_FORMAT_R32G32B32_SINT:
+                dest.format = TextureFormat::R32G32B32Signed;
+                break;
+
+            case DXGI_FORMAT_R32G32_FLOAT:
+                dest.format = TextureFormat::R32G32Float;
+                break;
+
+            case DXGI_FORMAT_R32G32_UINT:
+                dest.format = TextureFormat::R32G32Unsigned;
+                break;
+
+            case DXGI_FORMAT_R32G32_SINT:
+                dest.format = TextureFormat::R32G32Signed;
+                break;
+
+            case DXGI_FORMAT_R32_FLOAT:
+                dest.format = TextureFormat::R32Float;
+                break;
+
+            case DXGI_FORMAT_R32_UINT:
+                dest.format = TextureFormat::R32Unsigned;
+                break;
+
+            case DXGI_FORMAT_R32_SINT:
+                dest.format = TextureFormat::R32Signed;
+                break;
+
+            case DXGI_FORMAT_R8G8B8A8_UINT:
+                dest.format = TextureFormat::R8G8B8A8Unsigned;
+                break;
+
+            case DXGI_FORMAT_R8G8B8A8_SINT:
+                dest.format = TextureFormat::R8G8B8A8Signed;
+                break;
+
+            case DXGI_FORMAT_R8G8_UINT:
+                dest.format = TextureFormat::R8G8Unsigned;
+                break;
+
+            case DXGI_FORMAT_R8G8_SINT:
+                dest.format = TextureFormat::R8G8Signed;
+                break;
+
+            case DXGI_FORMAT_R8_UINT:
+                dest.format = TextureFormat::R8Unsigned;
+                break;
+
+            case DXGI_FORMAT_R8_SINT:
+                dest.format = TextureFormat::R8Signed;
+                break;
+
+            default:
+                OcularLogger->warning("Unsupported D3D11 Texture2D format ", source.Format, "; Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                dest.format = TextureFormat::R32G32B32A32Float;
+                result = false;
+                break;
             }
 
             return result;

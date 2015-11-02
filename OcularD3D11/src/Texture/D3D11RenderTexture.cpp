@@ -168,16 +168,11 @@ namespace Ocular
                 if(hResult)
                 {
                     m_D3DTexture->GetDesc(&descriptor);
-                    m_Descriptor.width = descriptor.Width;
-                    m_Descriptor.height = descriptor.Height;
-                    
-                    //
-
-                    result = true;
+                    D3D11GraphicsDriver::convertTextureDescriptor(descriptor, m_Descriptor);
                 }
                 else
                 {
-                    OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
             else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))

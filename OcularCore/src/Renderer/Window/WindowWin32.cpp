@@ -81,6 +81,12 @@ namespace Ocular
 
         WindowWin32::~WindowWin32() 
         {
+            if(m_RenderTexture)
+            {
+                delete m_RenderTexture;
+                m_RenderTexture = nullptr;
+            }
+
             if(m_HWND != nullptr)
             {
                 DestroyWindow(m_HWND);

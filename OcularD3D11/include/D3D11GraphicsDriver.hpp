@@ -71,6 +71,7 @@ namespace Ocular
             ID3D11DeviceContext* getD3DDeviceContext() const;
 
             static bool convertTextureDescriptor(TextureDescriptor const& source, D3D11_TEXTURE2D_DESC& dest);
+            static bool convertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest);
 
         protected:
 
