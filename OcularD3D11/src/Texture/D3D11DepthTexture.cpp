@@ -167,7 +167,12 @@ namespace Ocular
         {
             bool result = true;
 
-            HRESULT hResult = m_D3DDevice->CreateDepthStencilView(m_D3DTexture, nullptr, &m_D3DDepthStencilView);
+            D3D11_DEPTH_STENCIL_VIEW_DESC dsvDescr;
+            ZeroMemory(&dsvDescr, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+            dsvDescr.Format        = DXGI_FORMAT_UNKNOWN;
+            dsvDescr.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+            HRESULT hResult = m_D3DDevice->CreateDepthStencilView(m_D3DTexture, &dsvDescr, &m_D3DDepthStencilView);
 
             if(hResult != S_OK)
             {

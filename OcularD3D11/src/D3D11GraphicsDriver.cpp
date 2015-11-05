@@ -17,7 +17,10 @@
 #include "stdafx.hpp"
 #include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
+
+#include "Texture/D3D11Texture2D.hpp"
 #include "Texture/D3D11RenderTexture.hpp"
+#include "Texture/D3D11DepthTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -84,16 +87,40 @@ namespace Ocular
 
                     if(createDeviceAndSwapChain(windowWin32, hwnd))
                     {
+                        //------------------------------------------------
+                        // Create RenderTargetView and DepthStencilView
+
                         const Core::WindowDescriptor windowDescr = windowWin32->getDescriptor();
 
-                        TextureDescriptor rtDescr;
-                        rtDescr.width     = windowDescr.width;
-                        rtDescr.height    = windowDescr.height;
+                        TextureDescriptor rtvDescriptor;
+                        rtvDescriptor.width     = windowDescr.width;
+                        rtvDescriptor.height    = windowDescr.height;
+                        rtvDescriptor.mipmaps   = 1;
+                        rtvDescriptor.type      = TextureType::RenderTexture2D;
+                        rtvDescriptor.format    = TextureFormat::R32G32B32A32Float;
+                        rtvDescriptor.cpuAccess = TextureAccess::ReadWrite;
+                        rtvDescriptor.gpuAccess = TextureAccess::ReadWrite;
+                        rtvDescriptor.filter    = TextureFilterMode::Point;
 
-                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtDescr, m_D3DDevice, m_D3DSwapChain);
+                        TextureDescriptor dsvDescriptor;
+                        dsvDescriptor.width     = windowDescr.width;
+                        dsvDescriptor.height    = windowDescr.height;
+                        dsvDescriptor.mipmaps   = 1;
+                        dsvDescriptor.type      = TextureType::DepthTexture2D;
+                        dsvDescriptor.format    = TextureFormat::Depth;
+                        dsvDescriptor.cpuAccess = TextureAccess::ReadWrite;
+                        dsvDescriptor.gpuAccess = TextureAccess::ReadWrite;
+                        dsvDescriptor.filter    = TextureFilterMode::Point;
+
+
+                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtvDescriptor, m_D3DDevice, m_D3DSwapChain);
+                        D3D11DepthTexture* depthTexture = new D3D11DepthTexture(dsvDescriptor, m_D3DDevice);
 
                         renderTexture->apply();
+                        depthTexture->apply();
+                        
                         windowWin32->setRenderTexture(renderTexture);
+                        windowWin32->setDepthTexture(depthTexture);
 
                         result = true;
                     }
@@ -129,6 +156,10 @@ namespace Ocular
                 result = createRenderTexture(descriptor);
                 break;
 
+            case TextureType::DepthTexture2D:
+                result = createDepthTexture(descriptor);
+                break;
+
             default:
                 OcularLogger->error("Unsupported texture type for D3D11", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createTexture"));
                 break;
@@ -143,7 +174,7 @@ namespace Ocular
 
             if(descriptor.type == TextureType::Texture2D)
             {
-            
+                result = new D3D11Texture2D(descriptor, m_D3DDevice);
             }
             else
             {
@@ -160,7 +191,22 @@ namespace Ocular
             if(descriptor.type == TextureType::RenderTexture2D)
             {
                 result = new D3D11RenderTexture(descriptor, m_D3DDevice);
-                
+            }
+            else
+            {
+                OcularLogger->error("Invalid texture type specified", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createRenderTexture"));
+            }
+
+            return result;
+        }
+
+        DepthTexture* D3D11GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor)
+        {
+            DepthTexture* result = nullptr;
+
+            if(descriptor.type == TextureType::RenderTexture2D)
+            {
+                result = new D3D11DepthTexture(descriptor, m_D3DDevice);
             }
             else
             {
@@ -188,9 +234,16 @@ namespace Ocular
             {
                 ZeroMemory(&dest, sizeof(D3D11_TEXTURE2D_DESC));
 
+                //--------------------------------------------------------
+                // Dimensions
+
                 dest.Width = src.width;
                 dest.Height = src.height;
-                
+                dest.MipLevels = src.mipmaps;
+
+                //--------------------------------------------------------
+                // CPU Access
+
                 switch(src.cpuAccess)
                 {
                 case TextureAccess::ReadOnly:
@@ -209,6 +262,9 @@ namespace Ocular
                     break;
                 }
 
+                //--------------------------------------------------------
+                // GPU Access
+
                 if((src.cpuAccess == TextureAccess::WriteOnly) && (src.gpuAccess == TextureAccess::ReadOnly))
                 {
                     dest.Usage = D3D11_USAGE_DYNAMIC;
@@ -221,6 +277,27 @@ namespace Ocular
                 {
                     dest.Usage = D3D11_USAGE_DEFAULT;
                 }
+
+                //--------------------------------------------------------
+                // Texture Type
+
+                switch(src.type)
+                {
+                case TextureType::RenderTexture2D:
+                    dest.BindFlags = D3D11_BIND_RENDER_TARGET;
+                    break;
+
+                case TextureType::DepthTexture2D:
+                    dest.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                    break;
+
+                default:
+                    dest.BindFlags = 0;
+                    break;
+                }
+
+                //--------------------------------------------------------
+                // Texture Format 
 
                 switch(src.format)
                 {
@@ -296,20 +373,13 @@ namespace Ocular
                     dest.Format = DXGI_FORMAT_R8_SINT;
                     break;
 
+                case TextureFormat::Depth:
+                    dest.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+                    break;
+
                 default:
                     OcularLogger->warning("Unsupported texture format for D3D11. Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
                     dest.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-                    break;
-                }
-
-                switch(src.type)
-                {
-                case TextureType::RenderTexture2D:
-                    dest.BindFlags = D3D11_BIND_RENDER_TARGET;
-                    break;
-
-                default:
-                    dest.BindFlags = 0;
                     break;
                 }
             }
@@ -326,7 +396,8 @@ namespace Ocular
 
             dest.width = source.Width;
             dest.height = source.Height;
-            
+            dest.mipmaps = source.MipLevels;
+
             //------------------------------------------------------------
             // CPU Access
 
@@ -366,24 +437,31 @@ namespace Ocular
             }
 
             //------------------------------------------------------------
-            // Type
+            // Texture Type
 
-            if(source.BindFlags == 0)
+            switch(source.BindFlags)
             {
+            case 0:
                 dest.type = TextureType::Texture2D;
-            }
-            else if(source.BindFlags == D3D10_BIND_RENDER_TARGET)
-            {
+                break;
+
+            case D3D11_BIND_RENDER_TARGET:
                 dest.type = TextureType::RenderTexture2D;
-            }
-            else
-            {
+                break;
+
+            case D3D11_BIND_DEPTH_STENCIL:
+                dest.type = TextureType::DepthTexture2D;
+                break;
+
+            default:
                 OcularLogger->warning("Unsupported D3D11 Texture2D bind flag ", source.BindFlags, "; Defaulting to Texture2D", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
                 dest.type = TextureType::Texture2D;
                 result = false;
+                break;
             }
+
             //------------------------------------------------------------
-            // Format
+            // Texture Format
 
             switch(source.Format)
             {
@@ -457,6 +535,10 @@ namespace Ocular
 
             case DXGI_FORMAT_R8_SINT:
                 dest.format = TextureFormat::R8Signed;
+                break;
+
+            case DXGI_FORMAT_D24_UNORM_S8_UINT:
+                dest.format = TextureFormat::Depth;
                 break;
 
             default:

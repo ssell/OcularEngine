@@ -107,7 +107,8 @@ namespace Ocular
             R8G8Signed,               ///< Two-component 16-bit signed integer format with 8-bits per channel (RG)
             R8Float,                  ///< Single component 8-bit floating-point format with 8-bits per channel (R)
             R8Unsigned,               ///< Single component 8-bit unsigned integer format with 8-bits per channel (R)
-            R8Signed                  ///< Single component 8-bit signed integer format with 8-bits per channel (R)
+            R8Signed,                 ///< Single component 8-bit signed integer format with 8-bits per channel (R)
+            Depth                     ///< API-dependent texture format for special depth textures
         };
     }
     /**
