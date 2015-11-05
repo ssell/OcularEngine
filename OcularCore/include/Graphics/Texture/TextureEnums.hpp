@@ -63,7 +63,8 @@ namespace Ocular
         enum class TextureType : unsigned
         {
             Texture2D = 0,
-            RenderTexture2D
+            RenderTexture2D,
+            DepthTexture2D
         };
 
         /**

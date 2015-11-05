@@ -14,88 +14,46 @@
  * limitations under the License.
  */
 
-#include "Renderer/Window/Window.hpp"
-#include "Graphics/Texture/RenderTexture.hpp"
 #include "Graphics/Texture/DepthTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(WindowDescriptor const descriptor)
-            : Object(descriptor.displayName, "AWindow"),
-              m_Descriptor(descriptor),
-              m_RenderTexture(nullptr),
-              m_DepthTexture(nullptr)
+        DepthTexture::DepthTexture(TextureDescriptor const& descriptor)
+            : Texture2D(descriptor)
         {
 
         }
 
-        AWindow::~AWindow()
+        DepthTexture::~DepthTexture()
         {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
 
-            if(m_DepthTexture)
-            {
-                delete m_DepthTexture;
-                m_DepthTexture = nullptr;
-            }
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        WindowDescriptor AWindow::getDescriptor() const
+        void DepthTexture::unload()
         {
-            return m_Descriptor;
+            Texture2D::unload();
         }
 
-        void AWindow::setDescriptor(WindowDescriptor const& descriptor)
+        void DepthTexture::apply()
         {
-            m_Descriptor = descriptor;
+            Texture2D::apply();
         }
 
-        Graphics::RenderTexture const* AWindow::getRenderTexture() const
+        void DepthTexture::refresh()
         {
-            return m_RenderTexture;
-        }
-
-        void AWindow::setRenderTexture(Graphics::RenderTexture* renderTexture)
-        {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
-
-            m_RenderTexture = renderTexture;
-        }
-
-        Graphics::DepthTexture const* AWindow::getDepthTexture() const
-        {
-            return m_DepthTexture;
-        }
-
-        void AWindow::setDepthTexture(Graphics::DepthTexture* renderTexture)
-        {
-            if(m_DepthTexture)
-            {
-                delete m_DepthTexture;
-                m_DepthTexture = nullptr;
-            }
-
-            m_DepthTexture = renderTexture;
+            Texture2D::refresh();
         }
 
         //----------------------------------------------------------------------------------

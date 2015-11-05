@@ -86,13 +86,10 @@ namespace Ocular
         {
             RenderTexture::apply();
 
-            if((m_D3DRenderTargetView == nullptr) || (m_D3DTexture == nullptr))
+            if(m_D3DRenderTargetView == nullptr)
             {
-                // We are (re)creating the resources and not just applying changes...
+                // We are creating the resources and not just applying changes...
                 // Upon creation we can provide source texture data
-
-                // Unload just incase for some reason one or the other is null and the other isn't (which should never ever happen)
-                unload();
 
                 if(!createD3DResources())
                 {

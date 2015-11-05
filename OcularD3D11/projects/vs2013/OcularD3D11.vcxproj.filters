@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\include\Texture\D3D11RenderTexture.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\D3D11RenderTexture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11DepthTexture.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
   </ItemGroup>

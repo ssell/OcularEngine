@@ -23,8 +23,6 @@
 #include "WindowDisplay.hpp"
 #include "WindowDescriptor.hpp"
 
-#include "Graphics/Texture/RenderTexture.hpp"
-
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -35,6 +33,12 @@
  */
 namespace Ocular
 {
+    namespace Graphics
+    {
+        class RenderTexture;
+        class DepthTexture;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -90,7 +94,7 @@ namespace Ocular
             bool hasFocus() const;
 
             /**
-             * \return The current backbuffer RenderTexture.
+             * \return The current backbuffer render texture.
              */
             Graphics::RenderTexture const* getRenderTexture() const;
 
@@ -99,7 +103,7 @@ namespace Ocular
              * 
              * This method is typically called automatically during window creation
              * and/or GraphicsDriver initialization. Except for special circumstances
-             * it not be called externally.
+             * it should not be called externally.
              *
              * \note When set, the window assumes ownership of the texture and will 
              *       destroy it when it is no longer in use.
@@ -107,6 +111,25 @@ namespace Ocular
              * \param[in] renderTexture
              */
             void setRenderTexture(Graphics::RenderTexture* renderTexture);
+
+            /**
+             * \return The current depth texture.
+             */
+            Graphics::DepthTexture const* getDepthTexture() const;
+
+            /**
+             * Sets the DepthTexture to use for depth values.
+             *
+             * This method is typically called automatically during window creation
+             * and/or GraphicsDriver initialization. Except for special circumstances
+             * it should not be called externally.
+             *
+             * \note When set, the window assumes owndership of the texture and will
+             *       destroy it when it is no longer in use.
+             *
+             * \param[in] depthTexture
+             */
+            void setDepthTexture(Graphics::DepthTexture* depthTexture);
 
         protected:
 
@@ -128,7 +151,9 @@ namespace Ocular
             //----------------------------------------
 
             WindowDescriptor m_Descriptor;
+
             Graphics::RenderTexture* m_RenderTexture;
+            Graphics::DepthTexture*  m_DepthTexture;
 
         private:
         };

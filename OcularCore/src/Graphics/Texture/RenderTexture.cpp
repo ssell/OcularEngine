@@ -41,6 +41,21 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void RenderTexture::unload()
+        {
+            Texture2D::unload();
+        }
+
+        void RenderTexture::apply()
+        {
+            Texture2D::apply();
+        }
+
+        void RenderTexture::refresh()
+        {
+            Texture2D::refresh();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

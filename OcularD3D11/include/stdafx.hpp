@@ -43,6 +43,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <cmath>
+#include <map>
+#include <unordered_map>
 
 //------------------------------------------------------------------------------------------
 

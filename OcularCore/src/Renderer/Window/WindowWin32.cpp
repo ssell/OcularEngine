@@ -72,21 +72,14 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         WindowWin32::WindowWin32(WindowDescriptor const descriptor)
-            : AWindow(descriptor)
+            : AWindow(descriptor), m_HINSTANCE(nullptr), m_HWND(nullptr)
         {
-            m_Class = "Core::WindowWin32";
             m_HINSTANCE = nullptr;
             m_HWND = nullptr;
         }
 
         WindowWin32::~WindowWin32() 
         {
-            if(m_RenderTexture)
-            {
-                delete m_RenderTexture;
-                m_RenderTexture = nullptr;
-            }
-
             if(m_HWND != nullptr)
             {
                 DestroyWindow(m_HWND);

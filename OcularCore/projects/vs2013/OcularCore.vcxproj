@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\src\Graphics\Shader\PostTesselationShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\PreTesselationShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\RenderTexture.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\Texture.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="..\..\include\Graphics\Shader\PreTesselationShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp" />

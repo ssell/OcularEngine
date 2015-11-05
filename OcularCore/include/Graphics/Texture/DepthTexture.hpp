@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_RENDER_TEXTURE__H__
-#define __H__OCULAR_GRAPHICS_RENDER_TEXTURE__H__
+#ifndef __H__OCULAR_GRAPHICS_DEPTH_TEXTURE__H__
+#define __H__OCULAR_GRAPHICS_DEPTH_TEXTURE__H__
 
 #include "Texture2D.hpp"
 
@@ -35,15 +35,15 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class RenderTexture
-         * \brief A special texture that can be rendered directly to.
+         * \class DepthTexture
+         * \brief A special texture that stores high precision depth information for each pixel.
          */
-        class RenderTexture : public Texture2D
+        class DepthTexture : public Texture2D
         {
         public:
 
-            RenderTexture(TextureDescriptor const& descriptor);
-            virtual ~RenderTexture();
+            DepthTexture(TextureDescriptor const& descriptor);
+            virtual ~DepthTexture();
 
             virtual void unload();
             virtual void apply();

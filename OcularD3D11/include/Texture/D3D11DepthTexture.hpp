@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_RENDER_TEXTURE__H__
-#define __OCULAR_D3D11_RENDER_TEXTURE__H__
+#ifndef __OCULAR_D3D11_DEPTH_TEXTURE__H__
+#define __OCULAR_D3D11_DEPTH_TEXTURE__H__
 
-#include "Graphics/Texture/RenderTexture.hpp"
+#include "Graphics/Texture/DepthTexture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,37 +35,28 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class D3D11RenderTexture
+         * \class D3D11DepthTexture
          */
-        class D3D11RenderTexture : public RenderTexture
+        class D3D11DepthTexture : public DepthTexture
         {
         public:
 
             /**
-             * \param[in] descriptor TextureDescriptor for this RenderTexture
+             * \param[in] descriptor TextureDescriptor for this DepthTexture
              * \param[in] device     The D3D11 device
              */
-            D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device);
+            D3D11DepthTexture(TextureDescriptor const& descriptor, ID3D11Device* device);
+            ~D3D11DepthTexture();
 
             /**
-             * Constructor for use when creating a backbuffer RenderTexture
-             *
-             * \param[in] descriptor TextureDescriptor for this RenderTexture
-             * \param[in] device     The D3D11 device
-             * \param[in] swapchain  The SwapChain that owns the backbuffer texture
-             */
-            D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain);
-            ~D3D11RenderTexture();
-
-            /**
-             * \return The ID3D11Texture2D associated with this RenderTexture
+             * \return The ID3D11Texture2D associated with this DepthTexture
              */
             ID3D11Texture2D* getD3DTexture();
 
             /**
-             * \return The ID3D11RenderTargetView associated with this RenderTexture
+             * \return The ID3D11DepthStencilView associated with this DepthTexture
              */
-            ID3D11RenderTargetView* getD3DRenderTargetView();
+            ID3D11DepthStencilView* getD3DDepthStencilView();
 
             //------------------------------------------------------------
             // Inherited Methods
@@ -91,11 +82,11 @@ namespace Ocular
 
             bool createD3DResources();
             bool createD3DTexture2D();
-            bool createD3DRenderTarget();
+            bool createD3DDepthStencil();
 
             ID3D11Device*           m_D3DDevice;
             ID3D11Texture2D*        m_D3DTexture;
-            ID3D11RenderTargetView* m_D3DRenderTargetView;
+            ID3D11DepthStencilView* m_D3DDepthStencilView;
             IDXGISwapChain*         m_D3DSwapChain;          ///< Optional for when creating as a backbuffer
 
         private:

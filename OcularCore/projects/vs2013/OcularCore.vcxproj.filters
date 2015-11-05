@@ -474,6 +474,9 @@
     <ClCompile Include="..\..\src\Graphics\Texture\RenderTexture.cpp">
       <Filter>Source Files\Graphics\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -888,6 +891,9 @@
       <Filter>Header Files\Graphics\Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Texture\TextureDescriptor.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp">
       <Filter>Header Files\Graphics\Texture</Filter>
     </ClInclude>
   </ItemGroup>
