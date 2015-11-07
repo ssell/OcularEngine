@@ -46,6 +46,7 @@ namespace Ocular
         m_SceneManager    = std::make_shared<Core::SceneManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
         m_Profiler        = std::make_shared<Core::Profiler>();
+        m_GraphicsDriver  = nullptr;
 
         m_IsRunning = false;
     }
@@ -63,18 +64,21 @@ namespace Ocular
         m_SceneManager    = nullptr;
         m_WindowManager   = nullptr;
         m_Profiler        = nullptr;
+        m_GraphicsDriver  = nullptr;
     }
 
     //--------------------------------------------------------------------------------------
     // PUBLIC METHODS
     //--------------------------------------------------------------------------------------
 
-    bool Engine::initialize()
+    bool Engine::initialize(Graphics::GraphicsDriver* driver)
     {
         setupLogger();
         setupEvents();
         
         Core::SystemInfo::initialize();
+
+        m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
 
         m_IsRunning = true;
 
@@ -142,6 +146,11 @@ namespace Ocular
     std::shared_ptr<Core::Profiler> Engine::Profiler() const
     {
         return m_Profiler;
+    }
+
+    std::shared_ptr<Graphics::GraphicsDriver> Engine::GraphicsDriver() const
+    {
+        return m_GraphicsDriver;
     }
 
     bool Engine::isRunning() const

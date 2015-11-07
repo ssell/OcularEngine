@@ -477,6 +477,9 @@
     <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp">
       <Filter>Source Files\Graphics\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

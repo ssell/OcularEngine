@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />

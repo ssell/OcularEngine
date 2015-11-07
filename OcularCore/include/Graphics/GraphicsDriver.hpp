@@ -45,11 +45,14 @@ namespace Ocular
         {
         public:
 
+            GraphicsDriver();
+            ~GraphicsDriver();
+
             /** 
              * Initializes the GraphicsDriver implementation.
              * \return FALSE if initialization failed (this should be a fatal event).
              */
-            virtual bool initialize() = 0;
+            virtual bool initialize();
 
             /**
              * Binds the textures, shaders, and shader values (uniforms, samplers, etc.) 
@@ -58,7 +61,7 @@ namespace Ocular
              * \param[in] material Material to bind. Pass NULL to unbind active material.
              * \return TRUE if bound successfully.
              */
-            virtual bool bindMaterial(Material const* material) = 0;
+            virtual bool bindMaterial(Material const* material);
 
             /**
              * Renders the specified mesh and it's vertex and index buffers.
@@ -66,7 +69,7 @@ namespace Ocular
              * \param[in] mesh Mesh to render.
              * \return TRUE if rendered successfully. 
              */
-            virtual bool renderMesh(Mesh const* mesh) = 0;
+            virtual bool renderMesh(Mesh const* mesh);
 
             //------------------------------------------------------------------------------
             // Creation Methods
@@ -79,7 +82,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual Texture* createTexture(TextureDescriptor const& descriptor) = 0;
+            virtual Texture* createTexture(TextureDescriptor const& descriptor);
             
             /**
              * Creates a new API-specific implementation of the Texture2D class.
@@ -89,7 +92,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) = 0;
+            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor);
             
             /**
              * Creates a new API-specific implementation of the RenderTexture class.
@@ -100,7 +103,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) = 0;
+            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor);
 
             /**
              * Creates a new API-specific implementation of the DepthTexture class.
@@ -110,7 +113,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return 
              *         NULL if texture creation failed.
              */
-            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) = 0;
+            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor);
 
         protected:
 

@@ -28,6 +28,7 @@
 #include "Resources/ResourceManager.hpp"
 #include "Performance/Profiler.hpp"
 #include "Scene/SceneManager.hpp"
+#include "Graphics/GraphicsDriver.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ namespace Ocular
          * \note Engine must be initialized before any other action is taken
          * \return TRUE if intiailized without any issues.
          */
-        bool initialize();
+        bool initialize(Graphics::GraphicsDriver* driver);
 
         /**
          * Safely destroys and removes all subsystems used by the Ocular Engine.
@@ -138,6 +139,11 @@ namespace Ocular
          */
         std::shared_ptr<Core::InputHandler> Input() const;
 
+        /**
+         * \return Reference to the primary GraphicsDriver.
+         */
+        std::shared_ptr<Graphics::GraphicsDriver> GraphicsDriver() const;
+
         //----------------------------------------------------------------------------------
         
     protected:
@@ -164,15 +170,16 @@ namespace Ocular
         
         //--------------------------------------------
 
-        std::shared_ptr<Core::Clock>           m_Clock;
-        std::shared_ptr<Core::EventManager>    m_EventManager;
-        std::shared_ptr<Core::InputHandler>    m_InputHandler;
-        std::shared_ptr<Core::Logger>          m_Logger;
-        std::shared_ptr<Core::ResourceManager> m_ResourceManager;
-        std::shared_ptr<Core::SceneManager>    m_SceneManager;
-        std::shared_ptr<Core::WindowManager>   m_WindowManager;
-        std::shared_ptr<Utils::HashGenerator>  m_HashGenerator;
-        std::shared_ptr<Core::Profiler>        m_Profiler;
+        std::shared_ptr<Core::Clock>              m_Clock;
+        std::shared_ptr<Core::EventManager>       m_EventManager;
+        std::shared_ptr<Core::InputHandler>       m_InputHandler;
+        std::shared_ptr<Core::Logger>             m_Logger;
+        std::shared_ptr<Core::ResourceManager>    m_ResourceManager;
+        std::shared_ptr<Core::SceneManager>       m_SceneManager;
+        std::shared_ptr<Core::WindowManager>      m_WindowManager;
+        std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
+        std::shared_ptr<Core::Profiler>           m_Profiler;
+        std::shared_ptr<Graphics::GraphicsDriver> m_GraphicsDriver;
 
         bool m_IsRunning;
     };
@@ -190,6 +197,7 @@ namespace Ocular
 #define OcularResources OcularEngine.ResourceManager()
 #define OcularWindows   OcularEngine.WindowManager()
 #define OcularProfiler  OcularEngine.Profiler()
+#define OcularGraphics  OcularEngine.GraphicsDriver()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"
