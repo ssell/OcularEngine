@@ -69,6 +69,114 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        Color const& Color::Brown()
+        {
+            static const Color result(0.545f, 0.27f, 0.075f); 
+            return result;
+        }
+
+        Color const& Color::Black()
+        {
+            static const Color result(0.0f, 0.0f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Blue()
+        {
+            static const Color result(0.0f, 0.0f, 1.0f); 
+            return result;
+        }
+
+        Color const& Color::Clear()
+        {
+            static const Color result(0.0f, 0.0f, 0.0f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Cyan()
+        {
+            static const Color result(0.0f, 1.0f, 1.0f); 
+            return result;
+        }
+
+        Color const& Color::ErrorPink()
+        {
+            static const Color result(1.0f, 0.078f, 0.576f); 
+            return result;
+        }
+
+        Color const& Color::Gold()
+        {
+            static const Color result(1.0f, 0.843f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Gray()
+        {
+            static const Color result(0.5f, 0.5f, 0.5f); 
+            return result;
+        }
+
+        Color const& Color::Green()
+        {
+            static const Color result(0.0f, 1.0f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Magenta()
+        {
+            static const Color result(1.0f, 0.0f, 1.0f); 
+            return result;
+        }
+
+        Color const& Color::Maroon()
+        {
+            static const Color result(0.502f, 0.0f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Orange()
+        {
+            static const Color result(1.0f, 0.647f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Pink()
+        {
+            static const Color result(1.0f, 0.753f, 0.796f); 
+            return result;
+        }
+
+        Color const& Color::Purple()
+        {
+            static const Color result(0.294f, 0.0f, 0.51f); 
+            return result;
+        }
+
+        Color const& Color::Red()
+        {
+            static const Color result(1.0f, 0.0f, 0.0f); 
+            return result;
+        }
+
+        Color const& Color::Silver()
+        {
+            static const Color result(0.753f, 0.753f, 0.753f); 
+            return result;
+        }
+
+        Color const& Color::White()
+        {
+            static const Color result(1.0f, 1.0f, 1.0f); 
+            return result;
+        }
+
+        Color const& Color::Yellow()
+        {
+            static const Color result(1.0f, 1.0f, 0.0f); 
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

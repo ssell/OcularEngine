@@ -165,9 +165,7 @@ namespace Ocular
 
                     if(renderTexture)
                     {
-                        const static Core::Color backColor = Core::Color::ErrorPink();
-                        const static float clearColor[4] = { backColor.r, backColor.g, backColor.b, backColor.a };
-
+                        const static float clearColor[4] = { Core::Color::ErrorPink().r, Core::Color::ErrorPink().g, Core::Color::ErrorPink().b, Core::Color::ErrorPink().a };
                         m_D3DDeviceContext->ClearRenderTargetView(renderTexture->getD3DRenderTargetView(), clearColor);
                     }
 

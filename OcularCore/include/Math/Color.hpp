@@ -50,25 +50,97 @@ namespace Ocular
 
             //----------------------------------------------------------------
             // Pre-Defined Colors
-        
-            static Color Brown()     { return Color(0.545f, 0.27f, 0.075f); }
-            static Color Black()     { return Color(0.0f, 0.0f, 0.0f); }
-            static Color Blue()      { return Color(0.0f, 0.0f, 1.0f); }
-            static Color Clear()     { return Color(0.0f, 0.0f, 0.0f, 0.0f); }
-            static Color Cyan()      { return Color(0.0f, 1.0f, 1.0f); }
-            static Color ErrorPink() { return Color(1.0f, 0.078f, 0.576f); }
-            static Color Gold()      { return Color(1.0f, 0.843f, 0.0f); }
-            static Color Gray()      { return Color(0.5f, 0.5f, 0.5f); }
-            static Color Green()     { return Color(0.0f, 1.0f, 0.0f); }
-            static Color Magenta()   { return Color(1.0f, 0.0f, 1.0f); }
-            static Color Maroon()    { return Color(0.502f, 0.0f, 0.0f); }
-            static Color Orange()    { return Color(1.0f, 0.647f, 0.0f); }
-            static Color Pink()      { return Color(1.0f, 0.753f, 0.796f); }
-            static Color Purple()    { return Color(0.294f, 0.0f, 0.51f); }
-            static Color Red()       { return Color(1.0f, 0.0f, 0.0f); }
-            static Color Silver()    { return Color(0.753f, 0.753f, 0.753f); }
-            static Color White()     { return Color(1.0f, 1.0f, 1.0f); }
-            static Color Yellow()    { return Color(1.0f, 1.0f, 0.0f); }
+            //----------------------------------------------------------------
+
+            /**
+             * RGBA: (0.545f, 0.27f, 0.075f, 1.0f)
+             */
+            static Color const& Brown();
+
+            /**
+             * RGBA: (0.0f, 0.0f, 0.0f, 1.0f)
+             */
+            static Color const& Black();
+
+            /**
+             * RGBA: (0.0f, 0.0f, 1.0f, 1.0f)
+             */
+            static Color const& Blue();
+
+            /**
+             * RGBA: (0.0f, 0.0f, 0.0f, 0.0f)
+             */
+            static Color const& Clear();
+
+            /**
+             * RGBA: (0.0f, 1.0f, 1.0f, 1.0f)
+             */
+            static Color const& Cyan();
+
+            /**
+             * RGBA: (1.0f, 0.078f, 0.576f, 1.0f)
+             */
+            static Color const& ErrorPink();
+
+            /**
+             * RGBA: (1.0f, 0.843f, 0.0f, 1.0f)
+             */
+            static Color const& Gold();
+
+            /**
+             * RGBA: (0.5f, 0.5f, 0.5f, 1.0f)
+             */
+            static Color const& Gray();
+
+            /**
+             * RGBA: (0.0f, 1.0f, 0.0f, 1.0f)
+             */
+            static Color const& Green();
+
+            /**
+             * RGBA: (1.0f, 0.0f, 1.0f, 1.0f)
+             */
+            static Color const& Magenta();
+
+            /**
+             * RGBA: (0.502f, 0.0f, 0.0f, 1.0f)
+             */
+            static Color const& Maroon();
+
+            /**
+             * RGBA: (1.0f, 0.647f, 0.0f, 1.0f)
+             */
+            static Color const& Orange();
+
+            /**
+             * RGBA: (1.0f, 0.753f, 0.796f, 1.0f)
+             */
+            static Color const& Pink();
+
+            /**
+             * RGBA: (0.294f, 0.0f, 0.51f, 1.0f)
+             */
+            static Color const& Purple();
+
+            /**
+             * RGBA: (1.0f, 0.0f, 0.0f, 1.0f)
+             */
+            static Color const& Red();
+
+            /**
+             * RGBA: (0.753f, 0.753f, 0.753f, 1.0f)
+             */
+            static Color const& Silver();
+
+            /**
+             * RGBA: (1.0f, 1.0f, 1.0f, 1.0f)
+             */
+            static Color const& White();
+
+            /**
+             * RGBA: (1.0f, 1.0f, 0.0f, 1.0f)
+             */
+            static Color const& Yellow();
 
         protected:
 
