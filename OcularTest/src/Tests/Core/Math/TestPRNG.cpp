@@ -42,8 +42,12 @@ TEST(PRNG, MersenneTwister19937)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         auto prng = CreatePRNG(PRNG::MersenneTwister, SEED);
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, prng);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/MersenneTwisterTest.png")));
 
@@ -57,8 +61,12 @@ TEST(PRNG, MersenneTwister127)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         auto prng = CreatePRNG(PRNG::TinyMersenneTwister, SEED);
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, prng);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/TinyMersenneTwisterTest.png")));
 
@@ -72,8 +80,12 @@ TEST(PRNG, CMWC131104)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         auto prng = CreatePRNG(PRNG::CMWC, SEED);
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, prng);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/CMWCTest.png")));
 
@@ -87,8 +99,12 @@ TEST(PRNG, WELL512)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         auto prng = CreatePRNG(PRNG::WELL, SEED);
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, prng);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/WELLTest.png")));
 
@@ -102,8 +118,12 @@ TEST(PRNG, XorShift96)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         auto prng = CreatePRNG(PRNG::XorShift, SEED);
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(prng, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, prng);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/XorShiftTest.png")));
 
@@ -130,9 +150,13 @@ TEST(PRNGDistribution, STLGaussian)
 {
     if(RUN_PRNG_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         MersenneTwister19937 generator;
         std::normal_distribution<float> distribution(0.0f, 1.0f);
-        Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(descriptor);
         
         for(uint32_t y = 0; y < TEXTURE_HEIGHT; y++)
         {

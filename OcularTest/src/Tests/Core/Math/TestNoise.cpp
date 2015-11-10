@@ -26,6 +26,9 @@ using namespace Ocular::Math::Noise;
 
 //------------------------------------------------------------------------------------------
 
+static const uint32_t TEXTURE_WIDTH = 800;
+static const uint32_t TEXTURE_HEIGHT = 600;
+
 static const bool RUN_NOISE_TESTS = false;
 static const Ocular::Graphics::TextureResourceSaver_PNG pngSaver;
 
@@ -35,13 +38,16 @@ TEST(Noise, Perlin)
 {
     if(RUN_NOISE_TESTS)
     {
-        std::shared_ptr<PerlinNoise> noise = std::make_shared<PerlinNoise>();
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
 
+        std::shared_ptr<PerlinNoise> noise = std::make_shared<PerlinNoise>();
         noise->setOctaves(6);
         noise->setPersistence(0.5f);
         noise->setScale(0.1f);
 
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, noise);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/PerlinNoise.png")));
 
@@ -54,8 +60,12 @@ TEST(Noise, Simplex)
 {
     if(RUN_NOISE_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = TEXTURE_WIDTH;
+        descriptor.height = TEXTURE_HEIGHT;
+
         std::shared_ptr<SimplexNoise> noise = std::make_shared<SimplexNoise>();
-        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(noise, 800, 600);
+        Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, noise);
 
         EXPECT_TRUE(OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/SimplexNoise.png")));
 
@@ -68,8 +78,12 @@ TEST(Noise, Wavelet)
 {
     if(RUN_NOISE_TESTS)
     {
+        Ocular::Graphics::TextureDescriptor descriptor;
+        descriptor.width  = 200;
+        descriptor.height = 200;
+
         Ocular::Math::Noise::WaveletNoise* noise = new Ocular::Math::Noise::WaveletNoise(64);
-        Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(200, 200);
+        Ocular::Graphics::Texture2D* texture = new Ocular::Graphics::Texture2D(descriptor);
         
         std::vector<float> bandWeights;
         bandWeights.push_back(0.1f);

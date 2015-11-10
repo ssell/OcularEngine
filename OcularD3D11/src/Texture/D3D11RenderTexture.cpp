@@ -160,12 +160,16 @@ namespace Ocular
 
             if(m_D3DSwapChain)
             {
+                //--------------------------------------------------------
+                // Create the backbuffer Texture2D from the SwapChain buffer
+
                 hResult = m_D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_D3DTexture);
                 
-                if(hResult)
+                if(hResult == S_OK)
                 {
                     m_D3DTexture->GetDesc(&descriptor);
                     D3D11GraphicsDriver::convertTextureDescriptor(descriptor, m_Descriptor);
+                    result = true;
                 }
                 else
                 {
@@ -174,6 +178,9 @@ namespace Ocular
             }
             else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
             {
+                //--------------------------------------------------------
+                // Create the backbuffer Texture2D from scratch using pixel data
+
                 D3D11_SUBRESOURCE_DATA initData;
                 initData.pSysMem          = &m_Pixels[0];
                 initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));

@@ -17,6 +17,7 @@
 #include "stdafx.hpp"
 #include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
+#include "Math/Color.hpp"
 
 #include "Texture/D3D11Texture2D.hpp"
 #include "Texture/D3D11RenderTexture.hpp"
@@ -68,7 +69,7 @@ namespace Ocular
         {
             /**
              * Initialization follows the steps below:
-             * 
+             *
              *     1. Verify the window
              *     2. Create the device, device context, and swap chain
              *     3. Set the default render states
@@ -93,24 +94,24 @@ namespace Ocular
                         const Core::WindowDescriptor windowDescr = windowWin32->getDescriptor();
 
                         TextureDescriptor rtvDescriptor;
-                        rtvDescriptor.width     = windowDescr.width;
-                        rtvDescriptor.height    = windowDescr.height;
-                        rtvDescriptor.mipmaps   = 1;
-                        rtvDescriptor.type      = TextureType::RenderTexture2D;
-                        rtvDescriptor.format    = TextureFormat::R32G32B32A32Float;
+                        rtvDescriptor.width = windowDescr.width;
+                        rtvDescriptor.height = windowDescr.height;
+                        rtvDescriptor.mipmaps = 1;
+                        rtvDescriptor.type = TextureType::RenderTexture2D;
+                        rtvDescriptor.format = TextureFormat::R32G32B32A32Float;
                         rtvDescriptor.cpuAccess = TextureAccess::ReadWrite;
                         rtvDescriptor.gpuAccess = TextureAccess::ReadWrite;
-                        rtvDescriptor.filter    = TextureFilterMode::Point;
+                        rtvDescriptor.filter = TextureFilterMode::Point;
 
                         TextureDescriptor dsvDescriptor;
-                        dsvDescriptor.width     = windowDescr.width;
-                        dsvDescriptor.height    = windowDescr.height;
-                        dsvDescriptor.mipmaps   = 1;
-                        dsvDescriptor.type      = TextureType::DepthTexture2D;
-                        dsvDescriptor.format    = TextureFormat::Depth;
+                        dsvDescriptor.width = windowDescr.width;
+                        dsvDescriptor.height = windowDescr.height;
+                        dsvDescriptor.mipmaps = 1;
+                        dsvDescriptor.type = TextureType::DepthTexture2D;
+                        dsvDescriptor.format = TextureFormat::Depth;
                         dsvDescriptor.cpuAccess = TextureAccess::ReadWrite;
                         dsvDescriptor.gpuAccess = TextureAccess::ReadWrite;
-                        dsvDescriptor.filter    = TextureFilterMode::Point;
+                        dsvDescriptor.filter = TextureFilterMode::Point;
 
 
                         D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtvDescriptor, m_D3DDevice, m_D3DSwapChain);
@@ -118,15 +119,22 @@ namespace Ocular
 
                         renderTexture->apply();
                         depthTexture->apply();
-                        
+
                         windowWin32->setRenderTexture(renderTexture);
                         windowWin32->setDepthTexture(depthTexture);
+
+                        //------------------------------------------------
+
+                        ID3D11RenderTargetView* rtv = renderTexture->getD3DRenderTargetView();
+                        ID3D11DepthStencilView* dsv = depthTexture->getD3DDepthStencilView();
+
+                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
 
                         result = true;
                     }
                     else
                     {
-                        OcularLogger->fatal("Failed to create Device and Swap Chain", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));   
+                        OcularLogger->fatal("Failed to create Device and Swap Chain", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
                     }
                 }
                 else
@@ -138,8 +146,52 @@ namespace Ocular
             {
                 OcularLogger->warning("Graphics Driver already initialized", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
             }
-            
+
             return result;
+        }
+
+        void D3D11GraphicsDriver::clearBuffers()
+        {
+            GraphicsDriver::clearBuffers();
+
+            if(m_D3DDeviceContext)
+            {
+                auto mainWindow = OcularWindows->getMainWindow();
+
+                if(mainWindow)
+                {
+                    D3D11RenderTexture* renderTexture = (D3D11RenderTexture*)(mainWindow->getRenderTexture());
+                    D3D11DepthTexture* depthTexture = (D3D11DepthTexture*)(mainWindow->getDepthTexture());
+
+                    if(renderTexture)
+                    {
+                        const static Core::Color backColor = Core::Color::ErrorPink();
+                        const static float clearColor[4] = { backColor.r, backColor.g, backColor.b, backColor.a };
+
+                        m_D3DDeviceContext->ClearRenderTargetView(renderTexture->getD3DRenderTargetView(), clearColor);
+                    }
+
+                    if(depthTexture)
+                    {
+                        m_D3DDeviceContext->ClearDepthStencilView(depthTexture->getD3DDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+                    }
+                }
+            }
+        }
+
+        void D3D11GraphicsDriver::swapBuffers()
+        {
+            GraphicsDriver::swapBuffers();
+
+            if(m_D3DSwapChain)
+            {
+                const HRESULT hResult = m_D3DSwapChain->Present(0, 0);
+
+                if(hResult != S_OK)
+                {
+                    OcularLogger->error("Failed to swap buffers with error ", hResult, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "swapBuffers"));
+                }
+            }
         }
 
         Texture* D3D11GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
@@ -234,12 +286,17 @@ namespace Ocular
             {
                 ZeroMemory(&dest, sizeof(D3D11_TEXTURE2D_DESC));
 
-                //--------------------------------------------------------
-                // Dimensions
-
-                dest.Width = src.width;
-                dest.Height = src.height;
+                dest.Width     = src.width;
+                dest.Height    = src.height;
                 dest.MipLevels = src.mipmaps;
+                dest.ArraySize = 1;
+                
+                DXGI_SAMPLE_DESC sampleDescr;
+                ZeroMemory(&sampleDescr, sizeof(DXGI_SAMPLE_DESC));
+                sampleDescr.Count = 1;
+                sampleDescr.Quality = 0;
+
+                dest.SampleDesc = sampleDescr;
 
                 //--------------------------------------------------------
                 // CPU Access
@@ -289,6 +346,7 @@ namespace Ocular
 
                 case TextureType::DepthTexture2D:
                     dest.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                    dest.CPUAccessFlags = 0;
                     break;
 
                 default:
@@ -591,7 +649,7 @@ namespace Ocular
 
         bool D3D11GraphicsDriver::createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd)
         {
-            bool result = false;
+            bool result = true;
 
             //------------------------------------------------------------
             // Set up for device creation
@@ -612,10 +670,14 @@ namespace Ocular
             const D3D_FEATURE_LEVEL featureLevels[] =
             {
                 D3D_FEATURE_LEVEL_11_1,
-                D3D_FEATURE_LEVEL_11_0
+                D3D_FEATURE_LEVEL_11_0,
+                D3D_FEATURE_LEVEL_10_1,
+                D3D_FEATURE_LEVEL_10_0,
+                D3D_FEATURE_LEVEL_9_3,
+                D3D_FEATURE_LEVEL_9_1
             };
 
-            D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
+            D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
 
             //------------------------------------------------------------
             // Create the Swap Chain descriptor
@@ -631,7 +693,7 @@ namespace Ocular
                     nullptr,
                     createDeviceFlags,
                     featureLevels,
-                    2,
+                    ARRAYSIZE(featureLevels),
                     D3D11_SDK_VERSION,
                     &swapChainDesc,
                     &m_D3DSwapChain,
@@ -676,8 +738,12 @@ namespace Ocular
             result.BufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
             result.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
             result.Flags                              = 0;
-            result.Windowed                           = ((windowDesc.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
-                                                         (windowDesc.displayMode == Core::WindowDisplayMode::WindowedBorderless));
+
+            if((windowDesc.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
+               (windowDesc.displayMode == Core::WindowDisplayMode::WindowedBorderless))
+            {
+                result.Windowed = TRUE;
+            }
 
             return result;
         }
@@ -805,10 +871,17 @@ namespace Ocular
             //------------------------------------------------------------
             // Type
 
-            if((descriptor.type != TextureType::Texture2D) && (descriptor.type != TextureType::RenderTexture2D))
+            switch(descriptor.type)
             {
+            case TextureType::Texture2D:         // Explicitly falls down
+            case TextureType::RenderTexture2D:   // Explicitly falls down
+            case TextureType::DepthTexture2D:
+                break;
+
+            default:
                 OcularLogger->error("Unsupported Texture Type for D3D11", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
                 result = false;
+                break;
             }
 
             //------------------------------------------------------------

@@ -55,6 +55,16 @@ namespace Ocular
             virtual bool initialize();
 
             /**
+             * Clears the back buffers.
+             */
+            virtual void clearBuffers();
+
+            /**
+             * Swaps the back and front buffers.
+             */
+            virtual void swapBuffers();
+
+            /**
              * Binds the textures, shaders, and shader values (uniforms, samplers, etc.) 
              * associated with the specified material.
              *

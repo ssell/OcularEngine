@@ -64,7 +64,7 @@ namespace Ocular
              * \param[in] xOffset X-Axis offset into the noise function to begin at
              * \param[in] yOffset Y-Axis offset into the noise function to begin at
              */
-            NoiseTexture2D(TextureDescriptor const& descriptor, std::shared_ptr<Math::Noise::ANoise> noise, uint32_t xOffset, uint32_t yOffset);
+            NoiseTexture2D(TextureDescriptor const& descriptor, std::shared_ptr<Math::Noise::ANoise> noise, uint32_t xOffset = 0, uint32_t yOffset = 0);
 
         protected:
 

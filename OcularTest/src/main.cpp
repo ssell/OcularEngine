@@ -16,6 +16,7 @@
 
 #include "OcularEngine.hpp"
 #include "SystemInfo.hpp"
+#include "D3D11GraphicsDriver.hpp"
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
@@ -32,8 +33,10 @@ int runTests(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
-void openWindow()
+bool openWindow()
 {
+    bool result = false;
+
     Ocular::Core::WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
@@ -45,20 +48,29 @@ void openWindow()
     descriptor.displayMode   = Ocular::Core::WindowDisplayMode::WindowedBordered;
     descriptor.exclusiveMode = false;
 
-    OcularEngine.WindowManager()->openWindow(descriptor);
+    if(OcularEngine.WindowManager()->openWindow(descriptor))
+    {
+        if(OcularGraphics->initialize())
+        {
+            result = true;
+        }
+    }
+
+    return result;
 }
 
 int main(int argc, char** argv)
 {
-    OcularEngine.initialize();
+    OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver());
     Ocular::Core::SystemInfo::logSystemInfo();
 
-    openWindow();
+    if(openWindow())
+    {
+        SceneObject* object = OcularScene->createObject("Test Object");
+        object->addRoutine("InputLogger");
 
-    SceneObject* object = OcularScene->createObject("Test Object");
-    object->addRoutine("InputLogger");
-
-    while(OcularEngine.run());
+        while(OcularEngine.run());
+    }
 
     OcularEngine.shutdown();
 }

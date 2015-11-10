@@ -140,11 +140,15 @@ namespace Ocular
                 descr.format    = TextureFormat::R32G32B32A32Float;
                 descr.type      = TextureType::Texture2D;
                 
-                resource = new Texture2D(descr);
-                resource->setSourceFile(file);
+                resource = OcularGraphics->createTexture(descr);
+
+                if(resource != nullptr)
+                {
+                    resource->setSourceFile(file);
+                }
             }
 
-            texture = (Texture2D*)resource;
+            texture = dynamic_cast<Texture2D*>(resource);
 
             if(texture != nullptr)
             {
@@ -179,7 +183,7 @@ namespace Ocular
             }
             else
             {
-                OcularLogger->error("Provided Resource is not a Texture2D", OCULAR_INTERNAL_LOG("TextureResourceLoader", "createResource"));
+                OcularLogger->error("Provided Resource is not a Texture2D or is NULL", OCULAR_INTERNAL_LOG("TextureResourceLoader", "createResource"));
             }
 
             return result;

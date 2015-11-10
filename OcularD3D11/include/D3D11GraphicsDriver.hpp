@@ -19,13 +19,9 @@
 #define __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
 
 #include "Graphics/GraphicsDriver.hpp"
+#include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
-
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct IDXGISwapChain;
-struct DXGI_SWAP_CHAIN_DESC;
 
 /**
  * \addtogroup Ocular
@@ -60,6 +56,9 @@ namespace Ocular
 
             virtual bool initialize() override;
 
+            virtual void clearBuffers() override;
+            virtual void swapBuffers() override;
+
             virtual Texture* createTexture(TextureDescriptor const& descriptor) override;
             virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) override;
             virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) override;
@@ -77,7 +76,7 @@ namespace Ocular
         protected:
 
             bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
-            bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND hwnd);
+            bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd);
             DXGI_SWAP_CHAIN_DESC createSwapChainDescription(Core::WindowWin32 const* window) const;
 
             static bool validateTextureDescriptor(TextureDescriptor const& descriptor);

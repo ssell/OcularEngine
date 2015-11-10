@@ -79,7 +79,6 @@ namespace Ocular
         Core::SystemInfo::initialize();
 
         m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
-
         m_IsRunning = true;
 
         return true;
@@ -189,9 +188,11 @@ namespace Ocular
 
     void Engine::render()
     {
-        if(m_SceneManager)
+        if((m_SceneManager) && (m_GraphicsDriver))
         {
+            m_GraphicsDriver->clearBuffers();
             m_SceneManager->render();
+            m_GraphicsDriver->swapBuffers();
         }
     }
 

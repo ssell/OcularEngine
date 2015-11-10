@@ -66,7 +66,7 @@ namespace Ocular
             m_Descriptor = descriptor;
         }
 
-        Graphics::RenderTexture const* AWindow::getRenderTexture() const
+        Graphics::RenderTexture const* AWindow::getRenderTexture()
         {
             return m_RenderTexture;
         }
@@ -82,7 +82,7 @@ namespace Ocular
             m_RenderTexture = renderTexture;
         }
 
-        Graphics::DepthTexture const* AWindow::getDepthTexture() const
+        Graphics::DepthTexture const* AWindow::getDepthTexture()
         {
             return m_DepthTexture;
         }

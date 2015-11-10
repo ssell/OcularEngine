@@ -46,6 +46,16 @@ namespace Ocular
             return false;
         }
 
+        void GraphicsDriver::clearBuffers()
+        {
+
+        }
+
+        void GraphicsDriver::swapBuffers()
+        {
+
+        }
+
         bool GraphicsDriver::bindMaterial(Material const* material)
         {
             return false;

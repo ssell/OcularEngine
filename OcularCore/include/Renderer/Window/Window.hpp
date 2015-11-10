@@ -96,7 +96,7 @@ namespace Ocular
             /**
              * \return The current backbuffer render texture.
              */
-            Graphics::RenderTexture const* getRenderTexture() const;
+            Graphics::RenderTexture const* getRenderTexture();
 
             /**
              * Sets the RenderTexture to use as the backbuffer.
@@ -115,7 +115,7 @@ namespace Ocular
             /**
              * \return The current depth texture.
              */
-            Graphics::DepthTexture const* getDepthTexture() const;
+            Graphics::DepthTexture const* getDepthTexture();
 
             /**
              * Sets the DepthTexture to use for depth values.
