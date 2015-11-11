@@ -40,6 +40,21 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+        
+        void PreTesselationShader::unload()
+        {
+
+        }
+
+        void PreTesselationShader::bind()
+        {
+
+        }
+            
+        void PreTesselationShader::unbind()
+        {
+
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

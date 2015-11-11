@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
-#define __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
+#ifndef __H__OCULAR_D3D11_GRAPHICS_POSTTESSELATION_SHADER__H__
+#define __H__OCULAR_D3D11_GRAPHICS_POSTTESSELATION_SHADER__H__
 
-#include "Shader.hpp"
+#include "Graphics/Shader/PostTesselationShader.hpp"
+#include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,14 +36,14 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class VertexShader 
+         * \class D3D11PostTesselationShader 
          */
-        class VertexShader : public Shader 
+        class D3D11PostTesselationShader : public PostTesselationShader 
         {
         public:
 
-            VertexShader();
-            ~VertexShader();
+            D3D11PostTesselationShader();
+            ~D3D11PostTesselationShader();
 
             virtual void unload() override;
             virtual void bind() override;

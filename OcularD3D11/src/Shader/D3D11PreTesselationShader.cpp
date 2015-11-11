@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/FragmentShader.hpp"
+#include "stdafx.hpp"
+#include "Shader/D3D11PreTesselationShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        FragmentShader::FragmentShader()
-            : Shader()
+        D3D11PreTesselationShader::D3D11PreTesselationShader()
+            : PreTesselationShader()
         {
 
         }
 
-        FragmentShader::~FragmentShader()
+        D3D11PreTesselationShader::~D3D11PreTesselationShader()
         {
 
         }
@@ -41,19 +42,19 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void FragmentShader::unload()
+        void D3D11PreTesselationShader::unload()
         {
-
+            PreTesselationShader::unload();
         }
 
-        void FragmentShader::bind()
+        void D3D11PreTesselationShader::bind()
         {
-
+            PreTesselationShader::bind();
         }
             
-        void FragmentShader::unbind()
+        void D3D11PreTesselationShader::unbind()
         {
-
+            PreTesselationShader::unbind();
         }
 
         //----------------------------------------------------------------------------------

@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\PostTesselationShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\PreTesselationShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp" />

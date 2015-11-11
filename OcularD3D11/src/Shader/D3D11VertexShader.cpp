@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/FragmentShader.hpp"
+#include "stdafx.hpp"
+#include "Shader/D3D11VertexShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        FragmentShader::FragmentShader()
-            : Shader()
+        D3D11VertexShader::D3D11VertexShader()
+            : VertexShader()
         {
 
         }
 
-        FragmentShader::~FragmentShader()
+        D3D11VertexShader::~D3D11VertexShader()
         {
 
         }
@@ -41,19 +42,19 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void FragmentShader::unload()
+        void D3D11VertexShader::unload()
         {
-
+            VertexShader::unload();
         }
 
-        void FragmentShader::bind()
+        void D3D11VertexShader::bind()
         {
-
+            VertexShader::bind();
         }
             
-        void FragmentShader::unbind()
+        void D3D11VertexShader::unbind()
         {
-
+            VertexShader::unbind();
         }
 
         //----------------------------------------------------------------------------------

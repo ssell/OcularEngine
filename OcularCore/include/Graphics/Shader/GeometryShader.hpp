@@ -44,9 +44,9 @@ namespace Ocular
             GeometryShader();
             ~GeometryShader();
 
-            virtual void unload() = 0;
-            virtual void bind() = 0;
-            virtual void unbind() = 0;
+            virtual void unload() override;
+            virtual void bind() override;
+            virtual void unbind() override;
 
         protected:
 

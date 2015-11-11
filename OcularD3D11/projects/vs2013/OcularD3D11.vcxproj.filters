@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Texture">
       <UniqueIdentifier>{fcfbf566-5cce-43ae-9ce4-a9325eb51cca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shader">
+      <UniqueIdentifier>{1d017934-b12b-4ed7-b519-210768951a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{1aab4bca-728d-465e-a73d-a4ba65ceaf71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.hpp">
@@ -36,6 +42,21 @@
     <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11VertexShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PreTesselationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -52,6 +73,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\D3D11DepthTexture.cpp">
       <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11VertexShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11GeometryShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PreTesselationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

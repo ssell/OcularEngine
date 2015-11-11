@@ -63,9 +63,15 @@ namespace Ocular
             virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) override;
             virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) override;
             virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) override;
+            
+            virtual VertexShader* createVertexShader() override;
+            virtual GeometryShader* createGeometryShader() override;
+            virtual FragmentShader* createFragmentShader() override;
+            virtual PreTesselationShader* createPreTesselationShader() override;
+            virtual PostTesselationShader* createPostTesselationShader() override;
 
             //------------------------------------------------------------
-            // DX Specific Methods
+            // D3D Specific Methods
 
             ID3D11Device* getD3DDevice() const;
             ID3D11DeviceContext* getD3DDeviceContext() const;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/FragmentShader.hpp"
+#include "Graphics/Shader/Shader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +26,12 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        FragmentShader::FragmentShader()
-            : Shader()
+        Shader::Shader()
         {
 
         }
 
-        FragmentShader::~FragmentShader()
+        Shader::~Shader()
         {
 
         }
@@ -40,21 +39,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
-        void FragmentShader::unload()
-        {
-
-        }
-
-        void FragmentShader::bind()
-        {
-
-        }
-            
-        void FragmentShader::unbind()
-        {
-
-        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

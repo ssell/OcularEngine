@@ -23,6 +23,12 @@
 #include "Texture/D3D11RenderTexture.hpp"
 #include "Texture/D3D11DepthTexture.hpp"
 
+#include "Shader/D3D11VertexShader.hpp"
+#include "Shader/D3D11GeometryShader.hpp"
+#include "Shader/D3D11FragmentShader.hpp"
+#include "Shader/D3D11PreTesselationShader.hpp"
+#include "Shader/D3D11PostTesselationShader.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -192,6 +198,10 @@ namespace Ocular
             }
         }
 
+        //----------------------------------------------------------------------------------
+        // Textures
+        //----------------------------------------------------------------------------------
+
         Texture* D3D11GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
         {
             Texture* result = nullptr;
@@ -265,6 +275,39 @@ namespace Ocular
 
             return result;
         }
+
+        //----------------------------------------------------------------------------------
+        // Shaders
+        //----------------------------------------------------------------------------------
+
+        VertexShader* D3D11GraphicsDriver::createVertexShader()
+        {
+            return new D3D11VertexShader();
+        }
+
+        GeometryShader* D3D11GraphicsDriver::createGeometryShader()
+        {
+            return new D3D11GeometryShader();
+        }
+
+        FragmentShader* D3D11GraphicsDriver::createFragmentShader()
+        {
+            return new D3D11FragmentShader();
+        }
+
+        PreTesselationShader* D3D11GraphicsDriver::createPreTesselationShader()
+        {
+            return new D3D11PreTesselationShader();
+        }
+
+        PostTesselationShader* D3D11GraphicsDriver::createPostTesselationShader()
+        {
+            return new D3D11PostTesselationShader();
+        }
+
+        //----------------------------------------------------------------------------------
+        // D3D Specific
+        //----------------------------------------------------------------------------------
 
         ID3D11Device* D3D11GraphicsDriver::getD3DDevice() const
         {

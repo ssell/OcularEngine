@@ -21,6 +21,12 @@
 #include "Graphics/Texture/RenderTexture.hpp"
 #include "Graphics/Texture/DepthTexture.hpp"
 
+#include "Graphics/Shader/VertexShader.hpp"
+#include "Graphics/Shader/GeometryShader.hpp"
+#include "Graphics/Shader/FragmentShader.hpp"
+#include "Graphics/Shader/PreTesselationShader.hpp"
+#include "Graphics/Shader/PostTesselationShader.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -83,6 +89,10 @@ namespace Ocular
 
             //------------------------------------------------------------------------------
             // Creation Methods
+            //------------------------------------------------------------------------------
+
+            //------------------------------------------------------------------------------
+            // Textures
 
             /**
              * Creates a new API-specific implementation of the Texture class.
@@ -124,6 +134,54 @@ namespace Ocular
              *         NULL if texture creation failed.
              */
             virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor);
+
+            //------------------------------------------------------------------------------
+            // Shaders
+            
+            /**
+             * Creates a new API-specific implementation of the VertexShader class.
+             *
+             * \return Returns the new instantiated shader. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual VertexShader* createVertexShader();
+            
+            /**
+             * Creates a new API-specific implementation of the GeometryShader class.
+             *
+             * \return Returns the new instantiated shader. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual GeometryShader* createGeometryShader();
+            
+            /**
+             * Creates a new API-specific implementation of the FragmentShader class.
+             *
+             * \return Returns the new instantiated shader. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual FragmentShader* createFragmentShader();
+            
+            /**
+             * Creates a new API-specific implementation of the PreTesselationShader class.
+             *
+             * \return Returns the new instantiated shader. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual PreTesselationShader* createPreTesselationShader();
+            
+            /**
+             * Creates a new API-specific implementation of the PostTesselationShader class.
+             *
+             * \return Returns the new instantiated shader. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual PostTesselationShader* createPostTesselationShader();
 
         protected:
 

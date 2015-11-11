@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/FragmentShader.hpp"
+#include "stdafx.hpp"
+#include "Shader/D3D11GeometryShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        FragmentShader::FragmentShader()
-            : Shader()
+        D3D11GeometryShader::D3D11GeometryShader()
+            : GeometryShader()
         {
 
         }
 
-        FragmentShader::~FragmentShader()
+        D3D11GeometryShader::~D3D11GeometryShader()
         {
 
         }
@@ -41,19 +42,19 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void FragmentShader::unload()
+        void D3D11GeometryShader::unload()
         {
-
+            GeometryShader::unload();
         }
 
-        void FragmentShader::bind()
+        void D3D11GeometryShader::bind()
         {
-
+            GeometryShader::bind();
         }
             
-        void FragmentShader::unbind()
+        void D3D11GeometryShader::unbind()
         {
-
+            GeometryShader::unbind();
         }
 
         //----------------------------------------------------------------------------------

@@ -66,6 +66,10 @@ namespace Ocular
             return false;
         }
 
+        //----------------------------------------------------------------------------------
+        // Textures
+        //----------------------------------------------------------------------------------
+
         Texture* GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
         {
             Texture* result = nullptr;
@@ -105,6 +109,35 @@ namespace Ocular
         DepthTexture* GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor)
         {
             return new DepthTexture(descriptor);
+        }
+
+        //----------------------------------------------------------------------------------
+        // Shaders
+        //----------------------------------------------------------------------------------
+
+        VertexShader* GraphicsDriver::createVertexShader()
+        {
+            return new VertexShader();
+        }
+
+        GeometryShader* GraphicsDriver::createGeometryShader()
+        {
+            return new GeometryShader();
+        }
+
+        FragmentShader* GraphicsDriver::createFragmentShader()
+        {
+            return new FragmentShader();
+        }
+
+        PreTesselationShader* GraphicsDriver::createPreTesselationShader()
+        {
+            return new PreTesselationShader();
+        }
+
+        PostTesselationShader* GraphicsDriver::createPostTesselationShader()
+        {
+            return new PostTesselationShader();
         }
 
         //----------------------------------------------------------------------------------

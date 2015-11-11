@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
-#define __H__OCULAR_GRAPHICS_VERTEX_SHADER__H__
+#ifndef __H__OCULAR_D3D11_GRAPHICS_VERTEX_SHADER__H__
+#define __H__OCULAR_D3D11_GRAPHICS_VERTEX_SHADER__H__
 
-#include "Shader.hpp"
+#include "Graphics/Shader/VertexShader.hpp"
+#include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,14 +36,14 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class VertexShader 
+         * \class D3D11VertexShader 
          */
-        class VertexShader : public Shader 
+        class D3D11VertexShader : public VertexShader 
         {
         public:
 
-            VertexShader();
-            ~VertexShader();
+            D3D11VertexShader();
+            ~D3D11VertexShader();
 
             virtual void unload() override;
             virtual void bind() override;
