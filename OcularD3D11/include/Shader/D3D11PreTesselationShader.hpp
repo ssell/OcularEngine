@@ -42,17 +42,24 @@ namespace Ocular
         {
         public:
 
-            D3D11PreTesselationShader();
+            D3D11PreTesselationShader(ID3D11Device* device);
             ~D3D11PreTesselationShader();
 
             virtual void unload() override;
             virtual void bind() override;
             virtual void unbind() override;
 
+            ID3D11HullShader* getD3DShader();
+
         protected:
+            
+            ID3D11Device* m_D3DDevice;
+            ID3D11HullShader* m_D3DShader;
 
         private:
         };
+
+        typedef D3D11PreTesselationShader D3D11HullShader;
     }
     /**
      * @} End of Doxygen Groups

@@ -42,14 +42,19 @@ namespace Ocular
         {
         public:
 
-            D3D11VertexShader();
+            D3D11VertexShader(ID3D11Device* device);
             ~D3D11VertexShader();
 
             virtual void unload() override;
             virtual void bind() override;
             virtual void unbind() override;
 
+            ID3D11VertexShader* getD3DShader();
+
         protected:
+            
+            ID3D11Device* m_D3DDevice;
+            ID3D11VertexShader* m_D3DShader;
 
         private:
         };

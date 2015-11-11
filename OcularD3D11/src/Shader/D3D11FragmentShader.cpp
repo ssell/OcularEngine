@@ -27,15 +27,17 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11FragmentShader::D3D11FragmentShader()
-            : FragmentShader()
+        D3D11FragmentShader::D3D11FragmentShader(ID3D11Device* device)
+            : FragmentShader(),
+              m_D3DDevice(device),
+              m_D3DShader(nullptr)
         {
 
         }
 
         D3D11FragmentShader::~D3D11FragmentShader()
         {
-
+            unload();
         }
 
         //----------------------------------------------------------------------------------
@@ -45,6 +47,12 @@ namespace Ocular
         void D3D11FragmentShader::unload()
         {
             FragmentShader::unload();
+
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+                m_D3DShader = nullptr;
+            }
         }
 
         void D3D11FragmentShader::bind()
@@ -55,6 +63,11 @@ namespace Ocular
         void D3D11FragmentShader::unbind()
         {
             FragmentShader::unbind();
+        }
+
+        ID3D11PixelShader* D3D11FragmentShader::getD3DShader()
+        {
+            return m_D3DShader;
         }
 
         //----------------------------------------------------------------------------------

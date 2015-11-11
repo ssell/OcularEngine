@@ -47,8 +47,7 @@ namespace Ocular
         public:
 
             /**
-             * \param[in] filter
-             * \param[in] usage
+             * \param[in] descriptor
              */
             Texture(TextureDescriptor const& descriptor);
 

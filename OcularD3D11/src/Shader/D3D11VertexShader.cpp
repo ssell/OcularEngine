@@ -27,15 +27,17 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11VertexShader::D3D11VertexShader()
-            : VertexShader()
+        D3D11VertexShader::D3D11VertexShader(ID3D11Device* device)
+            : VertexShader(),
+              m_D3DDevice(device),
+              m_D3DShader(nullptr)
         {
 
         }
 
         D3D11VertexShader::~D3D11VertexShader()
         {
-
+            unload();
         }
 
         //----------------------------------------------------------------------------------
@@ -45,6 +47,12 @@ namespace Ocular
         void D3D11VertexShader::unload()
         {
             VertexShader::unload();
+
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+                m_D3DShader = nullptr;
+            }
         }
 
         void D3D11VertexShader::bind()
@@ -55,6 +63,11 @@ namespace Ocular
         void D3D11VertexShader::unbind()
         {
             VertexShader::unbind();
+        }
+
+        ID3D11VertexShader* D3D11VertexShader::getD3DShader()
+        {
+            return m_D3DShader;
         }
 
         //----------------------------------------------------------------------------------

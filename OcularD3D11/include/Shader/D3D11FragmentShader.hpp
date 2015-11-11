@@ -42,17 +42,24 @@ namespace Ocular
         {
         public:
 
-            D3D11FragmentShader();
+            D3D11FragmentShader(ID3D11Device* device);
             ~D3D11FragmentShader();
 
             virtual void unload() override;
             virtual void bind() override;
             virtual void unbind() override;
 
+            ID3D11PixelShader* getD3DShader();
+
         protected:
+            
+            ID3D11Device* m_D3DDevice;
+            ID3D11PixelShader* m_D3DShader;
 
         private:
         };
+
+        typedef D3D11FragmentShader D3D11PixelShader;
     }
     /**
      * @} End of Doxygen Groups

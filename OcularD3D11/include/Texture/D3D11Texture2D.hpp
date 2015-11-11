@@ -49,7 +49,7 @@ namespace Ocular
 
             bool createD3DTexture2D();
 
-            ID3D11Device*    m_D3DDevice;
+            ID3D11Device* m_D3DDevice;
             ID3D11Texture2D* m_D3DTexture;
 
         private:

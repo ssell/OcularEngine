@@ -47,11 +47,7 @@ namespace Ocular
         public:
 
             /**
-             * \param[in] width
-             * \param[in] height
-             * \param[in] filter
-             * \param[in] usage
-             * \param[in] source
+             * \param[in] descriptor
              */
             Texture2D(TextureDescriptor const& descriptor);
 
@@ -68,7 +64,23 @@ namespace Ocular
              * freed and all API-specific structures released.
              */
             virtual void unload();
+
+            /**
+             * Applies any manually made pixel changes of the texture to the GPU.
+             * Textures will not be updated (i.e. changes rendered) until this method is called.
+             *
+             * \note Texture CPU access must be set to TextureAccess::WriteOnly or TextureAccess::ReadWrite
+             *       in order to modify a texture at runtime.
+             */
             virtual void apply();
+
+            /**
+             * Refreshes the CPU texture data with any data stored on the GPU.
+             * This action can overwrite pre-existing CPU data.
+             *
+             * \note Texture CPU access must be set to TextureAccess::ReadOnly or TextureAccess::ReadWrite
+             *       in order to refresh the CPU data at runtime.
+             */
             virtual void refresh();
 
             //----------------------------------------

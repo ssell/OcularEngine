@@ -80,6 +80,7 @@
     <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11PreTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\D3D11ShaderProgram.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11VertexShader.hpp" />
     <ClInclude Include="..\..\include\stdafx.hpp" />
     <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp" />

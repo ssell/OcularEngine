@@ -27,15 +27,17 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11PreTesselationShader::D3D11PreTesselationShader()
-            : PreTesselationShader()
+        D3D11PreTesselationShader::D3D11PreTesselationShader(ID3D11Device* device)
+            : PreTesselationShader(),
+              m_D3DDevice(device),
+              m_D3DShader(nullptr)
         {
 
         }
 
         D3D11PreTesselationShader::~D3D11PreTesselationShader()
         {
-
+            unload();
         }
 
         //----------------------------------------------------------------------------------
@@ -45,6 +47,12 @@ namespace Ocular
         void D3D11PreTesselationShader::unload()
         {
             PreTesselationShader::unload();
+
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+                m_D3DShader = nullptr;
+            }
         }
 
         void D3D11PreTesselationShader::bind()
@@ -55,6 +63,11 @@ namespace Ocular
         void D3D11PreTesselationShader::unbind()
         {
             PreTesselationShader::unbind();
+        }
+
+        ID3D11HullShader* D3D11PreTesselationShader::getD3DShader()
+        {
+            return m_D3DShader;
         }
 
         //----------------------------------------------------------------------------------
