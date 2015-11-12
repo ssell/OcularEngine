@@ -57,8 +57,11 @@
     <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Shader\D3D11ShaderProgram.hpp">
+    <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
       <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
+      <Filter>Source Files\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

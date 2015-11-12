@@ -902,5 +902,8 @@
     <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp">
       <Filter>Header Files\Graphics\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\ShaderProgram.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
