@@ -44,14 +44,38 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------
 
-        std::vector<Directory> Directory::getChildDirectories() const
+        std::vector<Directory> Directory::getChildDirectories(bool recursive) const
         {
-            return m_ChildDirectories;
+            std::vector<Directory> result = m_ChildDirectories;
+
+            if(recursive)
+            {
+                for(auto iter = m_ChildDirectories.begin(); iter != m_ChildDirectories.end(); ++iter)
+                {
+                    std::vector<Directory> children = iter->getChildDirectories(true);
+                    result.reserve(result.size() + children.size());
+                    result.insert(result.end(), children.begin(), children.end());
+                }
+            }
+
+            return result;
         }
 
-        std::vector<File> Directory::getChildFiles() const
+        std::vector<File> Directory::getChildFiles(bool recursive) const
         {
-            return m_ChildFiles;
+            std::vector<File> result = m_ChildFiles;
+
+            if(recursive)
+            {
+                for(auto iter = m_ChildDirectories.begin(); iter != m_ChildDirectories.end(); ++iter)
+                {
+                    std::vector<File> children = iter->getChildFiles(true);
+                    result.reserve(result.size() + children.size());
+                    result.insert(result.end(), children.begin(), children.end());
+                }
+            }
+
+            return result;
         }
 
         void Directory::explore(bool const recursive)

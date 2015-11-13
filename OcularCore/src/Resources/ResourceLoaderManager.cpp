@@ -59,7 +59,7 @@ namespace Ocular
         {
             bool result = false;
 
-            std::string extension = file.getExtension();
+            const std::string extension = file.getExtension();
             auto findLoader = m_ResourceLoaderMap.find(extension);
 
             if(findLoader != m_ResourceLoaderMap.end())

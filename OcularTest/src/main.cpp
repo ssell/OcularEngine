@@ -20,6 +20,10 @@
 #include "Events/EventSnooper.hpp"
 #include "gtest/gtest.h"
 
+#include "Graphics/Shader/ShaderProgram.hpp"
+#include "Shader/D3D11UncompiledShaderResourceLoader.hpp"
+#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
+
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
@@ -61,11 +65,22 @@ bool openWindow()
 
 int main(int argc, char** argv)
 {
+    Ocular::Graphics::TextureResourceLoader_BMP blergh;
+    Ocular::Graphics::D3D11UncompiledShaderResourceLoader force;
+
     OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver());
     Ocular::Core::SystemInfo::logSystemInfo();
 
     if(openWindow())
     {
+        Ocular::Graphics::ShaderProgram* shader = OcularResources->getResource<Ocular::Graphics::ShaderProgram>("Shaders\\TestShader");
+
+        if(shader)
+        {
+            int success = 0;
+            success++;
+        }
+
         SceneObject* object = OcularScene->createObject("Test Object");
         object->addRoutine("InputLogger");
 

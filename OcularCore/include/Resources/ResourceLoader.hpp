@@ -71,7 +71,17 @@ namespace Ocular
             virtual bool loadResource(Resource* &resource, File const& file);
 
         protected:
-
+          
+            /**
+             * Verifies the file on the following conditions:
+             *
+             *     - File exists
+             *     - File is readable
+             *     - File extension matches the supported extension of the loader
+             *
+             * \param[in] File The file to validate.
+             * \return TRUE if valid; Else FALSE.
+             */
             bool isFileValid(Core::File const& file) const;
 
             std::string m_SupportedExtension;

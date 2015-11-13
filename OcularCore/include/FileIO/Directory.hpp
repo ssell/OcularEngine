@@ -52,16 +52,18 @@ namespace Ocular
             ~Directory();
 
             /**
-            * \return A collection of all immediate child directories.
-            * \note explore must be called first or else the container will be empty.
-            */
-            std::vector<Directory> getChildDirectories() const;
+             * \note explore must be called first or else the container will be empty.
+             * \param[in] recursive If true, returned list also contains all files belonging to child directories.
+             * \return A collection of all immediate child directories.
+             */
+            std::vector<Directory> getChildDirectories(bool recursive = false) const;
 
             /**
-            * \return A collection of all immediate child files.
-            * \note explore must be called first or else the container will be empty.
-            */
-            std::vector<File> getChildFiles() const;
+             * \note explore must be called first or else the container will be empty.
+             * \param[in] recursive If true, returned list also contains all files belonging to child directories.
+             * \return A collection of all immediate child files.
+             */
+            std::vector<File> getChildFiles(bool recursive = false) const;
 
             /**
              * Populates the list of child directories and files. <br/>

@@ -73,10 +73,14 @@ namespace Ocular
 
     bool Engine::initialize(Graphics::GraphicsDriver* driver)
     {
+        // This method, and entire class, is really messy and needs cleaning up
+
         setupLogger();
         setupEvents();
         
         Core::SystemInfo::initialize();
+
+        m_ResourceManager->initialize();
 
         m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
         m_IsRunning = true;

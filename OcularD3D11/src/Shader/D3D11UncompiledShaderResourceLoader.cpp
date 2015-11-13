@@ -16,6 +16,7 @@
 
 #include "stdafx.hpp"
 #include "Shader/D3D11UncompiledShaderResourceLoader.hpp"
+#include "Resources/ResourceLoaderRegistrar.hpp"
 
 #include "D3D11GraphicsDriver.hpp"
 #include "Graphics/Shader/ShaderProgram.hpp"
@@ -29,11 +30,15 @@
 
 //------------------------------------------------------------------------------------------
 
+OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::D3D11UncompiledShaderResourceLoader)
+
 static const std::array<LPCSTR, 4> VertexEntryPoints   = { "VertexMain", "VertMain", "VSMain", "MainVS" };
 static const std::array<LPCSTR, 3> GeometryEntryPoints = { "GeometryMain", "GSMain", "MainGS" };
 static const std::array<LPCSTR, 8> FragmentEntryPoints = { "FragmentMain", "FragMain", "FSMain", "MainFS", "PixelMain", "PixMain", "PSMain", "MainPS" };
 static const std::array<LPCSTR, 5> PreTessEntryPoints  = { "PreTesselationMain", "PreTessMain", "HullMain", "HSMain", "MainHS" };
 static const std::array<LPCSTR, 5> PostTessEntryPoints = { "PostTesselationMain", "PostTessMain", "DomainMain", "DSMain", "MainDS" };
+
+//------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
@@ -61,6 +66,8 @@ namespace Ocular
 
         bool D3D11UncompiledShaderResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
         {
+            D3D11UncompiledShaderResourceLoader* other = new D3D11UncompiledShaderResourceLoader();
+
             bool result = false;
 
             if(isFileValid(file) && getD3DDevice())

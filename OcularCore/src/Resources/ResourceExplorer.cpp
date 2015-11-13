@@ -80,7 +80,7 @@ namespace Ocular
             for(auto rootIter = rootDirectories.begin(); rootIter != rootDirectories.end(); ++rootIter)
             {
                 (*rootIter).explore(true);
-                std::vector<File> resourceFiles = (*rootIter).getChildFiles();
+                std::vector<File> resourceFiles = (*rootIter).getChildFiles(true);
 
                 for(auto fileIter = resourceFiles.begin(); fileIter != resourceFiles.end(); ++fileIter)
                 {
@@ -125,7 +125,7 @@ namespace Ocular
             {
                 if((*iter).getName().compare(m_DirectoryName) == 0)
                 {
-                    rootDirectories.push_back((*iter));
+                    rootDirectories.push_back(Directory((*iter).getFullPath()));
                 }
             }
         }

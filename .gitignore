@@ -32,6 +32,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 TestOutput/
+bin/
+obj/
 
 # Ignore 3rd Party Distributable
 External/

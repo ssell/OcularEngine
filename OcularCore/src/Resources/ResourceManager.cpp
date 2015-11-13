@@ -160,6 +160,13 @@ namespace Ocular
 
             if(findExists != m_ResourceMap.end())
             {
+                std::shared_ptr<ResourceDetails> details = findExists->second;
+
+                if(details == nullptr)
+                {
+                    m_ResourceMap[path] = std::make_shared<ResourceDetails>(nullptr);
+                }
+
                 result = findExists->second->getResource();
 
                 if((result == nullptr) || (!result->isInMemory()))

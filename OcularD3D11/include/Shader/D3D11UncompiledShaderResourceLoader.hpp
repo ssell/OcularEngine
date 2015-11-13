@@ -96,7 +96,7 @@ namespace Ocular
         public:
 
             D3D11UncompiledShaderResourceLoader();
-            ~D3D11UncompiledShaderResourceLoader();
+            virtual ~D3D11UncompiledShaderResourceLoader();
 
             virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
 

@@ -55,7 +55,7 @@ namespace Ocular
             TextureResourceLoader(std::string const& extension);
             virtual ~TextureResourceLoader();
 
-            virtual bool loadResource(Core::Resource* &resource, Core::File const& file);
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
 
         protected:
 
@@ -69,18 +69,6 @@ namespace Ocular
              * \return TRUE if file was read in successfully.
              */
             virtual bool readFile(Core::File const& file, std::vector<Core::Color>& pixels, unsigned& width, unsigned& height) = 0;
-
-            /**
-             * Verifies the file on the following conditions:
-             *
-             *     - File exists
-             *     - File is readable
-             *     - File extension matches the supported extension of the loader
-             *
-             * \param[in] File The file to validate.
-             * \return TRUE if valid; Else FALSE.
-             */
-            virtual bool isFileValid(Core::File const& file);
 
             /**
              * Creates the new Texture2D resource from provided pixel data.
