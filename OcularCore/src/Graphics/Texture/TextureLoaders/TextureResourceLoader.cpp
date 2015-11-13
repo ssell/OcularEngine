@@ -91,36 +91,6 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader::isFileValid(Core::File const& file)
-        {
-            bool result = false;
-
-            if(file.exists())
-            {
-                if(file.canRead())
-                {
-                    if(Utils::StringOps::isEqual(file.getExtension(), m_SupportedExtension, true))
-                    {
-                        result = true;
-                    }
-                    else
-                    {
-                        OcularLogger->error("Resource file '", file.getFullPath(), "' is an unsupported file type; Expected '", m_SupportedExtension, "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
-                    }
-                }
-                else
-                {
-                    OcularLogger->error("Unable to read resource file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
-                }
-            }
-            else
-            {
-                OcularLogger->error("Specified resource file '", file.getFullPath(), "' does not exist", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
-            }
-
-            return result;
-        }
-
         bool TextureResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const& width, unsigned const& height)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.

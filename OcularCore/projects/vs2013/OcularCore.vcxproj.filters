@@ -483,6 +483,9 @@
     <ClCompile Include="..\..\src\Graphics\Shader\Shader.cpp">
       <Filter>Source Files\Graphics\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\ShaderProgram.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

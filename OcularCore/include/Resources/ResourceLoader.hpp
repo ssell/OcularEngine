@@ -72,6 +72,8 @@ namespace Ocular
 
         protected:
 
+            bool isFileValid(Core::File const& file) const;
+
             std::string m_SupportedExtension;
             
         private:

@@ -49,6 +49,19 @@ namespace Ocular
             virtual void bind() override;
             virtual void unbind() override;
 
+            /**
+             * Sets the D3D-specific shader owned by this object.
+             *
+             * Note that this object will take full ownership of the shader instance and release it upon it's own unload/destruction.
+             * If this object already owns a D3D shader, it will release it.
+             *
+             * \param[in] shader New ID3D11VertexShader instance
+             */
+            void setD3DShader(ID3D11DomainShader* shader);
+
+            /**
+             * \return The current D3D11-specific shader interface. May return NULL if none present.
+             */
             ID3D11DomainShader* getD3DShader();
 
         protected:

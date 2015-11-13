@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#include "stdafx.hpp"
-#include "Shader/D3D11PostTesselationShader.hpp"
+#include "Graphics/Shader/ShaderProgram.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,15 +26,18 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11PostTesselationShader::D3D11PostTesselationShader(ID3D11Device* device)
-            : PostTesselationShader(),
-              m_D3DDevice(device),
-              m_D3DShader(nullptr)
+        ShaderProgram::ShaderProgram()
+            : Resource(),
+              m_VertexShader(nullptr),
+              m_GeometryShader(nullptr),
+              m_FragmentShader(nullptr),
+              m_PreTesselationShader(nullptr),
+              m_PostTesselationShader(nullptr)
         {
-            m_Type = Core::ResourceType::Shader;
+            
         }
 
-        D3D11PostTesselationShader::~D3D11PostTesselationShader()
+        ShaderProgram::~ShaderProgram()
         {
             unload();
         }
@@ -43,41 +45,60 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
-        void D3D11PostTesselationShader::unload()
-        {
-            PostTesselationShader::unload();
 
-            if(m_D3DShader)
-            {
-                m_D3DShader->Release();
-                m_D3DShader = nullptr;
-            }
+        void ShaderProgram::unload()
+        {
+
         }
 
-        void D3D11PostTesselationShader::bind()
+        void ShaderProgram::setVertexShader(VertexShader* shader)
         {
-            PostTesselationShader::bind();
-        }
-            
-        void D3D11PostTesselationShader::unbind()
-        {
-            PostTesselationShader::unbind();
+            m_VertexShader = shader;
         }
 
-        void D3D11PostTesselationShader::setD3DShader(ID3D11DomainShader* shader)
+        VertexShader* ShaderProgram::getVertexShader()
         {
-            if(m_D3DShader)
-            {
-                m_D3DShader->Release();
-            }
-
-            m_D3DShader = shader;
+            return m_VertexShader;
         }
 
-        ID3D11DomainShader* D3D11PostTesselationShader::getD3DShader()
+        void ShaderProgram::setGeometryShader(GeometryShader* shader)
         {
-            return m_D3DShader;
+            m_GeometryShader = shader;
+        }
+
+        GeometryShader* ShaderProgram::getGeometryShader()
+        {
+            return m_GeometryShader;
+        }
+
+        void ShaderProgram::setFragmentShader(FragmentShader* shader)
+        {
+            m_FragmentShader = shader;
+        }
+
+        FragmentShader* ShaderProgram::getFragmentShader()
+        {
+            return m_FragmentShader;
+        }
+
+        void ShaderProgram::setPreTesselationShader(PreTesselationShader* shader)
+        {
+            m_PreTesselationShader = shader;
+        }
+
+        PreTesselationShader* ShaderProgram::getPreTesselationShader()
+        {
+            return m_PreTesselationShader;
+        }
+
+        void ShaderProgram::setPostTesselationShader(PostTesselationShader* shader)
+        {
+            m_PostTesselationShader = shader;
+        }
+
+        PostTesselationShader* ShaderProgram::getPostTesselationShader()
+        {
+            return m_PostTesselationShader;
         }
 
         //----------------------------------------------------------------------------------

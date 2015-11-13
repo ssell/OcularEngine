@@ -32,7 +32,7 @@ namespace Ocular
               m_D3DDevice(device),
               m_D3DShader(nullptr)
         {
-
+            m_Type = Core::ResourceType::Shader;
         }
 
         D3D11PreTesselationShader::~D3D11PreTesselationShader()
@@ -63,6 +63,16 @@ namespace Ocular
         void D3D11PreTesselationShader::unbind()
         {
             PreTesselationShader::unbind();
+        }
+
+        void D3D11PreTesselationShader::setD3DShader(ID3D11HullShader* shader)
+        {
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+            }
+
+            m_D3DShader = shader;
         }
 
         ID3D11HullShader* D3D11PreTesselationShader::getD3DShader()

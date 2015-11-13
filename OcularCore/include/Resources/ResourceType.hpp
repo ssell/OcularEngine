@@ -39,6 +39,7 @@ namespace Ocular
             Texture = 0,
             Mesh,
             Shader,
+            ShaderProgram,
             Data,
             Undefined            
         };

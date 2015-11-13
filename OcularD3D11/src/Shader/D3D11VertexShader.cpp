@@ -32,7 +32,7 @@ namespace Ocular
               m_D3DDevice(device),
               m_D3DShader(nullptr)
         {
-
+            m_Type = Core::ResourceType::Shader;
         }
 
         D3D11VertexShader::~D3D11VertexShader()
@@ -63,6 +63,16 @@ namespace Ocular
         void D3D11VertexShader::unbind()
         {
             VertexShader::unbind();
+        }
+
+        void D3D11VertexShader::setD3DShader(ID3D11VertexShader* shader)
+        {
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+            }
+
+            m_D3DShader = shader;
         }
 
         ID3D11VertexShader* D3D11VertexShader::getD3DShader()

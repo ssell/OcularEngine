@@ -73,7 +73,7 @@ namespace Ocular
          *     </tr>
          *     <tr>
          *         <td>Fragment</td>
-         *         <td>FragmentMain, FSMain, MainFS, PixelMain, PSMain, MainPS</td>
+         *         <td>FragmentMain, FragMain, FSMain, MainFS, PixelMain, PixMain, PSMain, MainPS</td>
          *     </tr>
          *     <tr>
          *         <td>Pre-Tesselation</td>
@@ -85,6 +85,8 @@ namespace Ocular
          *     </tr>
          * </table>
          * </table>
+         *
+         * All shaders are assumed to be valid Shader Model 5 (D3D 11 and 11.1).
          *
          * For pre-compiled binary shaders (.cso), see the 
          * D3D11CompiledShaderResourceLoader class.
@@ -101,6 +103,12 @@ namespace Ocular
         protected:
 
             bool getD3DDevice();
+            
+            void compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compileGeometryShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compileFragmentShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compilePreTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compilePostTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
 
         private:
 

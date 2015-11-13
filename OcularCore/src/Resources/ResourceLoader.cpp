@@ -16,6 +16,9 @@
 
 #include "Resources/ResourceLoader.hpp"
 
+#include "OcularEngine.hpp"
+#include "Utilities/StringOps.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -53,6 +56,36 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool AResourceLoader::isFileValid(Core::File const& file) const
+        {
+            bool result = false;
+
+            if(file.exists())
+            {
+                if(file.canRead())
+                {
+                    if(Utils::StringOps::isEqual(file.getExtension(), m_SupportedExtension, true))
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Resource file '", file.getFullPath(), "' is an unsupported file type; Expected '", m_SupportedExtension, "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Unable to read resource file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Specified resource file '", file.getFullPath(), "' does not exist", OCULAR_INTERNAL_LOG("TextureResourceLoader", "isFileValid"));
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

@@ -32,7 +32,7 @@ namespace Ocular
               m_D3DDevice(device),
               m_D3DShader(nullptr)
         {
-
+            m_Type = Core::ResourceType::Shader;
         }
 
         D3D11FragmentShader::~D3D11FragmentShader()
@@ -63,6 +63,16 @@ namespace Ocular
         void D3D11FragmentShader::unbind()
         {
             FragmentShader::unbind();
+        }
+
+        void D3D11FragmentShader::setD3DShader(ID3D11PixelShader* shader)
+        {
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+            }
+
+            m_D3DShader = shader;
         }
 
         ID3D11PixelShader* D3D11FragmentShader::getD3DShader()

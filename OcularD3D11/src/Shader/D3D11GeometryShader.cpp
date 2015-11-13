@@ -32,7 +32,7 @@ namespace Ocular
               m_D3DDevice(device),
               m_D3DShader(nullptr)
         {
-
+            m_Type = Core::ResourceType::Shader;
         }
 
         D3D11GeometryShader::~D3D11GeometryShader()
@@ -63,6 +63,16 @@ namespace Ocular
         void D3D11GeometryShader::unbind()
         {
             GeometryShader::unbind();
+        }
+
+        void D3D11GeometryShader::setD3DShader(ID3D11GeometryShader* shader)
+        {
+            if(m_D3DShader)
+            {
+                m_D3DShader->Release();
+            }
+
+            m_D3DShader = shader;
         }
 
         ID3D11GeometryShader* D3D11GeometryShader::getD3DShader()

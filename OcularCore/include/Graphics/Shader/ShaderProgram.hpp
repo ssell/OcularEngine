@@ -76,7 +76,7 @@ namespace Ocular
              * Sets the Geometr Shader that belongs to this shader program.
              * \param[in] shader
              */
-            void setGeometrShader(GeometryShader* shader);
+            void setGeometryShader(GeometryShader* shader);
 
             /**
              * Returns a pointer to the Geometry Shader that belongs to this shader program.
