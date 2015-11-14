@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
-      <Filter>Source Files\Shader</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -93,6 +90,9 @@
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>

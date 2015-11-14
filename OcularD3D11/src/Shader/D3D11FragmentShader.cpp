@@ -30,7 +30,8 @@ namespace Ocular
         D3D11FragmentShader::D3D11FragmentShader(ID3D11Device* device)
             : FragmentShader(),
               m_D3DDevice(device),
-              m_D3DShader(nullptr)
+              m_D3DShader(nullptr),
+              m_D3DBlob(nullptr)
         {
             m_Type = Core::ResourceType::Shader;
         }
@@ -52,6 +53,12 @@ namespace Ocular
             {
                 m_D3DShader->Release();
                 m_D3DShader = nullptr;
+            }
+
+            if(m_D3DBlob)
+            {
+                m_D3DBlob->Release();
+                m_D3DBlob = nullptr;
             }
         }
 
@@ -78,6 +85,21 @@ namespace Ocular
         ID3D11PixelShader* D3D11FragmentShader::getD3DShader()
         {
             return m_D3DShader;
+        }
+
+        void D3D11FragmentShader::setD3DBlob(ID3DBlob* blob)
+        {
+            if(m_D3DBlob)
+            {
+                m_D3DBlob->Release();
+            }
+
+            m_D3DBlob = blob;
+        }
+
+        ID3DBlob* D3D11FragmentShader::getD3DBlob()
+        {
+            return m_D3DBlob;
         }
 
         //----------------------------------------------------------------------------------

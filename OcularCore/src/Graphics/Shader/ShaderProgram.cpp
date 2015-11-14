@@ -48,7 +48,30 @@ namespace Ocular
 
         void ShaderProgram::unload()
         {
-
+            if(m_VertexShader)
+            {
+                m_VertexShader->unload();
+            }
+            
+            if(m_GeometryShader)
+            {
+                m_GeometryShader->unload();
+            }
+            
+            if(m_FragmentShader)
+            {
+                m_FragmentShader->unload();
+            }
+            
+            if(m_PreTesselationShader)
+            {
+                m_PreTesselationShader->unload();
+            }
+            
+            if(m_PostTesselationShader)
+            {
+                m_PostTesselationShader->unload();
+            }
         }
 
         void ShaderProgram::setVertexShader(VertexShader* shader)

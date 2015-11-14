@@ -121,6 +121,11 @@ namespace Ocular
             void initialize();
 
             /**
+             *
+             */
+            void unloadAllResources();
+
+            /**
              * Forces a refresh of all source folder contents.
              */
             void forceSourceRefresh();
@@ -156,7 +161,7 @@ namespace Ocular
              * \param[in] path Resource path and name
              * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
              */
-            std::shared_ptr<Resource> getResource(std::string const& path);
+            Resource* getResource(std::string const& path);
 
             /**
              * Returns the resource at the specified path if it exists. 
@@ -165,7 +170,7 @@ namespace Ocular
              * \param[in] path Resource path and name
              * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
              */
-            template<class T> T* getResource(std::string const& path) { return dynamic_cast<T*>(getResource(path).get()); };
+            template<class T> T* getResource(std::string const& path) { return dynamic_cast<T*>(getResource(path)); };
 
             /**
              * \param[in] path Resource path and name

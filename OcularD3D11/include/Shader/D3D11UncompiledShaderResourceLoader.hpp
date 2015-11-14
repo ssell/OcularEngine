@@ -35,6 +35,8 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class ShaderProgram;
+
         /**
          * \class D3D11ShaderResourceLoader
          *
@@ -104,11 +106,24 @@ namespace Ocular
 
             bool getD3DDevice();
             
-            void compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            // Notice that compileVertexShader returns bool while all others return void.
+            // If there is a real compilation error with the file (not just an entrypoint error)
+            // then the same compilation error will be reported for all shader compilation attempts.
+
+            // So when compileVertexShader fails, we know there is a real issue with the file and
+            // that no shaders can be compiled from it. It would be pointless to continue the other
+            // shader compilations if vertex fails from an error. 
+
+            // But if compileVertexShader experiences success or an entrypoint error, then we can
+            // continue with attempting the other shader types.
+
+            bool compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compileGeometryShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compileFragmentShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compilePreTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compilePostTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+
+            bool isEntryPointError(ID3DBlob* errorLog) const;
 
         private:
 

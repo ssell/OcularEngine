@@ -3,13 +3,13 @@
 struct VSIn
 {
     float4 Position : POSITION0;
-    float4 Color : COLOR0;
+    float4 Color    : COLOR0;
 };
 
 struct VSOut
 {
-    float4 Position : POSITION0;
-    float4 Color : COLOR0;
+    float4 Position : SV_Position;
+    float4 Color    : COLOR0;
 };
 
 VSOut VSMain(VSIn input)
@@ -21,7 +21,7 @@ VSOut VSMain(VSIn input)
     return result;
 }
 
-float4 PSMain(VSOut input) : COLOR0
+float4 PSMain(VSOut input) : SV_Target
 {
     return input.Color;
 }

@@ -53,7 +53,7 @@ namespace Ocular
              * Sets the D3D-specific shader owned by this object.
              *
              * Note that this object will take full ownership of the shader instance and release it upon it's own unload/destruction.
-             * If this object already owns a D3D shader, it will release it.
+             * If this object already owns a D3D shader, it will release it prior to assuming ownership.
              *
              * \param[in] shader New ID3D11VertexShader instance
              */
@@ -64,10 +64,26 @@ namespace Ocular
              */
             ID3D11VertexShader* getD3DShader();
 
+            /**
+             * Sets the ID3DBlob of information associated with this shader.
+             *
+             * Note that this object will take full ownership of the blob and release it upon it's own unload/destruction.
+             * If this object already owns a D3D blob, it will release it prior to assuming ownership.
+             *
+             * \param[in] blob New ID3DBlob instance
+             */
+            void setD3DBlob(ID3DBlob* blob);
+            
+            /**
+             * \return The ID3DBlob of information associated with this shader. May return NULL if none present.
+             */
+            ID3DBlob* getD3DBlob();
+
         protected:
             
             ID3D11Device* m_D3DDevice;
             ID3D11VertexShader* m_D3DShader;
+            ID3DBlob* m_D3DBlob;
 
         private:
         };

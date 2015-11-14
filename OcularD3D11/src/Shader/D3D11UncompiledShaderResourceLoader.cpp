@@ -38,6 +38,8 @@ static const std::array<LPCSTR, 8> FragmentEntryPoints = { "FragmentMain", "Frag
 static const std::array<LPCSTR, 5> PreTessEntryPoints  = { "PreTesselationMain", "PreTessMain", "HullMain", "HSMain", "MainHS" };
 static const std::array<LPCSTR, 5> PostTessEntryPoints = { "PostTesselationMain", "PostTessMain", "DomainMain", "DSMain", "MainDS" };
 
+static const char* EntryPointError = "entrypoint not found";    // The D3DBlob error reported when a specified shader entry wasn't valid
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -83,16 +85,25 @@ namespace Ocular
                 LPCWSTR lpcwstrPath = wstrPath.c_str();
 
                 //--------------------------------------------------------
-                
-                compileVertexShader(file, lpcwstrPath, program);
-                compileGeometryShader(file, lpcwstrPath, program);
-                compileFragmentShader(file, lpcwstrPath, program);
-                compilePreTesselationShader(file, lpcwstrPath, program);
-                compilePostTesselationShader(file, lpcwstrPath, program);
 
-                //--------------------------------------------------------
+                if(compileVertexShader(file, lpcwstrPath, program))
+                {
+                    // Getting here does not mean that vertex compilation necessarily succeeded.
+                    // It just means there is no critical error in the file. See header comments for more.
 
-                resource = program;
+                    compileGeometryShader(file, lpcwstrPath, program);
+                    compileFragmentShader(file, lpcwstrPath, program);
+                    compilePreTesselationShader(file, lpcwstrPath, program);
+                    compilePostTesselationShader(file, lpcwstrPath, program);
+                    
+                    resource = program;
+                    result = true;
+                }
+                else
+                {
+                    delete program;
+                    program = nullptr;
+                }
             }
 
             return result;
@@ -129,8 +140,10 @@ namespace Ocular
             return result;
         }
 
-        void D3D11UncompiledShaderResourceLoader::compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
+        bool D3D11UncompiledShaderResourceLoader::compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
         {
+            bool result = true;
+
             if(source && program)
             {
                 ID3DBlob* compiled = nullptr;
@@ -143,19 +156,36 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < VertexEntryPoints.size(); i++)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, NULL, VertexEntryPoints[i], "vs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, VertexEntryPoints[i], "vs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
                         // Found a valid entry point
                         break;
                     }
+                    else if(errorLog)
+                    {
+                        if(!isEntryPointError(errorLog))
+                        {
+                            // If entry point is simply not found, we do not care.
+                            // But if it is some other kind of compilation error then we wish to report it.
+
+                            OcularLogger->error("Failed to compile shader with error: ", (char*)errorLog->GetBufferPointer(), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                            result = false;
+                            
+                            errorLog->Release();
+
+                            break;
+                        }
+
+                        errorLog->Release();
+                    }
                 }
 
                 //--------------------------------------------------------
                 // If we compiled successfully, then attempt to create the actual shader interface
 
-                if(hResult == S_OK)
+                if(result && hResult == S_OK)
                 {
                     ID3D11VertexShader* d3dShader = nullptr;
                     hResult = m_D3DDevice->CreateVertexShader(compiled->GetBufferPointer(), compiled->GetBufferSize(), NULL, &d3dShader);
@@ -163,13 +193,19 @@ namespace Ocular
                     if(hResult == S_OK)
                     {
                         D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDevice);
-                        shader->setD3DShader(d3dShader);
                         shader->setSourceFile(file);
+                        shader->setD3DShader(d3dShader);
+                        shader->setD3DBlob(compiled);
 
                         program->setVertexShader(shader);
                     }
                     else
                     {
+                        if(compiled)
+                        {
+                            compiled->Release();
+                        }
+
                         OcularLogger->error("Failed to create Vertex Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
                     }
                 }
@@ -179,6 +215,8 @@ namespace Ocular
                     // The ShaderProgram will just have NULL for this particular shader type.
                 // }
             }
+
+            return result;
         }
 
         void D3D11UncompiledShaderResourceLoader::compileGeometryShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
@@ -195,12 +233,16 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < GeometryEntryPoints.size(); i++)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, NULL, VertexEntryPoints[i], "gs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, VertexEntryPoints[i], "gs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
                         // Found a valid entry point
                         break;
+                    }
+                    else if(errorLog)
+                    {
+                        errorLog->Release();
                     }
                 }
 
@@ -215,13 +257,19 @@ namespace Ocular
                     if(hResult == S_OK)
                     {
                         D3D11GeometryShader* shader = new D3D11GeometryShader(m_D3DDevice);
-                        shader->setD3DShader(d3dShader);
                         shader->setSourceFile(file);
+                        shader->setD3DShader(d3dShader);
+                        shader->setD3DBlob(compiled);
 
                         program->setGeometryShader(shader);
                     }
                     else
                     {
+                        if(compiled)
+                        {
+                            compiled->Release();
+                        }
+
                         OcularLogger->error("Failed to create Geometry Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileGeometryShader"));
                     }
                 }
@@ -247,12 +295,16 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < FragmentEntryPoints.size(); i++)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, NULL, FragmentEntryPoints[i], "ps_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, FragmentEntryPoints[i], "ps_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
                         // Found a valid entry point
                         break;
+                    }
+                    else if(errorLog)
+                    {
+                        errorLog->Release();
                     }
                 }
 
@@ -267,13 +319,19 @@ namespace Ocular
                     if(hResult == S_OK)
                     {
                         D3D11FragmentShader* shader = new D3D11FragmentShader(m_D3DDevice);
-                        shader->setD3DShader(d3dShader);
                         shader->setSourceFile(file);
+                        shader->setD3DShader(d3dShader);
+                        shader->setD3DBlob(compiled);
 
                         program->setFragmentShader(shader);
                     }
                     else
                     {
+                        if(compiled)
+                        {
+                            compiled->Release();
+                        }
+
                         OcularLogger->error("Failed to create Fragment Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileFragmentShader"));
                     }
                 }
@@ -299,12 +357,16 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < PreTessEntryPoints.size(); i++)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, NULL, PreTessEntryPoints[i], "hs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, PreTessEntryPoints[i], "hs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
                         // Found a valid entry point
                         break;
+                    }
+                    else if(errorLog)
+                    {
+                        errorLog->Release();
                     }
                 }
 
@@ -319,13 +381,19 @@ namespace Ocular
                     if(hResult == S_OK)
                     {
                         D3D11PreTesselationShader* shader = new D3D11PreTesselationShader(m_D3DDevice);
-                        shader->setD3DShader(d3dShader);
                         shader->setSourceFile(file);
+                        shader->setD3DShader(d3dShader);
+                        shader->setD3DBlob(compiled);
 
                         program->setPreTesselationShader(shader);
                     }
                     else
                     {
+                        if(compiled)
+                        {
+                            compiled->Release();
+                        }
+
                         OcularLogger->error("Failed to create PreTesselation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePreTesselationShader"));
                     }
                 }
@@ -351,12 +419,16 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < PostTessEntryPoints.size(); i++)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, NULL, PostTessEntryPoints[i], "ds_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, PostTessEntryPoints[i], "ds_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
                         // Found a valid entry point
                         break;
+                    }
+                    else if(errorLog)
+                    {
+                        errorLog->Release();
                     }
                 }
 
@@ -371,13 +443,19 @@ namespace Ocular
                     if(hResult == S_OK)
                     {
                         D3D11PostTesselationShader* shader = new D3D11PostTesselationShader(m_D3DDevice);
-                        shader->setD3DShader(d3dShader);
                         shader->setSourceFile(file);
+                        shader->setD3DShader(d3dShader);
+                        shader->setD3DBlob(compiled);
 
                         program->setPostTesselationShader(shader);
                     }
                     else
                     {
+                        if(compiled)
+                        {
+                            compiled->Release();
+                        }
+
                         OcularLogger->error("Failed to create PostTesselation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePostTesselationShader"));
                     }
                 }
@@ -387,6 +465,20 @@ namespace Ocular
                     // The ShaderProgram will just have NULL for this particular shader type.
                 // }
             }
+        }
+
+        bool D3D11UncompiledShaderResourceLoader::isEntryPointError(ID3DBlob* errorLog) const
+        {
+            bool result = false;
+            const std::string stringLog((char*)errorLog->GetBufferPointer());
+
+            if(stringLog.find(EntryPointError) != std::string::npos)
+            {
+                // Was an entrypoint error
+                result = true;
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

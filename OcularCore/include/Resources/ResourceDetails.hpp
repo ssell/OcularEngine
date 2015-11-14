@@ -35,26 +35,30 @@ namespace Ocular
      */
     namespace Core
     {
+        class ResourceManager;
+
         /**
          * \class ResourceDetails
          * \brief Maintains a resource and usage details.
          */
         class ResourceDetails
         {
+            friend class ResourceManager;
+
         public:
 
-            ResourceDetails(std::shared_ptr<Resource> resource);
+            ResourceDetails(Resource* resource);
             ~ResourceDetails();
 
             /**
              *
              */
-            std::shared_ptr<Resource> getResource();
+            Resource*getResource();
 
             /**
              *
              */
-            std::shared_ptr<Resource> getResourceUntracked() const;
+            Resource* getResourceUntracked() const;
 
             /**
              *
@@ -77,13 +81,13 @@ namespace Ocular
             void reset();
         
         protected:
-        
-        private:
 
-            std::shared_ptr<Resource> m_Resource;
+            Resource* m_Resource;
 
             uint64_t m_LastRequest;  /// In NS
             unsigned m_NumberOfRequests;
+        
+        private:
         };
     }
     /**

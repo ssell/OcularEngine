@@ -30,7 +30,8 @@ namespace Ocular
         D3D11PostTesselationShader::D3D11PostTesselationShader(ID3D11Device* device)
             : PostTesselationShader(),
               m_D3DDevice(device),
-              m_D3DShader(nullptr)
+              m_D3DShader(nullptr),
+              m_D3DBlob(nullptr)
         {
             m_Type = Core::ResourceType::Shader;
         }
@@ -52,6 +53,12 @@ namespace Ocular
             {
                 m_D3DShader->Release();
                 m_D3DShader = nullptr;
+            }
+
+            if(m_D3DBlob)
+            {
+                m_D3DBlob->Release();
+                m_D3DBlob = nullptr;
             }
         }
 
@@ -78,6 +85,21 @@ namespace Ocular
         ID3D11DomainShader* D3D11PostTesselationShader::getD3DShader()
         {
             return m_D3DShader;
+        }
+
+        void D3D11PostTesselationShader::setD3DBlob(ID3DBlob* blob)
+        {
+            if(m_D3DBlob)
+            {
+                m_D3DBlob->Release();
+            }
+
+            m_D3DBlob = blob;
+        }
+
+        ID3DBlob* D3D11PostTesselationShader::getD3DBlob()
+        {
+            return m_D3DBlob;
         }
 
         //----------------------------------------------------------------------------------

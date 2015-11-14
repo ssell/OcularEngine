@@ -38,7 +38,7 @@ namespace Ocular
 
         ResourceManager::~ResourceManager()
         {
-        
+            unloadAllResources();
         }
 
         //----------------------------------------------------------------------------------
@@ -48,6 +48,27 @@ namespace Ocular
         void ResourceManager::initialize()
         {
             forceSourceRefresh();
+        }
+
+        void ResourceManager::unloadAllResources()
+        {
+            for(auto iter = m_ResourceMap.begin(); iter != m_ResourceMap.end(); ++iter)
+            {
+                auto details = iter->second;
+
+                if(details)
+                {
+                    auto resource = details->getResourceUntracked();
+
+                    if(resource)
+                    {
+                        resource->unload();
+                        resource = nullptr;
+                    }
+
+                    details = nullptr;
+                }
+            }
         }
 
         void ResourceManager::forceSourceRefresh()
@@ -79,7 +100,7 @@ namespace Ocular
 
             if(resourceIter != m_ResourceMap.end())
             {
-                Resource* resource = resourceIter->second->getResource().get();
+                Resource* resource = resourceIter->second->getResource();
 
                 if((resource == nullptr) || (!resource->isInMemory()))
                 {
@@ -133,7 +154,7 @@ namespace Ocular
                 {
                     details->reset();
 
-                    Resource* resource = details->getResourceUntracked().get();
+                    Resource* resource = details->getResourceUntracked();
 
                     if((resource != nullptr) && (resource->isInMemory()))
                     {
@@ -151,23 +172,31 @@ namespace Ocular
             return m_MemoryDetails;
         }
 
-        std::shared_ptr<Resource> ResourceManager::getResource(std::string const& path)
+        Resource* ResourceManager::getResource(std::string const& path)
         {
-            std::shared_ptr<Resource> result = nullptr;
+            Resource* result = nullptr;
             
+            //------------------------------------------------------------
             // First check if the resource exists
+
             auto findExists = m_ResourceMap.find(path);
 
             if(findExists != m_ResourceMap.end())
             {
+                // Resource exists (there is an associated file)
+
                 std::shared_ptr<ResourceDetails> details = findExists->second;
 
                 if(details == nullptr)
                 {
                     m_ResourceMap[path] = std::make_shared<ResourceDetails>(nullptr);
+                    details = m_ResourceMap[path];
                 }
 
                 result = findExists->second->getResource();
+
+                //--------------------------------------------------------
+                // Check if the resource has already been created and if its in memory
 
                 if((result == nullptr) || (!result->isInMemory()))
                 {
@@ -176,13 +205,39 @@ namespace Ocular
 
                     if(findFile != m_FileMap.end())
                     {
-                        Resource* resource = result.get();
-                        m_ResourceLoaderManager.loadResource(resource, findFile->second);
+                        // Found the file we are to load from
+                        Resource* resource = result;
 
-                        if((result == nullptr) || (!result->isInMemory()))
+                        if(resource)
                         {
-                            OcularLogger->error("Failed to load resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
-                            result = nullptr; // We return null on failure irregardless
+                            //--------------------------------------------
+                            // Resource simply needs to be reloaded
+
+                            m_ResourceLoaderManager.loadResource(resource, findFile->second);
+
+                            if((result == nullptr) || (!result->isInMemory()))
+                            {
+                                OcularLogger->error("Failed to reload resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                result = nullptr; // We return null on failure irregardless
+                            }
+                        }
+                        else
+                        {
+                            //--------------------------------------------
+                            // Resource does not exist at all yet
+
+                            m_ResourceLoaderManager.loadResource(resource, findFile->second);
+
+                            if(resource)
+                            {
+                                details->m_Resource = resource;
+                                result = details->m_Resource;
+                            }
+                            else
+                            {
+                                OcularLogger->error("Failed to create resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                result = nullptr; // We return null on failure irregardless
+                            }
                         }
                     }
                     else
@@ -207,7 +262,7 @@ namespace Ocular
 
             if(resourceIter != m_ResourceMap.end())
             {
-                Resource* resource = resourceIter->second->getResource().get();
+                Resource* resource = resourceIter->second->getResource();
 
                 if(resource != nullptr)
                 {
@@ -358,7 +413,7 @@ namespace Ocular
 
                 if(resourceDetails != nullptr)
                 {
-                    Resource* resource = resourceDetails->getResourceUntracked().get();
+                    Resource* resource = resourceDetails->getResourceUntracked();
 
                     if(resource != nullptr)
                     {

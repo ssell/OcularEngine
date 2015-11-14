@@ -15,6 +15,8 @@
  */
 
 #include "Resources/ResourceDetails.hpp"
+#include "Resources/ResourceManager.hpp"
+
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceDetails::ResourceDetails(std::shared_ptr<Resource> resource)
+        ResourceDetails::ResourceDetails(Resource* resource)
         {
             m_Resource = resource;
             m_LastRequest = 0ULL;
@@ -43,7 +45,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::shared_ptr<Resource> ResourceDetails::getResource()
+        Resource* ResourceDetails::getResource()
         {
             m_LastRequest = OcularEngine.Clock()->getElapsedNS();
             m_NumberOfRequests++;
@@ -51,7 +53,7 @@ namespace Ocular
             return m_Resource;
         }
 
-        std::shared_ptr<Resource> ResourceDetails::getResourceUntracked() const 
+        Resource* ResourceDetails::getResourceUntracked() const 
         {
             return m_Resource;
         }
