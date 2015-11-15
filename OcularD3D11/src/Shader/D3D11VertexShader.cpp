@@ -27,9 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11VertexShader::D3D11VertexShader(ID3D11Device* device)
+        D3D11VertexShader::D3D11VertexShader(ID3D11DeviceContext* context)
             : VertexShader(),
-              m_D3DDevice(device),
+              m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
         {
@@ -65,11 +65,21 @@ namespace Ocular
         void D3D11VertexShader::bind()
         {
             VertexShader::bind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->VSSetShader(m_D3DShader, nullptr, 0);
+            }
         }
             
         void D3D11VertexShader::unbind()
         {
             VertexShader::unbind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->VSSetShader(nullptr, nullptr, 0);
+            }
         }
 
         void D3D11VertexShader::setD3DShader(ID3D11VertexShader* shader)

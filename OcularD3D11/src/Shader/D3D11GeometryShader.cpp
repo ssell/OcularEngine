@@ -27,9 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11GeometryShader::D3D11GeometryShader(ID3D11Device* device)
+        D3D11GeometryShader::D3D11GeometryShader(ID3D11DeviceContext* context)
             : GeometryShader(),
-              m_D3DDevice(device),
+              m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
         {
@@ -65,11 +65,21 @@ namespace Ocular
         void D3D11GeometryShader::bind()
         {
             GeometryShader::bind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->GSSetShader(m_D3DShader, nullptr, 0);
+            }
         }
             
         void D3D11GeometryShader::unbind()
         {
             GeometryShader::unbind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->GSSetShader(nullptr, nullptr, 0);
+            }
         }
 
         void D3D11GeometryShader::setD3DShader(ID3D11GeometryShader* shader)

@@ -27,9 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11PostTesselationShader::D3D11PostTesselationShader(ID3D11Device* device)
+        D3D11PostTesselationShader::D3D11PostTesselationShader(ID3D11DeviceContext* context)
             : PostTesselationShader(),
-              m_D3DDevice(device),
+              m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
         {
@@ -65,11 +65,21 @@ namespace Ocular
         void D3D11PostTesselationShader::bind()
         {
             PostTesselationShader::bind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->DSSetShader(m_D3DShader, nullptr, 0);
+            }
         }
             
         void D3D11PostTesselationShader::unbind()
         {
             PostTesselationShader::unbind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->DSSetShader(nullptr, nullptr, 0);
+            }
         }
 
         void D3D11PostTesselationShader::setD3DShader(ID3D11DomainShader* shader)

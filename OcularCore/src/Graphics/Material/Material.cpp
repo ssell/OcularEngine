@@ -35,8 +35,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Material::Material()
+            : Core::Resource(),
+              m_VertexShader(nullptr),
+              m_GeometryShader(nullptr),
+              m_FragmentShader(nullptr),
+              m_PreTesselationShader(nullptr),
+              m_PostTesselationShader(nullptr)
         {
         
+        }
+
+        Material::~Material()
+        {
+            unbind();
         }
 
         //----------------------------------------------------------------------------------
@@ -45,12 +56,12 @@ namespace Ocular
 
         void Material::bind()
         {
-        
+            bindShaders();
         }
 
         void Material::unbind()
         {
-        
+            unbindShaders();
         }
 
         //--------------------------------------------
@@ -204,6 +215,62 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void Material::bindShaders()
+        {
+            if(m_VertexShader)
+            {
+                m_VertexShader->bind();
+            }
+
+            if(m_GeometryShader)
+            {
+                m_GeometryShader->bind();
+            }
+
+            if(m_FragmentShader)
+            {
+                m_FragmentShader->bind();
+            }
+
+            if(m_PreTesselationShader)
+            {
+                m_PreTesselationShader->bind();
+            }
+
+            if(m_PostTesselationShader)
+            {
+                m_PostTesselationShader->bind();
+            }
+        }
+
+        void Material::unbindShaders()
+        {
+            if(m_VertexShader)
+            {
+                m_VertexShader->unbind();
+            }
+
+            if(m_GeometryShader)
+            {
+                m_GeometryShader->unbind();
+            }
+
+            if(m_FragmentShader)
+            {
+                m_FragmentShader->unbind();
+            }
+
+            if(m_PreTesselationShader)
+            {
+                m_PreTesselationShader->unbind();
+            }
+
+            if(m_PostTesselationShader)
+            {
+                m_PostTesselationShader->unbind();
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

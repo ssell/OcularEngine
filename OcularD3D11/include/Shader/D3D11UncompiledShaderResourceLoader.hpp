@@ -38,7 +38,7 @@ namespace Ocular
         class ShaderProgram;
 
         /**
-         * \class D3D11ShaderResourceLoader
+         * \class D3D11UncompiledShaderResourceLoader
          *
          * Resource loader for all uncompiled D3D11 shader files. This
          * loader maps to the '.hlsl' extension.
@@ -60,33 +60,13 @@ namespace Ocular
          * When checking for the presence of particular shaders, the
          * following entry points are tested:
          *
-         * <table>
-         *     <tr>
-         *         <td>Shader Type</td>
-         *         <td>Entry Points</td>
-         *     </tr>
-         *     <tr>
-         *         <td>Vertex</td>
-         *         <td>VertexMain, VertMain, VSMain, MainVS</td>
-         *     </tr>
-         *     <tr>
-         *         <td>Geometry</td>
-         *         <td>GeometryMain, GSMain, MainGS</td>
-         *     </tr>
-         *     <tr>
-         *         <td>Fragment</td>
-         *         <td>FragmentMain, FragMain, FSMain, MainFS, PixelMain, PixMain, PSMain, MainPS</td>
-         *     </tr>
-         *     <tr>
-         *         <td>Pre-Tesselation</td>
-         *         <td>PreTesselationMain, PreTessMain, HullMain, HSMain, MainHS</td>
-         *     </tr>
-         *     <tr>
-         *         <td>Post-Tesselation</td>
-         *         <td>PostTesselationMain, PostTessMain, DomainMain, DSMain, MainDS</td>
-         *     </tr>
-         * </table>
-         * </table>
+         * | Shader Type      | Entry Points
+         * | ---------------- | ---------------------------------------------------------------------------
+         * | Vertex           | VertexMain, VertMain, VSMain, MainVS
+         * | Geometry         | GeometryMain, GSMain, MainGS
+         * | Fragment         | FragmentMain, FragMain, FSMain, MainFS, PixelMain, PixMain, PSMain, MainPS
+         * | Pre-Tesselation  | PreTesselationMain, PreTessMain, HullMain, HSMain, MainHS
+         * | Post-Tesselation | PostTesselationMain, PostTessMain, DomainMain, DSMain, MainDS
          *
          * All shaders are assumed to be valid Shader Model 5 (D3D 11 and 11.1).
          *
@@ -128,6 +108,7 @@ namespace Ocular
         private:
 
             ID3D11Device* m_D3DDevice;
+            ID3D11DeviceContext* m_D3DDeviceContext;
         };
     }
     /**

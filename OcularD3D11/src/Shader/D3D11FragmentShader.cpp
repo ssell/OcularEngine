@@ -27,9 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11FragmentShader::D3D11FragmentShader(ID3D11Device* device)
+        D3D11FragmentShader::D3D11FragmentShader(ID3D11DeviceContext* context)
             : FragmentShader(),
-              m_D3DDevice(device),
+              m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
         {
@@ -65,11 +65,21 @@ namespace Ocular
         void D3D11FragmentShader::bind()
         {
             FragmentShader::bind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->PSSetShader(m_D3DShader, nullptr, 0);
+            }
         }
             
         void D3D11FragmentShader::unbind()
         {
             FragmentShader::unbind();
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->PSSetShader(nullptr, nullptr, 0);
+            }
         }
 
         void D3D11FragmentShader::setD3DShader(ID3D11PixelShader* shader)

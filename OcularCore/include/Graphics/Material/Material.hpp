@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
+#include "Resources/Resource.hpp"
+
 #include <string>
 #include <unordered_map>
 
@@ -42,7 +44,10 @@ namespace Ocular
         class PreTesselationShader;
         class PostTesselationShader;
 
-        class Material
+        /**
+         * \class Material
+         */
+        class Material : public Core::Resource
         {
         public:
 
@@ -102,6 +107,9 @@ namespace Ocular
             PostTesselationShader* getPostTesselationShader() const;
 
         protected:
+
+            void bindShaders();
+            void unbindShaders();
 
             VertexShader*          m_VertexShader;
             GeometryShader*        m_GeometryShader;

@@ -282,27 +282,27 @@ namespace Ocular
 
         VertexShader* D3D11GraphicsDriver::createVertexShader()
         {
-            return new D3D11VertexShader(m_D3DDevice);
+            return new D3D11VertexShader(m_D3DDeviceContext);
         }
 
         GeometryShader* D3D11GraphicsDriver::createGeometryShader()
         {
-            return new D3D11GeometryShader(m_D3DDevice);
+            return new D3D11GeometryShader(m_D3DDeviceContext);
         }
 
         FragmentShader* D3D11GraphicsDriver::createFragmentShader()
         {
-            return new D3D11FragmentShader(m_D3DDevice);
+            return new D3D11FragmentShader(m_D3DDeviceContext);
         }
 
         PreTesselationShader* D3D11GraphicsDriver::createPreTesselationShader()
         {
-            return new D3D11PreTesselationShader(m_D3DDevice);
+            return new D3D11PreTesselationShader(m_D3DDeviceContext);
         }
 
         PostTesselationShader* D3D11GraphicsDriver::createPostTesselationShader()
         {
-            return new D3D11PostTesselationShader(m_D3DDevice);
+            return new D3D11PostTesselationShader(m_D3DDeviceContext);
         }
 
         //----------------------------------------------------------------------------------

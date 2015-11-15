@@ -52,7 +52,8 @@ namespace Ocular
 
         D3D11UncompiledShaderResourceLoader::D3D11UncompiledShaderResourceLoader()
             : Core::AResourceLoader(".hlsl"),
-              m_D3DDevice(nullptr)
+              m_D3DDevice(nullptr),
+              m_D3DDeviceContext(nullptr)
         {
         
         }
@@ -124,10 +125,10 @@ namespace Ocular
                 if(driver)
                 {
                     m_D3DDevice = driver->getD3DDevice();
+                    m_D3DDeviceContext = driver->getD3DDeviceContext();
 
-                    if(m_D3DDevice == nullptr)
+                    if((m_D3DDevice == nullptr) || (m_D3DDeviceContext == nullptr))
                     {
-                        // Still null?
                         result = false;
                     }
                 }
@@ -192,7 +193,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDevice);
+                        D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
@@ -256,7 +257,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11GeometryShader* shader = new D3D11GeometryShader(m_D3DDevice);
+                        D3D11GeometryShader* shader = new D3D11GeometryShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
@@ -318,7 +319,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11FragmentShader* shader = new D3D11FragmentShader(m_D3DDevice);
+                        D3D11FragmentShader* shader = new D3D11FragmentShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
@@ -380,7 +381,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11PreTesselationShader* shader = new D3D11PreTesselationShader(m_D3DDevice);
+                        D3D11PreTesselationShader* shader = new D3D11PreTesselationShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
@@ -442,7 +443,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11PostTesselationShader* shader = new D3D11PostTesselationShader(m_D3DDevice);
+                        D3D11PostTesselationShader* shader = new D3D11PostTesselationShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);

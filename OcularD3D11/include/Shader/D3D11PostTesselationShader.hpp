@@ -42,7 +42,7 @@ namespace Ocular
         {
         public:
 
-            D3D11PostTesselationShader(ID3D11Device* device);
+            D3D11PostTesselationShader(ID3D11DeviceContext* context);
             ~D3D11PostTesselationShader();
 
             virtual void unload() override;
@@ -81,7 +81,7 @@ namespace Ocular
 
         protected:
             
-            ID3D11Device* m_D3DDevice;
+            ID3D11DeviceContext* m_D3DDeviceContext;
             ID3D11DomainShader* m_D3DShader;
             ID3DBlob* m_D3DBlob;
 

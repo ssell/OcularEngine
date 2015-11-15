@@ -73,14 +73,6 @@ int main(int argc, char** argv)
 
     if(openWindow())
     {
-        Ocular::Graphics::ShaderProgram* shader = OcularResources->getResource<Ocular::Graphics::ShaderProgram>("Shaders\\TestShader");
-
-        if(shader)
-        {
-            int success = 0;
-            success++;
-        }
-
         SceneObject* object = OcularScene->createObject("Test Object");
         object->addRoutine("InputLogger");
 
