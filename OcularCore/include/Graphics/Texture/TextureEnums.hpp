@@ -64,7 +64,8 @@ namespace Ocular
         {
             Texture2D = 0,
             RenderTexture2D,
-            DepthTexture2D
+            DepthTexture2D,
+            CubeMap
         };
 
         /**

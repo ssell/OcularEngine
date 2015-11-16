@@ -48,9 +48,12 @@ namespace Ocular
         protected:
 
             bool createD3DTexture2D();
+            bool createD3DShaderResource();
 
             ID3D11Device* m_D3DDevice;
             ID3D11Texture2D* m_D3DTexture;
+            ID3D11ShaderResourceView* m_D3DShaderResourceView;
+            DXGI_FORMAT m_D3DFormat;
 
         private:
         };

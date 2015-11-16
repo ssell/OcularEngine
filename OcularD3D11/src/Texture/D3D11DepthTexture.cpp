@@ -29,7 +29,12 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11DepthTexture::D3D11DepthTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
-            : DepthTexture(descriptor), m_D3DDevice(device)
+            : DepthTexture(descriptor), 
+              m_D3DDevice(device), 
+              m_D3DTexture(nullptr), 
+              m_D3DDepthStencilView(nullptr), 
+              m_D3DShaderResourceView(nullptr),
+              m_D3DFormat(DXGI_FORMAT_UNKNOWN)
         {
 
         }
@@ -67,6 +72,12 @@ namespace Ocular
             {
                 m_D3DDepthStencilView->Release();
                 m_D3DDepthStencilView = nullptr;
+            }
+
+            if(m_D3DShaderResourceView)
+            {
+                m_D3DShaderResourceView->Release();
+                m_D3DShaderResourceView = nullptr;
             }
         }
 
@@ -117,7 +128,10 @@ namespace Ocular
                 {
                     if(createD3DDepthStencil())
                     {
-                        result = true;
+                        if(createD3DShaderResource())
+                        {
+                            result = true;
+                        }
                     }
                     else
                     {
@@ -144,6 +158,7 @@ namespace Ocular
 
             if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
             {
+                m_D3DFormat = descriptor.Format;
                 const HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, nullptr, &m_D3DTexture);
 
                 if(hResult == S_OK)
@@ -177,6 +192,27 @@ namespace Ocular
             if(hResult != S_OK)
             {
                 OcularLogger->error("Failed to create D3D11DepthStencilView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DDepthStencil"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        bool D3D11DepthTexture::createD3DShaderResource()
+        {
+            bool result = true;
+
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
+            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+            srvDescr.Format = m_D3DFormat;
+            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            srvDescr.Texture2D.MipLevels = m_Descriptor.mipmaps;
+
+            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
+
+            if(hResult != S_OK)
+            {
+                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DShaderResource"));
                 result = false;
             }
 

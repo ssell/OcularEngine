@@ -83,11 +83,13 @@ namespace Ocular
             bool createD3DResources();
             bool createD3DTexture2D();
             bool createD3DDepthStencil();
+            bool createD3DShaderResource();
 
-            ID3D11Device*           m_D3DDevice;
-            ID3D11Texture2D*        m_D3DTexture;
-            ID3D11DepthStencilView* m_D3DDepthStencilView;
-            IDXGISwapChain*         m_D3DSwapChain;          ///< Optional for when creating as a backbuffer
+            ID3D11Device*             m_D3DDevice;
+            ID3D11Texture2D*          m_D3DTexture;
+            ID3D11DepthStencilView*   m_D3DDepthStencilView;
+            ID3D11ShaderResourceView* m_D3DShaderResourceView;
+            DXGI_FORMAT               m_D3DFormat;
 
         private:
         };

@@ -29,12 +29,14 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
-            : RenderTexture(descriptor)
+            : RenderTexture(descriptor),
+              m_D3DDevice(device), 
+              m_D3DTexture(nullptr), 
+              m_D3DRenderTargetView(nullptr), 
+              m_D3DShaderResourceView(nullptr),
+              m_D3DFormat(DXGI_FORMAT_UNKNOWN)
         {
-            m_D3DDevice = device;
-            m_D3DTexture = nullptr;
-            m_D3DRenderTargetView = nullptr;
-            m_D3DSwapChain = nullptr;
+
         }
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain)
@@ -79,6 +81,12 @@ namespace Ocular
             {
                 m_D3DRenderTargetView->Release();
                 m_D3DRenderTargetView = nullptr;
+            }
+
+            if(m_D3DShaderResourceView)
+            {
+                m_D3DShaderResourceView->Release();
+                m_D3DShaderResourceView = nullptr;
             }
         }
 
@@ -132,7 +140,14 @@ namespace Ocular
                 {
                     if(createD3DRenderTarget())
                     {
-                        result = true;
+                        if(createD3DShaderResource())
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to create D3D11 Shader Resource", OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DResources"));
+                        }
                     }
                     else
                     {
@@ -169,6 +184,8 @@ namespace Ocular
                 {
                     m_D3DTexture->GetDesc(&descriptor);
                     D3D11GraphicsDriver::convertTextureDescriptor(descriptor, m_Descriptor);
+                    m_D3DFormat = descriptor.Format;
+
                     result = true;
                 }
                 else
@@ -186,6 +203,7 @@ namespace Ocular
                 initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
                 initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
 
+                m_D3DFormat = descriptor.Format;
                 hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
 
                 if(hResult == S_OK)
@@ -213,6 +231,27 @@ namespace Ocular
             if(hResult != S_OK)
             {
                 OcularLogger->error("Failed to create D3D11RenderTargetView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DRenderTarget"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        bool D3D11RenderTexture::createD3DShaderResource()
+        {
+            bool result = true;
+
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
+            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+            srvDescr.Format = m_D3DFormat;
+            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            srvDescr.Texture2D.MipLevels = m_Descriptor.mipmaps;
+
+            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
+
+            if(hResult != S_OK)
+            {
+                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DShaderResource"));
                 result = false;
             }
 
