@@ -42,7 +42,8 @@ namespace Ocular
               m_PreTesselationShader(nullptr),
               m_PostTesselationShader(nullptr)
         {
-        
+            m_Textures.reserve(OcularGraphics->getMaxBoundTextures());
+            std::fill(m_Textures.begin(), m_Textures.end(), std::make_pair("", nullptr));
         }
 
         Material::~Material()
@@ -64,38 +65,44 @@ namespace Ocular
             unbindShaders();
         }
 
+        void Material::unload()
+        {
+            // Does nothing as a material doesn't own anything.
+            // All the shaders, textures, etc. are shared.
+        }
+
         //--------------------------------------------
         // Texture Methods
         //--------------------------------------------
 
-        void Material::setTexture(std::string const& identifier, std::string const& name)
+        bool Material::setTexture(uint32_t const index, std::string const& name, Texture* texture)
         {
-            Texture* texture = OcularResources->getResource<Texture>(name);
+            bool result = false;
 
-            if(texture)
+            if(index < m_Textures.size())
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_TextureMap[identifier] = texture;
-            }
-        }
-
-        void Material::setTexture(std::string const& identifier, Texture* texture)
-        {
-            // Allow to set for null here to 'disable' the texture.
-            m_TextureMap[identifier] = texture;
-        }
-
-        Texture* Material::getTexture(std::string const& identifier) const
-        {
-            Texture* result = nullptr;
-            const auto findTexture = m_TextureMap.find(identifier);
-
-            if(findTexture != m_TextureMap.end())
-            {
-                result = findTexture->second;
+                m_Textures[index].first = name;
+                m_Textures[index].second = texture;
+                result = true;
             }
 
             return result;
+        }
+
+        Texture* Material::getTexture(uint32_t const index) const
+        {
+            return m_Textures[index].second;
+        }
+
+        void Material::removeTexture(uint32_t const index)
+        {
+            if(index < m_Textures.size())
+            {
+                if(m_Textures[index].second)
+                {
+                    m_Textures[index].second = nullptr;
+                }
+            }
         }
 
         //--------------------------------------------

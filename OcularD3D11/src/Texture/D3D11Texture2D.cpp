@@ -29,11 +29,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11Texture2D::D3D11Texture2D(TextureDescriptor const& descriptor, ID3D11Device* device)
-            : Texture2D(descriptor),
-              m_D3DDevice(nullptr),
-              m_D3DTexture(nullptr),
-              m_D3DShaderResourceView(nullptr),
-              m_D3DFormat(DXGI_FORMAT_UNKNOWN)
+            : Texture2D(descriptor), D3D11Texture(device)
         {
 
         }
@@ -73,9 +69,9 @@ namespace Ocular
                 // We are (re)creating the resources and not just applying changes...
                 // Upon creation we can provide source texture data
 
-                if(createD3DTexture2D())
+                if(createD3DTexture2D(m_Descriptor))
                 {
-                    if(!createD3DShaderResource())
+                    if(!createD3DShaderResource(m_Descriptor))
                     {
                         OcularLogger->error("Failed to create D3D11 Shader Resource", OCULAR_INTERNAL_LOG("D3D11Texture2D", "apply"));
                         unload();
@@ -112,20 +108,20 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool D3D11Texture2D::createD3DTexture2D()
+        bool D3D11Texture2D::createD3DTexture2D(TextureDescriptor const& descriptor)
         {
             bool result = false;
 
-            D3D11_TEXTURE2D_DESC descriptor;
+            D3D11_TEXTURE2D_DESC texDescr;
             
-            if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
+            if(D3D11GraphicsDriver::convertTextureDescriptor(descriptor, texDescr))
             {
                 D3D11_SUBRESOURCE_DATA initData;
                 initData.pSysMem          = &m_Pixels[0];
-                initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
-                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
+                initData.SysMemPitch      = (descriptor.width * 4 * sizeof(float));
+                initData.SysMemSlicePitch = ((descriptor.width * descriptor.height) * 4 * sizeof(float));
 
-                HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
+                HRESULT hResult = m_D3DDevice->CreateTexture2D(&texDescr, &initData, &m_D3DTexture);
 
                 if(hResult == S_OK)
                 {
@@ -139,27 +135,6 @@ namespace Ocular
             else
             {
                 OcularLogger->error("Invalid TextureDescriptor", OCULAR_INTERNAL_LOG("D3D11Texture2D", "createD3DTexture2D"));
-            }
-
-            return result;
-        }
-
-        bool D3D11Texture2D::createD3DShaderResource()
-        {
-            bool result = true;
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
-            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-            srvDescr.Format = m_D3DFormat;
-            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDescr.Texture2D.MipLevels = m_Descriptor.mipmaps;
-
-            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
-
-            if(hResult != S_OK)
-            {
-                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11Texture2D", "createD3DShaderResource"));
-                result = false;
             }
 
             return result;

@@ -30,11 +30,8 @@ namespace Ocular
 
         D3D11DepthTexture::D3D11DepthTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
             : DepthTexture(descriptor), 
-              m_D3DDevice(device), 
-              m_D3DTexture(nullptr), 
-              m_D3DDepthStencilView(nullptr), 
-              m_D3DShaderResourceView(nullptr),
-              m_D3DFormat(DXGI_FORMAT_UNKNOWN)
+              D3D11Texture(device),
+              m_D3DDepthStencilView(nullptr)
         {
 
         }
@@ -47,11 +44,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        ID3D11Texture2D* D3D11DepthTexture::getD3DTexture()
-        {
-            return m_D3DTexture;
-        }
 
         ID3D11DepthStencilView* D3D11DepthTexture::getD3DDepthStencilView()
         {
@@ -124,11 +116,11 @@ namespace Ocular
 
             if(m_D3DDevice)
             {
-                if(createD3DTexture2D())
+                if(createD3DTexture2D(m_Descriptor))
                 {
                     if(createD3DDepthStencil())
                     {
-                        if(createD3DShaderResource())
+                        if(createD3DShaderResource(m_Descriptor))
                         {
                             result = true;
                         }
@@ -151,15 +143,15 @@ namespace Ocular
             return result;
         }
 
-        bool D3D11DepthTexture::createD3DTexture2D()
+        bool D3D11DepthTexture::createD3DTexture2D(TextureDescriptor const& descriptor)
         {
             bool result = false;
-            D3D11_TEXTURE2D_DESC descriptor;
+            D3D11_TEXTURE2D_DESC texDescr;
 
-            if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
+            if(D3D11GraphicsDriver::convertTextureDescriptor(descriptor, texDescr))
             {
-                m_D3DFormat = descriptor.Format;
-                const HRESULT hResult = m_D3DDevice->CreateTexture2D(&descriptor, nullptr, &m_D3DTexture);
+                m_D3DFormat = texDescr.Format;
+                const HRESULT hResult = m_D3DDevice->CreateTexture2D(&texDescr, nullptr, &m_D3DTexture);
 
                 if(hResult == S_OK)
                 {
@@ -184,7 +176,7 @@ namespace Ocular
 
             D3D11_DEPTH_STENCIL_VIEW_DESC dsvDescr;
             ZeroMemory(&dsvDescr, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
-            dsvDescr.Format        = DXGI_FORMAT_UNKNOWN;
+            dsvDescr.Format = DXGI_FORMAT_UNKNOWN;
             dsvDescr.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
             HRESULT hResult = m_D3DDevice->CreateDepthStencilView(m_D3DTexture, &dsvDescr, &m_D3DDepthStencilView);
@@ -192,27 +184,6 @@ namespace Ocular
             if(hResult != S_OK)
             {
                 OcularLogger->error("Failed to create D3D11DepthStencilView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DDepthStencil"));
-                result = false;
-            }
-
-            return result;
-        }
-
-        bool D3D11DepthTexture::createD3DShaderResource()
-        {
-            bool result = true;
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
-            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-            srvDescr.Format = m_D3DFormat;
-            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDescr.Texture2D.MipLevels = m_Descriptor.mipmaps;
-
-            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
-
-            if(hResult != S_OK)
-            {
-                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DShaderResource"));
                 result = false;
             }
 

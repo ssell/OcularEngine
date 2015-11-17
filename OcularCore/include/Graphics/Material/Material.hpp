@@ -54,33 +54,46 @@ namespace Ocular
             Material();
             ~Material();
 
-            void bind();
-            void unbind();
+            virtual void bind();
+            virtual void unbind();
+
+            virtual void unload() override;
 
             //------------------------------------------------------------
             // Texture Methods
 
             /**
-             * Expand upon this description once there is an implementation...
+             * Assigns a texture to a specific input register for use by the shaders
+             * that are part of this material. All textures are automatically bound
+             * to all relevant (non-NULL) shader stages.
              *
-             * \param[in] identifier 
-             * \param[in] name
-             */
-            void setTexture(std::string const& identifier, std::string const& name);
-
-            /**
-             * Expand upon this description once there is an implementation...
+             * Depending on the underlying graphics API, and shader implementation language,
+             * some may make use of the index or the name or both. 
              *
-             * \param[in] identifier 
-             * \param[in] texture
+             * Note that some texture assignment indices and names are reserved by the engine.
+             * See ------- for a list of all reserved locations.
+             *
+             * \param[in] index   The index to bind the texture to. This can be on the range of
+             *                    0 to (GraphicsDriver::getMaxBoundTextures - 1). Note that indices
+             *                    do not have to be sequential. For example, you may have use 0, 1, 3, 79.
+             * \param[in] name    The name to bind the texture to.
+             * \param[in] texture The texture to bind.
+             *
+             * \return TRUE if texture was successfully set. May fail due to invalid index value.
              */
-            void setTexture(std::string const& identifier, Texture* texture);
+            virtual bool setTexture(uint32_t index, std::string const& name, Texture* texture);
 
             /**
              * Retrieves the texture stored at the specified identifier.
-             * \param[in] identifier
+             * \param[in] index Index of the texture to retrieve.
              */
-            Texture* getTexture(std::string const& identifier) const;
+            Texture* getTexture(uint32_t index) const;
+
+            /**
+             * Removes the texture at the specified index from this material.
+             * \param[in] index
+             */
+            virtual void removeTexture(uint32_t index);
 
             //------------------------------------------------------------
             // Shader Methods
@@ -117,7 +130,7 @@ namespace Ocular
             PreTesselationShader*  m_PreTesselationShader;
             PostTesselationShader* m_PostTesselationShader;
 
-            std::unordered_map<std::string, Texture*> m_TextureMap;
+            std::vector<std::pair<std::string, Texture*>> m_Textures;
 
         private:
         };

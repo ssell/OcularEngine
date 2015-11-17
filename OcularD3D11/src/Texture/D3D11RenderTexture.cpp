@@ -30,22 +30,19 @@ namespace Ocular
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
             : RenderTexture(descriptor),
-              m_D3DDevice(device), 
-              m_D3DTexture(nullptr), 
-              m_D3DRenderTargetView(nullptr), 
-              m_D3DShaderResourceView(nullptr),
-              m_D3DFormat(DXGI_FORMAT_UNKNOWN)
+              D3D11Texture(device),
+              m_D3DRenderTargetView(nullptr)
         {
 
         }
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain)
-            : RenderTexture(descriptor)
+            : RenderTexture(descriptor),
+              D3D11Texture(device),
+              m_D3DRenderTargetView(nullptr),
+              m_D3DSwapChain(swapchain)
         {
-            m_D3DDevice = device;
-            m_D3DTexture = nullptr;
-            m_D3DRenderTargetView = nullptr;
-            m_D3DSwapChain = swapchain;
+
         }
 
         D3D11RenderTexture::~D3D11RenderTexture()
@@ -56,11 +53,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        ID3D11Texture2D* D3D11RenderTexture::getD3DTexture()
-        {
-            return m_D3DTexture;
-        }
 
         ID3D11RenderTargetView* D3D11RenderTexture::getD3DRenderTargetView()
         {
@@ -136,11 +128,11 @@ namespace Ocular
             
             if(m_D3DDevice)
             {
-                if(createD3DTexture2D())
+                if(createD3DTexture2D(m_Descriptor))
                 {
                     if(createD3DRenderTarget())
                     {
-                        if(createD3DShaderResource())
+                        if(createD3DShaderResource(m_Descriptor))
                         {
                             result = true;
                         }
@@ -167,11 +159,11 @@ namespace Ocular
             return result;
         }
 
-        bool D3D11RenderTexture::createD3DTexture2D()
+        bool D3D11RenderTexture::createD3DTexture2D(TextureDescriptor const& descriptor)
         {
             bool result = false;
             HRESULT hResult = S_OK;
-            D3D11_TEXTURE2D_DESC descriptor;
+            D3D11_TEXTURE2D_DESC texDescr;
 
             if(m_D3DSwapChain)
             {
@@ -182,9 +174,9 @@ namespace Ocular
                 
                 if(hResult == S_OK)
                 {
-                    m_D3DTexture->GetDesc(&descriptor);
-                    D3D11GraphicsDriver::convertTextureDescriptor(descriptor, m_Descriptor);
-                    m_D3DFormat = descriptor.Format;
+                    m_D3DTexture->GetDesc(&texDescr);
+                    D3D11GraphicsDriver::convertTextureDescriptor(texDescr, m_Descriptor);
+                    m_D3DFormat = texDescr.Format;
 
                     result = true;
                 }
@@ -193,7 +185,7 @@ namespace Ocular
                     OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
-            else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, descriptor))
+            else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, texDescr))
             {
                 //--------------------------------------------------------
                 // Create the backbuffer Texture2D from scratch using pixel data
@@ -203,8 +195,8 @@ namespace Ocular
                 initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
                 initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
 
-                m_D3DFormat = descriptor.Format;
-                hResult = m_D3DDevice->CreateTexture2D(&descriptor, &initData, &m_D3DTexture);
+                m_D3DFormat = texDescr.Format;
+                hResult = m_D3DDevice->CreateTexture2D(&texDescr, &initData, &m_D3DTexture);
 
                 if(hResult == S_OK)
                 {
@@ -231,27 +223,6 @@ namespace Ocular
             if(hResult != S_OK)
             {
                 OcularLogger->error("Failed to create D3D11RenderTargetView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DRenderTarget"));
-                result = false;
-            }
-
-            return result;
-        }
-
-        bool D3D11RenderTexture::createD3DShaderResource()
-        {
-            bool result = true;
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
-            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-            srvDescr.Format = m_D3DFormat;
-            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDescr.Texture2D.MipLevels = m_Descriptor.mipmaps;
-
-            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
-
-            if(hResult != S_OK)
-            {
-                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DShaderResource"));
                 result = false;
             }
 

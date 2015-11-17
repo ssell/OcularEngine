@@ -27,6 +27,8 @@
 #include "Graphics/Shader/PreTesselationShader.hpp"
 #include "Graphics/Shader/PostTesselationShader.hpp"
 
+#include "Graphics/Material/Material.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -41,7 +43,6 @@ namespace Ocular
      */
     namespace Graphics
     {
-        class Material;
         class Mesh;
 
         /**
@@ -91,6 +92,8 @@ namespace Ocular
             // Creation Methods
             //------------------------------------------------------------------------------
 
+            virtual Material* createMaterial();
+
             //------------------------------------------------------------------------------
             // Textures
 
@@ -134,6 +137,13 @@ namespace Ocular
              *         NULL if texture creation failed.
              */
             virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor);
+
+            /**
+             * Returns the maximum number of textures that can be bound to a single shader.
+             * This is primarily for use when assigning textures to materials, but can be
+             * used in other locations as well.
+             */
+            virtual uint32_t getMaxBoundTextures() const;
 
             //------------------------------------------------------------------------------
             // Shaders

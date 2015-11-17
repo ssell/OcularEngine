@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp" />
+    <ClInclude Include="..\..\include\Material\D3D11Material.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp" />
@@ -88,10 +89,12 @@
     <ClInclude Include="..\..\include\stdafx.hpp" />
     <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp" />
     <ClInclude Include="..\..\include\Texture\D3D11RenderTexture.hpp" />
+    <ClInclude Include="..\..\include\Texture\D3D11Texture.hpp" />
     <ClInclude Include="..\..\include\Texture\D3D11Texture2D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\D3D11GraphicsDriver.cpp" />
+    <ClCompile Include="..\..\src\Material\D3D11Material.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11GeometryShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp" />
@@ -101,6 +104,7 @@
     <ClCompile Include="..\..\src\stdafx.cpp" />
     <ClCompile Include="..\..\src\Texture\D3D11DepthTexture.cpp" />
     <ClCompile Include="..\..\src\Texture\D3D11RenderTexture.cpp" />
+    <ClCompile Include="..\..\src\Texture\D3D11Texture.cpp" />
     <ClCompile Include="..\..\src\Texture\D3D11Texture2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

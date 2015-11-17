@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_TEXTURE_2D__H__
-#define __OCULAR_D3D11_TEXTURE_2D__H__
+#ifndef __OCULAR_D3D11_MATERIAL__H__
+#define __OCULAR_D3D11_MATERIAL__H__
 
-#include "Graphics/Texture/Texture2D.hpp"
-#include "D3D11Texture.hpp"
+#include "Graphics/Material/Material.hpp"
+#include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,20 +35,28 @@ namespace Ocular
      */
     namespace Graphics
     {
-        class D3D11Texture2D : public Texture2D, public D3D11Texture
+        class D3D11Material : public Material
         {
         public:
 
-            D3D11Texture2D(TextureDescriptor const& descriptor, ID3D11Device* device);
-            ~D3D11Texture2D();
+            D3D11Material(ID3D11DeviceContext* context);
+            virtual ~D3D11Material();
 
-            virtual void unload() override;
-            virtual void apply() override;
-            virtual void refresh() override;
+            virtual void bind() override;
+            virtual void unbind() override;
+
+            virtual bool setTexture(uint32_t index, std::string const& name, Texture* texture) override;
+            virtual void removeTexture(uint32_t index) override;
 
         protected:
 
-            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor) override;
+            void bindTextures();
+            void unbindTextures();
+
+            ID3D11DeviceContext* m_D3DDeviceContext;
+
+            ID3D11ShaderResourceView** m_ShaderResourceViews;     // Array of ShaderResourceView objects to pass to the shaders.
+            ID3D11ShaderResourceView** m_NullShaderResourceViews; // Used when unbinding textures
 
         private:
         };

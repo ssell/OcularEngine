@@ -29,6 +29,8 @@
 #include "Shader/D3D11PreTesselationShader.hpp"
 #include "Shader/D3D11PostTesselationShader.hpp"
 
+#include "Material/D3D11Material.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -198,6 +200,11 @@ namespace Ocular
             }
         }
 
+        Material* D3D11GraphicsDriver::createMaterial()
+        {
+            return new D3D11Material(m_D3DDeviceContext);
+        }
+
         //----------------------------------------------------------------------------------
         // Textures
         //----------------------------------------------------------------------------------
@@ -274,6 +281,11 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        uint32_t D3D11GraphicsDriver::getMaxBoundTextures() const
+        {
+            return D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT;
         }
 
         //----------------------------------------------------------------------------------

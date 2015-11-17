@@ -66,6 +66,11 @@ namespace Ocular
             return false;
         }
 
+        Material* GraphicsDriver::createMaterial()
+        {
+            return new Material();
+        }
+
         //----------------------------------------------------------------------------------
         // Textures
         //----------------------------------------------------------------------------------
@@ -109,6 +114,11 @@ namespace Ocular
         DepthTexture* GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor)
         {
             return new DepthTexture(descriptor);
+        }
+
+        uint32_t GraphicsDriver::getMaxBoundTextures() const
+        {
+            return 0;
         }
 
         //----------------------------------------------------------------------------------

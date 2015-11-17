@@ -19,6 +19,7 @@
 #define __OCULAR_D3D11_RENDER_TEXTURE__H__
 
 #include "Graphics/Texture/RenderTexture.hpp"
+#include "D3D11Texture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,7 +38,7 @@ namespace Ocular
         /**
          * \class D3D11RenderTexture
          */
-        class D3D11RenderTexture : public RenderTexture
+        class D3D11RenderTexture : public RenderTexture, public D3D11Texture
         {
         public:
 
@@ -56,11 +57,6 @@ namespace Ocular
              */
             D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain);
             ~D3D11RenderTexture();
-
-            /**
-             * \return The ID3D11Texture2D associated with this RenderTexture
-             */
-            ID3D11Texture2D* getD3DTexture();
 
             /**
              * \return The ID3D11RenderTargetView associated with this RenderTexture
@@ -90,16 +86,12 @@ namespace Ocular
         protected:
 
             bool createD3DResources();
-            bool createD3DTexture2D();
             bool createD3DRenderTarget();
-            bool createD3DShaderResource();
 
-            ID3D11Device*             m_D3DDevice;
-            ID3D11Texture2D*          m_D3DTexture;
-            ID3D11RenderTargetView*   m_D3DRenderTargetView;
-            ID3D11ShaderResourceView* m_D3DShaderResourceView;
-            IDXGISwapChain*           m_D3DSwapChain;          ///< Optional for when creating as a backbuffer
-            DXGI_FORMAT               m_D3DFormat;
+            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor) override;
+
+            ID3D11RenderTargetView* m_D3DRenderTargetView;
+            IDXGISwapChain* m_D3DSwapChain;                  ///< Optional for when creating as a backbuffer
 
         private:
         };

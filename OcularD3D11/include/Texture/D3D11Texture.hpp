@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_TEXTURE_2D__H__
-#define __OCULAR_D3D11_TEXTURE_2D__H__
+#ifndef __OCULAR_D3D11_TEXTURE__H__
+#define __OCULAR_D3D11_TEXTURE__H__
 
-#include "Graphics/Texture/Texture2D.hpp"
-#include "D3D11Texture.hpp"
+#include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,20 +34,30 @@ namespace Ocular
      */
     namespace Graphics
     {
-        class D3D11Texture2D : public Texture2D, public D3D11Texture
+        /**
+         * \class D3D11Texture
+         *
+         * Collection of common objects between all D3D11 texture classes.
+         */
+        class D3D11Texture
         {
         public:
 
-            D3D11Texture2D(TextureDescriptor const& descriptor, ID3D11Device* device);
-            ~D3D11Texture2D();
+            D3D11Texture(ID3D11Device* device);
+            ~D3D11Texture();
 
-            virtual void unload() override;
-            virtual void apply() override;
-            virtual void refresh() override;
+            ID3D11Texture2D* getD3DTexture2D();
+            ID3D11ShaderResourceView* getD3DShaderResource();
 
         protected:
 
-            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor) override;
+            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor);
+            virtual bool createD3DShaderResource(TextureDescriptor const& descriptor);
+
+            ID3D11Device* m_D3DDevice;
+            ID3D11Texture2D* m_D3DTexture;
+            ID3D11ShaderResourceView* m_D3DShaderResourceView;
+            DXGI_FORMAT m_D3DFormat;
 
         private:
         };

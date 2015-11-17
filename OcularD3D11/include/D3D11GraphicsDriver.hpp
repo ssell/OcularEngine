@@ -59,11 +59,14 @@ namespace Ocular
             virtual void clearBuffers() override;
             virtual void swapBuffers() override;
 
+            virtual Material* createMaterial() override;
+
             virtual Texture* createTexture(TextureDescriptor const& descriptor) override;
             virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) override;
             virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) override;
             virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) override;
-            
+            virtual uint32_t getMaxBoundTextures() const override;
+
             virtual VertexShader* createVertexShader() override;
             virtual GeometryShader* createGeometryShader() override;
             virtual FragmentShader* createFragmentShader() override;

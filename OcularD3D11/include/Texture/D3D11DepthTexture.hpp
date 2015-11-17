@@ -19,6 +19,7 @@
 #define __OCULAR_D3D11_DEPTH_TEXTURE__H__
 
 #include "Graphics/Texture/DepthTexture.hpp"
+#include "D3D11Texture.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,7 +38,7 @@ namespace Ocular
         /**
          * \class D3D11DepthTexture
          */
-        class D3D11DepthTexture : public DepthTexture
+        class D3D11DepthTexture : public DepthTexture, public D3D11Texture
         {
         public:
 
@@ -47,11 +48,6 @@ namespace Ocular
              */
             D3D11DepthTexture(TextureDescriptor const& descriptor, ID3D11Device* device);
             ~D3D11DepthTexture();
-
-            /**
-             * \return The ID3D11Texture2D associated with this DepthTexture
-             */
-            ID3D11Texture2D* getD3DTexture();
 
             /**
              * \return The ID3D11DepthStencilView associated with this DepthTexture
@@ -81,15 +77,11 @@ namespace Ocular
         protected:
 
             bool createD3DResources();
-            bool createD3DTexture2D();
             bool createD3DDepthStencil();
-            bool createD3DShaderResource();
 
-            ID3D11Device*             m_D3DDevice;
-            ID3D11Texture2D*          m_D3DTexture;
-            ID3D11DepthStencilView*   m_D3DDepthStencilView;
-            ID3D11ShaderResourceView* m_D3DShaderResourceView;
-            DXGI_FORMAT               m_D3DFormat;
+            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor) override;
+
+            ID3D11DepthStencilView*  m_D3DDepthStencilView;
 
         private:
         };
