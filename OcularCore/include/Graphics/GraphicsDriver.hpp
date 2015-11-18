@@ -29,6 +29,8 @@
 
 #include "Graphics/Material/Material.hpp"
 
+#include "Graphics/Mesh/Mesh.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -43,8 +45,6 @@ namespace Ocular
      */
     namespace Graphics
     {
-        class Mesh;
-
         /**
          * \class GraphicsDriver
          */
@@ -92,7 +92,14 @@ namespace Ocular
             // Creation Methods
             //------------------------------------------------------------------------------
 
-            virtual Material* createMaterial();
+            /**
+             * Creates a new API-specific implementation of the Material class.
+             * 
+             * \return Returns the new instantiated material. The caller must assume
+             *         ownership of the texture and handle any cleanup. May return
+             *         NULL if texture creation failed.
+             */
+            virtual Material* createMaterial() const;
 
             //------------------------------------------------------------------------------
             // Textures
@@ -105,7 +112,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual Texture* createTexture(TextureDescriptor const& descriptor);
+            virtual Texture* createTexture(TextureDescriptor const& descriptor) const;
             
             /**
              * Creates a new API-specific implementation of the Texture2D class.
@@ -115,7 +122,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor);
+            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) const;
             
             /**
              * Creates a new API-specific implementation of the RenderTexture class.
@@ -126,7 +133,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return
              *         NULL if texture creation failed.
              */
-            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor);
+            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) const;
 
             /**
              * Creates a new API-specific implementation of the DepthTexture class.
@@ -136,7 +143,7 @@ namespace Ocular
              *         ownership of the texture and handle any cleanup. May return 
              *         NULL if texture creation failed.
              */
-            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor);
+            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) const;
 
             /**
              * Returns the maximum number of textures that can be bound to a single shader.
@@ -155,7 +162,7 @@ namespace Ocular
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual VertexShader* createVertexShader();
+            virtual VertexShader* createVertexShader() const;
             
             /**
              * Creates a new API-specific implementation of the GeometryShader class.
@@ -164,7 +171,7 @@ namespace Ocular
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual GeometryShader* createGeometryShader();
+            virtual GeometryShader* createGeometryShader() const;
             
             /**
              * Creates a new API-specific implementation of the FragmentShader class.
@@ -173,7 +180,7 @@ namespace Ocular
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual FragmentShader* createFragmentShader();
+            virtual FragmentShader* createFragmentShader() const;
             
             /**
              * Creates a new API-specific implementation of the PreTesselationShader class.
@@ -182,7 +189,7 @@ namespace Ocular
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual PreTesselationShader* createPreTesselationShader();
+            virtual PreTesselationShader* createPreTesselationShader() const;
             
             /**
              * Creates a new API-specific implementation of the PostTesselationShader class.
@@ -191,7 +198,28 @@ namespace Ocular
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual PostTesselationShader* createPostTesselationShader();
+            virtual PostTesselationShader* createPostTesselationShader() const;
+
+            //------------------------------------------------------------------------------
+            // Meshes
+
+            /**
+             * Creates a new API-specific implementation of the IndexBuffer class.
+             *
+             * \return Returns the new instantiated buffer. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual IndexBuffer* createIndexBuffer() const;
+
+            /**
+             * Creates a new API-specific implementation of the VertexBuffer class.
+             *
+             * \return Returns the new instantiated buffer. The caller must assume
+             *         ownership of the shader and handle any cleanup. May return 
+             *         NULL if shader creation failed.
+             */
+            virtual VertexBuffer* createVertexBuffer() const;
 
         protected:
 

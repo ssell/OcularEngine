@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_MATERIAL__H__
-#define __OCULAR_D3D11_MATERIAL__H__
+#ifndef __OCULAR_D3D11_VERTEX_BUFFER__H__
+#define __OCULAR_D3D11_VERTEX_BUFFER__H__
 
-#include "Graphics/Material/Material.hpp"
+#include "Graphics/Mesh/VertexBuffer.hpp"
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -36,30 +36,26 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class D3D11Material
+         * \class D3D11VertexBuffer
          */
-        class D3D11Material : public Material
+        class D3D11VertexBuffer : public VertexBuffer
         {
         public:
 
-            D3D11Material(ID3D11DeviceContext* context);
-            virtual ~D3D11Material();
+            D3D11VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* context);
+            virtual ~D3D11VertexBuffer();
 
+            virtual bool build() override;
             virtual void bind() override;
             virtual void unbind() override;
 
-            virtual bool setTexture(uint32_t index, std::string const& name, Texture* texture) override;
-            virtual void removeTexture(uint32_t index) override;
+            ID3D11Buffer* getD3DVertexBuffer();
 
         protected:
-
-            void bindTextures();
-            void unbindTextures();
-
+            
+            ID3D11Device* m_D3DDevice;
             ID3D11DeviceContext* m_D3DDeviceContext;
-
-            ID3D11ShaderResourceView** m_ShaderResourceViews;     // Array of ShaderResourceView objects to pass to the shaders.
-            ID3D11ShaderResourceView** m_NullShaderResourceViews; // Used when unbinding textures
+            ID3D11Buffer* m_D3DVertexBuffer;
 
         private:
         };

@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Material">
       <UniqueIdentifier>{94f68e78-ea27-42e3-9532-75101793a08d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Mesh">
+      <UniqueIdentifier>{85168d85-b2f9-476d-ae0f-4d069469a58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mesh">
+      <UniqueIdentifier>{a6c4cee7-663f-4082-928b-7c6c23cb37e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.hpp">
@@ -72,6 +78,12 @@
     <ClInclude Include="..\..\include\Texture\D3D11Texture.hpp">
       <Filter>Header Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Mesh\D3D11VertexBuffer.hpp">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Mesh\D3D11IndexBuffer.hpp">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -112,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Texture\D3D11Texture.cpp">
       <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Mesh\D3D11VertexBuffer.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Mesh\D3D11IndexBuffer.cpp">
+      <Filter>Source Files\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

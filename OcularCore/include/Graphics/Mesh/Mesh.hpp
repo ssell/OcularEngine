@@ -18,6 +18,10 @@
 #ifndef __H__OCULAR_GRAPHICS_MESH__H__
 #define __H__OCULAR_GRAPHICS_MESH__H__
 
+#include "Resources/Resource.hpp"
+#include "IndexBuffer.hpp"
+#include "VertexBuffer.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -35,14 +39,28 @@ namespace Ocular
         /**
          * \class Mesh 
          */
-        class Mesh
+        class Mesh : public Core::Resource
         {
         public:
 
             Mesh();
             ~Mesh();
 
+            virtual void bind();
+            virtual void unbind();
+
+            virtual void unload() override;
+
+            void setIndexBuffer(IndexBuffer* buffer);
+            IndexBuffer const* getIndexBuffer() const;
+
+            void setVertexBuffer(VertexBuffer* buffer);
+            VertexBuffer const* getVertexBuffer() const;
+
         protected:
+
+            IndexBuffer* m_IndexBuffer;
+            VertexBuffer* m_VertexBuffer;
 
         private:
         };

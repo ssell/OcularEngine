@@ -59,19 +59,22 @@ namespace Ocular
             virtual void clearBuffers() override;
             virtual void swapBuffers() override;
 
-            virtual Material* createMaterial() override;
+            virtual Material* createMaterial() const override;
 
-            virtual Texture* createTexture(TextureDescriptor const& descriptor) override;
-            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) override;
-            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) override;
-            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) override;
+            virtual Texture* createTexture(TextureDescriptor const& descriptor) const override;
+            virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) const override;
+            virtual RenderTexture* createRenderTexture(TextureDescriptor const& descriptor) const override;
+            virtual DepthTexture* createDepthTexture(TextureDescriptor const& descriptor) const override;
             virtual uint32_t getMaxBoundTextures() const override;
 
-            virtual VertexShader* createVertexShader() override;
-            virtual GeometryShader* createGeometryShader() override;
-            virtual FragmentShader* createFragmentShader() override;
-            virtual PreTesselationShader* createPreTesselationShader() override;
-            virtual PostTesselationShader* createPostTesselationShader() override;
+            virtual VertexShader* createVertexShader() const override;
+            virtual GeometryShader* createGeometryShader() const override;
+            virtual FragmentShader* createFragmentShader() const override;
+            virtual PreTesselationShader* createPreTesselationShader() const override;
+            virtual PostTesselationShader* createPostTesselationShader() const override;
+
+            virtual IndexBuffer* createIndexBuffer() const override;
+            virtual VertexBuffer* createVertexBuffer() const override;
 
             //------------------------------------------------------------
             // D3D Specific Methods

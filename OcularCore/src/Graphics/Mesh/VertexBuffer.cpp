@@ -15,6 +15,7 @@
  */
 
 #include "Graphics/Mesh/VertexBuffer.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,6 +40,68 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        bool VertexBuffer::build()
+        {
+            return false;
+        }
+
+        void VertexBuffer::bind()
+        {
+
+        }
+
+        void VertexBuffer::unbind()
+        {
+
+        }
+
+        void VertexBuffer::addVertex(Vertex const& vertex)
+        {
+            m_Vertices.push_back(vertex);
+        }
+
+        void VertexBuffer::addVertices(std::vector<Vertex> const& vertices)
+        {
+            m_Vertices.reserve(m_Vertices.size() + vertices.size());
+            m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
+        }
+
+        void VertexBuffer::addVertices(Vertex const* vertices, uint32_t count)
+        {
+            m_Vertices.reserve(m_Vertices.size() + count);
+
+            for(uint32_t i = 0; i < count; i++)
+            {
+                m_Vertices.emplace_back(vertices[i]);
+            }
+        }
+
+        Vertex const* VertexBuffer::getVertex(uint32_t index) const
+        {
+            Vertex const* result = nullptr;
+
+            if(index < m_Vertices.size())
+            {
+                result = &m_Vertices[index];
+            }
+            else
+            {
+                OcularLogger->warning("Requesting out-of-bounds index", OCULAR_INTERNAL_LOG("VertexBuffer", "getVertex"));
+            }
+
+            return result;
+        }
+
+        std::vector<Vertex> const& VertexBuffer::getVertices() const
+        {
+            return m_Vertices;
+        }
+
+        uint32_t VertexBuffer::getNumVertices() const
+        {
+            return m_Vertices.size();
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

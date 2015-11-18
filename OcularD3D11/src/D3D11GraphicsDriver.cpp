@@ -31,6 +31,9 @@
 
 #include "Material/D3D11Material.hpp"
 
+#include "Mesh/D3D11IndexBuffer.hpp"
+#include "Mesh/D3D11VertexBuffer.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -200,7 +203,7 @@ namespace Ocular
             }
         }
 
-        Material* D3D11GraphicsDriver::createMaterial()
+        Material* D3D11GraphicsDriver::createMaterial() const
         {
             return new D3D11Material(m_D3DDeviceContext);
         }
@@ -209,7 +212,7 @@ namespace Ocular
         // Textures
         //----------------------------------------------------------------------------------
 
-        Texture* D3D11GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
+        Texture* D3D11GraphicsDriver::createTexture(TextureDescriptor const& descriptor) const
         {
             Texture* result = nullptr;
 
@@ -235,7 +238,7 @@ namespace Ocular
             return result;
         }
 
-        Texture2D* D3D11GraphicsDriver::createTexture2D(TextureDescriptor const& descriptor)
+        Texture2D* D3D11GraphicsDriver::createTexture2D(TextureDescriptor const& descriptor) const
         {
             Texture2D* result = nullptr;
 
@@ -251,7 +254,7 @@ namespace Ocular
             return result;
         }
 
-        RenderTexture* D3D11GraphicsDriver::createRenderTexture(TextureDescriptor const& descriptor)
+        RenderTexture* D3D11GraphicsDriver::createRenderTexture(TextureDescriptor const& descriptor) const
         {
             RenderTexture* result = nullptr;
 
@@ -267,7 +270,7 @@ namespace Ocular
             return result;
         }
 
-        DepthTexture* D3D11GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor)
+        DepthTexture* D3D11GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor) const
         {
             DepthTexture* result = nullptr;
 
@@ -292,29 +295,43 @@ namespace Ocular
         // Shaders
         //----------------------------------------------------------------------------------
 
-        VertexShader* D3D11GraphicsDriver::createVertexShader()
+        VertexShader* D3D11GraphicsDriver::createVertexShader() const
         {
             return new D3D11VertexShader(m_D3DDeviceContext);
         }
 
-        GeometryShader* D3D11GraphicsDriver::createGeometryShader()
+        GeometryShader* D3D11GraphicsDriver::createGeometryShader() const
         {
             return new D3D11GeometryShader(m_D3DDeviceContext);
         }
 
-        FragmentShader* D3D11GraphicsDriver::createFragmentShader()
+        FragmentShader* D3D11GraphicsDriver::createFragmentShader() const
         {
             return new D3D11FragmentShader(m_D3DDeviceContext);
         }
 
-        PreTesselationShader* D3D11GraphicsDriver::createPreTesselationShader()
+        PreTesselationShader* D3D11GraphicsDriver::createPreTesselationShader() const
         {
             return new D3D11PreTesselationShader(m_D3DDeviceContext);
         }
 
-        PostTesselationShader* D3D11GraphicsDriver::createPostTesselationShader()
+        PostTesselationShader* D3D11GraphicsDriver::createPostTesselationShader() const
         {
             return new D3D11PostTesselationShader(m_D3DDeviceContext);
+        }
+
+        //----------------------------------------------------------------------------------
+        // Meshes
+        //----------------------------------------------------------------------------------
+
+        IndexBuffer* D3D11GraphicsDriver::createIndexBuffer() const
+        {
+            return new D3D11IndexBuffer(m_D3DDevice, m_D3DDeviceContext);
+        }
+
+        VertexBuffer* D3D11GraphicsDriver::createVertexBuffer() const
+        {
+            return new D3D11VertexBuffer(m_D3DDevice, m_D3DDeviceContext);
         }
 
         //----------------------------------------------------------------------------------

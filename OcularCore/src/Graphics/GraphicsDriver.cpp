@@ -66,7 +66,7 @@ namespace Ocular
             return false;
         }
 
-        Material* GraphicsDriver::createMaterial()
+        Material* GraphicsDriver::createMaterial() const
         {
             return new Material();
         }
@@ -75,7 +75,7 @@ namespace Ocular
         // Textures
         //----------------------------------------------------------------------------------
 
-        Texture* GraphicsDriver::createTexture(TextureDescriptor const& descriptor)
+        Texture* GraphicsDriver::createTexture(TextureDescriptor const& descriptor) const
         {
             Texture* result = nullptr;
 
@@ -101,17 +101,17 @@ namespace Ocular
             return result;
         }
 
-        Texture2D* GraphicsDriver::createTexture2D(TextureDescriptor const& descriptor)
+        Texture2D* GraphicsDriver::createTexture2D(TextureDescriptor const& descriptor) const
         {
             return new Texture2D(descriptor);
         }
 
-        RenderTexture* GraphicsDriver::createRenderTexture(TextureDescriptor const& descriptor)
+        RenderTexture* GraphicsDriver::createRenderTexture(TextureDescriptor const& descriptor) const
         {
             return new RenderTexture(descriptor);
         }
 
-        DepthTexture* GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor)
+        DepthTexture* GraphicsDriver::createDepthTexture(TextureDescriptor const& descriptor) const
         {
             return new DepthTexture(descriptor);
         }
@@ -125,29 +125,43 @@ namespace Ocular
         // Shaders
         //----------------------------------------------------------------------------------
 
-        VertexShader* GraphicsDriver::createVertexShader()
+        VertexShader* GraphicsDriver::createVertexShader() const
         {
             return new VertexShader();
         }
 
-        GeometryShader* GraphicsDriver::createGeometryShader()
+        GeometryShader* GraphicsDriver::createGeometryShader() const
         {
             return new GeometryShader();
         }
 
-        FragmentShader* GraphicsDriver::createFragmentShader()
+        FragmentShader* GraphicsDriver::createFragmentShader() const
         {
             return new FragmentShader();
         }
 
-        PreTesselationShader* GraphicsDriver::createPreTesselationShader()
+        PreTesselationShader* GraphicsDriver::createPreTesselationShader() const
         {
             return new PreTesselationShader();
         }
 
-        PostTesselationShader* GraphicsDriver::createPostTesselationShader()
+        PostTesselationShader* GraphicsDriver::createPostTesselationShader() const
         {
             return new PostTesselationShader();
+        }
+
+        //----------------------------------------------------------------------------------
+        // Meshes
+        //----------------------------------------------------------------------------------
+
+        IndexBuffer* GraphicsDriver::createIndexBuffer() const
+        {
+            return new IndexBuffer;
+        }
+
+        VertexBuffer* GraphicsDriver::createVertexBuffer() const
+        {
+            return new VertexBuffer;
         }
 
         //----------------------------------------------------------------------------------

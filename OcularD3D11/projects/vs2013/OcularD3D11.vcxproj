@@ -80,6 +80,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\Material\D3D11Material.hpp" />
+    <ClInclude Include="..\..\include\Mesh\D3D11IndexBuffer.hpp" />
+    <ClInclude Include="..\..\include\Mesh\D3D11VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp" />
@@ -95,6 +97,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\D3D11GraphicsDriver.cpp" />
     <ClCompile Include="..\..\src\Material\D3D11Material.cpp" />
+    <ClCompile Include="..\..\src\Mesh\D3D11IndexBuffer.cpp" />
+    <ClCompile Include="..\..\src\Mesh\D3D11VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11GeometryShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp" />

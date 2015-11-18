@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_GRAPHICS_INDEX_BUFFER__H__
 #define __H__OCULAR_GRAPHICS_INDEX_BUFFER__H__
 
+#include <cstdint>
+#include <vector>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -42,7 +45,21 @@ namespace Ocular
             IndexBuffer();
             ~IndexBuffer();
 
+            virtual bool build();
+            virtual void bind();
+            virtual void unbind();
+
+            virtual void addIndex(uint32_t index);
+            virtual void addIndices(std::vector<uint32_t> const& indices);
+            virtual void addIndices(uint32_t const* indices, uint32_t count);
+
+            uint32_t getIndex(uint32_t index);
+            std::vector<uint32_t> const& getIndices() const;
+            uint32_t getNumIndices() const;
+
         protected:
+
+            std::vector<uint32_t> m_Indices;
 
         private:
         };

@@ -18,6 +18,10 @@
 #ifndef __H__OCULAR_GRAPHICS_VERTEX_BUFFER__H__
 #define __H__OCULAR_GRAPHICS_VERTEX_BUFFER__H__
 
+#include "Vertex.hpp"
+#include <cstdint>
+#include <vector>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -42,7 +46,21 @@ namespace Ocular
             VertexBuffer();
             ~VertexBuffer();
 
+            virtual bool build();
+            virtual void bind();
+            virtual void unbind();
+
+            virtual void addVertex(Vertex const& vertex);
+            virtual void addVertices(std::vector<Vertex> const& vertices);
+            virtual void addVertices(Vertex const* vertices, uint32_t count);
+
+            Vertex const* getVertex(uint32_t index) const;
+            std::vector<Vertex> const& getVertices() const;
+            uint32_t getNumVertices() const;
+
         protected:
+
+            std::vector<Vertex> m_Vertices;
 
         private:
         };
