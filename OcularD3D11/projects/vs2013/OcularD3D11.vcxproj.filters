@@ -63,12 +63,6 @@
     <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Shader\D3D11PreTesselationShader.hpp">
-      <Filter>Header Files\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp">
-      <Filter>Header Files\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
@@ -83,6 +77,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Mesh\D3D11IndexBuffer.hpp">
       <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PostTessellationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,12 +110,6 @@
     <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Shader\D3D11PreTesselationShader.cpp">
-      <Filter>Source Files\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp">
-      <Filter>Source Files\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
@@ -130,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Mesh\D3D11IndexBuffer.cpp">
       <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PostTessellationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

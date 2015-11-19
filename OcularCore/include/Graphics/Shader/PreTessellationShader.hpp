@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_POSTTESSELATION_SHADER__H__
-#define __H__OCULAR_GRAPHICS_POSTTESSELATION_SHADER__H__
+#ifndef __H__OCULAR_GRAPHICS_PRETESSELLATION_SHADER__H__
+#define __H__OCULAR_GRAPHICS_PRETESSELLATION_SHADER__H__
 
 #include "Shader.hpp"
 
@@ -35,14 +35,14 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class PreTesselationShader 
+         * \class PreTessellationShader 
          */
-        class PostTesselationShader : public Shader 
+        class PreTessellationShader : public Shader 
         {
         public:
 
-            PostTesselationShader();
-            ~PostTesselationShader();
+            PreTessellationShader();
+            ~PreTessellationShader();
 
             virtual void unload() override;
             virtual void bind() override;
@@ -53,7 +53,7 @@ namespace Ocular
         private:
         };
 
-        typedef PostTesselationShader DomainShader;
+        typedef PreTessellationShader HullShader;
     }
     /**
      * @} End of Doxygen Groups

@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
 #include "Resources/Resource.hpp"
+#include "Math/Matrix4x4.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -41,8 +42,8 @@ namespace Ocular
         class VertexShader;
         class GeometryShader;
         class FragmentShader;
-        class PreTesselationShader;
-        class PostTesselationShader;
+        class PreTessellationShader;
+        class PostTessellationShader;
 
         /**
          * \class Material
@@ -61,6 +62,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Texture Methods
+            //------------------------------------------------------------
 
             /**
              * Assigns a texture to a specific input register for use by the shaders
@@ -97,27 +99,196 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Shader Methods
+            //------------------------------------------------------------
 
-            void setVertexShader(std::string const& name);
+            /**
+             * Sets the vertex shader used by this Material.
+             *
+             * \param[in] name Name of the shader to use.
+             * \return Returns TRUE if the shader was successfully set. May fail if no
+             *         ShaderProgram with a matching name was discovered, or if that
+             *         ShaderProgram did not contain a vertex shader.
+             */
+            bool setVertexShader(std::string const& name);
+
+            /**
+             * Sets the vertex shader used by this Material.
+             * \param[in] shader Pointer to the shared vertex shader to use.
+             */
             void setVertexShader(VertexShader* shader);
 
-            void setGeometryShader(std::string const& name);
+            /**
+             * Sets the geometry shader used by this Material.
+             *
+             * \param[in] name Name of the shader to use.
+             * \return Returns TRUE if the shader was successfully set. May fail if no
+             *         ShaderProgram with a matching name was discovered, or if that
+             *         ShaderProgram did not contain a geometry shader.
+             */
+            bool setGeometryShader(std::string const& name);
+
+            /**
+             * Sets the geometry shader used by this Material.
+             * \param[in] shader Pointer to the shared geometry shader to use.
+             */
             void setGeometryShader(GeometryShader* shader);
 
-            void setFragmentShader(std::string const& name);
+            /**
+             * Sets the fragment shader used by this Material.
+             *
+             * \param[in] name Name of the shader to use.
+             * \return Returns TRUE if the shader was successfully set. May fail if no
+             *         ShaderProgram with a matching name was discovered, or if that
+             *         ShaderProgram did not contain a fragment shader.
+             */
+            bool setFragmentShader(std::string const& name);
+
+            /**
+             * Sets the fragment shader used by this Material.
+             * \param[in] shader Pointer to the shared fragment shader to use.
+             */
             void setFragmentShader(FragmentShader* shader);
 
-            void setPreTesselationShader(std::string const& name);
-            void setPreTesselationShader(PreTesselationShader* shader);
+            /**
+             * Sets the pre-tessellation shader used by this Material.
+             *
+             * \param[in] name Name of the shader to use.
+             * \return Returns TRUE if the shader was successfully set. May fail if no
+             *         ShaderProgram with a matching name was discovered, or if that
+             *         ShaderProgram did not contain a pre-tessellation shader.
+             */
+            bool setPreTessellationShader(std::string const& name);
 
-            void setPostTesselationShader(std::string const& name);
-            void setPostTesselationShader(PostTesselationShader* shader);
+            /**
+             * Sets the pre-tessellation shader used by this Material.
+             * \param[in] shader Pointer to the shared pre-tessellation shader to use.
+             */
+            void setPreTessellationShader(PreTessellationShader* shader);
 
+            /**
+             * Sets the post-tessellation shader used by this Material.
+             *
+             * \param[in] name Name of the shader to use.
+             * \return Returns TRUE if the shader was successfully set. May fail if no
+             *         ShaderProgram with a matching name was discovered, or if that
+             *         ShaderProgram did not contain a post-tessellation shader.
+             */
+            bool setPostTessellationShader(std::string const& name);
+
+            /**
+             * Sets the post-tessellation shader used by this Material.
+             * \param[in] shader Pointer to the shared post-tessellation shader to use.
+             */
+            void setPostTessellationShader(PostTessellationShader* shader);
+
+            /**
+             * \return The vertex shader used by this material. May be NULL if no valid shader is set.
+             */
             VertexShader* getVertexShader() const;
+
+            /**
+             * \return The geometry shader used by this material. May be NULL if no valid shader is set.
+             */
             GeometryShader* getGeometryShader() const;
+
+            /**
+             * \return The fragment shader used by this material. May be NULL if no valid shader is set.
+             */
             FragmentShader* getFragmentShader() const;
-            PreTesselationShader* getPreTesselationShader() const;
-            PostTesselationShader* getPostTesselationShader() const;
+
+            /**
+             * \return The pre-tessellation shader used by this material. May be NULL if no valid shader is set.
+             */
+            PreTessellationShader* getPreTessellationShader() const;
+
+            /**
+             * \return The post-tessellation shader used by this material. May be NULL if no valid shader is set.
+             */
+            PostTessellationShader* getPostTessellationShader() const;
+
+            //------------------------------------------------------------
+            // Uniform Methods
+            //------------------------------------------------------------
+
+            /**
+             * Sets the value of the specified uniform.
+             *
+             * \note This uniform value is set for all valid shaders associated with this material.
+             * \param[in] name  Valid uniform name.
+             * \param[in] value Single floating-point value for the uniform.
+             */
+            virtual void setUniform(std::string const& name, float value);
+
+            /**
+             * Returns the value of the associated uniform.
+             *
+             * \param[in]  name  Valid uniform name.
+             * \param[out] value Value of the specified uniform.
+             *
+             * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
+             *         either the uniform does not exist, or it is a different type of value.
+             */
+            virtual bool getUniform(std::string const& name, float& value);
+
+            /**
+             * Sets the value of the specified uniform.
+             *
+             * \note This uniform value is set for all valid shaders associated with this material.
+             * \param[in] name  Valid uniform name.
+             * \param[in] value A 4-component Vector value for the uniform.
+             */
+            virtual void setUniform(std::string const& name, Math::Vector4f const& value);
+
+            /**
+             * Returns the value of the associated uniform.
+             *
+             * \param[in]  name  Valid uniform name.
+             * \param[out] value Value of the specified uniform.
+             *
+             * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
+             *         either the uniform does not exist, or it is a different type of value.
+             */
+            virtual bool getUniform(std::string const& name, Math::Vector4f& value);
+
+            /**
+             * Sets the value of the specified uniform.
+             *
+             * \note This uniform value is set for all valid shaders associated with this material.
+             * \param[in] name  Valid uniform name.
+             * \param[in] value A 3x3 matrix value for the uniform.
+             */
+            virtual void setUniform(std::string const& name, Math::Matrix3x3f const& value);
+
+            /**
+             * Returns the value of the associated uniform.
+             *
+             * \param[in]  name  Valid uniform name.
+             * \param[out] value Value of the specified uniform.
+             *
+             * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
+             *         either the uniform does not exist, or it is a different type of value.
+             */
+            virtual bool getUniform(std::string const& name, Math::Matrix3x3f& value);
+
+            /**
+             * Sets the value of the specified uniform.
+             *
+             * \note This uniform value is set for all valid shaders associated with this material.
+             * \param[in] name  Valid uniform name.
+             * \param[in] value A 4x4 matrix value for the uniform.
+             */
+            virtual void setUniform(std::string const& name, Math::Matrix4x4f const& value);
+
+            /**
+             * Returns the value of the associated uniform.
+             *
+             * \param[in]  name  Valid uniform name.
+             * \param[out] value Value of the specified uniform.
+             *
+             * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
+             *         either the uniform does not exist, or it is a different type of value.
+             */
+            virtual bool getUniform(std::string const& name, Math::Matrix4x4f& value);
 
         protected:
 
@@ -127,8 +298,8 @@ namespace Ocular
             VertexShader*          m_VertexShader;
             GeometryShader*        m_GeometryShader;
             FragmentShader*        m_FragmentShader;
-            PreTesselationShader*  m_PreTesselationShader;
-            PostTesselationShader* m_PostTesselationShader;
+            PreTessellationShader*  m_PreTessellationShader;
+            PostTessellationShader* m_PostTessellationShader;
 
             std::vector<std::pair<std::string, Texture*>> m_Textures;
 

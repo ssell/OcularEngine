@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.hpp"
-#include "Shader/D3D11PreTesselationShader.hpp"
+#include "Shader/D3D11PostTessellationShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,8 +27,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11PreTesselationShader::D3D11PreTesselationShader(ID3D11DeviceContext* context)
-            : PreTesselationShader(),
+        D3D11PostTessellationShader::D3D11PostTessellationShader(ID3D11DeviceContext* context)
+            : PostTessellationShader(),
               m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
@@ -36,7 +36,7 @@ namespace Ocular
             m_Type = Core::ResourceType::Shader;
         }
 
-        D3D11PreTesselationShader::~D3D11PreTesselationShader()
+        D3D11PostTessellationShader::~D3D11PostTessellationShader()
         {
             unload();
         }
@@ -45,9 +45,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void D3D11PreTesselationShader::unload()
+        void D3D11PostTessellationShader::unload()
         {
-            PreTesselationShader::unload();
+            PostTessellationShader::unload();
 
             if(m_D3DShader)
             {
@@ -62,27 +62,27 @@ namespace Ocular
             }
         }
 
-        void D3D11PreTesselationShader::bind()
+        void D3D11PostTessellationShader::bind()
         {
-            PreTesselationShader::bind();
+            PostTessellationShader::bind();
 
             if(m_D3DDeviceContext)
             {
-                m_D3DDeviceContext->HSSetShader(m_D3DShader, nullptr, 0);
+                m_D3DDeviceContext->DSSetShader(m_D3DShader, nullptr, 0);
             }
         }
             
-        void D3D11PreTesselationShader::unbind()
+        void D3D11PostTessellationShader::unbind()
         {
-            PreTesselationShader::unbind();
+            PostTessellationShader::unbind();
 
             if(m_D3DDeviceContext)
             {
-                m_D3DDeviceContext->HSSetShader(nullptr, nullptr, 0);
+                m_D3DDeviceContext->DSSetShader(nullptr, nullptr, 0);
             }
         }
 
-        void D3D11PreTesselationShader::setD3DShader(ID3D11HullShader* shader)
+        void D3D11PostTessellationShader::setD3DShader(ID3D11DomainShader* shader)
         {
             if(m_D3DShader)
             {
@@ -92,12 +92,12 @@ namespace Ocular
             m_D3DShader = shader;
         }
 
-        ID3D11HullShader* D3D11PreTesselationShader::getD3DShader()
+        ID3D11DomainShader* D3D11PostTessellationShader::getD3DShader()
         {
             return m_D3DShader;
         }
 
-        void D3D11PreTesselationShader::setD3DBlob(ID3DBlob* blob)
+        void D3D11PostTessellationShader::setD3DBlob(ID3DBlob* blob)
         {
             if(m_D3DBlob)
             {
@@ -107,7 +107,7 @@ namespace Ocular
             m_D3DBlob = blob;
         }
 
-        ID3DBlob* D3D11PreTesselationShader::getD3DBlob()
+        ID3DBlob* D3D11PostTessellationShader::getD3DBlob()
         {
             return m_D3DBlob;
         }

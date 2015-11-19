@@ -23,8 +23,8 @@
 #include "Shader/D3D11VertexShader.hpp"
 #include "Shader/D3D11GeometryShader.hpp"
 #include "Shader/D3D11FragmentShader.hpp"
-#include "Shader/D3D11PreTesselationShader.hpp"
-#include "Shader/D3D11PostTesselationShader.hpp"
+#include "Shader/D3D11PreTessellationShader.hpp"
+#include "Shader/D3D11PostTessellationShader.hpp"
 
 #include <d3dcompiler.h>
 
@@ -35,8 +35,8 @@ OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::D3D11UncompiledShaderResourceL
 static const std::array<LPCSTR, 4> VertexEntryPoints   = { "VertexMain", "VertMain", "VSMain", "MainVS" };
 static const std::array<LPCSTR, 3> GeometryEntryPoints = { "GeometryMain", "GSMain", "MainGS" };
 static const std::array<LPCSTR, 8> FragmentEntryPoints = { "FragmentMain", "FragMain", "FSMain", "MainFS", "PixelMain", "PixMain", "PSMain", "MainPS" };
-static const std::array<LPCSTR, 5> PreTessEntryPoints  = { "PreTesselationMain", "PreTessMain", "HullMain", "HSMain", "MainHS" };
-static const std::array<LPCSTR, 5> PostTessEntryPoints = { "PostTesselationMain", "PostTessMain", "DomainMain", "DSMain", "MainDS" };
+static const std::array<LPCSTR, 5> PreTessEntryPoints  = { "PreTessellationMain", "PreTessMain", "HullMain", "HSMain", "MainHS" };
+static const std::array<LPCSTR, 5> PostTessEntryPoints = { "PostTessellationMain", "PostTessMain", "DomainMain", "DSMain", "MainDS" };
 
 static const char* EntryPointError = "entrypoint not found";    // The D3DBlob error reported when a specified shader entry wasn't valid
 
@@ -94,8 +94,8 @@ namespace Ocular
 
                     compileGeometryShader(file, lpcwstrPath, program);
                     compileFragmentShader(file, lpcwstrPath, program);
-                    compilePreTesselationShader(file, lpcwstrPath, program);
-                    compilePostTesselationShader(file, lpcwstrPath, program);
+                    compilePreTessellationShader(file, lpcwstrPath, program);
+                    compilePostTessellationShader(file, lpcwstrPath, program);
                     
                     resource = program;
                     result = true;
@@ -344,7 +344,7 @@ namespace Ocular
             }
         }
 
-        void D3D11UncompiledShaderResourceLoader::compilePreTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
+        void D3D11UncompiledShaderResourceLoader::compilePreTessellationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
         {
             if(source && program)
             {
@@ -354,7 +354,7 @@ namespace Ocular
                 HRESULT hResult = S_FALSE;
 
                 //--------------------------------------------------------
-                // Attempt to compile out a PreTesselation Shader from all of our entry points
+                // Attempt to compile out a PreTessellation Shader from all of our entry points
 
                 for(uint32_t i = 0; i < PreTessEntryPoints.size(); i++)
                 {
@@ -381,12 +381,12 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11PreTesselationShader* shader = new D3D11PreTesselationShader(m_D3DDeviceContext);
+                        D3D11PreTessellationShader* shader = new D3D11PreTessellationShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
 
-                        program->setPreTesselationShader(shader);
+                        program->setPreTessellationShader(shader);
                     }
                     else
                     {
@@ -395,7 +395,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create PreTesselation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePreTesselationShader"));
+                        OcularLogger->error("Failed to create PreTessellation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePreTessellationShader"));
                     }
                 }
                 // else
@@ -406,7 +406,7 @@ namespace Ocular
             }
         }
 
-        void D3D11UncompiledShaderResourceLoader::compilePostTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
+        void D3D11UncompiledShaderResourceLoader::compilePostTessellationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program)
         {
             if(source && program)
             {
@@ -416,7 +416,7 @@ namespace Ocular
                 HRESULT hResult = S_FALSE;
 
                 //--------------------------------------------------------
-                // Attempt to compile out a PostTesselation Shader from all of our entry points
+                // Attempt to compile out a PostTessellation Shader from all of our entry points
 
                 for(uint32_t i = 0; i < PostTessEntryPoints.size(); i++)
                 {
@@ -443,12 +443,12 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11PostTesselationShader* shader = new D3D11PostTesselationShader(m_D3DDeviceContext);
+                        D3D11PostTessellationShader* shader = new D3D11PostTessellationShader(m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);
 
-                        program->setPostTesselationShader(shader);
+                        program->setPostTessellationShader(shader);
                     }
                     else
                     {
@@ -457,7 +457,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create PostTesselation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePostTesselationShader"));
+                        OcularLogger->error("Failed to create PostTessellation Shader with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePostTessellationShader"));
                     }
                 }
                 // else

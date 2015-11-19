@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_D3D11_GRAPHICS_PRETESSELATION_SHADER__H__
-#define __H__OCULAR_D3D11_GRAPHICS_PRETESSELATION_SHADER__H__
+#ifndef __H__OCULAR_D3D11_GRAPHICS_PRETESSELLATION_SHADER__H__
+#define __H__OCULAR_D3D11_GRAPHICS_PRETESSELLATION_SHADER__H__
 
-#include "Graphics/Shader/PreTesselationShader.hpp"
+#include "Graphics/Shader/PreTessellationShader.hpp"
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -36,14 +36,14 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class D3D11PreTesselationShader 
+         * \class D3D11PreTessellationShader 
          */
-        class D3D11PreTesselationShader : public PreTesselationShader 
+        class D3D11PreTessellationShader : public PreTessellationShader 
         {
         public:
 
-            D3D11PreTesselationShader(ID3D11DeviceContext* context);
-            ~D3D11PreTesselationShader();
+            D3D11PreTessellationShader(ID3D11DeviceContext* context);
+            ~D3D11PreTessellationShader();
 
             virtual void unload() override;
             virtual void bind() override;
@@ -88,7 +88,7 @@ namespace Ocular
         private:
         };
 
-        typedef D3D11PreTesselationShader D3D11HullShader;
+        typedef D3D11PreTessellationShader D3D11HullShader;
     }
     /**
      * @} End of Doxygen Groups

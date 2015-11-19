@@ -113,6 +113,26 @@ namespace Ocular
             }
         }
 
+        void D3D11Material::setUniform(std::string const& name, float const value)
+        {
+            Material::setUniform(name, value);
+        }
+
+        void D3D11Material::setUniform(std::string const& name, Math::Vector4f const& value)
+        {
+            Material::setUniform(name, value);
+        }
+
+        void D3D11Material::setUniform(std::string const& name, Math::Matrix3x3f const& value)
+        {
+            Material::setUniform(name, value);
+        }
+
+        void D3D11Material::setUniform(std::string const& name, Math::Matrix4x4f const& value)
+        {
+            Material::setUniform(name, value);
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -18,11 +18,7 @@
 
 #include "OcularEngine.hpp"
 #include "Graphics/Texture/Texture.hpp"
-#include "Graphics/Shader/VertexShader.hpp"
-#include "Graphics/Shader/GeometryShader.hpp"
-#include "Graphics/Shader/FragmentShader.hpp"
-#include "Graphics/Shader/PreTesselationShader.hpp"
-#include "Graphics/Shader/PostTesselationShader.hpp"
+#include "Graphics/Shader/ShaderProgram.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,8 +35,8 @@ namespace Ocular
               m_VertexShader(nullptr),
               m_GeometryShader(nullptr),
               m_FragmentShader(nullptr),
-              m_PreTesselationShader(nullptr),
-              m_PostTesselationShader(nullptr)
+              m_PreTessellationShader(nullptr),
+              m_PostTessellationShader(nullptr)
         {
             m_Textures.reserve(OcularGraphics->getMaxBoundTextures());
             std::fill(m_Textures.begin(), m_Textures.end(), std::make_pair("", nullptr));
@@ -109,15 +105,30 @@ namespace Ocular
         // Shader Methods
         //--------------------------------------------
 
-        void Material::setVertexShader(std::string const& name)
+        bool Material::setVertexShader(std::string const& name)
         {
-            VertexShader* shader = OcularResources->getResource<VertexShader>(name);
+            bool result = false;
+            ShaderProgram* program = OcularResources->getResource<ShaderProgram>(name);
 
-            if(shader)
+            if(program)
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_VertexShader = shader;
+                m_VertexShader = program->getVertexShader();
+
+                if(m_VertexShader)
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->warning("Found matching ShaderProgram '", name, "' but it did not contain a vertex shader", OCULAR_INTERNAL_LOG("Material", "setVertexShader"));
+                }
             }
+            else
+            {
+                OcularLogger->warning("No ShaderProgram was found with the name '", name, "'", OCULAR_INTERNAL_LOG("Material", "setVertexShader"));
+            }
+
+            return result;
         }
 
         void Material::setVertexShader(VertexShader* shader)
@@ -126,15 +137,30 @@ namespace Ocular
             m_VertexShader = shader;
         }
 
-        void Material::setGeometryShader(std::string const& name)
+        bool Material::setGeometryShader(std::string const& name)
         {
-            GeometryShader* shader = OcularResources->getResource<GeometryShader>(name);
+            bool result = false;
+            ShaderProgram* program = OcularResources->getResource<ShaderProgram>(name);
 
-            if(shader)
+            if(program)
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_GeometryShader = shader;
+                m_GeometryShader = program->getGeometryShader();
+
+                if(m_GeometryShader)
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->warning("Found matching ShaderProgram '", name, "' but it did not contain a geometry shader", OCULAR_INTERNAL_LOG("Material", "setGeometryShader"));
+                }
             }
+            else
+            {
+                OcularLogger->warning("No ShaderProgram was found with the name '", name, "'", OCULAR_INTERNAL_LOG("Material", "setGeometryShader"));
+            }
+
+            return result;
         }
 
         void Material::setGeometryShader(GeometryShader* shader)
@@ -143,15 +169,30 @@ namespace Ocular
             m_GeometryShader = shader;
         }
 
-        void Material::setFragmentShader(std::string const& name)
+        bool Material::setFragmentShader(std::string const& name)
         {
-            FragmentShader* shader = OcularResources->getResource<FragmentShader>(name);
+            bool result = false;
+            ShaderProgram* program = OcularResources->getResource<ShaderProgram>(name);
 
-            if(shader)
+            if(program)
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_FragmentShader = shader;
+                m_FragmentShader = program->getFragmentShader();
+
+                if(m_FragmentShader)
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->warning("Found matching ShaderProgram '", name, "' but it did not contain a fragment shader", OCULAR_INTERNAL_LOG("Material", "setFragmentShader"));
+                }
             }
+            else
+            {
+                OcularLogger->warning("No ShaderProgram was found with the name '", name, "'", OCULAR_INTERNAL_LOG("Material", "setFragmentShader"));
+            }
+
+            return result;
         }
 
         void Material::setFragmentShader(FragmentShader* shader)
@@ -160,38 +201,68 @@ namespace Ocular
             m_FragmentShader = shader;
         }
 
-        void Material::setPreTesselationShader(std::string const& name)
+        bool Material::setPreTessellationShader(std::string const& name)
         {
-            PreTesselationShader* shader = OcularResources->getResource<PreTesselationShader>(name);
+            bool result = false;
+            ShaderProgram* program = OcularResources->getResource<ShaderProgram>(name);
 
-            if(shader)
+            if(program)
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_PreTesselationShader = shader;
+                m_PreTessellationShader = program->getPreTessellationShader();
+
+                if(m_PreTessellationShader)
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->warning("Found matching ShaderProgram '", name, "' but it did not contain a pre-tessellation shader", OCULAR_INTERNAL_LOG("Material", "setPreTessellationShader"));
+                }
             }
+            else
+            {
+                OcularLogger->warning("No ShaderProgram was found with the name '", name, "'", OCULAR_INTERNAL_LOG("Material", "setPreTessellationShader"));
+            }
+
+            return result;
         }
 
-        void Material::setPreTesselationShader(PreTesselationShader* shader)
+        void Material::setPreTessellationShader(PreTessellationShader* shader)
         {
             // Allow to set for null here to 'disable' the shader.
-            m_PreTesselationShader = shader;
+            m_PreTessellationShader = shader;
         }
 
-        void Material::setPostTesselationShader(std::string const& name)
+        bool Material::setPostTessellationShader(std::string const& name)
         {
-            PostTesselationShader* shader = OcularResources->getResource<PostTesselationShader>(name);
+            bool result = false;
+            ShaderProgram* program = OcularResources->getResource<ShaderProgram>(name);
 
-            if(shader)
+            if(program)
             {
-                // Do not accept null here as we assume they are trying to use a valid identifier.
-                m_PostTesselationShader = shader;
+                m_PostTessellationShader = program->getPostTessellationShader();
+
+                if(m_PostTessellationShader)
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->warning("Found matching ShaderProgram '", name, "' but it did not contain a post-tessellation shader", OCULAR_INTERNAL_LOG("Material", "setPostTessellationShader"));
+                }
             }
+            else
+            {
+                OcularLogger->warning("No ShaderProgram was found with the name '", name, "'", OCULAR_INTERNAL_LOG("Material", "setPostTessellationShader"));
+            }
+
+            return result;
         }
 
-        void Material::setPostTesselationShader(PostTesselationShader* shader)
+        void Material::setPostTessellationShader(PostTessellationShader* shader)
         {
             // Allow to set for null here to 'disable' the shader.
-            m_PostTesselationShader = shader;
+            m_PostTessellationShader = shader;
         }
 
         VertexShader* Material::getVertexShader() const
@@ -209,14 +280,69 @@ namespace Ocular
             return m_FragmentShader;
         }
 
-        PreTesselationShader* Material::getPreTesselationShader() const
+        PreTessellationShader* Material::getPreTessellationShader() const
         {
-            return m_PreTesselationShader;
+            return m_PreTessellationShader;
         }
 
-        PostTesselationShader* Material::getPostTesselationShader() const
+        PostTessellationShader* Material::getPostTessellationShader() const
         {
-            return m_PostTesselationShader;
+            return m_PostTessellationShader;
+        }
+
+        //------------------------------------------------------------
+        // Uniform Methods
+        //------------------------------------------------------------
+
+        void Material::setUniform(std::string const& name, float const value)
+        {
+
+        }
+
+        bool Material::getUniform(std::string const& name, float& value)
+        {
+            bool result = false;
+
+
+            return result;
+        }
+
+        void Material::setUniform(std::string const& name, Math::Vector4f const& value)
+        {
+
+        }
+
+        bool Material::getUniform(std::string const& name, Math::Vector4f& value)
+        {
+            bool result = false;
+
+
+            return result;
+        }
+
+        void Material::setUniform(std::string const& name, Math::Matrix3x3f const& value)
+        {
+
+        }
+
+        bool Material::getUniform(std::string const& name, Math::Matrix3x3f& value)
+        {
+            bool result = false;
+
+            return result;
+        }
+
+        void Material::setUniform(std::string const& name, Math::Matrix4x4f const& value)
+        {
+
+        }
+
+        bool Material::getUniform(std::string const& name, Math::Matrix4x4f& value)
+        {
+            bool result = false;
+
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
@@ -240,14 +366,14 @@ namespace Ocular
                 m_FragmentShader->bind();
             }
 
-            if(m_PreTesselationShader)
+            if(m_PreTessellationShader)
             {
-                m_PreTesselationShader->bind();
+                m_PreTessellationShader->bind();
             }
 
-            if(m_PostTesselationShader)
+            if(m_PostTessellationShader)
             {
-                m_PostTesselationShader->bind();
+                m_PostTessellationShader->bind();
             }
         }
 
@@ -268,14 +394,14 @@ namespace Ocular
                 m_FragmentShader->unbind();
             }
 
-            if(m_PreTesselationShader)
+            if(m_PreTessellationShader)
             {
-                m_PreTesselationShader->unbind();
+                m_PreTessellationShader->unbind();
             }
 
-            if(m_PostTesselationShader)
+            if(m_PostTessellationShader)
             {
-                m_PostTesselationShader->unbind();
+                m_PostTessellationShader->unbind();
             }
         }
 

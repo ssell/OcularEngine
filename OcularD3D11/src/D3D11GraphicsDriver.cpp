@@ -26,8 +26,8 @@
 #include "Shader/D3D11VertexShader.hpp"
 #include "Shader/D3D11GeometryShader.hpp"
 #include "Shader/D3D11FragmentShader.hpp"
-#include "Shader/D3D11PreTesselationShader.hpp"
-#include "Shader/D3D11PostTesselationShader.hpp"
+#include "Shader/D3D11PreTessellationShader.hpp"
+#include "Shader/D3D11PostTessellationShader.hpp"
 
 #include "Material/D3D11Material.hpp"
 
@@ -310,14 +310,14 @@ namespace Ocular
             return new D3D11FragmentShader(m_D3DDeviceContext);
         }
 
-        PreTesselationShader* D3D11GraphicsDriver::createPreTesselationShader() const
+        PreTessellationShader* D3D11GraphicsDriver::createPreTessellationShader() const
         {
-            return new D3D11PreTesselationShader(m_D3DDeviceContext);
+            return new D3D11PreTessellationShader(m_D3DDeviceContext);
         }
 
-        PostTesselationShader* D3D11GraphicsDriver::createPostTesselationShader() const
+        PostTessellationShader* D3D11GraphicsDriver::createPostTessellationShader() const
         {
-            return new D3D11PostTesselationShader(m_D3DDeviceContext);
+            return new D3D11PostTessellationShader(m_D3DDeviceContext);
         }
 
         //----------------------------------------------------------------------------------

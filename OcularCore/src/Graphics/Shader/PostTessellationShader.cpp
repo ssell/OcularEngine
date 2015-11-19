@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/PostTesselationShader.hpp"
+#include "Graphics/Shader/PostTessellationShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +26,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PostTesselationShader::PostTesselationShader()
+        PostTessellationShader::PostTessellationShader()
             : Shader()
         {
 
         }
 
-        PostTesselationShader::~PostTesselationShader()
+        PostTessellationShader::~PostTessellationShader()
         {
 
         }
@@ -41,17 +41,17 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void PostTesselationShader::unload()
+        void PostTessellationShader::unload()
         {
 
         }
 
-        void PostTesselationShader::bind()
+        void PostTessellationShader::bind()
         {
 
         }
             
-        void PostTesselationShader::unbind()
+        void PostTessellationShader::unbind()
         {
 
         }

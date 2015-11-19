@@ -23,8 +23,8 @@
 #include "VertexShader.hpp"
 #include "GeometryShader.hpp"
 #include "FragmentShader.hpp"
-#include "PreTesselationShader.hpp"
-#include "PostTesselationShader.hpp"
+#include "PreTessellationShader.hpp"
+#include "PostTessellationShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -97,28 +97,28 @@ namespace Ocular
             FragmentShader* getFragmentShader();
 
             /**
-             * Sets the Pre-Tesselation Shader that belongs to this shader program.
+             * Sets the Pre-Tessellation Shader that belongs to this shader program.
              * \param[in] shader
              */
-            void setPreTesselationShader(PreTesselationShader* shader);
+            void setPreTessellationShader(PreTessellationShader* shader);
 
             /**
-             * Returns a pointer to the Pre-Tesselation Shader that belongs to this shader program.
-             * \return Pointer to the Pre-Tesselation Shader; Returns NULL if no Pre-Tesselation Shader is present.
+             * Returns a pointer to the Pre-Tessellation Shader that belongs to this shader program.
+             * \return Pointer to the Pre-Tessellation Shader; Returns NULL if no Pre-Tessellation Shader is present.
              */
-            PreTesselationShader* getPreTesselationShader();
+            PreTessellationShader* getPreTessellationShader();
 
             /**
-             * Sets the Post-Tesselation Shader that belongs to this shader program.
+             * Sets the Post-Tessellation Shader that belongs to this shader program.
              * \param[in] shader
              */
-            void setPostTesselationShader(PostTesselationShader* shader);
+            void setPostTessellationShader(PostTessellationShader* shader);
 
             /**
-             * Returns a pointer to the Post-Tesselation Shader that belongs to this shader program.
-             * \return Pointer to the Post-Tesselation Shader; Returns NULL if no Post-Tesselation Shader is present.
+             * Returns a pointer to the Post-Tessellation Shader that belongs to this shader program.
+             * \return Pointer to the Post-Tessellation Shader; Returns NULL if no Post-Tessellation Shader is present.
              */
-            PostTesselationShader* getPostTesselationShader();
+            PostTessellationShader* getPostTessellationShader();
 
             /**
              * Sets the Pixel Shader that belongs to this shader program.
@@ -139,7 +139,7 @@ namespace Ocular
             /**
              * Sets the Hull Shader that belongs to this shader program.
              *
-             * \note This method is identical to ShaderProgram::setPreTesselationShader
+             * \note This method is identical to ShaderProgram::setPreTessellationShader
              * \param[in] shader
              */
             void setHullShader(HullShader* shader);
@@ -147,7 +147,7 @@ namespace Ocular
             /**
              * Returns a pointer to the Hull Shader that belongs to this shader program.
              *
-             * \note This method is identical to ShaderProgram::getPreTesselationShader
+             * \note This method is identical to ShaderProgram::getPreTessellationShader
              * \return Pointer to the Hull Shader; Returns NULL if no Hull Shader is present.
              */
             HullShader* getHullShader();
@@ -155,7 +155,7 @@ namespace Ocular
             /**
              * Sets the Domain Shader that belongs to this shader program.
              *
-             * \note This method is identical to ShaderProgram::setPostTesselationShader
+             * \note This method is identical to ShaderProgram::setPostTessellationShader
              * \param[in] shader
              */
             void setDomainShader(DomainShader* shader);
@@ -163,7 +163,7 @@ namespace Ocular
             /**
              * Returns a pointer to the Domain Shader that belongs to this shader program.
              *
-             * \note This method is identical to ShaderProgram::setPostTesselationShader
+             * \note This method is identical to ShaderProgram::setPostTessellationShader
              * \return Pointer to the Domain Shader; Returns NULL if no Domain Shader is present.
              */
             DomainShader* getDomainShader();
@@ -173,8 +173,8 @@ namespace Ocular
             VertexShader*          m_VertexShader;
             GeometryShader*        m_GeometryShader;
             FragmentShader*        m_FragmentShader;
-            PreTesselationShader*  m_PreTesselationShader;
-            PostTesselationShader* m_PostTesselationShader;
+            PreTessellationShader*  m_PreTessellationShader;
+            PostTessellationShader* m_PostTessellationShader;
 
         private:
         };

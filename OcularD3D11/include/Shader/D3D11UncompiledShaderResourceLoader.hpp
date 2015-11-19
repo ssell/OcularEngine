@@ -54,8 +54,8 @@ namespace Ocular
          *     Vertex
          *     Geometry
          *     Fragment (Pixel)
-         *     Pre-Tesselation (Hull)
-         *     Post-Tesselation (Domain)
+         *     Pre-Tessellation (Hull)
+         *     Post-Tessellation (Domain)
          *
          * When checking for the presence of particular shaders, the
          * following entry points are tested:
@@ -65,8 +65,8 @@ namespace Ocular
          * | Vertex           | VertexMain, VertMain, VSMain, MainVS
          * | Geometry         | GeometryMain, GSMain, MainGS
          * | Fragment         | FragmentMain, FragMain, FSMain, MainFS, PixelMain, PixMain, PSMain, MainPS
-         * | Pre-Tesselation  | PreTesselationMain, PreTessMain, HullMain, HSMain, MainHS
-         * | Post-Tesselation | PostTesselationMain, PostTessMain, DomainMain, DSMain, MainDS
+         * | Pre-Tessellation  | PreTessellationMain, PreTessMain, HullMain, HSMain, MainHS
+         * | Post-Tessellation | PostTessellationMain, PostTessMain, DomainMain, DSMain, MainDS
          *
          * All shaders are assumed to be valid Shader Model 5 (D3D 11 and 11.1).
          *
@@ -100,8 +100,8 @@ namespace Ocular
             bool compileVertexShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compileGeometryShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
             void compileFragmentShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
-            void compilePreTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
-            void compilePostTesselationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compilePreTessellationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
+            void compilePostTessellationShader(Core::File const& file, LPCWSTR source, ShaderProgram* program);
 
             bool isEntryPointError(ID3DBlob* errorLog) const;
 

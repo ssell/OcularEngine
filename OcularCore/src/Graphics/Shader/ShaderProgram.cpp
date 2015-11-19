@@ -31,8 +31,8 @@ namespace Ocular
               m_VertexShader(nullptr),
               m_GeometryShader(nullptr),
               m_FragmentShader(nullptr),
-              m_PreTesselationShader(nullptr),
-              m_PostTesselationShader(nullptr)
+              m_PreTessellationShader(nullptr),
+              m_PostTessellationShader(nullptr)
         {
             
         }
@@ -63,14 +63,14 @@ namespace Ocular
                 m_FragmentShader->unload();
             }
             
-            if(m_PreTesselationShader)
+            if(m_PreTessellationShader)
             {
-                m_PreTesselationShader->unload();
+                m_PreTessellationShader->unload();
             }
             
-            if(m_PostTesselationShader)
+            if(m_PostTessellationShader)
             {
-                m_PostTesselationShader->unload();
+                m_PostTessellationShader->unload();
             }
         }
 
@@ -104,24 +104,24 @@ namespace Ocular
             return m_FragmentShader;
         }
 
-        void ShaderProgram::setPreTesselationShader(PreTesselationShader* shader)
+        void ShaderProgram::setPreTessellationShader(PreTessellationShader* shader)
         {
-            m_PreTesselationShader = shader;
+            m_PreTessellationShader = shader;
         }
 
-        PreTesselationShader* ShaderProgram::getPreTesselationShader()
+        PreTessellationShader* ShaderProgram::getPreTessellationShader()
         {
-            return m_PreTesselationShader;
+            return m_PreTessellationShader;
         }
 
-        void ShaderProgram::setPostTesselationShader(PostTesselationShader* shader)
+        void ShaderProgram::setPostTessellationShader(PostTessellationShader* shader)
         {
-            m_PostTesselationShader = shader;
+            m_PostTessellationShader = shader;
         }
 
-        PostTesselationShader* ShaderProgram::getPostTesselationShader()
+        PostTessellationShader* ShaderProgram::getPostTessellationShader()
         {
-            return m_PostTesselationShader;
+            return m_PostTessellationShader;
         }
 
         //----------------------------------------------------------------------------------

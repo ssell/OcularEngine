@@ -140,14 +140,14 @@ namespace Ocular
             return new FragmentShader();
         }
 
-        PreTesselationShader* GraphicsDriver::createPreTesselationShader() const
+        PreTessellationShader* GraphicsDriver::createPreTessellationShader() const
         {
-            return new PreTesselationShader();
+            return new PreTessellationShader();
         }
 
-        PostTesselationShader* GraphicsDriver::createPostTesselationShader() const
+        PostTessellationShader* GraphicsDriver::createPostTessellationShader() const
         {
-            return new PostTesselationShader();
+            return new PostTessellationShader();
         }
 
         //----------------------------------------------------------------------------------

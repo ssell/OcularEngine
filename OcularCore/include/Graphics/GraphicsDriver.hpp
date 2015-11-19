@@ -24,8 +24,8 @@
 #include "Graphics/Shader/VertexShader.hpp"
 #include "Graphics/Shader/GeometryShader.hpp"
 #include "Graphics/Shader/FragmentShader.hpp"
-#include "Graphics/Shader/PreTesselationShader.hpp"
-#include "Graphics/Shader/PostTesselationShader.hpp"
+#include "Graphics/Shader/PreTessellationShader.hpp"
+#include "Graphics/Shader/PostTessellationShader.hpp"
 
 #include "Graphics/Material/Material.hpp"
 
@@ -183,22 +183,22 @@ namespace Ocular
             virtual FragmentShader* createFragmentShader() const;
             
             /**
-             * Creates a new API-specific implementation of the PreTesselationShader class.
+             * Creates a new API-specific implementation of the PreTessellationShader class.
              *
              * \return Returns the new instantiated shader. The caller must assume
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual PreTesselationShader* createPreTesselationShader() const;
+            virtual PreTessellationShader* createPreTessellationShader() const;
             
             /**
-             * Creates a new API-specific implementation of the PostTesselationShader class.
+             * Creates a new API-specific implementation of the PostTessellationShader class.
              *
              * \return Returns the new instantiated shader. The caller must assume
              *         ownership of the shader and handle any cleanup. May return 
              *         NULL if shader creation failed.
              */
-            virtual PostTesselationShader* createPostTesselationShader() const;
+            virtual PostTessellationShader* createPostTessellationShader() const;
 
             //------------------------------------------------------------------------------
             // Meshes

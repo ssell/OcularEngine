@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/PreTesselationShader.hpp"
+#include "Graphics/Shader/PreTessellationShader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,13 +26,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PreTesselationShader::PreTesselationShader()
+        PreTessellationShader::PreTessellationShader()
             : Shader()
         {
 
         }
 
-        PreTesselationShader::~PreTesselationShader()
+        PreTessellationShader::~PreTessellationShader()
         {
 
         }
@@ -41,17 +41,17 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void PreTesselationShader::unload()
+        void PreTessellationShader::unload()
         {
 
         }
 
-        void PreTesselationShader::bind()
+        void PreTessellationShader::bind()
         {
 
         }
             
-        void PreTesselationShader::unbind()
+        void PreTessellationShader::unbind()
         {
 
         }

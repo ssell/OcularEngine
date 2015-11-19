@@ -84,8 +84,8 @@
     <ClInclude Include="..\..\include\Mesh\D3D11VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp" />
-    <ClInclude Include="..\..\include\Shader\D3D11PostTesselationShader.hpp" />
-    <ClInclude Include="..\..\include\Shader\D3D11PreTesselationShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\D3D11PostTessellationShader.hpp" />
+    <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11VertexShader.hpp" />
     <ClInclude Include="..\..\include\stdafx.hpp" />
@@ -101,8 +101,8 @@
     <ClCompile Include="..\..\src\Mesh\D3D11VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11GeometryShader.cpp" />
-    <ClCompile Include="..\..\src\Shader\D3D11PostTesselationShader.cpp" />
-    <ClCompile Include="..\..\src\Shader\D3D11PreTesselationShader.cpp" />
+    <ClCompile Include="..\..\src\Shader\D3D11PostTessellationShader.cpp" />
+    <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11VertexShader.cpp" />
     <ClCompile Include="..\..\src\stdafx.cpp" />
