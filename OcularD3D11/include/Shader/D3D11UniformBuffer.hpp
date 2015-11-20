@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_D3D11_MATERIAL__H__
-#define __H__OCULAR_D3D11_MATERIAL__H__
+#ifndef __H__OCULAR_D3D11_SHADER_UNIFORM_BUFFER__H__
+#define __H__OCULAR_D3D11_SHADER_UNIFORM_BUFFER__H__
 
-#include "Graphics/Material/Material.hpp"
+#include "Graphics/Shader/UniformBuffer.hpp"
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -36,30 +36,33 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class D3D11Material
+         * \class D3D11UniformBuffer
+         * \brief D3D11 implementation of a UniformBuffer (ie Shader Constant Buffer)
          */
-        class D3D11Material : public Material
+        class D3D11UniformBuffer : public UniformBuffer
         {
         public:
 
-            D3D11Material(ID3D11DeviceContext* context);
-            virtual ~D3D11Material();
+            D3D11UniformBuffer(UniformBufferType type, ID3D11Device* device, ID3D11DeviceContext* context);
+            virtual ~D3D11UniformBuffer();
 
+            /**
+             * Currently binds automatically to both Vertex and Fragment stages.
+             */
             virtual void bind() override;
             virtual void unbind() override;
 
-            virtual bool setTexture(uint32_t index, std::string const& name, Texture* texture) override;
-            virtual void removeTexture(uint32_t index) override;
-
         protected:
 
-            void bindTextures();
-            void unbindTextures();
+            void packUniformData();
+            void buildD3DBuffer();
+            void updateD3DBuffer();
 
+            //------------------------------------------------------------
+
+            ID3D11Device* m_D3DDevice;
             ID3D11DeviceContext* m_D3DDeviceContext;
-
-            ID3D11ShaderResourceView** m_ShaderResourceViews;     // Array of ShaderResourceView objects to pass to the shaders.
-            ID3D11ShaderResourceView** m_NullShaderResourceViews; // Used when unbinding textures
+            ID3D11Buffer* m_D3DBuffer;
 
         private:
         };

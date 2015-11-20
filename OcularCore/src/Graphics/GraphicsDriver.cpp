@@ -150,6 +150,11 @@ namespace Ocular
             return new PostTessellationShader();
         }
 
+        UniformBuffer* GraphicsDriver::createUniformBuffer(UniformBufferType const type) const
+        {
+            return new UniformBuffer(type);
+        }
+
         //----------------------------------------------------------------------------------
         // Meshes
         //----------------------------------------------------------------------------------

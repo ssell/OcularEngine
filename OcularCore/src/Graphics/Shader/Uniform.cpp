@@ -153,7 +153,7 @@ namespace Ocular
             return result;
         }
 
-        float* Uniform::getAllElements() const
+        float* Uniform::getData() const
         {
             return m_Data;
         }

@@ -84,6 +84,9 @@
     <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11UniformBuffer.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -129,6 +132,9 @@
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11UniformBuffer.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>

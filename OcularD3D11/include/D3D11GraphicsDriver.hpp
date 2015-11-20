@@ -72,6 +72,7 @@ namespace Ocular
             virtual FragmentShader* createFragmentShader() const override;
             virtual PreTessellationShader* createPreTessellationShader() const override;
             virtual PostTessellationShader* createPostTessellationShader() const override;
+            virtual UniformBuffer* createUniformBuffer(UniformBufferType type) const override;
 
             virtual IndexBuffer* createIndexBuffer() const override;
             virtual VertexBuffer* createVertexBuffer() const override;

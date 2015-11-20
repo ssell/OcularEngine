@@ -26,6 +26,7 @@
 #include "Graphics/Shader/FragmentShader.hpp"
 #include "Graphics/Shader/PreTessellationShader.hpp"
 #include "Graphics/Shader/PostTessellationShader.hpp"
+#include "Graphics/Shader/UniformBuffer.hpp"
 
 #include "Graphics/Material/Material.hpp"
 
@@ -200,6 +201,15 @@ namespace Ocular
              */
             virtual PostTessellationShader* createPostTessellationShader() const;
 
+            /**
+             * Creates a new API-specific implementation of the UniformBuffer class.
+             *
+             * \return Returns the new instantiated buffer. The caller must assume
+             *         ownership of the buffer and handle any cleanup. May return 
+             *         NULL if buffer creation failed.
+             */
+            virtual UniformBuffer* createUniformBuffer(UniformBufferType type) const;
+
             //------------------------------------------------------------------------------
             // Meshes
 
@@ -207,8 +217,8 @@ namespace Ocular
              * Creates a new API-specific implementation of the IndexBuffer class.
              *
              * \return Returns the new instantiated buffer. The caller must assume
-             *         ownership of the shader and handle any cleanup. May return 
-             *         NULL if shader creation failed.
+             *         ownership of the buffer and handle any cleanup. May return 
+             *         NULL if buffer creation failed.
              */
             virtual IndexBuffer* createIndexBuffer() const;
 
@@ -216,8 +226,8 @@ namespace Ocular
              * Creates a new API-specific implementation of the VertexBuffer class.
              *
              * \return Returns the new instantiated buffer. The caller must assume
-             *         ownership of the shader and handle any cleanup. May return 
-             *         NULL if shader creation failed.
+             *         ownership of the buffer and handle any cleanup. May return 
+             *         NULL if buffer creation failed.
              */
             virtual VertexBuffer* createVertexBuffer() const;
 

@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-#pragma
+#pragma once
 #ifndef __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
-#include "Graphics/Shader/Uniform.hpp"
+#include "Graphics/Shader/UniformBuffer.hpp"
 #include "Resources/Resource.hpp"
 #include "Math/Matrix4x4.hpp"
 
-#include <string>
 #include <unordered_map>
 
 //------------------------------------------------------------------------------------------
@@ -220,7 +219,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual bool setUniform(std::string const& name, uint32_t registerIndex, float value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, float value);
 
             /**
              * Returns the value of the associated uniform.
@@ -242,7 +241,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -264,7 +263,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -286,7 +285,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -311,7 +310,7 @@ namespace Ocular
             PostTessellationShader* m_PostTessellationShader;
 
             std::vector<std::pair<std::string, Texture*>> m_Textures;
-            std::unordered_map<std::string, Uniform> m_Uniforms;
+            UniformBuffer* m_UniformBuffer;
 
         private:
         };

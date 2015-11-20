@@ -87,6 +87,7 @@
     <ClInclude Include="..\..\include\Shader\D3D11PostTessellationShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Shader\D3D11UniformBuffer.hpp" />
     <ClInclude Include="..\..\include\Shader\D3D11VertexShader.hpp" />
     <ClInclude Include="..\..\include\stdafx.hpp" />
     <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="..\..\src\Shader\D3D11PostTessellationShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Shader\D3D11UniformBuffer.cpp" />
     <ClCompile Include="..\..\src\Shader\D3D11VertexShader.cpp" />
     <ClCompile Include="..\..\src\stdafx.cpp" />
     <ClCompile Include="..\..\src\Texture\D3D11DepthTexture.cpp" />

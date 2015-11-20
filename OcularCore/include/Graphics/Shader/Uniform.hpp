@@ -40,7 +40,7 @@ namespace Ocular
         class Uniform
         {
         public:
-            
+
             /**
              *
              */
@@ -103,7 +103,7 @@ namespace Ocular
             /**
              * \return A pointer to all data. May be NULL if data elements were never set or there was an error during creation.
              */
-            float* getAllElements() const;
+            float* getData() const;
 
             //------------------------------------------------------------
             // Name Methods

@@ -28,6 +28,7 @@
 #include "Shader/D3D11FragmentShader.hpp"
 #include "Shader/D3D11PreTessellationShader.hpp"
 #include "Shader/D3D11PostTessellationShader.hpp"
+#include "Shader/D3D11UniformBuffer.hpp"
 
 #include "Material/D3D11Material.hpp"
 
@@ -318,6 +319,11 @@ namespace Ocular
         PostTessellationShader* D3D11GraphicsDriver::createPostTessellationShader() const
         {
             return new D3D11PostTessellationShader(m_D3DDeviceContext);
+        }
+
+        UniformBuffer* D3D11GraphicsDriver::createUniformBuffer(UniformBufferType const type) const
+        {
+            return new D3D11UniformBuffer(type, m_D3DDevice, m_D3DDeviceContext);
         }
 
         //----------------------------------------------------------------------------------
