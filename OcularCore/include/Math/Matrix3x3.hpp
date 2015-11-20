@@ -51,12 +51,6 @@ namespace Ocular
          *    z.x, z.y, z.z
          * \endcode
          *
-         * Stored internally in a single array as:
-         *
-         * \code
-         *   {x.x, x.y, x.z, y.x, y.y, y.z, z.x, z.y, z.z}
-         * \endcode
-         *
          * Where
          *
          *   x = X-Axis Rotation
@@ -110,6 +104,22 @@ namespace Ocular
                 m_Contents[2][0] = p20;
                 m_Contents[2][1] = p21;
                 m_Contents[2][2] = p22;
+            }
+
+            Matrix3x3(T* values)
+            {
+                if(values)
+                {
+                    m_Contents[0][0] = values[0];
+                    m_Contents[0][1] = values[1];
+                    m_Contents[0][2] = values[2];
+                    m_Contents[1][0] = values[3];
+                    m_Contents[1][1] = values[4];
+                    m_Contents[1][2] = values[5];
+                    m_Contents[2][0] = values[6];
+                    m_Contents[2][1] = values[7];
+                    m_Contents[2][2] = values[8];
+                }
             }
 
             /**

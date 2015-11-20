@@ -486,6 +486,9 @@
     <ClCompile Include="..\..\src\Graphics\Shader\PreTessellationShader.cpp">
       <Filter>Source Files\Graphics\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -906,6 +909,9 @@
       <Filter>Header Files\Graphics\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Shader\PreTessellationShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform.hpp">
       <Filter>Header Files\Graphics\Shader</Filter>
     </ClInclude>
   </ItemGroup>

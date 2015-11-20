@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
+#include "Graphics/Shader/Uniform.hpp"
 #include "Resources/Resource.hpp"
 #include "Math/Matrix4x4.hpp"
 
@@ -216,8 +217,10 @@ namespace Ocular
              * \note This uniform value is set for all valid shaders associated with this material.
              * \param[in] name  Valid uniform name.
              * \param[in] value Single floating-point value for the uniform.
+             *
+             * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, float value);
+            virtual bool setUniform(std::string const& name, uint32_t registerIndex, float value);
 
             /**
              * Returns the value of the associated uniform.
@@ -236,8 +239,10 @@ namespace Ocular
              * \note This uniform value is set for all valid shaders associated with this material.
              * \param[in] name  Valid uniform name.
              * \param[in] value A 4-component Vector value for the uniform.
+             *
+             * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, Math::Vector4f const& value);
+            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -256,8 +261,10 @@ namespace Ocular
              * \note This uniform value is set for all valid shaders associated with this material.
              * \param[in] name  Valid uniform name.
              * \param[in] value A 3x3 matrix value for the uniform.
+             *
+             * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, Math::Matrix3x3f const& value);
+            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -276,8 +283,10 @@ namespace Ocular
              * \note This uniform value is set for all valid shaders associated with this material.
              * \param[in] name  Valid uniform name.
              * \param[in] value A 4x4 matrix value for the uniform.
+             *
+             * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, Math::Matrix4x4f const& value);
+            virtual bool setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -295,13 +304,14 @@ namespace Ocular
             void bindShaders();
             void unbindShaders();
 
-            VertexShader*          m_VertexShader;
-            GeometryShader*        m_GeometryShader;
-            FragmentShader*        m_FragmentShader;
+            VertexShader*           m_VertexShader;
+            GeometryShader*         m_GeometryShader;
+            FragmentShader*         m_FragmentShader;
             PreTessellationShader*  m_PreTessellationShader;
             PostTessellationShader* m_PostTessellationShader;
 
             std::vector<std::pair<std::string, Texture*>> m_Textures;
+            std::unordered_map<std::string, Uniform> m_Uniforms;
 
         private:
         };

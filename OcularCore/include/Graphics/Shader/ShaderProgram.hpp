@@ -170,9 +170,9 @@ namespace Ocular
 
         protected:
             
-            VertexShader*          m_VertexShader;
-            GeometryShader*        m_GeometryShader;
-            FragmentShader*        m_FragmentShader;
+            VertexShader*           m_VertexShader;
+            GeometryShader*         m_GeometryShader;
+            FragmentShader*         m_FragmentShader;
             PreTessellationShader*  m_PreTessellationShader;
             PostTessellationShader* m_PostTessellationShader;
 

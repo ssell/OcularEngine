@@ -294,53 +294,218 @@ namespace Ocular
         // Uniform Methods
         //------------------------------------------------------------
 
-        void Material::setUniform(std::string const& name, float const value)
+        bool Material::setUniform(std::string const& name, uint32_t registerIndex, float const value)
         {
+            // The default setUniform functionality can't fail, but child implementations (ie D3D11Material) might
+            bool result = true;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                // Modifying an existing uniform
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+            else
+            {
+                // Creating a new uniform
+                m_Uniforms[name] = Uniform();
+                m_Uniforms[name].setName(name);
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+
+            return result;
         }
 
         bool Material::getUniform(std::string const& name, float& value)
         {
             bool result = false;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                const uint32_t size = findUniform->second.getSize();
+
+                if(size == 0)
+                {
+                    OcularLogger->error("Requested Uniform '", name, "' is empty", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                }
+                else
+                {
+                    if(findUniform->second.getSize() != 1)
+                    {
+                        OcularLogger->error("Requesting single element of data from Uniform '", name, "', when the Uniform contains ", size, " elements", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                    }
+                    else
+                    {
+                        value = findUniform->second.getElement(0);
+                        result = true;
+                    }
+                }
+            }
 
             return result;
         }
 
-        void Material::setUniform(std::string const& name, Math::Vector4f const& value)
+        bool Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value)
         {
+            // The default setUniform functionality can't fail, but child implementations (ie D3D11Material) might
+            bool result = true;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                // Modifying an existing uniform
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+            else
+            {
+                // Creating a new uniform
+                m_Uniforms[name] = Uniform();
+                m_Uniforms[name].setName(name);
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+
+            return result;
         }
 
         bool Material::getUniform(std::string const& name, Math::Vector4f& value)
         {
             bool result = false;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                const uint32_t size = findUniform->second.getSize();
+
+                if(size == 0)
+                {
+                    OcularLogger->error("Requested Uniform '", name, "' is empty", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                }
+                else
+                {
+                    if(findUniform->second.getSize() != 4)
+                    {
+                        OcularLogger->error("Requesting Vector4 data from Uniform '", name, "', when the Uniform contains ", size, " elements", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                    }
+                    else
+                    {
+                        value = Math::Vector4f(findUniform->second.getAllElements());
+                        result = true;
+                    }
+                }
+            }
 
             return result;
         }
 
-        void Material::setUniform(std::string const& name, Math::Matrix3x3f const& value)
+        bool Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value)
         {
+            // The default setUniform functionality can't fail, but child implementations (ie D3D11Material) might
+            bool result = true;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                // Modifying an existing uniform
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+            else
+            {
+                // Creating a new uniform
+                m_Uniforms[name] = Uniform();
+                m_Uniforms[name].setName(name);
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+
+            return result;
         }
 
         bool Material::getUniform(std::string const& name, Math::Matrix3x3f& value)
         {
             bool result = false;
+            auto findUniform = m_Uniforms.find(name);
+
+            if(findUniform != m_Uniforms.end())
+            {
+                const uint32_t size = findUniform->second.getSize();
+
+                if(size == 0)
+                {
+                    OcularLogger->error("Requested Uniform '", name, "' is empty", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                }
+                else
+                {
+                    if(findUniform->second.getSize() != 12)
+                    {
+                        OcularLogger->error("Requesting Matrix3x3 data from Uniform '", name, "', when the Uniform contains ", size, " elements", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                    }
+                    else
+                    {
+                        value = Math::Matrix3x3f(findUniform->second.getAllElements());
+                        result = true;
+                    }
+                }
+            }
 
             return result;
         }
 
-        void Material::setUniform(std::string const& name, Math::Matrix4x4f const& value)
+        bool Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value)
         {
+            // The default setUniform functionality can't fail, but child implementations (ie D3D11Material) might
+            bool result = true;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                // Modifying an existing uniform
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+            else
+            {
+                // Creating a new uniform
+                m_Uniforms[name] = Uniform();
+                m_Uniforms[name].setName(name);
+                m_Uniforms[name].setRegister(registerIndex);
+                m_Uniforms[name].setData(value);
+            }
+
+            return result;
         }
 
         bool Material::getUniform(std::string const& name, Math::Matrix4x4f& value)
         {
             bool result = false;
+            auto findUniform = m_Uniforms.find(name);
 
+            if(findUniform != m_Uniforms.end())
+            {
+                const uint32_t size = findUniform->second.getSize();
+
+                if(size == 0)
+                {
+                    OcularLogger->error("Requested Uniform '", name, "' is empty", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                }
+                else
+                {
+                    if(findUniform->second.getSize() != 16)
+                    {
+                        OcularLogger->error("Requesting Matrix4x4 data from Uniform '", name, "', when the Uniform contains ", size, " elements", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                    }
+                    else
+                    {
+                        value = Math::Matrix3x3f(findUniform->second.getAllElements());
+                        result = true;
+                    }
+                }
+            }
 
             return result;
         }

@@ -47,6 +47,13 @@ namespace Ocular
         {
         public:
 
+            Vector3(T* values)
+            {
+                x = values[0];
+                y = values[1];
+                z = values[2];
+            }
+
             Vector3(Euler const& euler)
             {
                 x = static_cast<T>(euler.getYaw());

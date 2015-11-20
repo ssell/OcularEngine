@@ -44,6 +44,14 @@ namespace Ocular
         {
         public:
 
+            Vector4(T* values)
+            {
+                x = values[0];
+                y = values[1];
+                z = values[2];
+                w = values[3];
+            }
+
             Vector4(Vector3<T> const& vec, T pW = static_cast<T>(1.0f))
             {
                 x = vec.x;

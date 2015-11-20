@@ -43,6 +43,12 @@ namespace Ocular
         {
         public:
 
+            Vector2(T* values)
+            {
+                x = values[0];
+                y = values[1];
+            }
+
             Vector2(T const &pX, T const &pY)
             {
                 x = pX;

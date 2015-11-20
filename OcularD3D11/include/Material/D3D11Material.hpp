@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_MATERIAL__H__
-#define __OCULAR_D3D11_MATERIAL__H__
+#ifndef __H__OCULAR_D3D11_MATERIAL__H__
+#define __H__OCULAR_D3D11_MATERIAL__H__
 
 #include "Graphics/Material/Material.hpp"
 #include <d3d11.h>
@@ -51,10 +51,10 @@ namespace Ocular
             virtual bool setTexture(uint32_t index, std::string const& name, Texture* texture) override;
             virtual void removeTexture(uint32_t index) override;
 
-            virtual void setUniform(std::string const& name, float value) override;
-            virtual void setUniform(std::string const& name, Math::Vector4f const& value) override;
-            virtual void setUniform(std::string const& name, Math::Matrix3x3f const& value) override;
-            virtual void setUniform(std::string const& name, Math::Matrix4x4f const& value) override;
+            virtual bool setUniform(std::string const& name, uint32_t index, float value) override;
+            virtual bool setUniform(std::string const& name, uint32_t index, Math::Vector4f const& value) override;
+            virtual bool setUniform(std::string const& name, uint32_t index, Math::Matrix3x3f const& value) override;
+            virtual bool setUniform(std::string const& name, uint32_t index, Math::Matrix4x4f const& value) override;
 
         protected:
 
