@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
-#include "Graphics/Shader/UniformBuffer.hpp"
+#include "Graphics/Shader/Uniform/UniformBuffer.hpp"
 #include "Resources/Resource.hpp"
 #include "Math/Matrix4x4.hpp"
 

@@ -193,6 +193,12 @@
     <Filter Include="Source Files\Graphics\Mesh">
       <UniqueIdentifier>{aee1c94a-3209-444d-a8e0-de7d22a34451}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics\Shader\Uniform">
+      <UniqueIdentifier>{0395f666-cbda-472c-a1ad-ea5ece9dff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Shader\Uniform">
+      <UniqueIdentifier>{2020a237-74f8-45ae-bf4f-97ab2ab09b4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -486,11 +492,11 @@
     <ClCompile Include="..\..\src\Graphics\Shader\PreTessellationShader.cpp">
       <Filter>Source Files\Graphics\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Shader\Uniform.cpp">
-      <Filter>Source Files\Graphics\Shader</Filter>
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\Uniform.cpp">
+      <Filter>Source Files\Graphics\Shader\Uniform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Shader\UniformBuffer.cpp">
-      <Filter>Source Files\Graphics\Shader</Filter>
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\UniformBuffer.cpp">
+      <Filter>Source Files\Graphics\Shader\Uniform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -914,11 +920,20 @@
     <ClInclude Include="..\..\include\Graphics\Shader\PreTessellationShader.hpp">
       <Filter>Header Files\Graphics\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\Shader\Uniform.hpp">
-      <Filter>Header Files\Graphics\Shader</Filter>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\Uniform.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\Shader\UniformBuffer.hpp">
-      <Filter>Header Files\Graphics\Shader</Filter>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformBuffer.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.h">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -59,6 +59,11 @@ namespace Ocular
          *     Per-Object (world matrix, etc.)
          *     Per-Material (any user defined values)
          *
+         * All buffers except Material buffers are treated as 'fixed' while Materials are 'dynamic'.
+         * What this means is that fixed buffers take in full structs as data, while dynamic buffers
+         * can take in individual uniform values and registers. So a fixed uniform is rigid and the
+         * structure of it's data can never change.
+         *
          * See the manual section on Shaders for more information.
          */
         class UniformBuffer
@@ -71,9 +76,29 @@ namespace Ocular
             virtual void bind();
             virtual void unbind();
 
-            void setUniform(Uniform const& uniform);
+            /**
+             * \note Only available to fixed buffers (Frame, Camera, and Object)
+             */
+            void setFixedData(uint32_t size, void* data);
+            
+            /**
+             * \note Only available to fixed buffers (Frame, Camera, and Object)
+             */
+            void* getFixedData();
 
+            /**
+             * \note Only available to dynamic buffers (Material)
+             */
+            void setUniform(Uniform const& uniform);
+            
+            /**
+             * \note Only available to dynamic buffers (Material)
+             */
             Uniform const* getUniform(std::string const& name) const;
+            
+            /**
+             * \note Only available to dynamic buffers (Material)
+             */
             Uniform const* getUniform(uint32_t registerIndex) const;
 
         protected:
@@ -82,9 +107,11 @@ namespace Ocular
             bool m_IsDirty;
 
             std::vector<Uniform> m_Uniforms;    ///< User-friendly copy of Uniform data that is easily modifiable. Strictly CPU-only.
-
-            float* m_UniformData;               ///< Raw, packed (16-byte) uniform data. Only modify when m_IsDirty is true and not in use by GPU.
+            
+            void*    m_FixedUniformData;        ///< Pre-structured Uniform data for Frame, Camera, and Object buffers
+            float*   m_UniformData;             ///< Raw, packed (16-byte) uniform data. Only modify when m_IsDirty is true and not in use by GPU.
             uint32_t m_UniformDataSize;         ///< Size of the raw uniform data 
+
 
         private:
         };

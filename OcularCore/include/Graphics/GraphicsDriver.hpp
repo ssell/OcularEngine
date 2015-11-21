@@ -26,7 +26,6 @@
 #include "Graphics/Shader/FragmentShader.hpp"
 #include "Graphics/Shader/PreTessellationShader.hpp"
 #include "Graphics/Shader/PostTessellationShader.hpp"
-#include "Graphics/Shader/UniformBuffer.hpp"
 
 #include "Graphics/Material/Material.hpp"
 

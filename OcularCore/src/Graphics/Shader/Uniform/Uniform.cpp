@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Graphics/Shader/Uniform.hpp"
+#include "Graphics/Shader/Uniform/Uniform.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------

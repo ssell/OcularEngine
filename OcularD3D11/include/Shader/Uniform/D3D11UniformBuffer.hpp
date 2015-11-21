@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_D3D11_SHADER_UNIFORM_BUFFER__H__
 #define __H__OCULAR_D3D11_SHADER_UNIFORM_BUFFER__H__
 
-#include "Graphics/Shader/UniformBuffer.hpp"
+#include "Graphics/Shader/Uniform/UniformBuffer.hpp"
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -55,6 +55,9 @@ namespace Ocular
         protected:
 
             void packUniformData();
+            void packDynamicUniformData();
+            void packFixedUniformData();
+
             void buildD3DBuffer();
             void updateD3DBuffer();
 

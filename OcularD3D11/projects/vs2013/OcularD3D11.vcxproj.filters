@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Mesh">
       <UniqueIdentifier>{a6c4cee7-663f-4082-928b-7c6c23cb37e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shader\Uniform">
+      <UniqueIdentifier>{996a4b38-e54c-47cc-b9ff-afbba36bec18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Uniform">
+      <UniqueIdentifier>{365ed2f8-e1a1-4609-90d3-f7b37369607a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.hpp">
@@ -63,9 +69,6 @@
     <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
-      <Filter>Header Files\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Material\D3D11Material.hpp">
       <Filter>Header Files\Material</Filter>
     </ClInclude>
@@ -84,7 +87,10 @@
     <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Shader\D3D11UniformBuffer.hpp">
+    <ClInclude Include="..\..\include\Shader\Uniform\D3D11UniformBuffer.hpp">
+      <Filter>Header Files\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,9 +119,6 @@
     <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
-      <Filter>Source Files\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Material\D3D11Material.cpp">
       <Filter>Source Files\Material</Filter>
     </ClCompile>
@@ -134,8 +137,11 @@
     <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Shader\D3D11UniformBuffer.cpp">
+    <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
       <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\Uniform\D3D11UniformBuffer.cpp">
+      <Filter>Source Files\Shader\Uniform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

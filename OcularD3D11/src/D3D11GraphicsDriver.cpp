@@ -28,7 +28,7 @@
 #include "Shader/D3D11FragmentShader.hpp"
 #include "Shader/D3D11PreTessellationShader.hpp"
 #include "Shader/D3D11PostTessellationShader.hpp"
-#include "Shader/D3D11UniformBuffer.hpp"
+#include "Shader/Uniform/D3D11UniformBuffer.hpp"
 
 #include "Material/D3D11Material.hpp"
 

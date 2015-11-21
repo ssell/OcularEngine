@@ -187,8 +187,8 @@
     <ClCompile Include="..\..\src\Graphics\Shader\PreTessellationShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\ShaderProgram.cpp" />
-    <ClCompile Include="..\..\src\Graphics\Shader\Uniform.cpp" />
-    <ClCompile Include="..\..\src\Graphics\Shader\UniformBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\Uniform.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\UniformBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp" />
@@ -295,8 +295,11 @@
     <ClInclude Include="..\..\include\Graphics\Shader\PreTessellationShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\ShaderProgram.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Shader\Uniform.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Shader\UniformBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\Uniform.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.h" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp" />
