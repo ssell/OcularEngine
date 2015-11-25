@@ -28,6 +28,7 @@
 #include "Resources/ResourceManager.hpp"
 #include "Performance/Profiler.hpp"
 #include "Scene/SceneManager.hpp"
+#include "Scene/Camera/CameraManager.hpp"
 #include "Graphics/GraphicsDriver.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -130,6 +131,11 @@ namespace Ocular
         std::shared_ptr<Core::SceneManager> SceneManager() const;
 
         /**
+         * \return Reference to the primary CameraManager
+         */
+        std::shared_ptr<Core::CameraManager> CameraManager() const;
+
+        /**
          * \return Reference to the primary Profiler
          */
         std::shared_ptr<Core::Profiler> Profiler() const;
@@ -176,6 +182,7 @@ namespace Ocular
         std::shared_ptr<Core::Logger>             m_Logger;
         std::shared_ptr<Core::ResourceManager>    m_ResourceManager;
         std::shared_ptr<Core::SceneManager>       m_SceneManager;
+        std::shared_ptr<Core::CameraManager>      m_CameraManager;
         std::shared_ptr<Core::WindowManager>      m_WindowManager;
         std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
         std::shared_ptr<Core::Profiler>           m_Profiler;
@@ -192,6 +199,7 @@ namespace Ocular
 #define OcularLogger    OcularEngine.Logger()
 #define OcularClock     OcularEngine.Clock()
 #define OcularScene     OcularEngine.SceneManager()
+#define OcularCameras   OcularEngine.CameraManager()
 #define OcularEvents    OcularEngine.EventManager()
 #define OcularInput     OcularEngine.Input()
 #define OcularResources OcularEngine.ResourceManager()

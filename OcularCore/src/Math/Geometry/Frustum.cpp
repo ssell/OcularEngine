@@ -67,7 +67,7 @@ namespace Ocular
             m_Right   = m_Forward.cross(m_Up);
         }
 
-        void Frustum::setProjection(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
+        void Frustum::setProjectionOrthographic(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
         {
             m_MinX = xMin;
             m_MaxX = xMax;
@@ -78,7 +78,7 @@ namespace Ocular
             m_FarClip  = farClip;
         }
 
-        void Frustum::setProjection(float const fov, float const aspectRatio, float const nearClip, float const farClip)
+        void Frustum::setProjectionPerspective(float const fov, float const aspectRatio, float const nearClip, float const farClip)
         {
             // Source: http://www.songho.ca/opengl/gl_transform.html#projection
 

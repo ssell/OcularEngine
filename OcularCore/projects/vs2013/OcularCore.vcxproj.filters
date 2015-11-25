@@ -199,6 +199,12 @@
     <Filter Include="Header Files\Graphics\Shader\Uniform">
       <UniqueIdentifier>{2020a237-74f8-45ae-bf4f-97ab2ab09b4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene\Camera">
+      <UniqueIdentifier>{b540b68c-44b0-4fba-9869-f975422d9d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Camera">
+      <UniqueIdentifier>{b51f3cac-fc6f-4f70-8bec-230d1e1e6f38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -497,6 +503,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Shader\Uniform\UniformBuffer.cpp">
       <Filter>Source Files\Graphics\Shader\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -934,6 +946,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.h">
       <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Camera\Camera.hpp">
+      <Filter>Header Files\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Camera\CameraManager.hpp">
+      <Filter>Header Files\Scene\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

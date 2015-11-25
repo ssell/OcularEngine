@@ -106,7 +106,7 @@ namespace Ocular
              *
              * \note Must call rebuild to update the frustum.
              */
-            void setProjection(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
+            void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
 
             /**
              * Sets the properties of an perspective projection that defines the
@@ -119,7 +119,7 @@ namespace Ocular
              *
              * \note Must call rebuild to update the frustum.
              */
-            void setProjection(float fov, float aspectRatio, float nearClip, float farClip);
+            void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
 
             //------------------------------------------------------------
             // Misc Getters
