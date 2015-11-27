@@ -76,7 +76,7 @@ TEST(BVHSceneTree, GetAllVisibleObjects)
 
     Frustum frustum;
     frustum.setView(Vector3f(0.0f, 0.0f, 2.0f), Vector3f::Forward(), Vector3f::Up());
-    frustum.setProjection(-3.0f, 3.0f, -3.0f, 3.0f, 1.0f, 10.0f);
+    frustum.setProjectionOrthographic(-3.0f, 3.0f, -3.0f, 3.0f, 1.0f, 10.0f);
     frustum.rebuild();
 
     g_SceneTree->getAllVisibleObjects(frustum, visibleObjects);

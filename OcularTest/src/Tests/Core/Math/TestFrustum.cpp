@@ -24,7 +24,7 @@ using namespace Ocular::Math;
 void CreateFrustum(Frustum& frustum)
 {
     frustum.setView(Vector3f(0.0f, 0.0f, 0.0f), Vector3f::Forward(), Vector3f::Up());
-    frustum.setProjection(60.0f, (1024.0f / 768.0f), 10.0f, 100.0f);
+    frustum.setProjectionPerspective(60.0f, (1024.0f / 768.0f), 10.0f, 100.0f);
     frustum.rebuild();
 }
 

@@ -177,13 +177,31 @@ namespace Ocular
 
                     if(renderTexture)
                     {
-                        const static float clearColor[4] = { Core::Color::ErrorPink().r, Core::Color::ErrorPink().g, Core::Color::ErrorPink().b, Core::Color::ErrorPink().a };
-                        m_D3DDeviceContext->ClearRenderTargetView(renderTexture->getD3DRenderTargetView(), clearColor);
+                        ID3D11RenderTargetView* d3dRTV = renderTexture->getD3DRenderTargetView();
+
+                        if(d3dRTV)
+                        {
+                            const static float clearColor[4] = { Core::Color::ErrorPink().r, Core::Color::ErrorPink().g, Core::Color::ErrorPink().b, Core::Color::ErrorPink().a };
+                            m_D3DDeviceContext->ClearRenderTargetView(d3dRTV, clearColor);
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to clear buffers as D3D11 Render Target View is NULL", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "clearBuffers"));
+                        }
                     }
 
                     if(depthTexture)
                     {
-                        m_D3DDeviceContext->ClearDepthStencilView(depthTexture->getD3DDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+                        ID3D11DepthStencilView* d3dDSV = depthTexture->getD3DDepthStencilView();
+
+                        if(d3dDSV)
+                        {
+                            m_D3DDeviceContext->ClearDepthStencilView(d3dDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to clear buffers as D3D11 Depth Stencil View is NULL", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "clearBuffers"));
+                        }
                     }
                 }
             }
@@ -426,7 +444,7 @@ namespace Ocular
                     break;
 
                 default:
-                    dest.BindFlags = 0;
+                    dest.BindFlags = D3D11_BIND_SHADER_RESOURCE;
                     break;
                 }
 

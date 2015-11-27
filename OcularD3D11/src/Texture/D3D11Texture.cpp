@@ -90,18 +90,38 @@ namespace Ocular
         {
             bool result = true;
 
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
-            ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-            srvDescr.Format = m_D3DFormat;
-            srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDescr.Texture2D.MipLevels = descriptor.mipmaps;
-
-            const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
-
-            if(hResult != S_OK)
+            if(m_D3DTexture)
             {
-                OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DShaderResource"));
-                result = false;
+                D3D11_TEXTURE2D_DESC descr;
+                m_D3DTexture->GetDesc(&descr);
+
+                if(descr.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+                {
+                    D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
+                    ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+                    srvDescr.Format = m_D3DFormat;
+                    srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+                    srvDescr.Texture2D.MipLevels = descriptor.mipmaps;
+
+                    const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
+
+                    if(hResult != S_OK)
+                    {
+                        D3D11_TEXTURE2D_DESC descr;
+                        m_D3DTexture->GetDesc(&descr);
+
+                        OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
+                        result = false;
+                    }
+                }
+                else
+                {
+                    OcularLogger->warning("Attempting to create D3D11 SRV from texture without SRV bind flags", OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
+                }
+            }
+            else
+            {
+                OcularLogger->warning("Attempting to create D3D11 SRV from NULL texture", OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
             }
 
             return result;
