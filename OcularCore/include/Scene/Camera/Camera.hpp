@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_CORE_SCENE_CAMERA__H__
 #define __H__OCULAR_CORE_SCENE_CAMERA__H__
 
+#include "Priority.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Graphics/Texture/RenderTexture.hpp"
 #include "Math/Geometry/Frustum.hpp"
@@ -43,7 +44,7 @@ namespace Ocular
         {
         public:
 
-            Camera(std::string const& name, SceneObject* parent = nullptr);
+            Camera(std::string const& name, Priority priority, SceneObject* parent = nullptr);
             virtual ~Camera();
 
             void setRenderTexture(Graphics::RenderTexture* renderTexture);
@@ -56,6 +57,8 @@ namespace Ocular
             Math::Matrix4x4f const& getProjectionMatrix() const;
             Math::Frustum const& getFrustum() const;
 
+            Priority getPriority() const;
+
         protected:
 
             Math::Matrix4x4f m_ViewMatrix;
@@ -64,6 +67,8 @@ namespace Ocular
             Math::Frustum m_Frustum;
 
             Graphics::RenderTexture* m_RenderTexture;
+
+            Priority m_Priority;
 
         private:
         };

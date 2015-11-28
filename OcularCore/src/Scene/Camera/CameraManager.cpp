@@ -15,6 +15,7 @@
  */
 
 #include "Scene/Camera/CameraManager.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,14 +29,19 @@ namespace Ocular
 
         CameraManager::CameraManager()
             : m_MainCamera(nullptr),
-              m_ActiveCamera(nullptr)
+              m_ActiveCamera(nullptr),
+              m_UniformBuffer(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerCamera))
         {
 
         }
 
         CameraManager::~CameraManager()
         {
-
+            if(m_UniformBuffer)
+            {
+                delete m_UniformBuffer;
+                m_UniformBuffer = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -56,6 +62,27 @@ namespace Ocular
         {
             m_MainCamera = camera;
         }
+
+        void CameraManager::setActiveCamera(Camera* camera)
+        {
+            m_ActiveCamera = camera;
+
+            if(m_ActiveCamera)
+            {
+                m_UniformPerCamera.eyePosition = camera->getTransform().getPosition();
+                m_UniformPerCamera.viewMatrix  = camera->getViewMatrix();
+                m_UniformPerCamera.projMatrix  = camera->getProjectionMatrix();
+
+                m_UniformBuffer->setFixedData(sizeof(Graphics::UniformPerCamera), &m_UniformPerCamera);
+                m_UniformBuffer->bind();
+            }
+        }
+
+        std::vector<Camera*> const& CameraManager::getCameras() const
+        {
+            return m_Cameras;
+        }
+
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
@@ -78,12 +105,31 @@ namespace Ocular
 
                 if(!alreadyTracked)
                 {
-                    m_Cameras.push_back(camera);
-
-                    // If it is the first/only camera, it automatically becomes the main camera
-                    if(m_Cameras.size() == 1)
+                    if(m_Cameras.empty())
                     {
+                        m_Cameras.push_back(camera);
                         m_MainCamera = camera;
+                    }
+                    else
+                    {
+                        bool inserted = false;
+                        Priority priority = camera->getPriority();
+
+                        for(auto iter = m_Cameras.begin(); iter != m_Cameras.end(); ++iter)
+                        {
+                            if(priority < (*iter)->getPriority())
+                            {
+                                m_Cameras.insert(iter, camera);
+                                inserted = true;
+
+                                break;
+                            }
+                        }
+
+                        if(!inserted)
+                        {
+                            m_Cameras.push_back(camera);
+                        }
                     }
                 }
             }

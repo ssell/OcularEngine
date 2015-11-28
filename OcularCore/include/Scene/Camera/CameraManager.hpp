@@ -19,6 +19,8 @@
 #define __H__OCULAR_CORE_SCENE_CAMERA_MANAGER__H__
 
 #include "Scene/Camera/Camera.hpp"
+#include "Graphics/Shader/Uniform/UniformBuffer.hpp"
+#include "Graphics/Shader/Uniform/UniformPerCamera.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -75,10 +77,15 @@ namespace Ocular
             void setMainCamera(Camera* camera);
 
             /**
+             *
+             */
+            void setActiveCamera(Camera* camera);
+
+            /**
              * \return A reference to a vector of all cameras that currently exist. This includes cameras that may
              *         not be currently active or in use.
              */
-            std::vector<Camera*> const& getCameras();
+            std::vector<Camera*> const& getCameras() const;
 
         protected:
 
@@ -102,6 +109,9 @@ namespace Ocular
 
             Camera* m_MainCamera;
             Camera* m_ActiveCamera;
+
+            Graphics::UniformBuffer*   m_UniformBuffer;
+            Graphics::UniformPerCamera m_UniformPerCamera;
 
         private:
         };

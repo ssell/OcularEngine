@@ -27,9 +27,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Camera::Camera(std::string const& name, SceneObject* parent)
+        Camera::Camera(std::string const& name, Priority priority, SceneObject* parent)
             : SceneObject(name, parent),
-              m_RenderTexture(nullptr)
+              m_RenderTexture(nullptr),
+              m_Priority(priority)
         {
             OcularCameras->addCamera(this);
         }
@@ -80,6 +81,11 @@ namespace Ocular
         Math::Frustum const& Camera::getFrustum() const
         {
             return m_Frustum;
+        }
+
+        Priority Camera::getPriority() const
+        {
+            return m_Priority;
         }
 
         //----------------------------------------------------------------------------------

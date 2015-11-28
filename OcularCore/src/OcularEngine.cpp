@@ -146,6 +146,11 @@ namespace Ocular
         return m_SceneManager;
     }
 
+    std::shared_ptr<Core::CameraManager> Engine::CameraManager() const
+    {
+        return m_CameraManager;
+    }
+
     std::shared_ptr<Core::Profiler> Engine::Profiler() const
     {
         return m_Profiler;
@@ -195,7 +200,15 @@ namespace Ocular
         if((m_SceneManager) && (m_GraphicsDriver))
         {
             m_GraphicsDriver->clearBuffers();
-            m_SceneManager->render();
+
+            std::vector<Core::Camera*> cameras = m_CameraManager->getCameras();
+
+            for(auto iter = cameras.begin(); iter != cameras.end(); ++iter)
+            {
+                m_CameraManager->setActiveCamera((*iter));
+                m_SceneManager->render();
+            }
+
             m_GraphicsDriver->swapBuffers();
         }
     }

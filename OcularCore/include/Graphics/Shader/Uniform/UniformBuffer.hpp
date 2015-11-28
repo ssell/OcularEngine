@@ -38,7 +38,7 @@ namespace Ocular
         enum class UniformBufferType
         {
             PerFrame = 0,
-            PerView,
+            PerCamera,
             PerObject,
             PerMaterial
         };
