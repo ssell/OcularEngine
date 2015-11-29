@@ -20,6 +20,7 @@
 #include "Scene/ISceneTree.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Scene/ARoutine.hpp"
+#include "Scene/ARenderable.hpp"
 
 // SceneTree implementations
 
@@ -160,6 +161,7 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Remove it's Renderables
 
+
                 /// \todo Remove renderables
             }
         }
@@ -191,7 +193,46 @@ namespace Ocular
 
         void Scene::render()
         {
+            /**
+             * Very basic and naive rendering.
+             *
+             * Will be replaced by a dedicated renderer class that will 
+             * perform full material sorting, etc.
+             */
 
+            std::vector<SceneObject*> objects;
+            Camera* camera = OcularCameras->getActiveCamera();
+
+            if(camera)
+            {
+                Math::Frustum frustum = camera->getFrustum();
+
+                if(m_StaticSceneTree)
+                {
+                    m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
+                }
+
+                if(m_DynamicSceneTree)
+                {
+                    m_DynamicSceneTree->getAllVisibleObjects(frustum, objects);
+                }
+
+                //--------------------------------------------------------
+                // Sort Objects ...
+
+                //--------------------------------------------------------
+                // Render Objects
+
+                for(uint32_t i = 0; i < objects.size(); i++)
+                {
+                    SceneObject* currObject = objects[i];
+
+                    if(currObject)
+                    {
+                        std::vector<ARenderable*> renderables = currObject->getAllRenderables();
+                    }
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -338,6 +379,38 @@ namespace Ocular
                         m_Routines.erase(iter);
                         break;
                     }
+                }
+            }
+        }
+
+        void Scene::renderObject(SceneObject* object)
+        {
+            if(object)
+            {
+                const std::vector<ARenderable*> renderables = object->getAllRenderables();
+
+                for(auto iter = renderables.begin(); iter != renderables.end(); ++iter)
+                {
+                    ARenderable* renderable = (*iter);
+
+                    if(renderable)
+                    {
+                        Graphics::Material* material = renderable->getMaterial();
+                        Graphics::Mesh* mesh = renderable->getMesh();
+
+                        if(material && mesh)
+                        {
+                            material->bind();
+                            OcularGraphics->renderMesh(mesh);
+                        }
+                    }
+                }
+
+                const std::vector<SceneObject*> children = object->getAllChildren();
+
+                for(auto iter = children.begin(); iter != children.end(); ++iter)
+                {
+                    renderObject((*iter));
                 }
             }
         }

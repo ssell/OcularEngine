@@ -93,6 +93,16 @@ namespace Ocular
              */
             virtual void forceLoad();
 
+            /**
+             *
+             */
+            void setName(std::string const& name);
+
+            /**
+             *
+             */
+            std::string const& getName() const;
+
         protected:
 
             ResourceType m_Type;
@@ -101,6 +111,8 @@ namespace Ocular
             bool m_IsInMemory;
 
             uint64_t m_SizeInMemory;
+
+            std::string m_Name;
 
         private:
 

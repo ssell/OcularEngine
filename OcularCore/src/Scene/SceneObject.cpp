@@ -458,7 +458,7 @@ namespace Ocular
             return result;
         }
 
-        bool SceneObject::removeRoutine(ARoutine* routine)
+        bool SceneObject::removeRoutine(ARoutine* routine, bool transferring)
         {
             bool result = false;
 
@@ -472,11 +472,14 @@ namespace Ocular
                     {
                         m_Routines.erase(iter);
 
-                        OcularScene->objectRemovedRoutine(routine);
-                        routine->onDestruction();
+                        if(!transferring)
+                        {
+                            OcularScene->objectRemovedRoutine(routine);
+                            routine->onDestruction();
 
-                        delete routine;
-                        routine = nullptr;
+                            delete routine;
+                            routine = nullptr;
+                        }
 
                         result = true;
                         break;
@@ -529,6 +532,112 @@ namespace Ocular
         std::vector<ARoutine*> const& SceneObject::getAllRoutines() const
         {
             return m_Routines;
+        }
+
+        uint32_t SceneObject::getNumRoutines() const
+        {
+            return m_Routines.size();
+        }
+
+        //----------------------------------------------------------------
+        // Renderable Methods
+        //----------------------------------------------------------------
+
+        void SceneObject::addRenderable(ARenderable* renderable)
+        {
+            if(renderable)
+            {
+                if(renderable->getParent() != this)
+                {
+                    m_Renderables.push_back(renderable);
+                }
+            }
+        }
+
+        bool SceneObject::removeRenderable(ARenderable* renderable, bool transferring)
+        {
+            bool result = false;
+
+            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
+            {
+                if(renderable == (*iter))
+                {
+                    m_Renderables.erase(iter);
+
+                    if(!transferring)
+                    {
+                        delete renderable;
+                        renderable = nullptr;
+
+                        result = true;
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        bool SceneObject::removeRenderable(std::string const& name)
+        {
+            bool result = false;
+
+            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
+            {
+                ARenderable* renderable = (*iter);
+
+                if(renderable->getName().compare(name) == 0)
+                {
+                    m_Renderables.erase(iter);
+
+                    delete renderable;
+                    renderable = nullptr;
+
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        void SceneObject::removeAllRenderables()
+        {
+            for(uint32_t i = 0; i < m_Renderables.size(); i++)
+            {
+                delete m_Renderables[i];
+                m_Renderables[i] = nullptr;
+            }
+
+            m_Renderables.clear();
+        }
+
+        ARenderable* SceneObject::getRenderable(std::string const& name)
+        {
+            ARenderable* result = nullptr;
+
+            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
+            {
+                ARenderable* renderable = (*iter);
+
+                if(renderable->getName().compare(name) == 0)
+                {
+                    result = renderable;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        std::vector<ARenderable*> const& SceneObject::getAllRenderables() const
+        {
+            return m_Renderables;
+        }
+
+        uint32_t SceneObject::getNumRenderables() const
+        {
+            return m_Renderables.size();
         }
 
         //----------------------------------------------------------------------------------

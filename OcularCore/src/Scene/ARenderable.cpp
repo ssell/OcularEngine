@@ -14,105 +14,98 @@
  * limitations under the License.
  */
 
-#include "Graphics/Mesh/Mesh.hpp"
+#include "Scene/ARenderable.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Graphics
+    namespace Core
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Mesh::Mesh()
-            : Core::Resource(),
-              m_VertexBuffer(nullptr),
-              m_IndexBuffer(nullptr)
+        ARenderable::ARenderable(std::string const& name, SceneObject* parent)
+            : m_Name(name),
+              m_Parent(parent),
+              m_Mesh(nullptr),
+              m_Material(nullptr)
         {
-            m_Type = Core::ResourceType::Mesh;
+
         }
 
-        Mesh::~Mesh()
+        ARenderable::~ARenderable()
         {
-            unload();
+            m_Mesh = nullptr;        // Do not delete as meshes are shared
+            m_Material = nullptr;    // Do not delete as materials are shared
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool Mesh::bind()
+        //----------------------------------------------------------------
+        // Getters and Setters
+        //----------------------------------------------------------------
+
+        SceneObject* ARenderable::getParent()
         {
-            bool result = false;
-
-            if(m_VertexBuffer && m_IndexBuffer)
-            {
-                m_VertexBuffer->bind();
-                m_IndexBuffer->bind();
-                result = true;
-            }
-
-            return result;
+            return m_Parent;
         }
 
-        void Mesh::unbind()
+        void ARenderable::setParent(SceneObject* parent)
         {
-            if(m_VertexBuffer)
+            if(parent && (parent != m_Parent))
             {
-                m_VertexBuffer->unbind();
-            }
+                if(m_Parent)
+                {
+                    m_Parent->removeRenderable(this, true);
+                }
 
-            if(m_IndexBuffer)
-            {
-                m_IndexBuffer->unbind();
+                m_Parent->addRenderable(this);
             }
         }
 
-        void Mesh::unload()
+        Graphics::Mesh* ARenderable::getMesh() 
         {
-            if(m_VertexBuffer)
-            {
-                delete m_VertexBuffer;
-                m_VertexBuffer = nullptr;
-            }
-
-            if(m_IndexBuffer)
-            {
-                delete m_IndexBuffer;
-                m_IndexBuffer = nullptr;
-            }
+            return m_Mesh;
         }
 
-        void Mesh::setVertexBuffer(VertexBuffer* buffer)
+        void ARenderable::setMesh(Graphics::Mesh* mesh)
         {
-            if(m_VertexBuffer)
-            {
-                delete m_VertexBuffer;
-            }
-
-            m_VertexBuffer = nullptr;
+            m_Mesh = mesh;
         }
 
-        VertexBuffer* Mesh::getVertexBuffer()
+        Graphics::Material* ARenderable::getMaterial()
         {
-            return m_VertexBuffer;
+            return m_Material;
         }
 
-        void Mesh::setIndexBuffer(IndexBuffer* buffer)
+        void ARenderable::setMaterial(Graphics::Material* material)
         {
-            if(m_IndexBuffer)
-            {
-                delete m_IndexBuffer;
-            }
-
-            m_IndexBuffer = nullptr;
+            m_Material = material;
         }
 
-        IndexBuffer* Mesh::getIndexBuffer()
+        std::string ARenderable::getName() const
         {
-            return m_IndexBuffer;
+            return m_Name;
+        }
+
+        void ARenderable::setName(std::string const& name)
+        {
+            m_Name = name;
+        }
+
+        bool ARenderable::preRender()
+        {
+            return true;
+        }
+
+        bool ARenderable::postRender()
+        {
+            return true;
         }
 
         //----------------------------------------------------------------------------------

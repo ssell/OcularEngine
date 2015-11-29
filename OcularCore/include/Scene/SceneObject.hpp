@@ -337,6 +337,11 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
+             *
+             */
+            void addRoutine(ARoutine* routine);
+
+            /**
              * Adds a new instance of the specified routine to the SceneObject.
              *
              * \param[in] name Name of the ARoutine implementation to add.
@@ -359,10 +364,13 @@ namespace Ocular
              * Removes the specified ARoutine instance from the SceneObject.
              *
              * \param[in] routine Routine instance to remove from the SceneObject.
+             * \param[in] transferring If true, then this Routine is being transferred to another
+             *                         SceneObject and should not be deleted.
+             *
              * \return TRUE if the routine instance was successfully discovered and removed.
              *         If it fails, then no matching instance was discovered.
              */
-            bool removeRoutine(ARoutine* routine);
+            bool removeRoutine(ARoutine* routine, bool transferring = false);
 
             /**
              * Removes all routine instances that belong to this SceneObject.
@@ -381,6 +389,50 @@ namespace Ocular
              * Returns a collection of all routines that are owned by this SceneObject.
              */
             std::vector<ARoutine*> const& getAllRoutines() const;
+
+            /**
+             *
+             */
+            uint32_t getNumRoutines() const;
+
+            //------------------------------------------------------------
+            // Renderable Methods
+            //------------------------------------------------------------
+
+            /**
+             *
+             */
+            void addRenderable(ARenderable* renderable);
+
+            /**
+             *
+             */
+            bool removeRenderable(ARenderable* renderable, bool transferring = false);
+
+            /**
+             *
+             */
+            bool removeRenderable(std::string const& name);
+
+            /**
+             *
+             */
+            void removeAllRenderables();
+
+            /**
+             *
+             */
+            ARenderable* getRenderable(std::string const& name);
+
+            /**
+             *
+             */
+            std::vector<ARenderable*> const& getAllRenderables() const;
+
+            /**
+             *
+             */
+            uint32_t getNumRenderables() const;
 
             //------------------------------------------------------------
             // Public Members

@@ -58,6 +58,8 @@ namespace Ocular
 
             virtual void clearBuffers() override;
             virtual void swapBuffers() override;
+            
+            virtual bool renderMesh(Mesh* mesh) override;
 
             virtual Material* createMaterial() const override;
 

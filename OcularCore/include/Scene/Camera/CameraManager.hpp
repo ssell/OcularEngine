@@ -53,6 +53,11 @@ namespace Ocular
             ~CameraManager();
 
             /**
+             *
+             */
+            void initialize();
+
+            /**
              * Returns a pointer to the main camera.
              * By default, this is the camera that renders to the primary display's backbuffer.
              *

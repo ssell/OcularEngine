@@ -30,7 +30,7 @@ namespace Ocular
         CameraManager::CameraManager()
             : m_MainCamera(nullptr),
               m_ActiveCamera(nullptr),
-              m_UniformBuffer(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerCamera))
+              m_UniformBuffer(nullptr)
         {
 
         }
@@ -47,6 +47,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------=
+
+        void CameraManager::initialize()
+        {
+            m_UniformBuffer = OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerCamera);
+        }
 
         Camera* CameraManager::getMainCamera() const
         {
@@ -67,7 +72,7 @@ namespace Ocular
         {
             m_ActiveCamera = camera;
 
-            if(m_ActiveCamera)
+            if(m_ActiveCamera && m_UniformBuffer)
             {
                 m_UniformPerCamera.eyePosition = camera->getTransform().getPosition();
                 m_UniformPerCamera.viewMatrix  = camera->getViewMatrix();

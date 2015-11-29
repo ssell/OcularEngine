@@ -46,21 +46,21 @@ namespace Ocular
             Mesh();
             ~Mesh();
 
-            virtual void bind();
+            virtual bool bind();
             virtual void unbind();
 
             virtual void unload() override;
 
-            void setIndexBuffer(IndexBuffer* buffer);
-            IndexBuffer const* getIndexBuffer() const;
-
             void setVertexBuffer(VertexBuffer* buffer);
-            VertexBuffer const* getVertexBuffer() const;
+            VertexBuffer* getVertexBuffer();
+
+            void setIndexBuffer(IndexBuffer* buffer);
+            IndexBuffer* getIndexBuffer();
 
         protected:
-
-            IndexBuffer* m_IndexBuffer;
+            
             VertexBuffer* m_VertexBuffer;
+            IndexBuffer* m_IndexBuffer;
 
         private:
         };

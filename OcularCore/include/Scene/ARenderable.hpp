@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
+#include "Graphics/Mesh/Mesh.hpp"
+#include "Graphics/Material/Material.hpp"
+
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -34,19 +37,46 @@ namespace Ocular
      */
     namespace Core
     {
-        
+        class SceneObject;
+
+        /**
+         * \class ARenderable
+         */
         class ARenderable
         {
         public:
 
-            ARenderable(std::string const& name);
+            ARenderable(std::string const& name, SceneObject* parent);
             virtual ~ARenderable();
 
+            //------------------------------------------------------------
+            // Getters and Setters
+
+            SceneObject* getParent();
+            void setParent(SceneObject* parent);
+
+            Graphics::Mesh* getMesh();
+            void setMesh(Graphics::Mesh* mesh);
+
+            Graphics::Material* getMaterial();
+            void setMaterial(Graphics::Material* material);
+
+            std::string getName() const;
+            void setName(std::string const& name);
+
+            //------------------------------------------------------------
+
             virtual bool preRender();
-            virtual bool render();
             virtual bool postRender();
 
         protected:
+
+            std::string m_Name;
+
+            SceneObject* m_Parent;
+
+            Graphics::Mesh* m_Mesh;
+            Graphics::Material* m_Material;
 
         private:
         };

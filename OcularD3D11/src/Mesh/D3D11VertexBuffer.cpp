@@ -87,8 +87,14 @@ namespace Ocular
         {
             if(m_D3DDeviceContext)
             {
-                static const uint32_t stride = sizeof(Vertex);
-                m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, 0);
+                ID3D11Buffer* currBuffer = nullptr;
+                m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currBuffer, nullptr, nullptr);
+
+                if(m_D3DVertexBuffer != currBuffer)
+                {
+                    static const uint32_t stride = sizeof(Vertex);
+                    m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, 0);
+                }
             }
         }
 

@@ -87,7 +87,13 @@ namespace Ocular
         {
             if(m_D3DDeviceContext)
             {
-                m_D3DDeviceContext->IASetIndexBuffer(m_D3DIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+                ID3D11Buffer* currBuffer = nullptr;
+                m_D3DDeviceContext->IAGetIndexBuffer(&currBuffer, nullptr, nullptr);
+
+                if(m_D3DIndexBuffer != currBuffer)
+                {
+                    m_D3DDeviceContext->IASetIndexBuffer(m_D3DIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+                }
             }
         }
 

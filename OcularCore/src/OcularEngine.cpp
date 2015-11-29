@@ -44,6 +44,7 @@ namespace Ocular
         m_InputHandler    = std::make_shared<Core::InputHandler>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
         m_SceneManager    = std::make_shared<Core::SceneManager>();
+        m_CameraManager   = std::make_shared<Core::CameraManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
         m_Profiler        = std::make_shared<Core::Profiler>();
         m_GraphicsDriver  = nullptr;
@@ -62,6 +63,7 @@ namespace Ocular
         m_EventManager    = nullptr;
         m_ResourceManager = nullptr;
         m_SceneManager    = nullptr;
+        m_CameraManager   = nullptr;
         m_WindowManager   = nullptr;
         m_Profiler        = nullptr;
         m_GraphicsDriver  = nullptr;
@@ -83,6 +85,9 @@ namespace Ocular
         m_ResourceManager->initialize();
 
         m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
+
+        m_CameraManager->initialize();  // Calls OcularGraphics
+
         m_IsRunning = true;
 
         return true;

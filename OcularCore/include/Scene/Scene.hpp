@@ -125,6 +125,8 @@ namespace Ocular
             void updateRoutines();
             void sortRoutines();
 
+            void renderObject(SceneObject* object);
+
             //------------------------------------------------------------
             // Object State Change Methods
 

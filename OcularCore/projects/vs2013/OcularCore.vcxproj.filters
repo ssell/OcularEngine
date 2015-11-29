@@ -510,6 +510,9 @@
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
       <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\ARenderable.cpp">
+      <Filter>Source Files\Scene\Renderable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

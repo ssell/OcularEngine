@@ -72,21 +72,12 @@ namespace Ocular
             virtual void swapBuffers();
 
             /**
-             * Binds the textures, shaders, and shader values (uniforms, samplers, etc.) 
-             * associated with the specified material.
-             *
-             * \param[in] material Material to bind. Pass NULL to unbind active material.
-             * \return TRUE if bound successfully.
-             */
-            virtual bool bindMaterial(Material const* material);
-
-            /**
              * Renders the specified mesh and it's vertex and index buffers.
              *
              * \param[in] mesh Mesh to render.
              * \return TRUE if rendered successfully. 
              */
-            virtual bool renderMesh(Mesh const* mesh);
+            virtual bool renderMesh(Mesh* mesh);
 
             //------------------------------------------------------------------------------
             // Creation Methods

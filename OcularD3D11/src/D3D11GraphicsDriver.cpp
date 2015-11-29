@@ -222,6 +222,21 @@ namespace Ocular
             }
         }
 
+        bool D3D11GraphicsDriver::renderMesh(Mesh* mesh)
+        {
+            bool result = false;
+
+            if(mesh)
+            {
+                if(mesh->bind())
+                {
+                    m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
+                }
+            }
+
+            return result;
+        }
+
         Material* D3D11GraphicsDriver::createMaterial() const
         {
             return new D3D11Material(m_D3DDeviceContext);

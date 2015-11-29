@@ -56,12 +56,7 @@ namespace Ocular
 
         }
 
-        bool GraphicsDriver::bindMaterial(Material const* material)
-        {
-            return false;
-        }
-
-        bool GraphicsDriver::renderMesh(Mesh const* mesh)
+        bool GraphicsDriver::renderMesh(Mesh* mesh)
         {
             return false;
         }

@@ -27,17 +27,21 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Resource::Resource(File const& source)
+            : m_SourceFile(source),
+              m_Name(source.getName()),
+              m_SizeInMemory(0),
+              m_Type(ResourceType::Undefined)
         {
-            m_SourceFile = source;
-            m_SizeInMemory = 0;
-            m_Type = ResourceType::Undefined;
+
         }
 
         Resource::Resource()
+            : m_SourceFile(File()),
+              m_Name(""),
+              m_SizeInMemory(0),
+              m_Type(ResourceType::Undefined)
         {
-            m_SourceFile = File();
-            m_SizeInMemory = 0;
-            m_Type = ResourceType::Undefined;
+
         }
 
         Resource::~Resource()
@@ -77,6 +81,16 @@ namespace Ocular
         void Resource::forceLoad()
         {
             /// \todo Resources forceLoad
+        }
+
+        void Resource::setName(std::string const& name)
+        {
+            m_Name = name;
+        }
+
+        std::string const& Resource::getName() const
+        {
+            return m_Name;
         }
 
         //----------------------------------------------------------------------------------
