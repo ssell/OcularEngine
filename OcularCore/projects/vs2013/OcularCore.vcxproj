@@ -301,7 +301,7 @@
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\Uniform.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.h" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp" />

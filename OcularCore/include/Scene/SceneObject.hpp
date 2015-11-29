@@ -19,10 +19,13 @@
 #define __H__OCULAR_CORE_SCENE_OBJECT__H__
 
 #include "Object.hpp"
+
 #include "Math/Transform.hpp"
 #include "Math/Bounds/BoundsSphere.hpp"
 #include "Math/Bounds/BoundsAABB.hpp"
 #include "Math/Bounds/BoundsOBB.hpp"
+
+#include "Graphics/Shader/Uniform/UniformPerObject.hpp"
 
 #include <string>
 #include <map>
@@ -200,6 +203,11 @@ namespace Ocular
              * \return TRUE if this object persists between scenes.
              */
             bool isPersistent() const;
+
+            /**
+             *
+             */
+            Graphics::UniformPerObject const& getUniformData();
 
             //------------------------------------------------------------
             // Child Object Methods
@@ -456,6 +464,8 @@ namespace Ocular
             // Physical Characteristics
 
             Math::Transform m_Transform;
+
+            Graphics::UniformPerObject m_UniformData;
 
         private:
 

@@ -944,9 +944,6 @@
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp">
       <Filter>Header Files\Graphics\Shader\Uniform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.h">
-      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\Camera\Camera.hpp">
       <Filter>Header Files\Scene\Camera</Filter>
     </ClInclude>
@@ -954,6 +951,9 @@
       <Filter>Header Files\Scene\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp">
       <Filter>Header Files\Graphics\Shader\Uniform</Filter>
     </ClInclude>
   </ItemGroup>

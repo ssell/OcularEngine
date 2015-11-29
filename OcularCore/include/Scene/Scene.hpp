@@ -33,6 +33,11 @@
  */
 namespace Ocular
 {
+    namespace Graphics
+    {
+        class UniformBuffer;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -164,6 +169,9 @@ namespace Ocular
             bool verifySceneTrees() const;
 
             //------------------------------------------------------------------------------
+
+            Graphics::UniformBuffer* m_UniformBufferPerFrame;
+            Graphics::UniformBuffer* m_UniformBufferPerObject;
 
             ISceneTree* m_StaticSceneTree;
             ISceneTree* m_DynamicSceneTree;

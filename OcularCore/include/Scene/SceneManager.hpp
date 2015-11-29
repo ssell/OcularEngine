@@ -82,6 +82,18 @@ namespace Ocular
             SceneObject* createObject(std::string const& name = "Unnamed", SceneObject* parent = nullptr);
 
             /**
+             *
+             */
+            template<class T>
+            T* createObject(std::string const& name = "Unnamed", SceneObject* parent = nullptr)
+            {
+                T* result = new T(name, parent);
+                addObject(result);
+
+                return result;
+            }
+
+            /**
              * Creates and adds a new SceneObject to the active scene that is an
              * exact duplicate of the provided object.
              *

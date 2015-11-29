@@ -16,6 +16,7 @@
 
 #include "stdafx.hpp"
 #include "Shader/Uniform/D3D11UniformBuffer.hpp"
+#include "D3D11GraphicsDriver.hpp"
 
 namespace
 {
@@ -62,6 +63,25 @@ namespace Ocular
         {
             UniformBuffer::bind();
             
+            if(m_D3DDevice == nullptr)
+            {
+                /**
+                 * The issue here is that the CameraManger is requesting to create UniformBuffer objects
+                 * inside the main OcularEngine initialization method. But at that point, OcularGraphics
+                 * has not been fully initialized (only created) as the driver requires a window to have
+                 * been created to use the HWND during D3D11 setup.
+                 */
+
+                OcularLogger->warning("Using workaround for poor initialization routine", OCULAR_INTERNAL_LOG("D3D11UniformBuffer", "bind"));
+                D3D11GraphicsDriver* driver = (D3D11GraphicsDriver*)OcularGraphics.get();
+
+                if(driver)
+                {
+                    m_D3DDevice = driver->getD3DDevice();
+                    m_D3DDeviceContext = driver->getD3DDeviceContext();
+                }
+            }
+
             if(m_D3DDevice)
             {
                 if(m_D3DDeviceContext)

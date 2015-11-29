@@ -40,7 +40,7 @@ namespace Ocular
          */
         struct UniformPerFrame
         {
-            
+            Math::Vector4f dummyData;         ///< Temp dummy data so that sizeof(UniformPerFrame) is not 0
         };
     }
     /**

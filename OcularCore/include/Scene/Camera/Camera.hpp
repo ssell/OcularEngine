@@ -44,7 +44,7 @@ namespace Ocular
         {
         public:
 
-            Camera(std::string const& name, Priority priority, SceneObject* parent = nullptr);
+            Camera(std::string const& name, SceneObject* parent = nullptr);
             virtual ~Camera();
 
             void setRenderTexture(Graphics::RenderTexture* renderTexture);
@@ -57,6 +57,7 @@ namespace Ocular
             Math::Matrix4x4f const& getProjectionMatrix() const;
             Math::Frustum const& getFrustum() const;
 
+            void setPriority(Priority priority);
             Priority getPriority() const;
 
         protected:

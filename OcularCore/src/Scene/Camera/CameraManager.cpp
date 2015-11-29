@@ -74,9 +74,10 @@ namespace Ocular
 
             if(m_ActiveCamera && m_UniformBuffer)
             {
-                m_UniformPerCamera.eyePosition = camera->getTransform().getPosition();
-                m_UniformPerCamera.viewMatrix  = camera->getViewMatrix();
-                m_UniformPerCamera.projMatrix  = camera->getProjectionMatrix();
+                m_UniformPerCamera.eyePosition    = camera->getTransform().getPosition();
+                m_UniformPerCamera.viewMatrix     = camera->getViewMatrix();
+                m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
+                m_UniformPerCamera.viewProjMatrix = (m_UniformPerCamera.viewMatrix * m_UniformPerCamera.projMatrix);
 
                 m_UniformBuffer->setFixedData(sizeof(Graphics::UniformPerCamera), &m_UniformPerCamera);
                 m_UniformBuffer->bind();

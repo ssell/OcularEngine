@@ -25,6 +25,7 @@
 // SceneTree implementations
 
 #include "Scene/BVHSceneTree.hpp"
+#include "Graphics/Shader/Uniform/UniformBuffer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,6 +38,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Scene::Scene(SceneTreeType treeType)
+            : m_UniformBufferPerFrame(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerFrame)),
+              m_UniformBufferPerObject(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject))
         {
             m_RoutinesAreDirty = false;
 
@@ -89,6 +92,21 @@ namespace Ocular
             {
                 delete m_DynamicSceneTree;
                 m_DynamicSceneTree = nullptr;
+            }
+
+            //------------------------------------------------------------
+            // Destroy the Uniform Buffers
+
+            if(m_UniformBufferPerFrame)
+            {
+                delete m_UniformBufferPerFrame;
+                m_UniformBufferPerFrame = nullptr;
+            }
+
+            if(m_UniformBufferPerFrame)
+            {
+                delete m_UniformBufferPerFrame;
+                m_UniformBufferPerFrame = nullptr;
             }
         }
 
@@ -199,6 +217,11 @@ namespace Ocular
              * Will be replaced by a dedicated renderer class that will 
              * perform full material sorting, etc.
              */
+
+            if(m_UniformBufferPerFrame)
+            {
+                m_UniformBufferPerFrame->bind();
+            }
 
             std::vector<SceneObject*> objects;
             Camera* camera = OcularCameras->getActiveCamera();
@@ -387,6 +410,12 @@ namespace Ocular
         {
             if(object)
             {
+                if(m_UniformBufferPerObject)
+                {
+                    Graphics::UniformPerObject const& uniformData = object->getUniformData();
+                    m_UniformBufferPerObject->setFixedData(sizeof(Graphics::UniformPerObject), (void*)(&uniformData));
+                }
+
                 const std::vector<ARenderable*> renderables = object->getAllRenderables();
 
                 for(auto iter = renderables.begin(); iter != renderables.end(); ++iter)

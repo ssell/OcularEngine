@@ -42,6 +42,7 @@ namespace Ocular
         {
             Math::Matrix4x4f viewMatrix;
             Math::Matrix4x4f projMatrix;
+            Math::Matrix4x4f viewProjMatrix;
             Math::Vector4f   eyePosition;
         };
     }

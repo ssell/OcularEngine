@@ -38,7 +38,7 @@ namespace Ocular
          * \struct UniformPerObject
          * \brief The fixed struct for all Uniform data for Objects.
          */
-        struct UniformPerFrame
+        struct UniformPerObject
         {
             Math::Matrix4x4f modelMatrix;
         };

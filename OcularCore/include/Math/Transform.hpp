@@ -20,6 +20,7 @@
 
 #include "Vector3.hpp"
 #include "Quaternion.hpp"
+#include "Matrix4x4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -125,6 +126,10 @@ namespace Ocular
              * \param[in] upVector Vector that specifies the new up vector.
              */
             void lookAt(Vector3f const& point, Vector3f const& upVector = Vector3f::Up());
+
+            //------------------------------------------------------------
+            
+            void getModelMatrix(Math::Matrix4x4f& matrix);
 
         protected:
 

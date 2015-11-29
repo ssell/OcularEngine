@@ -223,6 +223,12 @@ namespace Ocular
             return m_Persists;
         }
 
+        Graphics::UniformPerObject const& SceneObject::getUniformData()
+        {
+            m_Transform.getModelMatrix(m_UniformData.modelMatrix);
+            return m_UniformData;
+        }
+
         //----------------------------------------------------------------
         // Child Object Methods
         //----------------------------------------------------------------

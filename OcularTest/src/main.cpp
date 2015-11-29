@@ -63,6 +63,16 @@ bool openWindow()
     return result;
 }
 
+void setupScene()
+{
+    OcularScene->loadScene("TestScene");
+
+    Ocular::Core::Camera* mainCamera = OcularScene->createObject<Ocular::Core::Camera>("MainCamera", nullptr);
+    mainCamera->setPriority(Priority::Low);
+
+
+}
+
 int main(int argc, char** argv)
 {
     Ocular::Graphics::TextureResourceLoader_BMP blergh;
@@ -73,9 +83,7 @@ int main(int argc, char** argv)
 
     if(openWindow())
     {
-        SceneObject* object = OcularScene->createObject("Test Object");
-        object->addRoutine("InputLogger");
-
+        setupScene();
         while(OcularEngine.run());
     }
 
