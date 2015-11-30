@@ -254,6 +254,7 @@
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp" />
     <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
@@ -396,6 +397,7 @@
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />

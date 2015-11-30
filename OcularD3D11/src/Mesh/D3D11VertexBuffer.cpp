@@ -51,7 +51,7 @@ namespace Ocular
 
         bool D3D11VertexBuffer::build()
         {
-            bool result = false;
+            bool result = true;
 
             if(m_D3DDevice)
             {
@@ -77,7 +77,13 @@ namespace Ocular
                 if(hResult != S_OK)
                 {
                     OcularLogger->error("Failed to create D3D11 Vertex Buffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
+                    result = false;
                 }
+            }
+            else
+            {
+                OcularLogger->error("D3D Device is NULL", OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
+                result = false;
             }
 
             return result;

@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_VERTEX__H__
 
 #include "Math/Vector4.hpp"
+#include "Math/Color.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -48,6 +49,11 @@ namespace Ocular
             Math::Vector2f uv1;         ///< Texture coordinates of the vertex
             Math::Vector2f uv2;         ///< Texture coordinates of the vertex
             Math::Vector2f uv3;         ///< Texture coordinates of the vertex
+
+            Vertex()
+            {
+                color = Core::Color::ErrorPink();
+            }
         };
     }
     /**

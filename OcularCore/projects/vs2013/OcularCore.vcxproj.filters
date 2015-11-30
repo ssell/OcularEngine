@@ -205,6 +205,12 @@
     <Filter Include="Source Files\Scene\Camera">
       <UniqueIdentifier>{b51f3cac-fc6f-4f70-8bec-230d1e1e6f38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene\Renderable\Renderables">
+      <UniqueIdentifier>{1ec5a0fd-9fa8-44f7-b9e0-dfd69a4f5178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Renderable\Renderables">
+      <UniqueIdentifier>{23ef16c5-b1fc-4bef-b8ef-f6114e372f14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -512,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\ARenderable.cpp">
       <Filter>Source Files\Scene\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp">
+      <Filter>Source Files\Scene\Renderable\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -955,6 +964,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp">
       <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp">
+      <Filter>Header Files\Scene\Renderable\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

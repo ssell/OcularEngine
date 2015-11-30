@@ -218,10 +218,10 @@ namespace Ocular
              * perform full material sorting, etc.
              */
 
-            if(m_UniformBufferPerFrame)
-            {
-                m_UniformBufferPerFrame->bind();
-            }
+            //if(m_UniformBufferPerFrame)
+            //{
+                //m_UniformBufferPerFrame->bind();
+            //}
 
             std::vector<SceneObject*> objects;
             Camera* camera = OcularCameras->getActiveCamera();

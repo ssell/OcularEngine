@@ -105,6 +105,12 @@ namespace Ocular
             return result;
         }
 
+        Color const& Color::FrigidBlue()
+        {
+            static const Color result(0.153f, 0.863f, 0.973f);
+            return result;
+        }
+
         Color const& Color::Gold()
         {
             static const Color result(1.0f, 0.843f, 0.0f); 

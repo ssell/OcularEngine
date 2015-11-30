@@ -24,6 +24,8 @@
 #include "Shader/D3D11UncompiledShaderResourceLoader.hpp"
 #include "Graphics/Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
 
+#include "Scene/Renderables/RenderablePrimitiveCube.hpp"
+
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
@@ -67,10 +69,24 @@ void setupScene()
 {
     OcularScene->loadScene("TestScene");
 
-    Ocular::Core::Camera* mainCamera = OcularScene->createObject<Ocular::Core::Camera>("MainCamera", nullptr);
+    //--------------------------------------------------------------------
+    // Setup Camera
+
+    Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
     mainCamera->setPriority(Priority::Low);
 
+    //--------------------------------------------------------------------
+    // Setup Input Logger
 
+    SceneObject* inputObject = OcularScene->createObject("Test Object");
+    inputObject->addRoutine("InputLogger");
+
+    //--------------------------------------------------------------------
+    // Setup Cube
+
+    SceneObject* cubeObject = OcularScene->createObject("Cube");
+    RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
+    renderable->initialize();
 }
 
 int main(int argc, char** argv)

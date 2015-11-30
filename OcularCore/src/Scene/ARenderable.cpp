@@ -33,7 +33,10 @@ namespace Ocular
               m_Mesh(nullptr),
               m_Material(nullptr)
         {
-
+            if(m_Parent)
+            {
+                m_Parent->addRenderable(this);
+            }
         }
 
         ARenderable::~ARenderable()
@@ -49,6 +52,21 @@ namespace Ocular
         //----------------------------------------------------------------
         // Getters and Setters
         //----------------------------------------------------------------
+
+        bool ARenderable::initialize()
+        {
+            return true;
+        }
+
+        bool ARenderable::preRender()
+        {
+            return true;
+        }
+
+        bool ARenderable::postRender()
+        {
+            return true;
+        }
 
         SceneObject* ARenderable::getParent()
         {
@@ -96,16 +114,6 @@ namespace Ocular
         void ARenderable::setName(std::string const& name)
         {
             m_Name = name;
-        }
-
-        bool ARenderable::preRender()
-        {
-            return true;
-        }
-
-        bool ARenderable::postRender()
-        {
-            return true;
         }
 
         //----------------------------------------------------------------------------------

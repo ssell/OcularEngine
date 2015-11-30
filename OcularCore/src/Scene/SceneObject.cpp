@@ -553,7 +553,18 @@ namespace Ocular
         {
             if(renderable)
             {
-                if(renderable->getParent() != this)
+                bool alreadyOwned = false;
+
+                for(uint32_t i = 0; i < m_Renderables.size(); i++)
+                {
+                    if(m_Renderables[i] == renderable)
+                    {
+                        alreadyOwned = true;
+                        break;
+                    }
+                }
+
+                if(!alreadyOwned)
                 {
                     m_Renderables.push_back(renderable);
                 }

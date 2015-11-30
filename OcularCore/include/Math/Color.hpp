@@ -83,6 +83,11 @@ namespace Ocular
             static Color const& ErrorPink();
 
             /**
+             * RGBA: (0.153f, 0.863f, 0.973f, 1.0f)
+             */
+            static Color const& FrigidBlue();
+
+            /**
              * RGBA: (1.0f, 0.843f, 0.0f, 1.0f)
              */
             static Color const& Gold();

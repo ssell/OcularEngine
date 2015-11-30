@@ -181,7 +181,7 @@ namespace Ocular
 
                         if(d3dRTV)
                         {
-                            const static float clearColor[4] = { Core::Color::ErrorPink().r, Core::Color::ErrorPink().g, Core::Color::ErrorPink().b, Core::Color::ErrorPink().a };
+                            const static float clearColor[4] = { Core::Color::FrigidBlue().r, Core::Color::FrigidBlue().g, Core::Color::FrigidBlue().b, Core::Color::FrigidBlue().a };
                             m_D3DDeviceContext->ClearRenderTargetView(d3dRTV, clearColor);
                         }
                         else

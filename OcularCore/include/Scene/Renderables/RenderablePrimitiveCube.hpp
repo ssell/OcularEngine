@@ -15,13 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
-#define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
+#ifndef __H__OCULAR_CORE_SCENE_RENDERABLE_PRIMITIVE_CUBE__H__
+#define __H__OCULAR_CORE_SCENE_RENDERABLE_PRIMITIVE_CUBE__H__
 
-#include "Graphics/Mesh/Mesh.hpp"
-#include "Graphics/Material/Material.hpp"
-
-#include <string>
+#include "Scene/ARenderable.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -40,43 +37,20 @@ namespace Ocular
         class SceneObject;
 
         /**
-         * \class ARenderable
+         * \class RenderablePrimitiveCube
          */
-        class ARenderable
+        class RenderablePrimitiveCube : public ARenderable
         {
         public:
 
-            ARenderable(std::string const& name, SceneObject* parent);
-            virtual ~ARenderable();
+            RenderablePrimitiveCube(std::string const& name, SceneObject* parent);
+            virtual ~RenderablePrimitiveCube();
 
-            virtual bool initialize();
-
-            virtual bool preRender();
-            virtual bool postRender();
-
-            //------------------------------------------------------------
-            // Getters and Setters
-
-            SceneObject* getParent();
-            void setParent(SceneObject* parent);
-
-            Graphics::Mesh* getMesh();
-            void setMesh(Graphics::Mesh* mesh);
-
-            Graphics::Material* getMaterial();
-            void setMaterial(Graphics::Material* material);
-
-            std::string getName() const;
-            void setName(std::string const& name);
+            virtual bool initialize() override;
 
         protected:
 
-            std::string m_Name;
-
-            SceneObject* m_Parent;
-
-            Graphics::Mesh* m_Mesh;
-            Graphics::Material* m_Material;
+            bool createMesh();
 
         private:
         };
