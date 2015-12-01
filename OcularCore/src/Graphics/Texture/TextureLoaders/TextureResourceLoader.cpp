@@ -80,7 +80,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to read file at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
+                    OcularLogger->error("Resource file at '", file.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
                 }
             }
 

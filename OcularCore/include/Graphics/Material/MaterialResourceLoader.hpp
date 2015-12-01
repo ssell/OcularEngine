@@ -77,12 +77,26 @@ namespace Ocular
          *             <Uniform>
          *                 <Type>Vector4</Type>
          *                 <Name>Offset</Name>
-         *                 <Value>(1.0, 0.0, 3.0, 0.0)</Value>
+         *                 <Value>1.0 0.5 3.0 0.0</Value>
          *             </Uniform>
          *             <Uniform>
          *                 <Type>Float</Type>
          *                 <Name>Fade</Name>
          *                 <Value>0.5</Value>
+         *             </Uniform>
+         *             <Uniform>
+         *                 <Type>Matrix3x3</Type>
+         *                 <Name>Identity3x3</Name>
+         *                 <Value>1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0</Value>
+         *             </Uniform>
+         *             <Uniform>
+         *                 <Type>Matrix3x3</Type>
+         *                 <Name>Rot3x3</Name>
+         *                 <Value>
+         *                     0.38 1.0 0.0
+         *                     1.97 3.0 0.5
+         *                     0.01 0.9 1.0
+         *                 </Value>
          *             </Uniform>
          *         </Uniforms>
          *     </OcularMaterial>
@@ -110,8 +124,8 @@ namespace Ocular
          *     <Vertex>
          *     <Geometry>
          *     <Fragment> or <Pixel>
-         *     <PreTesselation> or <Hull>
-         *     <PostTesselation> or <Domain>
+         *     <PreTessellation> or <Hull>
+         *     <PostTessellation> or <Domain>
          *
          * ## Textures ##
          * 

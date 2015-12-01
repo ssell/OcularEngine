@@ -73,38 +73,49 @@ namespace Ocular
 
             bool result = false;
 
-            if(isFileValid(file) && getD3DDevice())
+            if(isFileValid(file))
             {
-                ShaderProgram* program = new ShaderProgram();
-                program->setSourceFile(file);
-
-                //--------------------------------------------------------
-                // Convert the file path to wchar
-
-                std::string strPath = file.getFullPath();
-                std::wstring wstrPath = std::wstring(strPath.begin(), strPath.end());
-                LPCWSTR lpcwstrPath = wstrPath.c_str();
-
-                //--------------------------------------------------------
-
-                if(compileVertexShader(file, lpcwstrPath, program))
+                if(getD3DDevice())
                 {
-                    // Getting here does not mean that vertex compilation necessarily succeeded.
-                    // It just means there is no critical error in the file. See header comments for more.
+                    ShaderProgram* program = new ShaderProgram();
+                    program->setSourceFile(file);
 
-                    compileGeometryShader(file, lpcwstrPath, program);
-                    compileFragmentShader(file, lpcwstrPath, program);
-                    compilePreTessellationShader(file, lpcwstrPath, program);
-                    compilePostTessellationShader(file, lpcwstrPath, program);
-                    
-                    resource = program;
-                    result = true;
+                    //--------------------------------------------------------
+                    // Convert the file path to wchar
+
+                    std::string strPath = file.getFullPath();
+                    std::wstring wstrPath = std::wstring(strPath.begin(), strPath.end());
+                    LPCWSTR lpcwstrPath = wstrPath.c_str();
+
+                    //--------------------------------------------------------
+
+                    if(compileVertexShader(file, lpcwstrPath, program))
+                    {
+                        // Getting here does not mean that vertex compilation necessarily succeeded.
+                        // It just means there is no critical error in the file. See header comments for more.
+
+                        compileGeometryShader(file, lpcwstrPath, program);
+                        compileFragmentShader(file, lpcwstrPath, program);
+                        compilePreTessellationShader(file, lpcwstrPath, program);
+                        compilePostTessellationShader(file, lpcwstrPath, program);
+
+                        resource = program;
+                        result = true;
+                    }
+                    else
+                    {
+                        delete program;
+                        program = nullptr;
+                    }
                 }
                 else
                 {
-                    delete program;
-                    program = nullptr;
+                    OcularLogger->error("Failed to retrieve D3D Device", OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "loadResource"));
                 }
+            }
+            else
+            {
+                OcularLogger->error("Resource file at '", file.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "loadResource"));
             }
 
             return result;

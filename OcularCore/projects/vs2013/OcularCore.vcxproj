@@ -97,7 +97,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalDependencies>pugixmld.lib;libboost_filesystem-vc120-mt-gd-1_59.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\</AdditionalLibraryDirectories>
@@ -137,10 +137,10 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-1_56.lib</AdditionalDependencies>
+      <AdditionalDependencies>pugixml.lib;libboost_filesystem-vc120-mt-1_56.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\External\libs\boost\msvc-12.0\release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
