@@ -36,7 +36,6 @@ namespace Ocular
         RenderablePrimitiveCube::~RenderablePrimitiveCube()
         {
             // Our mesh was manually created and is not a shared resource, so delete it
-
             if(m_Mesh)
             {
                 delete m_Mesh;

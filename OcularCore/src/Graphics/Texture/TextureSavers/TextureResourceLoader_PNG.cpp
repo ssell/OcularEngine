@@ -15,7 +15,7 @@
  */
 
 #include "OcularEngine.hpp"
-#include "Utilities/StringOps.hpp"
+#include "Utilities/StringUtils.hpp"
 #include "Utilities/EndianOps.hpp"
 #include "Graphics/Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
 #include "Resources/ResourceLoaderRegistrar.hpp"

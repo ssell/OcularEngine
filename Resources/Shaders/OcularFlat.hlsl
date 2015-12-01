@@ -28,15 +28,15 @@ struct VSOutput
 
 struct PSOutput
 {
-    float4 Color : SV_Target;
+    float4 color : SV_Target;
 };
 
 VSOutput VSMain(VSInput input)
 {
-    matrix WorldViewProjMatrix = mul(_WorldMatrix, _ViewProjMatrix);
+    matrix ModelViewProjMatrix = mul(_ModelMatrix, _ViewProjMatrix);
     
     VSOutput output;
-    output.position = mul(input.position, WorldViewProjMatrix);
+    output.position = mul(input.position, ModelViewProjMatrix);
     output.color    = input.color;
 
     return output;

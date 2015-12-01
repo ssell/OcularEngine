@@ -300,9 +300,6 @@
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\StringOps.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Euler.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
@@ -522,6 +519,18 @@
     <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp">
       <Filter>Source Files\Scene\Renderable\Renderables</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -684,9 +693,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\StringOps.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp">
@@ -967,6 +973,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp">
       <Filter>Header Files\Scene\Renderable\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

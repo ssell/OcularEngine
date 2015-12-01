@@ -17,7 +17,7 @@
 #include "Resources/ResourceLoader.hpp"
 
 #include "OcularEngine.hpp"
-#include "Utilities/StringOps.hpp"
+#include "Utilities/StringUtils.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ namespace Ocular
             {
                 if(file.canRead())
                 {
-                    if(Utils::StringOps::isEqual(file.getExtension(), m_SupportedExtension, true))
+                    if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
                     {
                         result = true;
                     }

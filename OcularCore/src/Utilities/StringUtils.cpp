@@ -18,9 +18,11 @@
 // This is because Boost may in the future be removed as a dependency, and so
 // implementing custom string operations will be seamless.
 
-#include "Utilities/StringOps.hpp"
+#include "Utilities/StringUtils.hpp"
 #include "Utilities/StringComposer.hpp"
 #include "Common.hpp"
+
+#include "OcularEngine.hpp"
 
 #include <boost/algorithm/string.hpp>
 
@@ -34,7 +36,7 @@ namespace Ocular
 {
     namespace Utils
     {
-        namespace StringOps
+        namespace StringUtils
         {
             std::string toLower(std::string const& str)
             {
@@ -140,6 +142,107 @@ namespace Ocular
                     result = StringComposer().compose(fpBytes, " B");
                 }
 
+                return result;
+            }
+
+            bool stringToFloat(std::string const& string, float& value)
+            {
+                bool result = true;
+
+                try
+                {
+                    value = std::stof(string, nullptr);
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to float value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToFloat"));
+                }
+
+                return true;
+            }
+
+            bool stringToVector(std::string const& string, Math::Vector4f& value)
+            {
+                bool result = true;
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 4))
+                    {
+                        value[index] = std::stof(string.substr(cumulativePos), &nextPos);
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Vector4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToVector"));
+                }
+
+                return result;
+            }
+
+            bool stringToMatrix(std::string const& string, Math::Matrix3x3f& value)
+            {
+                bool result = true;
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 9))
+                    {
+                        value.setElement(index, std::stof(string.substr(cumulativePos), &nextPos));
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix3x3f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                }
+
+                return result;
+            }
+
+            bool stringToMatrix(std::string const& string, Math::Matrix4x4f& value)
+            {
+                bool result = true;
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 16))
+                    {
+                        value.setElement(index, std::stof(string.substr(cumulativePos), &nextPos));
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix4x4f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                }
+                
                 return result;
             }
         }

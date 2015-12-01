@@ -17,7 +17,7 @@
 #include "OcularEngine.hpp"
 #include "Graphics/Texture/TextureLoaders/TextureResourceLoader.hpp"
 #include "Graphics/Texture/Texture2D.hpp"
-#include "Utilities/StringOps.hpp"
+#include "Utilities/StringUtils.hpp"
 #include "Utilities/EndianOps.hpp"
 
 #include <fstream>
@@ -130,7 +130,7 @@ namespace Ocular
                         texture->unload();
                     }
 
-                    if(!Utils::StringOps::isEqual(file.getFullPath(), texture->getSourceFile().getFullPath()))
+                    if(!Utils::StringUtils::isEqual(file.getFullPath(), texture->getSourceFile().getFullPath()))
                     {
                         OcularLogger->warning("Source file mismatch for pre-existing resource", OCULAR_INTERNAL_LOG("TextureResourceLoader", "createResource"));
                         texture->setSourceFile(file);

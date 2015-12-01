@@ -165,6 +165,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
     <ClCompile Include="..\..\src\Events\EventSnooper.cpp" />
@@ -178,6 +179,8 @@
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
@@ -266,7 +269,7 @@
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
-    <ClCompile Include="..\..\src\Utilities\StringOps.cpp" />
+    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +290,7 @@
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
@@ -413,7 +417,7 @@
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
-    <ClInclude Include="..\..\include\Utilities\StringOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />

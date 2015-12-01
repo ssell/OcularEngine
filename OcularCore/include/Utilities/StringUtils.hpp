@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 #define __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 
+#include "Math/Matrix4x4.hpp"
+
 #include <string>
 #include <cstdint>
 
@@ -36,10 +38,10 @@ namespace Ocular
     namespace Utils
     {
         /**
-         * \addtogroup StringOps
+         * \addtogroup StringUtils
          * @{
          */
-        namespace StringOps
+        namespace StringUtils
         {
             /**
              * Converts a mixed-case string to all lower-case
@@ -86,6 +88,82 @@ namespace Ocular
              * \return Formatted string
              */
             std::string bytesToString(uint64_t bytes);
+
+            /**
+             * Converts a string to a single float. 
+             * Input is expected as one of the following forms:
+             *
+             *     "1"
+             *     "1.0"
+             *     "1.0f"
+             *     "1.0F"
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Float retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool stringToFloat(std::string const& string, float& value);
+
+            /**
+             * Converts a string to a Vector4f.
+             * Input is expected as whitespace-separated floats.
+             *
+             *     # # # #
+             *
+             * Where '#' is a properly formatted float (see stringToFloat).
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Vector4f retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool stringToVector(std::string const& string, Math::Vector4f& value);
+
+            /**
+             * Converts a string to a Matrix3x3f.
+             * Input is expected as whitespace-separated floats.
+             *
+             * Examples:
+             *
+             *     # # #
+             *     # # #
+             *     # # #
+             *
+             *     # # #   # # #   # # #
+             *
+             * Where '#' is a properly formatted float (see stringToFloat).
+             * Spaces are optional.
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Matrix3x3f retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool stringToMatrix(std::string const& string, Math::Matrix3x3f& value);
+
+            /**
+             * Converts a string to a Matrix4x4f.
+             * Input is expected as whitespace-separated floats.
+             *
+             * Examples:
+             *
+             *     # # # #
+             *     # # # # 
+             *     # # # # 
+             *     # # # # 
+             *
+             *     # # # #   # # # #   # # # #   # # # # 
+             *
+             * Where '#' is a properly formatted float (see stringToFloat).
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Matix4x4f retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool stringToMatrix(std::string const& string, Math::Matrix4x4f& value);
+
         }
         /**
          * @} End of Doxygen Groups
