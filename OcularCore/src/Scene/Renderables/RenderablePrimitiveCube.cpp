@@ -55,7 +55,13 @@ namespace Ocular
             {
                 if(createMesh())
                 {
-                    // Set material
+                    m_Material = OcularResources->getResource<Graphics::Material>("Materials/Flat");
+
+                    if(!m_Material)
+                    {
+                        result = false;
+                        OcularLogger->error("Failed to load Material", OCULAR_INTERNAL_LOG("RenderablePrimitiveCube", "initialize"));
+                    }
                 }
                 else
                 {
@@ -170,7 +176,7 @@ namespace Ocular
                 result = true;
             }
 
-            return false;
+            return result;
         }
 
         //----------------------------------------------------------------------------------

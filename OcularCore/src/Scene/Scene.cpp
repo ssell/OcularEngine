@@ -253,6 +253,17 @@ namespace Ocular
                     if(currObject)
                     {
                         std::vector<ARenderable*> renderables = currObject->getAllRenderables();
+
+                        for(auto renderableIter = renderables.begin(); renderableIter != renderables.end(); ++renderableIter)
+                        {
+                            ARenderable* renderable = (*renderableIter);
+
+                            if(renderable)
+                            {
+                                renderable->getMaterial()->bind();
+                                OcularGraphics->renderMesh(renderable->getMesh());
+                            }
+                        }
                     }
                 }
             }

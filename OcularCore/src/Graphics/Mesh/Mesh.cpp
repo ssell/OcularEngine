@@ -92,7 +92,7 @@ namespace Ocular
                 delete m_VertexBuffer;
             }
 
-            m_VertexBuffer = nullptr;
+            m_VertexBuffer = buffer;
         }
 
         VertexBuffer* Mesh::getVertexBuffer()
@@ -107,7 +107,7 @@ namespace Ocular
                 delete m_IndexBuffer;
             }
 
-            m_IndexBuffer = nullptr;
+            m_IndexBuffer = buffer;
         }
 
         IndexBuffer* Mesh::getIndexBuffer()

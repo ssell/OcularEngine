@@ -101,6 +101,10 @@ namespace Ocular
                     m_D3DDeviceContext->IASetIndexBuffer(m_D3DIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
                 }
             }
+            else
+            {
+                OcularLogger->warning("Attempting to bind D3D11 Index Buffer with NULL Device Context", OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "bind"));
+            }
         }
 
         void D3D11IndexBuffer::unbind()

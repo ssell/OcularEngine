@@ -99,8 +99,14 @@ namespace Ocular
                 if(m_D3DVertexBuffer != currBuffer)
                 {
                     static const uint32_t stride = sizeof(Vertex);
-                    m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, 0);
+                    uint32_t offset = 0;
+
+                    m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, &offset);
                 }
+            }
+            else
+            {
+                OcularLogger->warning("Attempting to bind D3D11 Vertex Buffer with NULL Device Context", OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "bind"));
             }
         }
 

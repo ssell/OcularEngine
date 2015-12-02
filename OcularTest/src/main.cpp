@@ -70,9 +70,6 @@ bool openWindow()
 
 void testLoadMaterial()
 {
-    Ocular::Graphics::TextureResourceLoader_PNG urgh;
-    Ocular::Graphics::MaterialResourceLoader blergh;
-
     Ocular::Graphics::Material* material = OcularResources->getResource<Ocular::Graphics::Material>("Materials/Flat");
 
     if(material)
@@ -114,14 +111,16 @@ void setupScene()
 int main(int argc, char** argv)
 {
     Ocular::Graphics::TextureResourceLoader_BMP blergh;
-    Ocular::Graphics::D3D11UncompiledShaderResourceLoader force;
+    Ocular::Graphics::TextureResourceLoader_PNG urgh;
+    Ocular::Graphics::MaterialResourceLoader blag;
+    Ocular::Graphics::D3D11UncompiledShaderResourceLoader blugg;
 
     OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver());
     Ocular::Core::SystemInfo::logSystemInfo();
 
     if(openWindow())
     {
-        testLoadMaterial();
+        setupScene();
         while(OcularEngine.run());
     }
 

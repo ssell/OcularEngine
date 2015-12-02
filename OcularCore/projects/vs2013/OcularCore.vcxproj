@@ -97,10 +97,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmld.lib;libboost_filesystem-vc120-mt-gd-1_59.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalDependencies>pugixmlsd.lib;libboost_filesystem-vc120-mt-gd-1_59.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x86\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,10 +137,10 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixml.lib;libboost_filesystem-vc120-mt-1_56.lib;libpng16.lib</AdditionalDependencies>
+      <AdditionalDependencies>pugixmls.lib;libboost_filesystem-vc120-mt-1_56.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x64\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

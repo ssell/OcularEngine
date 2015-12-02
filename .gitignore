@@ -34,6 +34,8 @@ bld/
 TestOutput/
 bin/
 obj/
+OcularTest/projects/vs2013/OcularTest/Resources/
+OcularTest/projects/vs2015/OcularTest/Resources/
 
 # Ignore 3rd Party Distributable
 External/

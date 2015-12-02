@@ -239,6 +239,7 @@ namespace Ocular
                 if(mesh->bind())
                 {
                     m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
+                    result = true;
                 }
             }
 
