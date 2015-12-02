@@ -46,14 +46,22 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11GraphicsDriver::D3D11GraphicsDriver()
+            : m_D3DDevice(nullptr),
+              m_D3DDeviceContext(nullptr),
+              m_D3DSwapChain(nullptr)
         {
-            m_D3DDevice = nullptr;
-            m_D3DDeviceContext = nullptr;
-            m_D3DSwapChain = nullptr;
+
         }
 
         D3D11GraphicsDriver::~D3D11GraphicsDriver()
         {
+            if(D3D11VertexShader::m_D3DInputLayout)
+            {
+                // Shared object between all Vertex shaders
+                D3D11VertexShader::m_D3DInputLayout->Release();
+                D3D11VertexShader::m_D3DInputLayout = nullptr;
+            }
+
             if(m_D3DDevice)
             {
                 m_D3DDevice->Release();
@@ -146,17 +154,17 @@ namespace Ocular
                     }
                     else
                     {
-                        OcularLogger->fatal("Failed to create Device and Swap Chain", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
+                        OcularLogger->fatal("Failed to create Device and Swap Chain", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "initialize"));
                     }
                 }
                 else
                 {
-                    OcularLogger->fatal("Failed to initialize Graphics Driver: Invalid Window", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
+                    OcularLogger->fatal("Failed to initialize Graphics Driver: Invalid Window", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "initialize"));
                 }
             }
             else
             {
-                OcularLogger->warning("Graphics Driver already initialized", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "initialize"));
+                OcularLogger->warning("Graphics Driver already initialized", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "initialize"));
             }
 
             return result;
@@ -331,7 +339,7 @@ namespace Ocular
 
         VertexShader* D3D11GraphicsDriver::createVertexShader() const
         {
-            return new D3D11VertexShader(m_D3DDeviceContext);
+            return new D3D11VertexShader(m_D3DDevice, m_D3DDeviceContext);
         }
 
         GeometryShader* D3D11GraphicsDriver::createGeometryShader() const

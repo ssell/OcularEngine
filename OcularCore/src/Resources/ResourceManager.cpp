@@ -20,6 +20,7 @@
 #include "OcularEngine.hpp"
 
 #include <climits>
+#include <algorithm>
 
 //------------------------------------------------------------------------------------------
 

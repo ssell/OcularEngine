@@ -204,7 +204,7 @@ namespace Ocular
 
                     if(hResult == S_OK)
                     {
-                        D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDeviceContext);
+                        D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDevice, m_D3DDeviceContext);
                         shader->setSourceFile(file);
                         shader->setD3DShader(d3dShader);
                         shader->setD3DBlob(compiled);

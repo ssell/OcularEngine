@@ -77,21 +77,25 @@ namespace Ocular
          *             <Uniform>
          *                 <Type>Vector4</Type>
          *                 <Name>Offset</Name>
+         *                 <Register>0</Register>
          *                 <Value>1.0 0.5 3.0 0.0</Value>
          *             </Uniform>
          *             <Uniform>
          *                 <Type>Float</Type>
          *                 <Name>Fade</Name>
+         *                 <Register>1</Register>
          *                 <Value>0.5</Value>
          *             </Uniform>
          *             <Uniform>
          *                 <Type>Matrix3x3</Type>
          *                 <Name>Identity3x3</Name>
+         *                 <Register>2</Register>
          *                 <Value>1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0</Value>
          *             </Uniform>
          *             <Uniform>
          *                 <Type>Matrix3x3</Type>
          *                 <Name>Rot3x3</Name>
+         *                 <Register>3</Register>
          *                 <Value>
          *                     0.38 1.0 0.0
          *                     1.97 3.0 0.5

@@ -45,6 +45,13 @@ namespace Ocular
         class PreTessellationShader;
         class PostTessellationShader;
 
+        struct TextureSamplerInfo
+        {
+            Texture* texture;
+            std::string samplerName;
+            uint32_t samplerRegister;
+        };
+
         /**
          * \class Material
          */
@@ -309,7 +316,7 @@ namespace Ocular
             PreTessellationShader*  m_PreTessellationShader;
             PostTessellationShader* m_PostTessellationShader;
 
-            std::vector<std::pair<std::string, Texture*>> m_Textures;
+            std::vector<TextureSamplerInfo> m_Textures;
             UniformBuffer* m_UniformBuffer;
 
         private:

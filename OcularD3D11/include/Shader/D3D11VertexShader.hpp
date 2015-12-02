@@ -19,6 +19,8 @@
 #define __H__OCULAR_D3D11_GRAPHICS_VERTEX_SHADER__H__
 
 #include "Graphics/Shader/VertexShader.hpp"
+#include "D3D11GraphicsDriver.hpp"
+
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -40,9 +42,11 @@ namespace Ocular
          */
         class D3D11VertexShader : public VertexShader 
         {
+            friend class D3D11GraphicsDriver;
+
         public:
 
-            D3D11VertexShader(ID3D11DeviceContext* context);
+            D3D11VertexShader(ID3D11Device* device, ID3D11DeviceContext* context);
             ~D3D11VertexShader();
 
             virtual void unload() override;
@@ -81,9 +85,16 @@ namespace Ocular
 
         protected:
             
+            bool createInputLayout();
+
+            //------------------------------------------------------------
+            
+            ID3D11Device*        m_D3DDevice;
             ID3D11DeviceContext* m_D3DDeviceContext;
-            ID3D11VertexShader* m_D3DShader;
-            ID3DBlob* m_D3DBlob;
+            ID3D11VertexShader*  m_D3DShader;
+            ID3DBlob*            m_D3DBlob;
+
+            static ID3D11InputLayout* m_D3DInputLayout;     /// All Vertex shaders share the same input structure (VSInput defined in OcularCommon shader) based on Graphics::Vertex
 
         private:
         };

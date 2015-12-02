@@ -23,6 +23,9 @@
 #include "Graphics/Shader/ShaderProgram.hpp"
 #include "Shader/D3D11UncompiledShaderResourceLoader.hpp"
 #include "Graphics/Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
+#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
+#include "Graphics/Material/MaterialResourceLoader.hpp"
+#include "Graphics/Material/Material.hpp"
 
 #include "Scene/Renderables/RenderablePrimitiveCube.hpp"
 
@@ -65,6 +68,25 @@ bool openWindow()
     return result;
 }
 
+void testLoadMaterial()
+{
+    Ocular::Graphics::TextureResourceLoader_PNG urgh;
+    Ocular::Graphics::MaterialResourceLoader blergh;
+
+    Ocular::Graphics::Material* material = OcularResources->getResource<Ocular::Graphics::Material>("Materials/Flat");
+
+    if(material)
+    {
+        uint32_t success = 0;
+        success++;
+    }
+    else
+    {
+        uint32_t failure = 0;
+        failure++;
+    }
+}
+
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
@@ -99,7 +121,7 @@ int main(int argc, char** argv)
 
     if(openWindow())
     {
-        setupScene();
+        testLoadMaterial();
         while(OcularEngine.run());
     }
 

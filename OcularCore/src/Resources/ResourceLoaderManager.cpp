@@ -68,7 +68,22 @@ namespace Ocular
 
                 if(loader != nullptr)
                 {
-                    result = loader->loadResource(resource, file);
+                    if(loader->loadResource(resource, file))
+                    {
+                        if(resource)
+                        {
+                            resource->setIsInMemory(true);
+                            result = true;
+                        }
+                        else
+                        {
+                            OcularLogger->error("ResourceLoader reported success for '", file.getFullPath(), "' but returned Resource is NULL", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("ResourceLoader for '", extension, "' failed to load the Resource at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+                    }
                 }
                 else
                 {

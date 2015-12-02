@@ -38,6 +38,7 @@ namespace Ocular
         {
             Texture = 0,
             Mesh,
+            Material,
             Shader,
             ShaderProgram,
             Data,

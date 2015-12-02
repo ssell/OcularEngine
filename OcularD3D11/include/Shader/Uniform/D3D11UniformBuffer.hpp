@@ -68,6 +68,7 @@ namespace Ocular
             ID3D11Buffer* m_D3DBuffer;
 
         private:
+
         };
     }
     /**

@@ -29,6 +29,7 @@ namespace Ocular
         Resource::Resource(File const& source)
             : m_SourceFile(source),
               m_Name(source.getName()),
+              m_IsInMemory(false),
               m_SizeInMemory(0),
               m_Type(ResourceType::Undefined)
         {
@@ -38,6 +39,7 @@ namespace Ocular
         Resource::Resource()
             : m_SourceFile(File()),
               m_Name(""),
+              m_IsInMemory(false),
               m_SizeInMemory(0),
               m_Type(ResourceType::Undefined)
         {
@@ -61,6 +63,11 @@ namespace Ocular
         void Resource::setSourceFile(File const& file)
         {
             m_SourceFile = file;
+        }
+
+        void Resource::setIsInMemory(bool inMemory) 
+        {
+            m_IsInMemory = inMemory;
         }
 
         bool Resource::isInMemory() const

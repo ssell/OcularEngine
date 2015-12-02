@@ -34,7 +34,7 @@ namespace Ocular
               m_UniformDataSize(0),
               m_Type(static_cast<uint32_t>(type))
         {
-        
+            m_Uniforms.reserve(100);
         }
 
         UniformBuffer::~UniformBuffer()
@@ -97,14 +97,24 @@ namespace Ocular
             if(m_Type == static_cast<uint32_t>(UniformBufferType::PerMaterial))
             {
                 const uint32_t index = uniform.getRegister();
+                bool foundUniform = false;
 
-                if(index < m_Uniforms.size())
+                for(auto iter = m_Uniforms.begin(); iter != m_Uniforms.end(); ++iter)
                 {
-                    m_Uniforms.resize(index);
+                    if((*iter).getRegister() == index)
+                    {
+                        (*iter) = uniform;
+                        foundUniform = true;
+                        m_IsDirty = true;
+
+                        break;
+                    }
                 }
 
-                m_Uniforms[index] = uniform;
-                m_IsDirty = true;
+                if(!foundUniform)
+                {
+                    m_Uniforms.emplace_back(uniform);
+                }
             }
             else
             {

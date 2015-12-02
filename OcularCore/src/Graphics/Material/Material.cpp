@@ -38,10 +38,9 @@ namespace Ocular
               m_PreTessellationShader(nullptr),
               m_PostTessellationShader(nullptr)
         {
+            m_Type = Core::ResourceType::Material;
             m_UniformBuffer = OcularGraphics->createUniformBuffer(UniformBufferType::PerMaterial);
-
             m_Textures.reserve(OcularGraphics->getMaxBoundTextures());
-            std::fill(m_Textures.begin(), m_Textures.end(), std::make_pair("", nullptr));
         }
 
         Material::~Material()
@@ -62,6 +61,7 @@ namespace Ocular
         void Material::bind()
         {
             bindShaders();
+            //bindTextures
         }
 
         void Material::unbind()
@@ -82,11 +82,36 @@ namespace Ocular
         {
             bool result = false;
 
-            if(index < m_Textures.size())
+            if(index < OcularGraphics->getMaxBoundTextures())
             {
-                m_Textures[index].first = name;
-                m_Textures[index].second = texture;
+                bool registerInUse = false;
+
+                for(auto iter = m_Textures.begin(); iter != m_Textures.end(); ++iter)
+                {
+                    if((*iter).samplerRegister == index)
+                    {
+                        (*iter).samplerName = name;
+                        (*iter).texture = texture;
+
+                        registerInUse = true;
+                    }
+                }
+
+                if(!registerInUse)
+                {
+                    TextureSamplerInfo sampler;
+                    sampler.texture = texture;
+                    sampler.samplerName = name;
+                    sampler.samplerRegister = index;
+
+                    m_Textures.emplace_back(sampler);
+                }
+
                 result = true;
+            }
+            else
+            {
+                OcularLogger->warning("Specified Texture register index of ", index, " exceeds maximum register index of ", (OcularGraphics->getMaxBoundTextures() - 1), OCULAR_INTERNAL_LOG("Material", "setTexture"));
             }
 
             return result;
@@ -94,17 +119,41 @@ namespace Ocular
 
         Texture* Material::getTexture(uint32_t const index) const
         {
-            return m_Textures[index].second;
+            Texture* result = nullptr;
+
+            if(index < OcularGraphics->getMaxBoundTextures())
+            {
+                for(auto iter = m_Textures.begin(); iter != m_Textures.end(); ++iter)
+                {
+                    if((*iter).samplerRegister == index)
+                    {
+                        result = (*iter).texture;
+                    }
+                }
+            }
+            else
+            {
+                OcularLogger->warning("Specified Texture register index of ", index, " exceeds maximum register index of ", (OcularGraphics->getMaxBoundTextures() - 1), OCULAR_INTERNAL_LOG("Material", "getTexture"));
+            }
+
+            return result;
         }
 
         void Material::removeTexture(uint32_t const index)
         {
-            if(index < m_Textures.size())
+            if(index < OcularGraphics->getMaxBoundTextures())
             {
-                if(m_Textures[index].second)
+                for(auto iter = m_Textures.begin(); iter != m_Textures.end(); ++iter)
                 {
-                    m_Textures[index].second = nullptr;
+                    if((*iter).samplerRegister == index)
+                    {
+                        m_Textures.erase(iter);
+                    }
                 }
+            }
+            else
+            {
+                OcularLogger->warning("Specified Texture register index of ", index, " exceeds maximum register index of ", (OcularGraphics->getMaxBoundTextures() - 1), OCULAR_INTERNAL_LOG("Material", "removeTexture"));
             }
         }
 

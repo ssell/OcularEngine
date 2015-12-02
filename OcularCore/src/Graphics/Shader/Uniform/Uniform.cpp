@@ -38,6 +38,38 @@ namespace Ocular
             clearData();
         }
 
+        Uniform::Uniform(Uniform const& other)
+        {
+            m_Name     = other.getName();
+            m_Size     = other.getSize();
+            m_Register = other.getRegister();
+            m_Data     = nullptr;
+
+            float* otherData = other.getData();
+
+            if(otherData)
+            {
+                m_Data = new float[m_Size];
+                memcpy(m_Data, otherData, sizeof(float) * m_Size);
+            }
+        }
+
+        void Uniform::operator=(Uniform const& other)
+        {
+            m_Name     = other.getName();
+            m_Size     = other.getSize();
+            m_Register = other.getRegister();
+            m_Data     = nullptr;
+
+            float* otherData = other.getData();
+
+            if(otherData)
+            {
+                m_Data = new float[m_Size];
+                memcpy(m_Data, otherData, sizeof(float) * m_Size);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
@@ -72,10 +104,10 @@ namespace Ocular
         {
             clearData();
 
-            m_Size = 12;
-            m_Data = new float[12];
+            m_Size = 9;
+            m_Data = new float[9];
             
-            for(int i = 0; i < 12; i++)
+            for(int i = 0; i < 9; i++)
             {
                 m_Data[i] = data.getElement(i);
             }

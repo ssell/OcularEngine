@@ -40,12 +40,12 @@ namespace Ocular
         class Uniform
         {
         public:
-
-            /**
-             *
-             */
+            
             Uniform();
             ~Uniform();
+
+            Uniform(Uniform const&);
+            void operator=(Uniform const&);
 
             //------------------------------------------------------------
             // Data Methods

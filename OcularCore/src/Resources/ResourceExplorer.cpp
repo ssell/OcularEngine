@@ -15,6 +15,7 @@
  */
 
 #include "Resources/ResourceExplorer.hpp"
+#include <algorithm>
 
 //------------------------------------------------------------------------------------------
 
@@ -87,6 +88,7 @@ namespace Ocular
                     if(!isBlacklisted((*fileIter).getExtension()))
                     {
                         std::string relative = getRelativePathFromResourceRoot((*rootIter), (*fileIter));
+                        std::replace(relative.begin(), relative.end(), '\\', '/');
 
                         // If the key is not already in-use, then add a new entry to the map
                         if(fileMap.find(relative) == fileMap.end())

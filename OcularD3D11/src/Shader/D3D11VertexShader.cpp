@@ -23,12 +23,15 @@ namespace Ocular
 {
     namespace Graphics
     {
+        ID3D11InputLayout* D3D11VertexShader::m_D3DInputLayout = nullptr;
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        D3D11VertexShader::D3D11VertexShader(ID3D11DeviceContext* context)
+        D3D11VertexShader::D3D11VertexShader(ID3D11Device* device, ID3D11DeviceContext* context)
             : VertexShader(),
+              m_D3DDevice(device),
               m_D3DDeviceContext(context),
               m_D3DShader(nullptr),
               m_D3DBlob(nullptr)
@@ -49,6 +52,12 @@ namespace Ocular
         {
             VertexShader::unload();
 
+            if(m_D3DInputLayout)
+            {
+                m_D3DInputLayout->Release();
+                m_D3DInputLayout = nullptr;
+            }
+
             if(m_D3DShader)
             {
                 m_D3DShader->Release();
@@ -65,6 +74,11 @@ namespace Ocular
         void D3D11VertexShader::bind()
         {
             VertexShader::bind();
+
+            if(m_D3DInputLayout == nullptr)
+            {
+                createInputLayout();
+            }
 
             if(m_D3DDeviceContext)
             {
@@ -115,6 +129,60 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool D3D11VertexShader::createInputLayout()
+        {
+            bool result = false;
+
+            if(m_D3DDevice)
+            {
+                if(m_D3DBlob)
+                {
+                    D3D11_INPUT_ELEMENT_DESC inputElements[7] =
+                    {
+                        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"TEXCOORD", 2, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+                        {"TEXCOORD", 3, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+                    };
+
+                    const HRESULT hResult = m_D3DDevice->CreateInputLayout(inputElements, ARRAYSIZE(inputElements), m_D3DBlob->GetBufferPointer(), m_D3DBlob->GetBufferSize(), &m_D3DInputLayout);
+
+                    if(hResult != S_OK)
+                    {
+                        OcularLogger->error("Failed to create D3D11 Input Layout with error ", hResult, OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
+                    }
+                    else
+                    {
+                        if(m_D3DDeviceContext)
+                        {
+                            m_D3DDeviceContext->IASetInputLayout(m_D3DInputLayout);
+                            result = true;
+                        }
+                        else
+                        {
+                            m_D3DInputLayout->Release();
+                            m_D3DInputLayout = nullptr;
+
+                            OcularLogger->error("D3D11 Device Context is NULL", OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
+                        }
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Compiled Shader Blob is NULL", OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("D3D11 Device is NULL", OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

@@ -74,6 +74,12 @@ namespace Ocular
             void setSourceFile(File const& file);
 
             /**
+             * \param[in] inMemory
+             * \note This method should generally not be used unless by internal mechanisms.
+             */
+            void setIsInMemory(bool inMemory);
+
+            /**
              * \return TRUE if the Resource is loaded in memory.
              */
             bool isInMemory() const;

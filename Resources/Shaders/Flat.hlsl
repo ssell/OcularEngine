@@ -18,7 +18,7 @@
  * A basic, generic flat shader. Simply renders the geometry in a single color.
  */
 
-#include "OcularInclude.hlsl"
+#include "OcularCommon.hlsl"
 
 struct VSOutput
 {

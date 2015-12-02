@@ -203,7 +203,15 @@ namespace Ocular
              *                    value[3][0], value[3][1], value[3][2], value[3][3]}
              */
 
-            Uniform const* lastUniform = &m_Uniforms[(m_Uniforms.size() - 1)];
+            Uniform* lastUniform = &m_Uniforms[0];
+
+            for(uint32_t i = 0; i < m_Uniforms.size(); i++)
+            {
+                if(m_Uniforms[i].getRegister() > lastUniform->getRegister())
+                {
+                    lastUniform = &m_Uniforms[i];
+                }
+            }
 
             if(lastUniform)
             {
@@ -218,7 +226,7 @@ namespace Ocular
                     numRegisters += 3;  // One of the registers is already accounted for; Total of 3 additional registers
                 }
 
-                const uint32_t dataSize = numRegisters * UniformPackingAlignment;
+                const uint32_t dataSize = (numRegisters * sizeof(float) * 4);  // Each register is 4 floats in size
 
                 //--------------------------------------------------------
                 // Create and/or resize the raw data if necessary
@@ -233,7 +241,7 @@ namespace Ocular
                     // _aligned_malloc is Windows only, but that is OK for this Direct3D implementation
                     // If porting to non-Windows, see memalign functions for GCC (http://man7.org/linux/man-pages/man3/posix_memalign.3.html)
                     m_UniformData = (float*)_aligned_malloc(dataSize, UniformPackingAlignment);
-                    memset(m_UniformData, 0, sizeof(float) * dataSize);
+                    memset(m_UniformData, 0, dataSize);
 
                     m_UniformDataSize = dataSize;
                 }
@@ -241,7 +249,7 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Fill the raw data. Currently we just refill the entire buffer, but this may be changed in the future.
 
-                uint32_t dataIndex = 0;
+                uint32_t bufferIndex = 0;
 
                 for(uint32_t i = 0; i < m_Uniforms.size(); i++)
                 {
@@ -249,26 +257,24 @@ namespace Ocular
 
                     if(data)
                     {
+                        bufferIndex = (m_Uniforms[i].getRegister() * 4);  // Each register is 4 floats in size
+
                         switch(m_Uniforms[i].getSize())
                         {
                         case 1:
-                            m_UniformData[dataIndex] = data[0];
-                            dataIndex += 4;
+                            m_UniformData[bufferIndex] = data[0];
                             break;
 
                         case 4:
-                            memcpy(&m_UniformData[dataIndex], data, sizeof(float) * 4);
-                            dataIndex += 4;
+                            memcpy(&m_UniformData[bufferIndex], data, sizeof(float) * 4);
                             break;
 
                         case 12:
-                            memcpy(&m_UniformData[dataIndex], data, sizeof(float) * 12);
-                            dataIndex += 12;
+                            memcpy(&m_UniformData[bufferIndex], data, sizeof(float) * 12);
                             break;
 
                         case 16:
-                            memcpy(&m_UniformData[dataIndex], data, sizeof(float) * 16);
-                            dataIndex += 16;
+                            memcpy(&m_UniformData[bufferIndex], data, sizeof(float) * 16);
                             break;
 
                         default:
