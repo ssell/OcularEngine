@@ -31,6 +31,7 @@
 #include "Shader/Uniform/D3D11UniformBuffer.hpp"
 
 #include "Material/D3D11Material.hpp"
+#include "D3D11Viewport.hpp"
 
 #include "Mesh/D3D11IndexBuffer.hpp"
 #include "Mesh/D3D11VertexBuffer.hpp"
@@ -249,6 +250,11 @@ namespace Ocular
         Material* D3D11GraphicsDriver::createMaterial() const
         {
             return new D3D11Material(m_D3DDeviceContext);
+        }
+
+        Viewport* D3D11GraphicsDriver::createViewport(float const x, float const y, float const width, float const height, float const minDepth, float const maxDepth) const
+        {
+            return new D3D11Viewport(m_D3DDeviceContext, x, y, width, height, minDepth, maxDepth);
         }
 
         //----------------------------------------------------------------------------------

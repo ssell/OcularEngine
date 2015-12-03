@@ -70,17 +70,33 @@ namespace Ocular
 
         void CameraManager::setActiveCamera(Camera* camera)
         {
-            m_ActiveCamera = camera;
-
-            if(m_ActiveCamera && m_UniformBuffer)
+            if(m_ActiveCamera != camera)
             {
-                m_UniformPerCamera.eyePosition    = camera->getTransform().getPosition();
-                m_UniformPerCamera.viewMatrix     = camera->getViewMatrix();
-                m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
-                m_UniformPerCamera.viewProjMatrix = (m_UniformPerCamera.viewMatrix * m_UniformPerCamera.projMatrix);
+                m_ActiveCamera = camera;
 
-                m_UniformBuffer->setFixedData(sizeof(Graphics::UniformPerCamera), &m_UniformPerCamera);
-                m_UniformBuffer->bind();
+                if(m_ActiveCamera && m_UniformBuffer)
+                {
+                    //----------------------------------------------------
+                    // Bind the Uniform Buffer
+
+                    m_UniformPerCamera.eyePosition    = camera->getTransform().getPosition();
+                    m_UniformPerCamera.viewMatrix     = camera->getViewMatrix();
+                    m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
+                    m_UniformPerCamera.viewProjMatrix = (m_UniformPerCamera.viewMatrix * m_UniformPerCamera.projMatrix);
+
+                    m_UniformBuffer->setFixedData(sizeof(Graphics::UniformPerCamera), &m_UniformPerCamera);
+                    m_UniformBuffer->bind();
+                    
+                    //----------------------------------------------------
+                    // Bind the Viewport
+
+                    Graphics::Viewport* viewport = m_ActiveCamera->getViewport();
+
+                    if(viewport)
+                    {
+                        viewport->bind();
+                    }
+                }
             }
         }
 

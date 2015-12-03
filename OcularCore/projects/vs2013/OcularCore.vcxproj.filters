@@ -531,6 +531,9 @@
     <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Viewport.cpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -979,6 +982,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Viewport.hpp">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

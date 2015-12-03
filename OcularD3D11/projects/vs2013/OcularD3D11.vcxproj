@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp" />
+    <ClInclude Include="..\..\include\D3D11Viewport.hpp" />
     <ClInclude Include="..\..\include\Material\D3D11Material.hpp" />
     <ClInclude Include="..\..\include\Mesh\D3D11IndexBuffer.hpp" />
     <ClInclude Include="..\..\include\Mesh\D3D11VertexBuffer.hpp" />
@@ -97,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\D3D11GraphicsDriver.cpp" />
+    <ClCompile Include="..\..\src\D3D11Viewport.cpp" />
     <ClCompile Include="..\..\src\Material\D3D11Material.cpp" />
     <ClCompile Include="..\..\src\Mesh\D3D11IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\Mesh\D3D11VertexBuffer.cpp" />

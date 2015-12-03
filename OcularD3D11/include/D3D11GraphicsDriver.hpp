@@ -62,6 +62,7 @@ namespace Ocular
             virtual bool renderMesh(Mesh* mesh) override;
 
             virtual Material* createMaterial() const override;
+            virtual Viewport* createViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f) const override;
 
             virtual Texture* createTexture(TextureDescriptor const& descriptor) const override;
             virtual Texture2D* createTexture2D(TextureDescriptor const& descriptor) const override;

@@ -116,7 +116,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_56.lib</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>"$(SolutionDir)..\External\libs\boost\msvc-12.0\debug"</AdditionalLibraryDirectories>

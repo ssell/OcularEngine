@@ -28,8 +28,8 @@
 #include "Graphics/Shader/PostTessellationShader.hpp"
 
 #include "Graphics/Material/Material.hpp"
-
 #include "Graphics/Mesh/Mesh.hpp"
+#include "Graphics/Viewport.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -91,6 +91,11 @@ namespace Ocular
              *         NULL if texture creation failed.
              */
             virtual Material* createMaterial() const;
+
+            /**
+             *
+             */
+            virtual Viewport* createViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f) const;
 
             //------------------------------------------------------------------------------
             // Textures

@@ -93,6 +93,9 @@
     <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
       <Filter>Header Files\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\D3D11Viewport.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -142,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Shader\Uniform\D3D11UniformBuffer.cpp">
       <Filter>Source Files\Shader\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\D3D11Viewport.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

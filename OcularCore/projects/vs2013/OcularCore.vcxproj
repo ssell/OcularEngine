@@ -116,7 +116,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_56.lib</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>"$(SolutionDir)..\External\libs\boost\msvc-12.0\debug"</AdditionalLibraryDirectories>
@@ -137,7 +137,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmls.lib;libboost_filesystem-vc120-mt-1_56.lib;libpng16.lib</AdditionalDependencies>
+      <AdditionalDependencies>pugixmls.lib;libboost_filesystem-vc120-mt-1_59.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x64\$(Configuration)\</AdditionalLibraryDirectories>
@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.cpp" />
     <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Viewport.cpp" />
     <ClCompile Include="..\..\src\Input\InputHandler.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
@@ -323,6 +324,7 @@
     <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.hpp" />
     <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Viewport.hpp" />
     <ClInclude Include="..\..\include\Input\InputHandler.hpp" />
     <ClInclude Include="..\..\include\Input\Keys.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp" />

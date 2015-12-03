@@ -21,6 +21,7 @@
 #include "Priority.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Graphics/Texture/RenderTexture.hpp"
+#include "Graphics/Viewport.hpp"
 #include "Math/Geometry/Frustum.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -60,6 +61,9 @@ namespace Ocular
             void setPriority(Priority priority);
             Priority getPriority() const;
 
+            void setViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f);
+            Graphics::Viewport* getViewport();
+
         protected:
 
             Math::Matrix4x4f m_ViewMatrix;
@@ -68,6 +72,7 @@ namespace Ocular
             Math::Frustum m_Frustum;
 
             Graphics::RenderTexture* m_RenderTexture;
+            Graphics::Viewport* m_Viewport;
 
             Priority m_Priority;
 

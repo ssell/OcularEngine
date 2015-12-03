@@ -39,6 +39,12 @@ namespace Ocular
         {
             OcularCameras->removeCamera(this);
             m_RenderTexture = nullptr;
+
+            if(m_Viewport)
+            {
+                delete m_Viewport;
+                m_Viewport = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -91,6 +97,21 @@ namespace Ocular
         Priority Camera::getPriority() const
         {
             return m_Priority;
+        }
+
+        void Camera::setViewport(float const x, float const y, float const width, float const height, float const minDepth, float const maxDepth)
+        {
+            if(m_Viewport)
+            {
+                delete m_Viewport;
+            }
+
+            m_Viewport = OcularGraphics->createViewport(x, y, width, height, minDepth, maxDepth);
+        }
+
+        Graphics::Viewport* Camera::getViewport()
+        {
+            return m_Viewport;
         }
 
         //----------------------------------------------------------------------------------

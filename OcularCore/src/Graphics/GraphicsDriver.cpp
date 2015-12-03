@@ -66,6 +66,11 @@ namespace Ocular
             return new Material();
         }
 
+        Viewport* GraphicsDriver::createViewport(float const x, float const y, float const width, float const height, float const minDepth, float const maxDepth) const
+        {
+            return new Viewport(x, y, width, height, minDepth, maxDepth);
+        }
+
         //----------------------------------------------------------------------------------
         // Textures
         //----------------------------------------------------------------------------------
