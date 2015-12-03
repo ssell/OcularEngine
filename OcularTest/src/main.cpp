@@ -93,6 +93,7 @@ void setupScene()
 
     Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
     mainCamera->setPriority(Priority::Low);
+    mainCamera->setViewport(0.0f, 0.0f, 800.0f, 600.0f);
 
     //--------------------------------------------------------------------
     // Setup Input Logger

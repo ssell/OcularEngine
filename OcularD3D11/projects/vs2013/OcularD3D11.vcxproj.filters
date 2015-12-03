@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Shader\Uniform">
       <UniqueIdentifier>{365ed2f8-e1a1-4609-90d3-f7b37369607a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Render State">
+      <UniqueIdentifier>{38071723-cf0a-49fe-a50e-53e1e7a5024a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render State">
+      <UniqueIdentifier>{65008a61-73b4-45c1-ae5e-611838479671}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.hpp">
@@ -96,6 +102,9 @@
     <ClInclude Include="..\..\include\D3D11Viewport.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\RenderState\D3D11RenderState.hpp">
+      <Filter>Header Files\Render State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -148,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\D3D11Viewport.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RenderState\D3D11RenderState.cpp">
+      <Filter>Source Files\Render State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

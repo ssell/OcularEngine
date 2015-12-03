@@ -52,6 +52,7 @@ namespace Ocular
             // Getters and Setters
 
             void setPosition(Vector3f const& position);
+            void setPosition(float const x, float const y, float const z);
             Vector3f getPosition() const;
 
             void setRotation(Quaternion const& rotation);

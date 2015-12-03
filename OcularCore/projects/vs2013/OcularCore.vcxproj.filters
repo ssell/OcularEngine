@@ -211,6 +211,12 @@
     <Filter Include="Source Files\Scene\Renderable\Renderables">
       <UniqueIdentifier>{23ef16c5-b1fc-4bef-b8ef-f6114e372f14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Render State">
+      <UniqueIdentifier>{3adf689a-209f-451f-a65b-be13127498f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Render State">
+      <UniqueIdentifier>{16af85a8-c448-4c7e-bf06-e999d762d28e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -532,7 +538,10 @@
       <Filter>Header Files\Graphics\Material</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Viewport.cpp">
-      <Filter>Header Files\Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp">
+      <Filter>Source Files\Graphics\Render State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -985,6 +994,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Viewport.hpp">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\RenderEnums.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -32,6 +32,7 @@ namespace Ocular
               m_RenderTexture(nullptr),
               m_Priority(Priority::Medium)
         {
+            m_Transform.setPosition(0.0f, 0.0f, 5.0f);
             OcularCameras->addCamera(this);
         }
 
@@ -107,6 +108,11 @@ namespace Ocular
             }
 
             m_Viewport = OcularGraphics->createViewport(x, y, width, height, minDepth, maxDepth);
+
+            if(OcularCameras->getActiveCamera() == this)
+            {
+                m_Viewport->bind();
+            }
         }
 
         Graphics::Viewport* Camera::getViewport()

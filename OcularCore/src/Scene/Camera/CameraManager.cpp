@@ -80,7 +80,7 @@ namespace Ocular
                     // Bind the Uniform Buffer
 
                     m_UniformPerCamera.eyePosition    = camera->getTransform().getPosition();
-                    m_UniformPerCamera.viewMatrix     = camera->getViewMatrix();
+                    m_UniformPerCamera.viewMatrix     = camera->getViewMatrix().getInverse();
                     m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
                     m_UniformPerCamera.viewProjMatrix = (m_UniformPerCamera.viewMatrix * m_UniformPerCamera.projMatrix);
 

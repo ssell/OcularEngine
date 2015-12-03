@@ -30,11 +30,14 @@
 #include "Shader/D3D11PostTessellationShader.hpp"
 #include "Shader/Uniform/D3D11UniformBuffer.hpp"
 
+#include "RenderState/D3D11RenderState.hpp"
+
 #include "Material/D3D11Material.hpp"
-#include "D3D11Viewport.hpp"
 
 #include "Mesh/D3D11IndexBuffer.hpp"
 #include "Mesh/D3D11VertexBuffer.hpp"
+
+#include "D3D11Viewport.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -145,11 +148,18 @@ namespace Ocular
                         windowWin32->setDepthTexture(depthTexture);
 
                         //------------------------------------------------
+                        // Create and bind render textures
 
                         ID3D11RenderTargetView* rtv = renderTexture->getD3DRenderTargetView();
                         ID3D11DepthStencilView* dsv = depthTexture->getD3DDepthStencilView();
 
                         m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+                        //------------------------------------------------
+                        // Create and bind RenderState
+
+                        m_RenderState = new D3D11RenderState(m_D3DDevice, m_D3DDeviceContext);
+                        m_RenderState->bind();
 
                         result = true;
                     }

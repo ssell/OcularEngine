@@ -52,6 +52,13 @@ namespace Ocular
             m_Position = position;
         }
 
+        void Transform::setPosition(float const x, float const y, float const z)
+        {
+            m_Position.x = x;
+            m_Position.y = y;
+            m_Position.z = z;
+        }
+
         Vector3f Transform::getPosition() const
         {
             return m_Position;

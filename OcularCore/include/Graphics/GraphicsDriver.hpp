@@ -27,6 +27,8 @@
 #include "Graphics/Shader/PreTessellationShader.hpp"
 #include "Graphics/Shader/PostTessellationShader.hpp"
 
+#include "Graphics/RenderState/RenderState.hpp"
+
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Viewport.hpp"
@@ -78,6 +80,14 @@ namespace Ocular
              * \return TRUE if rendered successfully. 
              */
             virtual bool renderMesh(Mesh* mesh);
+
+            /**
+             * Returns the current RenderState for the GraphicsDriver.
+             * No changes to the RenderState will take affect until the RenderState::bind method is called.
+             *
+             * \return The current RenderState. May return NULL if no underlying graphical API (D3D, GL, etc.) is in use.
+             */
+            virtual RenderState* getRenderState();
 
             //------------------------------------------------------------------------------
             // Creation Methods
@@ -227,6 +237,8 @@ namespace Ocular
             virtual VertexBuffer* createVertexBuffer() const;
 
         protected:
+
+            RenderState* m_RenderState;
 
         private:
         };

@@ -28,13 +28,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         GraphicsDriver::GraphicsDriver()
+            : m_RenderState(nullptr)
         {
         
         }
 
         GraphicsDriver::~GraphicsDriver()
         {
-        
+            if(m_RenderState)
+            {
+                delete m_RenderState;
+                m_RenderState = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -59,6 +64,11 @@ namespace Ocular
         bool GraphicsDriver::renderMesh(Mesh* mesh)
         {
             return false;
+        }
+
+        RenderState* GraphicsDriver::getRenderState()
+        {
+            return m_RenderState;
         }
 
         Material* GraphicsDriver::createMaterial() const
