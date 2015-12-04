@@ -191,36 +191,17 @@ namespace Ocular
 
                 if(mainWindow)
                 {
-                    D3D11RenderTexture* renderTexture = (D3D11RenderTexture*)(mainWindow->getRenderTexture());
-                    D3D11DepthTexture* depthTexture = (D3D11DepthTexture*)(mainWindow->getDepthTexture());
+                    ID3D11RenderTargetView* currentRTV = nullptr;
+                    ID3D11DepthStencilView* currentDSV = nullptr;
 
-                    if(renderTexture)
+                    m_D3DDeviceContext->OMGetRenderTargets(1, &currentRTV, &currentDSV);
+
+                    if(currentRTV && currentDSV)
                     {
-                        ID3D11RenderTargetView* d3dRTV = renderTexture->getD3DRenderTargetView();
+                        const static float clearColor[4] = { Core::Color::FrigidBlue().r, Core::Color::FrigidBlue().g, Core::Color::FrigidBlue().b, Core::Color::FrigidBlue().a };
 
-                        if(d3dRTV)
-                        {
-                            const static float clearColor[4] = { Core::Color::FrigidBlue().r, Core::Color::FrigidBlue().g, Core::Color::FrigidBlue().b, Core::Color::FrigidBlue().a };
-                            m_D3DDeviceContext->ClearRenderTargetView(d3dRTV, clearColor);
-                        }
-                        else
-                        {
-                            OcularLogger->error("Failed to clear buffers as D3D11 Render Target View is NULL", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "clearBuffers"));
-                        }
-                    }
-
-                    if(depthTexture)
-                    {
-                        ID3D11DepthStencilView* d3dDSV = depthTexture->getD3DDepthStencilView();
-
-                        if(d3dDSV)
-                        {
-                            m_D3DDeviceContext->ClearDepthStencilView(d3dDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
-                        }
-                        else
-                        {
-                            OcularLogger->error("Failed to clear buffers as D3D11 Depth Stencil View is NULL", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "clearBuffers"));
-                        }
+                        m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
+                        m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
                     }
                 }
             }
@@ -486,17 +467,12 @@ namespace Ocular
             {
                 ZeroMemory(&dest, sizeof(D3D11_TEXTURE2D_DESC));
 
-                dest.Width     = src.width;
-                dest.Height    = src.height;
+                dest.Width = src.width;
+                dest.Height = src.height;
                 dest.MipLevels = src.mipmaps;
                 dest.ArraySize = 1;
-                
-                DXGI_SAMPLE_DESC sampleDescr;
-                ZeroMemory(&sampleDescr, sizeof(DXGI_SAMPLE_DESC));
-                sampleDescr.Count = 1;
-                sampleDescr.Quality = 0;
-
-                dest.SampleDesc = sampleDescr;
+                dest.SampleDesc.Count = 1;
+                dest.SampleDesc.Quality = 0;
 
                 //--------------------------------------------------------
                 // CPU Access

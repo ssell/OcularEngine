@@ -31,6 +31,7 @@
 #include "Renderer/Window/Window.hpp"
 
 #include <DirectXMath.h>
+#include <d3d11.h>
 
 Ocular::Core::EventSnooper g_Snooper;
 
@@ -39,6 +40,13 @@ using namespace Ocular::Utils;
 using namespace Ocular::Math;
 using namespace Ocular::Graphics;
 using namespace DirectX;
+
+D3D11GraphicsDriver* driver = nullptr;
+ID3D11Device*        d3dDevice = nullptr;
+ID3D11DeviceContext* d3dDeviceContext = nullptr;
+
+ID3D11Buffer* vertexBuffer = nullptr;
+ID3D11Buffer* indexBuffer = nullptr;
 
 //------------------------------------------------------------------------------------------
 
@@ -214,6 +222,100 @@ void setupScene()
     int breakOnMe = 0;
 }
 
+void doItByHand()
+{
+    driver = (D3D11GraphicsDriver*)(OcularGraphics.get());
+    d3dDevice = driver->getD3DDevice();
+    d3dDeviceContext = driver->getD3DDeviceContext();
+
+    //--------------------------------------------------------------------
+    // Setup Viewport
+    //--------------------------------------------------------------------
+
+    D3D11_VIEWPORT viewport;
+    viewport.Width    = 800;
+    viewport.Height   = 0;
+    viewport.TopLeftX = 0.0f;
+    viewport.TopLeftY = 0.0f;
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+
+    d3dDeviceContext->RSSetViewports(1, &viewport);
+
+    //--------------------------------------------------------------------
+    // Vertex Buffer
+    //--------------------------------------------------------------------
+
+    float vertices[9] = 
+    {
+        -1.0f, -1.0f, 0.0f,
+         1.0f, -1.0f, 0.0f,
+         0.0f,  1.0f, 0.0f
+    };
+
+    D3D11_BUFFER_DESC vertBufferDescr;
+    ZeroMemory(&vertBufferDescr, sizeof(D3D11_BUFFER_DESC));
+    vertBufferDescr.Usage = D3D11_USAGE_DEFAULT;
+    vertBufferDescr.ByteWidth = sizeof(float) * 9;
+    vertBufferDescr.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+                
+    D3D11_SUBRESOURCE_DATA vertBufferData;
+    ZeroMemory(&vertBufferData, sizeof(D3D11_SUBRESOURCE_DATA));
+    vertBufferData.pSysMem = vertices;
+
+    HRESULT hResult = d3dDevice->CreateBuffer(&vertBufferDescr, &vertBufferData, &vertexBuffer);
+
+    if(hResult != S_OK)
+    {
+        OcularLogger->error("Failed to create Vertex Buffer");
+    }
+
+    //--------------------------------------------------------------------
+    // Index Buffer
+    //--------------------------------------------------------------------
+
+    uint32_t indices[3] =
+    {
+        0, 1, 2
+    };
+
+    D3D11_BUFFER_DESC indexBufferDescr;
+    ZeroMemory(&indexBufferDescr, sizeof(D3D11_BUFFER_DESC));
+    indexBufferDescr.Usage     = D3D11_USAGE_DEFAULT;
+    indexBufferDescr.ByteWidth = sizeof(uint32_t) * 3;
+    indexBufferDescr.BindFlags = D3D11_BIND_INDEX_BUFFER;
+                
+    D3D11_SUBRESOURCE_DATA indexBufferData;
+    ZeroMemory(&indexBufferData, sizeof(D3D11_SUBRESOURCE_DATA));
+    indexBufferData.pSysMem = indices;
+
+    hResult = d3dDevice->CreateBuffer(&indexBufferDescr, &indexBufferData, &indexBuffer);
+
+    if(hResult != S_OK)
+    {
+        OcularLogger->error("Failed to create Index Buffer");
+    }
+
+    //--------------------------------------------------------------------
+    // Bind Vertex and Index Buffers
+    //--------------------------------------------------------------------
+
+    uint32_t stride = sizeof(float) * 3;
+    uint32_t offset = 0;
+
+    d3dDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+    d3dDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+    //--------------------------------------------------------------------
+    // Bind Shader
+    //--------------------------------------------------------------------
+
+    ShaderProgram* flatShaders = OcularResources->getResource<ShaderProgram>("Shaders/Flat");
+
+    flatShaders->getVertexShader()->bind();
+    flatShaders->getFragmentShader()->bind();
+}
+
 int main(int argc, char** argv)
 {
     TextureResourceLoader_BMP blergh;
@@ -226,8 +328,16 @@ int main(int argc, char** argv)
 
     if(openWindow())
     {
-        setupScene();
-        while(OcularEngine.run());
+        //setupScene();
+        doItByHand();
+        while(OcularEngine.run())
+        {
+            OcularGraphics->clearBuffers();
+
+            d3dDeviceContext->DrawIndexed(3, 0, 0);
+
+            OcularGraphics->swapBuffers();
+        }
     }
 
     OcularEngine.shutdown();

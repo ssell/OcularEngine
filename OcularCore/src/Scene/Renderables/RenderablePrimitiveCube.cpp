@@ -116,9 +116,20 @@ namespace Ocular
                     vertices[7].position = Math::Vector3f(0.5f, (2.0f * CubeSize), -0.5f);*/
 
                     Graphics::Vertex vertices[3];
-                    vertices[0].position = Math::Vector3f(-5.0f, 0.0f, 0.0f);
-                    vertices[1].position = Math::Vector3f( 5.0f, 0.0f, 0.0f);
-                    vertices[2].position = Math::Vector3f( 0.0f, 5.0f, 0.0f);
+                    vertices[0].position[0] = -1.0f;
+                    vertices[0].position[1] = -1.0f;
+                    vertices[0].position[2] =  0.0f;
+                    vertices[0].position[3] =  1.0f;
+                    
+                    vertices[1].position[0] =  1.0f;
+                    vertices[1].position[1] = -1.0f;
+                    vertices[1].position[2] =  0.0f;
+                    vertices[1].position[3] =  1.0f;
+                    
+                    vertices[2].position[0] =  0.0f;
+                    vertices[2].position[1] =  1.0f;
+                    vertices[2].position[2] =  0.0f;
+                    vertices[2].position[3] =  1.0f;
 
                     vertexBuffer->addVertices(vertices, 3);
 

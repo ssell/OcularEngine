@@ -42,18 +42,19 @@ namespace Ocular
          */
         struct Vertex
         {
-            Math::Vector3f position;    ///< Spatial coordinates of the vertex
-            Math::Vector4f color;       ///< Base color of the vertex
-            Math::Vector3f normal;      ///< Normal coordinates of the vertex
-            Math::Vector2f uv0;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv1;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv2;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv3;         ///< Texture coordinates of the vertex
+            float position[4];
+           // Math::Vector3f position;    ///< Spatial coordinates of the vertex
+           // Math::Vector4f color;       ///< Base color of the vertex
+           // Math::Vector3f normal;      ///< Normal coordinates of the vertex
+           // Math::Vector2f uv0;         ///< Texture coordinates of the vertex
+           // Math::Vector2f uv1;         ///< Texture coordinates of the vertex
+           // Math::Vector2f uv2;         ///< Texture coordinates of the vertex
+           // Math::Vector2f uv3;         ///< Texture coordinates of the vertex
 
-            Vertex()
-            {
-                color = Core::Color::ErrorPink();
-            }
+            //Vertex()
+            //{
+            //    color = Core::Color::ErrorPink();
+            //}
         };
     }
     /**

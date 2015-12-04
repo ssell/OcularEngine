@@ -47,9 +47,9 @@ namespace Ocular
             m_D3DRasterizerDesc.DepthBiasClamp        = 0.0f;
             m_D3DRasterizerDesc.SlopeScaledDepthBias  = 0.0f;
             m_D3DRasterizerDesc.DepthClipEnable       = true;
-            m_D3DRasterizerDesc.ScissorEnable         = true;
-            m_D3DRasterizerDesc.MultisampleEnable     = true;
-            m_D3DRasterizerDesc.AntialiasedLineEnable = true;
+            m_D3DRasterizerDesc.ScissorEnable         = false;
+            m_D3DRasterizerDesc.MultisampleEnable     = false;
+            m_D3DRasterizerDesc.AntialiasedLineEnable = false;
 
             ZeroMemory(&m_D3DDepthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
 	        m_D3DDepthStencilDesc.DepthEnable                  = true;

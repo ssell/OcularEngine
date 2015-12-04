@@ -90,7 +90,7 @@ namespace Ocular
         {
             bool result = true;
 
-            if(m_D3DTexture)
+            /*if(m_D3DTexture)
             {
                 D3D11_TEXTURE2D_DESC descr;
                 m_D3DTexture->GetDesc(&descr);
@@ -122,7 +122,7 @@ namespace Ocular
             else
             {
                 OcularLogger->warning("Attempting to create D3D11 SRV from NULL texture", OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
-            }
+            }*/
 
             return result;
         }
