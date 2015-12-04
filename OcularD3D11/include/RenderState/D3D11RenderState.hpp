@@ -65,12 +65,15 @@ namespace Ocular
         protected:
 
             bool m_IsRasterizerStateDirty;
+            bool m_IsDepthStencilStateDirty;
             bool m_IsPrimitiveTopologyDirty;
 
             ID3D11Device*            m_D3DDevice;
             ID3D11DeviceContext*     m_D3DDeviceContext;
             ID3D11RasterizerState*   m_D3DRasterizerState;
+            ID3D11DepthStencilState* m_D3DDepthStencilState;
             D3D11_RASTERIZER_DESC    m_D3DRasterizerDesc;
+            D3D11_DEPTH_STENCIL_DESC m_D3DDepthStencilDesc;
             D3D11_PRIMITIVE_TOPOLOGY m_D3DPrimitiveTopology;
 
         private:

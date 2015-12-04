@@ -51,8 +51,8 @@ namespace Ocular
 
             virtual bool initialize();
 
-            virtual bool preRender();
-            virtual bool postRender();
+            virtual bool preRender();     ///< If returns FALSE, will cancel mesh rendering
+            virtual void postRender();
 
             //------------------------------------------------------------
             // Getters and Setters

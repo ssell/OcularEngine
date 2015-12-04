@@ -20,8 +20,11 @@
 
 #include "Priority.hpp"
 #include "Scene/SceneObject.hpp"
+
 #include "Graphics/Texture/RenderTexture.hpp"
+#include "Graphics/Texture/DepthTexture.hpp"
 #include "Graphics/Viewport.hpp"
+
 #include "Math/Geometry/Frustum.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -49,10 +52,14 @@ namespace Ocular
             virtual ~Camera();
 
             void setRenderTexture(Graphics::RenderTexture* renderTexture);
-            Graphics::RenderTexture const* getRenderTexture() const;
+            Graphics::RenderTexture* getRenderTexture();
+
+            void setDepthTexture(Graphics::DepthTexture* depthTexture);
+            Graphics::DepthTexture* getDepthTexture();
 
             void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
             void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
+            void setProjectionMatrix(Math::Matrix4x4f const& matrix);
 
             Math::Matrix4x4f const& getViewMatrix() const;
             Math::Matrix4x4f const& getProjectionMatrix() const;
@@ -72,6 +79,7 @@ namespace Ocular
             Math::Frustum m_Frustum;
 
             Graphics::RenderTexture* m_RenderTexture;
+            Graphics::DepthTexture* m_DepthTexture;
             Graphics::Viewport* m_Viewport;
 
             Priority m_Priority;

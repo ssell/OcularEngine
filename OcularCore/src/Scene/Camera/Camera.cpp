@@ -32,7 +32,10 @@ namespace Ocular
               m_RenderTexture(nullptr),
               m_Priority(Priority::Medium)
         {
-            m_Transform.setPosition(0.0f, 0.0f, 5.0f);
+            m_Transform.setPosition(0.0f, 0.0f, -5.0f);
+
+            m_ViewMatrix = Math::Matrix4x4f::CreateLookAtMatrix(Math::Vector3f(0.0f, 0.0f, -5.0f), Math::Vector3f(0.0f, 0.0f, 0.0f));
+
             OcularCameras->addCamera(this);
         }
 
@@ -57,9 +60,19 @@ namespace Ocular
             m_RenderTexture = renderTexture;
         }
 
-        Graphics::RenderTexture const* Camera::getRenderTexture() const
+        Graphics::RenderTexture* Camera::getRenderTexture()
         {
             return m_RenderTexture;
+        }
+
+        void Camera::setDepthTexture(Graphics::DepthTexture* depthTexture)
+        {
+            m_DepthTexture = depthTexture;
+        }
+
+        Graphics::DepthTexture* Camera::getDepthTexture()
+        {
+            return m_DepthTexture;
         }
 
         void Camera::setProjectionOrthographic(float const xMin, float const xMax, float const yMin, float const yMax, 
@@ -73,6 +86,11 @@ namespace Ocular
         {
             m_ProjMatrix = Math::Matrix4x4f::CreatePerspectiveMatrix(fov, aspectRatio, nearClip, farClip);
             m_Frustum.setProjectionPerspective(fov, aspectRatio, nearClip, farClip);
+        }
+
+        void Camera::setProjectionMatrix(Math::Matrix4x4f const& matrix)
+        {
+            m_ProjMatrix = matrix;
         }
 
         Math::Matrix4x4f const& Camera::getViewMatrix() const

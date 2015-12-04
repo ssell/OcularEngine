@@ -45,7 +45,7 @@ VSOutput VSMain(VSInput input)
 PSOutput PSMain(VSOutput input)
 {
     PSOutput output;
-    output.color = input.color;
+    output.color = float4(1.0, 0.0, 0.0, 1.0);
 
     return output;
 }

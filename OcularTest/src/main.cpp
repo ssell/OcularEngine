@@ -28,11 +28,17 @@
 #include "Graphics/Material/Material.hpp"
 
 #include "Scene/Renderables/RenderablePrimitiveCube.hpp"
+#include "Renderer/Window/Window.hpp"
+
+#include <DirectXMath.h>
 
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
+using namespace Ocular::Math;
+using namespace Ocular::Graphics;
+using namespace DirectX;
 
 //------------------------------------------------------------------------------------------
 
@@ -46,7 +52,7 @@ bool openWindow()
 {
     bool result = false;
 
-    Ocular::Core::WindowDescriptor descriptor;
+    WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
     descriptor.width         = 800;
@@ -54,7 +60,7 @@ bool openWindow()
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
-    descriptor.displayMode   = Ocular::Core::WindowDisplayMode::WindowedBordered;
+    descriptor.displayMode   = WindowDisplayMode::WindowedBordered;
     descriptor.exclusiveMode = false;
 
     if(OcularEngine.WindowManager()->openWindow(descriptor))
@@ -70,7 +76,7 @@ bool openWindow()
 
 void testLoadMaterial()
 {
-    Ocular::Graphics::Material* material = OcularResources->getResource<Ocular::Graphics::Material>("Materials/Flat");
+    Material* material = OcularResources->getResource<Material>("Materials/Flat");
 
     if(material)
     {
@@ -94,6 +100,9 @@ void setupScene()
     Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
     mainCamera->setPriority(Priority::Low);
     mainCamera->setViewport(0.0f, 0.0f, 800.0f, 600.0f);
+    mainCamera->setProjectionPerspective(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+    mainCamera->setRenderTexture(OcularWindows->getMainWindow()->getRenderTexture());
+    mainCamera->setDepthTexture(OcularWindows->getMainWindow()->getDepthTexture());
 
     //--------------------------------------------------------------------
     // Setup Input Logger
@@ -107,17 +116,113 @@ void setupScene()
     SceneObject* cubeObject = OcularScene->createObject("Cube");
     RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
     renderable->initialize();
+
+
+
+
+    
+
+    
+    Matrix4x4f ocularMatrix;
+    XMMATRIX d3dMatrix;
+
+
+    d3dMatrix = XMMatrixPerspectiveFovRH(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+    ocularMatrix = Matrix4x4f::CreatePerspectiveMatrix(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+
+    Matrix4x4f converted;
+
+    for(int x = 0; x < 4; x++)
+    {
+        for(int y = 0; y < 4; y++)
+        {
+            converted[x][y] = d3dMatrix.r[x].m128_f32[y];
+        }
+    }
+
+    mainCamera->setProjectionMatrix(converted);
+
+
+
+    
+
+
+
+    /*
+     * Verifies the LookAt View Matrix
+     *
+
+    XMVECTOR eyePos;
+    eyePos.m128_f32[0] = 0.0f;
+    eyePos.m128_f32[1] = 0.0f;
+    eyePos.m128_f32[2] = -5.0f;
+
+    XMVECTOR lookAt;
+    lookAt.m128_f32[0] = 0.0f;
+    lookAt.m128_f32[1] = 0.0f;
+    lookAt.m128_f32[2] = 0.0f;
+    
+    XMVECTOR upDir;
+    upDir.m128_f32[0] = 0.0f;
+    upDir.m128_f32[1] = 1.0f;
+    upDir.m128_f32[2] = 0.0f;
+    
+    d3dMatrix = XMMatrixLookAtRH(eyePos, lookAt, upDir);
+    ocularMatrix = Matrix4x4f::CreateLookAtMatrix(Vector3f(0.0f, 0.0f, -5.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+    */
+
+
+
+    //--------------------------------------------------------------------
+    // Model Matrix
+
+    XMMATRIX model = XMMatrixIdentity();
+
+    //--------------------------------------------------------------------
+    // View Matrix
+
+    XMVECTOR eyePos;
+    eyePos.m128_f32[0] = 0.0f;
+    eyePos.m128_f32[1] = 0.0f;
+    eyePos.m128_f32[2] = -5.0f;
+
+    XMVECTOR lookAt;
+    lookAt.m128_f32[0] = 0.0f;
+    lookAt.m128_f32[1] = 0.0f;
+    lookAt.m128_f32[2] = 0.0f;
+    
+    XMVECTOR upDir;
+    upDir.m128_f32[0] = 0.0f;
+    upDir.m128_f32[1] = 1.0f;
+    upDir.m128_f32[2] = 0.0f;
+
+    XMMATRIX view = XMMatrixLookAtRH(eyePos, lookAt, upDir);
+    XMVECTOR determinant = XMMatrixDeterminant(view);
+
+    view = XMMatrixInverse(&determinant, view);
+
+    //--------------------------------------------------------------------
+    // Projection Matrix
+
+    XMMATRIX proj = XMMatrixPerspectiveFovRH(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+
+    //---------------------------------------------------------------------
+    // Model View Projection 
+
+    XMMATRIX mvp = XMMatrixMultiply(XMMatrixMultiply(model, view), proj);
+
+    int breakOnMe = 0;
 }
 
 int main(int argc, char** argv)
 {
-    Ocular::Graphics::TextureResourceLoader_BMP blergh;
-    Ocular::Graphics::TextureResourceLoader_PNG urgh;
-    Ocular::Graphics::MaterialResourceLoader blag;
-    Ocular::Graphics::D3D11UncompiledShaderResourceLoader blugg;
+    TextureResourceLoader_BMP blergh;
+    TextureResourceLoader_PNG urgh;
+    MaterialResourceLoader blag;
+    D3D11UncompiledShaderResourceLoader blugg;
 
-    OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver());
-    Ocular::Core::SystemInfo::logSystemInfo();
+    OcularEngine.initialize(new D3D11GraphicsDriver());
+    SystemInfo::logSystemInfo();
 
     if(openWindow())
     {

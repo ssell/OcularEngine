@@ -53,12 +53,12 @@ namespace Ocular
 
         void GraphicsDriver::clearBuffers()
         {
-
+            // Nothing to do without an active graphics API
         }
 
         void GraphicsDriver::swapBuffers()
         {
-
+            // Nothing to do without an active graphics API
         }
 
         bool GraphicsDriver::renderMesh(Mesh* mesh)
@@ -69,6 +69,16 @@ namespace Ocular
         RenderState* GraphicsDriver::getRenderState()
         {
             return m_RenderState;
+        }
+
+        void GraphicsDriver::setRenderTexture(RenderTexture* texture)
+        {
+            // Nothing to do without an active graphics API
+        }
+
+        void GraphicsDriver::setDepthTexture(DepthTexture* texture)
+        {
+            // Nothing to do without an active graphics API
         }
 
         Material* GraphicsDriver::createMaterial() const

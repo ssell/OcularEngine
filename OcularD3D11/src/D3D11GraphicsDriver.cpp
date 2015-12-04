@@ -249,12 +249,78 @@ namespace Ocular
             {
                 if(mesh->bind())
                 {
+                    ID3D11VertexShader* currVS = nullptr;
+                    ID3D11PixelShader* currPS = nullptr;
+                    ID3D11Buffer* currVB = nullptr;
+                    ID3D11Buffer* currIB = nullptr;
+
+                    m_D3DDeviceContext->VSGetShader(&currVS, nullptr, nullptr);
+                    m_D3DDeviceContext->PSGetShader(&currPS, nullptr, nullptr);
+                    m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currVB, nullptr, nullptr);
+                    m_D3DDeviceContext->IAGetIndexBuffer(&currIB, nullptr, nullptr);
+
                     m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
                     result = true;
                 }
             }
 
             return result;
+        }
+
+        void D3D11GraphicsDriver::setRenderTexture(RenderTexture* texture)
+        {
+            GraphicsDriver::setRenderTexture(texture);
+
+            if(texture)
+            {
+                D3D11RenderTexture* d3dTexture = dynamic_cast<D3D11RenderTexture*>(texture);
+
+                if(d3dTexture)
+                {
+                    ID3D11RenderTargetView* rtv = d3dTexture->getD3DRenderTargetView();
+
+                    ID3D11RenderTargetView* currRTV = nullptr;
+                    ID3D11DepthStencilView* currDSV = nullptr;
+
+                    if(m_D3DDeviceContext)
+                    {
+                        m_D3DDeviceContext->OMGetRenderTargets(1, &currRTV, &currDSV);
+
+                        if(currRTV != rtv)
+                        {
+                            m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, currDSV);
+                        }
+                    }
+                }
+            }
+        }
+
+        void D3D11GraphicsDriver::setDepthTexture(DepthTexture* texture)
+        {
+            GraphicsDriver::setDepthTexture(texture);
+
+            if(texture)
+            {
+                D3D11DepthTexture* d3dTexture = dynamic_cast<D3D11DepthTexture*>(texture);
+
+                if(d3dTexture)
+                {
+                    ID3D11DepthStencilView* dsv = d3dTexture->getD3DDepthStencilView();
+
+                    ID3D11RenderTargetView* currRTV = nullptr;
+                    ID3D11DepthStencilView* currDSV = nullptr;
+
+                    if(m_D3DDeviceContext)
+                    {
+                        m_D3DDeviceContext->OMGetRenderTargets(1, &currRTV, &currDSV);
+
+                        if(currDSV != dsv)
+                        {
+                            m_D3DDeviceContext->OMSetRenderTargets(1, &currRTV, dsv);
+                        }
+                    }
+                }
+            }
         }
 
         Material* D3D11GraphicsDriver::createMaterial() const

@@ -89,6 +89,18 @@ namespace Ocular
              */
             virtual RenderState* getRenderState();
 
+            /**
+             * Sets the Render Texture to direct all rendering operations towards.
+             * \param[in] texture
+             */
+            virtual void setRenderTexture(RenderTexture* texture);
+
+            /**
+             * Sets the Depth Texture to direct all depth operations towards.
+             * \param[in] texture
+             */
+            virtual void setDepthTexture(DepthTexture* texture);
+
             //------------------------------------------------------------------------------
             // Creation Methods
             //------------------------------------------------------------------------------

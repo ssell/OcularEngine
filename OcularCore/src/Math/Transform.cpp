@@ -129,7 +129,7 @@ namespace Ocular
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
         }
 
-        void Transform::getModelMatrix(Matrix4x4f& matrix)
+        void Transform::getModelMatrix(Matrix4x4f& matrix) const
         {
             matrix = Matrix4x4f(m_Rotation, m_Position);
         }

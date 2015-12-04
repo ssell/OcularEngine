@@ -63,9 +63,9 @@ namespace Ocular
             return true;
         }
 
-        bool ARenderable::postRender()
+        void ARenderable::postRender()
         {
-            return true;
+
         }
 
         SceneObject* ARenderable::getParent()

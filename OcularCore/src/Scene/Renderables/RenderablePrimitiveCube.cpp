@@ -93,25 +93,41 @@ namespace Ocular
                     //----------------------------------------------------
                     // Create the Vertices
 
+                    /*static const float CubeSize = 1.0f;
+
                     Graphics::Vertex vertices[8];
 
-                    vertices[0].position = Math::Vector3f(-0.5f, 0.0f, 0.5f);
-                    vertices[1].position = Math::Vector3f(0.5f, 0.0f, 0.5f);
-                    vertices[2].position = Math::Vector3f(0.5f, 1.0f, 0.5f);
-                    vertices[3].position = Math::Vector3f(-0.5f, 1.0f, 0.5f);
-                    vertices[4].position = Math::Vector3f(-0.5f, 0.0f, -0.5f);
-                    vertices[5].position = Math::Vector3f(-0.5f, 1.0f, -0.5f);
-                    vertices[6].position = Math::Vector3f(0.5f, 0.0f, -0.5f);
-                    vertices[7].position = Math::Vector3f(0.5f, 1.0f, -0.5f);
+                    vertices[0].position = Math::Vector3f(-CubeSize, 0.0f, CubeSize);
+                    vertices[1].position = Math::Vector3f(CubeSize, 0.0f, CubeSize);
+                    vertices[2].position = Math::Vector3f(CubeSize, (2.0f * CubeSize), CubeSize);
+                    vertices[3].position = Math::Vector3f(-CubeSize, (2.0f * CubeSize), CubeSize);
+                    vertices[4].position = Math::Vector3f(-CubeSize, 0.0f, -CubeSize);
+                    vertices[5].position = Math::Vector3f(-CubeSize, (2.0f * CubeSize), -CubeSize);
+                    vertices[6].position = Math::Vector3f(CubeSize, 0.0f, -CubeSize);
+                    vertices[7].position = Math::Vector3f(CubeSize, (2.0f * CubeSize), -CubeSize);*/
 
-                    vertexBuffer->addVertices(vertices, 8);
+                    /*vertices[0].position = Math::Vector3f(-0.5f, 0.0f, 0.5f);
+                    vertices[1].position = Math::Vector3f(0.5f, 0.0f, 0.5f);
+                    vertices[2].position = Math::Vector3f(0.5f, (2.0f * CubeSize), 0.5f);
+                    vertices[3].position = Math::Vector3f(-0.5f, (2.0f * CubeSize), 0.5f);
+                    vertices[4].position = Math::Vector3f(-0.5f, 0.0f, -0.5f);
+                    vertices[5].position = Math::Vector3f(-0.5f, (2.0f * CubeSize), -0.5f);
+                    vertices[6].position = Math::Vector3f(0.5f, 0.0f, -0.5f);
+                    vertices[7].position = Math::Vector3f(0.5f, (2.0f * CubeSize), -0.5f);*/
+
+                    Graphics::Vertex vertices[3];
+                    vertices[0].position = Math::Vector3f(-5.0f, 0.0f, 0.0f);
+                    vertices[1].position = Math::Vector3f( 5.0f, 0.0f, 0.0f);
+                    vertices[2].position = Math::Vector3f( 0.0f, 5.0f, 0.0f);
+
+                    vertexBuffer->addVertices(vertices, 3);
 
                     if(vertexBuffer->build())
                     {
                         //------------------------------------------------
                         // Create the Indices
 
-                        uint32_t indices[36] =
+                        /*uint32_t indices[36] =
                         {
                             0, 1, 2,
                             2, 3, 0,
@@ -127,7 +143,14 @@ namespace Ocular
                             6, 4, 0
                         };
 
-                        indexBuffer->addIndices(indices, 36);
+                        indexBuffer->addIndices(indices, 36);*/
+
+                        uint32_t indices[3] =
+                        {
+                            0, 1, 2
+                        };
+
+                        indexBuffer->addIndices(indices, 3);
 
                         if(indexBuffer->build())
                         {

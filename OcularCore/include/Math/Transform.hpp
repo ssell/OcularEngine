@@ -130,7 +130,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             
-            void getModelMatrix(Math::Matrix4x4f& matrix);
+            void getModelMatrix(Math::Matrix4x4f& matrix) const;
 
         protected:
 

@@ -248,23 +248,7 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < objects.size(); i++)
                 {
-                    SceneObject* currObject = objects[i];
-
-                    if(currObject)
-                    {
-                        std::vector<ARenderable*> renderables = currObject->getAllRenderables();
-
-                        for(auto renderableIter = renderables.begin(); renderableIter != renderables.end(); ++renderableIter)
-                        {
-                            ARenderable* renderable = (*renderableIter);
-
-                            if(renderable)
-                            {
-                                renderable->getMaterial()->bind();
-                                OcularGraphics->renderMesh(renderable->getMesh());
-                            }
-                        }
-                    }
+                    renderObject(objects[i]);
                 }
             }
         }
@@ -425,6 +409,7 @@ namespace Ocular
                 {
                     Graphics::UniformPerObject const& uniformData = object->getUniformData();
                     m_UniformBufferPerObject->setFixedData(sizeof(Graphics::UniformPerObject), (void*)(&uniformData));
+                    m_UniformBufferPerObject->bind();
                 }
 
                 const std::vector<ARenderable*> renderables = object->getAllRenderables();
@@ -441,7 +426,12 @@ namespace Ocular
                         if(material && mesh)
                         {
                             material->bind();
-                            OcularGraphics->renderMesh(mesh);
+
+                            if(renderable->preRender())
+                            {
+                                OcularGraphics->renderMesh(mesh);
+                                renderable->postRender();
+                            }
                         }
                     }
                 }

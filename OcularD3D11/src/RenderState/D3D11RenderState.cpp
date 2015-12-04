@@ -33,13 +33,15 @@ namespace Ocular
               m_D3DDevice(device),
               m_D3DDeviceContext(context),
               m_D3DRasterizerState(nullptr),
+              m_D3DDepthStencilState(nullptr),
               m_IsRasterizerStateDirty(true),
+              m_IsDepthStencilStateDirty(true),
               m_IsPrimitiveTopologyDirty(true),
               m_D3DPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
         {
             ZeroMemory(&m_D3DRasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
             m_D3DRasterizerDesc.FillMode              = D3D11_FILL_SOLID;
-            m_D3DRasterizerDesc.CullMode              = D3D11_CULL_BACK;
+            m_D3DRasterizerDesc.CullMode              = D3D11_CULL_NONE; //D3D11_CULL_BACK;
             m_D3DRasterizerDesc.FrontCounterClockwise = true;
             m_D3DRasterizerDesc.DepthBias             = 0;
             m_D3DRasterizerDesc.DepthBiasClamp        = 0.0f;
@@ -48,6 +50,22 @@ namespace Ocular
             m_D3DRasterizerDesc.ScissorEnable         = true;
             m_D3DRasterizerDesc.MultisampleEnable     = true;
             m_D3DRasterizerDesc.AntialiasedLineEnable = true;
+
+            ZeroMemory(&m_D3DDepthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+	        m_D3DDepthStencilDesc.DepthEnable                  = true;
+	        m_D3DDepthStencilDesc.DepthWriteMask               = D3D11_DEPTH_WRITE_MASK_ALL;
+	        m_D3DDepthStencilDesc.DepthFunc                    = D3D11_COMPARISON_LESS;
+	        m_D3DDepthStencilDesc.StencilEnable                = true;
+	        m_D3DDepthStencilDesc.StencilReadMask              = 0xFF;
+	        m_D3DDepthStencilDesc.StencilWriteMask             = 0xFF;
+	        m_D3DDepthStencilDesc.FrontFace.StencilFailOp      = D3D11_STENCIL_OP_KEEP;
+	        m_D3DDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	        m_D3DDepthStencilDesc.FrontFace.StencilPassOp      = D3D11_STENCIL_OP_KEEP;
+	        m_D3DDepthStencilDesc.FrontFace.StencilFunc        = D3D11_COMPARISON_ALWAYS;
+	        m_D3DDepthStencilDesc.BackFace.StencilFailOp       = D3D11_STENCIL_OP_KEEP;
+	        m_D3DDepthStencilDesc.BackFace.StencilDepthFailOp  = D3D11_STENCIL_OP_DECR;
+	        m_D3DDepthStencilDesc.BackFace.StencilPassOp       = D3D11_STENCIL_OP_KEEP;
+	        m_D3DDepthStencilDesc.BackFace.StencilFunc         = D3D11_COMPARISON_ALWAYS;
         }
 
         D3D11RenderState::~D3D11RenderState()
@@ -65,8 +83,13 @@ namespace Ocular
 
         void D3D11RenderState::bind()
         {
-            if(m_D3DDeviceContext)
+            HRESULT hResult = S_OK;
+
+            if(m_D3DDeviceContext && m_D3DDevice)
             {
+                //--------------------------------------------------------
+                // Update Rasterizer State
+
                 if(m_IsRasterizerStateDirty)
                 {
                     if(m_D3DRasterizerState)
@@ -75,25 +98,45 @@ namespace Ocular
                         m_D3DRasterizerState = nullptr;
                     }
 
-                    if(m_D3DDevice)
-                    {
-                        const HRESULT hResult = m_D3DDevice->CreateRasterizerState(&m_D3DRasterizerDesc, &m_D3DRasterizerState);
+                    hResult = m_D3DDevice->CreateRasterizerState(&m_D3DRasterizerDesc, &m_D3DRasterizerState);
 
-                        if(hResult == S_OK)
-                        {
-                            m_D3DDeviceContext->RSSetState(m_D3DRasterizerState);
-                            m_IsRasterizerStateDirty = false;
-                        }
-                        else
-                        {
-                            OcularLogger->error("Failed to create new Rasterizer State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
-                        }
+                    if(hResult == S_OK)
+                    {
+                        m_D3DDeviceContext->RSSetState(m_D3DRasterizerState);
+                        m_IsRasterizerStateDirty = false;
                     }
                     else
                     {
-                        OcularLogger->error("D3D11 Device is NULL", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
+                        OcularLogger->error("Failed to create new Rasterizer State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
                     }
                 }
+
+                //--------------------------------------------------------
+                // Update Depth Stencil State
+
+                if(m_IsDepthStencilStateDirty)
+                {
+                    if(m_D3DDepthStencilState)
+                    {
+                        m_D3DDepthStencilState->Release();
+                        m_D3DDepthStencilState = nullptr;
+                    }
+
+                    hResult = m_D3DDevice->CreateDepthStencilState(&m_D3DDepthStencilDesc, &m_D3DDepthStencilState);
+
+                    if(hResult == S_OK)
+                    {
+                        m_D3DDeviceContext->OMSetDepthStencilState(m_D3DDepthStencilState, 1);
+                        m_IsDepthStencilStateDirty = false;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to create new Depth Stencil State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
+                    }
+                }
+
+                //--------------------------------------------------------
+                // Update Primitive Topology
 
                 if(m_IsPrimitiveTopologyDirty)
                 {
@@ -103,7 +146,7 @@ namespace Ocular
             }
             else
             {
-                OcularLogger->error("D3D11 Device Context is NULL", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
+                OcularLogger->error("D3D11 Device and/or Context is NULL", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
             }
         }
 

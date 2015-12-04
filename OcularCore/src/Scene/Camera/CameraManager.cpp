@@ -70,7 +70,7 @@ namespace Ocular
 
         void CameraManager::setActiveCamera(Camera* camera)
         {
-            if(m_ActiveCamera != camera)
+            if(camera)
             {
                 m_ActiveCamera = camera;
 
@@ -80,7 +80,7 @@ namespace Ocular
                     // Bind the Uniform Buffer
 
                     m_UniformPerCamera.eyePosition    = camera->getTransform().getPosition();
-                    m_UniformPerCamera.viewMatrix     = camera->getViewMatrix().getInverse();
+                    m_UniformPerCamera.viewMatrix     = camera->getViewMatrix();
                     m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
                     m_UniformPerCamera.viewProjMatrix = (m_UniformPerCamera.viewMatrix * m_UniformPerCamera.projMatrix);
 
@@ -96,6 +96,12 @@ namespace Ocular
                     {
                         viewport->bind();
                     }
+
+                    //----------------------------------------------------
+                    // Bind the render textures
+
+                    OcularGraphics->setRenderTexture(m_ActiveCamera->getRenderTexture());
+                    OcularGraphics->setDepthTexture(m_ActiveCamera->getDepthTexture());
                 }
             }
         }

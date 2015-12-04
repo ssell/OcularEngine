@@ -956,14 +956,16 @@ namespace Ocular
              */
             static Matrix4x4<float> CreateLookAtMatrix(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> up = Vector3<float>::Up())
             {
-                const Vector3<float> vectorZ = (eye - lookAt).getNormalized();
-                const Vector3<float> vectorX = up.cross(vectorZ).getNormalized();
-                const Vector3<float> vectorY = vectorZ.cross(vectorX);
+                // Source: http://www.3dgep.com/understanding-the-view-matrix/#The_View_Matrix
 
-                return Matrix4x4<float>(Vector4<float>(vectorX, 0.0f), 
-                                        Vector4<float>(vectorY, 0.0f),
-                                        Vector4<float>(vectorZ, 0.0f),
-                                        Vector4<float>(eye, 1.0f));
+                const Vector3<float> vz = (eye - lookAt).getNormalized();
+                const Vector3<float> vx = up.cross(vz).getNormalized();
+                const Vector3<float> vy = vz.cross(vx);
+
+                return Matrix4x4<float>(    vx.x,         vx.y,         vx.z,     0.0f,
+                                            vy.x,         vy.y,         vy.z,     0.0f,
+                                            vz.x,         vz.y,         vz.z,     0.0f,
+                                        -vx.dot(eye), -vy.dot(eye), -vz.dot(eye), 1.0f);
             }
 
             /**
