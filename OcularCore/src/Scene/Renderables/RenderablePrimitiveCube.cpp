@@ -57,7 +57,11 @@ namespace Ocular
                 {
                     m_Material = OcularResources->getResource<Graphics::Material>("Materials/Flat");
 
-                    if(!m_Material)
+                    if(m_Material)
+                    {
+                        m_Material->setUniform("MaterialColor", 0, Math::Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+                    }
+                    else
                     {
                         result = false;
                         OcularLogger->error("Failed to load Material", OCULAR_INTERNAL_LOG("RenderablePrimitiveCube", "initialize"));
@@ -106,30 +110,15 @@ namespace Ocular
                     vertices[6].position = Math::Vector3f(CubeSize, 0.0f, -CubeSize);
                     vertices[7].position = Math::Vector3f(CubeSize, (2.0f * CubeSize), -CubeSize);*/
 
-                    /*vertices[0].position = Math::Vector3f(-0.5f, 0.0f, 0.5f);
-                    vertices[1].position = Math::Vector3f(0.5f, 0.0f, 0.5f);
-                    vertices[2].position = Math::Vector3f(0.5f, (2.0f * CubeSize), 0.5f);
-                    vertices[3].position = Math::Vector3f(-0.5f, (2.0f * CubeSize), 0.5f);
-                    vertices[4].position = Math::Vector3f(-0.5f, 0.0f, -0.5f);
-                    vertices[5].position = Math::Vector3f(-0.5f, (2.0f * CubeSize), -0.5f);
-                    vertices[6].position = Math::Vector3f(0.5f, 0.0f, -0.5f);
-                    vertices[7].position = Math::Vector3f(0.5f, (2.0f * CubeSize), -0.5f);*/
-
                     Graphics::Vertex vertices[3];
-                    vertices[0].position[0] = -1.0f;
-                    vertices[0].position[1] = -1.0f;
-                    vertices[0].position[2] =  0.0f;
-                    vertices[0].position[3] =  1.0f;
-                    
-                    vertices[1].position[0] =  1.0f;
-                    vertices[1].position[1] = -1.0f;
-                    vertices[1].position[2] =  0.0f;
-                    vertices[1].position[3] =  1.0f;
-                    
-                    vertices[2].position[0] =  0.0f;
-                    vertices[2].position[1] =  1.0f;
-                    vertices[2].position[2] =  0.0f;
-                    vertices[2].position[3] =  1.0f;
+                    vertices[0].position = Math::Vector3f(-1.0f, -1.0f, 0.0f);
+                    vertices[0].color = Math::Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+
+                    vertices[1].position = Math::Vector3f( 1.0f, -1.0f, 0.0f);
+                    vertices[1].color = Math::Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
+
+                    vertices[2].position = Math::Vector3f( 0.0f,  1.0f, 0.0f);
+                    vertices[2].color = Math::Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
 
                     vertexBuffer->addVertices(vertices, 3);
 

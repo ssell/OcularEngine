@@ -226,7 +226,7 @@ namespace Ocular
                     numRegisters += 3;  // One of the registers is already accounted for; Total of 3 additional registers
                 }
 
-                const uint32_t dataSize = (numRegisters * sizeof(float) * 4);  // Each register is 4 floats in size
+                const uint32_t dataSize = ((numRegisters + 1) * sizeof(float) * 4);  // Each register is 4 floats in size
 
                 //--------------------------------------------------------
                 // Create and/or resize the raw data if necessary
@@ -235,7 +235,8 @@ namespace Ocular
                 {
                     if(m_UniformData)
                     {
-                        delete[] m_UniformData;
+                        _aligned_free(m_UniformData);
+                        m_UniformData = nullptr;
                     }
 
                     // _aligned_malloc is Windows only, but that is OK for this Direct3D implementation

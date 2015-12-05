@@ -62,6 +62,8 @@ namespace Ocular
         {
             bindShaders();
             //bindTextures
+
+            m_UniformBuffer->bind();
         }
 
         void Material::unbind()

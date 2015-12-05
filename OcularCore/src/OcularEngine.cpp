@@ -202,7 +202,7 @@ namespace Ocular
 
     void Engine::render()
     {
-        /*if((m_SceneManager) && (m_GraphicsDriver))
+        if((m_SceneManager) && (m_GraphicsDriver))
         {
             m_GraphicsDriver->clearBuffers();
 
@@ -215,7 +215,7 @@ namespace Ocular
             }
 
             m_GraphicsDriver->swapBuffers();
-        }*/
+        }
     }
 
     void Engine::setupLogger()

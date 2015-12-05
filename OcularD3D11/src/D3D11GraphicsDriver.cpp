@@ -459,6 +459,11 @@ namespace Ocular
             return m_D3DDeviceContext;
         }
 
+        IDXGISwapChain* D3D11GraphicsDriver::getD3DSwapChain() const
+        {
+            return m_D3DSwapChain;
+        }
+
         bool D3D11GraphicsDriver::convertTextureDescriptor(TextureDescriptor const& src, D3D11_TEXTURE2D_DESC &dest)
         {
             bool result = true;

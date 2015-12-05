@@ -104,6 +104,16 @@ namespace Ocular
             return m_FragmentShader;
         }
 
+        void ShaderProgram::setPixelShader(PixelShader* shader)
+        {
+            m_FragmentShader = shader;
+        }
+
+        PixelShader* ShaderProgram::getPixelShader()
+        {
+            return m_FragmentShader;
+        }
+
         void ShaderProgram::setPreTessellationShader(PreTessellationShader* shader)
         {
             m_PreTessellationShader = shader;
@@ -114,12 +124,32 @@ namespace Ocular
             return m_PreTessellationShader;
         }
 
+        void ShaderProgram::setHullShader(HullShader* shader)
+        {
+            m_PreTessellationShader = shader;
+        }
+
+        HullShader* ShaderProgram::getHullShader()
+        {
+            return m_PreTessellationShader;
+        }
+
         void ShaderProgram::setPostTessellationShader(PostTessellationShader* shader)
         {
             m_PostTessellationShader = shader;
         }
 
         PostTessellationShader* ShaderProgram::getPostTessellationShader()
+        {
+            return m_PostTessellationShader;
+        }
+
+        void ShaderProgram::setDomainShader(DomainShader* shader)
+        {
+            m_PostTessellationShader = shader;
+        }
+
+        DomainShader* ShaderProgram::getDomainShader()
         {
             return m_PostTessellationShader;
         }
