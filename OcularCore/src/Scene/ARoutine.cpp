@@ -15,6 +15,7 @@
  */
 
 #include "Scene/ARoutine.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,6 +31,8 @@ namespace Ocular
         {
             m_Priority = Priority::Medium;
             m_Parent = nullptr;
+
+            OcularScene->objectAddedRoutine(this);
         }
 
         ARoutine::~ARoutine()

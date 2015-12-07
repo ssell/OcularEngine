@@ -27,6 +27,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Clock::Clock()
+            : m_Delta(0.0f)
         {
             m_CreationTimeMS = 
                 std::chrono::duration_cast<std::chrono::milliseconds>
@@ -35,6 +36,8 @@ namespace Ocular
             m_CreationTimeNS =
                 std::chrono::duration_cast<std::chrono::nanoseconds>
                 (std::chrono::system_clock::now().time_since_epoch()).count();
+
+            m_LastTick = m_CreationTimeMS;
         }
 
         Clock::~Clock()

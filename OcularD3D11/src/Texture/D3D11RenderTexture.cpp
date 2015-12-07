@@ -218,6 +218,11 @@ namespace Ocular
         bool D3D11RenderTexture::createD3DRenderTarget()
         {
             bool result = true;
+
+            D3D11_RENDER_TARGET_VIEW_DESC descr;
+            ZeroMemory(&descr, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+
+
             HRESULT hResult = m_D3DDevice->CreateRenderTargetView(m_D3DTexture, nullptr, &m_D3DRenderTargetView);
 
             if(hResult != S_OK)

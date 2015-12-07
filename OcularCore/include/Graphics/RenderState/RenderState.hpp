@@ -18,7 +18,9 @@
 #ifndef __H__OCULAR_GRAPHICS_RENDER_STATE__H__
 #define __H__OCULAR_GRAPHICS_RENDER_STATE__H__
 
-#include "RenderEnums.hpp"
+#include "BlendState.hpp"
+#include "RasterState.hpp"
+#include "DepthStencilState.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,17 +38,6 @@ namespace Ocular
     {
         /**
          * \class RenderState
-         *
-         * Default states:
-         *
-         *             Fill Mode: Solid
-         *             Cull Mode: Back
-         *        Cull Direction: CounterClockwise
-         *       Primitive Style: TriangleList
-         *         Depth Testing: true
-         *       Scissor Testing: true
-         *         Multisampling: true
-         *     Line Antialiasing: true
          */
         class RenderState
         {
@@ -61,112 +52,53 @@ namespace Ocular
             virtual void bind();
 
             /**
-             * ...
+             * Sets the RasterState settings for the application.
+             * \note Must call bind to enable any changes.
              *
-             * \param[in] mode
+             * \param[in] state
              */
-            virtual void setFillMode(FillMode mode);
+            virtual void  setRasterState(RasterState const& state);
 
             /**
-             * \return ...
-             */
-            FillMode getFillMode() const;
-            
-            /**
-             * ...
              *
-             * \param[in] mode
              */
-            virtual void setCullMode(CullMode mode);
+            RasterState getRasterState() const;
 
             /**
-             * \return ...
-             */
-            CullMode getCullMode() const;
-            
-            /**
-             * ...
+             * Sets the BlendState settings for the application.
+             * \note Must call bind to enable any changes.
              *
-             * \param[in] direction
+             * \param[in] state
              */
-            virtual void setCullDirection(CullDirection direction);
+            virtual void  setBlendState(BlendState const& state);
 
             /**
-             * \return ...
-             */
-            CullDirection getCullDirection() const;
-            
-            /**
-             * ...
              *
-             * \param[in] style
              */
-            virtual void setPrimitiveStyle(PrimitiveStyle style);
+            BlendState getBlendState() const;
 
             /**
-             * \return ...
-             */
-            PrimitiveStyle getPrimitiveStyle() const;
-            
-            /**
-             * ...
+             * Sets the DepthStencilState settings for the application.
+             * \note Must call bind to enable any changes.
              *
-             * \param[in] testing
+             * \param[in] state
              */
-            virtual void setDepthTesting(bool testing);
+            virtual void  setDepthStencilState(DepthStencilState const& state);
 
             /**
-             * \return ...
-             */
-            bool getDepthTesting() const;
-            
-            /**
-             * ...
              *
-             * \param[in] testing
              */
-            virtual void setScissorTesting(bool testing);
-
-            /**
-             * \return ...
-             */
-            bool getScissorTesting() const;
-            
-            /**
-             * ...
-             *
-             * \param[in] multisampling
-             */
-            virtual void setRenderTextureMultisampling(bool multisampling);
-
-            /**
-             * \return ...
-             */
-            bool getRenderTextureMultisampling() const;
-            
-            /**
-             * ...
-             *
-             * \param[in] antialiasing
-             */
-            virtual void setLineAntialising(bool antialiasing);
-
-            /**
-             * \return ...
-             */
-            bool getLineAntialising() const;
+            DepthStencilState getDepthStencilState() const;
 
         protected:
 
-            FillMode m_FillMode;                  ///< Determines if triangles are filled during rasterization
-            CullMode m_CullMode;                  ///< Determines what type of triangles to cull
-            CullDirection m_CullDirection;        ///< Determines what is considered front/back-facing triangles
-            PrimitiveStyle m_PrimitiveStyle;      ///< Determines how vertex data is interpreted
+            RasterState m_RasterState;
+            BlendState m_BlendState;
+            DepthStencilState m_DepthStencilState;
 
-            bool m_EnableDepthTesting;            ///< Enables/disables depth testing
-            bool m_EnableScissorTesting;          ///< Enables/disables scissor testing
-            bool m_EnableMultisampling;           ///< Enables/disable RenderTexture antialiasing
-            bool m_EnableLineAntialiasing;        ///< Enables line primitive antialiasing
+            bool m_IsRasterStateDirty;
+            bool m_IsBlendStateDirty;
+            bool m_IsDepthStencilStateDirty;
 
         private:
         };

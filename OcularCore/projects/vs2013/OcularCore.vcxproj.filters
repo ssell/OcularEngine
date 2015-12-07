@@ -217,6 +217,12 @@
     <Filter Include="Source Files\Graphics\Render State">
       <UniqueIdentifier>{16af85a8-c448-4c7e-bf06-e999d762d28e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene\Routine\Routines">
+      <UniqueIdentifier>{ccc4ddee-8832-4217-a166-ab1ebfb1eb98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Routine\Routines">
+      <UniqueIdentifier>{d382f5e7-8c38-48d2-b4f7-c9924d7e5445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -542,6 +548,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp">
       <Filter>Source Files\Graphics\Render State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp">
+      <Filter>Source Files\Scene\Routine\Routines</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -998,7 +1007,16 @@
     <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp">
       <Filter>Header Files\Graphics\Render State</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\RenderState\RenderEnums.hpp">
+    <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp">
+      <Filter>Header Files\Scene\Routine\Routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp">
       <Filter>Header Files\Graphics\Render State</Filter>
     </ClInclude>
   </ItemGroup>

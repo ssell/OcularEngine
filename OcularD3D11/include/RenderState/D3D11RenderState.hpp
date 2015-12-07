@@ -46,34 +46,34 @@ namespace Ocular
             virtual ~D3D11RenderState();
 
             virtual void bind() override;
-
-            virtual void setFillMode(FillMode mode) override;
-            virtual void setCullMode(CullMode mode) override;
-            virtual void setCullDirection(CullDirection direction) override;
-            virtual void setPrimitiveStyle(PrimitiveStyle style) override;
-            virtual void setDepthTesting(bool testing) override;
-            virtual void setScissorTesting(bool testing) override;
-            virtual void setRenderTextureMultisampling(bool multisampling) override;
-            virtual void setLineAntialising(bool antialiasing) override;
+            virtual void setDepthStencilState(DepthStencilState const& state) override;
 
             ID3D11RasterizerState* getD3DRasterizerState();
-            D3D11_PRIMITIVE_TOPOLOGY getD3DPrimitiveTopology();
+            ID3D11DepthStencilState* getD3DDepthStencilState();
+            ID3D11BlendState* getD3DBlendState();
 
-            bool getIsRasterizerStateDirty() const;
-            bool getIsPrimitiveTopologyDirty() const;
+            D3D11_PRIMITIVE_TOPOLOGY getD3DPrimitiveTopology();
 
         protected:
 
-            bool m_IsRasterizerStateDirty;
-            bool m_IsDepthStencilStateDirty;
-            bool m_IsPrimitiveTopologyDirty;
+            bool createD3DRasterizerState();
+            bool createD3DDepthStencilState();
+            bool createD3DBlendState();
+
+            D3D11_RASTERIZER_DESC createRenderStateDescr();
+            D3D11_DEPTH_STENCIL_DESC createDepthStencilStateDescr();
+            D3D11_BLEND_DESC createBlendStateDescr();
+
+            D3D11_BLEND convertBlendType(BlendType type) const;
+            D3D11_BLEND_OP convertBlendEquation(BlendEquation equation) const;
+
+            //------------------------------------------------------------
 
             ID3D11Device*            m_D3DDevice;
             ID3D11DeviceContext*     m_D3DDeviceContext;
             ID3D11RasterizerState*   m_D3DRasterizerState;
             ID3D11DepthStencilState* m_D3DDepthStencilState;
-            D3D11_RASTERIZER_DESC    m_D3DRasterizerDesc;
-            D3D11_DEPTH_STENCIL_DESC m_D3DDepthStencilDesc;
+            ID3D11BlendState*        m_D3DBlendState;
             D3D11_PRIMITIVE_TOPOLOGY m_D3DPrimitiveTopology;
 
         private:

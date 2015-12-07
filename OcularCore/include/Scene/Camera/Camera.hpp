@@ -61,7 +61,7 @@ namespace Ocular
             void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
             void setProjectionMatrix(Math::Matrix4x4f const& matrix);
 
-            Math::Matrix4x4f const& getViewMatrix() const;
+            Math::Matrix4x4f const& getViewMatrix();
             Math::Matrix4x4f const& getProjectionMatrix() const;
             Math::Frustum const& getFrustum() const;
 

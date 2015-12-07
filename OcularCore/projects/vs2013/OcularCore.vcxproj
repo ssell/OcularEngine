@@ -261,6 +261,7 @@
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp" />
     <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp" />
+    <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
@@ -299,7 +300,9 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
-    <ClInclude Include="..\..\include\Graphics\RenderState\RenderEnums.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
@@ -409,6 +412,7 @@
     <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />

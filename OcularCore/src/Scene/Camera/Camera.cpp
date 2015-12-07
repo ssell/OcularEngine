@@ -32,10 +32,6 @@ namespace Ocular
               m_RenderTexture(nullptr),
               m_Priority(Priority::Medium)
         {
-            m_Transform.setPosition(0.0f, 0.0f, -5.0f);
-
-            m_ViewMatrix = Math::Matrix4x4f::CreateLookAtMatrix(Math::Vector3f(0.0f, 0.0f, -5.0f), Math::Vector3f(0.0f, 0.0f, 0.0f));
-
             OcularCameras->addCamera(this);
         }
 
@@ -93,8 +89,9 @@ namespace Ocular
             m_ProjMatrix = matrix;
         }
 
-        Math::Matrix4x4f const& Camera::getViewMatrix() const
+        Math::Matrix4x4f const& Camera::getViewMatrix()
         {
+            m_ViewMatrix = Math::Matrix4x4f::CreateLookAtMatrix(m_Transform.getPosition(), Math::Vector3f(0.0f, 0.0f, 0.0f));
             return m_ViewMatrix;
         }
 

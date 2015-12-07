@@ -116,7 +116,7 @@ namespace Ocular
             /**
              * Returns the current transform of this object.
              */
-            Math::Transform const& getTransform() const;
+            Math::Transform& getTransform();
 
             /**
              * Sets whether this object is active or not. An inactive object 
@@ -345,11 +345,6 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             *
-             */
-            void addRoutine(ARoutine* routine);
-
-            /**
              * Adds a new instance of the specified routine to the SceneObject.
              *
              * \param[in] name Name of the ARoutine implementation to add.
@@ -357,6 +352,31 @@ namespace Ocular
              *         then no matching implementation with that name was discovered.
              */
             bool addRoutine(std::string const& name);
+
+            /**
+             * Adds a new instance of a routine to the SceneObject.
+             *
+             * The object takes full ownership of the routine and frees it when
+             * no longer in use.
+             */
+            template<class T> void addRoutine() 
+            { 
+                T* t = new T();
+                ARoutine* routine = dynamic_cast<ARoutine*>(t);
+
+                if(routine)
+                {
+                    routine->setParent(this);
+                    m_Routines.push_back(routine);
+                    routine->onCreation();
+                }
+                else
+                {
+                    // T is not a routine
+                    delete t;
+                    t = nullptr;
+                }
+            }
 
             /**
              * Removes an instance of the specified routine implementation from the SceneObject.

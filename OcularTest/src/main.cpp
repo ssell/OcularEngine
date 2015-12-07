@@ -27,15 +27,9 @@
 #include "Graphics/Material/MaterialResourceLoader.hpp"
 #include "Graphics/Material/Material.hpp"
 
+#include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/RenderablePrimitiveCube.hpp"
 #include "Renderer/Window/Window.hpp"
-
-#include "Shader/D3D11VertexShader.hpp"
-#include "Shader/D3D11FragmentShader.hpp"
-
-#include <DirectXMath.h>
-#include <d3d11.h>
-#include <d3dcompiler.h>
 
 Ocular::Core::EventSnooper g_Snooper;
 
@@ -43,32 +37,6 @@ using namespace Ocular::Core;
 using namespace Ocular::Utils;
 using namespace Ocular::Math;
 using namespace Ocular::Graphics;
-using namespace DirectX;
-
-static D3D11GraphicsDriver* driver = nullptr;
-static ID3D11Device* d3dDevice = nullptr;
-static ID3D11DeviceContext* d3dDeviceContext = nullptr;
-static IDXGISwapChain* d3dSwapChain = nullptr;
-
-static ID3D11RasterizerState* d3dRasterizerState = nullptr;
-static ID3D11DepthStencilState* d3dDepthStencilState = nullptr;
-
-static ID3D11Buffer* d3dVertexBuffer = nullptr;
-static ID3D11Buffer* d3dIndexBuffer = nullptr;
-
-static ID3D11Texture2D* d3dRTVTexture = nullptr;
-static ID3D11RenderTargetView* d3dRTV = nullptr;
-
-static ID3D11Texture2D* d3dDSVTexture = nullptr;
-static ID3D11DepthStencilView* d3dDSV = nullptr;
-
-static ID3D11InputLayout* d3dInputLayout = nullptr;
-
-static ID3D11VertexShader* d3dVS = nullptr;
-static ID3D10Blob* d3dBlobVS = nullptr;
-
-static ID3D11PixelShader* d3dPS = nullptr;
-static ID3D10Blob* d3dBlobPS = nullptr;
 
 //------------------------------------------------------------------------------------------
 
@@ -104,22 +72,6 @@ bool openWindow()
     return result;
 }
 
-void testLoadMaterial()
-{
-    Material* material = OcularResources->getResource<Material>("Materials/Flat");
-
-    if(material)
-    {
-        uint32_t success = 0;
-        success++;
-    }
-    else
-    {
-        uint32_t failure = 0;
-        failure++;
-    }
-}
-
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
@@ -133,6 +85,7 @@ void setupScene()
     mainCamera->setProjectionPerspective(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
     mainCamera->setRenderTexture(OcularWindows->getMainWindow()->getRenderTexture());
     mainCamera->setDepthTexture(OcularWindows->getMainWindow()->getDepthTexture());
+    mainCamera->addRoutine<FreeFlyController>();
 
     //--------------------------------------------------------------------
     // Setup Input Logger

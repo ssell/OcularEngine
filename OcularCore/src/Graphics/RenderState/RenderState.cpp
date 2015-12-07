@@ -28,16 +28,28 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RenderState::RenderState()
-            : m_FillMode(FillMode::Solid),
-              m_CullMode(CullMode::Back),
-              m_CullDirection(CullDirection::CounterClockwise),
-              m_PrimitiveStyle(PrimitiveStyle::TriangleList),
-              m_EnableDepthTesting(true),
-              m_EnableScissorTesting(true),
-              m_EnableMultisampling(true),
-              m_EnableLineAntialiasing(true)
+            : m_IsRasterStateDirty(true),
+              m_IsBlendStateDirty(true),
+              m_IsDepthStencilStateDirty(true)
         {
+            m_RasterState.fillMode               = FillMode::Solid;
+            m_RasterState.cullMode               = CullMode::Back;
+            m_RasterState.cullDirection          = CullDirection::CounterClockwise;
+            m_RasterState.primitiveStyle         = PrimitiveStyle::TriangleList;
+            m_RasterState.enableMultisampling    = true;
+            m_RasterState.enableLineAntialiasing = false;
 
+            m_BlendState.enableBlending     = true;
+            m_BlendState.srcBlend           = BlendType::One;
+            m_BlendState.destBlend          = BlendType::Zero;
+            m_BlendState.alphaSrcBlend      = BlendType::One;
+            m_BlendState.alphaDestBlend     = BlendType::Zero;
+            m_BlendState.blendEquation      = BlendEquation::Add;
+            m_BlendState.alphaBlendEquation = BlendEquation::Add;
+            m_BlendState.blendFactor        = Math::Vector4f(0.0f, 0.0f, 0.0f, 0.0f);
+
+            m_DepthStencilState.enableDepthTesting = true;
+            m_DepthStencilState.enableScissorTesting = false;
         }
 
         RenderState::~RenderState()
@@ -54,84 +66,32 @@ namespace Ocular
 
         }
 
-        void RenderState::setFillMode(FillMode const mode)
+        void RenderState::setRasterState(RasterState const& state)
         {
-            m_FillMode = mode;
+            m_RasterState = state;
+            m_IsRasterStateDirty = true;
         }
 
-        FillMode RenderState::getFillMode() const
+        RasterState RenderState::getRasterState() const
         {
-            return m_FillMode;
+            return m_RasterState;
         }
 
-        void RenderState::setCullMode(CullMode const mode)
+        void RenderState::setBlendState(BlendState const& state)
         {
-            m_CullMode = mode;
+            m_BlendState = state;
+            m_IsBlendStateDirty = true;
         }
 
-        CullMode RenderState::getCullMode() const
+        BlendState RenderState::getBlendState() const
         {
-            return m_CullMode;
+            return m_BlendState;
         }
 
-        void RenderState::setCullDirection(CullDirection const direction)
+        void RenderState::setDepthStencilState(DepthStencilState const& state)
         {
-            m_CullDirection = direction;
-        }
-
-        CullDirection RenderState::getCullDirection() const
-        {
-            return m_CullDirection;
-        }
-
-        void RenderState::setPrimitiveStyle(PrimitiveStyle const style)
-        {
-            m_PrimitiveStyle = style;
-        }
-
-        PrimitiveStyle RenderState::getPrimitiveStyle() const
-        {
-            return m_PrimitiveStyle;
-        }
-
-        void RenderState::setDepthTesting(bool const testing)
-        {
-            m_EnableDepthTesting = testing;
-        }
-
-        bool RenderState::getDepthTesting() const
-        {
-            return m_EnableDepthTesting;
-        }
-
-        void RenderState::setScissorTesting(bool const testing)
-        {
-            m_EnableScissorTesting = testing;
-        }
-
-        bool RenderState::getScissorTesting() const
-        {
-            return m_EnableScissorTesting;
-        }
-
-        void RenderState::setRenderTextureMultisampling(bool const multisampling)
-        {
-            m_EnableMultisampling = multisampling;
-        }
-
-        bool RenderState::getRenderTextureMultisampling() const
-        {
-            return m_EnableMultisampling;
-        }
-
-        void RenderState::setLineAntialising(bool const antialiasing)
-        {
-            m_EnableLineAntialiasing = antialiasing;
-        }
-
-        bool RenderState::getLineAntialising() const
-        {
-            return m_EnableLineAntialiasing;
+            m_DepthStencilState = state;
+            m_IsDepthStencilStateDirty;
         }
 
         //----------------------------------------------------------------------------------

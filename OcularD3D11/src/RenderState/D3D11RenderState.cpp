@@ -34,38 +34,10 @@ namespace Ocular
               m_D3DDeviceContext(context),
               m_D3DRasterizerState(nullptr),
               m_D3DDepthStencilState(nullptr),
-              m_IsRasterizerStateDirty(true),
-              m_IsDepthStencilStateDirty(true),
-              m_IsPrimitiveTopologyDirty(true),
+              m_D3DBlendState(nullptr),
               m_D3DPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
         {
-            ZeroMemory(&m_D3DRasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
-            m_D3DRasterizerDesc.FillMode              = D3D11_FILL_SOLID;
-            m_D3DRasterizerDesc.CullMode              = D3D11_CULL_NONE; //D3D11_CULL_BACK;
-            m_D3DRasterizerDesc.FrontCounterClockwise = true;
-            m_D3DRasterizerDesc.DepthBias             = 0;
-            m_D3DRasterizerDesc.DepthBiasClamp        = 0.0f;
-            m_D3DRasterizerDesc.SlopeScaledDepthBias  = 0.0f;
-            m_D3DRasterizerDesc.DepthClipEnable       = true;
-            m_D3DRasterizerDesc.ScissorEnable         = false;
-            m_D3DRasterizerDesc.MultisampleEnable     = false;
-            m_D3DRasterizerDesc.AntialiasedLineEnable = false;
 
-            ZeroMemory(&m_D3DDepthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
-	        m_D3DDepthStencilDesc.DepthEnable                  = true;
-	        m_D3DDepthStencilDesc.DepthWriteMask               = D3D11_DEPTH_WRITE_MASK_ALL;
-	        m_D3DDepthStencilDesc.DepthFunc                    = D3D11_COMPARISON_LESS;
-	        m_D3DDepthStencilDesc.StencilEnable                = true;
-	        m_D3DDepthStencilDesc.StencilReadMask              = 0xFF;
-	        m_D3DDepthStencilDesc.StencilWriteMask             = 0xFF;
-	        m_D3DDepthStencilDesc.FrontFace.StencilFailOp      = D3D11_STENCIL_OP_KEEP;
-	        m_D3DDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
-	        m_D3DDepthStencilDesc.FrontFace.StencilPassOp      = D3D11_STENCIL_OP_KEEP;
-	        m_D3DDepthStencilDesc.FrontFace.StencilFunc        = D3D11_COMPARISON_ALWAYS;
-	        m_D3DDepthStencilDesc.BackFace.StencilFailOp       = D3D11_STENCIL_OP_KEEP;
-	        m_D3DDepthStencilDesc.BackFace.StencilDepthFailOp  = D3D11_STENCIL_OP_DECR;
-	        m_D3DDepthStencilDesc.BackFace.StencilPassOp       = D3D11_STENCIL_OP_KEEP;
-	        m_D3DDepthStencilDesc.BackFace.StencilFunc         = D3D11_COMPARISON_ALWAYS;
         }
 
         D3D11RenderState::~D3D11RenderState()
@@ -83,224 +55,396 @@ namespace Ocular
 
         void D3D11RenderState::bind()
         {
-            HRESULT hResult = S_OK;
-
-            if(m_D3DDeviceContext && m_D3DDevice)
+            if(m_IsRasterStateDirty)
             {
-                //--------------------------------------------------------
-                // Update Rasterizer State
-
-                if(m_IsRasterizerStateDirty)
+                if(!createD3DRasterizerState())
                 {
-                    if(m_D3DRasterizerState)
-                    {
-                        m_D3DRasterizerState->Release();
-                        m_D3DRasterizerState = nullptr;
-                    }
-
-                    hResult = m_D3DDevice->CreateRasterizerState(&m_D3DRasterizerDesc, &m_D3DRasterizerState);
-
-                    if(hResult == S_OK)
-                    {
-                        m_D3DDeviceContext->RSSetState(m_D3DRasterizerState);
-                        m_IsRasterizerStateDirty = false;
-                    }
-                    else
-                    {
-                        OcularLogger->error("Failed to create new Rasterizer State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
-                    }
+                    OcularLogger->error("Failed to create updated D3D Rasterizer State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
                 }
 
-                //--------------------------------------------------------
-                // Update Depth Stencil State
+                m_IsRasterStateDirty = false;
+            }
 
-                if(m_IsDepthStencilStateDirty)
+            if(m_IsDepthStencilStateDirty)
+            {
+                if(!createD3DDepthStencilState())
                 {
-                    if(m_D3DDepthStencilState)
-                    {
-                        m_D3DDepthStencilState->Release();
-                        m_D3DDepthStencilState = nullptr;
-                    }
-
-                    hResult = m_D3DDevice->CreateDepthStencilState(&m_D3DDepthStencilDesc, &m_D3DDepthStencilState);
-
-                    if(hResult == S_OK)
-                    {
-                        m_D3DDeviceContext->OMSetDepthStencilState(m_D3DDepthStencilState, 1);
-                        m_IsDepthStencilStateDirty = false;
-                    }
-                    else
-                    {
-                        OcularLogger->error("Failed to create new Depth Stencil State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
-                    }
+                    OcularLogger->error("Failed to create updated D3D Depth Stencil State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
                 }
 
-                //--------------------------------------------------------
-                // Update Primitive Topology
-
-                if(m_IsPrimitiveTopologyDirty)
-                {
-                    m_D3DDeviceContext->IASetPrimitiveTopology(m_D3DPrimitiveTopology);
-                    m_IsPrimitiveTopologyDirty = false;
-                }
+                m_IsDepthStencilStateDirty = false;
             }
-            else
-            {
-                OcularLogger->error("D3D11 Device and/or Context is NULL", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
-            }
-        }
 
-        void D3D11RenderState::setFillMode(FillMode const mode)
-        {
-            if(m_FillMode != mode)
+            if(m_IsBlendStateDirty)
             {
-                RenderState::setFillMode(mode);
-
-                switch(mode)
+                if(!createD3DBlendState())
                 {
-                case FillMode::Wireframe:
-                    m_D3DRasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
-                    break;
-
-                case FillMode::Solid:
-                default:
-                    m_D3DRasterizerDesc.FillMode = D3D11_FILL_SOLID;
-                    break;
+                    OcularLogger->error("Failed to create updated D3D Blend State", OCULAR_INTERNAL_LOG("D3D11RenderState", "bind"));
                 }
 
-                m_IsRasterizerStateDirty = true;
+                m_IsBlendStateDirty = false;
             }
+
+            const float blendFactor[4] = { m_BlendState.blendFactor.x, m_BlendState.blendFactor.y, m_BlendState.blendFactor.z, m_BlendState.blendFactor.w };
+
+            m_D3DDeviceContext->RSSetState(m_D3DRasterizerState);
+            m_D3DDeviceContext->OMSetDepthStencilState(m_D3DDepthStencilState, 1);
+            m_D3DDeviceContext->OMSetBlendState(m_D3DBlendState, blendFactor, 0xffffffff);
+            m_D3DDeviceContext->IASetPrimitiveTopology(m_D3DPrimitiveTopology);
         }
 
-        void D3D11RenderState::setCullMode(CullMode const mode)
+        void D3D11RenderState::setDepthStencilState(DepthStencilState const& state)
         {
-            if(m_CullMode != mode)
+            if(!Math::IsEqual<float>(state.depthBias.depthBias, m_DepthStencilState.depthBias.depthBias) ||
+               !Math::IsEqual<float>(state.depthBias.depthBiasClamp, m_DepthStencilState.depthBias.depthBiasClamp) ||
+               !Math::IsEqual<float>(state.depthBias.slopeScaledDepthBias, m_DepthStencilState.depthBias.slopeScaledDepthBias))
             {
-                RenderState::setCullMode(mode);
-
-                switch(mode)
-                {
-                case CullMode::None:
-                    m_D3DRasterizerDesc.CullMode = D3D11_CULL_NONE;
-                    break;
-
-                case CullMode::Front:
-                    m_D3DRasterizerDesc.CullMode = D3D11_CULL_FRONT;
-                    break;
-
-                case CullMode::Back:
-                default:
-                    m_D3DRasterizerDesc.CullMode = D3D11_CULL_BACK;
-                    break;
-                }
-
-                m_IsRasterizerStateDirty = true;
+                // D3D11 handles depth bias in the rasterizer state
+                m_IsRasterStateDirty = true;
             }
+
+            m_DepthStencilState = state;
+            m_IsDepthStencilStateDirty = true;
         }
 
-        void D3D11RenderState::setCullDirection(CullDirection const direction)
+        ID3D11RasterizerState* D3D11RenderState::getD3DRasterizerState()
         {
-            if(m_CullDirection != direction)
-            {
-                RenderState::setCullDirection(direction);
-
-                if(direction == CullDirection::Clockwise)
-                {
-                    m_D3DRasterizerDesc.FrontCounterClockwise = false;
-                }
-                else
-                {
-                    m_D3DRasterizerDesc.FrontCounterClockwise = true;
-                }
-
-                m_IsRasterizerStateDirty = true;
-            }
+            return m_D3DRasterizerState;
         }
 
-        void D3D11RenderState::setPrimitiveStyle(PrimitiveStyle const style)
+        ID3D11DepthStencilState* D3D11RenderState::getD3DDepthStencilState()
         {
-            if(m_PrimitiveStyle != style)
-            {
-                RenderState::setPrimitiveStyle(style);
-
-                switch(style)
-                {
-                case PrimitiveStyle::TriangleStrip:
-                    m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-                    break;
-
-                case PrimitiveStyle::PointList:
-                    m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
-                    break;
-
-                case PrimitiveStyle::LineList:
-                    m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
-                    break;
-
-                case PrimitiveStyle::LineStrip:
-                    m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
-                    break;
-
-                case PrimitiveStyle::TriangleList:
-                default:
-                    m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-                    break;
-
-                }
-
-                m_IsPrimitiveTopologyDirty = true;
-            }
+            return m_D3DDepthStencilState;
         }
 
-        void D3D11RenderState::setDepthTesting(bool const testing)
+        ID3D11BlendState* D3D11RenderState::getD3DBlendState()
         {
-            if(m_EnableDepthTesting != testing)
-            {
-                RenderState::setDepthTesting(testing);
-
-                m_D3DRasterizerDesc.DepthClipEnable = testing;
-                m_IsRasterizerStateDirty = true;
-            }
+            return m_D3DBlendState;
         }
-
-        void D3D11RenderState::setScissorTesting(bool const testing)
-        {
-            if(m_EnableScissorTesting != testing)
-            {
-                RenderState::setScissorTesting(testing);
-
-                m_D3DRasterizerDesc.ScissorEnable = testing;
-                m_IsRasterizerStateDirty = true;
-            }
-        }
-
-        void D3D11RenderState::setRenderTextureMultisampling(bool const multisampling)
-        {
-            if(m_EnableMultisampling != multisampling)
-            {
-                RenderState::setRenderTextureMultisampling(multisampling);
-
-                m_D3DRasterizerDesc.MultisampleEnable = multisampling;
-                m_IsRasterizerStateDirty = true;
-            }
-        }
-
-        void D3D11RenderState::setLineAntialising(bool const antialiasing)
-        {
-            if(m_EnableLineAntialiasing != antialiasing)
-            {
-                RenderState::setLineAntialising(antialiasing);
-
-                m_D3DRasterizerDesc.AntialiasedLineEnable = antialiasing;
-                m_IsRasterizerStateDirty = true;
-            }
-        }
-
-
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool D3D11RenderState::createD3DRasterizerState()
+        {
+            bool result = true;
+
+            const D3D11_RASTERIZER_DESC descr = createRenderStateDescr();
+            const HRESULT hResult = m_D3DDevice->CreateRasterizerState(&descr, &m_D3DRasterizerState);
+
+            if(FAILED(hResult))
+            {
+                OcularLogger->error("Failed to create new D3D11 RasterizerState", OCULAR_INTERNAL_LOG("D3D11RenderState", "createD3DRasterizerState"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        bool D3D11RenderState::createD3DDepthStencilState()
+        {
+            bool result = true;
+
+            const D3D11_DEPTH_STENCIL_DESC descr = createDepthStencilStateDescr();
+            const HRESULT hResult = m_D3DDevice->CreateDepthStencilState(&descr, &m_D3DDepthStencilState);
+
+            if(FAILED(hResult))
+            {
+                OcularLogger->error("Failed to create new D3D11 DepthStencilState", OCULAR_INTERNAL_LOG("D3D11RenderState", "createD3DDepthStencilState"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        bool D3D11RenderState::createD3DBlendState()
+        {
+            bool result = true;
+
+            const D3D11_BLEND_DESC descr = createBlendStateDescr();
+            const HRESULT hResult = m_D3DDevice->CreateBlendState(&descr, &m_D3DBlendState);
+
+            if(FAILED(hResult))
+            {
+                OcularLogger->error("Failed to create new D3D11 BlendState", OCULAR_INTERNAL_LOG("D3D11RenderState", "createD3DBlendState"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        D3D11_RASTERIZER_DESC D3D11RenderState::createRenderStateDescr()
+        {
+            D3D11_RASTERIZER_DESC result;
+            ZeroMemory(&result, sizeof(D3D11_RASTERIZER_DESC));
+
+            //------------------------------------------------------------------------------
+            // Fill Mode
+
+            switch(m_RasterState.fillMode)
+            {
+            case FillMode::Wireframe:
+                result.FillMode = D3D11_FILL_WIREFRAME;
+                break;
+
+            case FillMode::Solid:
+            default:
+                result.FillMode = D3D11_FILL_SOLID;
+                break;
+            }
+
+            //------------------------------------------------------------------------------
+            // Cull Mode
+
+            switch(m_RasterState.cullMode)
+            {
+            case CullMode::None:
+                result.CullMode = D3D11_CULL_NONE;
+                break;
+
+            case CullMode::Front:
+                result.CullMode = D3D11_CULL_FRONT;
+                break;
+
+            case CullMode::Back:
+            default:
+                result.CullMode = D3D11_CULL_BACK;
+                break;
+            }
+
+            //------------------------------------------------------------------------------
+            // Cull Direction
+
+            switch(m_RasterState.cullDirection)
+            {
+            case CullDirection::Clockwise:
+                result.FrontCounterClockwise = FALSE;
+                break;
+
+            case CullDirection::CounterClockwise:
+            default:
+                result.FrontCounterClockwise = TRUE;
+                break;
+            }
+
+            //------------------------------------------------------------------------------
+            // Primtive Style
+
+            switch(m_RasterState.primitiveStyle)
+            {
+            case PrimitiveStyle::TriangleStrip:
+                m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+                break;
+
+            case PrimitiveStyle::PointList:
+                m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+                break;
+
+            case PrimitiveStyle::LineList:
+                m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+                break;
+
+            case PrimitiveStyle::LineStrip:
+                m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+                break;
+
+            case PrimitiveStyle::TriangleList:
+            default:
+                m_D3DPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                break;
+            }
+
+            //------------------------------------------------------------------------------
+            // Enable Multisampling
+
+            result.MultisampleEnable = m_RasterState.enableMultisampling;
+
+            //------------------------------------------------------------------------------
+            // Enable Line Antialiasing
+            
+            result.AntialiasedLineEnable = m_RasterState.enableLineAntialiasing;
+
+            //------------------------------------------------------------------------------
+            // Depth Bias
+
+            result.DepthBias = static_cast<int32_t>(m_DepthStencilState.depthBias.depthBias);
+            result.DepthBiasClamp = m_DepthStencilState.depthBias.depthBiasClamp;
+            result.SlopeScaledDepthBias = m_DepthStencilState.depthBias.slopeScaledDepthBias;
+
+            return result;
+        }
+
+        D3D11_DEPTH_STENCIL_DESC D3D11RenderState::createDepthStencilStateDescr()
+        {
+            D3D11_DEPTH_STENCIL_DESC result;
+            ZeroMemory(&result, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+            result.DepthEnable                  = m_DepthStencilState.enableDepthTesting;
+            result.DepthWriteMask               = D3D11_DEPTH_WRITE_MASK_ALL;
+            result.DepthFunc                    = D3D11_COMPARISON_LESS;
+            result.StencilEnable                = m_DepthStencilState.enableScissorTesting;
+            result.StencilReadMask              = 0xFF;
+            result.StencilWriteMask             = 0xFF;
+            result.FrontFace.StencilFailOp      = D3D11_STENCIL_OP_KEEP;
+            result.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+            result.FrontFace.StencilPassOp      = D3D11_STENCIL_OP_KEEP;
+            result.FrontFace.StencilFunc        = D3D11_COMPARISON_ALWAYS;
+            result.BackFace.StencilFailOp       = D3D11_STENCIL_OP_KEEP;
+            result.BackFace.StencilDepthFailOp  = D3D11_STENCIL_OP_DECR;
+            result.BackFace.StencilPassOp       = D3D11_STENCIL_OP_KEEP;
+            result.BackFace.StencilFunc         = D3D11_COMPARISON_ALWAYS;
+
+            return result;
+        }
+
+        D3D11_BLEND_DESC D3D11RenderState::createBlendStateDescr()
+        {
+            D3D11_BLEND_DESC result;
+            ZeroMemory(&result, sizeof(D3D11_BLEND_DESC));
+
+            D3D11_RENDER_TARGET_BLEND_DESC descr;
+            ZeroMemory(&descr, sizeof(D3D11_RENDER_TARGET_BLEND_DESC));
+
+            descr.SrcBlend       = convertBlendType(m_BlendState.srcBlend);
+            descr.DestBlend      = convertBlendType(m_BlendState.destBlend);
+            descr.SrcBlendAlpha  = convertBlendType(m_BlendState.alphaSrcBlend);
+            descr.DestBlendAlpha = convertBlendType(m_BlendState.alphaDestBlend);
+            descr.BlendOp        = convertBlendEquation(m_BlendState.blendEquation);
+            descr.BlendOpAlpha   = convertBlendEquation(m_BlendState.alphaBlendEquation);
+
+            result.AlphaToCoverageEnable = false;
+            result.IndependentBlendEnable = false;
+            
+            for(uint32_t i = 0; i < 8; i++)
+            {
+                // Maximum of 8 render targets
+                // https://msdn.microsoft.com/en-us/library/windows/desktop/ff476087(v=vs.85).aspx
+                result.RenderTarget[i] = descr;
+            }
+
+            return result;
+        }
+
+        D3D11_BLEND D3D11RenderState::convertBlendType(BlendType const type) const
+        {
+            D3D11_BLEND result;
+
+            switch(type)
+            {
+            case BlendType::Zero:
+                result = D3D11_BLEND_ZERO;
+                break;
+
+            case BlendType::One:
+                result = D3D11_BLEND_ONE;
+                break;
+
+            case BlendType::SrcColor:
+                result = D3D11_BLEND_SRC_COLOR;
+                break;
+
+            case BlendType::OneMinusSrcColor:
+                result = D3D11_BLEND_INV_SRC_COLOR;
+                break;
+
+            case BlendType::SrcAlpha:
+                result = D3D11_BLEND_SRC_ALPHA;
+                break;
+
+            case BlendType::OneMinusSrcAlpha:
+                result = D3D11_BLEND_INV_SRC_ALPHA;
+                break;
+
+            case BlendType::DestAlpha:
+                result = D3D11_BLEND_DEST_ALPHA;
+                break;
+
+            case BlendType::OneMinusDestAlpha:
+                result = D3D11_BLEND_INV_DEST_ALPHA;
+                break;
+
+            case BlendType::DestColor:
+                result = D3D11_BLEND_DEST_COLOR;
+                break;
+
+            case BlendType::OneMinusDestColor:
+                result = D3D11_BLEND_INV_DEST_COLOR;
+                break;
+
+            case BlendType::AlphaSaturate:
+                result = D3D11_BLEND_SRC_ALPHA_SAT;
+                break;
+
+            case BlendType::BlendFactor:
+                result = D3D11_BLEND_BLEND_FACTOR;
+                break;
+
+            case BlendType::OneMinusBlendFactor:
+                result = D3D11_BLEND_INV_BLEND_FACTOR;
+                break;
+
+            case BlendType::Src1Color:
+                result = D3D11_BLEND_SRC1_COLOR;
+                break;
+
+            case BlendType::OneMinusSrc1Color:
+                result = D3D11_BLEND_INV_SRC1_COLOR;
+                break;
+
+            case BlendType::Src1Alpha:
+                result = D3D11_BLEND_SRC1_ALPHA;
+                break;
+
+            case BlendType::OneMinusSrc1Alpha:
+                result = D3D11_BLEND_INV_SRC1_ALPHA;
+                break;
+                
+            case BlendType::AlphaBlendFactor:
+            case BlendType::OneMinusAlphaBlendFactor:
+            default:
+                result = D3D11_BLEND_ZERO;
+                OcularLogger->warning("Unknown or Invalid blend type ", static_cast<uint32_t>(type), " specified for D3D11. Defaulting to D3D11_BLEND_ZERO", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
+                break;
+            }
+
+            return result;
+        }
+
+        D3D11_BLEND_OP D3D11RenderState::convertBlendEquation(BlendEquation const equation) const
+        {
+            D3D11_BLEND_OP result;
+
+            switch(equation)
+            {
+            case BlendEquation::Add:
+                result = D3D11_BLEND_OP_ADD;
+                break;
+
+            case BlendEquation::Subtract:
+                result = D3D11_BLEND_OP_SUBTRACT;
+                break;
+
+            case BlendEquation::ReverseSubtract:
+                result = D3D11_BLEND_OP_REV_SUBTRACT;
+                break;
+
+            case BlendEquation::Min:
+                result = D3D11_BLEND_OP_MIN;
+                break;
+
+            case BlendEquation::Max:
+                result = D3D11_BLEND_OP_MAX;
+                break;
+
+            default:
+                result = D3D11_BLEND_OP_ADD;
+                OcularLogger->warning("Unknown or Invalid blend equation ", static_cast<uint32_t>(equation), " specified for D3D11. Default to D3D11_BLEND_OP_ADD", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
+                break;
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

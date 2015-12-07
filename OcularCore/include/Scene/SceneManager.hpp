@@ -62,6 +62,7 @@ namespace Ocular
         {
             friend class Engine;
             friend class SceneObject;
+            friend class ARoutine;
 
         public:
 

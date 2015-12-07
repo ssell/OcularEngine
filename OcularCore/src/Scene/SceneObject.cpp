@@ -130,7 +130,7 @@ namespace Ocular
         // General Misc Methods
         //----------------------------------------------------------------
 
-        Math::Transform const& SceneObject::getTransform() const
+        Math::Transform& SceneObject::getTransform()
         {
             return m_Transform;
         }
@@ -425,8 +425,6 @@ namespace Ocular
             {
                 routine->setParent(this);
                 routine->setName(name);
-
-                OcularScene->objectAddedRoutine(routine);
                 routine->onCreation();
 
                 result = true;
