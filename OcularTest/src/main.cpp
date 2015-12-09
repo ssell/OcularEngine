@@ -31,6 +31,8 @@
 #include "Scene/Renderables/RenderablePrimitiveCube.hpp"
 #include "Renderer/Window/Window.hpp"
 
+#include <DirectXMath.h>
+
 Ocular::Core::EventSnooper g_Snooper;
 
 using namespace Ocular::Core;
@@ -53,8 +55,8 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 800;
-    descriptor.height        = 600;
+    descriptor.width         = 1024;
+    descriptor.height        = 768;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
@@ -81,8 +83,8 @@ void setupScene()
 
     Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
     mainCamera->setPriority(Priority::Low);
-    mainCamera->setViewport(0.0f, 0.0f, 800.0f, 600.0f);
-    mainCamera->setProjectionPerspective(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+    mainCamera->setViewport(0.0f, 0.0f, 1024.0f, 768.0f);
+    mainCamera->setProjectionPerspective(60.0f, (1024.0f / 768.0f), 0.001f, 100.0f);
     mainCamera->setRenderTexture(OcularWindows->getMainWindow()->getRenderTexture());
     mainCamera->setDepthTexture(OcularWindows->getMainWindow()->getDepthTexture());
     mainCamera->addRoutine<FreeFlyController>();
@@ -107,6 +109,9 @@ int main(int argc, char** argv)
     TextureResourceLoader_PNG urgh;
     MaterialResourceLoader blag;
     D3D11UncompiledShaderResourceLoader blugg;
+
+    DirectX::XMMATRIX matrixDX = DirectX::XMMatrixPerspectiveFovRH(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+    Matrix4x4f matrixOcular = Matrix4x4f::CreatePerspectiveMatrix(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
 
     OcularEngine.initialize(new D3D11GraphicsDriver());
     SystemInfo::logSystemInfo();

@@ -84,7 +84,7 @@ namespace Ocular
          * | Alpha Dest Blend     | Zero          |
          * | Blend Equation       | Add           |
          * | Alpha Blend Equation | Add           |
-         * | Blend Factor         | (0, 0, 0, 0)  |
+         * | Blend Factor         | (1, 1, 1, 1)  |
          */
         struct BlendState
         {

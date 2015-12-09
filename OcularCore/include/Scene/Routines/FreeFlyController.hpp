@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_ROUTINE_FREE_FLY_CONTROLLER__H__
 
 #include "Scene/ARoutine.hpp"
+#include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -51,6 +52,8 @@ namespace Ocular
         protected:
 
         private:
+
+            Math::Vector3f m_MovementModifier;
 
         };
     }

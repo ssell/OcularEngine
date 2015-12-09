@@ -96,6 +96,11 @@ namespace Ocular
              * \return The string representation of the Object
              */
             virtual std::string toString() const;
+
+            /**
+             * 
+             */
+            template<class T> bool isType() { return (dynamic_cast<T*>(this) ? true : false); }
         
         protected:
         

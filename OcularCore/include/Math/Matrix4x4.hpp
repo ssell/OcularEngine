@@ -883,12 +883,12 @@ namespace Ocular
                 const T twoN = static_cast<T>(2.0) * nearClip;
 
                 matrix[0][0] = twoN / (xMax - xMin);
-                matrix[0][2] = -((xMax + xMin) / (xMax - xMin));
+                matrix[0][2] = -((xMax + xMin) / (xMax - xMin));            // leading negative
                 matrix[1][1] = twoN / (yMax - yMin);
-                matrix[1][2] = -((yMax + yMin) / (yMax - yMin));
-                matrix[2][2] = (farClip + nearClip) / (farClip - nearClip);
+                matrix[1][2] = -((yMax + yMin) / (yMax - yMin));            // leading negative
+                matrix[2][2] = (farClip + nearClip) / (farClip - nearClip); // no leading negative
                 matrix[2][3] = -((twoN * farClip) / (farClip - nearClip));
-                matrix[3][2] = static_cast<T>(1.0);
+                matrix[3][2] = static_cast<T>(1.0);                         // no leading negative
                 matrix[3][3] = static_cast<T>(0.0);
 
                 return matrix;
@@ -935,7 +935,7 @@ namespace Ocular
                 // Alternatively, found http://www.songho.ca/opengl/gl_transform.html which does the same thing.
                 // Nice to have confirmation that my maths were correct though.
 
-                const double dFov = static_cast<double>(fov);
+                /*const double dFov = static_cast<double>(fov);
                 const double dAspectRatio = static_cast<double>(aspectRatio);
                 const double dNearClip = static_cast<double>(nearClip);
                 const double dFarClip = static_cast<double>(farClip);
@@ -944,7 +944,22 @@ namespace Ocular
                 const double height = dNearClip * tangent;
                 const double width = height * dAspectRatio;
 
-                return CreatePerspectiveMatrix(-static_cast<T>(width), static_cast<T>(width), -static_cast<T>(height), static_cast<T>(height), nearClip, farClip);
+                return CreatePerspectiveMatrix(-static_cast<T>(width), static_cast<T>(width), -static_cast<T>(height), static_cast<T>(height), nearClip, farClip);*/
+
+                // Source:
+                // https://msdn.microsoft.com/en-us/library/windows/desktop/bb205351(v=vs.85).aspx
+
+                const T yScale = static_cast<T>(1.0) / (fov / static_cast<T>(2.0));
+                const T xScale = yScale / aspectRatio;
+
+                const T zero   = static_cast<T>(0.0);
+                const T one    = static_cast<T>(1.0);
+
+                return Matrix4x4<T>(
+                    xScale, zero, zero, zero,
+                    zero, yScale, zero, zero,
+                    zero, zero, (farClip / (nearClip - farClip)), ((nearClip * farClip) / (nearClip - farClip)),
+                    zero, zero, one, zero);
             }
 
             /**

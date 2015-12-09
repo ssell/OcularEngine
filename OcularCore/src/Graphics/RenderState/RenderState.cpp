@@ -46,10 +46,10 @@ namespace Ocular
             m_BlendState.alphaDestBlend     = BlendType::Zero;
             m_BlendState.blendEquation      = BlendEquation::Add;
             m_BlendState.alphaBlendEquation = BlendEquation::Add;
-            m_BlendState.blendFactor        = Math::Vector4f(0.0f, 0.0f, 0.0f, 0.0f);
+            m_BlendState.blendFactor        = Math::Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             m_DepthStencilState.enableDepthTesting = true;
-            m_DepthStencilState.enableScissorTesting = false;
+            m_DepthStencilState.enableScissorTesting = true;
         }
 
         RenderState::~RenderState()

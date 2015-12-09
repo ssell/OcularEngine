@@ -70,10 +70,10 @@ namespace Ocular
 
             Vector4()
             {
-                x = static_cast<T>(0);
-                y = static_cast<T>(0);
-                z = static_cast<T>(0);
-                w = static_cast<T>(1);
+                x = static_cast<T>(0.0);
+                y = static_cast<T>(0.0);
+                z = static_cast<T>(0.0);
+                w = static_cast<T>(1.0);
             }
 
             ~Vector4()

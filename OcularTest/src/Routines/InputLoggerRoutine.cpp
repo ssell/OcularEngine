@@ -49,51 +49,38 @@ InputLoggerRoutine::~InputLoggerRoutine()
 
 bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
 {
-    if(event->isType("KeyboardInputEvent"))
+    if(event->isType<Events::KeyboardInputEvent>())
     {
         Events::KeyboardInputEvent* inputEvent = dynamic_cast<Events::KeyboardInputEvent*>(event.get());
+        
+        OcularLogger->info("The '", InputHandler::ToString(inputEvent->key), "' key was ", InputHandler::ToString(inputEvent->state));
 
-        if(inputEvent)
+        if((inputEvent->key == KeyboardKeys::Escape) && (inputEvent->state == KeyState::Released))
         {
-            OcularLogger->info("The '", InputHandler::ToString(inputEvent->key), "' key was ", InputHandler::ToString(inputEvent->state));
-
-            if((inputEvent->key == KeyboardKeys::Escape) && (inputEvent->state == KeyState::Released))
-            {
-                OcularEvents->queueEvent(std::make_shared<Events::ShutdownEvent>());
-            }
+            OcularEvents->queueEvent(std::make_shared<Events::ShutdownEvent>());
         }
     }
-    else if(event->isType("MouseButtonInputEvent"))
+    else if(event->isType<Events::MouseButtonInputEvent>())
     {
         Events::MouseButtonInputEvent* inputEvent = dynamic_cast<Events::MouseButtonInputEvent*>(event.get());
-
-        if(inputEvent)
-        {
-            OcularLogger->info("The '", InputHandler::ToString(inputEvent->button), "' button was ", InputHandler::ToString(inputEvent->state));
-        }
+        
+        OcularLogger->info("The '", InputHandler::ToString(inputEvent->button), "' button was ", InputHandler::ToString(inputEvent->state));
     }
-    else if(event->isType("MouseMoveInputEvent"))
+    else if(event->isType<Events::MouseMoveInputEvent>())
     {
         Events::MouseMoveInputEvent* inputEvent = dynamic_cast<Events::MouseMoveInputEvent*>(event.get());
 
-        if(inputEvent)
-        {
-            const Ocular::Math::Vector2i prev = inputEvent->prevPosition;
-            const Ocular::Math::Vector2i curr = inputEvent->currPosition;
+        const Ocular::Math::Vector2i prev = inputEvent->prevPosition;
+        const Ocular::Math::Vector2i curr = inputEvent->currPosition;
 
-            OcularLogger->info("Mouse moved to (", curr.x, ", ",curr.y, ") from (", prev.x, ", ", prev.y, ")");
-        }
+        OcularLogger->info("Mouse moved to (", curr.x, ", ",curr.y, ") from (", prev.x, ", ", prev.y, ")");
     }
-    else if(event->isType("MouseScrollInputEvent"))
+    else if(event->isType<Events::MouseScrollInputEvent>())
     {
         Events::MouseScrollInputEvent* inputEvent = dynamic_cast<Events::MouseScrollInputEvent*>(event.get());
-
-        if(inputEvent)
-        {
-            OcularLogger->info("The mouse wheel has scrolled ", static_cast<int32_t>(inputEvent->delta));
-        }
+        
+        OcularLogger->info("The mouse wheel has scrolled ", static_cast<int32_t>(inputEvent->delta));
     }
-
 
     return true;
 }

@@ -312,6 +312,7 @@ namespace Ocular
             descr.DestBlendAlpha = convertBlendType(m_BlendState.alphaDestBlend);
             descr.BlendOp        = convertBlendEquation(m_BlendState.blendEquation);
             descr.BlendOpAlpha   = convertBlendEquation(m_BlendState.alphaBlendEquation);
+            descr.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
             result.AlphaToCoverageEnable = false;
             result.IndependentBlendEnable = false;
