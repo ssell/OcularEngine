@@ -97,35 +97,13 @@ namespace Ocular
                     //----------------------------------------------------
                     // Create the Vertices
 
-                    /*static const float CubeSize = 1.0f;
+                    Graphics::Vertex vertices[3];
 
-                    Graphics::Vertex vertices[8];
+                    vertices[0].position = Math::Vector3f(-1.0f, -1.0f, 0.0f);
+                    vertices[1].position = Math::Vector3f( 1.0f, -1.0f, 0.0f);
+                    vertices[2].position = Math::Vector3f( 0.0f,  1.0f, 0.0f);
 
-                    vertices[0].position = Math::Vector3f(-CubeSize, 0.0f, CubeSize);
-                    vertices[1].position = Math::Vector3f(CubeSize, 0.0f, CubeSize);
-                    vertices[2].position = Math::Vector3f(CubeSize, (2.0f * CubeSize), CubeSize);
-                    vertices[3].position = Math::Vector3f(-CubeSize, (2.0f * CubeSize), CubeSize);
-                    vertices[4].position = Math::Vector3f(-CubeSize, 0.0f, -CubeSize);
-                    vertices[5].position = Math::Vector3f(-CubeSize, (2.0f * CubeSize), -CubeSize);
-                    vertices[6].position = Math::Vector3f(CubeSize, 0.0f, -CubeSize);
-                    vertices[7].position = Math::Vector3f(CubeSize, (2.0f * CubeSize), -CubeSize);*/
-
-                    Graphics::Vertex vertices[6];
-                    vertices[0].position = Math::Vector3f(-1.0f, -1.0f,  0.0f);
-                    vertices[1].position = Math::Vector3f( 1.0f, -1.0f,  0.0f);
-                    vertices[2].position = Math::Vector3f( 1.0f,  1.0f,  0.0f);
-                    vertices[3].position = Math::Vector3f(-1.0f,  1.0f,  0.0f);
-                    vertices[4].position = Math::Vector3f(-1.0f, -1.0f,  1.0f);
-                    vertices[5].position = Math::Vector3f(-1.0f,  1.0f,  1.0f);
-                    
-                    // Depth of non zero goes screwy
-
-                    vertices[0].color = Color::Red();
-                    vertices[1].color = Color::Green();
-                    vertices[2].color = Color::Blue();
-                    vertices[3].color = Color::Gold();
-
-                    vertexBuffer->addVertices(vertices, 6);
+                    vertexBuffer->addVertices(vertices, 3);
 
                     if(vertexBuffer->build())
                     {
@@ -150,16 +128,12 @@ namespace Ocular
 
                         indexBuffer->addIndices(indices, 36);*/
 
-                        uint32_t indices[12] =
+                        uint32_t indices[3] =
                         {
-                            0, 1, 2,
-                            2, 3, 0,
-
-                            4, 0, 3,
-                            3, 5, 4
+                            0, 1, 2
                         };
 
-                        indexBuffer->addIndices(indices, 12);
+                        indexBuffer->addIndices(indices, 3);
 
                         if(indexBuffer->build())
                         {

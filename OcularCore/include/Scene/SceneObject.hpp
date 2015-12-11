@@ -210,6 +210,13 @@ namespace Ocular
             Graphics::UniformPerObject const& getUniformData();
 
             //------------------------------------------------------------
+            //
+            //------------------------------------------------------------
+
+            void setPosition(float x, float y, float z);
+            void setPosition(Math::Vector3f const& position);
+
+            //------------------------------------------------------------
             // Child Object Methods
             //------------------------------------------------------------
 

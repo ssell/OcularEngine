@@ -19,6 +19,8 @@
 #define __H__OCULAR_MATH_VECTOR_2__H__
 
 #include "MathCommon.hpp"
+#include "Equality.hpp"
+
 #include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------

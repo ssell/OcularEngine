@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_LINE_SEGMENT_2D__H__
 
 #include "Math/MathCommon.hpp"
+#include "Math/Equality.hpp"
 #include "Math/Vector2.hpp"
 
 //------------------------------------------------------------------------------------------

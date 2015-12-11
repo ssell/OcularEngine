@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *
 
 #include "OcularEngine.hpp"
 #include "SystemInfo.hpp"
@@ -99,6 +99,8 @@ void setupScene()
     // Setup Cube
 
     SceneObject* cubeObject = OcularScene->createObject("Cube");
+    cubeObject->setPosition(0.0f, 0.0f, 0.0f);
+
     RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
     renderable->initialize();
 }
@@ -123,4 +125,4 @@ int main(int argc, char** argv)
     }
 
     OcularEngine.shutdown();
-}
+}*/

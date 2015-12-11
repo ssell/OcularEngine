@@ -552,6 +552,15 @@
     <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp">
       <Filter>Source Files\Scene\Routine\Routines</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Matrix3x3Temp.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Matrix4x4Temp.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\MathInternal.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -625,9 +634,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\Directory.hpp">
       <Filter>Header Files\FileIO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp">
-      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp">
       <Filter>Header Files\Math</Filter>
@@ -1018,6 +1024,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp">
       <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix4x4Temp.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix3x3Temp.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\MathInternal.hpp">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

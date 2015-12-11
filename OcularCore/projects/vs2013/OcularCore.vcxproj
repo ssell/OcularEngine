@@ -219,6 +219,9 @@
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
+    <ClCompile Include="..\..\src\Math\MathInternal.cpp" />
+    <ClCompile Include="..\..\src\Math\Matrix3x3Temp.cpp" />
+    <ClCompile Include="..\..\src\Math\Matrix4x4Temp.cpp" />
     <ClCompile Include="..\..\src\Math\MortonCode.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
@@ -351,8 +354,11 @@
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
+    <ClInclude Include="..\..\include\Math\MathInternal.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
+    <ClInclude Include="..\..\include\Math\Matrix3x3Temp.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
+    <ClInclude Include="..\..\include\Math\Matrix4x4Temp.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />
     <ClInclude Include="..\..\include\Math\MortonCode.hpp" />
     <ClInclude Include="..\..\include\Math\Noise\ANoise.hpp" />

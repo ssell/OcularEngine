@@ -19,7 +19,6 @@
 #define __H__OCULAR_ENGINE_MATH_COMMON__H__
 
 #include "Definitions.hpp"
-#include "Equality.hpp"
 #include "Interpolation.hpp"
 
 #include <cmath>

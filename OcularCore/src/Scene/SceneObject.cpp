@@ -230,6 +230,20 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------
+        //
+        //----------------------------------------------------------------
+
+        void SceneObject::setPosition(float const x, float const y, float const z)
+        {
+            m_Transform.setPosition(x, y, z);
+        }
+
+        void SceneObject::setPosition(Math::Vector3f const& position)
+        {
+            m_Transform.setPosition(position);
+        }
+
+        //----------------------------------------------------------------
         // Child Object Methods
         //----------------------------------------------------------------
 
