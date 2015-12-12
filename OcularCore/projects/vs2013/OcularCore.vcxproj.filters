@@ -561,6 +561,9 @@
     <ClCompile Include="..\..\src\Math\MathInternal.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\QuaternionTemp.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1035,6 +1038,9 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\MathInternal.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\QuaternionTemp.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>

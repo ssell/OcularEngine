@@ -24,6 +24,7 @@
 #define __H__OCULAR_MATH_INTERNAL__H__
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 //------------------------------------------------------------------------------------------
@@ -54,6 +55,14 @@ namespace Ocular
             Matrix4x4_Internal();
             
             glm::mat4x4 matrix;
+        };
+
+        struct Quaternion_Internal
+        {
+            Quaternion_Internal(glm::quat const& data);
+            Quaternion_Internal();
+
+            glm::quat quat;
         };
     }
     /**

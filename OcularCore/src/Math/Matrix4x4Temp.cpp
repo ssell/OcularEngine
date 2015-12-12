@@ -66,6 +66,11 @@ namespace Ocular
             m_Internal = new Matrix4x4_Internal(data.matrix);
         }
 
+        Matrix4x4::Matrix4x4(Matrix4x4 const& other)
+        {
+            m_Internal = new Matrix4x4_Internal(other.getInternal()->matrix);
+        }
+
         Matrix4x4::Matrix4x4()
         {
             m_Internal = new Matrix4x4_Internal();

@@ -35,6 +35,11 @@ namespace Ocular
      */
     namespace Math
     {
+        class Vector3;
+        class Vector4;
+        class Matrix3x3;
+        class Quaternion;
+
         struct Matrix4x4_Internal;
 
         /**
@@ -107,6 +112,11 @@ namespace Ocular
             Matrix4x4(Matrix4x4_Internal const& data);
 
             /**
+             *
+             */
+            Matrix4x4(Matrix4x4 const& other);
+
+            /**
              * Creates a new identity Matrix
              */
             Matrix4x4();
@@ -173,8 +183,6 @@ namespace Ocular
             Matrix4x4_Internal* getInternal() const;
 
         protected:
-
-            
 
         private:
 
