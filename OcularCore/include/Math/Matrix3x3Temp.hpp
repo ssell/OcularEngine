@@ -34,8 +34,8 @@ namespace Ocular
      */
     namespace Math
     {
-        class Vector3;
-        class Vector4;
+        template<typename T> class Vector3;
+        template<typename T> class Vector4;
         class Matrix4x4;
         class Quaternion;
 
@@ -151,7 +151,11 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // MISC
             //------------------------------------------------------------------------------
-
+            
+            /**
+             * For internal use only.
+             * Only modify this pointer if you want your application to crash.
+             */
             Matrix3x3_Internal* getInternal() const;
 
         protected:

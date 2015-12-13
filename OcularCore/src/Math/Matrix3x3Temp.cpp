@@ -57,7 +57,7 @@ namespace Ocular
 
         Matrix3x3::Matrix3x3(Matrix3x3 const& other)
         {
-            m_Internal = new Matrix3x3_Internal(other.getInternal()->matrix);
+            m_Internal = new Matrix3x3_Internal(other.m_Internal->matrix);
         }
 
         Matrix3x3::Matrix3x3()

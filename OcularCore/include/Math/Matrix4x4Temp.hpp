@@ -19,7 +19,6 @@
 #define __H__OCULAR_MATH_MATRIX_4X4_TEMP__H__
 
 #include "MathCommon.hpp"
-#include "Math/Matrix3x3Temp.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,8 +34,8 @@ namespace Ocular
      */
     namespace Math
     {
-        class Vector3;
-        class Vector4;
+        template<typename T> class Vector3;
+        template<typename T> class Vector4;
         class Matrix3x3;
         class Quaternion;
 
@@ -179,7 +178,11 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // MISC
             //------------------------------------------------------------------------------
-
+           
+            /**
+             * For internal use only.
+             * Only modify this pointer if you want your application to crash.
+             */
             Matrix4x4_Internal* getInternal() const;
 
         protected:

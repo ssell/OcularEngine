@@ -104,9 +104,9 @@ namespace Ocular
 
             Quaternion& operator=(Quaternion const& rhs);
             Quaternion& operator+=(Quaternion const& rhs);
-            Quaternion& operator-=(Quaternion const& rhs);
             Quaternion& operator*=(Quaternion const& rhs);
-            Quaternion& operator/=(Quaternion const& rhs);
+            Quaternion& operator*=(float rhs);
+            Quaternion& operator/=(float rhs);
 
             //------------------------------------------------------------------------------
             // GETTERS / SETTERS
@@ -140,7 +140,7 @@ namespace Ocular
             /**
              *
              */
-            Quaternion dot(Quaternion const& rhs);
+            float dot(Quaternion const& rhs);
 
             /**
              *
@@ -200,7 +200,7 @@ namespace Ocular
             /**
              *
              */
-            float cross(Vector3<float> const& vector);
+            Quaternion cross(Quaternion const& rhs) const;
 
             //------------------------------------------------------------------------------
             // STATIC OPERATIONS
@@ -221,22 +221,22 @@ namespace Ocular
              * 
              * \param[in] a The starting Quaternion (result == a when t == 0.0).
              * \param[in] b The ending Quaternion (result == b when t == 1.0).
-             * \param[in] t Alpha value.
+             * \param[in] f Fractional value [0.0, 1.0]
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion Lerp(Quaternion const& a, Quaternion const& b, float t);
+            static Quaternion Lerp(Quaternion const& a, Quaternion const& b, float f);
             
             /**
              * Performs spherical interpolation and returns the resulting quaternion.
              *
              * \param[in] a The starting Quaternion (result == a when t == 0.0)
              * \param[in] b The ending Quaternion (result == b when t == 1.0)
-             * \param[in] t 
+             * \param[in] f Fractional value [0.0, 1.0]
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion Slerp(Quaternion const& a, Quaternion const& b, float t);
+            static Quaternion Slerp(Quaternion const& a, Quaternion const& b, float f);
             
             /**
              * Performs bilinear quaternion interpolation and returns the result quaternion.
@@ -248,22 +248,24 @@ namespace Ocular
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11);
+            static Quaternion Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float x, float y);
 
             //------------------------------------------------------------------------------
             // MISC
             //------------------------------------------------------------------------------
 
             /**
-             *
+             * For internal use only.
+             * Only modify this pointer if you want your application to crash.
              */
             Quaternion_Internal* getInternal() const;
 
         protected:
 
+            Quaternion_Internal* m_Internal;
+
         private:
 
-            Quaternion_Internal* m_Internal;
         };
 
         bool operator==(Quaternion const& lhs, Quaternion const& rhs);
