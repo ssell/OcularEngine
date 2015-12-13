@@ -16,6 +16,8 @@
 
 #include "Math/Matrix4x4Temp.hpp"
 #include "Math/MathInternal.hpp"
+#include "Math/QuaternionTemp.hpp"
+#include "Math/Matrix3x3Temp.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -59,6 +61,24 @@ namespace Ocular
                                 values[2], values[6], values[10], values[14],
                                 values[3], values[7], values[11], values[15]);
             }
+        }
+
+        Matrix4x4::Matrix4x4(Quaternion const& quat, Vector3<float> const& position)
+        {
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(quat.getInternal()->quat)));
+            
+            m_Internal->matrix[3][0] = position[0];
+            m_Internal->matrix[3][1] = position[1];
+            m_Internal->matrix[3][2] = position[2];
+        }
+
+        Matrix4x4::Matrix4x4(Vector3<float> const& euler, Vector3<float> const& position)
+        {
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(glm::quat(euler.x, euler.y, euler.z))));
+            
+            m_Internal->matrix[3][0] = position[0];
+            m_Internal->matrix[3][1] = position[1];
+            m_Internal->matrix[3][2] = position[2];
         }
 
         Matrix4x4::Matrix4x4(Matrix4x4_Internal const& data)
@@ -128,13 +148,11 @@ namespace Ocular
             return (*this);
         }
 
-        /*
-        Matrix4x4& Matrix4x4::operator*=(Vector4 const& rhs)
+        Matrix4x4& Matrix4x4::operator*=(Vector4<float> const& rhs)
         {
-            m_Internal->matrix *= rhs;
+            m_Internal->matrix *= glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w);
             return (*this);
         }
-        */
 
         bool operator==(Matrix4x4 const& lhs, Matrix4x4 const& rhs)
         {
@@ -161,23 +179,99 @@ namespace Ocular
             return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * rhs.getInternal()->matrix));
         }
 
+        Matrix4x4 operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs)
+        {
+            return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w)));
+        }
+
         Matrix4x4 operator*(Matrix4x4 const& lhs, float const rhs)
         {
             return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * rhs));
         }
 
-        /*
-        Matrix4x4 operator*(Matrix4x4 const& lhs, Vector4 const& rhs)
-        {
-        
-        }
-        */
-
         //----------------------------------------------------------------
         // GETTERS / SETTERS
         //----------------------------------------------------------------
 
+        void Matrix4x4::setElement(uint32_t const index, float const value)
+        {
+            if(index < 16)
+            {
+                m_Internal->matrix[(index / 4)][(index % 4)] = value;
+            }
+        }
 
+        float Matrix4x4::getElement(uint32_t const index) const
+        {
+            float result = 0.0f;
+
+            if(index < 16)
+            {
+                result = m_Internal->matrix[(index / 4)][(index % 4)];
+            }
+
+            return result;
+        }
+
+        void Matrix4x4::setRow(uint32_t const index, Vector4<float> const& row)
+        {
+            if(index < 16)
+            {
+                m_Internal->matrix[0][index] = row[0];
+                m_Internal->matrix[1][index] = row[1];
+                m_Internal->matrix[2][index] = row[2];
+                m_Internal->matrix[3][index] = row[3];
+            }
+        }
+
+        void Matrix4x4::getRow(uint32_t const index, Vector4<float>& row) const
+        {
+            if(index < 4)
+            {
+                row[0] = m_Internal->matrix[0][index];
+                row[1] = m_Internal->matrix[1][index];
+                row[2] = m_Internal->matrix[2][index];
+                row[3] = m_Internal->matrix[3][index];
+            }
+        }
+
+        void Matrix4x4::setCol(uint32_t const index, Vector4<float> const& col)
+        {
+            if(index < 4)
+            {
+                m_Internal->matrix[index][0] = col[0];
+                m_Internal->matrix[index][1] = col[1];
+                m_Internal->matrix[index][2] = col[2];
+                m_Internal->matrix[index][3] = col[3];
+            }
+        }
+
+        void Matrix4x4::getCol(uint32_t const index, Vector4<float>& col) const
+        {
+            if(index < 4)
+            {
+                col[0] = m_Internal->matrix[index][0];
+                col[1] = m_Internal->matrix[index][1];
+                col[2] = m_Internal->matrix[index][2];
+                col[3] = m_Internal->matrix[index][3];
+            }
+        }
+
+        void Matrix4x4::setData(float const* data)
+        {
+            m_Internal->matrix[0][0] = data[0]; m_Internal->matrix[1][0] = data[4]; m_Internal->matrix[2][0] = data[8];  m_Internal->matrix[3][0] = data[12];
+            m_Internal->matrix[0][1] = data[1]; m_Internal->matrix[1][1] = data[5]; m_Internal->matrix[2][1] = data[9];  m_Internal->matrix[3][1] = data[13];
+            m_Internal->matrix[0][2] = data[2]; m_Internal->matrix[1][2] = data[6]; m_Internal->matrix[2][2] = data[10]; m_Internal->matrix[3][2] = data[14];
+            m_Internal->matrix[0][3] = data[3]; m_Internal->matrix[1][3] = data[7]; m_Internal->matrix[2][3] = data[11]; m_Internal->matrix[3][3] = data[15];
+        }
+
+        void Matrix4x4::getData(float* data) const
+        {
+            data[0] = m_Internal->matrix[0][0]; data[4] = m_Internal->matrix[1][0]; data[8]  = m_Internal->matrix[2][0]; data[12] = m_Internal->matrix[3][0];
+            data[1] = m_Internal->matrix[0][1]; data[5] = m_Internal->matrix[1][1]; data[9]  = m_Internal->matrix[2][1]; data[13] = m_Internal->matrix[3][1];
+            data[2] = m_Internal->matrix[0][2]; data[6] = m_Internal->matrix[1][2]; data[10] = m_Internal->matrix[2][2]; data[14] = m_Internal->matrix[3][2];
+            data[3] = m_Internal->matrix[0][3]; data[7] = m_Internal->matrix[1][3]; data[11] = m_Internal->matrix[2][3]; data[15] = m_Internal->matrix[3][3];
+        }
 
         //----------------------------------------------------------------
         // MISC OPERATIONS

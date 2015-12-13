@@ -89,6 +89,18 @@ namespace Ocular
             Matrix3x3(float* values);
 
             /**
+             * Constructs a 3x3 rotational matrix from a quaternion.
+             * \param[in] quat
+             */
+            Matrix3x3(Quaternion const& quat);
+
+            /**
+             * Constructs a 3x3 rotational matrix from a set of euler angles.
+             * \param[in] euler (pitch, yaw, roll)
+             */
+            Matrix3x3(Vector3<float> euler);
+
+            /**
              *
              */
             Matrix3x3(Matrix3x3_Internal const& data);
@@ -119,11 +131,90 @@ namespace Ocular
             Matrix3x3& operator-=(Matrix3x3 const& rhs);
             Matrix3x3& operator*=(Matrix3x3 const& rhs);
             Matrix3x3& operator*=(float rhs);
-            //Matrix4x4& operator*=(Vector4 const& rhs);
+            Matrix4x4& operator*=(Vector4<float> const& rhs);
 
             //------------------------------------------------------------------------------
             // GETTERS / SETTERS
             //------------------------------------------------------------------------------
+
+            /**
+             * Sets an individual element of the matrix. 
+             * Matrix elements are ordered as follows:
+             *
+             *     {rotX.x, rotX.y, rotX.z, rotY.x, rotY.y, rotY.z, rotZ.x, rotZ.y, rotZ.z}
+             *
+             * or
+             *
+             *     0 3 6
+             *     1 4 7
+             *     2 5 8
+             *
+             * \param[in] index Element index to set [0, 9)
+             * \param[in] value Value to set the element to
+             */
+            void setElement(uint32_t index, float value);
+
+            /**
+             * Returns an individual element of the matrix. 
+             * Matrix elements are ordered as follows:
+             *
+             *     {rotX.x, rotX.y, rotX.z, rotY.x, rotY.y, rotY.z, rotZ.x, rotZ.y, rotZ.z}
+             *
+             * or
+             *
+             *     0 3 6
+             *     1 4 7
+             *     2 5 8
+             *
+             * \param[in] index Element index to retrieve.
+             * \return Element value at the specified index.
+             */
+            float getElement(uint32_t index) const;
+            
+            /**
+             * Sets the value of a single row of the matrix.
+             * 
+             * \param[in] index Row index [0,3)
+             * \param[in] row   Vector of row values 
+             */
+            void setRow(uint32_t index, Vector3<float> const& row);
+
+            /**
+             * Retrieves the value of a single row of the matrix.
+             *
+             * \param[in]  index Row index [0, 3)
+             * \param[out] row   Vector to store the row values
+             */
+            void getRow(uint32_t index, Vector3<float>& row) const;
+
+            /**
+             * Sets the value of a single column of the matrix.
+             * 
+             * \param[in] index Column index [0,3)
+             * \param[in] col   Vector of column values 
+             */
+            void setCol(uint32_t index, Vector3<float> const& col);
+
+            /**
+             * Retrieves the value of a single column of the matrix.
+             *
+             * \param[in]  index Column index [0, 3)
+             * \param[out] col   Vector to store the column values
+             */
+            void getCol(uint32_t index, Vector3<float>& col) const;
+
+            /**
+             * Sets the matrix data values from an array of floats.
+             * \param[in] data An array of at least 9 floating point values (if more, only the first 9 are used).
+             */
+            void setData(float const* data);
+
+            /**
+             * Retrieves the matrix data values as an array of floats.
+             * \param[out] data An array of at least 9 floating point values (if more, only the first 9 are filled).
+             */
+            void getData(float* data) const;
+
 
             //------------------------------------------------------------------------------
             // MISC OPERATIONS

@@ -106,6 +106,22 @@ namespace Ocular
             Matrix4x4(float* values);
 
             /**
+             * Constructs a 4x4 matrix using a quaternion and position.
+             *
+             * \param[in] quat
+             * \param[in] position
+             */
+            Matrix4x4(Quaternion const& quat, Vector3<float> const& position = Vector3<float>(0.0f, 0.0f, 0.0f));
+
+            /**
+             * Constructs a 4x4 matrix using a set of euler angles and position.
+             *
+             * \param[in] euler    (pitch, yaw, roll)
+             * \param[in] position
+             */
+            Matrix4x4(Vector3<float> const& euler, Vector3<float> const& position = Vector3<float>(0.0f, 0.0f, 0.0f));
+
+            /**
              *
              */
             Matrix4x4(Matrix4x4_Internal const& data);
@@ -135,12 +151,92 @@ namespace Ocular
             Matrix4x4& operator+=(Matrix4x4 const& rhs);
             Matrix4x4& operator-=(Matrix4x4 const& rhs);
             Matrix4x4& operator*=(Matrix4x4 const& rhs);
+            Matrix4x4& operator*=(Vector4<float> const& rhs);
             Matrix4x4& operator*=(float rhs);
-            //Matrix4x4& operator*=(Vector4 const& rhs);
 
             //------------------------------------------------------------------------------
             // GETTERS / SETTERS
             //------------------------------------------------------------------------------
+            
+            /**
+             * Sets an individual element of the matrix. 
+             * Matrix elements are ordered as follows:
+             *
+             *     {rotX.x, rotX.y, rotX.z, rotX.w, rotY.x, rotY.y, rotY.z, rotY.w, rotZ.x, rotZ.y, rotZ.z, rotZ.w, pos.x, pos.y, pos.z, pos.w}
+             *
+             * or
+             *
+             *     00 04 08 12
+             *     01 05 09 13
+             *     02 06 10 14
+             *     03 07 11 15
+             *
+             * \param[in] index Element index to set [0, 16)
+             * \param[in] value Value to set the element to
+             */
+            void setElement(uint32_t index, float value);
+
+            /**
+             * Returns an individual element of the matrix. 
+             * Matrix elements are ordered as follows:
+             *
+             *     {rotX.x, rotX.y, rotX.z, rotX.w, rotY.x, rotY.y, rotY.z, rotY.w, rotZ.x, rotZ.y, rotZ.z, rotZ.w, pos.x, pos.y, pos.z, pos.w}
+             *
+             * or
+             *
+             *     00 04 08 12
+             *     01 05 09 13
+             *     02 06 10 14
+             *     03 07 11 15
+             *
+             * \param[in] index Element index to retrieve [0, 16)
+             * \return Element value at the specified index.
+             */
+            float getElement(uint32_t index) const;
+            
+            /**
+             * Sets the value of a single row of the matrix.
+             * 
+             * \param[in] index Row index [0,4)
+             * \param[in] row   Vector of row values 
+             */
+            void setRow(uint32_t index, Vector4<float> const& row);
+
+            /**
+             * Retrieves the value of a single row of the matrix.
+             *
+             * \param[in]  index Row index [0, 4)
+             * \param[out] row   Vector to store the row values
+             */
+            void getRow(uint32_t index, Vector4<float>& row) const;
+
+            /**
+             * Sets the value of a single column of the matrix.
+             * 
+             * \param[in] index Column index [0,4)
+             * \param[in] col   Vector of column values 
+             */
+            void setCol(uint32_t index, Vector4<float> const& col);
+
+            /**
+             * Retrieves the value of a single column of the matrix.
+             *
+             * \param[in]  index Column index [0, 4)
+             * \param[out] col   Vector to store the column values
+             */
+            void getCol(uint32_t index, Vector4<float>& col) const;
+
+            /**
+             * Sets the matrix data values from an array of floats.
+             * \param[in] data An array of at least 16 floating point values (if more, only the first 16 are used).
+             */
+            void setData(float const* data);
+
+            /**
+             * Retrieves the matrix data values as an array of floats.
+             * \param[out] data An array of at least 16 floating point values (if more, only the first 16 are filled).
+             */
+            void getData(float* data) const;
 
             //------------------------------------------------------------------------------
             // MISC OPERATIONS
@@ -198,8 +294,8 @@ namespace Ocular
         Matrix4x4 operator+(Matrix4x4 const& lhs, Matrix4x4 const& rhs);
         Matrix4x4 operator-(Matrix4x4 const& lhs, Matrix4x4 const& rhs);
         Matrix4x4 operator*(Matrix4x4 const& lhs, Matrix4x4 const& rhs);
+        Matrix4x4 operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs);
         Matrix4x4 operator*(Matrix4x4 const& lhs, float rhs);
-        //Matrix4x4 operator*(Matrix4x4 const& lhs, Vector4 const& rhs);
 
     }
     /**

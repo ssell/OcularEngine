@@ -16,6 +16,7 @@
 
 #include "Math/Matrix3x3Temp.hpp"
 #include "Math/MathInternal.hpp"
+#include "Math/QuaternionTemp.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -48,6 +49,16 @@ namespace Ocular
                                 values[1], values[4], values[7],
                                 values[2], values[5], values[8]);
             }
+        }
+
+        Matrix3x3::Matrix3x3(Quaternion const& quat)
+        {
+            m_Internal = new Matrix3x3_Internal(glm::mat3_cast(quat.getInternal()->quat));
+        }
+
+        Matrix3x3::Matrix3x3(Vector3<float> const& euler)
+        {
+            m_Internal = new Matrix3x3_Internal(glm::mat3_cast(glm::quat(euler.x, euler.y, euler.z)));
         }
 
         Matrix3x3::Matrix3x3(Matrix3x3_Internal const& data)
@@ -84,7 +95,14 @@ namespace Ocular
 
         float Matrix3x3::operator[](uint32_t index)
         {
-            return m_Internal->matrix[(index / 3)][(index % 3)];
+            float result = 0.0f;
+
+            if(index < 9)
+            {
+                result = m_Internal->matrix[(index / 3)][(index % 3)];
+            }
+
+            return result;
         }
 
         Matrix3x3& Matrix3x3::operator=(Matrix3x3 const& rhs)
@@ -111,19 +129,17 @@ namespace Ocular
             return (*this);
         }
 
+        Matrix3x3& Matrix3x3::operator*=(Vector4<float> const& rhs)
+        {
+            m_Internal->matrix *= glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w);
+            return (*this);
+        }
+
         Matrix3x3& Matrix3x3::operator*=(float const rhs)
         {
             m_Internal->matrix *= rhs;
             return (*this);
         }
-
-        /*
-        Matrix3x3& Matrix3x3::operator*=(Vector4 const& rhs)
-        {
-            m_Internal->matrix *= rhs;
-            return (*this);
-        }
-        */
 
         bool operator==(Matrix3x3 const& lhs, Matrix3x3 const& rhs)
         {
@@ -150,23 +166,93 @@ namespace Ocular
             return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * rhs.getInternal()->matrix));
         }
 
+        Matrix3x3 operator*(Matrix3x3 const& lhs, Vector4<float> const& rhs)
+        {
+            return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w)));
+        }
+
         Matrix3x3 operator*(Matrix3x3 const& lhs, float const rhs)
         {
             return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * rhs));
         }
 
-        /*
-        Matrix3x3 operator*(Matrix3x3 const& lhs, Vector4 const& rhs)
-        {
-        
-        }
-        */
-
         //----------------------------------------------------------------
         // GETTERS / SETTERS
         //----------------------------------------------------------------
 
+        void Matrix3x3::setElement(uint32_t const index, float const value)
+        {
+            if(index < 9)
+            {
+                m_Internal->matrix[(index / 3)][(index % 3)] = value;
+            }
+        }
 
+        float Matrix3x3::getElement(uint32_t const index) const
+        {
+            float result = 0.0f;
+
+            if(index < 9)
+            {
+                result = m_Internal->matrix[(index / 3)][(index % 3)];
+            }
+
+            return result;
+        }
+
+        void Matrix3x3::setRow(uint32_t const index, Vector3<float> const& row)
+        {
+            if(index < 3)
+            {
+                m_Internal->matrix[0][index] = row[0];
+                m_Internal->matrix[1][index] = row[1];
+                m_Internal->matrix[2][index] = row[2];
+            }
+        }
+
+        void Matrix3x3::getRow(uint32_t const index, Vector3<float>& row) const
+        {
+            if(index < 3)
+            {
+                row[0] = m_Internal->matrix[0][index];
+                row[1] = m_Internal->matrix[1][index];
+                row[2] = m_Internal->matrix[2][index];
+            }
+        }
+
+        void Matrix3x3::setCol(uint32_t const index, Vector3<float> const& col)
+        {
+            if(index < 3)
+            {
+                m_Internal->matrix[index][0] = col[0];
+                m_Internal->matrix[index][1] = col[1];
+                m_Internal->matrix[index][2] = col[2];
+            }
+        }
+
+        void Matrix3x3::getCol(uint32_t const index, Vector3<float>& col) const
+        {
+            if(index < 3)
+            {
+                col[0] = m_Internal->matrix[index][0];
+                col[1] = m_Internal->matrix[index][1];
+                col[2] = m_Internal->matrix[index][2];
+            }
+        }
+
+        void Matrix3x3::setData(float const* data)
+        {
+            m_Internal->matrix[0][0] = data[0]; m_Internal->matrix[1][0] = data[3]; m_Internal->matrix[2][0] = data[6];
+            m_Internal->matrix[0][1] = data[1]; m_Internal->matrix[1][1] = data[4]; m_Internal->matrix[2][1] = data[7];
+            m_Internal->matrix[0][2] = data[2]; m_Internal->matrix[1][2] = data[5]; m_Internal->matrix[2][2] = data[8];
+        }
+
+        void Matrix3x3::getData(float* data) const
+        {
+            data[0] = m_Internal->matrix[0][0]; data[3] = m_Internal->matrix[1][0]; data[6] = m_Internal->matrix[2][0];
+            data[1] = m_Internal->matrix[0][1]; data[4] = m_Internal->matrix[1][1]; data[7] = m_Internal->matrix[2][1];
+            data[2] = m_Internal->matrix[0][2]; data[5] = m_Internal->matrix[1][2]; data[8] = m_Internal->matrix[2][2];
+        }
 
         //----------------------------------------------------------------
         // MISC OPERATIONS
