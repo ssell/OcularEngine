@@ -59,10 +59,10 @@ namespace Ocular
 
             void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
             void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
-            void setProjectionMatrix(Math::Matrix4x4f const& matrix);
+            void setProjectionMatrix(Math::Matrix4x4 const& matrix);
 
-            Math::Matrix4x4f const& getViewMatrix();
-            Math::Matrix4x4f const& getProjectionMatrix() const;
+            Math::Matrix4x4 const& getViewMatrix();
+            Math::Matrix4x4 const& getProjectionMatrix() const;
             Math::Frustum const& getFrustum() const;
 
             void setPriority(Priority priority);
@@ -73,8 +73,8 @@ namespace Ocular
 
         protected:
 
-            Math::Matrix4x4f m_ViewMatrix;
-            Math::Matrix4x4f m_ProjMatrix;
+            Math::Matrix4x4 m_ViewMatrix;
+            Math::Matrix4x4 m_ProjMatrix;
 
             Math::Frustum m_Frustum;
 

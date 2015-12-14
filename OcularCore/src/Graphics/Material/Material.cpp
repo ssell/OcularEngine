@@ -15,10 +15,12 @@
  */
 
 #include "Graphics/Material/Material.hpp"
-
-#include "OcularEngine.hpp"
 #include "Graphics/Texture/Texture.hpp"
 #include "Graphics/Shader/ShaderProgram.hpp"
+
+#include "Math/Matrix3x3.hpp"
+
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -427,7 +429,7 @@ namespace Ocular
             return result;
         }
 
-        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value)
+        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3 const& value)
         {
             Uniform uniform;
             uniform.setName(name);
@@ -437,7 +439,7 @@ namespace Ocular
             m_UniformBuffer->setUniform(uniform);
         }
 
-        bool Material::getUniform(std::string const& name, Math::Matrix3x3f& value)
+        bool Material::getUniform(std::string const& name, Math::Matrix3x3& value)
         {
             bool result = false;
             Uniform const* uniform = m_UniformBuffer->getUniform(name);
@@ -467,7 +469,7 @@ namespace Ocular
             return result;
         }
 
-        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value)
+        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4 const& value)
         {
             Uniform uniform;
             uniform.setName(name);
@@ -477,7 +479,7 @@ namespace Ocular
             m_UniformBuffer->setUniform(uniform);
         }
 
-        bool Material::getUniform(std::string const& name, Math::Matrix4x4f& value)
+        bool Material::getUniform(std::string const& name, Math::Matrix4x4& value)
         {
             bool result = false;
             Uniform const* uniform = m_UniformBuffer->getUniform(name);

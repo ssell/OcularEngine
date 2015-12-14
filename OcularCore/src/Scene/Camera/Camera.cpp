@@ -74,28 +74,28 @@ namespace Ocular
         void Camera::setProjectionOrthographic(float const xMin, float const xMax, float const yMin, float const yMax, 
                                                float const nearClip, float const farClip)
         {
-            m_ProjMatrix = Math::Matrix4x4f::CreateOrthographicMatrix(xMin, xMax, yMin, yMax, nearClip, farClip);
+            m_ProjMatrix = Math::Matrix4x4::CreateOrthographicMatrix(xMin, xMax, yMin, yMax, nearClip, farClip);
             m_Frustum.setProjectionOrthographic(xMin, xMax, yMin, yMax, nearClip, farClip);
         }
 
         void Camera::setProjectionPerspective(float const fov, float const aspectRatio, float const nearClip, float const farClip)
         {
-            m_ProjMatrix = Math::Matrix4x4f::CreatePerspectiveMatrix(fov, aspectRatio, nearClip, farClip);
+            m_ProjMatrix = Math::Matrix4x4::CreatePerspectiveMatrix(fov, aspectRatio, nearClip, farClip);
             m_Frustum.setProjectionPerspective(fov, aspectRatio, nearClip, farClip);
         }
 
-        void Camera::setProjectionMatrix(Math::Matrix4x4f const& matrix)
+        void Camera::setProjectionMatrix(Math::Matrix4x4 const& matrix)
         {
             m_ProjMatrix = matrix;
         }
 
-        Math::Matrix4x4f const& Camera::getViewMatrix()
+        Math::Matrix4x4 const& Camera::getViewMatrix()
         {
-            m_ViewMatrix = Math::Matrix4x4f::CreateLookAtMatrix(m_Transform.getPosition(), Math::Vector3f(0.0f, 0.0f, 0.0f));
+            //m_ViewMatrix = Math::Matrix4x4::CreateLookAtMatrix(m_Transform.getPosition(), Math::Vector3f(0.0f, 0.0f, 0.0f));
             return m_ViewMatrix;
         }
 
-        Math::Matrix4x4f const& Camera::getProjectionMatrix() const
+        Math::Matrix4x4 const& Camera::getProjectionMatrix() const
         {
             return m_ProjMatrix;
         }

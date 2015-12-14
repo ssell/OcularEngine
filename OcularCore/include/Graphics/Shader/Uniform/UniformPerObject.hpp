@@ -40,7 +40,7 @@ namespace Ocular
          */
         struct UniformPerObject
         {
-            Math::Matrix4x4f modelMatrix;
+            Math::Matrix4x4 modelMatrix;
         };
     }
     /**

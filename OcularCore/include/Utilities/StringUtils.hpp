@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 #define __H__OCULAR_CORE_UTILS_STRING_OPERATIONS__H__
 
-#include "Math/Matrix4x4.hpp"
+#include "Math/Vector4.hpp"
 
 #include <string>
 #include <cstdint>
@@ -31,6 +31,12 @@
  */
 namespace Ocular
 {
+    namespace Math
+    {
+        class Matrix3x3;
+        class Matrix4x4;
+    }
+
     /**
      * \addtogroup Utils
      * @{
@@ -121,7 +127,7 @@ namespace Ocular
             bool stringToVector(std::string const& string, Math::Vector4f& value);
 
             /**
-             * Converts a string to a Matrix3x3f.
+             * Converts a string to a Matrix3x3.
              * Input is expected as whitespace-separated floats.
              *
              * Examples:
@@ -136,14 +142,14 @@ namespace Ocular
              * Spaces are optional.
              *
              * \param[in]  string Source string to be converted
-             * \param[out] value  Matrix3x3f retrieved from the string
+             * \param[out] value  Matrix3x3 retrieved from the string
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToMatrix(std::string const& string, Math::Matrix3x3f& value);
+            bool stringToMatrix(std::string const& string, Math::Matrix3x3& value);
 
             /**
-             * Converts a string to a Matrix4x4f.
+             * Converts a string to a Matrix4x4.
              * Input is expected as whitespace-separated floats.
              *
              * Examples:
@@ -162,7 +168,7 @@ namespace Ocular
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToMatrix(std::string const& string, Math::Matrix4x4f& value);
+            bool stringToMatrix(std::string const& string, Math::Matrix4x4& value);
 
         }
         /**

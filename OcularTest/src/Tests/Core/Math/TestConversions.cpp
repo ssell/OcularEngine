@@ -42,7 +42,7 @@ TEST(Conversions, EulerMatrix)
     //  Rotation Matrix -> Euler Angles
 
     Ocular::Math::Euler      euler(90.0f, 45.0f, 180.0f);
-    Ocular::Math::Matrix3x3f matrix = euler.toRotationMatrix();
+    Ocular::Math::Matrix3x3 matrix = euler.toRotationMatrix();
     Ocular::Math::Euler      eulerConv = matrix.toEuler();
     
     EXPECT_NEAR(euler.getYaw(),   eulerConv.getYaw(), Ocular::Math::EPSILON_FLOAT);
@@ -56,7 +56,7 @@ TEST(Conversions, QuaternionMatrix)
     //  Rotation Matrix -> Quaternion
 
     Ocular::Math::Quaternion quat(0.270598114f, -0.65328151f, -0.65328151f, -0.270597935f);
-    Ocular::Math::Matrix3x3f matrix(quat);
+    Ocular::Math::Matrix3x3 matrix(quat);
     Ocular::Math::Quaternion quatConv(matrix);
     
     // The final quaternion is the opposite sign of the original.

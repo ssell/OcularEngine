@@ -270,7 +270,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix3x3 const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -281,7 +281,7 @@ namespace Ocular
              * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
              *         either the uniform does not exist, or it is a different type of value.
              */
-            virtual bool getUniform(std::string const& name, Math::Matrix3x3f& value);
+            virtual bool getUniform(std::string const& name, Math::Matrix3x3& value);
 
             /**
              * Sets the value of the specified uniform.
@@ -292,7 +292,7 @@ namespace Ocular
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Matrix4x4 const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -303,7 +303,7 @@ namespace Ocular
              * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
              *         either the uniform does not exist, or it is a different type of value.
              */
-            virtual bool getUniform(std::string const& name, Math::Matrix4x4f& value);
+            virtual bool getUniform(std::string const& name, Math::Matrix4x4& value);
 
         protected:
 

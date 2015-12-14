@@ -15,9 +15,11 @@
  */
 
 #include "Math/Quaternion.hpp"
+#include "Math/MathInternal.hpp"
 #include "Math/Matrix3x3.hpp"
-#include "Math/Euler.hpp"
-#include "Math/MathCommon.hpp"
+#include "Math/Matrix4x4.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,281 +31,108 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        Quaternion::Quaternion(float const w, float const x, float const y, float const z)
+        {
+            m_Internal = new Quaternion_Internal(glm::quat(w, x, y, z));
+        }
+
+        Quaternion::Quaternion(float const angle, Vector3<float> const& axis)
+        {
+            m_Internal = new Quaternion_Internal(glm::quat(angle, glm::vec3(axis.x, axis.y, axis.z)));
+        }
+
+        Quaternion::Quaternion(Vector3<float> const& euler)
+        {
+            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.x, euler.y, euler.z)));
+        }
+
+        Quaternion::Quaternion(Matrix3x3 const& matrix)
+        {
+            m_Internal = new Quaternion_Internal();
+            Matrix3x3_Internal* matrixInternal = matrix.getInternal();
+
+            if(matrixInternal)
+            {
+                m_Internal->quat = glm::quat(matrixInternal->matrix);
+            }
+        }
+
+        Quaternion::Quaternion(Matrix4x4 const& matrix)
+        {
+            m_Internal = new Quaternion_Internal();
+            Matrix4x4_Internal* matrixInternal = matrix.getInternal();
+
+            if(matrixInternal)
+            {
+                m_Internal->quat = glm::quat(matrixInternal->matrix);
+            }
+        }
+
+        Quaternion::Quaternion(Quaternion_Internal const& data)
+        {
+            m_Internal = new Quaternion_Internal(data.quat);
+        }
+
+        Quaternion::Quaternion(Quaternion const& other)
+        {
+            m_Internal = new Quaternion_Internal(other.m_Internal->quat);
+        }
+
         Quaternion::Quaternion()
         {
-            w = 1.0f;
-            x = 0.0f;
-            y = 0.0f;
-            z = 0.0f;
-        }
-
-        Quaternion::Quaternion(float const pW, float const pX, float const pY, float const pZ)
-        {
-            w = pW;
-            x = pX;
-            y = pY;
-            z = pZ;
-        }
-
-        Quaternion::Quaternion(Matrix3x3f const& rotationMatrix)
-        {
-            // Currently the matrix -> quaternion -> matrix conversion is a bit off somewhere (see first chunk of commented out code).
-            // But... the matrix -> euler, and euler-> quaternion work perfectly. So...
-            // See TestConversions: QuaternionMatrix for more details.
-
-            Euler euler = rotationMatrix.toEuler();
-
-            const float cY = cos(euler.m_Yaw   * 0.5f);
-            const float cP = cos(euler.m_Pitch * 0.5f);
-            const float cR = cos(euler.m_Roll  * 0.5f);
-            const float sY = sin(euler.m_Yaw   * 0.5f);
-            const float sP = sin(euler.m_Pitch * 0.5f);
-            const float sR = sin(euler.m_Roll  * 0.5f);
-
-            w =  (cR * cP * cY) + (sR * sP * sY);
-            x =  (cR * sP * sY) - (sR * cP * cY);
-            y = -(cR * sP * cY) - (sR * cP * sY);
-            z =  (cR * cP * sY) - (sR * sP * cY);
-
-            /*
-            // Source: 
-            // Real-Time Rendering 3rd Edition 
-            // 4.3.2 Quaternion Transforms
-            // Page 76
-
-            // Also:
-            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
-            // http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q47
-
-            float m00 = rotationMatrix[0][0];
-            float m01 = rotationMatrix[0][1];
-            float m02 = rotationMatrix[0][2];
-            float m10 = rotationMatrix[1][0];
-            float m11 = rotationMatrix[1][1];
-            float m12 = rotationMatrix[1][2];
-            float m20 = rotationMatrix[2][0];
-            float m21 = rotationMatrix[2][1];
-            float m22 = rotationMatrix[2][2];
-
-            float trace = m00 + m11 + m22;
-
-            float invS = 0.0f;
-            float s = 0.0f;
-
-            if(trace > 0.0f)
-            {
-                invS = InverseSqrt(trace + 1.0f);
-                s = 0.5f * invS;
-
-                w = 0.5f * (1.0f / invS);
-                x = (m12 - m21) * s;
-                y = (m20 - m02) * s;
-                z = (m01 - m10) * s;
-            }
-            else
-            {
-                unsigned i = 0;
-
-                if(m11 > m00)
-                {
-                    i = 1;
-                }
-
-                if(m22 > rotationMatrix[i][i])
-                {
-                    i = 2;
-                }
-
-                static const int next[3] = { 1, 2, 0 };
-                int j = next[i];
-                int k = next[j];
-
-                s = rotationMatrix[i][i] - rotationMatrix[j][j] - rotationMatrix[k][k] + 1.0f;
-                invS = InverseSqrt(s);
-
-                float quat[4];
-                quat[i] = 0.5f * (1.0f / invS);
-
-                s = 0.5f * invS;
-                
-                quat[3] = (rotationMatrix[j][k] - rotationMatrix[k][j]) * s;
-                quat[j] = (rotationMatrix[i][j] + rotationMatrix[j][i]) * s;
-                quat[k] = (rotationMatrix[i][k] + rotationMatrix[k][i]) * s;
-
-                w = quat[3];
-                x = quat[0];
-                y = quat[1];
-                z = quat[2];
-            }*/
-
-            /*
-            float trace = rotationMatrix[0][0] + rotationMatrix[1][1] + rotationMatrix[2][2];
-            float s = 0.0f;
-
-            if(trace > EPSILON_FLOAT)
-            {
-                s = sqrt(trace) * 2.0f; 
-                w = 0.25f * s;
-                x = (rotationMatrix[1][2] - rotationMatrix[2][1]) / s;
-                y = (rotationMatrix[2][0] - rotationMatrix[0][2]) / s;
-                z = (rotationMatrix[0][1] - rotationMatrix[1][0]) / s;
-            }
-            else
-            {
-                if((rotationMatrix[0][0] > rotationMatrix[1][1]) && (rotationMatrix[0][0] > rotationMatrix[2][2]))
-                {
-                    s = (1.0f + rotationMatrix[0][0] - rotationMatrix[1][1] - rotationMatrix[2][2]) * 2.0f;
-                    w = (rotationMatrix[1][2] - rotationMatrix[2][1]) / s;
-                    x = 0.25f * s;
-                    y = (rotationMatrix[0][1] + rotationMatrix[1][0]) / s;
-                    z = (rotationMatrix[2][0] + rotationMatrix[0][2]) / s;
-                }
-                else if(rotationMatrix[1][1] > rotationMatrix[2][2])
-                {
-                    s = (1.0f + rotationMatrix[1][1] - rotationMatrix[0][0] - rotationMatrix[2][2]) * 2.0f;
-                    w = (rotationMatrix[2][0] - rotationMatrix[0][2]) / s;
-                    x = (rotationMatrix[0][1] + rotationMatrix[1][0]) / s;
-                    y = 0.25f * s;
-                    z = (rotationMatrix[1][2] + rotationMatrix[2][1]) / s;
-                }
-                else
-                {
-                    s = (1.0f + rotationMatrix[2][2] - rotationMatrix[0][0] - rotationMatrix[1][1]) * 2.0f;
-                    w = (rotationMatrix[0][1] - rotationMatrix[1][0]) / s;
-                    x = (rotationMatrix[2][0] + rotationMatrix[0][2]) / s;
-                    y = (rotationMatrix[1][2] + rotationMatrix[2][1]) / s;
-                    z = 0.25f * s;
-                }
-            }
-            */
-        }
-
-        Quaternion::Quaternion(Euler const& euler)
-        {
-            // Source:
-            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm
-
-            // We directly access the internal contents as getYaw, etc. return in degrees and we want radians.
-
-            const float cY = cos(euler.m_Yaw   * 0.5f);
-            const float cP = cos(euler.m_Pitch * 0.5f);
-            const float cR = cos(euler.m_Roll  * 0.5f);
-            const float sY = sin(euler.m_Yaw   * 0.5f);
-            const float sP = sin(euler.m_Pitch * 0.5f);
-            const float sR = sin(euler.m_Roll  * 0.5f);
-
-            w =  (cR * cP * cY) + (sR * sP * sY);
-            x =  (cR * sP * sY) - (sR * cP * cY);
-            y = -(cR * sP * cY) - (sR * cP * sY);
-            z =  (cR * cP * sY) - (sR * sP * cY);
-        }
-
-        Quaternion::Quaternion(Vector3<float> const& eulerVector)
-        {
-            const Euler euler(eulerVector.getNormalized());
-
-            const float cY = cos(euler.m_Yaw   * 0.5f);
-            const float cP = cos(euler.m_Pitch * 0.5f);
-            const float cR = cos(euler.m_Roll  * 0.5f);
-            const float sY = sin(euler.m_Yaw   * 0.5f);
-            const float sP = sin(euler.m_Pitch * 0.5f);
-            const float sR = sin(euler.m_Roll  * 0.5f);
-
-            w =  (cR * cP * cY) + (sR * sP * sY);
-            x =  (cR * sP * sY) - (sR * cP * cY);
-            y = -(cR * sP * cY) - (sR * cP * sY);
-            z =  (cR * cP * sY) - (sR * sP * cY);
-        }
-
-        Quaternion::Quaternion(Vector3<float> const& axis, float const angle)
-        {
-            const float angleRad  = DegreesToRadians<float>(angle);
-            const float halfAngle = angleRad * 0.5f;
-            const float angleSin  = sin(halfAngle);
-            const float angleCos  = cos(halfAngle);
-
-            w = angleCos;
-            x = angleSin * axis.x;
-            y = angleSin * axis.y;
-            z = angleSin * axis.z;
+            m_Internal = new Quaternion_Internal();
         }
 
         Quaternion::~Quaternion()
         {
-        
+            if(m_Internal)
+            {
+                delete m_Internal;
+                m_Internal = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------
-        // OPERATORS
+        // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        Quaternion Quaternion::operator=(Quaternion const& rhs)
-        {
-            w = rhs.w;
-            x = rhs.x;
-            y = rhs.y;
-            z = rhs.z;
+        //----------------------------------------------------------------
+        // OPERATORS
+        //----------------------------------------------------------------
 
+        Quaternion& Quaternion::operator=(Quaternion const& rhs)
+        {
+            m_Internal->quat = rhs.m_Internal->quat;
             return (*this);
         }
 
-        Quaternion operator+(Quaternion const& lhs, Quaternion const& rhs)
+        Quaternion& Quaternion::operator+=(Quaternion const& rhs)
         {
-            return Quaternion((lhs.w + rhs.w), (lhs.x + rhs.x), (lhs.y + rhs.y), (lhs.z + rhs.z));
+            m_Internal->quat += rhs.m_Internal->quat;
+            return (*this);
         }
 
-        Quaternion operator-(Quaternion const& lhs, Quaternion const& rhs)
+        Quaternion& Quaternion::operator*=(Quaternion const& rhs)
         {
-            return Quaternion((lhs.w - rhs.w), (lhs.x - rhs.x), (lhs.y - rhs.y), (lhs.z - rhs.z));
+            m_Internal->quat *= rhs.m_Internal->quat;
+            return (*this);
         }
 
-        Quaternion operator*(Quaternion const& lhs, Quaternion const& rhs)
+        Quaternion& Quaternion::operator*=(float const rhs)
         {
-            Quaternion result;
-
-            result.w = (lhs.w * rhs.w) - (lhs.x * rhs.x) - (lhs.y * rhs.y) - (lhs.z * rhs.z);
-		    result.x = (lhs.w * rhs.x) + (lhs.x * rhs.w) + (lhs.y * rhs.z) - (lhs.z * rhs.y);
-		    result.y = (lhs.w * rhs.y) + (lhs.y * rhs.w) + (lhs.z * rhs.x) - (lhs.x * rhs.z);
-		    result.z = (lhs.w * rhs.z) + (lhs.z * rhs.w) + (lhs.x * rhs.y) - (lhs.y * rhs.x);
-
-            return result;
+            m_Internal->quat *= rhs;
+            return (*this);
         }
 
-        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs)
+        Quaternion& Quaternion::operator/=(float const rhs)
         {
-            Vector3<float> quatVec(rhs.x, rhs.y, rhs.z);
-            Vector3<float> uv  = quatVec.cross(rhs);
-            Vector3<float> uuv = quatVec.cross(uv);
-
-            return (rhs + ((uv * lhs.w) + uuv) * 2.0f);
-        }
-
-        Vector3<float> operator*(Vector3<float> const& lhs, Quaternion const& rhs)
-        {
-            return (rhs.getInverse() * lhs);
-        }
-
-        Quaternion operator*(Quaternion const& lhs, float const& rhs)
-        {
-            return Quaternion((lhs.w * rhs), (lhs.x * rhs), (lhs.y * rhs), (lhs.z * rhs));
-        }
-
-        Quaternion operator*(float const& lhs, Quaternion const& rhs)
-        {
-            return Quaternion((rhs.w * lhs), (rhs.x * lhs), (rhs.y * lhs), (rhs.z * lhs));
-        }
-
-        Quaternion operator/(Quaternion const& lhs, float const& rhs)
-        {
-            return Quaternion((lhs.w / rhs), (lhs.x / rhs), (lhs.y / rhs), (lhs.z / rhs));
+            m_Internal->quat /= rhs;
+            return (*this);
         }
 
         bool operator==(Quaternion const& lhs, Quaternion const& rhs)
         {
-            return (IsEqual<float>(lhs.w, rhs.w) &&
-                    IsEqual<float>(lhs.x, rhs.x) && 
-                    IsEqual<float>(lhs.y, rhs.y) &&
-                    IsEqual<float>(lhs.z, rhs.z));
+            return (lhs.getInternal()->quat == rhs.getInternal()->quat);
         }
 
         bool operator!=(Quaternion const& lhs, Quaternion const& rhs)
@@ -311,116 +140,154 @@ namespace Ocular
             return !(lhs == rhs);
         }
 
-
-        //----------------------------------------------------------------------------------
-        // PUBLIC METHODS
-        //----------------------------------------------------------------------------------
-
-        Matrix3x3f Quaternion::toRotationMatrix() const
+        Quaternion operator+(Quaternion const& lhs, Quaternion const& rhs)
         {
-            return Matrix3x3f(*this);
+            return Quaternion(Quaternion_Internal(lhs.getInternal()->quat + rhs.getInternal()->quat));
         }
 
-        Euler Quaternion::toEuler() const
+        Quaternion operator*(Quaternion const& lhs, Quaternion const& rhs)
         {
-            return Euler(*this);
+            return Quaternion(Quaternion_Internal(lhs.getInternal()->quat * rhs.getInternal()->quat));
         }
 
-        bool Quaternion::isNormalized() const
+        Quaternion operator*(Quaternion const& lhs, float const rhs)
         {
-            return IsEqual<float>(fabs(1.0f - getLengthSquared()), 0.0f);
+            return Quaternion(Quaternion_Internal(lhs.getInternal()->quat * rhs));
         }
 
-        Vector3<float> Quaternion::rotate(Vector3<float> const& vector) const
+        Quaternion operator/(Quaternion const& lhs, float const rhs)
         {
-            Vector3<float> result;
-            Vector3<float> quatVector(x, y, z);
-
-            result  = quatVector.cross(vector) * w * 2.0f;
-            result += (vector * ((quatVector.dot(quatVector) * -1.0f) + (w * w)));
-            result += (quatVector * (2.0f * quatVector.dot(vector)));
-
-            return result;
+            return Quaternion(Quaternion_Internal(lhs.getInternal()->quat / rhs));
         }
 
-        void Quaternion::normalize()
+        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs)
         {
-            const float squareSum = (w * w) + (x * x) + (y * y) + (z * z);
-            const float scale = InverseSqrt(squareSum);
+            glm::vec3 vec(rhs.x, rhs.y, rhs.z);
+            vec = lhs.getInternal()->quat * vec;
 
-            w *= scale;
-            x *= scale;
-            y *= scale;
-            z *= scale;
+            return Vector3<float>(vec.x, vec.y, vec.z);
         }
 
-        Quaternion Quaternion::getNormalized() const
+        Vector4<float> operator*(Quaternion const& lhs, Vector4<float> const& rhs)
         {
-            Quaternion result = *this;
-            result.normalize();
+            glm::vec4 vec(rhs.x, rhs.y, rhs.z, rhs.w);
+            vec = lhs.getInternal()->quat * vec;
 
-            return result;
+            return Vector4<float>(vec.x, vec.y, vec.z, vec.w);
         }
 
-        float Quaternion::getLength() const
+        //----------------------------------------------------------------
+        // GETTERS / SETTERS
+        //----------------------------------------------------------------
+
+        float& Quaternion::w()
         {
-            return sqrt(dot(*this));
+            return m_Internal->quat.w;
         }
 
-        float Quaternion::getLengthSquared() const
+        float& Quaternion::x()
         {
-            const float length = getLength();
-            return (length * length);
+            return m_Internal->quat.x;
+        }
+
+        float& Quaternion::y()
+        {
+            return m_Internal->quat.y;
+        }
+
+        float& Quaternion::z()
+        {
+            return m_Internal->quat.z;
+        }
+
+        //----------------------------------------------------------------
+        // GENERAL OPERATIONS
+        //----------------------------------------------------------------
+
+        float Quaternion::dot(Quaternion const& rhs)
+        {
+            Quaternion_Internal* rhsInternal = rhs.getInternal();
+            return (glm::dot(m_Internal->quat, rhsInternal->quat));
+        }
+
+        void Quaternion::inverse()
+        {
+            m_Internal->quat = glm::inverse(m_Internal->quat);
         }
 
         Quaternion Quaternion::getInverse() const
         {
-            return (getConjugate() / dot(*this));
+            return Quaternion(Quaternion_Internal(glm::inverse(m_Internal->quat)));
         }
 
         Quaternion Quaternion::getConjugate() const
         {
-            return Quaternion(w, -x, -y, -z);
+            return Quaternion(Quaternion_Internal(glm::conjugate(m_Internal->quat)));
         }
 
-        Vector3<float> Quaternion::getXRotationAxis() const
+        void Quaternion::normalize()
         {
-            return rotate(Vector3<float>(1.0f, 0.0f, 0.0f));
+            m_Internal->quat = glm::normalize(m_Internal->quat);
         }
 
-        Vector3<float> Quaternion::getYRotationAxis() const
+        Quaternion Quaternion::getNormalized() const
         {
-            return rotate(Vector3<float>(0.0f, 1.0f, 0.0f));
+            return Quaternion(Quaternion_Internal(glm::normalize(m_Internal->quat)));
         }
 
-        Vector3<float> Quaternion::getZRotationAxis() const
+        float Quaternion::getLength() const
         {
-            /// \todo Is this correct? Should it instead be using Vector3f::forward() ?
-            return rotate(Vector3<float>(0.0f, 0.0f, 1.0f));
+            return glm::length(m_Internal->quat);
         }
 
-        float Quaternion::dot(Quaternion const& rhs) const
+        float Quaternion::getYaw() const
         {
-            return ((x * rhs.x) + (y * rhs.y)) + ((z * rhs.z) + (w * rhs.w));
+            return glm::yaw(m_Internal->quat);
         }
 
-        //------------------------------------------------------------
-        // STATIC METHODS
-        //------------------------------------------------------------
+        float Quaternion::getPitch() const
+        {
+            return glm::pitch(m_Internal->quat);
+        }
 
-        Quaternion Quaternion::CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up)
+        float Quaternion::getRoll() const
+        {
+            return glm::roll(m_Internal->quat);
+        }
+
+        float Quaternion::getAngle() const
+        {
+            return glm::angle(m_Internal->quat);
+        }
+
+        Vector3<float> Quaternion::getAxis() const
+        {
+            glm::vec3 axis = glm::axis(m_Internal->quat);
+            return Vector3<float>(axis[0], axis[1], axis[2]);
+        }
+
+        Quaternion Quaternion::cross(Quaternion const& rhs) const
+        {
+            return Quaternion(Quaternion_Internal(glm::cross(m_Internal->quat, rhs.m_Internal->quat)));
+        }
+
+        //----------------------------------------------------------------
+        // STATIC OPERATIONS
+        //----------------------------------------------------------------
+
+        Quaternion Quaternion::CreateLookAtRotation(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up)
         {
             Quaternion result;
 
-            Vector3f forward = (lookAt - eye).getNormalized();
-            float dot = Vector3f::Forward().dot(forward);
+            const Vector3f forward = (to - from).getNormalized();
+            const float dot = Vector3f::Forward().dot(forward);
 
             if(abs(dot + 1.0f) < EPSILON_FLOAT)
             {
-                result.w = static_cast<float>(PI);
-                result.x = Vector3f::Up().x;
-                result.y = Vector3f::Up().y;
-                result.z = Vector3f::Up().z;
+                result.w() = static_cast<float>(PI);
+                result.x() = Vector3f::Up().x;
+                result.y() = Vector3f::Up().y;
+                result.z() = Vector3f::Up().z;
             }
             else if(abs(dot - 1.0f) < EPSILON_FLOAT)
             {
@@ -428,81 +295,47 @@ namespace Ocular
             }
             else
             {
-                float    rotationAngle = acos(dot);
-                Vector3f rotationAxis  = Vector3f::Forward().cross(forward).getNormalized();
+                const float rotAngle = acos(dot);
+                const Vector3f rotAxis = Vector3f::Forward().cross(forward).getNormalized();
 
-                result = Quaternion(rotationAxis, rotationAngle);
+                result = Quaternion(rotAngle, rotAxis);
             }
 
             return result;
         }
 
-        Quaternion Quaternion::RotateVector(Vector3<float> const& from, Vector3<float> const& to)
+        Quaternion Quaternion::Rotate(Quaternion const& source, float angle, Vector3<float> const& axis)
         {
-            // Source: 
-            // Real-Time Rendering 3rd Edition 
-            // 4.3.2 Quaternion Transforms
-            // Page 79
-
-            /*
-                              1                  sqrt(2(1+e))
-            (qv, qw) = ( ------------ * (s X t), ------------ )
-                         sqrt(2(1+e))                 2
-            */
-
-            Quaternion result;
-
-            Vector3<float> s = from.getNormalized();
-            Vector3<float> t = to.getNormalized();
-           
-            float e = s.dot(t);
-            float v = sqrt(2.0f * (1.0f + e));
-
-            Vector3<float> imaginary = (s.cross(t)) * (1.0f / v);
-            
-            result.w = v / 2.0f;
-            result.x = imaginary.x;
-            result.y = imaginary.y;
-            result.z = imaginary.z;
-
-            return result;
+            return Quaternion(Quaternion_Internal(glm::rotate(source.getInternal()->quat, angle, glm::vec3(axis.x, axis.y, axis.z))));
         }
 
-        Quaternion Quaternion::Lerp(Quaternion const& a, Quaternion const& b, float const& t)
+        Quaternion Quaternion::Mix(Quaternion const& a, Quaternion const& b, float const f)
         {
-            return (a * (1.0f - t)) + (b * t);
+            return Quaternion(Quaternion_Internal(glm::mix(a.m_Internal->quat, b.m_Internal->quat, f)));
         }
 
-        Quaternion Quaternion::Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y)
+        Quaternion Quaternion::Lerp(Quaternion const& a, Quaternion const& b, float const f)
+        {
+            return Quaternion(Quaternion_Internal(glm::lerp(a.m_Internal->quat, b.m_Internal->quat, f)));
+        }
+
+        Quaternion Quaternion::Slerp(Quaternion const& a, Quaternion const& b, float const f)
+        {
+            return Quaternion(Quaternion_Internal(glm::slerp(a.m_Internal->quat, b.m_Internal->quat, f)));
+        }
+
+        Quaternion Quaternion::Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const x, float const y)
         {
             return Lerp(Lerp(q00, q10, x), Lerp(q01, q11, x), y);
         }
 
-        Quaternion Quaternion::Slerp(Quaternion const& a, Quaternion const& b, float const& t)
+        //----------------------------------------------------------------
+        // MISC
+        //----------------------------------------------------------------
+
+        Quaternion_Internal* Quaternion::getInternal() const
         {
-            Quaternion result;
-            Quaternion c = b;
-
-            float theta = a.dot(b);
-
-            if(theta < 0.0f)
-            {   
-                c = c * -1.0f;
-                theta = -theta;
-            }
-
-            if(theta > (1.0f - EPSILON_FLOAT))
-            {
-                // Perform a lerp when close to 1 to avoid division by 0
-                result = Lerp(a, b, t);
-            }
-            else
-            {
-                float angle = acos(theta);
-                result = ((a * sin((1.0f - t) * angle)) + (c * sin(t * angle))) / sin(angle);
-            }
-
-            return result;
+            return m_Internal;
         }
 
         //----------------------------------------------------------------------------------

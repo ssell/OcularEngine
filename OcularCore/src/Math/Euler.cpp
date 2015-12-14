@@ -53,64 +53,20 @@ namespace Ocular
             m_Roll  = vector.z;
         }
 
-        Euler::Euler(Matrix3x3f const& rotationMatrix)
+        Euler::Euler(Matrix3x3 const& rotationMatrix)
         {
-            // Source: 
-            // Real-Time Rendering 3rd Edition 
-            // 4.2.2 Extracting Parameters from the Euler Transform
-            // Page 68
+            Quaternion quat(rotationMatrix);
 
-            m_Yaw   = std::atan2(-rotationMatrix[2][0], rotationMatrix[2][2]);
-            m_Pitch = std::asin(rotationMatrix[2][1]);
-            m_Roll  = std::atan2(-rotationMatrix[0][1], rotationMatrix[1][1]);
-
-            if(IsEqual<float>(std::cos(m_Pitch), 0.0f))
-            {
-                m_Pitch  = 0.0f;
-                m_Roll = std::atan2(rotationMatrix[1][0], rotationMatrix[0][0]);
-            }
+            m_Yaw   = quat.getYaw();
+            m_Pitch = quat.getPitch();
+            m_Roll  = quat.getRoll();
         }
 
         Euler::Euler(Quaternion const& quaternion)
         {
-            // Source: 
-            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
-
-            static const float PoleSingularity = 0.4999995f;
-
-            float qw = quaternion.w;
-            float qx = quaternion.x;
-            float qy = quaternion.y;
-            float qz = quaternion.z;
-
-            float qww = qw * qw;
-            float qxx = qx * qx;
-            float qyy = qy * qy;
-            float qzz = qz * qz;
-
-            float test = (qz * qx) - (qw * qy);
-
-            //--------------------------------------------------------
-
-            m_Yaw = atan2(2.0f * ((qw * qz) + (qx * qy)), (1 - 2.0f * (qyy + qzz)));
-
-            if(test > PoleSingularity)
-            {
-                m_Roll  = m_Yaw - 2.0f * atan2(qx, qw);
-                m_Pitch = 1.57079633f;    // 90 degrees
-            }
-            else if(test < -PoleSingularity)
-            {
-                m_Roll  = -m_Yaw - 2.0f * atan2(qx, qw);
-                m_Pitch = 4.71238898f;    // 270 degrees
-            }
-            else
-            {
-                m_Roll  = atan2(-2.0f * ((qw * qx) + (qy * qz)), 1.0f - 2.0f * (qxx + qyy));
-                m_Pitch = asin(2 * test);
-            }
-
-            normalize();
+            m_Yaw   = quaternion.getYaw();
+            m_Pitch = quaternion.getPitch();
+            m_Roll  = quaternion.getRoll();
         }
 
         Euler::~Euler()
@@ -160,9 +116,9 @@ namespace Ocular
         // CONVERSIONS
         //------------------------------------------------------------
 
-        Matrix3x3f Euler::toRotationMatrix() const
+        Matrix3x3 Euler::toRotationMatrix() const
         {
-            return Matrix3x3f(*this);
+            return Matrix3x3(*this);
         }
 
         Quaternion Euler::toQuaternion() const

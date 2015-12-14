@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     D3D11UncompiledShaderResourceLoader blugg;
 
     DirectX::XMMATRIX matrixDX = DirectX::XMMatrixPerspectiveFovRH(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
-    Matrix4x4f matrixOcular = Matrix4x4f::CreatePerspectiveMatrix(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
+    Matrix4x4 matrixOcular = Matrix4x4::CreatePerspectiveMatrix(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
 
     OcularEngine.initialize(new D3D11GraphicsDriver());
     SystemInfo::logSystemInfo();

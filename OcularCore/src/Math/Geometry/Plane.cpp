@@ -151,7 +151,7 @@ namespace Ocular
             const Vector3f n3 = c.getNormal();
 
             const Vector3f numerator = ((n2.cross(n3)) * (p1.dot(n1))) + ((n3.cross(n1)) * (p2.dot(n2))) + ((n1.cross(n2)) * (p3.dot(n3)));
-            const float denominator = Matrix3x3f(n1, n2, n3).getDeterminant();
+            const float denominator = Matrix3x3(n1, n2, n3).getDeterminant();
 
             return (numerator / denominator);
         }

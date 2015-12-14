@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-#include "Math/Matrix4x4Temp.hpp"
+#include "Math/Matrix4x4.hpp"
 #include "Math/MathInternal.hpp"
-#include "Math/QuaternionTemp.hpp"
-#include "Math/Matrix3x3Temp.hpp"
+#include "Math/Quaternion.hpp"
+#include "Math/Matrix3x3.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -63,6 +65,15 @@ namespace Ocular
             }
         }
 
+        Matrix4x4::Matrix4x4(Vector4<float> const& col0, Vector4<float> const& col1, Vector4<float> const& col2, Vector4<float> const& col3)
+        {
+            m_Internal = new Matrix4x4_Internal(
+                glm::mat4x4(col0.x, col1.x, col2.x, col3.x,
+                            col0.y, col1.y, col2.y, col3.y,
+                            col0.z, col1.z, col2.z, col3.z,
+                            col0.w, col1.w, col2.w, col3.w));
+        }
+
         Matrix4x4::Matrix4x4(Quaternion const& quat, Vector3<float> const& position)
         {
             m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(quat.getInternal()->quat)));
@@ -74,7 +85,7 @@ namespace Ocular
 
         Matrix4x4::Matrix4x4(Vector3<float> const& euler, Vector3<float> const& position)
         {
-            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(glm::quat(euler.x, euler.y, euler.z))));
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(glm::quat(glm::vec3(euler.x, euler.y, euler.z)))));
             
             m_Internal->matrix[3][0] = position[0];
             m_Internal->matrix[3][1] = position[1];
@@ -179,14 +190,17 @@ namespace Ocular
             return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * rhs.getInternal()->matrix));
         }
 
-        Matrix4x4 operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs)
-        {
-            return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w)));
-        }
-
         Matrix4x4 operator*(Matrix4x4 const& lhs, float const rhs)
         {
             return Matrix4x4(Matrix4x4_Internal(lhs.getInternal()->matrix * rhs));
+        }
+
+        Vector4<float> operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs)
+        {
+            glm::vec4 vec(rhs.x, rhs.y, rhs.z, rhs.w);
+            vec = lhs.getInternal()->matrix * vec;
+
+            return Vector4<float>(vec.x, vec.y, vec.z, vec.w);
         }
 
         //----------------------------------------------------------------

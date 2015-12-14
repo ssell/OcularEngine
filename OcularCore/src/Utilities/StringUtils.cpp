@@ -20,7 +20,10 @@
 
 #include "Utilities/StringUtils.hpp"
 #include "Utilities/StringComposer.hpp"
-#include "Common.hpp"
+
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4x4.hpp"
+#include "Math/Matrix3x3.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -190,7 +193,7 @@ namespace Ocular
                 return result;
             }
 
-            bool stringToMatrix(std::string const& string, Math::Matrix3x3f& value)
+            bool stringToMatrix(std::string const& string, Math::Matrix3x3& value)
             {
                 bool result = true;
 
@@ -212,13 +215,13 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to Matrix3x3f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix3x3 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
                 }
 
                 return result;
             }
 
-            bool stringToMatrix(std::string const& string, Math::Matrix4x4f& value)
+            bool stringToMatrix(std::string const& string, Math::Matrix4x4& value)
             {
                 bool result = true;
 
@@ -240,7 +243,7 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to Matrix4x4f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix4x4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
                 }
                 
                 return result;

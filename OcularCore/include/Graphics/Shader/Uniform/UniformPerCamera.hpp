@@ -40,9 +40,9 @@ namespace Ocular
          */
         struct UniformPerCamera
         {
-            Math::Matrix4x4f viewMatrix;
-            Math::Matrix4x4f projMatrix;
-            Math::Matrix4x4f viewProjMatrix;
+            Math::Matrix4x4 viewMatrix;
+            Math::Matrix4x4 projMatrix;
+            Math::Matrix4x4 viewProjMatrix;
             Math::Vector4f   eyePosition;
         };
     }

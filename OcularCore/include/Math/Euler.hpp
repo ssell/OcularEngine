@@ -34,8 +34,8 @@ namespace Ocular
         //----------------------------------------------------------------
         // Forward Declarations
 
-        template<typename T> class Matrix3x3;
         template<typename T> class Vector3;
+        class Matrix3x3;
         class Quaternion;
 
         //----------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace Ocular
          */
         class Euler
         {
-            friend class Matrix3x3<float>;
+            friend class Matrix3x3;
             friend class Quaternion;
 
         public:
@@ -75,7 +75,7 @@ namespace Ocular
              *
              * \param[in] rotationMatrix
              */
-            Euler(Matrix3x3<float> const& rotationMatrix);
+            Euler(Matrix3x3 const& rotationMatrix);
 
             /**
              * Initializes the Euler angles from a quaternion.
@@ -138,7 +138,7 @@ namespace Ocular
              *
              * \return The converted matrix.
              */
-            Matrix3x3<float> toRotationMatrix() const;
+            Matrix3x3 toRotationMatrix() const;
 
             /**
              * Converts this Euler angle representation of a rotation to

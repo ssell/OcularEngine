@@ -15,6 +15,7 @@
  */
 
 #include "Graphics/Shader/Uniform/Uniform.hpp"
+#include "Math/Matrix3x3.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -100,7 +101,7 @@ namespace Ocular
             }
         }
 
-        void Uniform::setData(Math::Matrix3x3f const& data)
+        void Uniform::setData(Math::Matrix3x3 const& data)
         {
             clearData();
 
@@ -113,7 +114,7 @@ namespace Ocular
             }
         }
 
-        void Uniform::setData(Math::Matrix4x4f const& data)
+        void Uniform::setData(Math::Matrix4x4 const& data)
         {
             clearData();
 

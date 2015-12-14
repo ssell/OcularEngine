@@ -96,7 +96,7 @@ namespace Ocular
         }
 
         /*
-        void Frustum::setViewProjection(Matrix4x4f const& viewProjection)
+        void Frustum::setViewProjection(Matrix4x4 const& viewProjection)
         {
             m_LeftPlane.setPoint(m_Origin);
             m_LeftPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[0][0], viewProjection[3][1] + viewProjection[0][1], viewProjection[3][2] + viewProjection[0][2]));
@@ -125,7 +125,7 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // Transform unit cube by inverse viewProj matrix to turn it into a frustum.
 
-            const Matrix4x4f inverseMatrix = viewProjection.getInverse();
+            const Matrix4x4 inverseMatrix = viewProjection.getInverse();
             
             m_NearCorners[0] = Vector3f(-1.0f, -1.0f, -1.0f);
             m_NearCorners[1] = Vector3f( 1.0f, -1.0f, -1.0f);

@@ -20,6 +20,7 @@
 
 #include "Resources/ResourceLoaderRegistrar.hpp"
 #include "Utilities/StringUtils.hpp"
+#include "Math/Matrix3x3.hpp"
 #include "OcularEngine.hpp"
 
 #include <pugixml/pugixml.hpp>
@@ -511,7 +512,7 @@ namespace Ocular
                             }
                             else if(Utils::StringUtils::isEqual(type, "Matrix3x3", true))
                             {
-                                Math::Matrix3x3f uniformValue;
+                                Math::Matrix3x3 uniformValue;
                         
                                 if(Utils::StringUtils::stringToMatrix(value, uniformValue))
                                 {
@@ -525,7 +526,7 @@ namespace Ocular
                             }
                             else if(Utils::StringUtils::isEqual(type, "Matrix4x4", true))
                             {
-                                Math::Matrix4x4f uniformValue;
+                                Math::Matrix4x4 uniformValue;
                         
                                 if(Utils::StringUtils::stringToMatrix(value, uniformValue))
                                 {

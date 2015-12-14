@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-#include "Math/Matrix3x3Temp.hpp"
+#include "Math/Matrix3x3.hpp"
 #include "Math/MathInternal.hpp"
-#include "Math/QuaternionTemp.hpp"
+#include "Math/Quaternion.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -51,6 +53,14 @@ namespace Ocular
             }
         }
 
+        Matrix3x3::Matrix3x3(Vector3<float> const& col0, Vector3<float> const& col1, Vector3<float> const& col2)
+        {
+            m_Internal = new Matrix3x3_Internal(
+                glm::mat3x3(col0.x, col1.x, col2.x,
+                            col0.y, col1.y, col2.y,
+                            col0.z, col1.z, col2.z));
+        }
+
         Matrix3x3::Matrix3x3(Quaternion const& quat)
         {
             m_Internal = new Matrix3x3_Internal(glm::mat3_cast(quat.getInternal()->quat));
@@ -58,7 +68,7 @@ namespace Ocular
 
         Matrix3x3::Matrix3x3(Vector3<float> const& euler)
         {
-            m_Internal = new Matrix3x3_Internal(glm::mat3_cast(glm::quat(euler.x, euler.y, euler.z)));
+            m_Internal = new Matrix3x3_Internal(glm::mat3_cast(glm::quat(glm::vec3(euler.x, euler.y, euler.z))));
         }
 
         Matrix3x3::Matrix3x3(Matrix3x3_Internal const& data)
@@ -123,15 +133,15 @@ namespace Ocular
             return (*this);
         }
 
-        Matrix3x3& Matrix3x3::operator*=(Matrix3x3 const& rhs)
+        Matrix3x3& Matrix3x3::operator*=(Vector3<float> const& rhs)
         {
-            m_Internal->matrix *= rhs.m_Internal->matrix;
+            m_Internal->matrix *= glm::vec3(rhs.x, rhs.y, rhs.z);
             return (*this);
         }
 
-        Matrix3x3& Matrix3x3::operator*=(Vector4<float> const& rhs)
+        Matrix3x3& Matrix3x3::operator*=(Matrix3x3 const& rhs)
         {
-            m_Internal->matrix *= glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w);
+            m_Internal->matrix *= rhs.m_Internal->matrix;
             return (*this);
         }
 
@@ -166,14 +176,17 @@ namespace Ocular
             return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * rhs.getInternal()->matrix));
         }
 
-        Matrix3x3 operator*(Matrix3x3 const& lhs, Vector4<float> const& rhs)
-        {
-            return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * glm::vec4(rhs.x, rhs.y, rhs.z, rhs.w)));
-        }
-
         Matrix3x3 operator*(Matrix3x3 const& lhs, float const rhs)
         {
             return Matrix3x3(Matrix3x3_Internal(lhs.getInternal()->matrix * rhs));
+        }
+
+        Vector3<float> operator*(Matrix3x3 const& lhs, Vector3<float> const& rhs)
+        {
+            glm::vec3 vec(rhs.x, rhs.y, rhs.z);
+            vec = lhs.getInternal()->matrix * vec;
+
+            return Vector3<float>(vec.x, vec.y, vec.z);
         }
 
         //----------------------------------------------------------------

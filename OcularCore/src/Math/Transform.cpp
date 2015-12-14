@@ -16,6 +16,7 @@
 
 #include "Math/Transform.hpp"
 #include "Math/Euler.hpp"
+#include "Math/Matrix3x3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -86,17 +87,32 @@ namespace Ocular
 
         Vector3f Transform::getForwards() const
         {
-            return m_Rotation.getZRotationAxis();
+            Vector3f result;
+            Matrix3x3 mat(m_Rotation);
+
+            mat.getCol(2, result);
+
+            return result;
         }
 
         Vector3f Transform::getUp() const
         {
-            return m_Rotation.getYRotationAxis();
+            Vector3f result;
+            Matrix3x3 mat(m_Rotation);
+
+            mat.getCol(1, result);
+
+            return result;
         }
 
         Vector3f Transform::getRight() const
         {
-            return m_Rotation.getXRotationAxis();
+            Vector3f result;
+            Matrix3x3 mat(m_Rotation);
+
+            mat.getCol(0, result);
+
+            return result;
         }
 
         void Transform::translate(Vector3f const& translation)
@@ -121,7 +137,7 @@ namespace Ocular
 
         void Transform::rotate(Vector3f const& axis, float const angle)
         {
-            m_Rotation = Quaternion(axis, angle);
+            m_Rotation = Quaternion(angle, axis);
         }
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
@@ -129,9 +145,9 @@ namespace Ocular
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
         }
 
-        void Transform::getModelMatrix(Matrix4x4f& matrix) const
+        void Transform::getModelMatrix(Matrix4x4& matrix) const
         {
-            matrix = Matrix4x4f(m_Rotation, m_Position);
+            matrix = Matrix4x4(m_Rotation, m_Position);
         }
 
         //----------------------------------------------------------------------------------

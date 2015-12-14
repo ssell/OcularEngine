@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_SHADER_UNIFORM__H__
 
 #include "Math/Matrix4x4.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -67,13 +68,13 @@ namespace Ocular
              * Sets the uniform data.
              * \param[in] data A 3x3 matrix for the Uniform to represent.
              */
-            void setData(Math::Matrix3x3f const& data);
+            void setData(Math::Matrix3x3 const& data);
 
             /**
              * Sets the uniform data.
              * \param[in] data A 4x4 matrix for the Uniform to represent.
              */
-            void setData(Math::Matrix4x4f const& data);
+            void setData(Math::Matrix4x4 const& data);
 
             /**
              * Sets the uniform data.

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef __H__OCULAR_MATH_QUATERNION_H__
-#define __H__OCULAR_MATH_QUATERNION_H__
+#pragma once
+#ifndef __H__OCULAR_MATH_QUATERNION__H__
+#define __H__OCULAR_MATH_QUATERNION__H__
 
-#include "Vector3.hpp"
+#include "MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -33,13 +34,12 @@ namespace Ocular
      */
     namespace Math
     {
-        //----------------------------------------------------------------
-        // Forward Declarations
+        template<typename T> class Vector3;
+        template<typename T> class Vector4;
+        class Matrix3x3;
+        class Matrix4x4;
 
-        template<typename T> class Matrix3x3;
-        class Euler;
-
-        //----------------------------------------------------------------
+        struct Quaternion_Internal;
 
         /**
          * \class Quaternion
@@ -48,170 +48,201 @@ namespace Ocular
         {
         public:
 
+            //------------------------------------------------------------------------------
+            // CONSTRUCTORS
+            //------------------------------------------------------------------------------
+
+            /**
+             *
+             */
+            Quaternion(float w, float x, float y, float z);
+            
+            /**
+             *
+             */
+            Quaternion(float angle, Vector3<float> const& axis);
+            
+            /**
+             *
+             */
+            Quaternion(Vector3<float> const& euler);
+
+            /**
+             *
+             */
+            Quaternion(Matrix3x3 const& matrix);
+
+            /**
+             *
+             */
+            Quaternion(Matrix4x4 const& matrix);
+
+
+            /**
+             *
+             */
+            Quaternion(Quaternion_Internal const& data);
+
+            /**
+             *
+             */
+            Quaternion(Quaternion const& other);
+
             /**
              *
              */
             Quaternion();
 
             /**
-             * \param[in] pW
-             * \param[in] pX
-             * \param[in] pY
-             * \param[in] pZ
-             */
-            Quaternion(float const pW, float const pX, float const pY, float const pZ);
-
-            /**
-             * Initializes the Quaternion from a rotation matrix.
              *
-             * \param[in] rotationMatrix
              */
-            Quaternion(Matrix3x3<float> const& rotationMatrix);
-
-            /**
-             * Initializes the Quaternion from a Euler angles.
-             *
-             * \param[in] quaternion
-             */
-            Quaternion(Euler const& euler);
-
-            Quaternion(Vector3<float> const& eulerVector);
-
-            /**
-             * Initializes the Quaternion from a rotation around the specified axis.
-             *
-             * \param[in] axis  Normalized axis to rotate around.
-             * \param[in] angle Angle to rotate by (in degrees).
-             */
-            Quaternion(Vector3<float> const& axis, float const angle);
-
             ~Quaternion();
 
             //------------------------------------------------------------------------------
             // OPERATORS
             //------------------------------------------------------------------------------
 
-            Quaternion operator=(Quaternion const& rhs);
+            Quaternion& operator=(Quaternion const& rhs);
+            Quaternion& operator+=(Quaternion const& rhs);
+            Quaternion& operator*=(Quaternion const& rhs);
+            Quaternion& operator*=(float rhs);
+            Quaternion& operator/=(float rhs);
 
             //------------------------------------------------------------------------------
-            // CONVERSIONS
+            // GETTERS / SETTERS
             //------------------------------------------------------------------------------
-
-            /**
-             * Converts this Quaternion representation of a rotation to  a 3x3 rotation matrix.
-             * \return The converted matrix.
-             */
-            Matrix3x3<float> toRotationMatrix() const;
 
             /**
-             * Converts this Quaternion representation of a rotation to a Euler angles.
-             * \return The converted Euler angles.
-             */
-            Euler toEuler() const;
-
-            //------------------------------------------------------------------------------
-            // OPERATIONS
-            //------------------------------------------------------------------------------
-            
-            /**
-             * Rotates the provided Vector by this Quaternion.
              *
-             * \param[in] vector The Vector to be rotated.
-             * \return The rotated vector.
              */
-            Vector3<float> rotate(Vector3<float> const& vector) const;
+            float& w();
 
             /**
-             * \return Returns TRUE if the Quaternion is normalized (w + x + y + z = 0)
+             *
              */
-            bool isNormalized() const;
-            /**
-             * Normalizes the Quaternion.
-             * \note This method modifies the internal data stored in the Quaternion. See getNormalized if this is not desired.
-             */
-            void normalize();
+            float& x();
 
             /**
-             * Returns the normalized form of this Quaternion.
-             * \note This method does not modify the internal data. See normalize if this is not desired.
+             *
              */
-            Quaternion getNormalized() const;
+            float& y();
 
             /**
-             * Calculates the length of this Quaternion.
-             * \return The length of this Quaternion.
+             *
              */
-            float getLength() const;
+            float& z();
+
+
+            //------------------------------------------------------------------------------
+            // GENERAL OPERATIONS
+            //------------------------------------------------------------------------------
 
             /**
-             * Calculates the squared length of this Quaternion.
-             * \return The squared length of this Quaternion.
+             *
              */
-            float getLengthSquared() const;
+            float dot(Quaternion const& rhs);
 
             /**
-             * Calculates and returns the inverse of this Quaternion.
-             * \return The inverse of this Quaternion.
+             *
+             */
+            void inverse();
+
+            /**
+             *
              */
             Quaternion getInverse() const;
 
             /**
-             * \return The conjugate of the quaternion.
+             *
              */
             Quaternion getConjugate() const;
 
             /**
-             * \return The x-rotation axis.
+             * 
              */
-            Vector3<float> getXRotationAxis() const;
+            void normalize();
 
             /**
-             * \return The y-rotation axis.
+             *
              */
-            Vector3<float> getYRotationAxis() const;
+            Quaternion getNormalized() const;
 
             /**
-             * \return The z-rotation axis.
+             *
              */
-            Vector3<float> getZRotationAxis() const;
+            float getLength() const;
+            
+            /**
+             *
+             */
+            float getYaw() const;
+            
+            /**
+             *
+             */
+            float getPitch() const;
+            
+            /**
+             *
+             */
+            float getRoll() const;
 
             /**
-             * Calculates and returns the dot product of two quaternions.
+             *
              */
-            float dot(Quaternion const& rhs) const;
+            float getAngle() const;
+            
+            /**
+             *
+             */
+            Vector3<float> getAxis() const;
+            
+            /**
+             *
+             */
+            Quaternion cross(Quaternion const& rhs) const;
 
             //------------------------------------------------------------------------------
-            // Static Methods
+            // STATIC OPERATIONS
             //------------------------------------------------------------------------------
 
             /**
-             * Creates a quaternion that is 'looking at' the specified point.
              *
-             * \param[in] eye    Origin in space
-             * \param[in] lookAt Point in space to look at
-             * \param[in] up     Direction of up (default (0, 1, 0))
              */
-            static Quaternion CreateLookAtRotation(Vector3<float> const& eye, Vector3<float> const& lookAt, Vector3<float> const& up = Vector3<float>::Up());
+            static Quaternion CreateLookAtRotation(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up);
 
             /**
-             * Rotates the provided vector from a direction to another direction.
              *
-             * \param[in] from Direction the vector is currently facing
-             * \param[in] to   Direction to rotate the vector to
              */
-            static Quaternion RotateVector(Vector3<float> const& from, Vector3<float> const& to);
+            static Quaternion Rotate(Quaternion const& source, float angle, Vector3<float> const& axis);
+
+            /**
+             *
+             */
+            static Quaternion Mix(Quaternion const& a, Quaternion const& b, float f);
 
             /**
              * Performs linear quaternion interpolation and returns the resulting quaternion.
              * 
              * \param[in] a The starting Quaternion (result == a when t == 0.0).
              * \param[in] b The ending Quaternion (result == b when t == 1.0).
-             * \param[in] t Alpha value.
+             * \param[in] f Fractional value [0.0, 1.0]
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion Lerp(Quaternion const& a, Quaternion const& b, float const& t);
-
+            static Quaternion Lerp(Quaternion const& a, Quaternion const& b, float f);
+            
+            /**
+             * Performs spherical interpolation and returns the resulting quaternion.
+             *
+             * \param[in] a The starting Quaternion (result == a when t == 0.0)
+             * \param[in] b The ending Quaternion (result == b when t == 1.0)
+             * \param[in] f Fractional value [0.0, 1.0]
+             *
+             * \return The resulting Quaternion (not normalized).
+             */
+            static Quaternion Slerp(Quaternion const& a, Quaternion const& b, float f);
+            
             /**
              * Performs bilinear quaternion interpolation and returns the result quaternion.
              *
@@ -222,46 +253,36 @@ namespace Ocular
              *
              * \return The resulting Quaternion (not normalized).
              */
-            static Quaternion Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float const& x, float const& y);
+            static Quaternion Bilerp(Quaternion const& q00, Quaternion const& q10, Quaternion const& q01, Quaternion const& q11, float x, float y);
+
+            //------------------------------------------------------------------------------
+            // MISC
+            //------------------------------------------------------------------------------
 
             /**
-             * Performs spherical interpolation and returns the resulting quaternion.
-             *
-             * \param[in] a The starting Quaternion (result == a when t == 0.0)
-             * \param[in] b The ending Quaternion (result == b when t == 1.0)
-             * \param[in] t 
-             *
-             * \return The resulting Quaternion (not normalized).
+             * For internal use only.
+             * Only modify this pointer if you want your application to crash.
              */
-            static Quaternion Slerp(Quaternion const& a, Quaternion const& b, float const& t);
-
-            //------------------------------------------------------------------------------
-            // PUBLIC VARIABLES
-            //------------------------------------------------------------------------------
-            
-            float w;             ///< W-component
-            float x;             ///< W-component
-            float y;             ///< W-component
-            float z;             ///< W-component
+            Quaternion_Internal* getInternal() const;
 
         protected:
 
+            Quaternion_Internal* m_Internal;
 
         private:
-        };
 
-        Quaternion     operator+(Quaternion const& lhs, Quaternion const& rhs);
-        Quaternion     operator-(Quaternion const& lhs, Quaternion const& rhs);
-        Quaternion     operator*(Quaternion const& lhs, Quaternion const& rhs);
-        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs);
-        Vector3<float> operator*(Vector3<float> const& lhs, Quaternion const& rhs);
-        Quaternion     operator*(Quaternion const& lhs, float const& rhs);
-        Quaternion     operator*(float const& lhs, Quaternion const& rhs);
-        Quaternion     operator/(Quaternion const& lhs, float const& rhs);
+        };
 
         bool operator==(Quaternion const& lhs, Quaternion const& rhs);
         bool operator!=(Quaternion const& lhs, Quaternion const& rhs);
 
+        Quaternion operator+(Quaternion const& lhs, Quaternion const& rhs);
+        Quaternion operator*(Quaternion const& lhs, Quaternion const& rhs);
+        Quaternion operator*(Quaternion const& lhs, float rhs);
+        Quaternion operator/(Quaternion const& lhs, float rhs);
+
+        Vector3<float> operator*(Quaternion const& lhs, Vector3<float> const& rhs);
+        Vector4<float> operator*(Quaternion const& lhs, Vector4<float> const& rhs);
     }
     /**
      * @} End of Doxygen Groups
