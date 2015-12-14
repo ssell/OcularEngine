@@ -208,6 +208,11 @@ namespace Ocular
             void setRow(uint32_t index, Vector4<float> const& row);
 
             /**
+             *
+             */
+            void setRow(uint32_t index, Vector3<float> const& row);
+
+            /**
              * Retrieves the value of a single row of the matrix.
              *
              * \param[in]  index Row index [0, 4)
@@ -222,6 +227,11 @@ namespace Ocular
              * \param[in] col   Vector of column values 
              */
             void setCol(uint32_t index, Vector4<float> const& col);
+
+            /**
+             *
+             */
+            void setCol(uint32_t index, Vector3<float> const& col);
 
             /**
              * Retrieves the value of a single column of the matrix.

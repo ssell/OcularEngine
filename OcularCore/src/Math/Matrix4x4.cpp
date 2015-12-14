@@ -229,12 +229,22 @@ namespace Ocular
 
         void Matrix4x4::setRow(uint32_t const index, Vector4<float> const& row)
         {
-            if(index < 16)
+            if(index < 4)
             {
                 m_Internal->matrix[0][index] = row[0];
                 m_Internal->matrix[1][index] = row[1];
                 m_Internal->matrix[2][index] = row[2];
                 m_Internal->matrix[3][index] = row[3];
+            }
+        }
+
+        void Matrix4x4::setRow(uint32_t const index, Vector3<float> const& row)
+        {
+            if(index < 4)
+            {
+                m_Internal->matrix[0][index] = row[0];
+                m_Internal->matrix[1][index] = row[1];
+                m_Internal->matrix[2][index] = row[2];
             }
         }
 
@@ -257,6 +267,16 @@ namespace Ocular
                 m_Internal->matrix[index][1] = col[1];
                 m_Internal->matrix[index][2] = col[2];
                 m_Internal->matrix[index][3] = col[3];
+            }
+        }
+
+        void Matrix4x4::setCol(uint32_t const index, Vector3<float> const& col)
+        {
+            if(index < 4)
+            {
+                m_Internal->matrix[index][0] = col[0];
+                m_Internal->matrix[index][1] = col[1];
+                m_Internal->matrix[index][2] = col[2];
             }
         }
 

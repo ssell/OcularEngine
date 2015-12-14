@@ -20,7 +20,7 @@
 using namespace Ocular::Math;
 
 //------------------------------------------------------------------------------------------
-
+/*
 TEST(Quaternion, Equality)
 {
     const Quaternion a(1.0f, 0.0f, 1.0f, 0.0f);
@@ -165,3 +165,4 @@ TEST(Quaternion, Slerp)
     EXPECT_NEAR(quatC.y,  0.0263282005f, EPSILON_FLOAT);
     EXPECT_NEAR(quatC.z, -0.0242215563f, EPSILON_FLOAT);
 }
+*/

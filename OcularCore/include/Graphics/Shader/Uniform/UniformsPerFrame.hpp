@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_GRAPHICS_SHADER_UNIFORMS_PER_FRAME__H__
 #define __H__OCULAR_GRAPHICS_SHADER_UNIFORMS_PER_FRAME__H__
 
-#include "Math/Matrix4x4.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -41,6 +41,8 @@ namespace Ocular
         struct UniformPerFrame
         {
             Math::Vector4f dummyData;         ///< Temp dummy data so that sizeof(UniformPerFrame) is not 0
+            
+            static uint32_t Size() { return 16; }
         };
     }
     /**

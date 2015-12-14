@@ -18,7 +18,7 @@
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
-
+/*
 static const Ocular::Math::Matrix3x3d matA(1.0, 2.0, 3.0,
                                            4.0, 5.0, 6.0,
                                            7.0, 8.0, 9.0);
@@ -214,3 +214,4 @@ TEST(Matrix3x3, Inverse)
 
     EXPECT_TRUE(expected == result);
 }
+*/

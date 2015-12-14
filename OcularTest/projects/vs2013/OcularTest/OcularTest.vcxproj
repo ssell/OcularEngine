@@ -79,7 +79,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
-    <ClCompile Include="..\..\..\src\newmathmain.cpp" />
     <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsAABB.cpp" />

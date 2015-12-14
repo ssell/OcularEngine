@@ -150,9 +150,6 @@
     <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\newmathmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">

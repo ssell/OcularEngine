@@ -39,7 +39,6 @@ namespace Ocular
         /**
          * \class MatrixStack
          */
-        template<typename T>
         class MatrixStack
         {
         public:
@@ -61,7 +60,7 @@ namespace Ocular
              */
             void loadIdentity()
             {
-                m_Stack.push(Matrix4x4<T>());
+                m_Stack.push(Matrix4x4());
             }
 
             /**
@@ -73,7 +72,7 @@ namespace Ocular
              *
              * \param[in] matrix Matrix to combine with the top of the stack.
              */
-            void combine(Matrix4x4<T> const matrix)
+            void combine(Matrix4x4 const matrix)
             {
                 if(empty())
                 {
@@ -81,7 +80,7 @@ namespace Ocular
                 }
                 else 
                 {
-                    Matrix4x4<T> top;
+                    Matrix4x4 top;
                     pop(&top);
 
                     top *= matrix;
@@ -96,7 +95,7 @@ namespace Ocular
              *
              * \param[in] matrix Matrix to place at the top of the stack.
              */
-            void push(Matrix4x4<T> const matrix)
+            void push(Matrix4x4 const matrix)
             {
                 m_Stack.push(matrix);
             }
@@ -108,7 +107,7 @@ namespace Ocular
              * \param[in] matrix Matrix to copy the top of the stack onto.
              * \return True if there was a matrix to pop, else false.
              */
-            bool pop(Matrix4x4<T>* matrix)
+            bool pop(Matrix4x4* matrix)
             {
                 bool result = false;
 
@@ -132,7 +131,7 @@ namespace Ocular
              * \param[in] matrix Matrix to copy the top of the stack onto.
              * \return True if there was a matrix to peek, else false.
              */
-            bool peek(Matrix4x4<T>* matrix)
+            bool peek(Matrix4x4* matrix)
             {
                 bool result = false;
 
@@ -180,11 +179,8 @@ namespace Ocular
 
         private:
 
-            std::stack<Matrix4x4<T>> m_Stack;
+            std::stack<Matrix4x4> m_Stack;
         };
-
-        typedef MatrixStack<double> MatrixStackd;
-        typedef MatrixStack<float> MatrixStackf;
     }
     /**
     * @} End of Doxygen Groups

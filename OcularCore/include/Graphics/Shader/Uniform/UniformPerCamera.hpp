@@ -43,7 +43,9 @@ namespace Ocular
             Math::Matrix4x4 viewMatrix;
             Math::Matrix4x4 projMatrix;
             Math::Matrix4x4 viewProjMatrix;
-            Math::Vector4f   eyePosition;
+            Math::Vector4f eyePosition;
+
+            static uint32_t Size() { return 208; }
         };
     }
     /**

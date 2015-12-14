@@ -33,7 +33,7 @@ namespace Ocular
               m_IsDepthStencilStateDirty(true)
         {
             m_RasterState.fillMode               = FillMode::Solid;
-            m_RasterState.cullMode               = CullMode::Back;
+            m_RasterState.cullMode               = CullMode::None;
             m_RasterState.cullDirection          = CullDirection::CounterClockwise;
             m_RasterState.primitiveStyle         = PrimitiveStyle::TriangleList;
             m_RasterState.enableMultisampling    = true;

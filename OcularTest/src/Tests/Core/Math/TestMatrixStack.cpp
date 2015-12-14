@@ -15,19 +15,23 @@
  */
 
 #include "Math/MatrixStack.hpp"
+#include "Math/Vector4.hpp"
 #include "gtest/gtest.h"
+
+using namespace Ocular;
+using namespace Ocular::Math;
 
 //------------------------------------------------------------------------------------------
 
 TEST(MatrixStack, Push)
 {
-    Ocular::Math::MatrixStackd stack;
-    Ocular::Math::Matrix4x4d matrix;
+    MatrixStack stack;
+    Matrix4x4 matrix;
 
-    matrix.setPosition(10.0, 100.0, 1000.0);
+    matrix.setCol(2, Vector3f(10.0f, 100.0f, 1000.0f));
     stack.push(matrix);
 
-    Ocular::Math::Matrix4x4d result;
+    Matrix4x4 result;
     
     EXPECT_TRUE(stack.peek(&result));
     EXPECT_TRUE(matrix == result);
@@ -35,8 +39,8 @@ TEST(MatrixStack, Push)
 
 TEST(MatrixStack, Pop)
 {
-    Ocular::Math::MatrixStackd stack;
-    Ocular::Math::Matrix4x4d result;
+    MatrixStack stack;
+    Matrix4x4 result;
 
     EXPECT_FALSE(stack.pop(&result));
 
@@ -47,12 +51,12 @@ TEST(MatrixStack, Pop)
 
 TEST(MatrixStack, Combine)
 {
-    Ocular::Math::MatrixStackd stack;
-    Ocular::Math::Matrix4x4d matrix;
-    Ocular::Math::Matrix4x4d result;
+    MatrixStack stack;
+    Matrix4x4 matrix;
+    Matrix4x4 result;
 
-    matrix.setPosition(10.0, 100.0, 1000.0);
-    matrix.setXRotation(10.0, 0.0, 0.0);
+    matrix.setCol(2, Vector3f(10.0, 100.0, 1000.0));
+    matrix.setCol(0, Vector3f(10.0, 0.0, 0.0));
 
     stack.loadIdentity();
     stack.combine(matrix);

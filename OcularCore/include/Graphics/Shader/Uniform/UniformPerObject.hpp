@@ -41,6 +41,8 @@ namespace Ocular
         struct UniformPerObject
         {
             Math::Matrix4x4 modelMatrix;
+
+            static uint32_t Size() { return 64; }
         };
     }
     /**

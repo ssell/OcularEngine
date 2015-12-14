@@ -22,6 +22,10 @@ namespace Ocular
 {
     namespace Math
     {
+        //----------------------------------------------------------------------------------
+        // Matrix3x3
+        //----------------------------------------------------------------------------------
+
         Matrix3x3_Internal::Matrix3x3_Internal(glm::mat3x3 const& data)
             : matrix(data)
         {
@@ -33,6 +37,10 @@ namespace Ocular
 
         }
 
+        //----------------------------------------------------------------------------------
+        // Matrix4x4
+        //----------------------------------------------------------------------------------
+
         Matrix4x4_Internal::Matrix4x4_Internal(glm::mat4x4 const& data)
             : matrix(data)
         {
@@ -40,6 +48,21 @@ namespace Ocular
         }
 
         Matrix4x4_Internal::Matrix4x4_Internal()
+        {
+
+        }
+
+        //----------------------------------------------------------------------------------
+        // Quaternion
+        //----------------------------------------------------------------------------------
+
+        Quaternion_Internal::Quaternion_Internal(glm::quat const& data)
+            : quat(data)
+        {
+
+        }
+
+        Quaternion_Internal::Quaternion_Internal()
         {
 
         }
