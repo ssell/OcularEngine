@@ -169,19 +169,7 @@ namespace Ocular
              * If OpenGL ends up having identical requirements, then this method will
              * be migrated to the parent UniformBuffer class.
              */
-
-            if(m_Type == static_cast<uint32_t>(UniformBufferType::PerMaterial))
-            {
-                packDynamicUniformData();
-            }
-            else
-            {
-                packFixedUniformData();
-            }
-        }
-
-        void D3D11UniformBuffer::packDynamicUniformData()
-        {
+            
             /**
              * Here we pack everything along 16-byte sections of the raw data array.
              * This means that padding will need to be added for both single-float 
@@ -283,30 +271,6 @@ namespace Ocular
                             break;
                         }
                     }
-                }
-            }
-        }
-
-        void D3D11UniformBuffer::packFixedUniformData()
-        {
-            if(m_FixedUniformData)
-            {
-                if(m_UniformData == nullptr)
-                {
-                    if((m_UniformDataSize != 0) && (m_UniformDataSize % UniformPackingAlignment == 0))
-                    {
-                        // Assuming the data was properly packed aligned... 
-                        m_UniformData = (float*)_aligned_malloc(m_UniformDataSize, UniformPackingAlignment);
-                    }
-                    else
-                    {
-                        OcularLogger->error("Fixed uniform data size is invalid (must be non-zero and multiple of 16)", OCULAR_INTERNAL_LOG("D3D11UniformBuffer", "packFixedUniformData"));
-                    }
-                }
-
-                if(m_UniformData)
-                {
-                    memcpy(m_UniformData, m_FixedUniformData, m_UniformDataSize);
                 }
             }
         }

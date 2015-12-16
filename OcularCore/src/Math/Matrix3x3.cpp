@@ -109,7 +109,9 @@ namespace Ocular
 
             if(index < 9)
             {
-                result = m_Internal->matrix[(index / 3)][(index % 3)];
+                //[index % 3][index / 3] returns as column major
+                //[index / 3][index % 3] returns as row major
+                result = m_Internal->matrix[(index % 3)][(index / 3)];
             }
 
             return result;
@@ -197,7 +199,7 @@ namespace Ocular
         {
             if(index < 9)
             {
-                m_Internal->matrix[(index / 3)][(index % 3)] = value;
+                m_Internal->matrix[(index % 3)][(index / 3)] = value;
             }
         }
 
@@ -207,7 +209,9 @@ namespace Ocular
 
             if(index < 9)
             {
-                result = m_Internal->matrix[(index / 3)][(index % 3)];
+                //[index % 3][index / 3] returns as column major
+                //[index / 3][index % 3] returns as row major
+                result = m_Internal->matrix[(index % 3)][(index / 3)];
             }
 
             return result;
@@ -270,15 +274,20 @@ namespace Ocular
         //----------------------------------------------------------------
         // MISC OPERATIONS
         //----------------------------------------------------------------
-
-        float Matrix3x3::getDeterminant() const
+        
+        void Matrix3x3::invert()
         {
-            return glm::determinant(m_Internal->matrix);
+            m_Internal->matrix = glm::inverse(m_Internal->matrix);
         }
 
         Matrix3x3 Matrix3x3::getInverse() const
         {
             return Matrix3x3(Matrix3x3_Internal(glm::inverse(m_Internal->matrix)));
+        }
+
+        float Matrix3x3::getDeterminant() const
+        {
+            return glm::determinant(m_Internal->matrix);
         }
 
         Matrix3x3 Matrix3x3::getTranspose() const

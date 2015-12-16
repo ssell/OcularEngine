@@ -15,6 +15,10 @@
  */
 
 #include "Graphics/Shader/Uniform/UniformBuffer.hpp"
+#include "Graphics/Shader/Uniform/UniformsPerFrame.hpp"
+#include "Graphics/Shader/Uniform/UniformPerCamera.hpp"
+#include "Graphics/Shader/Uniform/UniformPerObject.hpp"
+
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -27,9 +31,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        UniformBuffer::UniformBuffer(UniformBufferType const type)
+        UniformBuffer::UniformBuffer(UniformBufferType type)
             : m_IsDirty(true),
-              m_FixedUniformData(nullptr),
               m_UniformData(nullptr),
               m_UniformDataSize(0),
               m_Type(static_cast<uint32_t>(type))
@@ -62,63 +65,73 @@ namespace Ocular
             // Intentionally left empty
         }
 
-        void UniformBuffer::setFixedData(uint32_t const size, void* data)
+        void UniformBuffer::setFixedData(UniformPerFrame const& data)
         {
-            if(m_Type != static_cast<uint32_t>(UniformBufferType::PerMaterial))
-            {
-                m_FixedUniformData = data;
-                m_UniformDataSize = size;
-                m_IsDirty = true;
-            }
-            else
-            {
-                OcularLogger->warning("Attempting to set fixed Uniform data on a dynamic Uniform buffer", OCULAR_INTERNAL_LOG("UniformBuffer", "setData"));
-            }
+            m_Uniforms.clear();
+
+            
         }
 
-        void* UniformBuffer::getFixedData()
+        void UniformBuffer::setFixedData(UniformPerCamera const& data)
         {
-            void* result = nullptr;
+            Uniform viewMatrixUniform;
+            Uniform projMatrixUniform;
+            Uniform viewProjMatrixUniform;
+            Uniform eyePosUniform;
 
-            if(m_Type != static_cast<uint32_t>(UniformBufferType::PerMaterial))
-            {
-                result = m_FixedUniformData;
-            }
-            else
-            {
-                OcularLogger->warning("Attempting to retrieve fixed Uniform data from a dynamic Uniform buffer", OCULAR_INTERNAL_LOG("UniformBuffer", "getFixedData"));
-            }
+            viewMatrixUniform.setData(data.viewMatrix);
+            viewMatrixUniform.setName("ViewMatrix");
+            viewMatrixUniform.setRegister(0);
 
-            return result;
+            projMatrixUniform.setData(data.projMatrix);
+            projMatrixUniform.setName("ProjMatrix");
+            projMatrixUniform.setRegister(4);
+
+            viewProjMatrixUniform.setData(data.viewProjMatrix);
+            viewProjMatrixUniform.setName("ViewProjMatrix");
+            viewProjMatrixUniform.setRegister(8);
+
+            eyePosUniform.setData(data.eyePosition);
+            eyePosUniform.setName("EyePosition");
+            eyePosUniform.setRegister(12);
+
+            setUniform(viewMatrixUniform);
+            setUniform(projMatrixUniform);
+            setUniform(viewProjMatrixUniform);
+            setUniform(eyePosUniform);
+        }
+
+        void UniformBuffer::setFixedData(UniformPerObject const& data)
+        {
+            Uniform modelMatrixUniform;
+
+            modelMatrixUniform.setData(data.modelMatrix);
+            modelMatrixUniform.setName("ModelMatrix");
+            modelMatrixUniform.setRegister(0);
+
+            setUniform(modelMatrixUniform);
         }
 
         void UniformBuffer::setUniform(Uniform const& uniform)
         {
-            if(m_Type == static_cast<uint32_t>(UniformBufferType::PerMaterial))
+            const uint32_t index = uniform.getRegister();
+            bool foundUniform = false;
+
+            for(auto iter = m_Uniforms.begin(); iter != m_Uniforms.end(); ++iter)
             {
-                const uint32_t index = uniform.getRegister();
-                bool foundUniform = false;
-
-                for(auto iter = m_Uniforms.begin(); iter != m_Uniforms.end(); ++iter)
+                if((*iter).getRegister() == index)
                 {
-                    if((*iter).getRegister() == index)
-                    {
-                        (*iter) = uniform;
-                        foundUniform = true;
-                        m_IsDirty = true;
+                    (*iter) = uniform;
+                    foundUniform = true;
+                    m_IsDirty = true;
 
-                        break;
-                    }
-                }
-
-                if(!foundUniform)
-                {
-                    m_Uniforms.emplace_back(uniform);
+                    break;
                 }
             }
-            else
+
+            if(!foundUniform)
             {
-                OcularLogger->warning("Attempting to set dynamic Uniform data on a fixed Uniform buffer", OCULAR_INTERNAL_LOG("UniformBuffer", "setUniform"));
+                m_Uniforms.emplace_back(uniform);
             }
         }
 
@@ -126,25 +139,13 @@ namespace Ocular
         {
             Uniform const* result = nullptr;
 
-            if(m_Type == static_cast<uint32_t>(UniformBufferType::PerMaterial))
+            for(uint32_t i = 0; i < m_Uniforms.size(); i++)
             {
-                for(uint32_t i = 0; i < m_Uniforms.size(); i++)
+                if(m_Uniforms[i].getName().compare(name) == 0)
                 {
-                    if(m_Uniforms[i].getName().compare(name) == 0)
-                    {
-                        result = &m_Uniforms[i];
-                        break;
-                    }
+                    result = &m_Uniforms[i];
+                    break;
                 }
-
-                if(result == nullptr)
-                {
-                    OcularLogger->error("No uniform with matching name of '", name, "'", OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
-                }
-            }
-            else
-            {
-                OcularLogger->warning("Attempting to retrieve dynamic Uniform data from a fixed Uniform buffer", OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
             }
 
             return result;
@@ -154,20 +155,13 @@ namespace Ocular
         {
             Uniform const* result = nullptr;
 
-            if(m_Type == static_cast<uint32_t>(UniformBufferType::PerMaterial))
+            if(registerIndex < m_Uniforms.size())
             {
-                if(registerIndex < m_Uniforms.size())
-                {
-                    result = &m_Uniforms[registerIndex];
-                }
-                else
-                {
-                    OcularLogger->error("No uniform with matching register index of ", registerIndex, OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
-                }
+                result = &m_Uniforms[registerIndex];
             }
             else
             {
-                OcularLogger->warning("Attempting to retrieve dynamic Uniform data from a fixed Uniform buffer", OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
+                OcularLogger->error("No uniform with matching register index of ", registerIndex, OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
             }
 
             return result;

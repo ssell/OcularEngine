@@ -126,7 +126,9 @@ namespace Ocular
 
         float Matrix4x4::operator[](uint32_t index)
         {
-            return m_Internal->matrix[(index / 4)][(index % 4)];
+            //[index % 4][index / 4] returns as column major
+            //[index / 4][index % 4] returns as row major
+            return m_Internal->matrix[(index % 4)][(index / 4)];
         }
 
         Matrix4x4& Matrix4x4::operator=(Matrix4x4 const& rhs)
@@ -211,7 +213,7 @@ namespace Ocular
         {
             if(index < 16)
             {
-                m_Internal->matrix[(index / 4)][(index % 4)] = value;
+                m_Internal->matrix[(index % 4)][(index / 4)] = value;
             }
         }
 
@@ -221,7 +223,9 @@ namespace Ocular
 
             if(index < 16)
             {
-                result = m_Internal->matrix[(index / 4)][(index % 4)];
+                //[index % 4][index / 4] returns as column major
+                //[index / 4][index % 4] returns as row major
+                result = m_Internal->matrix[(index % 4)][(index / 4)];
             }
 
             return result;
@@ -311,14 +315,19 @@ namespace Ocular
         // MISC OPERATIONS
         //----------------------------------------------------------------
 
-        float Matrix4x4::getDeterminant() const
+        void Matrix4x4::invert()
         {
-            return glm::determinant(m_Internal->matrix);
+            m_Internal->matrix = glm::inverse(m_Internal->matrix);
         }
 
         Matrix4x4 Matrix4x4::getInverse() const
         {
             return Matrix4x4(Matrix4x4_Internal(glm::inverse(m_Internal->matrix)));
+        }
+
+        float Matrix4x4::getDeterminant() const
+        {
+            return glm::determinant(m_Internal->matrix);
         }
 
         Matrix4x4 Matrix4x4::getTranspose() const
@@ -330,6 +339,11 @@ namespace Ocular
         // STATIC OPERATIONS
         //----------------------------------------------------------------
 
+        Matrix4x4 Matrix4x4::CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up)
+        {
+            return Matrix4x4(Matrix4x4_Internal(glm::lookAtRH(glm::vec3(from.x, from.y, from.z), glm::vec3(to.x, to.y, to.z), glm::vec3(up.x, up.y, up.z))));
+        }
+
         Matrix4x4 Matrix4x4::CreateOrthographicMatrix(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
         {
             return Matrix4x4(Matrix4x4_Internal(glm::ortho(xMin, xMax, yMin, yMax, nearClip, farClip)));
@@ -337,7 +351,7 @@ namespace Ocular
 
         Matrix4x4 Matrix4x4::CreatePerspectiveMatrix(float const fov, float const aspectRatio, float const nearClip, float const farClip)
         {
-            return Matrix4x4(Matrix4x4_Internal(glm::perspective(fov, aspectRatio, nearClip, farClip)));
+            return Matrix4x4(Matrix4x4_Internal(glm::perspectiveRH(fov, aspectRatio, nearClip, farClip)));
         }
 
         //----------------------------------------------------------------

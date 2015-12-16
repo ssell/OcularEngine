@@ -407,8 +407,7 @@ namespace Ocular
             {
                 if(m_UniformBufferPerObject)
                 {
-                    Graphics::UniformPerObject const& uniformData = object->getUniformData();
-                    m_UniformBufferPerObject->setFixedData(Graphics::UniformPerObject::Size(), (void*)(&uniformData));
+                    m_UniformBufferPerObject->setFixedData(object->getUniformData());
                     m_UniformBufferPerObject->bind();
                 }
 

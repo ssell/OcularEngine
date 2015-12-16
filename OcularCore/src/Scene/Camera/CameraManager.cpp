@@ -84,7 +84,7 @@ namespace Ocular
                     m_UniformPerCamera.projMatrix     = camera->getProjectionMatrix();
                     m_UniformPerCamera.viewProjMatrix = m_UniformPerCamera.projMatrix * m_UniformPerCamera.viewMatrix;
 
-                    m_UniformBuffer->setFixedData(Graphics::UniformPerCamera::Size(), &m_UniformPerCamera);
+                    m_UniformBuffer->setFixedData(m_UniformPerCamera);
                     m_UniformBuffer->bind();
                     
                     //----------------------------------------------------

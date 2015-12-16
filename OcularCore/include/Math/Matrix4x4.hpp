@@ -256,11 +256,11 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // MISC OPERATIONS
             //------------------------------------------------------------------------------
-
+            
             /**
              *
              */
-            float getDeterminant() const;
+            void invert();
 
             /**
              *
@@ -270,11 +270,21 @@ namespace Ocular
             /**
              *
              */
+            float getDeterminant() const;
+
+            /**
+             *
+             */
             Matrix4x4 getTranspose() const;
 
             //------------------------------------------------------------------------------
             // STATIC OPERATIONS
             //------------------------------------------------------------------------------
+
+            /**
+             *
+             */
+            static Matrix4x4 CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up);
 
             /**
              *

@@ -35,7 +35,11 @@ namespace Ocular
      */
     namespace Graphics
     {
-        enum class UniformBufferType
+        struct UniformPerFrame;
+        struct UniformPerCamera;
+        struct UniformPerObject;
+
+        enum class UniformBufferType : uint32_t
         {
             PerFrame = 0,
             PerCamera,
@@ -77,14 +81,19 @@ namespace Ocular
             virtual void unbind();
 
             /**
-             * \note Only available to fixed buffers (Frame, Camera, and Object)
+             *
              */
-            void setFixedData(uint32_t size, void* data);
-            
+            void setFixedData(UniformPerFrame const& data);
+
             /**
-             * \note Only available to fixed buffers (Frame, Camera, and Object)
+             *
              */
-            void* getFixedData();
+            void setFixedData(UniformPerCamera const& data);
+
+            /**
+             *
+             */
+            void setFixedData(UniformPerObject const& data);
 
             /**
              * \note Only available to dynamic buffers (Material)
@@ -108,7 +117,6 @@ namespace Ocular
 
             std::vector<Uniform> m_Uniforms;    ///< User-friendly copy of Uniform data that is easily modifiable. Strictly CPU-only.
             
-            void*    m_FixedUniformData;        ///< Pre-structured Uniform data for Frame, Camera, and Object buffers
             float*   m_UniformData;             ///< Raw, packed (16-byte) uniform data. Only modify when m_IsDirty is true and not in use by GPU.
             uint32_t m_UniformDataSize;         ///< Size of the raw uniform data 
 

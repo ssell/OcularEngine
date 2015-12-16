@@ -228,12 +228,17 @@ namespace Ocular
             /**
              *
              */
-            float getDeterminant() const;
+            void invert();
 
             /**
              *
              */
             Matrix3x3 getInverse() const;
+
+            /**
+             *
+             */
+            float getDeterminant() const;
 
             /**
              *
