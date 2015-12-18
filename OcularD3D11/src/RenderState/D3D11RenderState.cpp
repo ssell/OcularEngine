@@ -256,6 +256,30 @@ namespace Ocular
             }
 
             //------------------------------------------------------------------------------
+            // Enable Depth Testing
+
+            if(m_DepthStencilState.enableDepthTesting)
+            {
+                result.DepthClipEnable = TRUE;
+            }
+            else
+            {
+                result.DepthClipEnable = FALSE;
+            }
+
+            //------------------------------------------------------------------------------
+            // Enable Scissor Testing
+
+            if(m_DepthStencilState.enableScissorTesting)
+            {
+                result.ScissorEnable = TRUE;
+            }
+            else
+            {
+                result.ScissorEnable = FALSE;
+            }
+
+            //------------------------------------------------------------------------------
             // Enable Multisampling
 
             result.MultisampleEnable = m_RasterState.enableMultisampling;

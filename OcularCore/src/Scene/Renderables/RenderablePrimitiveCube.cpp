@@ -97,20 +97,43 @@ namespace Ocular
                     //----------------------------------------------------
                     // Create the Vertices
 
-                    Graphics::Vertex vertices[3];
+                    Graphics::Vertex vertices[8];
 
-                    vertices[0].position = Math::Vector3f(-1.0f, -1.0f, 0.0f);
-                    vertices[1].position = Math::Vector3f( 1.0f, -1.0f, 0.0f);
-                    vertices[2].position = Math::Vector3f( 0.0f,  1.0f, 0.0f);
+                    vertices[0].position = Math::Vector3f(-0.5f, 0.0f,  0.5f);
+                    vertices[1].position = Math::Vector3f( 0.5f, 0.0f,  0.5f);
+                    vertices[2].position = Math::Vector3f( 0.5f, 1.0f,  0.5f);
+                    vertices[3].position = Math::Vector3f(-0.5f, 1.0f,  0.5f);
+                    vertices[4].position = Math::Vector3f(-0.5f, 0.0f, -0.5f);
+                    vertices[5].position = Math::Vector3f(-0.5f, 1.0f, -0.5f);
+                    vertices[6].position = Math::Vector3f( 0.5f, 0.0f, -0.5f);
+                    vertices[7].position = Math::Vector3f( 0.5f, 1.0f, -0.5f);
 
-                    vertexBuffer->addVertices(vertices, 3);
+                    /*vertices[0].position = Math::Vector3f(-1.0f, -1.0f,  1.0f);
+                    vertices[1].position = Math::Vector3f( 1.0f, -1.0f,  1.0f);
+                    vertices[2].position = Math::Vector3f( 1.0f,  1.0f,  1.0f);
+                    vertices[3].position = Math::Vector3f(-1.0f,  1.0f,  1.0f);
+                    vertices[4].position = Math::Vector3f(-1.0f, -1.0f, -1.0f);
+                    vertices[5].position = Math::Vector3f(-1.0f,  1.0f, -1.0f);
+                    vertices[6].position = Math::Vector3f( 1.0f, -1.0f, -1.0f);
+                    vertices[7].position = Math::Vector3f( 1.0f,  1.0f, -1.0f);*/
+
+                    vertices[0].color = Math::Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+                    vertices[1].color = Math::Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
+                    vertices[2].color = Math::Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
+                    vertices[3].color = Math::Vector4f(1.0f, 1.0f, 0.0f, 1.0f);
+                    vertices[4].color = Math::Vector4f(0.0f, 1.0f, 1.0f, 1.0f);
+                    vertices[5].color = Math::Vector4f(1.0f, 0.0f, 1.0f, 1.0f);
+                    vertices[6].color = Math::Vector4f(0.5f, 1.0f, 0.75f, 1.0f);
+                    vertices[7].color = Math::Vector4f(0.75f, 0.5f, 1.0f, 1.0f);
+
+                    vertexBuffer->addVertices(vertices, 8);
 
                     if(vertexBuffer->build())
                     {
                         //------------------------------------------------
                         // Create the Indices
 
-                        /*uint32_t indices[36] =
+                        uint32_t indices[36] =
                         {
                             0, 1, 2,
                             2, 3, 0,
@@ -122,18 +145,11 @@ namespace Ocular
                             7, 2, 1,
                             3, 2, 7,
                             7, 5, 3,
-                            0, 1, 6,
-                            6, 4, 0
+                            1, 0, 4,
+                            4, 6, 1
                         };
 
-                        indexBuffer->addIndices(indices, 36);*/
-
-                        uint32_t indices[3] =
-                        {
-                            0, 1, 2
-                        };
-
-                        indexBuffer->addIndices(indices, 3);
+                        indexBuffer->addIndices(indices, 36);
 
                         if(indexBuffer->build())
                         {

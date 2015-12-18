@@ -51,7 +51,7 @@ namespace Ocular
         {
             if(m_Parent)
             {
-                m_Parent->getTransform().setPosition(0.0f, 0.0f, 50.0f);
+                m_Parent->getTransform().setPosition(0.0f, 0.0f, 2.0f);
             }
         }
 

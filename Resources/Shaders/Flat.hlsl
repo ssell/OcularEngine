@@ -20,6 +20,11 @@
 
 #include "OcularCommon.hlsl"
 
+cbuffer cbPerMaterial : register(b3)
+{
+    float4 _MaterialColor;
+};
+
 struct VSOutput
 {
     float4 position : SV_Position;
@@ -33,20 +38,16 @@ struct PSOutput
 
 VSOutput VSMain(VSInput input)
 {
-    matrix ModelViewProjMatrix = mul(_ModelMatrix, _ViewProjMatrix);
-    
+    matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
+
     VSOutput output;
-    output.position = mul(input.position, ModelViewProjMatrix);
+    output.position = mul(input.position, mvpMatrix);
     output.color    = input.color;
 
     return output;
 }
 
-PSOutput PSMain(VSOutput input)
+float4 PSMain(VSOutput input) : SV_Target
 {
-    PSOutput output;
-    output.color = input.color;
-
-    return output;
+    return input.color;
 }
-

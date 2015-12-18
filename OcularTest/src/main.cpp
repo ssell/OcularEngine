@@ -39,6 +39,7 @@ using namespace Ocular::Core;
 using namespace Ocular::Utils;
 using namespace Ocular::Math;
 using namespace Ocular::Graphics;
+using namespace DirectX;
 
 //------------------------------------------------------------------------------------------
 
@@ -84,7 +85,7 @@ void setupScene()
     Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
     mainCamera->setPriority(Priority::Low);
     mainCamera->setViewport(0.0f, 0.0f, 1024.0f, 768.0f);
-    mainCamera->setProjectionPerspective(60.0f, (1024.0f / 768.0f), 0.001f, 100.0f);
+    mainCamera->setProjectionPerspective(60.0f, (1024.0f / 768.0f), 0.01f, 100.0f);
     mainCamera->setRenderTexture(OcularWindows->getMainWindow()->getRenderTexture());
     mainCamera->setDepthTexture(OcularWindows->getMainWindow()->getDepthTexture());
     mainCamera->addRoutine<FreeFlyController>();
@@ -99,7 +100,7 @@ void setupScene()
     // Setup Cube
 
     SceneObject* cubeObject = OcularScene->createObject("Cube");
-    cubeObject->setPosition(0.0f, 0.0f, 0.0f);
+    cubeObject->setPosition(0.0f, -0.5f, 0.0f);
 
     RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
     renderable->initialize();
@@ -111,9 +112,6 @@ int main(int argc, char** argv)
     TextureResourceLoader_PNG urgh;
     MaterialResourceLoader blag;
     D3D11UncompiledShaderResourceLoader blugg;
-
-    DirectX::XMMATRIX matrixDX = DirectX::XMMatrixPerspectiveFovRH(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
-    Matrix4x4 matrixOcular = Matrix4x4::CreatePerspectiveMatrix(60.0f, (800.0f / 600.0f), 0.1f, 1000.0f);
 
     OcularEngine.initialize(new D3D11GraphicsDriver());
     SystemInfo::logSystemInfo();

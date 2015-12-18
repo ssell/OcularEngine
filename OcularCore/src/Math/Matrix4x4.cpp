@@ -351,7 +351,9 @@ namespace Ocular
 
         Matrix4x4 Matrix4x4::CreatePerspectiveMatrix(float const fov, float const aspectRatio, float const nearClip, float const farClip)
         {
-            return Matrix4x4(Matrix4x4_Internal(glm::perspectiveRH(fov, aspectRatio, nearClip, farClip)));
+            // Keep in mind: http://www.gamedev.net/topic/669955-glmlookat-with-directx/#entry5239993
+            Matrix4x4 result = Matrix4x4(Matrix4x4_Internal(glm::perspectiveRH(Math::DegreesToRadians(fov), aspectRatio, nearClip, farClip)));
+            return result;
         }
 
         //----------------------------------------------------------------

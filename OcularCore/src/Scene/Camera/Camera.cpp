@@ -92,7 +92,6 @@ namespace Ocular
         Math::Matrix4x4 const& Camera::getViewMatrix()
         {
             m_ViewMatrix = Math::Matrix4x4::CreateLookAtMatrix(m_Transform.getPosition(), Math::Vector3f(0.0f, 0.0f, 0.0f), Math::Vector3f::Up());
-            //m_ViewMatrix.invert();
 
             return m_ViewMatrix;
         }

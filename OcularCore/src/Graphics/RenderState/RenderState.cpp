@@ -33,10 +33,10 @@ namespace Ocular
               m_IsDepthStencilStateDirty(true)
         {
             m_RasterState.fillMode               = FillMode::Solid;
-            m_RasterState.cullMode               = CullMode::None;
+            m_RasterState.cullMode               = CullMode::Back;
             m_RasterState.cullDirection          = CullDirection::CounterClockwise;
             m_RasterState.primitiveStyle         = PrimitiveStyle::TriangleList;
-            m_RasterState.enableMultisampling    = true;
+            m_RasterState.enableMultisampling    = false;
             m_RasterState.enableLineAntialiasing = false;
 
             m_BlendState.enableBlending     = true;
@@ -49,7 +49,7 @@ namespace Ocular
             m_BlendState.blendFactor        = Math::Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             m_DepthStencilState.enableDepthTesting = true;
-            m_DepthStencilState.enableScissorTesting = true;
+            m_DepthStencilState.enableScissorTesting = false;
         }
 
         RenderState::~RenderState()

@@ -15,6 +15,7 @@
  */
 
 #include "Scene/Camera/CameraManager.hpp"
+#include "Math/Matrix4x4.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
