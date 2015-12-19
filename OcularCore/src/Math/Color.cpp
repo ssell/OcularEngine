@@ -99,6 +99,12 @@ namespace Ocular
             return result;
         }
 
+        Color const& Color::DarkGray()
+        {
+            static const Color result(0.2f, 0.2f, 0.2f); 
+            return result;
+        }
+
         Color const& Color::ErrorPink()
         {
             static const Color result(1.0f, 0.078f, 0.576f); 

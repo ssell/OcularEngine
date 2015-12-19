@@ -198,7 +198,7 @@ namespace Ocular
 
                     if(currentRTV && currentDSV)
                     {
-                        const static float clearColor[4] = { Core::Color::FrigidBlue().r, Core::Color::FrigidBlue().g, Core::Color::FrigidBlue().b, Core::Color::FrigidBlue().a };
+                        const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
 
                         m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
                         m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);

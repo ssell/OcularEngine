@@ -78,6 +78,11 @@ namespace Ocular
             static Color const& Cyan();
 
             /**
+             * RGBA: (0.2f, 0.2f, 0.2f, 1.0f)
+             */
+            static Color const& DarkGray();
+
+            /**
              * RGBA: (1.0f, 0.078f, 0.576f, 1.0f)
              */
             static Color const& ErrorPink();

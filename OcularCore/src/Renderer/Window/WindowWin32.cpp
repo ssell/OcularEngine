@@ -253,7 +253,7 @@ namespace Ocular
             windowClass.cbWndExtra    = sizeof(WindowWin32*);
             windowClass.hInstance     = m_HINSTANCE;
             windowClass.hIcon         = LoadIcon(NULL, IDI_WINLOGO); // TODO
-            windowClass.hCursor       = LoadIcon(NULL, IDC_ARROW);   // TODO
+            windowClass.hCursor       = LoadCursor(NULL, IDC_ARROW);   // TODO
             windowClass.hbrBackground = NULL;
             windowClass.lpszMenuName  = NULL;
             windowClass.lpszClassName = TEXT(m_Name.c_str());
@@ -355,16 +355,21 @@ namespace Ocular
 
             // Register for keyboard messages
 
+            // NOTE: Using the RIDEV_NOLEGACY flag causes the application to 'block':
+            // Window resize, close, move, etc. events are not processed and the cursor
+            // is just the busy icon (spinning doughnut). Need to look into why this is
+            // and/or if RIDEV_NOLEGACY is actually needed at all.
+
             m_RawDevices[0].usUsagePage = 0x01;
             m_RawDevices[0].usUsage     = 0x06;
-            m_RawDevices[0].dwFlags     = RIDEV_NOLEGACY;   // Add HID keyboard and ignore legacy keyboard messages
+            m_RawDevices[0].dwFlags     = 0;// RIDEV_NOLEGACY;   // Add HID keyboard and ignore legacy keyboard messages
             m_RawDevices[0].hwndTarget  = m_HWND;           // Target only this window. We do not care about messages that are out of focus.
 
             // Register for mouse messages
 
             m_RawDevices[1].usUsagePage = 0x01;
             m_RawDevices[1].usUsage     = 0x02;
-            m_RawDevices[1].dwFlags     = RIDEV_NOLEGACY;
+            m_RawDevices[1].dwFlags     = 0;// RIDEV_NOLEGACY;
             m_RawDevices[1].hwndTarget  = m_HWND;
 
             if(RegisterRawInputDevices(m_RawDevices, 2, sizeof(m_RawDevices[0])) == FALSE)
