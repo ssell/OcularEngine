@@ -72,28 +72,23 @@ namespace Ocular
             {
             public:
 
-                WindowResizeEvent(std::shared_ptr<AWindow> window, unsigned width, unsigned height, WindowResizeType type);
+                WindowResizeEvent(std::shared_ptr<AWindow> pWindow, unsigned pWidth, unsigned pHeight, WindowResizeType pType);
                 ~WindowResizeEvent();
 
                 //----------------------------------------
 
-                WindowResizeType getResizeType() const;
+                unsigned width;
+                unsigned height;
 
-                unsigned getNewWidth() const;
-                unsigned getNewHeight() const;
+                WindowResizeType type;
 
-                std::shared_ptr<AWindow> getWindow() const;
+                std::shared_ptr<AWindow> window;
 
             protected:
 
             private:
 
-                std::shared_ptr<AWindow> m_pWindow;
-            
-                unsigned m_NewWidth;
-                unsigned m_NewHeight;
-
-                WindowResizeType m_Type;
+                
             };
         }
         /**

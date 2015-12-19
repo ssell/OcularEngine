@@ -29,43 +29,23 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             WindowResizeEvent::WindowResizeEvent(
-                std::shared_ptr<AWindow> window, unsigned const width, unsigned const height, WindowResizeType const type)
+                std::shared_ptr<AWindow> pWindow, unsigned const pWidth, unsigned const pHeight, WindowResizeType const pType)
                 : AEvent("WindowResizeEvent", Priority::Low)
             {
-                m_pWindow = window;
-                m_NewWidth = width;
-                m_NewHeight = height;
-                m_Type = type;
+                width  = pWidth;
+                height = pHeight;
+                window = pWindow;
+                type   = pType;
             }
 
             WindowResizeEvent::~WindowResizeEvent()
             {
-                m_pWindow = nullptr;
+                window = nullptr;
             }
 
             //------------------------------------------------------------------------------
             // PUBLIC METHODS
             //------------------------------------------------------------------------------
-
-            WindowResizeType WindowResizeEvent::getResizeType() const
-            {
-                return m_Type;
-            }
-
-            unsigned WindowResizeEvent::getNewWidth() const 
-            {
-                return m_NewWidth;
-            }
-
-            unsigned WindowResizeEvent::getNewHeight() const
-            {
-                return m_NewHeight;
-            }
-
-            std::shared_ptr<AWindow> WindowResizeEvent::getWindow() const 
-            {
-                return m_pWindow;
-            }
 
             //------------------------------------------------------------------------------
             // PROTECTED METHODS

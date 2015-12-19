@@ -51,6 +51,36 @@ namespace Ocular
         
         }
 
+        float Viewport::getOriginX() const
+        {
+            return m_OriginX;
+        }
+
+        float Viewport::getOriginY() const
+        {
+            return m_OriginY;
+        }
+
+        float Viewport::getWidth() const
+        {
+            return m_Width;
+        }
+
+        float Viewport::getHeight() const
+        {
+            return m_Height;
+        }
+
+        float Viewport::getMinDepth() const
+        {
+            return m_MinDepth;
+        }
+
+        float Viewport::getMaxDepth() const
+        {
+            return m_MaxDepth;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

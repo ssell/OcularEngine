@@ -15,6 +15,8 @@
  */
 
 #include "Scene/SceneManager.hpp"
+#include "Scene/Camera/Camera.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -211,6 +213,11 @@ namespace Ocular
             }
 
             m_Scene->addObjects(persistentObjects);
+
+            //------------------------------------------------------------
+            // If there is no camera in the scene yet, create one
+
+            Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
         }
 
         RoutineFactory& SceneManager::getRoutineFactory()

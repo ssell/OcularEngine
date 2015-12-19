@@ -39,7 +39,6 @@ using namespace Ocular::Core;
 using namespace Ocular::Utils;
 using namespace Ocular::Math;
 using namespace Ocular::Graphics;
-using namespace DirectX;
 
 //------------------------------------------------------------------------------------------
 
@@ -82,13 +81,12 @@ void setupScene()
     //--------------------------------------------------------------------
     // Setup Camera
 
-    Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
-    mainCamera->setPriority(Priority::Low);
-    mainCamera->setViewport(0.0f, 0.0f, 1024.0f, 768.0f);
-    mainCamera->setProjectionPerspective(60.0f, (1024.0f / 768.0f), 0.01f, 100.0f);
-    mainCamera->setRenderTexture(OcularWindows->getMainWindow()->getRenderTexture());
-    mainCamera->setDepthTexture(OcularWindows->getMainWindow()->getDepthTexture());
-    mainCamera->addRoutine<FreeFlyController>();
+    Camera* mainCamera = OcularCameras->getMainCamera();
+
+    if(mainCamera)
+    {
+        mainCamera->addRoutine<FreeFlyController>();
+    }
 
     //--------------------------------------------------------------------
     // Setup Input Logger

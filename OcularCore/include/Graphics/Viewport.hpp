@@ -46,6 +46,13 @@ namespace Ocular
 
             virtual void bind();
 
+            float getOriginX() const;
+            float getOriginY() const;
+            float getWidth() const;
+            float getHeight() const;
+            float getMinDepth() const;
+            float getMaxDepth() const;
+
         protected:
 
             float m_OriginX;

@@ -25,6 +25,8 @@
 #include "Graphics/Texture/DepthTexture.hpp"
 #include "Graphics/Viewport.hpp"
 
+#include "Events/AEventListener.hpp"
+
 #include "Math/Geometry/Frustum.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -41,37 +43,208 @@ namespace Ocular
      */
     namespace Core
     {
+        enum class ProjectionType
+        {
+            Unknown = 0,
+            Perspective,
+            Orthographic
+        };
+
+        struct PerspectiveProjection
+        {
+            float fieldOfView;
+            float aspectRatio;
+            float nearClip;
+            float farClip;
+
+            PerspectiveProjection() : fieldOfView(0.0f), aspectRatio(0.0f), nearClip(0.0f), farClip(0.0f) { }
+        };
+
+        struct OrthographicProjection
+        {
+            float xMin;
+            float xMax;
+            float yMin;
+            float yMax;
+            float nearClip;
+            float farClip;
+
+            OrthographicProjection() : xMin(0.0f), xMax(0.0f), yMin(0.0f), yMax(0.0f), nearClip(0.0f), farClip(0.0f) { }
+        };
+
         /**
          * \class Camera
          */
-        class Camera : public SceneObject
+        class Camera : public SceneObject, AEventListener
         {
         public:
 
+            /**
+             * \param[in] name   
+             * \param[in] parent
+             */
             Camera(std::string const& name, SceneObject* parent = nullptr);
             virtual ~Camera();
-
+            
+            /**
+             * \param[in] renderTexture
+             */
             void setRenderTexture(Graphics::RenderTexture* renderTexture);
+            
+            /**
+             * \return The current render texture
+             */
             Graphics::RenderTexture* getRenderTexture();
-
+            
+            /**
+             * \param[in] depthTexture
+             */
             void setDepthTexture(Graphics::DepthTexture* depthTexture);
+            
+            /**
+             * \return The current depth texture
+             */
             Graphics::DepthTexture* getDepthTexture();
-
+            
+            /**
+             * \return The type of projection matrix currently in use.
+             */
+            ProjectionType getProjectionType() const;
+            
+            /**
+             * \return The settings of the last set perspective matrix.
+             */
+            PerspectiveProjection getPerspectiveProjection() const;
+            
+            /**
+             * \return The settings of the last set orthographic matrix.
+             */
+            OrthographicProjection getOrthographicProjection() const;
+            
+            /**
+             * Creates a new orthographic projection matrix and sets it as the projection matrix.
+             *
+             * \param[in] xMin
+             * \param[in] xMax
+             * \param[in] yMin
+             * \param[in] yMax
+             * \param[in] nearClip
+             * \param[in] farClip
+             */
             void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
+            
+            /**
+             * Creates a new perspective projection matrix and sets it as the projection matrix.
+             *
+             * \param[in] fov
+             * \param[in] aspectRatio
+             * \param[in] nearClip
+             * \param[in] farClip
+             */
             void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
+            
+            /**
+             * Sets a custom projection matrix.
+             *
+             * \note The projection will not be updated during a WindowResizeEvent. If the projection needs to
+             *       be updated after a resize, then a custom event handler will need to be created.
+             *
+             * \param[in] matrix
+             */
             void setProjectionMatrix(Math::Matrix4x4 const& matrix);
-
+            
+            /**
+             * \return The view matrix
+             */
             Math::Matrix4x4 const& getViewMatrix();
+            
+            /**
+             * \return The projection matrix
+             */
             Math::Matrix4x4 const& getProjectionMatrix() const;
+            
+            /**
+             * \return The camera's frustum
+             */
             Math::Frustum const& getFrustum() const;
-
+            
+            /**
+             * Sets the camera's priority level
+             * \param[in] priority
+             */
             void setPriority(Priority priority);
+            
+            /**
+             * \return The camera's priority level. 
+             */
             Priority getPriority() const;
-
+            
+            /**
+             * Sets the camera's viewport.
+             *
+             * \param[in] x
+             * \param[in] y
+             * \param[in] width
+             * \param[in] height
+             * \param[in] minDepth
+             * \param[in] maxDepth
+             */
             void setViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f);
-            Graphics::Viewport* getViewport();
+            
+            /**
+             * \return Current viewport
+             */
+            Graphics::Viewport* getViewport() const;
+
+            /**
+             * Sets if the viewport is fixed.
+             *
+             * If the viewport is fixed, it will not update and resize
+             * automatically with the window. By default, the viewport
+             * is not fixed.
+             *
+             * \param[in] fixed
+             */
+            void setFixedViewport(bool fixed);
+
+            /**
+             * \return TRUE if the viewport is fixed
+             */
+            bool getIsFixedViewport() const;
+            
+            /**
+             * Sets if the projection is fixed.
+             *
+             * If the projection is fixed, it will not update and resize
+             * automatically with the window. By default, the projection
+             * is not fixed.
+             *
+             * \param[in] fixed
+             */
+            void setFixedProjection(bool fixed);
+            
+            /**
+             * \return TRUE if the projection is fixed
+             */
+            bool getIsFixedProjection() const;
+
+            /**
+             * Handles WindowResizeEvent instances.
+             *
+             * Upon a WindowResizeEvent, the viewport and projection (if perspective)
+             * will be updated according to the new window size.
+             * 
+             * The viewport and projection updating will not occur if
+             * they are set to fixed (setFixedProjection and setFixedViewport).
+             */
+            virtual bool onEvent(std::shared_ptr<AEvent> event);
 
         protected:
+
+            ProjectionType m_ProjType;
+
+            PerspectiveProjection m_PerspectiveProj;
+            OrthographicProjection m_OrthographicProj;
 
             Math::Matrix4x4 m_ViewMatrix;
             Math::Matrix4x4 m_ProjMatrix;
@@ -83,6 +256,9 @@ namespace Ocular
             Graphics::Viewport* m_Viewport;
 
             Priority m_Priority;
+
+            bool m_IsFixedViewport;
+            bool m_IsFixedProjection;
 
         private:
         };
