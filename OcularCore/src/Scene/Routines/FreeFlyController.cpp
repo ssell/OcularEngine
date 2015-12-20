@@ -20,7 +20,11 @@
 #include "Scene/SceneObject.hpp"
 #include "Events/Events/KeyboardInputEvent.hpp"
 
-OCULAR_REGISTER_ROUTINE(Ocular::Core::FreeFlyController , "FreeFlyController")
+#include "OcularEngine.hpp"
+
+OCULAR_REGISTER_ROUTINE(Ocular::Core::FreeFlyController, "FreeFlyController")
+
+static const float StaticSensitivityScale = 0.001f;      ///< Default scaling applied to mouse looking, as even a sensitivity of 1.0 is extremely high.
 
 //------------------------------------------------------------------------------------------
 
@@ -33,7 +37,9 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         FreeFlyController::FreeFlyController()
-            : ARoutine()
+            : ARoutine(),
+              m_LookSensitivity(1.0f),
+              m_MovementModifier(1.0f)
         {
             OcularEvents->registerListener(this, Priority::Medium);
         }
@@ -49,10 +55,7 @@ namespace Ocular
 
         void FreeFlyController::onCreation()
         {
-            if(m_Parent)
-            {
-                m_Parent->getTransform().setPosition(0.0f, 0.0f, 2.0f);
-            }
+
         }
 
         void FreeFlyController::onUpdate(float const delta)
@@ -61,8 +64,8 @@ namespace Ocular
 
             if(m_Parent)
             {
-                const Math::Vector3f currPosition = m_Parent->getTransform().getPosition();
-                m_Parent->getTransform().setPosition(currPosition + (m_MovementModifier * delta));
+                handleMovement(delta);
+                handleMouseRotation();
             }
         }
 
@@ -79,13 +82,13 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.z = -10.0f;
+                        m_MovementVector.z = -1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.z = 0.0f;
+                        m_MovementVector.z = 0.0f;
                     }
-
+                    
                     break;
                 }
 
@@ -94,13 +97,13 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.x = -10.0f;
+                        m_MovementVector.x = -1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.x = 0.0f;
+                        m_MovementVector.x = 0.0f;
                     }
-
+                    
                     break;
                 }
 
@@ -110,13 +113,13 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.z = 10.0f;
+                        m_MovementVector.z = 1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.z = 0.0f;
+                        m_MovementVector.z = 0.0f;
                     }
-
+                    
                     break;
                 }
 
@@ -126,13 +129,13 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.x = 10.0f;
+                        m_MovementVector.x = 1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.x = 0.0f;
+                        m_MovementVector.x = 0.0f;
                     }
-
+                    
                     break;
                 }
 
@@ -141,13 +144,13 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.y = 10.0f;
+                        m_MovementVector.y = 1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.y = 0.0f;
+                        m_MovementVector.y = 0.0f;
                     }
-
+                    
                     break;
                 }
 
@@ -156,20 +159,86 @@ namespace Ocular
                 {
                     if(inputEvent->state == KeyState::Pressed)
                     {
-                        m_MovementModifier.y = -10.0f;
+                        m_MovementVector.y = -1.0f;
                     }
                     else
                     {
-                        m_MovementModifier.y = 0.0f;
+                        m_MovementVector.y = 0.0f;
+                    }
+                    
+                    break;
+                }
+
+                case KeyboardKeys::Space:
+                {
+                    if(m_Parent)
+                    {
+                        m_Parent->resetRotation();
                     }
 
                     break;
                 }
+
+                default:
+                    break;
 
                 }
             }
 
             return true;
         }
+
+        void FreeFlyController::setLookSensitivity(float sensitivity)
+        {
+            m_LookSensitivity = sensitivity;
+        }
+
+        float FreeFlyController::getLookSensitivity() const
+        {
+            return m_LookSensitivity;
+        }
+
+        void FreeFlyController::setMovementModifier(float modifier)
+        {
+            m_MovementModifier = modifier;
+        }
+
+        float FreeFlyController::getMovementModifier() const
+        {
+            return m_MovementModifier;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        void FreeFlyController::handleMovement(float delta)
+        {
+            m_Parent->translate(m_MovementVector * m_MovementModifier * delta);
+        }
+
+        void FreeFlyController::handleMouseRotation()
+        {
+            Math::Vector2i currentMousePos = OcularInput->getMousePosition();
+
+            if(currentMousePos != m_LastMousePos)
+            {
+                const float dX = static_cast<float>(currentMousePos.x) - static_cast<float>(m_LastMousePos.x);
+                const float dY = static_cast<float>(currentMousePos.y) - static_cast<float>(m_LastMousePos.y);
+                const float dZ = 0.0f;
+
+                const Math::Vector3f deltaVec = Math::Vector3f(dX, dY, dZ);
+                const Math::Vector3f deltaNorm = deltaVec.getNormalized();
+                const float deltaMag = deltaVec.getMagnitude() * (StaticSensitivityScale * m_LookSensitivity);
+
+                m_Parent->rotate(deltaMag, Math::Vector3f(deltaNorm.y, -deltaNorm.x, 0.0f));
+
+                m_LastMousePos = currentMousePos;
+            }
+        }
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
 }

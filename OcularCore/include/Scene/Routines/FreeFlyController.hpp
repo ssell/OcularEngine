@@ -49,12 +49,24 @@ namespace Ocular
             virtual void onUpdate(float const delta) override;
             virtual bool onEvent(std::shared_ptr<AEvent> event) override;
 
+            void setLookSensitivity(float sensitivity);
+            float getLookSensitivity() const;
+
+            void setMovementModifier(float modifier);
+            float getMovementModifier() const;
+
         protected:
+
+            void handleMovement(float delta);
+            void handleMouseRotation();
 
         private:
 
-            Math::Vector3f m_MovementModifier;
+            Math::Vector3f m_MovementVector;
+            Math::Vector2i m_LastMousePos;
 
+            float m_LookSensitivity;
+            float m_MovementModifier;
         };
     }
     /**

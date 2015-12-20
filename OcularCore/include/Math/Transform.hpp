@@ -51,14 +51,39 @@ namespace Ocular
             //------------------------------------------------------------
             // Getters and Setters
 
+            /**
+             *
+             */
             void setPosition(Vector3f const& position);
+
+            /**
+             *
+             */
             void setPosition(float const x, float const y, float const z);
-            Vector3f getPosition() const;
 
+            /**
+             *
+             */
+            Vector3f const& getPosition() const;
+            
+            /**
+             *
+             */
             void setRotation(Quaternion const& rotation);
-            Quaternion getRotation() const;
-
+            
+            /**
+             *
+             */
+            Quaternion const& getRotation() const;
+            
+            /**
+             *
+             */
             void setScale(Vector3f const& scale);
+            
+            /**
+             *
+             */
             Vector3f getScale() const;
             
             /**
@@ -83,7 +108,7 @@ namespace Ocular
              * Translates the transform in the specified direction and distance.
              * \param[in] translation
              */
-            void translate(Vector3f const& translation);
+            void translate(Vector3f const& translation, bool local = true);
             
             /**
              * Moves the transform along the forward vector for the given delta.
@@ -115,10 +140,10 @@ namespace Ocular
             /**
              * Rotates the transform on the specified axis by the given angle.
              *
-             * \param[in] axis  Normalized vector axis to rotate on.
              * \param[in] angle Angles to rotate in degrees.
+             * \param[in] axis  Normalized vector axis to rotate on.
              */
-            void rotate(Vector3f const& axis, float const angle);
+            void rotate(float angle, Vector3f const& axis);
 
             /**
              * Rotates the transform so that the forward vector points at the specified point.

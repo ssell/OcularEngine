@@ -85,6 +85,7 @@ void setupScene()
 
     if(mainCamera)
     {
+        mainCamera->setPosition(0.0f, 0.0f, 3.0f);
         mainCamera->addRoutine<FreeFlyController>();
     }
 

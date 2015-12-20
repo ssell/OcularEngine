@@ -230,7 +230,7 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------
-        //
+        // Movement and Rotation Methods
         //----------------------------------------------------------------
 
         void SceneObject::setPosition(float const x, float const y, float const z)
@@ -241,6 +241,46 @@ namespace Ocular
         void SceneObject::setPosition(Math::Vector3f const& position)
         {
             m_Transform.setPosition(position);
+        }
+
+        Math::Vector3f const& SceneObject::getPosition() const
+        {
+            return m_Transform.getPosition();
+        }
+
+        void SceneObject::translate(Math::Vector3f const& translation, bool local)
+        {
+            m_Transform.translate(translation, local);
+        }
+
+        void SceneObject::rotate(float const angle, Math::Vector3f const& axis)
+        {
+            m_Transform.rotate(angle, axis);
+        }
+
+        void SceneObject::resetRotation()
+        {
+            m_Transform.setRotation(Math::Quaternion());
+        }
+
+        void SceneObject::setRotation(Math::Quaternion const& rotation)
+        {
+            m_Transform.setRotation(rotation);
+        }
+
+        Math::Quaternion const& SceneObject::getRotation() const
+        {
+            return m_Transform.getRotation();
+        }
+
+        void SceneObject::setTransform(Math::Transform const& transform)
+        {
+            m_Transform = transform;
+        }
+
+        Math::Transform const& SceneObject::getTransform() const
+        {
+            return m_Transform;
         }
 
         //----------------------------------------------------------------

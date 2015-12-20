@@ -339,6 +339,11 @@ namespace Ocular
         // STATIC OPERATIONS
         //----------------------------------------------------------------
 
+        Matrix4x4 Matrix4x4::CreateTranslationMatrix(Matrix4x4 const& matrix, Vector3<float> const& translate)
+        {
+            return Matrix4x4(Matrix4x4_Internal(glm::translate(matrix.getInternal()->matrix, glm::vec3(translate.x, translate.y, translate.z))));
+        }
+
         Matrix4x4 Matrix4x4::CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up)
         {
             return Matrix4x4(Matrix4x4_Internal(glm::lookAtRH(glm::vec3(from.x, from.y, from.z), glm::vec3(to.x, to.y, to.z), glm::vec3(up.x, up.y, up.z))));

@@ -66,15 +66,6 @@ bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
         
         OcularLogger->info("The '", InputHandler::ToString(inputEvent->button), "' button was ", InputHandler::ToString(inputEvent->state));
     }
-    else if(event->isType<Events::MouseMoveInputEvent>())
-    {
-        Events::MouseMoveInputEvent* inputEvent = dynamic_cast<Events::MouseMoveInputEvent*>(event.get());
-
-        const Ocular::Math::Vector2i prev = inputEvent->prevPosition;
-        const Ocular::Math::Vector2i curr = inputEvent->currPosition;
-
-        OcularLogger->info("Mouse moved to (", curr.x, ", ",curr.y, ") from (", prev.x, ", ", prev.y, ")");
-    }
     else if(event->isType<Events::MouseScrollInputEvent>())
     {
         Events::MouseScrollInputEvent* inputEvent = dynamic_cast<Events::MouseScrollInputEvent*>(event.get());

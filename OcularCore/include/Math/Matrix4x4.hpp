@@ -284,6 +284,11 @@ namespace Ocular
             /**
              *
              */
+            static Matrix4x4 CreateTranslationMatrix(Matrix4x4 const& matrix, Vector3<float> const& translate);
+
+            /**
+             *
+             */
             static Matrix4x4 CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up);
 
             /**

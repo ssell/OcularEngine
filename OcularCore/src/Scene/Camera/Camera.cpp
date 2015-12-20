@@ -170,7 +170,8 @@ namespace Ocular
 
         Math::Matrix4x4 const& Camera::getViewMatrix()
         {
-            m_ViewMatrix = Math::Matrix4x4::CreateLookAtMatrix(m_Transform.getPosition(), Math::Vector3f(0.0f, 0.0f, 0.0f), Math::Vector3f::Up());
+            m_Transform.getModelMatrix(m_ViewMatrix);
+            m_ViewMatrix.invert();
 
             return m_ViewMatrix;
         }
@@ -220,8 +221,6 @@ namespace Ocular
             if(event->isType<Events::WindowResizeEvent>())
             {
                 Events::WindowResizeEvent* resizeEvent = dynamic_cast<Events::WindowResizeEvent*>(event.get());
-
-                
 
                 if(!m_IsFixedProjection)
                 {

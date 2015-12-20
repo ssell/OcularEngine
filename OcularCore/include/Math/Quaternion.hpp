@@ -58,7 +58,8 @@ namespace Ocular
             Quaternion(float w, float x, float y, float z);
             
             /**
-             *
+             * \param[in] angle Angle to rotate in degrees
+             * \param[in] axis  Axis to rotate around
              */
             Quaternion(float angle, Vector3<float> const& axis);
             

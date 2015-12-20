@@ -210,11 +210,68 @@ namespace Ocular
             Graphics::UniformPerObject const& getUniformData();
 
             //------------------------------------------------------------
-            //
+            // Movement and Rotation Methods
             //------------------------------------------------------------
 
+            /**
+             * Sets the position of the SceneObject.
+             *
+             * \param[in] x
+             * \param[in] y
+             * \param[in] z
+             */
             void setPosition(float x, float y, float z);
+
+            /**
+             * Sets the position of the SceneObject.
+             * \param[in]position
+             */
             void setPosition(Math::Vector3f const& position);
+
+            /**
+             * \return The SceneObject's position
+             */
+            Math::Vector3f const& getPosition() const;
+
+            /**
+             * Translates the SceneObject along the given vector
+             * \param[in] translation
+             */
+            void translate(Math::Vector3f const& translation, bool local = true);
+
+            /**
+             * Rotates the SceneObject along the given axis by the given angle
+             *
+             * \param[in] angle Angle to rotate in degrees
+             * \param[in] axis  Axis to rotate around
+             */
+            void rotate(float angle, Math::Vector3f const& axis);
+
+            /**
+             * Sets the SceneObject's rotation
+             * \param[in] rotation
+             */
+            void setRotation(Math::Quaternion const& rotation);
+
+            /**
+             * Resets the orientation of the object
+             */
+            void resetRotation();
+
+            /**
+             *
+             */
+            Math::Quaternion const& getRotation() const;
+
+            /**
+             *
+             */
+            void setTransform(Math::Transform const& transform);
+
+            /**
+             *
+             */
+            Math::Transform const& getTransform() const;
 
             //------------------------------------------------------------
             // Child Object Methods
@@ -366,7 +423,7 @@ namespace Ocular
              * The object takes full ownership of the routine and frees it when
              * no longer in use.
              */
-            template<class T> void addRoutine() 
+            template<class T> T* addRoutine() 
             { 
                 T* t = new T();
                 ARoutine* routine = dynamic_cast<ARoutine*>(t);
@@ -383,6 +440,8 @@ namespace Ocular
                     delete t;
                     t = nullptr;
                 }
+
+                return t;
             }
 
             /**
@@ -490,9 +549,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Physical Characteristics
 
-            Math::Transform m_Transform;
-
             Graphics::UniformPerObject m_UniformData;
+            Math::Transform m_Transform;
 
         private:
 

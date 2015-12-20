@@ -38,7 +38,7 @@ namespace Ocular
 
         Quaternion::Quaternion(float const angle, Vector3<float> const& axis)
         {
-            m_Internal = new Quaternion_Internal(glm::quat(angle, glm::vec3(axis.x, axis.y, axis.z)));
+            m_Internal = new Quaternion_Internal(glm::quat(Math::DegreesToRadians(angle), glm::vec3(axis.x, axis.y, axis.z)));
         }
 
         Quaternion::Quaternion(Vector3<float> const& euler)

@@ -741,7 +741,7 @@ namespace Ocular
         {
             if(data.lLastX != 0 || data.lLastY != 0)
             {
-                //OcularInput->triggerMouseMoveDelta(Math::Vector2i(data.lLastX, data.lLastY));
+                OcularInput->triggerMouseMoveDelta(Math::Vector2i(data.lLastX, data.lLastY));
             }
         }
     }

@@ -60,7 +60,7 @@ namespace Ocular
             m_Position.z = z;
         }
 
-        Vector3f Transform::getPosition() const
+        Vector3f const& Transform::getPosition() const
         {
             return m_Position;
         }
@@ -70,7 +70,7 @@ namespace Ocular
             m_Rotation = rotation;
         }
 
-        Quaternion Transform::getRotation() const
+        Quaternion const& Transform::getRotation() const
         {
             return m_Rotation;
         }
@@ -115,9 +115,16 @@ namespace Ocular
             return result;
         }
 
-        void Transform::translate(Vector3f const& translation)
+        void Transform::translate(Vector3f const& translation, bool local)
         {
-            m_Position += translation;
+            if(local)
+            {
+                m_Position += (Matrix3x3(m_Rotation) * translation);
+            }
+            else
+            {
+                m_Position += translation;
+            }
         }
 
         void Transform::moveForward(float const delta)
@@ -135,9 +142,9 @@ namespace Ocular
             translate(getRight() * delta);
         }
 
-        void Transform::rotate(Vector3f const& axis, float const angle)
+        void Transform::rotate(float const angle, Vector3f const& axis)
         {
-            m_Rotation = Quaternion(angle, axis);
+            m_Rotation = Quaternion::Rotate(m_Rotation, angle, axis);
         }
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
