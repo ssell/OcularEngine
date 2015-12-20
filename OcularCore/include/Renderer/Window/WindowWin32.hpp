@@ -63,6 +63,12 @@ namespace Ocular
             ~WindowWin32();
 
             /**
+             * Turns the cursor on and off.
+             * \param[in] show If TRUE, the cursor is displayed.
+             */
+            virtual void showCursor(bool show) override;
+
+            /**
              * Returns the HWND owned by this Window instance.
              * \return HWND
              */

@@ -77,29 +77,6 @@ namespace Ocular
          */
         struct WindowDescriptor
         {
-            WindowDescriptor()
-            {
-                displayName = "Window";
-
-                width  = 800;
-                height = 600;
-                
-                colorBits   = 8;
-                depthBits   = 8;
-                stencilBits = 8;
-
-                displayMode = WindowDisplayMode::WindowedBordered;
-
-                exclusiveMode = false;
-            }
-
-            ~WindowDescriptor()
-            {
-
-            }
-
-            //----------------------------------------
-
             std::string displayName;  ///< Name used for display purposes (such as the title bar)
 
             union {uint32_t width, xResolution; };
@@ -112,6 +89,8 @@ namespace Ocular
             WindowDisplayMode displayMode;
             
             bool exclusiveMode;
+
+            WindowDescriptor() : displayName("Window"), width(800), height(600), colorBits(8), depthBits(8), stencilBits(8), displayMode(WindowDisplayMode::WindowedBordered), exclusiveMode(false) { }
         };
     }
     /**

@@ -258,6 +258,11 @@ namespace Ocular
             m_Transform.rotate(angle, axis);
         }
 
+        void SceneObject::rotate(Math::Quaternion const& rotation)
+        {
+            m_Transform.rotate(rotation);
+        }
+
         void SceneObject::resetRotation()
         {
             m_Transform.setRotation(Math::Quaternion());

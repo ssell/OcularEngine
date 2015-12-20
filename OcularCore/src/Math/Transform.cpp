@@ -147,6 +147,11 @@ namespace Ocular
             m_Rotation = Quaternion::Rotate(m_Rotation, angle, axis);
         }
 
+        void Transform::rotate(Math::Quaternion const& rotation)
+        {
+            m_Rotation = m_Rotation * rotation;
+        }
+
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
         {
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);

@@ -248,6 +248,11 @@ namespace Ocular
             void rotate(float angle, Math::Vector3f const& axis);
 
             /**
+             *
+             */
+            void rotate(Math::Quaternion const& rotation);
+
+            /**
              * Sets the SceneObject's rotation
              * \param[in] rotation
              */

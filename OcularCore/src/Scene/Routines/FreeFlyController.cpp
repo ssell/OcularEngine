@@ -20,6 +20,8 @@
 #include "Scene/SceneObject.hpp"
 #include "Events/Events/KeyboardInputEvent.hpp"
 
+#include "Math/Matrix3x3.hpp"
+
 #include "OcularEngine.hpp"
 
 OCULAR_REGISTER_ROUTINE(Ocular::Core::FreeFlyController, "FreeFlyController")
@@ -39,7 +41,10 @@ namespace Ocular
         FreeFlyController::FreeFlyController()
             : ARoutine(),
               m_LookSensitivity(1.0f),
-              m_MovementModifier(1.0f)
+              m_MovementSpeed(1.0f),
+              m_BurstModifier(5.0f),
+              m_PreventRoll(true),
+              m_IsInBurst(false)
         {
             OcularEvents->registerListener(this, Priority::Medium);
         }
@@ -53,10 +58,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void FreeFlyController::onCreation()
-        {
-
-        }
+        //----------------------------------------------------------------------------------
+        // Inherited Methods
+        //----------------------------------------------------------------------------------
 
         void FreeFlyController::onUpdate(float const delta)
         {
@@ -169,11 +173,28 @@ namespace Ocular
                     break;
                 }
 
+                case KeyboardKeys::ShiftLeft:
+                {
+                    if(inputEvent->state == KeyState::Pressed)
+                    {
+                        m_IsInBurst = true;
+                    }
+                    else
+                    {
+                        m_IsInBurst = false;
+                    }
+                }
+
                 case KeyboardKeys::Space:
                 {
-                    if(m_Parent)
+                    if(inputEvent->state == KeyState::Released)
                     {
-                        m_Parent->resetRotation();
+                        if(m_Parent)
+                        {
+                            m_Euler.x = 0.0f;
+                            m_Euler.y = 0.0f;
+                            m_Parent->resetRotation();
+                        }
                     }
 
                     break;
@@ -188,6 +209,10 @@ namespace Ocular
             return true;
         }
 
+        //----------------------------------------------------------------------------------
+        // Controller Specific Methods
+        //----------------------------------------------------------------------------------
+
         void FreeFlyController::setLookSensitivity(float sensitivity)
         {
             m_LookSensitivity = sensitivity;
@@ -198,14 +223,34 @@ namespace Ocular
             return m_LookSensitivity;
         }
 
-        void FreeFlyController::setMovementModifier(float modifier)
+        void FreeFlyController::setMovementSpeed(float speed)
         {
-            m_MovementModifier = modifier;
+            m_MovementSpeed = speed;
         }
 
-        float FreeFlyController::getMovementModifier() const
+        float FreeFlyController::getMovementSpeed() const
         {
-            return m_MovementModifier;
+            return m_MovementSpeed;
+        }
+
+        void FreeFlyController::setBurstSpeedModifier(float modifier)
+        {
+            m_BurstModifier = modifier;
+        }
+
+        float FreeFlyController::getBurstSpeedModifier() const
+        {
+            return m_BurstModifier;
+        }
+
+        void FreeFlyController::setPreventRoll(bool prevent)
+        {
+            m_PreventRoll = prevent;
+        }
+
+        bool FreeFlyController::getPreventRoll() const
+        {
+            return m_PreventRoll;
         }
 
         //----------------------------------------------------------------------------------
@@ -214,7 +259,14 @@ namespace Ocular
 
         void FreeFlyController::handleMovement(float delta)
         {
-            m_Parent->translate(m_MovementVector * m_MovementModifier * delta);
+            float speed = m_MovementSpeed;
+
+            if(m_IsInBurst)
+            {
+                speed *= m_BurstModifier;
+            }
+
+            m_Parent->translate(m_MovementVector * speed * delta);
         }
 
         void FreeFlyController::handleMouseRotation()
@@ -223,15 +275,27 @@ namespace Ocular
 
             if(currentMousePos != m_LastMousePos)
             {
-                const float dX = static_cast<float>(currentMousePos.x) - static_cast<float>(m_LastMousePos.x);
-                const float dY = static_cast<float>(currentMousePos.y) - static_cast<float>(m_LastMousePos.y);
-                const float dZ = 0.0f;
+                const float dX = (static_cast<float>(currentMousePos.x) - static_cast<float>(m_LastMousePos.x)) * (StaticSensitivityScale * m_LookSensitivity);
+                const float dY = (static_cast<float>(currentMousePos.y) - static_cast<float>(m_LastMousePos.y)) * (StaticSensitivityScale * m_LookSensitivity);
 
-                const Math::Vector3f deltaVec = Math::Vector3f(dX, dY, dZ);
-                const Math::Vector3f deltaNorm = deltaVec.getNormalized();
-                const float deltaMag = deltaVec.getMagnitude() * (StaticSensitivityScale * m_LookSensitivity);
+                if(m_PreventRoll)
+                {
+                    m_Euler.x += -dY;
+                    m_Euler.y += -dX;
 
-                m_Parent->rotate(deltaMag, Math::Vector3f(deltaNorm.y, -deltaNorm.x, 0.0f));
+                    m_Parent->setRotation(Math::Quaternion(m_Euler));
+                }
+                else
+                {
+                    Math::Quaternion rotation = Math::Quaternion(Math::Vector3f(dY, -dX, 0.0f));
+                    m_Parent->rotate(rotation);
+
+                    Math::Quaternion rotX = Math::Quaternion(Math::Vector3f(dY, 0.0f, 0.0f));
+                    Math::Quaternion rotY = Math::Quaternion(Math::Vector3f(0.0f, -dX, 0.0f));
+                
+                    m_Parent->rotate(rotY);
+                    m_Parent->rotate(rotX);
+                }
 
                 m_LastMousePos = currentMousePos;
             }

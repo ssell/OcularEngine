@@ -55,8 +55,8 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 1024;
-    descriptor.height        = 768;
+    descriptor.width         = 1920;
+    descriptor.height        = 1080;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
@@ -65,6 +65,8 @@ bool openWindow()
 
     if(OcularEngine.WindowManager()->openWindow(descriptor))
     {
+        OcularWindows->getMainWindow()->showCursor(false);
+
         if(OcularGraphics->initialize())
         {
             result = true;
@@ -100,6 +102,7 @@ void setupScene()
 
     SceneObject* cubeObject = OcularScene->createObject("Cube");
     cubeObject->setPosition(0.0f, -0.5f, 0.0f);
+    //cubeObject->addRoutine<FreeFlyController>();
 
     RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
     renderable->initialize();

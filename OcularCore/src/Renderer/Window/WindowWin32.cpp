@@ -213,6 +213,18 @@ namespace Ocular
             }
         }
 
+        void WindowWin32::showCursor(bool show)
+        {
+            if(show)
+            {
+                while(ShowCursor(true) < 0);
+            }
+            else
+            {
+                while(ShowCursor(false) >= 0);
+            }
+        }
+
         HWND WindowWin32::getHWND() const
         {
             return m_HWND;

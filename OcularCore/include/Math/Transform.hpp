@@ -146,6 +146,11 @@ namespace Ocular
             void rotate(float angle, Vector3f const& axis);
 
             /**
+             *
+             */
+            void rotate(Math::Quaternion const& rotation);
+
+            /**
              * Rotates the transform so that the forward vector points at the specified point.
              *
              * \param[in] point    Point position in space to look at.

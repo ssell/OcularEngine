@@ -131,6 +131,12 @@ namespace Ocular
              */
             void setDepthTexture(Graphics::DepthTexture* depthTexture);
 
+            /**
+             * Turns the cursor on and off.
+             * \param[in] show If TRUE, the cursor is displayed while the window has focus.
+             */
+            virtual void showCursor(bool show);
+
         protected:
 
             /**
