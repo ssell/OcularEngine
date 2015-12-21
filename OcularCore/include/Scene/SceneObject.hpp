@@ -501,37 +501,17 @@ namespace Ocular
             /**
              *
              */
-            void addRenderable(ARenderable* renderable);
+            void setRenderable(ARenderable* renderable);
 
             /**
              *
              */
-            bool removeRenderable(ARenderable* renderable, bool transferring = false);
+            void removeRenderable();
 
             /**
              *
              */
-            bool removeRenderable(std::string const& name);
-
-            /**
-             *
-             */
-            void removeAllRenderables();
-
-            /**
-             *
-             */
-            ARenderable* getRenderable(std::string const& name);
-
-            /**
-             *
-             */
-            std::vector<ARenderable*> const& getAllRenderables() const;
-
-            /**
-             *
-             */
-            uint32_t getNumRenderables() const;
+            ARenderable* getRenderable() const;
 
             //------------------------------------------------------------
             // Public Members
@@ -570,7 +550,8 @@ namespace Ocular
             bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
 
             std::vector<ARoutine*> m_Routines;
-            std::vector<ARenderable*> m_Renderables;
+            ARenderable* m_Renderable;
+
             std::vector<SceneObject*> m_Children;
         };
     }

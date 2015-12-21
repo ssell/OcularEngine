@@ -105,6 +105,9 @@
     <ClInclude Include="..\..\include\RenderState\D3D11RenderState.hpp">
       <Filter>Header Files\Render State</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\D3D11DynamicRegistration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">

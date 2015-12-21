@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_RENDERABLE_PRIMITIVE_CUBE__H__
-#define __H__OCULAR_CORE_SCENE_RENDERABLE_PRIMITIVE_CUBE__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY__H__
+#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY__H__
 
-#include "Scene/ARenderable.hpp"
+#include "Graphics/Mesh/MeshLoaders/MeshResourceLoader.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,33 +29,38 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
-        class SceneObject;
-
         /**
-         * \class RenderablePrimitiveCube
+         * \class MeshResourceLoader_PLY
+         *
+         * Implementation of AResourceLoader that handles the loading of
+         * files with the '.ply' extension as meshes.
          */
-        class RenderablePrimitiveCube : public ARenderable
+        class MeshResourceLoader_PLY : public MeshResourceLoader
         {
         public:
 
-            RenderablePrimitiveCube(std::string const& name, SceneObject* parent);
-            virtual ~RenderablePrimitiveCube();
-
-            virtual bool initialize() override;
+            MeshResourceLoader_PLY();
+            virtual ~MeshResourceLoader_PLY();
 
         protected:
 
-            bool createMesh();
+            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices) override;
 
         private:
         };
     }
+    /**
+     * @} End of Doxygen Groups
+     */
 }
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 

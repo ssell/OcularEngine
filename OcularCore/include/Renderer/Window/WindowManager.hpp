@@ -20,6 +20,7 @@
 
 #include "WindowDisplay.hpp"
 #include "WindowDescriptor.hpp"
+#include "Window.hpp"
 
 #include <memory>
 #include <list>

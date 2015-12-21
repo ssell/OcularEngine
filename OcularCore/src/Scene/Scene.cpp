@@ -411,27 +411,14 @@ namespace Ocular
                     m_UniformBufferPerObject->bind();
                 }
 
-                const std::vector<ARenderable*> renderables = object->getAllRenderables();
+                ARenderable* renderable = object->getRenderable();
 
-                for(auto iter = renderables.begin(); iter != renderables.end(); ++iter)
+                if(renderable)
                 {
-                    ARenderable* renderable = (*iter);
-
-                    if(renderable)
+                    if(renderable->preRender())
                     {
-                        Graphics::Material* material = renderable->getMaterial();
-                        Graphics::Mesh* mesh = renderable->getMesh();
-
-                        if(material && mesh)
-                        {
-                            material->bind();
-
-                            if(renderable->preRender())
-                            {
-                                OcularGraphics->renderMesh(mesh);
-                                renderable->postRender();
-                            }
-                        }
+                        renderable->render();
+                        renderable->postRender();
                     }
                 }
 

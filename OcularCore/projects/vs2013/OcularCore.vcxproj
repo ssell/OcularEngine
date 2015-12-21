@@ -183,6 +183,8 @@
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
@@ -262,7 +264,7 @@
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
-    <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp" />
+    <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp" />
     <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
@@ -280,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
+    <ClInclude Include="..\..\include\CoreDynamicRegistration.hpp" />
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp" />
@@ -301,6 +304,8 @@
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />
@@ -413,7 +418,7 @@
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
-    <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp" />
+    <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp" />

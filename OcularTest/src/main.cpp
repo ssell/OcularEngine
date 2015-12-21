@@ -15,25 +15,10 @@
  */
 
 #include "OcularEngine.hpp"
-#include "SystemInfo.hpp"
 #include "D3D11GraphicsDriver.hpp"
-#include "Events/EventSnooper.hpp"
-#include "gtest/gtest.h"
 
-#include "Graphics/Shader/ShaderProgram.hpp"
-#include "Shader/D3D11UncompiledShaderResourceLoader.hpp"
-#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
-#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
-#include "Graphics/Material/MaterialResourceLoader.hpp"
-#include "Graphics/Material/Material.hpp"
-
-#include "Scene/Routines/FreeFlyController.hpp"
-#include "Scene/Renderables/RenderablePrimitiveCube.hpp"
-#include "Renderer/Window/Window.hpp"
-
-#include <DirectXMath.h>
-
-Ocular::Core::EventSnooper g_Snooper;
+#include "CoreDynamicRegistration.hpp"
+#include "D3D11DynamicRegistration.hpp"
 
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
@@ -41,12 +26,6 @@ using namespace Ocular::Math;
 using namespace Ocular::Graphics;
 
 //------------------------------------------------------------------------------------------
-
-int runTests(int argc, char** argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 
 bool openWindow()
 {
@@ -79,44 +58,11 @@ bool openWindow()
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
-
-    //--------------------------------------------------------------------
-    // Setup Camera
-
-    Camera* mainCamera = OcularCameras->getMainCamera();
-
-    if(mainCamera)
-    {
-        mainCamera->setPosition(0.0f, 0.0f, 3.0f);
-        mainCamera->addRoutine<FreeFlyController>();
-    }
-
-    //--------------------------------------------------------------------
-    // Setup Input Logger
-
-    SceneObject* inputObject = OcularScene->createObject("Test Object");
-    inputObject->addRoutine("InputLogger");
-
-    //--------------------------------------------------------------------
-    // Setup Cube
-
-    SceneObject* cubeObject = OcularScene->createObject("Cube");
-    cubeObject->setPosition(0.0f, -0.5f, 0.0f);
-    //cubeObject->addRoutine<FreeFlyController>();
-
-    RenderablePrimitiveCube* renderable = new RenderablePrimitiveCube("CubeRenderable", cubeObject);
-    renderable->initialize();
 }
 
 int main(int argc, char** argv)
 {
-    TextureResourceLoader_BMP blergh;
-    TextureResourceLoader_PNG urgh;
-    MaterialResourceLoader blag;
-    D3D11UncompiledShaderResourceLoader blugg;
-
     OcularEngine.initialize(new D3D11GraphicsDriver());
-    SystemInfo::logSystemInfo();
 
     if(openWindow())
     {

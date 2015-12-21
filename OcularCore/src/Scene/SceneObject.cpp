@@ -109,16 +109,12 @@ namespace Ocular
             }
 
             //------------------------------------------------------------
-            // Delete the renderables
+            // Delete the renderable
 
-            while(m_Renderables.size() > 0)
+            if(m_Renderable)
             {
-                ARenderable* renderable = m_Renderables[0];
-
-                delete renderable;
-                renderable = nullptr;
-
-                m_Renderables.erase(m_Renderables.begin());
+                delete m_Renderable;
+                m_Renderable = nullptr;
             }
         }
 
@@ -606,112 +602,24 @@ namespace Ocular
         // Renderable Methods
         //----------------------------------------------------------------
 
-        void SceneObject::addRenderable(ARenderable* renderable)
+        void SceneObject::setRenderable(ARenderable* renderable)
         {
-            if(renderable)
+            removeRenderable();
+            m_Renderable = renderable;
+        }
+
+        void SceneObject::removeRenderable()
+        {
+            if(m_Renderable)
             {
-                bool alreadyOwned = false;
-
-                for(uint32_t i = 0; i < m_Renderables.size(); i++)
-                {
-                    if(m_Renderables[i] == renderable)
-                    {
-                        alreadyOwned = true;
-                        break;
-                    }
-                }
-
-                if(!alreadyOwned)
-                {
-                    m_Renderables.push_back(renderable);
-                }
+                delete m_Renderable;
+                m_Renderable = nullptr;
             }
         }
 
-        bool SceneObject::removeRenderable(ARenderable* renderable, bool transferring)
+        ARenderable* SceneObject::getRenderable() const
         {
-            bool result = false;
-
-            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
-            {
-                if(renderable == (*iter))
-                {
-                    m_Renderables.erase(iter);
-
-                    if(!transferring)
-                    {
-                        delete renderable;
-                        renderable = nullptr;
-
-                        result = true;
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        bool SceneObject::removeRenderable(std::string const& name)
-        {
-            bool result = false;
-
-            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
-            {
-                ARenderable* renderable = (*iter);
-
-                if(renderable->getName().compare(name) == 0)
-                {
-                    m_Renderables.erase(iter);
-
-                    delete renderable;
-                    renderable = nullptr;
-
-                    result = true;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        void SceneObject::removeAllRenderables()
-        {
-            for(uint32_t i = 0; i < m_Renderables.size(); i++)
-            {
-                delete m_Renderables[i];
-                m_Renderables[i] = nullptr;
-            }
-
-            m_Renderables.clear();
-        }
-
-        ARenderable* SceneObject::getRenderable(std::string const& name)
-        {
-            ARenderable* result = nullptr;
-
-            for(auto iter = m_Renderables.begin(); iter != m_Renderables.end(); ++iter)
-            {
-                ARenderable* renderable = (*iter);
-
-                if(renderable->getName().compare(name) == 0)
-                {
-                    result = renderable;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        std::vector<ARenderable*> const& SceneObject::getAllRenderables() const
-        {
-            return m_Renderables;
-        }
-
-        uint32_t SceneObject::getNumRenderables() const
-        {
-            return m_Renderables.size();
+            return m_Renderable;
         }
 
         //----------------------------------------------------------------------------------

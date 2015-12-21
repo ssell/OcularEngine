@@ -223,6 +223,12 @@
     <Filter Include="Header Files\Scene\Routine\Routines">
       <UniqueIdentifier>{d382f5e7-8c38-48d2-b4f7-c9924d7e5445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders">
+      <UniqueIdentifier>{699cbf6b-d9df-40a5-9842-231bc70a93b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders">
+      <UniqueIdentifier>{83fc2867-34b4-4aaa-bb96-3747fff4d994}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -525,9 +531,6 @@
     <ClCompile Include="..\..\src\Scene\ARenderable.cpp">
       <Filter>Source Files\Scene\Renderable</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Scene\Renderables\RenderablePrimitiveCube.cpp">
-      <Filter>Source Files\Scene\Renderable\Renderables</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
@@ -560,6 +563,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Quaternion.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp">
+      <Filter>Source Files\Scene\Renderable\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -992,9 +1004,6 @@
     <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp">
       <Filter>Header Files\Graphics\Shader\Uniform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\Renderables\RenderablePrimitiveCube.hpp">
-      <Filter>Header Files\Scene\Renderable\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
     </ClInclude>
@@ -1030,6 +1039,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Quaternion.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp">
+      <Filter>Header Files\Scene\Renderable\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CoreDynamicRegistration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

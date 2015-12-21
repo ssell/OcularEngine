@@ -14,84 +14,79 @@
  * limitations under the License.
  */
 
-#include "Scene/ARenderable.hpp"
+#include "Graphics/Mesh/MeshLoaders/MeshResourceLoader.hpp"
+#include "Graphics/Mesh/Mesh.hpp"
+
 #include "OcularEngine.hpp"
+
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARenderable::ARenderable(std::string const& name, SceneObject* parent)
-            : m_Name(name),
-              m_Parent(parent)
+        MeshResourceLoader::MeshResourceLoader(std::string const& extension)
+            : Core::AResourceLoader(extension)
         {
-            if(m_Parent)
-            {
-                m_Parent->setRenderable(this);
-            }
+        
         }
 
-        ARenderable::~ARenderable()
+        MeshResourceLoader::~MeshResourceLoader()
         {
-
+        
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        //----------------------------------------------------------------
-        // Getters and Setters
-        //----------------------------------------------------------------
-
-        bool ARenderable::initialize()
+        bool MeshResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
         {
-            return true;
-        }
+            bool result = false;
 
-        bool ARenderable::preRender()
-        {
-            return true;
-        }
-
-        void ARenderable::render()
-        {
-
-        }
-
-        void ARenderable::postRender()
-        {
-
-        }
-
-        SceneObject* ARenderable::getParent()
-        {
-            return m_Parent;
-        }
-
-        void ARenderable::setParent(SceneObject* parent)
-        {
-            if(parent && (parent != m_Parent))
+            if(isFileValid(file))
             {
-                if(m_Parent)
-                {
-                    m_Parent->removeRenderable();
-                }
+                std::vector<Graphics::Vertex> vertices;
+                std::vector<uint32_t> indices;
 
-                m_Parent = parent;
-                m_Parent->setRenderable(this);
+                if(readFile(file, vertices, indices))
+                {
+                    if(createResource(resource, file, vertices, indices))
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to create Resource", OCULAR_INTERNAL_LOG("MeshResourceLoader", "loadResource"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Resource file at '", file.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("MeshResourceLoader", "loadResource"));
+                }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool MeshResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices)
+        {
+            // We are either creating a brand new resource, or loading into memory a pre-existing one.
+
+            bool result = false;
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

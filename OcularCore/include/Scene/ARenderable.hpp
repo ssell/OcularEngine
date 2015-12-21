@@ -18,9 +18,6 @@
 #ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
-#include "Graphics/Mesh/Mesh.hpp"
-#include "Graphics/Material/Material.hpp"
-
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -52,6 +49,7 @@ namespace Ocular
             virtual bool initialize();
 
             virtual bool preRender();     ///< If returns FALSE, will cancel mesh rendering
+            virtual void render();
             virtual void postRender();
 
             //------------------------------------------------------------
@@ -60,23 +58,11 @@ namespace Ocular
             SceneObject* getParent();
             void setParent(SceneObject* parent);
 
-            Graphics::Mesh* getMesh();
-            void setMesh(Graphics::Mesh* mesh);
-
-            Graphics::Material* getMaterial();
-            void setMaterial(Graphics::Material* material);
-
-            std::string getName() const;
-            void setName(std::string const& name);
-
         protected:
 
             std::string m_Name;
 
             SceneObject* m_Parent;
-
-            Graphics::Mesh* m_Mesh;
-            Graphics::Material* m_Material;
 
         private:
         };

@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\D3D11DynamicRegistration.hpp" />
     <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\D3D11Viewport.hpp" />
     <ClInclude Include="..\..\include\Material\D3D11Material.hpp" />

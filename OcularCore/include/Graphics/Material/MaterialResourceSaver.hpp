@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_MATERIAL_RESOURCE_LOADER__H__
-#define __H__OCULAR_GRAPHICS_MATERIAL_RESOURCE_LOADER__H__
+#ifndef __H__OCULAR_GRAPHICS_MATERIAL_RESOURCE_SAVER__H__
+#define __H__OCULAR_GRAPHICS_MATERIAL_RESOURCE_SAVER__H__
 
 #include "Resources/ResourceSaver.hpp"
 

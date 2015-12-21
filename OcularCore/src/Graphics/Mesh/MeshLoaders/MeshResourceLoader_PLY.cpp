@@ -14,84 +14,49 @@
  * limitations under the License.
  */
 
-#include "Scene/ARenderable.hpp"
+#include "Graphics/Mesh/MeshLoaders/MeshResourceLoader_PLY.hpp"
+#include "Resources/ResourceLoaderRegistrar.hpp"
 #include "OcularEngine.hpp"
+
+#include <fstream>
+
+OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::MeshResourceLoader_PLY)
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARenderable::ARenderable(std::string const& name, SceneObject* parent)
-            : m_Name(name),
-              m_Parent(parent)
+        MeshResourceLoader_PLY::MeshResourceLoader_PLY()
+            : MeshResourceLoader(".ply")
         {
-            if(m_Parent)
-            {
-                m_Parent->setRenderable(this);
-            }
+
         }
 
-        ARenderable::~ARenderable()
+        MeshResourceLoader_PLY::~MeshResourceLoader_PLY()
         {
-
+        
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        //----------------------------------------------------------------
-        // Getters and Setters
-        //----------------------------------------------------------------
-
-        bool ARenderable::initialize()
-        {
-            return true;
-        }
-
-        bool ARenderable::preRender()
-        {
-            return true;
-        }
-
-        void ARenderable::render()
-        {
-
-        }
-
-        void ARenderable::postRender()
-        {
-
-        }
-
-        SceneObject* ARenderable::getParent()
-        {
-            return m_Parent;
-        }
-
-        void ARenderable::setParent(SceneObject* parent)
-        {
-            if(parent && (parent != m_Parent))
-            {
-                if(m_Parent)
-                {
-                    m_Parent->removeRenderable();
-                }
-
-                m_Parent = parent;
-                m_Parent->setRenderable(this);
-            }
-        }
-
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool MeshResourceLoader_PLY::readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices)
+        {
+            bool result = false;
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
