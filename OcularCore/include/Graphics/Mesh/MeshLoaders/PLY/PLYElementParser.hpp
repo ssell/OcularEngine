@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY__H__
-#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ELEMENT_PARSER__H__
+#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ELEMENT_PARSER__H__
 
-#include "Graphics/Mesh/MeshLoaders/MeshResourceLoader.hpp"
+#include "PLYParser.hpp"
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,23 +36,29 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class MeshResourceLoader_PLY
-         *
-         * Implementation of AResourceLoader that handles the loading of
-         * files with the '.ply' extension as meshes.
+         * \class PLYElementParser
          */
-        class MeshResourceLoader_PLY : public MeshResourceLoader
+        class PLYElementParser : public PLYParser
         {
         public:
 
-            MeshResourceLoader_PLY();
-            virtual ~MeshResourceLoader_PLY();
+            PLYElementParser();
+            virtual ~PLYElementParser();
+            
+            /**
+             * \note Currently unsafe. May crash if more than expected number of token delimiters (' ') is encountered in the property line.
+             */
+            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII = true) override;
+
+            void addProperty(PLYPropertyType type);
 
         protected:
 
-            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices) override;
-
         private:
+            
+            void insertPropertyValue(int propIndex, float propValue, Vertex& vertex);
+
+            std::vector<PLYPropertyType> m_Properties;
         };
     }
     /**

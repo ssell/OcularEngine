@@ -14,13 +14,7 @@
  * limitations under the License.
  */
 
-#include "Graphics/Mesh/MeshLoaders/MeshResourceLoader_PLY.hpp"
-#include "Resources/ResourceLoaderRegistrar.hpp"
-#include "OcularEngine.hpp"
-
-#include <fstream>
-
-OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::MeshResourceLoader_PLY)
+#include "Graphics/Mesh/MeshLoaders/PLY/PLYParser.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -31,16 +25,16 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        MeshResourceLoader_PLY::MeshResourceLoader_PLY()
-            : MeshResourceLoader(".ply")
+        
+        PLYParser::PLYParser()
+            : type(PLYElementType::Unknown), count(0)
         {
 
         }
 
-        MeshResourceLoader_PLY::~MeshResourceLoader_PLY()
+        PLYParser::~PLYParser()
         {
-        
+
         }
 
         //----------------------------------------------------------------------------------
@@ -51,13 +45,42 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool MeshResourceLoader_PLY::readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices)
+        bool PLYParser::splitProperty(std::string const& line, uint32_t tokenCount, uint32_t* tokens)
         {
-            bool result = false;
+            /**
+             * A very specialized string splitter used to tokenize property lines.
+             * Given the nature of the PLY format, the following assumptions can be madeL
+             *
+             *     - The delimiter is always a space (' ')
+             *     - We already know how many tokens to expect
+             *
+             * We also don't care about placing the tokens into individual strings or buffers.
+             * Instead we can employ just their index, so there is no need to copy string data around.
+             */
+
+            bool result = true;
+            uint32_t currToken = 0;
+
+            tokens[currToken] = 0;
+
+            for(uint32_t i = 1; i < line.size(); i++)
+            {
+                if(line[i] == ' ')
+                {
+                    tokens[currToken] = i;
+                    currToken++;
+
+                    if(currToken >= tokenCount)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
 
             return result;
         }
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
