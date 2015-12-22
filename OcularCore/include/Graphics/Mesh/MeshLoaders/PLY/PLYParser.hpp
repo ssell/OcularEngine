@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_PARSER__H__
 
 #include "Graphics/Mesh/Vertex.hpp"
+#include "PLYEnums.hpp"
 
 #include <cstdint>
 #include <vector>
@@ -32,26 +33,6 @@
  */
 namespace Ocular
 {
-    /**
-     * \enum PLYElementType
-     * \brief Different types of elements (lines) in a PLY file
-     */
-    enum class PLYElementType
-    {
-        Unknown = 0,
-        Vertex,
-        Face,
-        Edge
-    };
-
-    enum class PLYPropertyType
-    {
-        Unknown = 0,
-        X,
-        Y,
-        Z
-    };
-
     /**
      * \addtogroup Graphics
      * @{

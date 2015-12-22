@@ -15,10 +15,9 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ELEMENT_LIST_PARSER__H__
-#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ELEMENT_LIST_PARSER__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ENUMS__H__
+#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY_ENUMS__H__
 
-#include "PLYParser.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,23 +34,26 @@ namespace Ocular
     namespace Graphics
     {
         /**
-         * \class PLYElementListParser
+         * \enum PLYElementType
+         * \brief Different types of elements (lines) in a PLY file
          */
-        class PLYElementListParser : public PLYParser
+        enum class PLYElementType
         {
-        public:
+            Unknown = 0,
+            Vertex,
+            Face,
+            Edge
+        };
 
-            PLYElementListParser();
-            virtual ~PLYElementListParser();
-
-            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII = true) override;
-
-        protected:
-
-        private:
-            
-            void addTriangleFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const;
-            void addQuadFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const;
+        /**
+         * \enum PLYPropertyType
+         */
+        enum class PLYPropertyType
+        {
+            Unknown = 0,
+            X,
+            Y,
+            Z
         };
     }
     /**

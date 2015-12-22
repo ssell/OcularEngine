@@ -240,7 +240,11 @@ namespace Ocular
                     parseProperty(line, dynamic_cast<PLYElementParser*>(parser));
                 }
                 
-                result = parseElementNameAndCount(elementDefinition, parser);
+                if(!parseElementNameAndCount(elementDefinition, parser))
+                {
+                    result = false;
+                    OcularLogger->error("Failed to parse element line '", elementDefinition, "'", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseHeader"));
+                }
             }
             else
             {
@@ -253,21 +257,59 @@ namespace Ocular
 
         bool MeshResourceLoader_PLY::parseElementNameAndCount(std::string const& line, PLYParser* parser) const
         {
-            bool result = true;
+            // Line should be formatted as: 
+            //     element name #
+
+            bool result = false;
+
+            if(line.size() > 8)
+            {
+                std::string nameAndCount = line.substr(8);
+                const size_t find = nameAndCount.find(' ');
+
+                if(find != std::string::npos)
+                {
+                    std::string name = nameAndCount.substr(0, nameAndCount.find(' '));
+                    const uint32_t count = std::stoul(&name[find]);
+
+                    parser->type = toElementType(name);
+                    parser->count = count;
+
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->error("Element line did not contain enough tokens", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseElementNameAndCount"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Element line is insufficient length (", line.size(), ")", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseElementNameAndCount"));
+            }
 
             return result;
         }
 
         bool MeshResourceLoader_PLY::parseProperty(std::string const& line, PLYElementParser* parser) const
         {
+            // Line should be formatted as:
+            //     property type name
+
             bool result = true;
+
+            // TODO
 
             return result;
         }
 
         bool MeshResourceLoader_PLY::parsePropertyList(std::string const& line, PLYElementListParser* parser) const
         {
+            // Line should be formatted as:
+            //     property list type type name
+
             bool result = true;
+
+            // TODO
 
             return result;
         }
@@ -291,6 +333,7 @@ namespace Ocular
                     {
                         result = false;
                         OcularLogger->error("Failed to parse line '", line, "'", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseBody"));
+                        break;
                     }
 
                     currElementCount++;
@@ -307,17 +350,22 @@ namespace Ocular
 
         bool MeshResourceLoader_PLY::isValidPLYFile(std::ifstream& stream) const
         {
-            bool result = false;
+            bool result = true;
 
             std::string line;
             std::getline(stream, line);
 
             if(line.compare("ply") == 0)
             {
-
+                if(!isFormatASCII(line))
+                {
+                    result = false;
+                    OcularLogger->error("Only ASCII formatted PLY files are currently supported" OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "isValidPLYFile"));
+                }
             }
             else
             {
+                result = false;
                 OcularLogger->error("The first line of a PLY file must be 'ply'", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "isValidPLYFile"));
             }
 
@@ -350,6 +398,34 @@ namespace Ocular
                     result = true;
                 }
             }
+            
+            return result;
+        }
+
+        bool MeshResourceLoader_PLY::isFormatASCII(std::string const& line) const
+        {
+            bool result = false;
+
+            if(line.size() >= 12)
+            {
+                if((line[0] == 'f') && (line[1] == 'o') && (line[2] == 'r') && (line[3] == 'm') && (line[4] == 'a') && (line[5] == 't') && (line[6] == ' ') && 
+                   (line[7] == 'a') && (line[8] == 's') && (line[9] == 'c') && (line[10] == 'i') && (line[11] == 'i'))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        PLYPropertyType MeshResourceLoader_PLY::toPropertyType(std::string const& str) const
+        {
+            // TODO
+        }
+
+        PLYElementType MeshResourceLoader_PLY::toElementType(std::string const& str) const
+        {
+            // TODO
         }
 
         //----------------------------------------------------------------------------------

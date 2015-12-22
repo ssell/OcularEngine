@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_MESH_RESOURCE_LOADER_PLY__H__
 
 #include "Graphics/Mesh/MeshLoaders/MeshResourceLoader.hpp"
+#include "PLYEnums.hpp"
 
 #include <list>
 #include <fstream>
@@ -70,8 +71,10 @@ namespace Ocular
             bool isComment(std::string const& line) const;
             bool isElement(std::string const& line) const;
             bool isElementList(std::string const& line) const;
+            bool isFormatASCII(std::string const& line) const;
 
-
+            PLYPropertyType toPropertyType(std::string const& str) const;
+            PLYElementType toElementType(std::string const& str) const;
 
         private:
 

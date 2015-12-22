@@ -229,6 +229,12 @@
     <Filter Include="Source Files\Graphics\Mesh\MeshLoaders">
       <UniqueIdentifier>{83fc2867-34b4-4aaa-bb96-3747fff4d994}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders\PLY">
+      <UniqueIdentifier>{b6afa45b-ca32-479e-b800-95afa67d9abc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\PLY">
+      <UniqueIdentifier>{564d215c-b95e-47af-8e4c-ff4b6fbd4974}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -567,11 +573,20 @@
     <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp">
       <Filter>Source Files\Scene\Renderable\Renderables</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.cpp">
-      <Filter>Source Files\Graphics\Mesh\MeshLoaders</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1046,11 +1061,23 @@
     <ClInclude Include="..\..\include\CoreDynamicRegistration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader_PLY.hpp">
-      <Filter>Header Files\Graphics\Mesh\MeshLoaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYEnums.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

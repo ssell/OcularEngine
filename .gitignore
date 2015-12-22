@@ -20,6 +20,9 @@ latex/
 *.user
 *.sln.docstates
 
+# Resource Files
+.ply
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -206,3 +209,5 @@ FakesAssemblies/
 *.txt
 *.zip
 *.stackdump
+*.ply
+*.ply

@@ -15,7 +15,7 @@
  */
 
 #include "Graphics/Mesh/MeshLoaders/PLY/PLYElementParser.hpp"
-#include <string>
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -44,25 +44,48 @@ namespace Ocular
         
         bool PLYElementParser::parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII)
         {
-            // Parse the property line in a single pass for best performance
+            /**
+             * Each line represents a single element defined by a variable number of properties.
+             * An example of a line that may be parsed is:
+             *
+             *     0.0 1.0 0.0
+             *
+             * Which was defined as:
+             *
+             *     element vertex 1
+             *     property float x
+             *     property float y
+             *     property float z
+             *
+             * So it is the positional vector of a vertex with value (0.0, 1.0, 0.0).
+             */
 
             bool result = true;
-            uint32_t propIndex = 1;
-            float value = std::stof(line);
 
-            insertPropertyValue(0, value, vertices[currVert]);
-
-            for(uint32_t i = 1; i < line.size(); i++)
+            if(type == PLYElementType::Vertex)
             {
-                if(line[i] == ' ')
-                {
-                    value = std::stof(&line[i]);
-                    insertPropertyValue(propIndex, value, vertices[currVert]);
-                    propIndex++;
-                }
-            }
+                uint32_t propIndex = 1;
+                float value = std::stof(line);
 
-            currVert++;
+                insertPropertyValue(0, value, vertices[currVert]);
+
+                for(uint32_t i = 1; i < line.size(); i++)
+                {
+                    if(line[i] == ' ')
+                    {
+                        value = std::stof(&line[i]);
+                        insertPropertyValue(propIndex, value, vertices[currVert]);
+                        propIndex++;
+                    }
+                }
+
+                currVert++;
+            }
+            else
+            {
+                result = false;
+                OcularLogger->error("Individual element parsing is currently only available for Vertex data", OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
+            }
 
             return result;
         }
@@ -82,6 +105,8 @@ namespace Ocular
 
         void PLYElementParser::insertPropertyValue(int propIndex, float propValue, Vertex& vertex)
         {
+            // Indices will never be done as single properties
+
             switch(m_Properties[propIndex])
             {
             case PLYPropertyType::X:
