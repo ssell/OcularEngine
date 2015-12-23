@@ -60,7 +60,7 @@ namespace Ocular
             virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices) override;
 
             bool parseHeader(std::ifstream& stream);
-            bool parseElement(std::ifstream& stream, std::string& line, PLYParser* parser);
+            bool parseElement(std::ifstream& stream, std::string& line, PLYParser** parser);
             bool parseElementNameAndCount(std::string const& line, PLYParser* parser) const;
             bool parseProperty(std::string const& line, PLYElementParser* parser) const;
             bool parsePropertyList(std::string const& line, PLYElementListParser* parser) const;
@@ -75,6 +75,8 @@ namespace Ocular
 
             PLYPropertyType toPropertyType(std::string const& str) const;
             PLYElementType toElementType(std::string const& str) const;
+
+            void reserveVectorSpace(std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices) const;
 
         private:
 

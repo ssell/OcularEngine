@@ -17,6 +17,8 @@
 #include "Graphics/Mesh/MeshLoaders/PLY/PLYElementParser.hpp"
 #include "OcularEngine.hpp"
 
+#include <exception>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -65,17 +67,38 @@ namespace Ocular
             if(type == PLYElementType::Vertex)
             {
                 uint32_t propIndex = 1;
-                float value = std::stof(line);
-
-                insertPropertyValue(0, value, vertices[currVert]);
-
-                for(uint32_t i = 1; i < line.size(); i++)
+                float value = 0.0f;
+                
+                try
                 {
-                    if(line[i] == ' ')
+                    value = std::stof(line);
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to parse string '", line, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
+                }
+
+                if(result)
+                {
+                    insertPropertyValue(0, value, vertices[currVert]);
+
+                    for(uint32_t i = 1; (i < line.size()) && (result); i++)
                     {
-                        value = std::stof(&line[i]);
-                        insertPropertyValue(propIndex, value, vertices[currVert]);
-                        propIndex++;
+                        if(line[i] == ' ')
+                        {
+                            try
+                            {
+                                value = std::stof(&line[i]);
+                                insertPropertyValue(propIndex, value, vertices[currVert]);
+                                propIndex++;
+                            }
+                            catch(std::invalid_argument const& e)
+                            {
+                                result = false;
+                                OcularLogger->error("Failed to parse string '", line, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
+                            }
+                        }
                     }
                 }
 

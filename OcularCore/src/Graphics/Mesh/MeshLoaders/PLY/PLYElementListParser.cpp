@@ -18,6 +18,7 @@
 #include "OcularEngine.hpp"
 
 #include <string>
+#include <exception>
 
 //------------------------------------------------------------------------------------------
 
@@ -50,21 +51,43 @@ namespace Ocular
 
             if(type == PLYElementType::Face)
             {
-                const uint32_t numIndices = std::stoul(line);
+                uint32_t numIndices = 0;
 
-                if((numIndices == 3) || (numIndices == 4))
+                try
+                {
+                    numIndices = std::stoul(line);
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to parse string '", line, "' to unsigned long with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
+                }
+
+                if((result) && ((numIndices == 3) || (numIndices == 4)))
                 {
                     uint32_t* indexBuffer = new uint32_t[numIndices];
                     memset(indexBuffer, 0, sizeof(uint32_t) * numIndices);
 
                     uint32_t indexIndex = 0;
 
-                    for(int i = 1; i < line.size(); i++)
+                    for(uint32_t i = 1; (i < line.size()) && (result); i++)
                     {
                         if(line[i] == ' ')
                         {
-                            indexBuffer[indexIndex] = std::stoul(line);
-                            indexIndex++;
+                            uint32_t index = 0;
+
+                            try
+                            {
+                                index = std::stoul(&line[i]);
+                                indexBuffer[indexIndex] = index;
+                                indexIndex++;
+                            }
+                            catch(std::invalid_argument const& e)
+                            {
+                                result = false;
+                                OcularLogger->error("Failed to parse string '", line, "' to unsigned long with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
+                            }
+
 
                             if(indexIndex >= numIndices)
                             {
@@ -73,7 +96,7 @@ namespace Ocular
                         }
                     }
 
-                    if(indexIndex == (numIndices - 1))
+                    if(indexIndex == numIndices)
                     {
                         if(numIndices == 3)
                         {

@@ -58,6 +58,14 @@ bool openWindow()
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
+
+    Mesh* mesh = OcularResources->getResource<Mesh>("Meshes/cube");
+
+    if(mesh)
+    {
+        int success = 0;
+        success++;
+    }
 }
 
 int main(int argc, char** argv)
