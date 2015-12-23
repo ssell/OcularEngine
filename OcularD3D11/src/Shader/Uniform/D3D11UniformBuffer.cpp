@@ -63,6 +63,12 @@ namespace Ocular
         {
             UniformBuffer::bind();
             
+            if(m_Uniforms.empty())
+            {
+                // Fast exit if there are no uniforms to bind
+                return;
+            }
+
             if(m_D3DDevice == nullptr)
             {
                 /**

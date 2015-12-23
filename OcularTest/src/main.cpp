@@ -20,6 +20,9 @@
 #include "CoreDynamicRegistration.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
+#include "Scene/Routines/FreeFlyController.hpp"
+#include "Scene/Renderables/MeshRenderable.hpp"
+
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
 using namespace Ocular::Math;
@@ -59,13 +62,21 @@ void setupScene()
 {
     OcularScene->loadScene("TestScene");
 
-    Mesh* mesh = OcularResources->getResource<Mesh>("Meshes/cube");
+    Camera* camera = OcularCameras->getMainCamera();
+    camera->setPosition(0.0f, 0.0f, 5.0f);
+    camera->addRoutine<FreeFlyController>();
 
-    if(mesh)
-    {
-        int success = 0;
-        success++;
-    }
+    SceneObject* object = OcularScene->createObject("PLY Test Object");
+    MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
+
+    uint64_t start = OcularClock->getEpochMS();
+    renderable->setMesh("Meshes/bunny_lowres");
+    uint64_t end = OcularClock->getEpochMS();
+
+    OcularLogger->info("Loaded PLY in ", (end - start), "ms");
+    
+    
+    renderable->setMaterial("Materials/Flat");
 }
 
 int main(int argc, char** argv)

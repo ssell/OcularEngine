@@ -57,6 +57,7 @@ namespace Ocular
         private:
             
             void insertPropertyValue(int propIndex, float propValue, Vertex& vertex);
+            bool isTrailingWhitespace(std::string const& string, uint32_t const& index) const;
 
             std::vector<PLYPropertyType> m_Properties;
         };

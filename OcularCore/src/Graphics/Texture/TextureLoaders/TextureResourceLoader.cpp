@@ -80,7 +80,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Resource file at '", file.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
+                    OcularLogger->error("Failed to parse the Resource file at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("TextureResourceLoader", "loadResource"));
                 }
             }
 
@@ -96,8 +96,6 @@ namespace Ocular
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
 
             bool result = false;
-
-            Texture2D* texture = nullptr;
 
             if(resource == nullptr)
             {
@@ -118,9 +116,9 @@ namespace Ocular
                 }
             }
 
-            texture = dynamic_cast<Texture2D*>(resource);
+            Texture2D* texture = dynamic_cast<Texture2D*>(resource);
 
-            if(texture != nullptr)
+            if(texture)
             {
                 if((texture->getWidth() == width) && (texture->getHeight() == height))
                 {
@@ -135,7 +133,7 @@ namespace Ocular
                         OcularLogger->warning("Source file mismatch for pre-existing resource", OCULAR_INTERNAL_LOG("TextureResourceLoader", "createResource"));
                         texture->setSourceFile(file);
                     }
-
+                    
                     if(texture->setPixels(pixels, 0, 0, width, height))
                     {
                         texture->apply();

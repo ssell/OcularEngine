@@ -17,6 +17,7 @@
 #include "Graphics/Mesh/MeshLoaders/MeshResourceLoader.hpp"
 #include "Graphics/Mesh/Mesh.hpp"
 
+#include "Utilities/StringUtils.hpp"
 #include "OcularEngine.hpp"
 
 #include <fstream>
@@ -68,7 +69,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Resource file at '", file.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("MeshResourceLoader", "loadResource"));
+                    OcularLogger->error("Failed to parse the Resource file at '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("MeshResourceLoader", "loadResource"));
                 }
             }
 
@@ -82,8 +83,78 @@ namespace Ocular
         bool MeshResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
+            // If mesh is NULL, then create a new one. Otherwise, make sure it is unloaded.
+            // Then simply provide the vertex and index data to the mesh resource.
 
             bool result = false;
+
+            if(resource == nullptr)
+            {
+                resource = new Mesh();
+                resource->setSourceFile(file);
+            }
+
+            Mesh* mesh = dynamic_cast<Mesh*>(resource);
+
+            if(mesh)
+            {
+                // Ensure not in memory
+                if(mesh->isInMemory())
+                {
+                    OcularLogger->warning("Loading in a mesh resource that is already in memory", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                    mesh->unload();
+                }
+
+                if(!Utils::StringUtils::isEqual(file.getFullPath(), mesh->getSourceFile().getFullPath()))
+                {
+                    OcularLogger->warning("Source file mismatch for pre-existing resource", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                    mesh->setSourceFile(file);
+                }
+
+                VertexBuffer* vertexBuffer = OcularGraphics->createVertexBuffer();
+                IndexBuffer* indexBuffer = OcularGraphics->createIndexBuffer();
+
+                if(vertexBuffer)
+                {
+                    if(indexBuffer)
+                    {
+                        vertexBuffer->addVertices(vertices);
+                        
+                        if(vertexBuffer->build())
+                        {
+                            indexBuffer->addIndices(indices);
+
+                            if(indexBuffer->build())
+                            {
+                                mesh->setVertexBuffer(vertexBuffer);
+                                mesh->setIndexBuffer(indexBuffer);
+
+                                result = true;
+                            }
+                            else
+                            {
+                                OcularLogger->error("Failed to build Index Buffer", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                            }
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to build Vertex Buffer", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to allocate Index Buffer", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to allocate Vertex Buffer", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Provided Resource is not a Mesh or is NULL", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
+            }
 
             return result;
         }

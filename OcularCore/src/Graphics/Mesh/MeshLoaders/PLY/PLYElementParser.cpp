@@ -87,6 +87,11 @@ namespace Ocular
                     {
                         if(line[i] == ' ')
                         {
+                            if(isTrailingWhitespace(line, i))
+                            {
+                                break;
+                            }
+
                             try
                             {
                                 value = std::stof(&line[i]);
@@ -147,6 +152,25 @@ namespace Ocular
             default:
                 break;
             }
+        }
+
+        bool PLYElementParser::isTrailingWhitespace(std::string const& string, uint32_t const& index) const
+        {
+            bool result = false;
+
+            if(string[index] == ' ')
+            {
+                if(index == (string.size() - 1))
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = isTrailingWhitespace(string, (index + 1));
+                }
+            }
+
+            return result;
         }
     }
 }
