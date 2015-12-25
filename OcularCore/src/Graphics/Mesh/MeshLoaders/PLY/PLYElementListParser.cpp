@@ -33,7 +33,7 @@ namespace Ocular
         PLYElementListParser::PLYElementListParser()
             : PLYParser()
         {
-
+            memset(m_IndexBuffer, 0, sizeof(uint32_t) * 4);
         }
 
         PLYElementListParser::~PLYElementListParser()
@@ -51,75 +51,44 @@ namespace Ocular
 
             if(type == PLYElementType::Face)
             {
+                size_t currPos = 0;
+                size_t nextPos = 0;
+
                 uint32_t numIndices = 0;
+                uint32_t numParsed = 0;
 
                 try
                 {
-                    numIndices = std::stoul(line);
-                }
-                catch(std::invalid_argument const& e)
-                {
-                    result = false;
-                    OcularLogger->error("Failed to parse string '", line, "' to unsigned long with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
-                }
-
-                if((result) && ((numIndices == 3) || (numIndices == 4)))
-                {
-                    uint32_t* indexBuffer = new uint32_t[numIndices];
-                    memset(indexBuffer, 0, sizeof(uint32_t) * numIndices);
-
-                    uint32_t indexIndex = 0;
-
-                    for(uint32_t i = 1; (i < line.size()) && (result); i++)
+                    numIndices = std::stoul(line, &currPos);
+                    
+                    if(numIndices == 3)
                     {
-                        if(line[i] == ' ')
+                        for( ; numParsed < numIndices; numParsed++, currPos += nextPos)
                         {
-                            uint32_t index = 0;
-
-                            try
-                            {
-                                index = std::stoul(&line[i]);
-                                indexBuffer[indexIndex] = index;
-                                indexIndex++;
-                            }
-                            catch(std::invalid_argument const& e)
-                            {
-                                result = false;
-                                OcularLogger->error("Failed to parse string '", line, "' to unsigned long with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
-                            }
-
-
-                            if(indexIndex >= numIndices)
-                            {
-                                break;
-                            }
+                            m_IndexBuffer[numParsed] = std::stoul(&line[currPos], &nextPos);
                         }
+
+                        addTriangleFace(indices, currIndex);
                     }
-
-                    if(indexIndex == numIndices)
+                    else if(numIndices == 4)
                     {
-                        if(numIndices == 3)
+                        for( ; numParsed < numIndices; numParsed++, currPos += nextPos)
                         {
-                            addTriangleFace(indexBuffer, indices, currIndex);
+                            m_IndexBuffer[numParsed] = std::stoul(&line[currPos], &nextPos);
                         }
-                        else
-                        {
-                            addQuadFace(indexBuffer, indices, currIndex);
-                        }
+
+                        addQuadFace(indices, currIndex);
                     }
                     else
                     {
                         result = false;
-                        OcularLogger->error("Failed to fully parse line '", line, "' as it ended when more tokens were expected", OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
+                        OcularLogger->error("Invalid number of indices (", numIndices, "); Must be 3 or 4", OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
                     }
-
-                    delete[] indexBuffer;
-                    indexBuffer = nullptr;
                 }
-                else
+                catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Unsupported number of indices for face. Only triangle (3) and quad (4) faces are currently supported", OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
+                    OcularLogger->error("Failed to convert string '", &line[currPos], "' to ulong with error:", e.what(), OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
                 }
             }
             else
@@ -139,23 +108,23 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        void PLYElementListParser::addTriangleFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const
+        void PLYElementListParser::addTriangleFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const
         {
-            indices[currIndex++] = newIndices[0];
-            indices[currIndex++] = newIndices[1];
-            indices[currIndex++] = newIndices[2];
+            indices[currIndex++] = m_IndexBuffer[0];
+            indices[currIndex++] = m_IndexBuffer[1];
+            indices[currIndex++] = m_IndexBuffer[2];
         }
 
-        void PLYElementListParser::addQuadFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const
+        void PLYElementListParser::addQuadFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const
         {
             // Turn a single quad face into two triangles
 
-            indices[currIndex++] = newIndices[0];
-            indices[currIndex++] = newIndices[1];
-            indices[currIndex++] = newIndices[2];
-            indices[currIndex++] = newIndices[2];
-            indices[currIndex++] = newIndices[3];
-            indices[currIndex++] = newIndices[0];
+            indices[currIndex++] = m_IndexBuffer[0];
+            indices[currIndex++] = m_IndexBuffer[1];
+            indices[currIndex++] = m_IndexBuffer[2];
+            indices[currIndex++] = m_IndexBuffer[2];
+            indices[currIndex++] = m_IndexBuffer[3];
+            indices[currIndex++] = m_IndexBuffer[0];
         }
     }
 }

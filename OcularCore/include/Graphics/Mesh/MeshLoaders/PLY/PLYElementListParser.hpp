@@ -50,8 +50,10 @@ namespace Ocular
 
         private:
             
-            void addTriangleFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const;
-            void addQuadFace(uint32_t const* newIndices, std::vector<uint32_t>& indices, uint32_t& currIndex) const;
+            void addTriangleFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const;
+            void addQuadFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const;
+
+            uint32_t m_IndexBuffer[4];
         };
     }
     /**

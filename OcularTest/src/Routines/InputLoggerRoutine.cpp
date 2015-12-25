@@ -72,6 +72,12 @@ bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
         
         OcularLogger->info("The mouse wheel has scrolled ", static_cast<int32_t>(inputEvent->delta));
     }
+    //else if(event->isType<Events::MouseMoveInputEvent>())
+    //{
+        //Events::MouseMoveInputEvent* inputEvent = dynamic_cast<Events::MouseMoveInputEvent*>(event.get());
+
+        //OcularLogger->info("Mouse move to (", inputEvent->currPosition.x, ", ", inputEvent->currPosition.y, ")");
+    //}
 
     return true;
 }

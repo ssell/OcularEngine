@@ -53,7 +53,10 @@ namespace Ocular
             Unknown = 0,
             X,
             Y,
-            Z
+            Z,
+            NormalX,
+            NormalY,
+            NormalZ
         };
     }
     /**

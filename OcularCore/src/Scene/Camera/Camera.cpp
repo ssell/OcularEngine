@@ -23,7 +23,7 @@
 //------------------------------------------------------------------------------------------
 
 static const float DefaultFOV    = 90.0f;
-static const float DefaultNear   = 0.1f;
+static const float DefaultNear   = 0.01f;
 static const float DefaultFar    = 10000.0f;
 static const float DefaultWidth  = 1024.0f;
 static const float DefaultHeight = 768.0f;

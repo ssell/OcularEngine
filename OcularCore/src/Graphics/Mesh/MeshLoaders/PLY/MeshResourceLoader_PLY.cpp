@@ -380,7 +380,7 @@ namespace Ocular
             { 
                 if(((*iter)->type == PLYElementType::Vertex) || ((*iter)->type == PLYElementType::Face))
                 {                  
-                    if(!isComment(line))
+                    if(line[0] != 'c')   // In the body, all lines should be purely numeric values. Except potential comments. Do dirty check of comments with 'c'
                     {
                         if(!(*iter)->parse(line, vertices, indices, currVertex, currIndex))
                         {
@@ -492,6 +492,18 @@ namespace Ocular
             else if(Utils::StringUtils::isEqual(str, "z", true))
             {
                 result = PLYPropertyType::Z;
+            }
+            else if(Utils::StringUtils::isEqual(str, "nx", true))
+            {
+                result = PLYPropertyType::NormalX;
+            }
+            else if(Utils::StringUtils::isEqual(str, "ny", true))
+            {
+                result = PLYPropertyType::NormalY;
+            }
+            else if(Utils::StringUtils::isEqual(str, "nz", true))
+            {
+                result = PLYPropertyType::NormalZ;
             }
 
             return result;

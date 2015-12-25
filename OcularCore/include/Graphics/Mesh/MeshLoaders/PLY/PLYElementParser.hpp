@@ -60,6 +60,7 @@ namespace Ocular
             bool isTrailingWhitespace(std::string const& string, uint32_t const& index) const;
 
             std::vector<PLYPropertyType> m_Properties;
+            uint32_t m_NumProperties;
         };
     }
     /**

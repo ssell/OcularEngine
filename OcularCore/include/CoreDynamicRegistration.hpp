@@ -79,7 +79,7 @@ namespace Ocular
     static const Graphics::TextureResourceSaver_BMP OCULAR_INTERNAL_RESOURCE_SAVER_TEXTURE_BMP;
     static const Graphics::TextureResourceSaver_PNG OCULAR_INTERNAL_RESOURCE_SAVER_TEXTURE_PNG;
 
-    static const Graphics::MaterialResourceSaver OCULAR_INTERNAL_RESOURCE_SAVER_MATERIAL;
+    //static const Graphics::MaterialResourceSaver OCULAR_INTERNAL_RESOURCE_SAVER_MATERIAL;
 
     //--------------------------------------------------------------------------------------
     // Routines

@@ -30,7 +30,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         PLYElementParser::PLYElementParser()
-            : PLYParser()
+            : PLYParser(),
+              m_NumProperties(0)
         {
 
         }
@@ -66,54 +67,26 @@ namespace Ocular
 
             if(type == PLYElementType::Vertex)
             {
-                uint32_t propIndex = 1;
-                float value = 0.0f;
-                
+                size_t currPos = 0;
+                size_t nextPos = 0;
+
+                uint32_t numParsed = 0;
+
                 try
                 {
-                    value = std::stof(line);
+                    for( ; numParsed < m_NumProperties; numParsed++, currPos += nextPos)
+                    {
+                        insertPropertyValue(numParsed, std::stof(&line[currPos], &nextPos), vertices[currVert]);
+                    }
                 }
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to parse string '", line, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
+                    OcularLogger->error("Failed to convert string '", &line[currPos], "' to float with error:", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
                 }
-
-                if(result)
-                {
-                    insertPropertyValue(0, value, vertices[currVert]);
-
-                    for(uint32_t i = 1; (i < line.size()) && (result); i++)
-                    {
-                        if(line[i] == ' ')
-                        {
-                            if(isTrailingWhitespace(line, i))
-                            {
-                                break;
-                            }
-
-                            try
-                            {
-                                value = std::stof(&line[i]);
-                                insertPropertyValue(propIndex, value, vertices[currVert]);
-                                propIndex++;
-                            }
-                            catch(std::invalid_argument const& e)
-                            {
-                                result = false;
-                                OcularLogger->error("Failed to parse string '", line, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
-                            }
-                        }
-                    }
-                }
-
-                currVert++;
             }
-            else
-            {
-                result = false;
-                OcularLogger->error("Individual element parsing is currently only available for Vertex data", OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
-            }
+
+            currVert++;
 
             return result;
         }
@@ -121,6 +94,7 @@ namespace Ocular
         void PLYElementParser::addProperty(PLYPropertyType const type) 
         {
             m_Properties.push_back(type);
+            m_NumProperties++;
         }
 
         //----------------------------------------------------------------------------------
@@ -147,6 +121,18 @@ namespace Ocular
                 
             case PLYPropertyType::Z:
                 vertex.position.z = propValue;
+                break;
+
+            case PLYPropertyType::NormalX:
+                vertex.normal.x = propValue;
+                break;
+
+            case PLYPropertyType::NormalY:
+                vertex.normal.y = propValue;
+                break;
+
+            case PLYPropertyType::NormalZ:
+                vertex.normal.z = propValue;
                 break;
 
             default:

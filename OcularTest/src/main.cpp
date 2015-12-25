@@ -23,6 +23,8 @@
 #include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
 
+#include "Tests/Routines/InputLoggerRoutine.hpp"
+
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
 using namespace Ocular::Math;
@@ -37,8 +39,8 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 1920;
-    descriptor.height        = 1080;
+    descriptor.width         = 800;
+    descriptor.height        = 600;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
@@ -65,12 +67,13 @@ void setupScene()
     Camera* camera = OcularCameras->getMainCamera();
     camera->setPosition(0.0f, 0.0f, 5.0f);
     camera->addRoutine<FreeFlyController>();
+    camera->addRoutine<InputLoggerRoutine>();
 
     SceneObject* object = OcularScene->createObject("PLY Test Object");
     MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
 
     uint64_t start = OcularClock->getEpochMS();
-    renderable->setMesh("Meshes/bunny_lowres");
+    renderable->setMesh("Meshes/bunny_normals");
     uint64_t end = OcularClock->getEpochMS();
 
     OcularLogger->info("Loaded PLY in ", (end - start), "ms");

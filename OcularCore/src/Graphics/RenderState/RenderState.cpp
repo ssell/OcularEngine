@@ -34,12 +34,12 @@ namespace Ocular
         {
             m_RasterState.fillMode               = FillMode::Solid;
             m_RasterState.cullMode               = CullMode::Back;
-            m_RasterState.cullDirection          = CullDirection::CounterClockwise;
+            m_RasterState.cullDirection          = CullDirection::Clockwise;
             m_RasterState.primitiveStyle         = PrimitiveStyle::TriangleList;
             m_RasterState.enableMultisampling    = true;
             m_RasterState.enableLineAntialiasing = false;
 
-            m_BlendState.enableBlending     = true;
+            m_BlendState.enableBlending     = false;
             m_BlendState.srcBlend           = BlendType::One;
             m_BlendState.destBlend          = BlendType::Zero;
             m_BlendState.alphaSrcBlend      = BlendType::One;
