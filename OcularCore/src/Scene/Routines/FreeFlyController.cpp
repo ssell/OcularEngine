@@ -183,6 +183,8 @@ namespace Ocular
                     {
                         m_IsInBurst = false;
                     }
+
+                    break;
                 }
 
                 case KeyboardKeys::Space:

@@ -74,22 +74,35 @@ namespace Ocular
                             col0.w, col1.w, col2.w, col3.w));
         }
 
-        Matrix4x4::Matrix4x4(Quaternion const& quat, Vector3<float> const& position)
+        Matrix4x4::Matrix4x4(Vector3<float> const& position, Quaternion const& rotation)
         {
-            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(quat.getInternal()->quat)));
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(rotation.getInternal()->quat)));
             
             m_Internal->matrix[3][0] = position[0];
             m_Internal->matrix[3][1] = position[1];
             m_Internal->matrix[3][2] = position[2];
         }
 
-        Matrix4x4::Matrix4x4(Vector3<float> const& euler, Vector3<float> const& position)
+        Matrix4x4::Matrix4x4(Vector3<float> const& position, Vector3<float> const& eulerRotation)
         {
-            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(glm::quat(glm::vec3(euler.x, euler.y, euler.z)))));
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(glm::quat(glm::vec3(eulerRotation.x, eulerRotation.y, eulerRotation.z)))));
             
             m_Internal->matrix[3][0] = position[0];
             m_Internal->matrix[3][1] = position[1];
             m_Internal->matrix[3][2] = position[2];
+        }
+
+        Matrix4x4::Matrix4x4(Vector3<float> const& position, Quaternion const& rotation, Vector3<float> const& scale)
+        {
+            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(rotation.getInternal()->quat)));
+
+            m_Internal->matrix[3][0] = position[0];
+            m_Internal->matrix[3][1] = position[1];
+            m_Internal->matrix[3][2] = position[2];
+
+            const Matrix4x4 scaleMatrix = CreateScaleMatrix(scale);
+
+            (*this) *= scaleMatrix;
         }
 
         Matrix4x4::Matrix4x4(Matrix4x4_Internal const& data)
@@ -339,9 +352,14 @@ namespace Ocular
         // STATIC OPERATIONS
         //----------------------------------------------------------------
 
-        Matrix4x4 Matrix4x4::CreateTranslationMatrix(Matrix4x4 const& matrix, Vector3<float> const& translate)
+        Matrix4x4 Matrix4x4::CreateTranslationMatrix(Vector3<float> const& translate, Matrix4x4 const& matrix)
         {
             return Matrix4x4(Matrix4x4_Internal(glm::translate(matrix.getInternal()->matrix, glm::vec3(translate.x, translate.y, translate.z))));
+        }
+
+        Matrix4x4 Matrix4x4::CreateScaleMatrix(Vector3<float> const& scale, Matrix4x4 const& matrix)
+        {
+            return Matrix4x4(Matrix4x4_Internal(glm::scale(matrix.getInternal()->matrix, glm::vec3(scale.x, scale.y, scale.z))));
         }
 
         Matrix4x4 Matrix4x4::CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up)

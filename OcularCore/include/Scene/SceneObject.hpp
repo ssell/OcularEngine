@@ -271,6 +271,21 @@ namespace Ocular
             /**
              *
              */
+            void setScale(Math::Vector3f const& scale);
+
+            /**
+             *
+             */
+            void setScale(float xScale, float yScale, float zScale);
+
+            /**
+             *
+             */
+            Math::Vector3f const& getScale() const;
+
+            /**
+             *
+             */
             void setTransform(Math::Transform const& transform);
 
             /**

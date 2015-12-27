@@ -17,6 +17,7 @@
 #include "Math/Transform.hpp"
 #include "Math/Euler.hpp"
 #include "Math/Matrix3x3.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ namespace Ocular
         }
 
         Transform::Transform()
+            : m_Scale(Vector3f(1.0f, 1.0f, 1.0f))
         {
 
         }
@@ -80,7 +82,7 @@ namespace Ocular
             m_Scale = scale;
         }
 
-        Vector3f Transform::getScale() const
+        Vector3f const& Transform::getScale() const
         {
             return m_Scale;
         }
@@ -159,7 +161,7 @@ namespace Ocular
 
         void Transform::getModelMatrix(Matrix4x4& matrix) const
         {
-            matrix = Matrix4x4(m_Rotation, m_Position);
+            matrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
         }
 
         //----------------------------------------------------------------------------------

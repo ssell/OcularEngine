@@ -111,20 +111,25 @@ namespace Ocular
             Matrix4x4(Vector4<float> const& col0, Vector4<float> const& col1, Vector4<float> const& col2, Vector4<float> const& col3);
 
             /**
-             * Constructs a 4x4 matrix using a quaternion and position.
+             * Constructs a 4x4 matrix using a position and rotation.
              *
-             * \param[in] quat
              * \param[in] position
+             * \param[in] rotation
              */
-            Matrix4x4(Quaternion const& quat, Vector3<float> const& position);
+            Matrix4x4(Vector3<float> const& position, Quaternion const& rotation);
 
             /**
              * Constructs a 4x4 matrix using a set of euler angles and position.
              *
-             * \param[in] euler    (pitch, yaw, roll)
              * \param[in] position
+             * \param[in] eulerRotation (pitch, yaw, roll)
              */
-            Matrix4x4(Vector3<float> const& euler, Vector3<float> const& position);
+            Matrix4x4(Vector3<float> const& position, Vector3<float> const& eulerRotation);
+
+            /**
+             *
+             */
+            Matrix4x4(Vector3<float> const& position, Quaternion const& rotation, Vector3<float> const& scale);
 
             /**
              *
@@ -284,7 +289,12 @@ namespace Ocular
             /**
              *
              */
-            static Matrix4x4 CreateTranslationMatrix(Matrix4x4 const& matrix, Vector3<float> const& translate);
+            static Matrix4x4 CreateTranslationMatrix(Vector3<float> const& translate, Matrix4x4 const& matrix = Matrix4x4() );
+
+            /**
+             *
+             */
+            static Matrix4x4 CreateScaleMatrix(Vector3<float> const& scale, Matrix4x4 const& matrix = Matrix4x4());
 
             /**
              *

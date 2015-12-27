@@ -84,7 +84,7 @@ namespace Ocular
             /**
              *
              */
-            Vector3f getScale() const;
+            Vector3f const& getScale() const;
             
             /**
              * Retrieves the forwards (negative z-axis) vector of this transform.

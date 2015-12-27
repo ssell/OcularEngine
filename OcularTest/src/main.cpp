@@ -70,10 +70,12 @@ void setupScene()
     camera->addRoutine<InputLoggerRoutine>();
 
     SceneObject* object = OcularScene->createObject("PLY Test Object");
+    object->setScale(10.0f, 10.0f, 10.0f);
+
     MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
 
     uint64_t start = OcularClock->getEpochMS();
-    renderable->setMesh("Meshes/bunny_normals");
+    renderable->setMesh("Meshes/dragon_normals");
     uint64_t end = OcularClock->getEpochMS();
 
     OcularLogger->info("Loaded PLY in ", (end - start), "ms");

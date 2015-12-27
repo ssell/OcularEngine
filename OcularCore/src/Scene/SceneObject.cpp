@@ -274,6 +274,21 @@ namespace Ocular
             return m_Transform.getRotation();
         }
 
+        void SceneObject::setScale(Math::Vector3f const& scale)
+        {
+            m_Transform.setScale(scale);
+        }
+
+        void SceneObject::setScale(float const xScale, float const yScale, float const zScale)
+        {
+            m_Transform.setScale(Math::Vector3f(xScale, yScale, zScale));
+        }
+
+        Math::Vector3f const& SceneObject::getScale() const
+        {
+            return m_Transform.getScale();
+        }
+
         void SceneObject::setTransform(Math::Transform const& transform)
         {
             m_Transform = transform;
