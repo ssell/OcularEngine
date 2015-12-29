@@ -170,7 +170,7 @@ namespace Ocular
 
         Math::Matrix4x4 const& Camera::getViewMatrix()
         {
-            m_Transform.getModelMatrix(m_ViewMatrix);
+            getModelMatrix(m_ViewMatrix);
             m_ViewMatrix.invert();
 
             return m_ViewMatrix;

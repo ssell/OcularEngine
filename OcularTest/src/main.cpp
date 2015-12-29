@@ -71,17 +71,26 @@ void setupScene()
     //renderState->bind();
 
     Camera* camera = OcularCameras->getMainCamera();
-    camera->setPosition(0.0f, 0.0f, 5.0f);
-    camera->addRoutine<FreeFlyController>();
-    camera->addRoutine<InputLoggerRoutine>();
+    camera->setPosition(0.0f, 3.0f, 5.0f);
+
+    SceneObject* cube = OcularScene->createObject("Camera Cube");
+    cube->setPosition(0.0f, 0.0f, 5.0f);
+    cube->addRoutine<FreeFlyController>();
+    cube->addRoutine<InputLoggerRoutine>();
+    cube->addChild(camera);
+
+    MeshRenderable* renderableA = new MeshRenderable("PLY Renderable", cube);
+    renderableA->setMesh("Meshes/cube_normals");
+    renderableA->setMaterial("Materials/Flat");
+
 
     SceneObject* object = OcularScene->createObject("PLY Test Object");
-    object->setScale(5.0f, 5.0f, 5.0f);
+    //object->setScale(5.0f, 5.0f, 5.0f);
 
     MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
 
     uint64_t start = OcularClock->getEpochMS();
-    renderable->setMesh("Meshes/dragon_normals");
+    renderable->setMesh("Meshes/cube_normals");
     uint64_t end = OcularClock->getEpochMS();
 
     OcularLogger->info("Loaded PLY in ", (end - start), "ms");

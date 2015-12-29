@@ -160,7 +160,10 @@ namespace Ocular
 
             //------------------------------------------------------------
             
-            void getModelMatrix(Math::Matrix4x4& matrix) const;
+            /**
+             *
+             */
+            Matrix4x4 const&  getModelMatrix();
 
         protected:
 
@@ -169,6 +172,10 @@ namespace Ocular
             Vector3f   m_Position;
             Quaternion m_Rotation;
             Vector3f   m_Scale;
+
+            Matrix4x4 m_ModelMatrix;
+
+            bool m_IsMatrixDirty;
         };
     }
     /**

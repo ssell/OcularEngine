@@ -30,13 +30,13 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Transform::Transform(Vector3f const& position, Quaternion const& rotation, Vector3f const& scale)
-            : m_Position(position), m_Rotation(rotation), m_Scale(scale)
+            : m_Position(position), m_Rotation(rotation), m_Scale(scale), m_IsMatrixDirty(true)
         {
         
         }
 
         Transform::Transform()
-            : m_Scale(Vector3f(1.0f, 1.0f, 1.0f))
+            : m_Scale(Vector3f(1.0f, 1.0f, 1.0f)), m_IsMatrixDirty(true)
         {
 
         }
@@ -53,6 +53,7 @@ namespace Ocular
         void Transform::setPosition(Vector3f const& position)
         {
             m_Position = position;
+            m_IsMatrixDirty = true;
         }
 
         void Transform::setPosition(float const x, float const y, float const z)
@@ -60,6 +61,8 @@ namespace Ocular
             m_Position.x = x;
             m_Position.y = y;
             m_Position.z = z;
+
+            m_IsMatrixDirty = true;
         }
 
         Vector3f const& Transform::getPosition() const
@@ -127,6 +130,8 @@ namespace Ocular
             {
                 m_Position += translation;
             }
+
+            m_IsMatrixDirty = true;
         }
 
         void Transform::moveForward(float const delta)
@@ -147,21 +152,30 @@ namespace Ocular
         void Transform::rotate(float const angle, Vector3f const& axis)
         {
             m_Rotation = Quaternion::Rotate(m_Rotation, angle, axis);
+            m_IsMatrixDirty = true;
         }
 
         void Transform::rotate(Math::Quaternion const& rotation)
         {
             m_Rotation = m_Rotation * rotation;
+            m_IsMatrixDirty = true;
         }
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
         {
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
+            m_IsMatrixDirty = true;
         }
 
-        void Transform::getModelMatrix(Matrix4x4& matrix) const
+        Matrix4x4 const& Transform::getModelMatrix()
         {
-            matrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            if(m_IsMatrixDirty)
+            {
+                m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+                m_IsMatrixDirty = false;
+            }
+
+            return m_ModelMatrix;
         }
 
         //----------------------------------------------------------------------------------

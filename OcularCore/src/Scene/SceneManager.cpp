@@ -367,7 +367,7 @@ namespace Ocular
 
         void SceneManager::objectParentChanged(SceneObject* object, SceneObject* oldParent)
         {
-            if(m_Scene)
+            if(m_Scene && object && oldParent)
             {
                 m_Scene->objectParentChanged(object, oldParent);
             }

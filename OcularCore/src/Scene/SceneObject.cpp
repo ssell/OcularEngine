@@ -19,6 +19,7 @@
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
 #include "Scene/RoutineFactory.hpp"
+#include "Math/Matrix4x4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -221,7 +222,7 @@ namespace Ocular
 
         Graphics::UniformPerObject const& SceneObject::getUniformData()
         {
-            m_Transform.getModelMatrix(m_UniformData.modelMatrix);
+            getModelMatrix(m_UniformData.modelMatrix);
             return m_UniformData;
         }
 
@@ -342,7 +343,11 @@ namespace Ocular
             if(child)
             {
                 SceneObject* oldParent = child->getParent();
-                oldParent->removeChild(child);
+
+                if(oldParent)
+                {
+                    oldParent->removeChild(child);
+                }
 
                 child->m_Parent = this;
                 child->setActive(isActive());
@@ -640,6 +645,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void SceneObject::getModelMatrix(Math::Matrix4x4& matrix)
+        {
+            Math::Matrix4x4 parentMatrix;
+
+            if(m_Parent)
+            {
+                m_Parent->getModelMatrix(parentMatrix);
+            }
+
+            matrix = parentMatrix * m_Transform.getModelMatrix();
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

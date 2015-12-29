@@ -39,6 +39,11 @@
  */
 namespace Ocular
 {
+    namespace Math
+    {
+        class Matrix4x4;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -114,7 +119,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             * Returns the current transform of this object.
+             * Returns the current local transform of this object.
              */
             Math::Transform& getTransform();
 
@@ -537,6 +542,10 @@ namespace Ocular
 			Math::BoundsOBB    boundsOBB;
 
         protected:
+
+            void getModelMatrix(Math::Matrix4x4& matrix);
+
+            //------------------------------------------------------------
 
             SceneObject* m_Parent;
 
