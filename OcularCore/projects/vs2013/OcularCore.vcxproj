@@ -188,6 +188,8 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYParser.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\MeshResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
@@ -313,6 +315,8 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYEnums.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYParser.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\MeshResourceSaver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />

@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_VERTEX__H__
-#define __H__OCULAR_GRAPHICS_VERTEX__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_SAVER_PLY__H__
+#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_SAVER_PLY__H__
 
-#include "Math/Vector4.hpp"
-#include "Math/Color.hpp"
+#include "Graphics/Mesh/MeshSavers/MeshResourceSaver.hpp"
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,25 +35,31 @@ namespace Ocular
      */
     namespace Graphics
     {
-        // No need for packing since all individual elements are 32-bits (or multiples thereof) long (?)
+        class VertexBuffer;
+        class IndexBuffer;
 
         /**
-         * \struct Vertex
+         * \class MeshResourceSaver_PLY
+         *
+         * Saves Mesh resources as ASCII PLY files.
          */
-        struct Vertex
+        class MeshResourceSaver_PLY : public MeshResourceSaver
         {
-            Math::Vector3f position;    ///< Spatial coordinates of the vertex
-            Math::Vector4f color;       ///< Base color of the vertex
-            Math::Vector3f normal;      ///< Normal coordinates of the vertex
-            Math::Vector2f uv0;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv1;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv2;         ///< Texture coordinates of the vertex
-            Math::Vector2f uv3;         ///< Texture coordinates of the vertex
+        public:
 
-            Vertex()
-            {
-                color = Core::Color::White();
-            }
+            MeshResourceSaver_PLY();
+            virtual ~MeshResourceSaver_PLY();
+
+        protected:
+
+            virtual bool saveFile(Core::File const& file, VertexBuffer const* vertexBuffer, IndexBuffer const* indexBuffer) override;
+
+            bool validateGeometryCount(uint32_t numVertices, uint32_t numIndices, uint32_t numFaces) const;
+
+            bool writeHeader(std::ofstream& stream, uint32_t numVertices, uint32_t numFaces) const;
+            bool writeBody(std::ofstream& stream, VertexBuffer const* vertexBuffer, IndexBuffer const* indexBuffer) const;
+
+        private:
         };
     }
     /**

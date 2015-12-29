@@ -55,7 +55,7 @@ namespace Ocular
             }
         }
 
-        void ResourceExplorer::setResourceDirectoryName(std::string name)
+        void ResourceExplorer::setResourceDirectoryName(std::string const& name)
         {
             m_DirectoryName = name;
         }

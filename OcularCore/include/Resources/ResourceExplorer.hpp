@@ -63,7 +63,7 @@ namespace Ocular
              * \param[in] name Name of root directories that contain resource files.
              * \note populateResourceMap will need to be called to update entries with new directories
              */
-            void setResourceDirectoryName(std::string name);
+            void setResourceDirectoryName(std::string const& name);
 
             /**
              * If extension-sensitive, then map keys will include the file extension. <br/>

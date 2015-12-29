@@ -57,6 +57,7 @@
 #include "Graphics/Material/MaterialResourceSaver.hpp"
 
 #include "Graphics/Mesh/MeshLoaders/PLY/MeshResourceLoader_PLY.hpp"
+#include "Graphics/Mesh/MeshSavers/PLY/MeshResourceSaver_PLY.hpp"
 
 namespace Ocular
 {
@@ -80,6 +81,8 @@ namespace Ocular
     static const Graphics::TextureResourceSaver_PNG OCULAR_INTERNAL_RESOURCE_SAVER_TEXTURE_PNG;
 
     //static const Graphics::MaterialResourceSaver OCULAR_INTERNAL_RESOURCE_SAVER_MATERIAL;
+
+    static const Graphics::MeshResourceSaver_PLY OCULAR_INTERNAL_RESOURCE_SAVER_MESH_PLY;
 
     //--------------------------------------------------------------------------------------
     // Routines

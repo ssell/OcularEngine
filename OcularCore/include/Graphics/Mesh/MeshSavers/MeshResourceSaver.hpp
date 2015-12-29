@@ -15,13 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_SAVER__H__
-#define __H__OCULAR_GRAPHICS_TEXTURE_RESOURCE_SAVER__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_RESOURCE_SAVER__H__
+#define __H__OCULAR_GRAPHICS_MESH_RESOURCE_SAVER__H__
 
 #include "Resources/ResourceSaver.hpp"
-#include "Math/Color.hpp"
-#include "Common.hpp"
-
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -38,29 +35,32 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class VertexBuffer;
+        class IndexBuffer;
+
         /**
-         * \class TextureResourceSaver
+         * \class MeshResourceSaver
          *
          * This is a common base implementation for all other ResourceSavers that deal with
-         * saving Texture2D resources to disk. It provides a common base saveResource
+         * saving Mesh resources to disk. It provides a common base saveResource
          * method as well as multiple utility helper methods.
          *
-         * By inheriting from TextureResourceSaver instead of AResourceSaver, the developer
+         * By inheriting from MeshResourceSaver instead of AResourceSaver, the developer
          * needs to only worry about their specific saveFile implementation.
          */
-        class TextureResourceSaver : public Core::AResourceSaver
+        class MeshResourceSaver : public Core::AResourceSaver
         {
         public:
 
-            TextureResourceSaver(std::string const& extension);
-            virtual ~TextureResourceSaver();
+            MeshResourceSaver(std::string const& extension);
+            virtual ~MeshResourceSaver();
 
             virtual bool saveResource(Core::Resource* resource, Core::File const& file);
 
         protected:
 
             /**
-             * Each TextureResourceSaver must provide a custom implementation for it's specific file type.
+             * Each MeshResourceSaver must provide a custom implementation for it's specific file type.
              *
              * The input into this method is guaranteed to be valid. This means
              *
@@ -68,14 +68,13 @@ namespace Ocular
              *   - The dimensions are valid
              *   - There is a non-zero number of pixels, and their number is equal to (width * height)
              *
-             * \param[in] file   File to write to. This file has already been verified to exist and be writeable.
-             * \param[in] pixels Texture pixel data to write to the file.
-             * \param[in] width  Width of the texture.
-             * \param[in] height Height of the texture.
+             * \param[in] file         File to write to. This file has already been verified to exist and be writeable.
+             * \param[in] vertexBuffer Vertex data to write
+             * \param[in] indexBuffer  Index data to write
              *
              * \return TRUE if the file was successfully saved.
              */
-            virtual bool saveFile(Core::File const& file, std::vector<Core::Color> const& pixels, unsigned const width, unsigned const height) = 0;
+            virtual bool saveFile(Core::File const& file, VertexBuffer const* vertexBuffer, IndexBuffer const* indexBuffer) = 0;
 
             /**
              * Checks if the specified file is valid. It can be valid in one of two ways:
@@ -86,16 +85,6 @@ namespace Ocular
              * \return TRUE if the file is valid.
              */
             virtual bool isFileValid(Core::File& file);
-
-            /**
-             * Checks if the specified resource is valid. It is valid when the following conditions are met:
-             *
-             *   - The resource is not NULL
-             *   - The resource is a Texture2D
-             *
-             * \return TRUE if the resource is valid.
-             */
-            virtual bool isResourceValid(Core::Resource* resource);
 
         private:
         };

@@ -235,6 +235,18 @@
     <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\PLY">
       <UniqueIdentifier>{564d215c-b95e-47af-8e4c-ff4b6fbd4974}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshSavers">
+      <UniqueIdentifier>{2c32a2ff-6b84-42b4-84e6-e4b9619e0996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshSavers\PLY">
+      <UniqueIdentifier>{283cef79-e12d-4268-83b5-511a3440ec27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshSavers">
+      <UniqueIdentifier>{ea04af82-ce98-4c7e-9cee-0cadbc6057bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshSavers\PLY">
+      <UniqueIdentifier>{0785ac3a-0961-4823-b233-b92c58e5a4c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -587,6 +599,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYParser.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\MeshResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshSavers\PLY</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1078,6 +1096,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYEnums.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\MeshResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshSavers\PLY</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

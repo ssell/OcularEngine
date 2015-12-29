@@ -39,8 +39,8 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 800;
-    descriptor.height        = 600;
+    descriptor.width         = 1920;
+    descriptor.height        = 1080;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
@@ -64,13 +64,19 @@ void setupScene()
 {
     OcularScene->loadScene("TestScene");
 
+    //RenderState* renderState = OcularGraphics->getRenderState();
+    //RasterState rasterState = renderState->getRasterState();
+    //rasterState.cullDirection = CullDirection::Clockwise;
+    //renderState->setRasterState(rasterState);
+    //renderState->bind();
+
     Camera* camera = OcularCameras->getMainCamera();
     camera->setPosition(0.0f, 0.0f, 5.0f);
     camera->addRoutine<FreeFlyController>();
     camera->addRoutine<InputLoggerRoutine>();
 
     SceneObject* object = OcularScene->createObject("PLY Test Object");
-    object->setScale(10.0f, 10.0f, 10.0f);
+    object->setScale(5.0f, 5.0f, 5.0f);
 
     MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
 

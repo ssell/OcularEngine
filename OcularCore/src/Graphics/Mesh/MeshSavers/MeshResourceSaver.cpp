@@ -15,8 +15,8 @@
  */
 
 #include "OcularEngine.hpp"
-#include "Graphics/Texture/TextureSavers/TextureResourceSaver.hpp"
-#include "Graphics/Texture/Texture2D.hpp"
+#include "Graphics/Mesh/MeshSavers/MeshResourceSaver.hpp"
+#include "Graphics/Mesh/Mesh.hpp"
 #include "Utilities/StringUtils.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -29,13 +29,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        TextureResourceSaver::TextureResourceSaver(std::string const& extension)
+        MeshResourceSaver::MeshResourceSaver(std::string const& extension)
             : Core::AResourceSaver(extension)
         {
         
         }
 
-        TextureResourceSaver::~TextureResourceSaver()
+        MeshResourceSaver::~MeshResourceSaver()
         {
         
         }
@@ -44,38 +44,35 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceSaver::saveResource(Core::Resource* resource, Core::File const& file)
+        bool MeshResourceSaver::saveResource(Core::Resource* resource, Core::File const& file)
         {
             bool result = false;
 
             Core::File tempFile = file;
 
-            if(isResourceValid(resource))
+            Mesh* mesh = dynamic_cast<Mesh*>(resource);
+
+            if(mesh)
             {
                 if(isFileValid(tempFile))
                 {
-                    Texture2D* texture = dynamic_cast<Texture2D*>(resource);
-
-                    std::vector<Core::Color> pixels;
-                    texture->getPixels(pixels);
-
-                    if(saveFile(file, pixels, texture->getWidth(), texture->getHeight()))
+                    if(saveFile(file, mesh->getVertexBuffer(), mesh->getIndexBuffer()))
                     {
                         result = true;
                     }
                     else
                     {
-                        OcularLogger->error("Failed to save resource", OCULAR_INTERNAL_LOG("TextureResourceSaver", "saveResource"));
+                        OcularLogger->error("Failed to save resource", OCULAR_INTERNAL_LOG("MeshResourceSaver", "saveResource"));
                     }
                 }
                 else
                 {
-                    OcularLogger->error("Failed to save resource: invalid destination file", OCULAR_INTERNAL_LOG("TextureResourceSaver", "saveResource"));
+                    OcularLogger->error("Failed to save resource: invalid destination file", OCULAR_INTERNAL_LOG("MeshResourceSaver", "saveResource"));
                 }
             }
             else
             {
-                OcularLogger->error("Failed to save resource: invalid resource", OCULAR_INTERNAL_LOG("TextureResourceSaver", "saveResource"));
+                OcularLogger->error("Failed to save resource: invalid resource", OCULAR_INTERNAL_LOG("MeshResourceSaver", "saveResource"));
             }
 
             return result;
@@ -85,7 +82,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceSaver::isFileValid(Core::File& file)
+        bool MeshResourceSaver::isFileValid(Core::File& file)
         {
             bool result = false;
 
@@ -117,31 +114,6 @@ namespace Ocular
                 {
                     OcularLogger->error("Specified file destination '", file.getFullPath(), "' does not exist and unable to create matching file", OCULAR_INTERNAL_LOG("TextureResourceSaver", "isFileValid"));
                 }
-            }
-
-            return result;
-        }
-
-        bool TextureResourceSaver::isResourceValid(Core::Resource* resource)
-        {
-            bool result = false;
-
-            if(resource != nullptr)
-            {
-                Texture2D* texture = dynamic_cast<Texture2D*>(resource);
-
-                if(texture != nullptr)
-                {
-                    result = true;
-                }
-                else 
-                {
-                    OcularLogger->error("Provided resource is not a Texture2D", OCULAR_INTERNAL_LOG("TextureResourceSaver", "isResourceValid"));
-                }
-            }
-            else
-            {
-                OcularLogger->error("Provided resource is NULL", OCULAR_INTERNAL_LOG("TextureResourceSaver", "isResourceValid"));
             }
 
             return result;

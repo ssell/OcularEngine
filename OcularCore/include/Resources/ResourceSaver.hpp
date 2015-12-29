@@ -19,7 +19,10 @@
 #define __H__OCULAR_RESOURCES_RESOURCE_SAVER__H__
 
 #include "Resource.hpp"
+#include "Common.hpp"
+
 #include <string>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -59,6 +62,19 @@ namespace Ocular
             virtual bool saveResource(Resource* resource, File const& file);
 
         protected:
+
+            /**
+             * Writes the full contents of the provided buffer to the specified file in the requisite endianness.
+             *
+             * It is assumed that the incoming buffer has native endian ordering.
+             *
+             * \param[in] file File to write the buffer to
+             * \param[in] buffer Buffer container containing the entire file to write.
+             * \param[in] fileEndianness The endianness in which to write the data.
+             *
+             * \return TRUE if successful.
+             */
+            virtual bool writeFile(Core::File const& file, std::vector<unsigned char> buffer, Endianness fileEndianness);
 
             std::string m_SupportedExtension;
 

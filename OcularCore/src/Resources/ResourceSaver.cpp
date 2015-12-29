@@ -15,6 +15,8 @@
  */
 
 #include "Resources/ResourceSaver.hpp"
+#include "Utilities/EndianOps.hpp"
+#include <fstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -53,6 +55,30 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool AResourceSaver::writeFile(Core::File const& file, std::vector<unsigned char> buffer, Endianness fileEndianness)
+        {
+            bool result = false;
+
+            std::ofstream outStream(file.getFullPath(), std::ios_base::out || std::ios_base::binary);
+
+            if(outStream.is_open())
+            {
+                // We can write to the file. First perform the endian conversion.
+
+                for(unsigned i = 0; i < buffer.size(); i++)
+                {
+                    Utils::EndianOps::convert(Endianness::Native, fileEndianness, buffer[i]);
+                }
+
+                outStream.write(reinterpret_cast<char*>(&buffer[0]), buffer.size());
+                outStream.close();
+
+                result = true;
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
