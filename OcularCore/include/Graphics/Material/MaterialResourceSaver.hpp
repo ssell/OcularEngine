@@ -51,6 +51,8 @@ namespace Ocular
 
         protected:
 
+            bool validateResource(Core::Resource const* resource) const;
+
         private:
         };
     }

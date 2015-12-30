@@ -41,6 +41,8 @@ namespace Ocular
          */
         class Resource 
         {
+            friend class ResourceManager;
+
         public:
 
             /**
@@ -109,6 +111,11 @@ namespace Ocular
              */
             std::string const& getName() const;
 
+            /**
+             *
+             */
+            std::string const& getMappingName() const;
+
         protected:
 
             ResourceType m_Type;
@@ -119,6 +126,7 @@ namespace Ocular
             uint64_t m_SizeInMemory;
 
             std::string m_Name;
+            std::string m_MappingName;
 
         private:
 

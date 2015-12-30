@@ -962,16 +962,16 @@ namespace Ocular
             // CPU Access
 
             /**
-             * For the following restrictions, see the D3D11_USAGE flag values at:
+             * For the following restrictions, see the D3D11_USAGE flag values at:<br/>
              * https://msdn.microsoft.com/en-us/library/windows/desktop/ff476259(v=vs.85).aspx
              *
-             * Note: currently do not support STAGING
+             * Note: currently does not support STAGING
              *
-             * Usage Flags | CPU Read | CPU Write | GPU Read | GPU Write
-             * ------------|----------|-----------|----------|------------
-             *     DEFAULT |     Y    |     Y     |     Y    |     Y
-             *   IMMUTABLE |          |           |     Y    |
-             *     DYNAMIC |          |     Y     |     Y    |
+             * | Usage Flags | CPU Read | CPU Write | GPU Read | GPU Write |
+             * | ----------- | -------- | --------- | -------- | --------- |
+             * | DEFAULT     | Y        | Y         | Y        | Y         |
+             * | IMMUTABLE   |          |           | Y        |           |
+             * | DYNAMIC     |          | Y         | Y        |           |
              */
 
             static const std::string genericAccessMessage = "Only the following access combinations are supported: CPU Read/Write + GPU Read/Write, GPU Read, CPU Write + GPU Read";

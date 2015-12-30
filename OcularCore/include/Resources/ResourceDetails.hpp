@@ -53,7 +53,7 @@ namespace Ocular
             /**
              *
              */
-            Resource*getResource();
+            Resource* getResource();
 
             /**
              *

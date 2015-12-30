@@ -57,7 +57,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool MeshResourceLoader_PLY::readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices)
+        bool MeshResourceLoader_PLY::readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices)
         {
             bool result = false;
 
@@ -67,7 +67,7 @@ namespace Ocular
             {
                 if(parseHeader(stream))
                 {
-                    if(parseBody(stream, vertices, indices))
+                    if(parseBody(stream, vertices, indices, numVertices, numIndices))
                     {
                         result = true;
                     }
@@ -363,15 +363,13 @@ namespace Ocular
             return result;
         }
 
-        bool MeshResourceLoader_PLY::parseBody(std::ifstream& stream, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices)
+        bool MeshResourceLoader_PLY::parseBody(std::ifstream& stream, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices)
         {
             bool result = true;
 
             std::list<PLYParser*>::iterator iter = m_Parsers.begin();
             std::string line; 
 
-            uint32_t currVertex       = 0;
-            uint32_t currIndex        = 0;
             uint32_t currElementCount = 0;
 
             reserveVectorSpace(vertices, indices);
@@ -382,7 +380,7 @@ namespace Ocular
                 {                  
                     if(line[0] != 'c')   // In the body, all lines should be purely numeric values. Except potential comments. Do dirty check of comments with 'c'
                     {
-                        if(!(*iter)->parse(line, vertices, indices, currVertex, currIndex))
+                        if(!(*iter)->parse(line, vertices, indices, numVertices, numIndices))
                         {
                             result = false;
                             OcularLogger->error("Failed to parse line '", line, "'", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseBody"));

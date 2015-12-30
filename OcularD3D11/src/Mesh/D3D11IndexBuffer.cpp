@@ -40,6 +40,8 @@ namespace Ocular
         {
             if(m_D3DIndexBuffer)
             {
+                unbind();
+
                 m_D3DIndexBuffer->Release();
                 m_D3DIndexBuffer = nullptr;
             }
@@ -111,7 +113,14 @@ namespace Ocular
         {
             if(m_D3DDeviceContext)
             {
-                m_D3DDeviceContext->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
+                // Only unbind if we are the currently bound buffer
+                ID3D11Buffer* currBuffer = nullptr;
+                m_D3DDeviceContext->IAGetIndexBuffer(&currBuffer, nullptr, nullptr);
+
+                if(m_D3DIndexBuffer == currBuffer)
+                {
+                    m_D3DDeviceContext->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
+                }
             }
         }
 

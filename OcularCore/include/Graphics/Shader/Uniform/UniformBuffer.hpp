@@ -110,6 +110,16 @@ namespace Ocular
              */
             Uniform const* getUniform(uint32_t registerIndex) const;
 
+            /**
+             * \return Returns the number of individual uniforms in this UniformBuffer
+             */
+            uint32_t getNumUniforms() const;
+
+            /**
+             * \return The total size of the UniformBuffer on the GPU
+             */
+            uint32_t getUniformsSize() const;
+
         protected:
 
             uint32_t m_Type;
@@ -119,7 +129,6 @@ namespace Ocular
             
             float*   m_UniformData;             ///< Raw, packed (16-byte) uniform data. Only modify when m_IsDirty is true and not in use by GPU.
             uint32_t m_UniformDataSize;         ///< Size of the raw uniform data 
-
 
         private:
         };

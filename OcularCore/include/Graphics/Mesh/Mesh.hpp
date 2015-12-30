@@ -38,6 +38,7 @@ namespace Ocular
     {
         /**
          * \class Mesh 
+         * \brief Combination of a VertexBuffer and IndexBuffer
          */
         class Mesh : public Core::Resource
         {
@@ -46,15 +47,55 @@ namespace Ocular
             Mesh();
             ~Mesh();
 
+            /**
+             * Binds the Vertex and Index Buffers of this Mesh
+             */
             virtual bool bind();
+
+            /**
+             * Unbinds the Vertex and Index Buffers of this Mesh
+             */
             virtual void unbind();
 
+            /**
+             * Unloads this Mesh from CPU and GPU memory
+             */
             virtual void unload() override;
 
+            /**
+             * Sets the VertexBuffer for this Mesh.
+             *
+             * \note The Mesh takes ownership of the buffer and will delete it when 
+             *       it is no longer in use.
+             *
+             * \param[in] buffer
+             */
             void setVertexBuffer(VertexBuffer* buffer);
+            
+            /**
+             * \note Any changes made to the buffer will not take affect until VertexBuffer::build is called
+             *       and the Mesh is rebound.
+             *
+             * \return A pointer to the current VertexBuffer for this mesh.
+             */
             VertexBuffer* getVertexBuffer();
-
+            
+            /**
+             * Sets the IndexBuffer for this Mesh.
+             *
+             * \note The Mesh takes ownership of the buffer and will delete it when 
+             *       it is no longer in use.
+             *
+             * \param[in] buffer
+             */
             void setIndexBuffer(IndexBuffer* buffer);
+            
+            /**
+             * \note Any changes made to the buffer will not take affect until IndexBuffer::build is called
+             *       and the Mesh is rebound.
+             *
+             * \return A pointer to the current IndexBuffer for this mesh.
+             */
             IndexBuffer* getIndexBuffer();
 
         protected:

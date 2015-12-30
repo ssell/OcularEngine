@@ -306,13 +306,13 @@ namespace Ocular
 
                     if(!textureNode.child("Name"))
                     {
-                        OcularLogger->warning("Uniform is missing required child node 'Path'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
+                        OcularLogger->warning("Uniform is missing required child node 'Name'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
                         result = false;
                     }
 
                     if(!textureNode.child("Register"))
                     {
-                        OcularLogger->warning("Uniform is missing required child node 'Path'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
+                        OcularLogger->warning("Uniform is missing required child node 'Register'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
                         result = false;
                     }
 

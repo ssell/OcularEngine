@@ -159,12 +159,18 @@ namespace Ocular
             {
                 result = &m_Uniforms[registerIndex];
             }
-            else
-            {
-                OcularLogger->error("No uniform with matching register index of ", registerIndex, OCULAR_INTERNAL_LOG("UniformBuffer", "getUniform"));
-            }
 
             return result;
+        }
+
+        uint32_t UniformBuffer::getNumUniforms() const
+        {
+            return m_Uniforms.size();
+        }
+
+        uint32_t UniformBuffer::getUniformsSize() const
+        {
+            return m_UniformDataSize;
         }
 
         //----------------------------------------------------------------------------------

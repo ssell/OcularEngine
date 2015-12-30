@@ -509,6 +509,11 @@ namespace Ocular
             return result;
         }
 
+        UniformBuffer const* Material::getUniformBuffer() const
+        {
+            return m_UniformBuffer;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

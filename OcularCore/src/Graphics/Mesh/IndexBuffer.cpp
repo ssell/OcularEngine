@@ -67,6 +67,12 @@ namespace Ocular
             m_Indices.insert(m_Indices.end(), indices.begin(), indices.end());
         }
 
+        void IndexBuffer::addIndices(std::vector<uint32_t> const& indices, uint32_t const count)
+        {
+            m_Indices.reserve(m_Indices.size() + count);
+            m_Indices.insert(m_Indices.end(), indices.begin(), (indices.begin() + count));
+        }
+
         void IndexBuffer::addIndices(uint32_t const* indices, uint32_t count)
         {
             m_Indices.reserve(m_Indices.size() + count);

@@ -61,25 +61,30 @@ namespace Ocular
             /**
              * Each MeshResourceLoader must provide a custom implementation for it's specific file type.
              *
-             * \param[in]  file     Source file to read from.
-             * \param[out] vertices Texture pixel data read in from the file.
-             * \param[out] indices  Width of the texture.
+             * \param[in]  file        Source file to read from.
+             * \param[out] vertices    Texture pixel data read in from the file.
+             * \param[out] indices     Width of the texture.
+             * \param[out] numVertices Number of vertices in the mesh (depending on the loader implementation, this may not equal vertices.size())
+             * \param[out] numIndices  Number of indices in the mesh (depending on the loader implementation, this may not equal indices.size())
              *
              * \return TRUE if file was read in successfully.
              */
-            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices) = 0;
+            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices) = 0;
 
             /**
              * Creates the new Mesh resource from provided data.
              *
-             * \param[out] resource The newly created resource.
-             * \param[in]  file     Source file for the resource.
-             * \param[in]  pixels   Pixel data for the texture arranged by rows.
-             * \param[in]  width    Width of the texture.
-             * \param[in]  height   Height of the texture.
+             * \param[out] resource    The newly created resource.
+             * \param[in]  file        Source file for the resource.
+             * \param[in]  pixels      Pixel data for the texture arranged by rows.
+             * \param[in]  width       Width of the texture.
+             * \param[in]  height      Height of the texture.
+             * \param[in]  numVertices Number of vertices in the mesh (depending on the loader implementation, this may not equal vertices.size())
+             * \param[in]  numIndices  Number of indices in the mesh (depending on the loader implementation, this may not equal indices.size())
+             * 
              * \return TRUE if creation was successful.
              */
-            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices);
+            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices, uint32_t numVertices, uint32_t numIndices);
 
         private:
         };

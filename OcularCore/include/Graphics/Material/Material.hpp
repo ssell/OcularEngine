@@ -305,6 +305,11 @@ namespace Ocular
              */
             virtual bool getUniform(std::string const& name, Math::Matrix4x4& value);
 
+            /**
+             * \return Constant pointer to the UniformBuffer
+             */
+            UniformBuffer const* getUniformBuffer() const;
+
         protected:
 
             void bindShaders();

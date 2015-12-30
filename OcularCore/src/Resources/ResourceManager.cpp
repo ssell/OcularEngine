@@ -221,6 +221,10 @@ namespace Ocular
                                 OcularLogger->error("Failed to reload resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
                                 result = nullptr; // We return null on failure irregardless
                             }
+                            else
+                            {
+                                result->m_MappingName = path;
+                            }
                         }
                         else
                         {

@@ -139,7 +139,7 @@ namespace Ocular
                 "property float ny\n"
                 "property float nz\n"
                 "element face " << numFaces << "\n"
-                "property list uchar int vertex_indices\n"
+                "property list uchar uint vertex_indices\n"
                 "end_header\n";
 
             return result;

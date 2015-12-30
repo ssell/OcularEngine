@@ -56,9 +56,12 @@ namespace Ocular
                 std::vector<Graphics::Vertex> vertices;
                 std::vector<uint32_t> indices;
 
-                if(readFile(file, vertices, indices))
+                uint32_t numVertices = 0;
+                uint32_t numIndices = 0;
+
+                if(readFile(file, vertices, indices, numVertices, numIndices))
                 {
-                    if(createResource(resource, file, vertices, indices))
+                    if(createResource(resource, file, vertices, indices, numVertices, numIndices))
                     {
                         result = true;
                     }
@@ -80,7 +83,13 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool MeshResourceLoader::createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices)
+        bool MeshResourceLoader::createResource(
+            Core::Resource* &resource, 
+            Core::File const& file, 
+            std::vector<Graphics::Vertex> const& vertices, 
+            std::vector<uint32_t> const& indices, 
+            uint32_t const numVertices, 
+            uint32_t const numIndices)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
             // If mesh is NULL, then create a new one. Otherwise, make sure it is unloaded.
@@ -118,11 +127,11 @@ namespace Ocular
                 {
                     if(indexBuffer)
                     {
-                        vertexBuffer->addVertices(vertices);
+                        vertexBuffer->addVertices(vertices, numVertices);
                         
                         if(vertexBuffer->build())
                         {
-                            indexBuffer->addIndices(indices);
+                            indexBuffer->addIndices(indices, numIndices);
 
                             if(indexBuffer->build())
                             {

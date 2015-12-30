@@ -67,6 +67,12 @@ namespace Ocular
             m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
         }
 
+        void VertexBuffer::addVertices(std::vector<Vertex> const& vertices, uint32_t const count)
+        {
+            m_Vertices.reserve(m_Vertices.size() + count);
+            m_Vertices.insert(m_Vertices.end(), vertices.begin(), (vertices.begin() + count));
+        }
+
         void VertexBuffer::addVertices(Vertex const* vertices, uint32_t count)
         {
             m_Vertices.reserve(m_Vertices.size() + count);

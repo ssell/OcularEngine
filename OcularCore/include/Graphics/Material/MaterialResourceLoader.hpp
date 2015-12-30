@@ -186,8 +186,6 @@ namespace Ocular
          *                    # # # #
          *                    # # # #
          *                </Value>
-         *
-         * Note that spaces (' ') are optional, but the parenthesis ('(', ')') and braces ('[', ']') are mandatory.
          * 
          * All numbers are converted to 32-bit floats.
          */

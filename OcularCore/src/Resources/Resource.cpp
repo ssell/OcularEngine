@@ -100,6 +100,11 @@ namespace Ocular
             return m_Name;
         }
 
+        std::string const& Resource::getMappingName() const
+        {
+            return m_MappingName;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
