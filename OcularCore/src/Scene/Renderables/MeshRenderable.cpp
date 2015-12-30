@@ -15,7 +15,9 @@
  */
 
 #include "Scene/Renderables/MeshRenderable.hpp"
-#include "OcularEngine.hpp"
+#include "Scene/RenderableRegistrar.hpp"
+
+OCULAR_REGISTER_RENDERABLE(Ocular::Core::MeshRenderable, "Mesh");
 
 //------------------------------------------------------------------------------------------
 

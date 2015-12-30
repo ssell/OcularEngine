@@ -18,7 +18,6 @@
 #include "Scene/SceneObject.hpp"
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
-#include "Scene/RoutineFactory.hpp"
 #include "Math/Matrix4x4.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -491,21 +490,26 @@ namespace Ocular
         // Routine Methods
         //----------------------------------------------------------------
 
-        bool SceneObject::addRoutine(std::string const& name)
+        ARoutine* SceneObject::addRoutine(std::string const& name)
         {
-            bool result = false;
-            ARoutine* routine = OcularScene->getRoutineFactory().createRoutine(name);
+            ARoutine* result = OcularScene->getRoutineFactory().createComponent(name);
 
-            if(routine)
+            if(result)
             {
-                routine->setParent(this);
-                routine->setName(name);
-                routine->onCreation();
-
-                result = true;
+                result->setParent(this);
+                result->setName(name);
+                result->onCreation();
             }
 
             return result;
+        }
+
+        void SceneObject::addRoutine(ARoutine* routine)
+        {
+            if(routine)
+            {
+                routine->setParent(this);
+            }
         }
 
         bool SceneObject::removeRoutine(std::string const& name)
@@ -622,10 +626,28 @@ namespace Ocular
         // Renderable Methods
         //----------------------------------------------------------------
 
+        ARenderable* SceneObject::setRenderable(std::string const& name)
+        {
+            ARenderable* result = OcularScene->getRenderableFactory().createComponent(name);
+
+            if(result)
+            {
+                result->setParent(this);
+            }
+
+            return result;
+        }
+
         void SceneObject::setRenderable(ARenderable* renderable)
         {
-            removeRenderable();
-            m_Renderable = renderable;
+            if(renderable)
+            {
+                renderable->setParent(this);
+            }
+            else
+            {
+                removeRenderable();
+            }
         }
 
         void SceneObject::removeRenderable()

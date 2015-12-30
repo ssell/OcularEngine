@@ -16,14 +16,9 @@
 
 #include "OcularEngine.hpp"
 #include "D3D11GraphicsDriver.hpp"
-
-#include "CoreDynamicRegistration.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
-#include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
-
-#include "Tests/Routines/InputLoggerRoutine.hpp"
 
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
@@ -60,43 +55,39 @@ bool openWindow()
     return result;
 }
 
+void setupCamera()
+{
+    Camera* camera = OcularCameras->getMainCamera();
+
+    if(camera)
+    {
+        camera->setPosition(0.0f, 0.0f, 5.0f);
+        camera->addRoutine("FreeFlyController");
+    }
+}
+
+void setupVisual()
+{
+    SceneObject* object = OcularScene->createObject("Test Object");
+
+    if(object)
+    {
+        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
+
+        if(renderable)
+        {
+            renderable->setMesh("Meshes/cube");
+            renderable->setMaterial("Materials/Flat");
+        }
+    }
+}
+
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
 
-    //RenderState* renderState = OcularGraphics->getRenderState();
-    //RasterState rasterState = renderState->getRasterState();
-    //rasterState.cullDirection = CullDirection::Clockwise;
-    //renderState->setRasterState(rasterState);
-    //renderState->bind();
-
-    Camera* camera = OcularCameras->getMainCamera();
-    camera->setPosition(0.0f, 3.0f, 5.0f);
-
-    SceneObject* cube = OcularScene->createObject("Camera Cube");
-    cube->setPosition(0.0f, 0.0f, 5.0f);
-    cube->addRoutine<FreeFlyController>();
-    cube->addRoutine<InputLoggerRoutine>();
-    cube->addChild(camera);
-
-    MeshRenderable* renderableA = new MeshRenderable("PLY Renderable", cube);
-    renderableA->setMesh("Meshes/cube_normals");
-    renderableA->setMaterial("Materials/Flat");
-
-
-    SceneObject* object = OcularScene->createObject("PLY Test Object");
-    //object->setScale(5.0f, 5.0f, 5.0f);
-
-    MeshRenderable* renderable = new MeshRenderable("PLY Renderable", object);
-
-    uint64_t start = OcularClock->getEpochMS();
-    renderable->setMesh("Meshes/cube_normals");
-    uint64_t end = OcularClock->getEpochMS();
-
-    OcularLogger->info("Loaded PLY in ", (end - start), "ms");
-    
-    
-    renderable->setMaterial("Materials/Flat");
+    setupCamera();
+    setupVisual();
 }
 
 int main(int argc, char** argv)

@@ -130,6 +130,11 @@ namespace Ocular
 
         void ARoutine::setParent(SceneObject* object)
         {
+            if(m_Parent)
+            {
+                m_Parent->removeRoutine(this, true);
+            }
+
             m_Parent = object;
         }
 

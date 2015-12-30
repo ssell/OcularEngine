@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_ROUTINE_REGISTRAR__H__
-#define __H__OCULAR_CORE_SCENE_ROUTINE_REGISTRAR__H__
+#ifndef __H__OCULAR_CORE_SCENE_RENDERABLE_REGISTRAR__H__
+#define __H__OCULAR_CORE_SCENE_RENDERABLE_REGISTRAR__H__
 
 #include "OcularEngine.hpp"
 
@@ -34,21 +34,24 @@ namespace Ocular
      */
     namespace Core
     {
+        /**
+         * \class RenderableRegistrar
+         */
         template<class T>
-        class RoutineRegistrar
+        class RenderableRegistrar
         {
         public:
 
-            RoutineRegistrar(std::string const& name)
+            RenderableRegistrar(std::string const& name)
             {
-                if(!OcularScene->getRoutineFactory().registerComponent<T>(name))
+                if(!OcularScene->getRenderableFactory().registerComponent<T>(name))
                 {
-                    OcularLogger->error("Failed to register Routine with name '", name, "' as the name is already in use",
-                                         OCULAR_INTERNAL_LOG("RoutineRegistrar", "RoutineRegistrar"));
+                    OcularLogger->error("Failed to register Renderable with name '", name, "' as the name is already in use",
+                                         OCULAR_INTERNAL_LOG("RenderableRegistrar", "RenderableRegistrar"));
                 }
             }
 
-            ~RoutineRegistrar()
+            ~RenderableRegistrar()
             {
 
             }
@@ -66,7 +69,7 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-#define OCULAR_REGISTER_ROUTINE(x,y) Ocular::Core::RoutineRegistrar<x> OCULAR_INTERNAL_RoutineRegistrar(y);
+#define OCULAR_REGISTER_RENDERABLE(x,y) Ocular::Core::RenderableRegistrar<x> OCULAR_INTERNAL_RenderableRegistrar(y);
 
 //------------------------------------------------------------------------------------------
 

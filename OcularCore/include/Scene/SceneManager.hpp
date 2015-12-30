@@ -21,7 +21,7 @@
 #include "Scene.hpp"
 #include "SceneObject.hpp"
 #include "SceneTreeType.hpp"
-#include "RoutineFactory.hpp"
+#include "ComponentFactory.hpp"
 
 #include <unordered_map>
 
@@ -187,7 +187,12 @@ namespace Ocular
             /**
              *
              */
-            RoutineFactory& getRoutineFactory();
+            ComponentFactory<ARoutine>& getRoutineFactory();
+
+            /**
+             *
+             */
+            ComponentFactory<ARenderable>& getRenderableFactory();
 
         protected:
 
@@ -258,7 +263,8 @@ namespace Ocular
             std::unordered_map<std::string, SceneObject*> m_Objects; 
             Scene* m_Scene;
 
-            RoutineFactory m_RoutineFactory;
+            ComponentFactory<ARoutine> m_RoutineFactory;
+            ComponentFactory<ARenderable> m_RenderableFactory;
         };
     }
     /**

@@ -441,9 +441,6 @@
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
       <Filter>Source Files\Scene\Routine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp">
-      <Filter>Source Files\Scene\Routine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Input\InputHandler.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
@@ -605,6 +602,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshSavers\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -902,9 +902,6 @@
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
       <Filter>Header Files\Scene\Routine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp">
-      <Filter>Header Files\Scene\Routine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Input\InputHandler.hpp">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -1102,6 +1099,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshSavers\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp">
+      <Filter>Header Files\Scene\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

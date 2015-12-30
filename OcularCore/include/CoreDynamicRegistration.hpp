@@ -47,54 +47,23 @@
 #ifndef __H__OCULAR_CORE_DYNAMIC_REGISTRATION__H__
 #define __H__OCULAR_CORE_DYNAMIC_REGISTRATION__H__
 
-#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_BMP.hpp"
-#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_PNG.hpp"
-#include "Graphics/Texture/TextureLoaders/TextureResourceLoader_TGA.hpp"
-#include "Graphics/Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
-#include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
-
-#include "Graphics/Material/MaterialResourceLoader.hpp"
-#include "Graphics/Material/MaterialResourceSaver.hpp"
-
-#include "Graphics/Mesh/MeshLoaders/PLY/MeshResourceLoader_PLY.hpp"
-#include "Graphics/Mesh/MeshSavers/PLY/MeshResourceSaver_PLY.hpp"
-
 namespace Ocular
 {
-    //--------------------------------------------------------------------------------------
-    // Resource Loaders
-    //--------------------------------------------------------------------------------------
+    /**
+     * \class CoreDynamicRegistration
+     * \brief (Hopefully) A temporary class until the linker stops throwing away useful stuff in static libraries.
+     */
+    class CoreDynamicRegistration
+    {
+    public:
 
-    static const Graphics::TextureResourceLoader_BMP OCULAR_INTERNAL_RESOURCE_LOADER_TEXTURE_BMP;
-    static const Graphics::TextureResourceLoader_PNG OCULAR_INTERNAL_RESOURCE_LOADER_TEXTURE_PNG;
-    static const Graphics::TextureResourceLoader_TGA OCULAR_INTERNAL_RESOURCE_LOADER_TEXTURE_TGA;
+        CoreDynamicRegistration();
+        ~CoreDynamicRegistration();
 
-    static const Graphics::MaterialResourceLoader OCULAR_INTERNAL_RESOURCE_LOADER_MATERIAL;
+    protected:
 
-    static const Graphics::MeshResourceLoader_PLY OCULAR_INTERNAL_RESOURCE_LOADER_MESH_PLY;
-
-    //--------------------------------------------------------------------------------------
-    // Resource Savers
-    //--------------------------------------------------------------------------------------
-
-    static const Graphics::TextureResourceSaver_BMP OCULAR_INTERNAL_RESOURCE_SAVER_TEXTURE_BMP;
-    static const Graphics::TextureResourceSaver_PNG OCULAR_INTERNAL_RESOURCE_SAVER_TEXTURE_PNG;
-
-    //static const Graphics::MaterialResourceSaver OCULAR_INTERNAL_RESOURCE_SAVER_MATERIAL;
-
-    static const Graphics::MeshResourceSaver_PLY OCULAR_INTERNAL_RESOURCE_SAVER_MESH_PLY;
-
-    //--------------------------------------------------------------------------------------
-    // Routines
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // Renderables
-    //--------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------
-    // Misc.
-    //--------------------------------------------------------------------------------------
+    private:
+    };
 }
 
 #endif

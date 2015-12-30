@@ -40,7 +40,7 @@ InputLoggerRoutine::InputLoggerRoutine()
 
 InputLoggerRoutine::~InputLoggerRoutine()
 {
-
+    OcularEvents->unregisterListener(this);
 }
 
 //----------------------------------------------------------------------------------

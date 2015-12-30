@@ -51,7 +51,7 @@ namespace Ocular
 
         FreeFlyController::~FreeFlyController()
         {
-        
+            OcularEvents->unregisterListener(this);
         }
 
         //----------------------------------------------------------------------------------

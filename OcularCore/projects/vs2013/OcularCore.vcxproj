@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
+    <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp" />
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
     <ClCompile Include="..\..\src\Events\EventSnooper.cpp" />
@@ -270,7 +271,6 @@
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp" />
-    <ClCompile Include="..\..\src\Scene\RoutineFactory.cpp" />
     <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
@@ -429,8 +429,9 @@
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp" />
+    <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp" />
-    <ClInclude Include="..\..\include\Scene\RoutineFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />

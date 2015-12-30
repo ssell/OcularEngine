@@ -48,7 +48,7 @@ namespace Ocular
         {
         public:
 
-            MeshRenderable(std::string const& name, SceneObject* parent);
+            MeshRenderable(std::string const& name = "MeshRenderable", SceneObject* parent = nullptr);
             virtual ~MeshRenderable();
 
             //------------------------------------------------------------

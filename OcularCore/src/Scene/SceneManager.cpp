@@ -220,9 +220,14 @@ namespace Ocular
             Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
         }
 
-        RoutineFactory& SceneManager::getRoutineFactory()
+        ComponentFactory<ARoutine>& SceneManager::getRoutineFactory()
         {
             return m_RoutineFactory;
+        }
+
+        ComponentFactory<ARenderable>& SceneManager::getRenderableFactory()
+        {
+            return m_RenderableFactory;
         }
 
         //----------------------------------------------------------------------------------

@@ -15,6 +15,7 @@
  */
 
 #include "OcularEngine.hpp"
+#include "CoreDynamicRegistration.hpp"
 
 #include "Logger/ConsoleLoggerListener.hpp"
 #include "Logger/VSConsoleLoggerListener.hpp"
@@ -75,6 +76,10 @@ namespace Ocular
 
     bool Engine::initialize(Graphics::GraphicsDriver* driver)
     {
+        {
+            CoreDynamicRegistration coreDynamicRegistration;
+        }
+
         // This method, and entire class, is really messy and needs cleaning up
 
         setupLogger();

@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_SCENE_ROUTINE_FACTORY__H__
-#define __H__OCULAR_CORE_SCENE_ROUTINE_FACTORY__H__
+#ifndef __H__OCULAR_CORE_SCENE_COMPONENT_FACTORY__H__
+#define __H__OCULAR_CORE_SCENE_COMPONENT_FACTORY__H__
 
 #include <unordered_map>
 #include <string>
@@ -36,29 +36,45 @@ namespace Ocular
      */
     namespace Core
     {
-        class ARoutine;
-
         /**
-         * \class RoutineFactory
+         * \class ComponentFactory
          */
-        class RoutineFactory
+        template<class T>
+        class ComponentFactory
         {
         public:
 
-            RoutineFactory();
-            ~RoutineFactory();
+            ComponentFactory() { }
+            ~ComponentFactory() { }
 
-            ARoutine* createRoutine(std::string const& name);
+            /**
+             *
+             */
+            T* createComponent(std::string const& name)
+            {
+                T* result = nullptr;
+                const auto find = m_ComponentMap.find(name);
 
-            template<class T>
-            bool registerRoutine(std::string name)
+                if(find != m_ComponentMap.end())
+                {
+                    result = find->second();
+                }
+
+                return result;
+            }
+
+            /**
+             *
+             */
+            template<class S>
+            bool registerComponent(std::string name)
             {
                 bool result = false;
-                const auto find = m_RoutineMap.find(name);
+                const auto find = m_ComponentMap.find(name);
 
-                if(find == m_RoutineMap.end())
+                if(find == m_ComponentMap.end())
                 {
-                    m_RoutineMap.insert(std::make_pair(name, [](){ return new T; }));
+                    m_ComponentMap.insert(std::make_pair(name, [](){ return new S; }));
                     result = true;
                 }
 
@@ -69,7 +85,7 @@ namespace Ocular
 
         private:
 
-            std::unordered_map<std::string, std::function<ARoutine*()>> m_RoutineMap;
+            std::unordered_map<std::string, std::function<T*()>> m_ComponentMap;
         };
     }
     /**

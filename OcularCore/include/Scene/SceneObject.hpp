@@ -440,7 +440,12 @@ namespace Ocular
              * \return TRUE if the ARoutine implementation was successfully added. If it fails,
              *         then no matching implementation with that name was discovered.
              */
-            bool addRoutine(std::string const& name);
+            ARoutine* addRoutine(std::string const& name);
+
+            /**
+             *
+             */
+            void addRoutine(ARoutine* routine);
 
             /**
              * Adds a new instance of a routine to the SceneObject.
@@ -517,11 +522,40 @@ namespace Ocular
             //------------------------------------------------------------
             // Renderable Methods
             //------------------------------------------------------------
+            
+            /**
+             *
+             */
+            ARenderable* setRenderable(std::string const& name);
 
             /**
              *
              */
             void setRenderable(ARenderable* renderable);
+
+            /**
+             *
+             */
+            template<class T>
+            T* setRenderable()
+            {
+                T* t = new T();
+                ARenderable* renderable = dynamic_cast<ARenderable*>(t);
+
+                if(renderable)
+                {
+                    removeRoutine();
+                    m_Renderable = renderable;
+                    result = true;
+                }
+                else
+                {
+                    delete t;
+                    t = nullptr;
+                }
+
+                return t;
+            }
 
             /**
              *
