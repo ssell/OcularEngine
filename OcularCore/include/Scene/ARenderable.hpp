@@ -41,6 +41,8 @@ namespace Ocular
          */
         class ARenderable
         {
+            friend class SceneObject;
+
         public:
 
             ARenderable(std::string const& name, SceneObject* parent);
@@ -56,7 +58,6 @@ namespace Ocular
             // Getters and Setters
 
             SceneObject* getParent();
-            void setParent(SceneObject* parent);
 
         protected:
 

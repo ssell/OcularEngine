@@ -632,7 +632,10 @@ namespace Ocular
 
             if(result)
             {
-                result->setParent(this);
+                removeRenderable();
+
+                result->m_Parent = this;
+                m_Renderable = result;
             }
 
             return result;
@@ -640,21 +643,31 @@ namespace Ocular
 
         void SceneObject::setRenderable(ARenderable* renderable)
         {
+            removeRenderable();
+
             if(renderable)
             {
-                renderable->setParent(this);
-            }
-            else
-            {
-                removeRenderable();
+                SceneObject* oldParent = renderable->getParent();
+
+                if(oldParent)
+                {
+                    oldParent->removeRenderable(true);
+                }
+
+                renderable->m_Parent = this;
+                m_Renderable = renderable;
             }
         }
 
-        void SceneObject::removeRenderable()
+        void SceneObject::removeRenderable(bool transferring)
         {
             if(m_Renderable)
             {
-                delete m_Renderable;
+                if(!transferring)
+                {
+                    delete m_Renderable;
+                }
+                
                 m_Renderable = nullptr;
             }
         }

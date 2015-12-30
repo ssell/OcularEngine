@@ -76,7 +76,7 @@ void setupVisual()
 
         if(renderable)
         {
-            renderable->setMesh("Meshes/cube");
+            renderable->setMesh("Meshes/cube_normals");
             renderable->setMaterial("Materials/Flat");
         }
     }

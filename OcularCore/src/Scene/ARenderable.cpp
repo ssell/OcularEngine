@@ -75,20 +75,6 @@ namespace Ocular
             return m_Parent;
         }
 
-        void ARenderable::setParent(SceneObject* parent)
-        {
-            if(parent && (parent != m_Parent))
-            {
-                if(m_Parent)
-                {
-                    m_Parent->removeRenderable();
-                }
-
-                m_Parent = parent;
-                m_Parent->setRenderable(this);
-            }
-        }
-
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

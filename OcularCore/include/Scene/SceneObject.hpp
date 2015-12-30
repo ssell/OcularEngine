@@ -560,7 +560,7 @@ namespace Ocular
             /**
              *
              */
-            void removeRenderable();
+            void removeRenderable(bool transferring = false);
 
             /**
              *
