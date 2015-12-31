@@ -21,10 +21,12 @@
 #include "Graphics/Texture/TextureLoaders/TextureResourceLoader_TGA.hpp"
 #include "Graphics/Texture/TextureSavers/TextureResourceSaver_BMP.hpp"
 #include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
-#include "Graphics/Material/MaterialResourceLoader.hpp"
-#include "Graphics/Material/MaterialResourceSaver.hpp"
+
 #include "Graphics/Mesh/MeshLoaders/PLY/MeshResourceLoader_PLY.hpp"
 #include "Graphics/Mesh/MeshSavers/PLY/MeshResourceSaver_PLY.hpp"
+
+#include "Graphics/Material/MaterialResourceLoader.hpp"
+#include "Graphics/Material/MaterialResourceSaver.hpp"
 
 #include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
@@ -42,12 +44,14 @@ namespace Ocular
         Graphics::TextureResourceLoader_BMP TextureResourceLoader_BMP;
         Graphics::TextureResourceLoader_PNG TextureResourceLoader_PNG;
         Graphics::TextureResourceLoader_TGA TextureResourceLoader_TGA;
-        Graphics::MaterialResourceLoader MaterialResourceLoader;
         Graphics::MeshResourceLoader_PLY MeshResourceLoader_PLY;
 
         Graphics::TextureResourceSaver_BMP TextureResourceSaver_BMP;
         Graphics::TextureResourceSaver_PNG TextureResourceSaver_PNG;
         Graphics::MeshResourceSaver_PLY MeshResourceSaver_PLY;
+
+        Graphics::MaterialResourceLoader MaterialResourceLoader;
+        Graphics::MaterialResourceSaver MaterialResourceSaver;
 
         Core::FreeFlyController FreeFlyController;
         Core::MeshRenderable MeshRenderable;

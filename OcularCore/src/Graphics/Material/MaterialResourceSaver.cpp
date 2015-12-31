@@ -16,6 +16,7 @@
 
 #include "Graphics/Material/MaterialResourceSaver.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"
+#include "Graphics/Shader/ShaderProgram.hpp"
 #include "OcularEngine.hpp"
 
 #include <pugixml/pugixml.hpp>
@@ -190,27 +191,36 @@ bool addShaderData(pugi::xml_node& root, Ocular::Graphics::Material const* mater
 
 bool addShaderNode(pugi::xml_node& parent, const char* name, Ocular::Graphics::Shader const* shader)
 {
-    bool result = false;
+    bool result = true;
 
-    pugi::xml_node shaderNode = parent.append_child(name);
-
-    if(shaderNode)
+    if(shader)
     {
-        pugi::xml_node pathNode = shaderNode.append_child("Path");
+        pugi::xml_node shaderNode = parent.append_child(name);
 
-        if(pathNode)
+        if(shaderNode)
         {
-            pathNode.set_value(shader->getMappingName().c_str());
+            pugi::xml_node pathNode = shaderNode.append_child("Path");
+
+            if(pathNode)
+            {
+                pathNode.text().set(shader->getParent()->getMappingName().c_str());
+            }
+            else
+            {
+                result = false;
+                OcularLogger->error("Failed to add child 'Path' node", OCULAR_INTERNAL_LOG("MaterialResourceSaver", "addShaderNode"));
+            }
         }
         else
         {
-            OcularLogger->error("Failed to add child 'Path' node", OCULAR_INTERNAL_LOG("MaterialResourceSaver", "addShaderNode"));
+            result = false;
+            OcularLogger->error("Failed to add child '", name, "' node", OCULAR_INTERNAL_LOG("MaterialResourceSaver", "addShaderNode"));
         }
     }
-    else
-    {
-        OcularLogger->error("Failed to add child '", name, "' node", OCULAR_INTERNAL_LOG("MaterialResourceSaver", "addShaderNode"));
-    }
+    //else
+    //{
+    //    Not an error as the addShaderData tries all shaders
+    //}
 
     return result;
 }
@@ -259,9 +269,9 @@ bool addTextureNode(pugi::xml_node& parent, uint32_t index, Ocular::Graphics::Ma
 
             if(pathNode && nameNode && registerNode)
             {
-                pathNode.set_value(texture->getMappingName().c_str());
-                nameNode.set_value(texture->getName().c_str());
-                registerNode.set_value(std::to_string(index).c_str());
+                pathNode.text().set(texture->getMappingName().c_str());
+                nameNode.text().set(texture->getName().c_str());
+                registerNode.text().set(std::to_string(index).c_str());
             }
             else
             {
@@ -333,8 +343,8 @@ bool addUniformNode(pugi::xml_node& parent, uint32_t index, Ocular::Graphics::Un
                 //--------------------------------------------------------
                 // Name and Register
 
-                nameNode.set_value(uniform->getName().c_str());
-                registerNode.set_value(std::to_string(index).c_str());
+                nameNode.text().set(uniform->getName().c_str());
+                registerNode.text().set(std::to_string(index).c_str());
 
                 //--------------------------------------------------------
                 // Size
@@ -342,19 +352,19 @@ bool addUniformNode(pugi::xml_node& parent, uint32_t index, Ocular::Graphics::Un
                 switch(uniform->getSize())
                 {
                 case 1:
-                    typeNode.set_value("Float");
+                    typeNode.text().set("Float");
                     break;
 
                 case 4:
-                    typeNode.set_value("Vector4");
+                    typeNode.text().set("Vector4");
                     break;
 
                 case 12:
-                    typeNode.set_value("Matrix3x3");
+                    typeNode.text().set("Matrix3x3");
                     break;
 
                 case 16:
-                    typeNode.set_value("Matrix4x4");
+                    typeNode.text().set("Matrix4x4");
                     break;
 
                 default:
@@ -374,7 +384,7 @@ bool addUniformNode(pugi::xml_node& parent, uint32_t index, Ocular::Graphics::Un
                     sstream << values[i] << " ";
                 }
 
-                valueNode.set_value(sstream.str().c_str());
+                valueNode.text().set(sstream.str().c_str());
             }
             else
             {

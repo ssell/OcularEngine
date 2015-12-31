@@ -41,8 +41,6 @@ namespace Ocular
          */
         class Resource 
         {
-            friend class ResourceManager;
-
         public:
 
             /**
@@ -115,6 +113,11 @@ namespace Ocular
              *
              */
             std::string const& getMappingName() const;
+
+            /**
+             * \note For internal use only
+             */
+            void setMappingName(std::string const& name);
 
         protected:
 

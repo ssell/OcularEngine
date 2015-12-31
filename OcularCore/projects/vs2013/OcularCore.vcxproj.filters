@@ -552,9 +552,6 @@
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
-      <Filter>Source Files\Graphics\Material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
     </ClCompile>
@@ -605,6 +602,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

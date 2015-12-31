@@ -223,7 +223,7 @@ namespace Ocular
                             }
                             else
                             {
-                                result->m_MappingName = path;
+                                resource->setMappingName(path);
                             }
                         }
                         else
@@ -235,6 +235,7 @@ namespace Ocular
 
                             if(resource)
                             {
+                                resource->setMappingName(path);
                                 details->m_Resource = resource;
                                 result = details->m_Resource;
                             }

@@ -34,11 +34,15 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class ShaderProgram;
+
         /**
          * \class Shader
          */
         class Shader : public Core::Resource
         {
+            friend class ShaderProgram;
+
         public:
 
             Shader();
@@ -56,7 +60,14 @@ namespace Ocular
              */
             virtual void unbind() = 0;
 
+            /**
+             * \return The ShaderProgram that owns this Shader
+             */
+            ShaderProgram* getParent() const;
+
         protected:
+
+            ShaderProgram* m_Parent;
 
         private:
         };

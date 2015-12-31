@@ -61,7 +61,7 @@ void setupCamera()
 
     if(camera)
     {
-        camera->setPosition(0.0f, 0.0f, 5.0f);
+        camera->setPosition(0.5f, 0.5f, 5.0f);
         camera->addRoutine("FreeFlyController");
     }
 }
@@ -76,7 +76,7 @@ void setupVisual()
 
         if(renderable)
         {
-            renderable->setMesh("Meshes/cube_normals");
+            renderable->setMesh("Meshes/hand_normals");
             renderable->setMaterial("Materials/Flat");
         }
     }
@@ -85,9 +85,18 @@ void setupVisual()
 void setupScene()
 {
     OcularScene->loadScene("TestScene");
+    
+    Resource* material = OcularResources->getResource("Materials/Flat");
 
-    setupCamera();
-    setupVisual();
+    if(material)
+    {
+        OcularResources->saveResource(material, Ocular::Core::File("C:\\Users\\Steven\\Desktop\\material.omat"));
+    }
+
+    delete material;
+
+    //setupCamera();
+    //setupVisual();
 }
 
 int main(int argc, char** argv)

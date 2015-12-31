@@ -77,6 +77,7 @@ namespace Ocular
         void ShaderProgram::setVertexShader(VertexShader* shader)
         {
             m_VertexShader = shader;
+            m_VertexShader->m_Parent = this;
         }
 
         VertexShader* ShaderProgram::getVertexShader()
@@ -87,6 +88,7 @@ namespace Ocular
         void ShaderProgram::setGeometryShader(GeometryShader* shader)
         {
             m_GeometryShader = shader;
+            m_GeometryShader->m_Parent = this;
         }
 
         GeometryShader* ShaderProgram::getGeometryShader()
@@ -97,6 +99,7 @@ namespace Ocular
         void ShaderProgram::setFragmentShader(FragmentShader* shader)
         {
             m_FragmentShader = shader;
+            m_FragmentShader->m_Parent = this;
         }
 
         FragmentShader* ShaderProgram::getFragmentShader()
@@ -107,6 +110,7 @@ namespace Ocular
         void ShaderProgram::setPixelShader(PixelShader* shader)
         {
             m_FragmentShader = shader;
+            m_FragmentShader->m_Parent = this;
         }
 
         PixelShader* ShaderProgram::getPixelShader()
@@ -117,6 +121,7 @@ namespace Ocular
         void ShaderProgram::setPreTessellationShader(PreTessellationShader* shader)
         {
             m_PreTessellationShader = shader;
+            m_PreTessellationShader->m_Parent = this;
         }
 
         PreTessellationShader* ShaderProgram::getPreTessellationShader()
@@ -127,6 +132,7 @@ namespace Ocular
         void ShaderProgram::setHullShader(HullShader* shader)
         {
             m_PreTessellationShader = shader;
+            m_PreTessellationShader->m_Parent = this;
         }
 
         HullShader* ShaderProgram::getHullShader()
@@ -137,6 +143,7 @@ namespace Ocular
         void ShaderProgram::setPostTessellationShader(PostTessellationShader* shader)
         {
             m_PostTessellationShader = shader;
+            m_PostTessellationShader->m_Parent = this;
         }
 
         PostTessellationShader* ShaderProgram::getPostTessellationShader()
@@ -147,6 +154,7 @@ namespace Ocular
         void ShaderProgram::setDomainShader(DomainShader* shader)
         {
             m_PostTessellationShader = shader;
+            m_PostTessellationShader->m_Parent = this;
         }
 
         DomainShader* ShaderProgram::getDomainShader()

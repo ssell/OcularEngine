@@ -105,6 +105,11 @@ namespace Ocular
             return m_MappingName;
         }
 
+        void Resource::setMappingName(std::string const& name)
+        {
+            m_MappingName = name;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
