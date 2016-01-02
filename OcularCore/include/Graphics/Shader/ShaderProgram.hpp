@@ -56,7 +56,7 @@ namespace Ocular
         public:
 
             ShaderProgram();
-            ~ShaderProgram();
+            virtual ~ShaderProgram();
 
             virtual void unload() override;
 

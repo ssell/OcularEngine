@@ -80,7 +80,7 @@ namespace Ocular
         public:
 
             VertexBuffer();
-            ~VertexBuffer();
+            virtual ~VertexBuffer();
 
             /**
              * Builds the vertex buffer. Must be called prior to first use, or after any changes

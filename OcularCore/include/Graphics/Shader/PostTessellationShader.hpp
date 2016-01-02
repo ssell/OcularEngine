@@ -42,7 +42,7 @@ namespace Ocular
         public:
 
             PostTessellationShader();
-            ~PostTessellationShader();
+            virtual ~PostTessellationShader();
 
             virtual void unload() override;
             virtual void bind() override;

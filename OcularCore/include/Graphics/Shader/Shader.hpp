@@ -46,7 +46,7 @@ namespace Ocular
         public:
 
             Shader();
-            ~Shader();
+            virtual ~Shader();
 
             virtual void unload() = 0;
 

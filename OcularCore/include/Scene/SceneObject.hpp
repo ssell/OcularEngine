@@ -112,7 +112,7 @@ namespace Ocular
              */
             SceneObject();
 
-            ~SceneObject();
+            virtual ~SceneObject();
 
             //------------------------------------------------------------
             // General Misc. Methods

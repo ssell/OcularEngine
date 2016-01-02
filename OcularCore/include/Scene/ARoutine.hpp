@@ -61,7 +61,7 @@ namespace Ocular
         public:
 
             ARoutine();
-            ~ARoutine();
+            virtual ~ARoutine();
             
             bool operator<(ARoutine const& rhs);
             bool operator>(ARoutine const& rhs);

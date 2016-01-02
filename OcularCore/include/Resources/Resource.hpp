@@ -49,7 +49,7 @@ namespace Ocular
             Resource(File const& source);
             Resource();
 
-            ~Resource();
+            virtual ~Resource();
 
             //----------------------------------------
             // Virtual Methods

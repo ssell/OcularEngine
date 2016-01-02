@@ -42,7 +42,7 @@ namespace Ocular
         public:
 
             VertexShader();
-            ~VertexShader();
+            virtual ~VertexShader();
 
             virtual void unload() override;
             virtual void bind() override;

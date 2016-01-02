@@ -42,7 +42,7 @@ namespace Ocular
         public:
 
             FragmentShader();
-            ~FragmentShader();
+            virtual ~FragmentShader();
 
             virtual void unload() override;
             virtual void bind() override;

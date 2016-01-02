@@ -55,7 +55,7 @@ namespace Ocular
         public:
 
             GraphicsDriver();
-            ~GraphicsDriver();
+            virtual ~GraphicsDriver();
 
             /** 
              * Initializes the GraphicsDriver implementation.

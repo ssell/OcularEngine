@@ -50,7 +50,6 @@ namespace Ocular
              * \param[in] descriptor
              */
             Texture2D(TextureDescriptor const& descriptor);
-
             virtual ~Texture2D();
 
             //----------------------------------------

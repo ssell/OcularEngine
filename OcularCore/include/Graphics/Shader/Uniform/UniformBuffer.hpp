@@ -75,7 +75,7 @@ namespace Ocular
         public:
 
             UniformBuffer(UniformBufferType type);
-            ~UniformBuffer();
+            virtual ~UniformBuffer();
 
             virtual void bind();
             virtual void unbind();

@@ -34,8 +34,8 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 1920;
-    descriptor.height        = 1080;
+    descriptor.width         = 800;
+    descriptor.height        = 600;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
@@ -63,6 +63,7 @@ void setupCamera()
     {
         camera->setPosition(0.5f, 0.5f, 5.0f);
         camera->addRoutine("FreeFlyController");
+        camera->addRoutine("InputLogger");
     }
 }
 
@@ -76,7 +77,7 @@ void setupVisual()
 
         if(renderable)
         {
-            renderable->setMesh("Meshes/hand_normals");
+            renderable->setMesh("Meshes/bunny_normals");
             renderable->setMaterial("Materials/Flat");
         }
     }
@@ -86,17 +87,8 @@ void setupScene()
 {
     OcularScene->loadScene("TestScene");
     
-    Resource* material = OcularResources->getResource("Materials/Flat");
-
-    if(material)
-    {
-        OcularResources->saveResource(material, Ocular::Core::File("C:\\Users\\Steven\\Desktop\\material.omat"));
-    }
-
-    delete material;
-
-    //setupCamera();
-    //setupVisual();
+    setupCamera();
+    setupVisual();
 }
 
 int main(int argc, char** argv)

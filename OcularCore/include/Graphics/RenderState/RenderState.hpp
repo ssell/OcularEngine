@@ -44,7 +44,7 @@ namespace Ocular
         public:
 
             RenderState();
-            ~RenderState();
+            virtual ~RenderState();
             
             /**
              * Sets the current RenderState.

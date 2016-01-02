@@ -79,7 +79,7 @@ namespace Ocular
         public:
 
             IndexBuffer();
-            ~IndexBuffer();
+            virtual ~IndexBuffer();
 
             /**
              * Builds the index buffer. Must be called prior to first use, or after any changes

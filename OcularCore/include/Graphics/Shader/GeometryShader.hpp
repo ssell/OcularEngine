@@ -42,7 +42,7 @@ namespace Ocular
         public:
 
             GeometryShader();
-            ~GeometryShader();
+            virtual ~GeometryShader();
 
             virtual void unload() override;
             virtual void bind() override;

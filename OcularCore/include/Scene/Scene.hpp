@@ -69,7 +69,7 @@ namespace Ocular
 
         public:
 
-            ~Scene();
+           virtual ~Scene();
 
             /**
              * Adds the specified object to the scene's tree.
