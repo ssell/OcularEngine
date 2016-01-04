@@ -40,7 +40,7 @@ namespace Ocular
         public:
 
             D3D11Texture2D(TextureDescriptor const& descriptor, ID3D11Device* device);
-            ~D3D11Texture2D();
+            virtual ~D3D11Texture2D();
 
             virtual void unload() override;
             virtual void apply() override;

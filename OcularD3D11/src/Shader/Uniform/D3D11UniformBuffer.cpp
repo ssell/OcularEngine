@@ -46,6 +46,12 @@ namespace Ocular
         {
             unbind();
 
+            if(m_D3DBuffer)
+            {
+                m_D3DBuffer->Release();
+                m_D3DBuffer = nullptr;
+            }
+
             if(m_UniformData)
             {
                 // Since we do _aligned_malloc to create the data, we can not rely on the 
@@ -131,6 +137,12 @@ namespace Ocular
                     {
                         m_D3DDeviceContext->VSSetConstantBuffers(m_Type, 1, &m_D3DBuffer);
                         m_D3DDeviceContext->PSSetConstantBuffers(m_Type, 1, &m_D3DBuffer);
+                    }
+
+                    if(currentBuffer)
+                    {
+                        currentBuffer->Release();
+                        currentBuffer = nullptr;
                     }
                 }
                 else

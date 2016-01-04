@@ -103,6 +103,12 @@ namespace Ocular
 
                     m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, &offset);
                 }
+
+                if(currBuffer)
+                {
+                    currBuffer->Release();
+                    currBuffer = nullptr;
+                }
             }
             else
             {
@@ -114,8 +120,21 @@ namespace Ocular
         {
             if(m_D3DDeviceContext)
             {
-                static const uint32_t stride = sizeof(Vertex);
-                m_D3DDeviceContext->IASetVertexBuffers(0, 0, nullptr, &stride, 0);
+                // Only unbind if we are the currently bound buffer
+                ID3D11Buffer* currBuffer = nullptr;
+                m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currBuffer, nullptr, nullptr);
+
+                if(m_D3DVertexBuffer == currBuffer)
+                {
+                    static const uint32_t stride = sizeof(Vertex);
+                    m_D3DDeviceContext->IASetVertexBuffers(0, 0, nullptr, &stride, 0);
+                }
+
+                if(currBuffer)
+                {
+                    currBuffer->Release();
+                    currBuffer = nullptr;
+                }
             }
         }
 

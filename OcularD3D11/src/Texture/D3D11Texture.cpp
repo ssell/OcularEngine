@@ -38,7 +38,17 @@ namespace Ocular
 
         D3D11Texture::~D3D11Texture()
         {
+            if(m_D3DTexture)
+            {
+                m_D3DTexture->Release();
+                m_D3DTexture = nullptr;
+            }
 
+            if(m_D3DShaderResourceView)
+            {
+                m_D3DShaderResourceView->Release();
+                m_D3DShaderResourceView = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------

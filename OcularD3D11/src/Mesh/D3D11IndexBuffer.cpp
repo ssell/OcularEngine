@@ -102,6 +102,12 @@ namespace Ocular
                 {
                     m_D3DDeviceContext->IASetIndexBuffer(m_D3DIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
                 }
+
+                if(currBuffer)
+                {
+                    currBuffer->Release();
+                    currBuffer = nullptr;
+                }
             }
             else
             {
@@ -120,6 +126,12 @@ namespace Ocular
                 if(m_D3DIndexBuffer == currBuffer)
                 {
                     m_D3DDeviceContext->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
+                }
+
+                if(currBuffer)
+                {
+                    currBuffer->Release();
+                    currBuffer = nullptr;
                 }
             }
         }

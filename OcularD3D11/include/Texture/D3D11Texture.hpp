@@ -44,7 +44,7 @@ namespace Ocular
         public:
 
             D3D11Texture(ID3D11Device* device);
-            ~D3D11Texture();
+            virtual ~D3D11Texture();
 
             ID3D11Texture2D* getD3DTexture2D();
             ID3D11ShaderResourceView* getD3DShaderResource();

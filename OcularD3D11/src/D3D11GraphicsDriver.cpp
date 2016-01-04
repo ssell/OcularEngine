@@ -66,10 +66,10 @@ namespace Ocular
                 D3D11VertexShader::m_D3DInputLayout = nullptr;
             }
 
-            if(m_D3DDevice)
+            if(m_D3DSwapChain)
             {
-                m_D3DDevice->Release();
-                m_D3DDevice = nullptr;
+                m_D3DSwapChain->Release();
+                m_D3DSwapChain = nullptr;
             }
 
             if(m_D3DDeviceContext)
@@ -78,10 +78,22 @@ namespace Ocular
                 m_D3DDeviceContext = nullptr;
             }
 
-            if(m_D3DSwapChain)
+#ifdef _DEBUG
+            ID3D11Debug* d3dDebug = nullptr;
+            m_D3DDevice->QueryInterface(&d3dDebug);
+
+            if(d3dDebug)
             {
-                m_D3DSwapChain->Release();
-                m_D3DSwapChain = nullptr;
+                d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL);
+                d3dDebug->Release();
+                d3dDebug = nullptr;
+            }
+#endif
+
+            if(m_D3DDevice)
+            {
+                m_D3DDevice->Release();
+                m_D3DDevice = nullptr;
             }
         }
 
@@ -155,6 +167,18 @@ namespace Ocular
 
                         m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
 
+                        if(rtv)
+                        {
+                            rtv->Release();
+                            rtv = nullptr;
+                        }
+
+                        if(dsv)
+                        {
+                            dsv->Release();
+                            dsv = nullptr;
+                        }
+
                         //------------------------------------------------
                         // Create and bind RenderState
 
@@ -196,12 +220,18 @@ namespace Ocular
 
                     m_D3DDeviceContext->OMGetRenderTargets(1, &currentRTV, &currentDSV);
 
-                    if(currentRTV && currentDSV)
+                    if(currentRTV)
                     {
                         const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
 
                         m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
+                        currentRTV->Release();
+                    }
+
+                    if(currentDSV)
+                    {
                         m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                        currentDSV->Release();
                     }
                 }
             }
@@ -241,6 +271,27 @@ namespace Ocular
                     m_D3DDeviceContext->IAGetIndexBuffer(&currIB, nullptr, nullptr);
 
                     m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
+
+                    if(currVS)
+                    {
+                        currVS->Release();
+                    }
+
+                    if(currPS)
+                    {
+                        currPS->Release();
+                    }
+
+                    if(currVB)
+                    {
+                        currVB->Release();
+                    }
+
+                    if(currIB)
+                    {
+                        currIB->Release();
+                    }
+
                     result = true;
                 }
             }
@@ -272,6 +323,21 @@ namespace Ocular
                             m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, currDSV);
                         }
                     }
+
+                    if(rtv)
+                    {
+                        rtv->Release();
+                    }
+
+                    if(currRTV)
+                    {
+                        currRTV->Release();
+                    }
+
+                    if(currDSV)
+                    {
+                        currDSV->Release();
+                    }
                 }
             }
         }
@@ -299,6 +365,24 @@ namespace Ocular
                         {
                             m_D3DDeviceContext->OMSetRenderTargets(1, &currRTV, dsv);
                         }
+                    }
+
+                    if(dsv)
+                    {
+                        dsv->Release();
+                        dsv = nullptr;
+                    }
+
+                    if(currRTV)
+                    {
+                        currRTV->Release();
+                        currRTV = nullptr;
+                    }
+
+                    if(currDSV)
+                    {
+                        currDSV->Release();
+                        currDSV = nullptr;
                     }
                 }
             }

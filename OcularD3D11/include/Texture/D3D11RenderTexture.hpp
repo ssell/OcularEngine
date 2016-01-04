@@ -56,7 +56,7 @@ namespace Ocular
              * \param[in] swapchain  The SwapChain that owns the backbuffer texture
              */
             D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain);
-            ~D3D11RenderTexture();
+            virtual ~D3D11RenderTexture();
 
             /**
              * \return The ID3D11RenderTargetView associated with this RenderTexture

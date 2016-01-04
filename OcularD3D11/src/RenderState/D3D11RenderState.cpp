@@ -47,6 +47,18 @@ namespace Ocular
                 m_D3DRasterizerState->Release();
                 m_D3DRasterizerState = nullptr;
             }
+
+            if(m_D3DDepthStencilState)
+            {
+                m_D3DDepthStencilState->Release();
+                m_D3DDepthStencilState = nullptr;
+            }
+
+            if(m_D3DBlendState)
+            {
+                m_D3DBlendState->Release();
+                m_D3DBlendState = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------

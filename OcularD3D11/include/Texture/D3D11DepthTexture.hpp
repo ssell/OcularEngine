@@ -47,7 +47,7 @@ namespace Ocular
              * \param[in] device     The D3D11 device
              */
             D3D11DepthTexture(TextureDescriptor const& descriptor, ID3D11Device* device);
-            ~D3D11DepthTexture();
+            virtual ~D3D11DepthTexture();
 
             /**
              * \return The ID3D11DepthStencilView associated with this DepthTexture
