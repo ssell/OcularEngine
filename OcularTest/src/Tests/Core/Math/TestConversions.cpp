@@ -15,6 +15,9 @@
  */
 
 #include "Math/Matrix3x3.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //#include "glm/glm.hpp"
@@ -130,3 +133,5 @@ TEST(Conversions, GLM_QuaternionMatrix)
     EXPECT_NEAR(quat.z, quatConv.z, Ocular::Math::EPSILON_FLOAT);
 }
 */
+
+#endif

@@ -15,6 +15,9 @@
  */
 
 #include "Math/Bounds/BoundsAABB.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -190,3 +193,5 @@ TEST(BoundsAABB, Construct)
     EXPECT_TRUE(aabb.getCenter() == center);
     EXPECT_TRUE(aabb.getExtents() == extents);
 }
+
+#endif

@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#include "gtest/gtest.h"
 #include "Graphics/Texture/NoiseTexture2D.hpp"
 #include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
 #include "Math/Noise/PerlinNoise.hpp"
 #include "Math/Noise/SimplexNoise.hpp"
 #include "Math/Noise/WaveletNoise.hpp"
 #include "OcularEngine.hpp"
+
+#ifdef _DEBUG
+
+#include "gtest/gtest.h"
 
 using namespace Ocular::Math::Noise;
 
@@ -114,3 +116,5 @@ TEST(Noise, Wavelet)
         texture = nullptr;
     }
 }
+
+#endif

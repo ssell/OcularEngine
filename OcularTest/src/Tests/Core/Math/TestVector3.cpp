@@ -15,6 +15,9 @@
  */
 
 #include "Math/Vector3.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -154,3 +157,5 @@ TEST(Vector3, Lerp)
     EXPECT_TRUE((midpoint == resultHalf));
     EXPECT_TRUE((vecB == resultOne));
 }
+
+#endif

@@ -77,10 +77,17 @@ void setupVisual()
 
         if(renderable)
         {
+            const uint64_t start = OcularClock->getEpochMS();
             renderable->setMesh("Meshes/bunny_normals");
+            const uint64_t end = OcularClock->getEpochMS();
+
             renderable->setMaterial("Materials/Flat");
+
+            OcularLogger->info("Mesh loaded in ", (end - start), "ms");
         }
     }
+
+    object->setScale(Vector3f(5.0f, 5.0f, 5.0f));
 }
 
 void setupScene()

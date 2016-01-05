@@ -15,6 +15,9 @@
  */
 
 #include "Math/MathCommon.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 #include <boost/utility/binary.hpp>
@@ -226,3 +229,5 @@ TEST(MathCommon, Clz64)
 
 	EXPECT_EQ(expectedC, resultC);
 }
+
+#endif

@@ -15,6 +15,9 @@
  */
 
 #include "Math/Geometry/LineSegment2D.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -99,3 +102,5 @@ TEST(LineSegment2D, DistanceTo)
     EXPECT_NEAR(result1, expected1, EPSILON_FLOAT);
     EXPECT_NEAR(result2, expected2, EPSILON_FLOAT);
 }
+
+#endif

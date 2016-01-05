@@ -15,6 +15,9 @@
  */
 
 #include "Math/Vector2.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -125,3 +128,5 @@ TEST(Vector2, Distance)
 
     EXPECT_NEAR(expected, result, Ocular::Math::EPSILON_DOUBLE);
 }
+
+#endif

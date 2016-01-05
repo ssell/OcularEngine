@@ -15,6 +15,9 @@
  */
 
 #include "Math/Matrix3x3.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -215,3 +218,5 @@ TEST(Matrix3x3, Inverse)
     EXPECT_TRUE(expected == result);
 }
 */
+
+#endif

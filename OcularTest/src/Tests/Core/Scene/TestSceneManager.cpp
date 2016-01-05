@@ -15,6 +15,9 @@
  */
 
 #include "OcularEngine.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Core;
@@ -106,3 +109,5 @@ TEST(SceneManager, DuplicateObject)
 {
     EXPECT_TRUE(false);
 }
+
+#endif

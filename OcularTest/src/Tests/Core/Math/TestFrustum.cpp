@@ -15,6 +15,9 @@
  */
 
 #include "Math/Geometry/Frustum.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -103,3 +106,5 @@ TEST(Frustum, ContainsPoint)
     EXPECT_TRUE(frustum.contains(nearMidpoint));
     EXPECT_TRUE(frustum.contains(farMidpoint));
 }
+
+#endif

@@ -15,6 +15,9 @@
  */
 
 #include "Math/Matrix4x4.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //#include "glm/glm.hpp"
@@ -272,3 +275,5 @@ TEST(Matrix4x4, TransformPoint)
     EXPECT_TRUE(false);
 }
 */
+
+#endif

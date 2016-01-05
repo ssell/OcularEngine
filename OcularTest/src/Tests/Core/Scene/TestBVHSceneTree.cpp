@@ -16,6 +16,9 @@
 
 #include "OcularEngine.hpp"
 #include "Scene/BVHSceneTree.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Core;
@@ -237,3 +240,5 @@ bool contains(std::vector<SceneObject*> const& vector, SceneObject const* obj)
 
     return result;
 }
+
+#endif

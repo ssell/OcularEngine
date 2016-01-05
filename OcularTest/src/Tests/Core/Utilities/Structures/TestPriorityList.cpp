@@ -15,6 +15,9 @@
 */
 
 #include "Utilities/Structures/PriorityList.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -61,3 +64,5 @@ TEST(PriorityList, RemoveIndex)
 
     EXPECT_EQ(0, list.size());
 }
+
+#endif

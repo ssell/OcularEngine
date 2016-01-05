@@ -15,6 +15,9 @@
  */
 
 #include "Math/Geometry/Plane.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -82,3 +85,5 @@ TEST(Plane, ThreePlaneIntersection)
 
     EXPECT_TRUE(result == expected);
 }
+
+#endif

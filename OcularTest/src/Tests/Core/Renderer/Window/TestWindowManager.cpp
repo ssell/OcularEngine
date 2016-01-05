@@ -17,6 +17,9 @@
 #include "OcularEngine.hpp"
 #include "UUID.hpp"
 #include "Renderer/Window/Window.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -91,3 +94,5 @@ TEST(WindowManager, General)
     TestRetrieveWindows();
     TestCloseWindows();
 }
+
+#endif

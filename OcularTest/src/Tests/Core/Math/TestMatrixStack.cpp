@@ -16,6 +16,9 @@
 
 #include "Math/MatrixStack.hpp"
 #include "Math/Vector4.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular;
@@ -64,3 +67,5 @@ TEST(MatrixStack, Combine)
     EXPECT_TRUE(stack.peek(&result));
     EXPECT_TRUE(matrix == result);
 }
+
+#endif

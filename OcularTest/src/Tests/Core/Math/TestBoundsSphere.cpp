@@ -15,6 +15,9 @@
  */
 
 #include "Math/Bounds/BoundsSphere.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -149,3 +152,5 @@ TEST(BoundsSphere, ContainsSphere)
     EXPECT_FALSE(sphere.contains(sphereE, &result));
     EXPECT_EQ(result, IntersectionType::Outside);
 }
+
+#endif

@@ -15,6 +15,9 @@
  */
 
 #include "Math/Transform.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 //------------------------------------------------------------------------------------------
@@ -38,3 +41,5 @@ TEST(Transform, LookAt)
 {
     EXPECT_TRUE(false);
 }
+
+#endif

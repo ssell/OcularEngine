@@ -17,6 +17,8 @@
 #include "Math/MortonCode.hpp"
 #include "Math/Vector3.hpp"
 
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -50,3 +52,5 @@ TEST(MortonCode, Proximity)
     EXPECT_TRUE(mortonE < mortonF);
     EXPECT_TRUE(mortonF < mortonG);
 }
+
+#endif

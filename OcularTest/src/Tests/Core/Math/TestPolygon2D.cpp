@@ -15,6 +15,9 @@
  */
 
 #include "Math/Geometry/Polygon2D.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -42,3 +45,5 @@ TEST(Polygon2D, Centroid)
     EXPECT_TRUE(calculatedCentroid == expectedCentroid);
     EXPECT_NEAR(calculatedArea, expectedArea, EPSILON_FLOAT);
 }
+
+#endif

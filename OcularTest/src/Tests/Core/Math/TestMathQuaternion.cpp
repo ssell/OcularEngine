@@ -15,6 +15,9 @@
  */
 
 #include "Math/Quaternion.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -166,3 +169,5 @@ TEST(Quaternion, Slerp)
     EXPECT_NEAR(quatC.z, -0.0242215563f, EPSILON_FLOAT);
 }
 */
+
+#endif

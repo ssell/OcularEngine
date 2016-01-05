@@ -20,6 +20,8 @@
 #include "Math/Bounds/BoundsOBB.hpp"
 #include "Math/Geometry/Plane.hpp"
 
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -192,3 +194,5 @@ TEST(Intersections, PlaneOBB)
 {
     EXPECT_TRUE(false);
 }
+
+#endif

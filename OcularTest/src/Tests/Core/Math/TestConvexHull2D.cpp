@@ -15,6 +15,9 @@
  */
 
 #include "Math/Geometry/ConvexHull2D.hpp"
+
+#ifdef _DEBUG
+
 #include "gtest/gtest.h"
 
 using namespace Ocular::Math;
@@ -89,3 +92,5 @@ TEST(ConvexHull2D, Complex)
     EXPECT_TRUE(Contains(hullPoints, Point2f(-1.0f, -2.0f)));
     EXPECT_TRUE(Contains(hullPoints, Point2f(-3.0f, -1.0f)));
 }
+
+#endif

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "gtest/gtest.h"
 #include "OcularEngine.hpp"
 #include "Graphics/Texture/NoiseTexture2D.hpp"
 #include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
@@ -22,6 +21,10 @@
 
 #include <list>
 #include <random>
+
+#ifdef _DEBUG
+
+#include "gtest/gtest.h"
 
 
 using namespace Ocular::Math::Random;
@@ -209,3 +212,5 @@ void OutputAsCSV(std::list<float> const& values, Ocular::Core::File const& outFi
         outStream.close();
     }
 }
+
+#endif
