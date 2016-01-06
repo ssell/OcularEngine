@@ -42,7 +42,7 @@ bool openWindow()
     descriptor.displayMode   = WindowDisplayMode::WindowedBordered;
     descriptor.exclusiveMode = false;
 
-    if(OcularEngine.WindowManager()->openWindow(descriptor))
+    if(OcularEngine.WindowManager()->openWindow(WindowDescriptor()))
     {
         OcularWindows->getMainWindow()->showCursor(false);
 
@@ -78,7 +78,7 @@ void setupVisual()
         if(renderable)
         {
             const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/bunny_normals");
+            renderable->setMesh("Meshes/hand_normals");
             const uint64_t end = OcularClock->getEpochMS();
 
             renderable->setMaterial("Materials/Flat");
@@ -87,7 +87,7 @@ void setupVisual()
         }
     }
 
-    object->setScale(Vector3f(5.0f, 5.0f, 5.0f));
+    object->setScale(Vector3f(1.0f, 1.0f, 1.0f));
 }
 
 void setupScene()
