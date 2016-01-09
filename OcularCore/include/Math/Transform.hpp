@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_TRANSFORM__H__
 #define __H__OCULAR_MATH_TRANSFORM__H__
 
+#include "Utilities/Types.hpp"
 #include "Vector3.hpp"
 #include "Quaternion.hpp"
 #include "Matrix4x4.hpp"
@@ -185,6 +186,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Transform, "Transform");
 
 //------------------------------------------------------------------------------------------
 

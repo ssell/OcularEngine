@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_MATRIX_3X3__H__
 #define __H__OCULAR_MATH_MATRIX_3X3__H__
 
+#include "Utilities/Types.hpp"
 #include <cstdint>
 
 //------------------------------------------------------------------------------------------
@@ -286,6 +287,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Matrix3x3, "Matrix3x3");
 
 //------------------------------------------------------------------------------------------
 

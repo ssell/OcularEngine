@@ -17,6 +17,8 @@
 #ifndef __H__OCULAR_MATH_EULER_H__
 #define __H__OCULAR_MATH_EULER_H__
 
+#include "Utilities/Types.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -200,6 +202,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Euler, "Euler");
 
 //------------------------------------------------------------------------------------------
 

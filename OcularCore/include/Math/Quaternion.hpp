@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_QUATERNION__H__
 
 #include "MathCommon.hpp"
+#include "Utilities/Types.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -292,6 +293,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Quaternion, "Quaternion");
 
 //------------------------------------------------------------------------------------------
 

@@ -20,7 +20,7 @@
 
 #include "MathCommon.hpp"
 #include "Equality.hpp"
-
+#include "Utilities/Types.hpp"
 #include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -381,6 +381,11 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector2i,  "Vector2i");
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector2ui, "Vector2ui");
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector2f,  "Vector2f");
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector2d,  "Vector2d");
 
 //------------------------------------------------------------------------------------------
 

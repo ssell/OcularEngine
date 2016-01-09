@@ -21,6 +21,7 @@
 #include "Vector2.hpp"
 #include "Euler.hpp"
 #include "Equality.hpp"
+#include "Utilities/Types.hpp"
 #include "Exceptions/Exception.hpp"
 
 #include <cmath>
@@ -517,6 +518,9 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector3f,  "Vector3f");
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Vector3d,  "Vector3d");
 
 //------------------------------------------------------------------------------------------
 

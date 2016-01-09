@@ -1106,5 +1106,8 @@
     <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Types.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

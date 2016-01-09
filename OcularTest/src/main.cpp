@@ -101,6 +101,9 @@ void setupScene()
 int main(int argc, char** argv)
 {
     OcularEngine.initialize(new D3D11GraphicsDriver());
+   
+    Ocular::Math::Matrix4x4 matrix;
+    OcularLogger->info("Type: ", OCULAR_TYPE(matrix));
 
     if(openWindow())
     {
