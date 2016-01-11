@@ -1,0 +1,186 @@
+/**
+ * Copyright 2014-2016 Steven T Sell (ssell@ocularinteractive.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "stdafx.h"
+#include "Widgets/MainMenuBar.hpp"
+#include "Widgets/MainWindow.hpp"
+
+//------------------------------------------------------------------------------------------
+
+namespace Ocular
+{
+    namespace Editor
+    {
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
+
+        MainMenuBar::MainMenuBar(MainWindow* parent)
+            : QMenuBar(parent),
+              m_MenuFile(nullptr),
+              m_MenuEdit(nullptr),
+              m_MenuHelp(nullptr)
+        {
+            createActions();
+            createMenus();
+        }
+
+        MainMenuBar::~MainMenuBar()
+        {
+
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        void MainMenuBar::createActions()
+        {
+            // Must be called before createMenus
+            
+            //------------------------------------------------------------
+            // File Menu Actions
+
+            m_MenuActionFileNewProject = new QAction(tr("New Project"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileNewProject()));
+
+            m_MenuActionFileOpenProject = new QAction(tr("Open Project"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileOpenProject()));
+
+            m_MenuActionFileCloseProject = new QAction(tr("Close Project"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileCloseProject()));
+
+            m_MenuActionFileNewScene = new QAction(tr("New Scene"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileNewScene()));
+
+            m_MenuActionFileOpenScene = new QAction(tr("Open Scene"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileOpenScene()));
+
+            m_MenuActionFileSaveScene = new QAction(tr("Save Scene"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileSaveScene()));
+
+            m_MenuActionFileSaveSceneAs = new QAction(tr("Save Scene As..."), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileSaveSceneAs()));
+
+            m_MenuActionFileCloseScene = new QAction(tr("Close Scene"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileCloseScene()));
+
+            m_MenuActionFileExit = new QAction(tr("Exit"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileExit()));
+
+            //------------------------------------------------------------
+            // Edit Menu Actions
+
+            //------------------------------------------------------------
+            // Help Menu Actions
+
+            m_MenuActionHelpAbout = new QAction(tr("About Ocular Editor"), this);
+            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(helpAbout()));
+
+        }
+
+        void MainMenuBar::createMenus()
+        {
+            // Must be called after createActions
+            
+            //------------------------------------------------------------
+            // File Menu
+
+            m_MenuFile = addMenu(tr("&File"));
+            m_MenuFile->addAction(m_MenuActionFileNewProject);
+            m_MenuFile->addAction(m_MenuActionFileOpenProject);
+            m_MenuFile->addAction(m_MenuActionFileCloseProject);
+            m_MenuFile->addSeparator();
+            m_MenuFile->addAction(m_MenuActionFileNewScene);
+            m_MenuFile->addAction(m_MenuActionFileOpenScene);
+            m_MenuFile->addAction(m_MenuActionFileSaveScene);
+            m_MenuFile->addAction(m_MenuActionFileSaveSceneAs);
+            m_MenuFile->addAction(m_MenuActionFileCloseScene);
+            m_MenuFile->addSeparator();
+            m_MenuFile->addAction(m_MenuActionFileExit);
+            
+            //------------------------------------------------------------
+            // Edit Menu
+
+            m_MenuEdit = addMenu(tr("&Edit"));
+            
+            //------------------------------------------------------------
+            // Help Menu
+
+            m_MenuHelp = addMenu(tr("&Help"));
+            m_MenuHelp->addAction(m_MenuActionHelpAbout);
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+        
+        void MainMenuBar::fileNewProject()
+        {
+
+        }
+
+        void MainMenuBar::fileOpenProject()
+        {
+
+        }
+
+        void MainMenuBar::fileCloseProject()
+        {
+
+        }
+
+        void MainMenuBar::fileNewScene()
+        {
+
+        }
+
+        void MainMenuBar::fileOpenScene()
+        {
+
+        }
+
+        void MainMenuBar::fileSaveScene()
+        {
+
+        }
+
+        void MainMenuBar::fileSaveSceneAs()
+        {
+
+        }
+
+        void MainMenuBar::fileCloseScene()
+        {
+
+        }
+
+        void MainMenuBar::fileExit()
+        {
+
+        }
+
+        void MainMenuBar::helpAbout()
+        {
+
+        }
+
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
+    }
+}

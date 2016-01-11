@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "OcularEditor.hpp"
+#include "Widgets/MainWindow.hpp"
 
 #include <QtWidgets/QApplication>
 
@@ -23,9 +23,10 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    OcularEditor w;
-    w.show();
+    QApplication application(argc, argv);
 
-    return a.exec();
+    Ocular::Editor::MainWindow mainWindow;
+    mainWindow.show();
+
+    return application.exec();
 }

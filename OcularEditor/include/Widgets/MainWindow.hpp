@@ -14,30 +14,55 @@
  * limitations under the License.
  */
 
-#ifndef __H__OCULAR_EDITOR__H__
-#define __H__OCULAR_EDITOR__H__
+#pragma once
+#ifndef __H__OCULAR_EDITOR_MAIN_WINDOW__H__
+#define __H__OCULAR_EDITOR_MAIN_WINDOW__H__
 
 #include <QtWidgets/QMainWindow>
 
 //------------------------------------------------------------------------------------------
 
 /**
- * \class OcularEditor
- * \brief Main window for the Ocular Editor application
+ * \addtogroup Ocular
+ * @{
  */
-class OcularEditor : public QMainWindow
+namespace Ocular
 {
-    Q_OBJECT
+    /**
+     * \addtogroup Editor
+     * @{
+     */
+    namespace Editor
+    {
+        class MainMenuBar;
 
-public:
+        /**
+         * \class MainWindow
+         * \brief Main window for the Ocular Editor application
+         */
+        class MainWindow : public QMainWindow
+        {
+            Q_OBJECT
 
-    OcularEditor(QWidget *parent = 0);
-    ~OcularEditor();
+        public:
 
-protected:
+            MainWindow(QWidget* parent = nullptr);
+            ~MainWindow();
 
-private:
-};
+        protected:
+
+        private:
+
+            MainMenuBar* m_MenuBar;
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
+}
+/**
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 
