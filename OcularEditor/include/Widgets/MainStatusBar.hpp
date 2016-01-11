@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MAIN_WINDOW__H__
-#define __H__OCULAR_EDITOR_MAIN_WINDOW__H__
+#ifndef __H__OCULAR_EDITOR_MAIN_STATUS_BAR__H__
+#define __H__OCULAR_EDITOR_MAIN_STATUS_BAR__H__
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/qstatusbar.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,47 +35,22 @@ namespace Ocular
     namespace Editor
     {
         class MainMenuBar;
-        class MainStatusBar;
-        class MainFrame;
-        class ContentTab;
-        class ToolBarCommon;
 
         /**
-         * \class MainWindow
-         * \brief Main window for the Ocular Editor application
+         * \class MainStatusBar
+         * \brief Main status bar for the Ocular Editor application
          */
-        class MainWindow : public QMainWindow
+        class MainStatusBar : public QStatusBar
         {
-            Q_OBJECT
-
         public:
 
-            MainWindow(QWidget* parent = nullptr);
-            ~MainWindow();
-
-            virtual QSize sizeHint() const override;
+            MainStatusBar(QWidget* parent = nullptr);
+            ~MainStatusBar();
 
         protected:
 
         private:
 
-            void setupLayouts();
-            void setupMenus();
-            void setupContentTab();
-
-            //------------------------------------------------------------
-
-            QVBoxLayout* m_LayoutMain;          ///< Layout for the entire window
-            QVBoxLayout* m_LayoutToolBars;      ///< Layout for the tool bars
-            QHBoxLayout* m_LayoutContent;       ///< Layout for the main content widgets (renderer, scene modifiers, etc.)
-
-            MainMenuBar*   m_MenuBar;
-            MainStatusBar* m_StatusBar;
-            MainFrame*     m_MainFrame;
-
-            ToolBarCommon* m_ToolBarCommon;
-
-            ContentTab* m_ContentTab;
         };
     }
     /**

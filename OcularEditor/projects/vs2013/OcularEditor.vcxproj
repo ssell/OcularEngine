@@ -176,10 +176,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ContentTab.cpp" />
+    <ClCompile Include="..\..\src\Widgets\MainFrame.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainMenuBar.cpp" />
+    <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainWindow.cpp" />
+    <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Widgets\ContentTab.hpp" />
+    <ClInclude Include="..\..\include\Widgets\MainFrame.hpp" />
+    <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp" />
+    <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp" />
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing MainWindow.hpp...</Message>

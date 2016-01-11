@@ -49,7 +49,7 @@ namespace Ocular
             /**
              * \param[in] parent Parent widget of this menu bar, which may only be a MainWindow
              */
-            MainMenuBar(MainWindow* parent);
+            MainMenuBar(MainWindow* parent = nullptr);
             ~MainMenuBar();
 
         protected:

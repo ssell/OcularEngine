@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MAIN_WINDOW__H__
-#define __H__OCULAR_EDITOR_MAIN_WINDOW__H__
+#ifndef __H__OCULAR_EDITOR_CONTENT_TAB__H__
+#define __H__OCULAR_EDITOR_CONTENT_TAB__H__
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/qtabwidget.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -34,24 +34,16 @@ namespace Ocular
      */
     namespace Editor
     {
-        class MainMenuBar;
-        class MainStatusBar;
-        class MainFrame;
-        class ContentTab;
-        class ToolBarCommon;
-
         /**
-         * \class MainWindow
-         * \brief Main window for the Ocular Editor application
+         * \class ContentTab
+         * \brief Custom tab widget for content modification
          */
-        class MainWindow : public QMainWindow
+        class ContentTab : public QTabWidget
         {
-            Q_OBJECT
-
         public:
 
-            MainWindow(QWidget* parent = nullptr);
-            ~MainWindow();
+            ContentTab(QWidget* parent = nullptr);
+            ~ContentTab();
 
             virtual QSize sizeHint() const override;
 
@@ -59,23 +51,13 @@ namespace Ocular
 
         private:
 
-            void setupLayouts();
-            void setupMenus();
-            void setupContentTab();
+            void createTabs();
 
             //------------------------------------------------------------
 
-            QVBoxLayout* m_LayoutMain;          ///< Layout for the entire window
-            QVBoxLayout* m_LayoutToolBars;      ///< Layout for the tool bars
-            QHBoxLayout* m_LayoutContent;       ///< Layout for the main content widgets (renderer, scene modifiers, etc.)
+            QWidget* m_ObjectTab;
+            QWidget* m_SceneTreeTab;
 
-            MainMenuBar*   m_MenuBar;
-            MainStatusBar* m_StatusBar;
-            MainFrame*     m_MainFrame;
-
-            ToolBarCommon* m_ToolBarCommon;
-
-            ContentTab* m_ContentTab;
         };
     }
     /**
