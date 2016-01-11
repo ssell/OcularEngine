@@ -31,7 +31,7 @@ namespace Ocular
             : QToolBar(parent)
         {
             setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-            addAction("Test");
+            addAction("Testo");
         }
 
         ToolBarCommon::~ToolBarCommon()
@@ -45,7 +45,7 @@ namespace Ocular
 
         QSize ToolBarCommon::sizeHint() const
         {
-            return QSize(500, 50);
+            return QSize(500, 30);
         }
 
         //----------------------------------------------------------------------------------

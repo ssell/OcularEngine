@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/MainFrame.hpp"
+#include "Widgets/RenderFrame.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,17 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        MainFrame::MainFrame(QWidget *parent)
+        RenderFrame::RenderFrame(QWidget *parent)
             : QFrame(parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setFrameStyle(QFrame::Panel | QFrame::Raised);
             setLineWidth(1);
-
-            setMinimumSize(QSize(500, 500));
         }
 
-        MainFrame::~MainFrame()
+        RenderFrame::~RenderFrame()
         {
 
         }
@@ -46,9 +44,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize MainFrame::sizeHint() const
+        QSize RenderFrame::sizeHint() const
         {
-            return QSize(990, 720);
+            return QSize(700, 700);
         }
 
         //----------------------------------------------------------------------------------

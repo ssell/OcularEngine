@@ -36,9 +36,10 @@ namespace Ocular
     {
         class MainMenuBar;
         class MainStatusBar;
-        class MainFrame;
+        class ContentFrame;
         class ContentTab;
         class ToolBarCommon;
+        class RenderFrame;
 
         /**
          * \class MainWindow
@@ -61,17 +62,21 @@ namespace Ocular
 
             void setupLayouts();
             void setupMenus();
-            void setupContentTab();
+            void setupMainWidget();
+            void setupToolBars();
+            void setupContent();
 
             //------------------------------------------------------------
 
+            QWidget* m_MainWidget;
+
             QVBoxLayout* m_LayoutMain;          ///< Layout for the entire window
-            QVBoxLayout* m_LayoutToolBars;      ///< Layout for the tool bars
             QHBoxLayout* m_LayoutContent;       ///< Layout for the main content widgets (renderer, scene modifiers, etc.)
 
             MainMenuBar*   m_MenuBar;
             MainStatusBar* m_StatusBar;
-            MainFrame*     m_MainFrame;
+            ContentFrame*  m_ContentFrame;
+            RenderFrame*   m_RenderFrame;
 
             ToolBarCommon* m_ToolBarCommon;
 

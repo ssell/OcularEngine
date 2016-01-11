@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentTab.hpp"
+#include "Widgets/ContentFrame.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,15 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ContentTab::ContentTab(QWidget *parent)
-            : QTabWidget(parent)
+        ContentFrame::ContentFrame(QWidget *parent)
+            : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-
-            createTabs();
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setFrameStyle(QFrame::Panel | QFrame::Raised);
+            setLineWidth(1);
         }
 
-        ContentTab::~ContentTab()
+        ContentFrame::~ContentFrame()
         {
 
         }
@@ -44,9 +44,10 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ContentTab::sizeHint() const
+        QSize ContentFrame::sizeHint() const
         {
-            return QSize(250, 700);
+            // Some arbitrarily large size so that the frame always exapnds to fill all available space
+            return QSize(99999, 99999);
         }
 
         //----------------------------------------------------------------------------------
@@ -56,14 +57,5 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
-        void ContentTab::createTabs()
-        {
-            m_ObjectTab = new QFrame();
-            m_SceneTreeTab = new QFrame();
-
-            addTab(m_ObjectTab, "Object");
-            addTab(m_SceneTreeTab, "Scene");
-        }
     }
 }

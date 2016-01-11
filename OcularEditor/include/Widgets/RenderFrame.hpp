@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_TOOL_MAIN_FRAME__H__
-#define __H__OCULAR_EDITOR_TOOL_MAIN_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_RENDER_FRAME__H__
+#define __H__OCULAR_EDITOR_RENDER_FRAME__H__
 
 #include <QtWidgets/qframe.h>
 
@@ -35,15 +35,15 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class MainFrame
+         * \class RenderFrame
          * \brief 
          */
-        class MainFrame : public QFrame
+        class RenderFrame : public QFrame
         {
         public:
 
-            MainFrame(QWidget* parent = nullptr);
-            ~MainFrame();
+            RenderFrame(QWidget* parent = nullptr);
+            ~RenderFrame();
 
             virtual QSize sizeHint() const override;
 

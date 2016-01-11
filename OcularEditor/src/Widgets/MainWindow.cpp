@@ -18,10 +18,11 @@
 
 #include "Widgets/MainWindow.hpp"
 #include "Widgets/MainMenuBar.hpp"
-#include "Widgets/MainFrame.hpp"
 #include "Widgets/MainStatusBar.hpp"
-#include "Widgets/ContentTab.hpp"
 #include "Widgets/ToolBarCommon.hpp"
+#include "Widgets/ContentFrame.hpp"
+#include "Widgets/RenderFrame.hpp"
+#include "Widgets/ContentTab.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,43 +39,11 @@ namespace Ocular
         {
             setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
        
-            QWidget* mainWidget = new QWidget(this);
-            mainWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-            mainWidget->setMinimumSize(QSize(1024, 768));
-
-            QToolBar* toolBar = new QToolBar();
-            toolBar->addAction("Test");
-
-            QFrame* frame = new QFrame();
-            frame->setMinimumSize(QSize(500, 500));
-            frame->setLineWidth(2);
-            frame->setFrameStyle(QFrame::Panel | QFrame::Raised);
-
-            QFrame* renderFrame = new QFrame();
-            renderFrame->setMinimumSize(QSize(250, 250));
-            renderFrame->setLineWidth(1);
-            renderFrame->setFrameStyle(QFrame::Panel | QFrame::Raised);
-
-            QTabWidget* tabs = new QTabWidget();
-            QWidget* tabA = new QWidget();
-            QWidget* tabB = new QWidget();
-
-            tabs->addTab(tabA, "Properties");
-            tabs->addTab(tabB, "Scene Tree");
-
-
-            QVBoxLayout* mainLayout = new QVBoxLayout();
-            QHBoxLayout* frameLayout = new QHBoxLayout();
-
-            frameLayout->addWidget(tabs);
-            frameLayout->addWidget(renderFrame);
-
-            frame->setLayout(frameLayout);
-
-            mainLayout->addWidget(toolBar);
-            mainLayout->addWidget(frame);
-
-            mainWidget->setLayout(mainLayout);
+            setupLayouts();
+            setupMenus();
+            setupToolBars();
+            setupContent();
+            setupMainWidget();
         }
 
         MainWindow::~MainWindow()
@@ -101,27 +70,49 @@ namespace Ocular
 
         void MainWindow::setupLayouts()
         {
-            m_LayoutMain     = new QVBoxLayout();
-            m_LayoutToolBars = new QVBoxLayout();
-            m_LayoutContent  = new QHBoxLayout();
+            m_LayoutMain    = new QVBoxLayout();
+            m_LayoutContent = new QHBoxLayout();
         }
 
         void MainWindow::setupMenus()
         {
             m_MenuBar = new MainMenuBar();
-            setMenuBar((QMenuBar*)(m_MenuBar));
-
             m_StatusBar = new MainStatusBar();
-            setStatusBar((QStatusBar*)(m_StatusBar));
 
-            m_ToolBarCommon = new ToolBarCommon();
-            m_LayoutToolBars->addWidget(m_ToolBarCommon);
+            m_StatusBar->showMessage(tr("Ready"));
+
+            setMenuBar((QMenuBar*)(m_MenuBar));
+            setStatusBar((QStatusBar*)(m_StatusBar));
         }
 
-        void MainWindow::setupContentTab()
+        void MainWindow::setupMainWidget()
         {
+            m_MainWidget = new QWidget();
+            m_MainWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+            m_MainWidget->setMinimumSize(QSize(1024, 700));
+            
+            m_MainWidget->setLayout(m_LayoutMain);
+            setCentralWidget(m_MainWidget);
+        }
+
+        void MainWindow::setupToolBars()
+        {
+            m_ToolBarCommon = new ToolBarCommon();
+            m_LayoutMain->addWidget(m_ToolBarCommon, 0, (Qt::AlignLeft | Qt::AlignTop));
+        }
+
+        void MainWindow::setupContent()
+        {
+            m_ContentFrame = new ContentFrame();
+            m_RenderFrame = new RenderFrame();
             m_ContentTab = new ContentTab();
+
             m_LayoutContent->addWidget(m_ContentTab);
+            m_LayoutContent->addWidget(m_RenderFrame, 1);
+
+            m_ContentFrame->setLayout(m_LayoutContent);
+
+            m_LayoutMain->addWidget(m_ContentFrame, 1, (Qt::AlignHCenter | Qt::AlignTop));
         }
     }
 }
