@@ -176,6 +176,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\Styles\GeneralStyles.cpp" />
     <ClCompile Include="..\..\src\Widgets\ConsoleBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\ConsoleText.cpp" />
     <ClCompile Include="..\..\src\Widgets\ContentFrame.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp" />
     <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp" />
     <ClInclude Include="..\..\include\Widgets\ContentFrame.hpp" />

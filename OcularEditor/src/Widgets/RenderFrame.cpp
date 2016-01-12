@@ -31,8 +31,10 @@ namespace Ocular
             : QFrame(parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::Panel | QFrame::Raised);
+            setFrameStyle(QFrame::Panel | QFrame::Plain);
             setLineWidth(1);
+
+            setStyleSheet(GeneralStyles::frameStyle);
         }
 
         RenderFrame::~RenderFrame()

@@ -45,6 +45,8 @@ namespace Ocular
             setupToolBars();
             setupContent();
             setupMainWidget();
+
+            setStyleSheet(GeneralStyles::windowStyle);
         }
 
         MainWindow::~MainWindow()

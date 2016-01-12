@@ -37,6 +37,7 @@ namespace Ocular
 
             m_Layout = new QVBoxLayout();
             m_Layout->addWidget(m_ConsoleText);
+            m_Layout->setContentsMargins(5, 25, 5, 5);
 
             setLayout(m_Layout);
         }

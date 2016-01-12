@@ -39,6 +39,12 @@
     <Filter Include="Source Files\Widgets">
       <UniqueIdentifier>{18b735ba-e556-4e4a-abd3-8456b3561bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Styles">
+      <UniqueIdentifier>{8b67a4e6-744b-44f3-b220-14df81ee9b7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Styles">
+      <UniqueIdentifier>{d40cc28c-b3dc-43ba-b164-c657dadf66eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -95,6 +101,9 @@
     <ClCompile Include="..\..\src\Widgets\SceneTree.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Styles\GeneralStyles.cpp">
+      <Filter>Source Files\Styles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -129,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\SceneTree.hpp">
       <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp">
+      <Filter>Header Files\Styles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

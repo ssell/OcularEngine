@@ -15,6 +15,7 @@
  */
 
 #include "stdafx.h"
+
 #include "Widgets/SceneFrame.hpp"
 #include "Widgets/SceneBox.hpp"
 #include "Widgets/ConsoleBox.hpp"
@@ -32,9 +33,9 @@ namespace Ocular
         SceneFrame::SceneFrame(QWidget *parent)
             : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::Panel | QFrame::Raised);
-            setLineWidth(1);
+            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);setFrameStyle(QFrame::Panel | QFrame::Plain);
+            setLineWidth(0);
+            setStyleSheet(GeneralStyles::frameStyle);
 
             m_SceneBox = new SceneBox();
             m_ConsoleBox = new ConsoleBox();
@@ -42,6 +43,7 @@ namespace Ocular
             m_Layout = new QVBoxLayout();
             m_Layout->addWidget(m_SceneBox);
             m_Layout->addWidget(m_ConsoleBox);
+            m_Layout->setContentsMargins(0, 0, 0, 0);
 
             setLayout(m_Layout);
         }

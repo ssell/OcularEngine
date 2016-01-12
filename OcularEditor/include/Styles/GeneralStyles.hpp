@@ -14,18 +14,46 @@
  * limitations under the License.
  */
 
-//------------------------------------------------------------------------------------------
-// Qt Includes
-//------------------------------------------------------------------------------------------
+#pragma once
+#ifndef __H__OCULAR_EDITOR_GENERAL_STYLES__H__
+#define __H__OCULAR_EDITOR_GENERAL_STYLES__H__
 
-#include <QtWidgets>
-
-//------------------------------------------------------------------------------------------
-// Ocular Includes
-//------------------------------------------------------------------------------------------
-
-#include "Styles/GeneralStyles.hpp"
+#include <qstring.h>
 
 //------------------------------------------------------------------------------------------
-// Standard Includes
+
+/**
+ * \addtogroup Ocular
+ * @{
+ */
+namespace Ocular
+{
+    /**
+     * \addtogroup Editor
+     * @{
+     */
+    namespace Editor
+    {
+        class GeneralStyles
+        {
+        public:
+
+            static const QString windowStyle;        ///< Default style for the entire window/application
+            static const QString frameStyle;
+
+        protected:
+
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
+}
+/**
+ * @} End of Doxygen Groups
+ */
+
 //------------------------------------------------------------------------------------------
+
+#endif

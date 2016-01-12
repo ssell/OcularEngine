@@ -31,10 +31,10 @@ namespace Ocular
             : QFrame(parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::Panel | QFrame::Raised);
+            setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
             setLineWidth(1);
 
-            setContentsMargins(1, 1, 1, 1);
+            setContentsMargins(0, 0, 0, 0);
         }
 
         ContentFrame::~ContentFrame()

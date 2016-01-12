@@ -15,8 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/SceneBox.hpp"
-#include "Widgets/SceneTree.hpp"
+#include "Styles/GeneralStyles.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,33 +27,44 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneBox::SceneBox(QWidget *parent)
-            : QGroupBox("Scene", parent)
-        {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        const QString GeneralStyles::windowStyle =
+            "QWidget"
+            "{"
+            "    color: rgb(255, 255, 255);"
+            "    background-color: rgb(45, 45, 48);"
+            "    border-color: rgb(63, 63, 70);"
+            "}"
+            "QGroupBox"
+            "{"
+            "    border: 1px solid rgb(51, 51, 55);"
+            "    background-color: rgb(51, 51, 55);"
+            "}"
+            "QGroupBox::title"
+            "{"
+            "    color: rgb(255, 255, 255);"
+            "    background-color: rgb(63, 63, 70);"
+            "    padding-left: 10px;"
+            "    padding-right: 2000px;"
+            "    padding-top: 3px;"
+            "    padding-bottom: 3px;"
+            "}"
+            "QTextEdit"
+            "{"
+            "    color: rgb(255, 255, 255);"
+            "    border: 0px solid black;"
+            "}"
+            "QTreeWidget"
+            "{"
+            "    color: rgb(255, 255, 255);"
+            "    border: 0px solid black;"
+            "}";
 
-            m_SceneTree = new SceneTree();
-
-            m_Layout = new QVBoxLayout();
-            m_Layout->addWidget(m_SceneTree);
-            m_Layout->setContentsMargins(5, 25, 5, 5);
-
-            setLayout(m_Layout);
-        }
-
-        SceneBox::~SceneBox()
-        {
-
-        }
+        const QString GeneralStyles::frameStyle =
+            "color: rgb(63, 63, 70);";
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        QSize SceneBox::sizeHint() const
-        {
-            return QSize(250, 500);
-        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
