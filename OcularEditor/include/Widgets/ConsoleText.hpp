@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_CONTENT_TAB__H__
-#define __H__OCULAR_EDITOR_CONTENT_TAB__H__
+#ifndef __H__OCULAR_EDITOR_CONSOLE_TEXT__H__
+#define __H__OCULAR_EDITOR_CONSOLE_TEXT__H__
 
-#include <QtWidgets/qtabwidget.h>
+#include <QtWidgets/qtextedit.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,28 +35,21 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class ContentTab
-         * \brief Custom tab widget for content modification
+         * \class ConsoleText
+         * \brief 
          */
-        class ContentTab : public QTabWidget
+        class ConsoleText : public QTextEdit
         {
         public:
 
-            ContentTab(QWidget* parent = nullptr);
-            ~ContentTab();
+            ConsoleText(QWidget* parent = nullptr);
+            ~ConsoleText();
 
             virtual QSize sizeHint() const override;
 
         protected:
 
         private:
-
-            void createTabs();
-
-            //------------------------------------------------------------
-
-            QWidget* m_ObjectTab;
-            QWidget* m_SceneTreeTab;
 
         };
     }

@@ -15,7 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentFrame.hpp"
+#include "Widgets/SceneBox.hpp"
+#include "Widgets/SceneTree.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,17 +28,20 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ContentFrame::ContentFrame(QWidget *parent)
-            : QFrame(parent)
+        SceneBox::SceneBox(QWidget *parent)
+            : QGroupBox("Scene", parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::Panel | QFrame::Raised);
-            setLineWidth(1);
 
-            setContentsMargins(1, 1, 1, 1);
+            m_SceneTree = new SceneTree();
+
+            m_Layout = new QVBoxLayout();
+            m_Layout->addWidget(m_SceneTree);
+
+            setLayout(m_Layout);
         }
 
-        ContentFrame::~ContentFrame()
+        SceneBox::~SceneBox()
         {
 
         }
@@ -46,10 +50,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ContentFrame::sizeHint() const
+        QSize SceneBox::sizeHint() const
         {
-            // Some arbitrarily large size so that the frame always exapnds to fill all available space
-            return QSize(99999, 99999);
+            return QSize(250, 500);
         }
 
         //----------------------------------------------------------------------------------

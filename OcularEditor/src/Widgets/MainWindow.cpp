@@ -22,7 +22,8 @@
 #include "Widgets/ToolBarCommon.hpp"
 #include "Widgets/ContentFrame.hpp"
 #include "Widgets/RenderFrame.hpp"
-#include "Widgets/ContentTab.hpp"
+#include "Widgets/SceneFrame.hpp"
+#include "Widgets/DetailsFrame.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -104,11 +105,13 @@ namespace Ocular
         void MainWindow::setupContent()
         {
             m_ContentFrame = new ContentFrame();
-            m_RenderFrame = new RenderFrame();
-            m_ContentTab = new ContentTab();
-
-            m_LayoutContent->addWidget(m_ContentTab);
+            m_SceneFrame   = new SceneFrame();
+            m_RenderFrame  = new RenderFrame();
+            m_DetailsFrame = new DetailsFrame();
+            
+            m_LayoutContent->addWidget(m_SceneFrame);
             m_LayoutContent->addWidget(m_RenderFrame, 1);
+            m_LayoutContent->addWidget(m_DetailsFrame);
 
             m_ContentFrame->setLayout(m_LayoutContent);
 

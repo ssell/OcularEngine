@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentFrame.hpp"
+#include "Widgets/DetailsFrame.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,17 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ContentFrame::ContentFrame(QWidget *parent)
+        DetailsFrame::DetailsFrame(QWidget *parent)
             : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
             setFrameStyle(QFrame::Panel | QFrame::Raised);
             setLineWidth(1);
-
-            setContentsMargins(1, 1, 1, 1);
         }
 
-        ContentFrame::~ContentFrame()
+        DetailsFrame::~DetailsFrame()
         {
 
         }
@@ -46,10 +44,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ContentFrame::sizeHint() const
+        QSize DetailsFrame::sizeHint() const
         {
-            // Some arbitrarily large size so that the frame always exapnds to fill all available space
-            return QSize(99999, 99999);
+            return QSize(275, 700);
         }
 
         //----------------------------------------------------------------------------------

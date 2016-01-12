@@ -176,19 +176,29 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\ContentTab.cpp" />
+    <ClCompile Include="..\..\src\Widgets\ConsoleBox.cpp" />
+    <ClCompile Include="..\..\src\Widgets\ConsoleText.cpp" />
     <ClCompile Include="..\..\src\Widgets\ContentFrame.cpp" />
+    <ClCompile Include="..\..\src\Widgets\DetailsFrame.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainMenuBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainWindow.cpp" />
     <ClCompile Include="..\..\src\Widgets\RenderFrame.cpp" />
+    <ClCompile Include="..\..\src\Widgets\SceneBox.cpp" />
+    <ClCompile Include="..\..\src\Widgets\SceneFrame.cpp" />
+    <ClCompile Include="..\..\src\Widgets\SceneTree.cpp" />
     <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Widgets\ContentTab.hpp" />
+    <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp" />
+    <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp" />
     <ClInclude Include="..\..\include\Widgets\ContentFrame.hpp" />
+    <ClInclude Include="..\..\include\Widgets\DetailsFrame.hpp" />
     <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp" />
     <ClInclude Include="..\..\include\Widgets\RenderFrame.hpp" />
+    <ClInclude Include="..\..\include\Widgets\SceneBox.hpp" />
+    <ClInclude Include="..\..\include\Widgets\SceneFrame.hpp" />
+    <ClInclude Include="..\..\include\Widgets\SceneTree.hpp" />
     <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp" />
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -37,9 +37,10 @@ namespace Ocular
         class MainMenuBar;
         class MainStatusBar;
         class ContentFrame;
-        class ContentTab;
         class ToolBarCommon;
         class RenderFrame;
+        class SceneFrame;
+        class DetailsFrame;
 
         /**
          * \class MainWindow
@@ -77,10 +78,10 @@ namespace Ocular
             MainStatusBar* m_StatusBar;
             ContentFrame*  m_ContentFrame;
             RenderFrame*   m_RenderFrame;
+            SceneFrame*    m_SceneFrame;
+            DetailsFrame*  m_DetailsFrame;
 
             ToolBarCommon* m_ToolBarCommon;
-
-            ContentTab* m_ContentTab;
         };
     }
     /**

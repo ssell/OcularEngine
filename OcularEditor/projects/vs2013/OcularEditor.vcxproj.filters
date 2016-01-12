@@ -68,9 +68,6 @@
     <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\ContentTab.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
@@ -78,6 +75,24 @@
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\ContentFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\DetailsFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ConsoleBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ConsoleText.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneTree.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -88,9 +103,6 @@
     <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\ContentTab.hpp">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
@@ -98,6 +110,24 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\ContentFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\DetailsFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneTree.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>

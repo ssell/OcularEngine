@@ -15,7 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentTab.hpp"
+#include "Widgets/ConsoleBox.hpp"
+#include "Widgets/ConsoleText.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,15 +28,20 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ContentTab::ContentTab(QWidget *parent)
-            : QTabWidget(parent)
+        ConsoleBox::ConsoleBox(QWidget *parent)
+            : QGroupBox("Console", parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-            createTabs();
+            m_ConsoleText = new ConsoleText();
+
+            m_Layout = new QVBoxLayout();
+            m_Layout->addWidget(m_ConsoleText);
+
+            setLayout(m_Layout);
         }
 
-        ContentTab::~ContentTab()
+        ConsoleBox::~ConsoleBox()
         {
 
         }
@@ -44,9 +50,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ContentTab::sizeHint() const
+        QSize ConsoleBox::sizeHint() const
         {
-            return QSize(250, 700);
+            return QSize(250, 175);
         }
 
         //----------------------------------------------------------------------------------
@@ -56,14 +62,5 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
-        void ContentTab::createTabs()
-        {
-            m_ObjectTab = new QFrame();
-            m_SceneTreeTab = new QFrame();
-
-            addTab(m_ObjectTab, "Object");
-            addTab(m_SceneTreeTab, "Scene");
-        }
     }
 }
