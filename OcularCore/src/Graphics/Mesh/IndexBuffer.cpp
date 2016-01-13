@@ -106,7 +106,7 @@ namespace Ocular
 
         uint32_t IndexBuffer::getNumIndices() const
         {
-            return m_Indices.size();
+            return static_cast<uint32_t>(m_Indices.size());
         }
 
         //----------------------------------------------------------------------------------

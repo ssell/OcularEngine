@@ -478,7 +478,7 @@ namespace Ocular
 
         uint32_t SceneObject::getNumChildren() const
         {
-            return m_Children.size();
+            return static_cast<uint32_t>(m_Children.size());
         }
 
         std::vector<SceneObject*> const& SceneObject::getAllChildren() const
@@ -619,7 +619,7 @@ namespace Ocular
 
         uint32_t SceneObject::getNumRoutines() const
         {
-            return m_Routines.size();
+            return static_cast<uint32_t>(m_Routines.size());
         }
 
         //----------------------------------------------------------------

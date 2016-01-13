@@ -68,7 +68,7 @@ namespace Ocular
 
             if(!m_CenterCalculated)
             {
-                const uint32_t size = m_Points.size();
+                const uint32_t size = static_cast<uint32_t>(m_Points.size());
 
                 float xPos = 0.0f;
                 float yPos = 0.0f;
@@ -109,7 +109,7 @@ namespace Ocular
         {
             if(!m_SignedAreaCalculated)
             {
-                const uint32_t size = m_Points.size();
+                const uint32_t size = static_cast<uint32_t>(m_Points.size());
                 float partialArea = 0.0f;
 
                 for(uint32_t i = 0; i < size; i++)

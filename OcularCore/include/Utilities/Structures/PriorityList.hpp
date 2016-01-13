@@ -144,7 +144,7 @@ namespace Ocular
              * Removes the element at the specified index.<br/>
              * Throws an exception if index is out of bounds.
              */
-            void removeIndex(unsigned index)
+            void removeIndex(uint32_t index)
             {
                 if(index >= m_TrueSize)
                 {
@@ -219,12 +219,12 @@ namespace Ocular
             /**
              * Inserts the element into the specified index into the internal array.
              */
-            void insertElement(T const element, unsigned const priority)
+            void insertElement(T const element, uint32_t const priority)
             {
                 std::size_t index = findIndex(priority);
 
                 shiftRight(index);
-                m_Array[index] = std::pair<T, unsigned>(element, priority);
+                m_Array[index] = std::pair<T, uint32_t>(element, priority);
             }
 
             /**
@@ -301,7 +301,7 @@ namespace Ocular
             /**
              * Finds and returns the index that best fits the given priority level.
              */
-            std::size_t findIndex(unsigned const priority) const
+            std::size_t findIndex(uint32_t const priority) const
             {
                 // If the array is empty, return index 0
                 if(m_TrueSize == 0) 
@@ -327,11 +327,11 @@ namespace Ocular
              * Performs a binary search on the internal priority list and returns
              * the best fit index for the given priority level.
              */
-            std::size_t binaryFind(unsigned const priority) const
+            std::size_t binaryFind(uint32_t const priority) const
             {
-                unsigned upper = m_TrueSize;
-                unsigned index = m_TrueSize / 2;
-                unsigned increment = index / 2;
+                uint32_t upper = static_cast<uint32_t>(m_TrueSize);
+                uint32_t index = static_cast<uint32_t>(m_TrueSize / 2);
+                uint32_t increment = static_cast<uint32_t>(index / 2);
 
                 // While this could be done in a while(true){}, we
                 // place an upper bound on the potential number of
@@ -376,7 +376,7 @@ namespace Ocular
         private:
 
             std::size_t m_TrueSize;    ///< Actual number of elements in the storage array
-            //std::array<std::pair<T, unsigned>, MAX_ELEMENTS> m_Array;
+            //std::array<std::pair<T, uint32_t>, MAX_ELEMENTS> m_Array;
             std::pair<T, std::size_t> m_Array[MAX_ELEMENTS] = {};
         };
     }

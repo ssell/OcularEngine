@@ -119,9 +119,9 @@ namespace Ocular
             return m_Windows;
         }
 
-        unsigned WindowManager::getNumWindows() const
+        uint32_t WindowManager::getNumWindows() const
         {
-            return m_Windows.size();
+            return static_cast<uint32_t>(m_Windows.size());
         }
 
         std::shared_ptr<AWindow> WindowManager::getWindow(UUID const& uuid)

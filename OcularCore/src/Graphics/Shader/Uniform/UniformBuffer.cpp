@@ -165,7 +165,7 @@ namespace Ocular
 
         uint32_t UniformBuffer::getNumUniforms() const
         {
-            return m_Uniforms.size();
+            return static_cast<uint32_t>(m_Uniforms.size());
         }
 
         uint32_t UniformBuffer::getUniformsSize() const

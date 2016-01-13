@@ -302,8 +302,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Add any new objects
 
-            uint32_t numNewObjects = m_NewObjects.size();
-            uint32_t numTotalObjects = m_AllObjects.size() + numNewObjects;
+            const uint32_t numNewObjects = static_cast<uint32_t>(m_NewObjects.size());
+            const uint32_t numTotalObjects = static_cast<uint32_t>(m_AllObjects.size()) + numNewObjects;
 
             if(numNewObjects > 0)
             {
@@ -626,7 +626,7 @@ namespace Ocular
             // 2. Recursively build the tree top-down
             // 3. Recursively fit the bounds of each node around it's children
 
-            uint32_t numObjects = m_AllObjects.size();
+            const uint32_t numObjects = static_cast<uint32_t>(m_AllObjects.size());
 
             if(numObjects > 0)
             {

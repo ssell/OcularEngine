@@ -67,7 +67,7 @@ namespace Ocular
                 D3D11_BUFFER_DESC bufferDescr;
                 ZeroMemory(&bufferDescr, sizeof(D3D11_BUFFER_DESC));
                 bufferDescr.Usage     = D3D11_USAGE_DEFAULT;
-                bufferDescr.ByteWidth = sizeof(uint32_t) * m_Indices.size();
+                bufferDescr.ByteWidth = static_cast<uint32_t>(sizeof(uint32_t) * m_Indices.size());
                 bufferDescr.BindFlags = D3D11_BIND_INDEX_BUFFER;
                 
                 D3D11_SUBRESOURCE_DATA bufferData;

@@ -106,7 +106,7 @@ namespace Ocular
 
         uint32_t VertexBuffer::getNumVertices() const
         {
-            return m_Vertices.size();
+            return static_cast<uint32_t>(m_Vertices.size());
         }
 
         //----------------------------------------------------------------------------------

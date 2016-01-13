@@ -84,7 +84,7 @@ namespace Ocular
             /**
              * \return Number of windows tracked by this manager instance.
              */
-            unsigned getNumWindows() const;
+            uint32_t getNumWindows() const;
         
             /**
              * Returns a pointer to the Window with the specified UID.<br/><br/>

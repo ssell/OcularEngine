@@ -255,11 +255,11 @@ namespace Ocular
 #if defined(i386) || defined(__i386) || defined(__i386__) || defined(_M_IX86) || defined(__X86__) || defined(_X86_) || defined(__I86__) || defined(__386)
                 m_ProcessorArchitecture = ProcessorArchitectures::x86;
 #elif defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_M_AMD64)
-                m_ProcessorArchitecture = ProcessorArchitecture::x64;
+                m_ProcessorArchitecture = ProcessorArchitectures::x64;
 #elif defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64) || defined(__itanium__)
-                m_ProcessorArchitecture = ProcessorArchitecture::IA64;
+                m_ProcessorArchitecture = ProcessorArchitectures::IA64;
 #elif defined(__arm__) || defined(__thumb__) || defined(_ARM) || defined(_M_ARM) || defined(_M_ARMT) || defined(__arm)
-                m_ProcessorArchitecture = ProcessorArchitecture::ARM;
+                m_ProcessorArchitecture = ProcessorArchitectures::ARM;
 #endif
             }
         }

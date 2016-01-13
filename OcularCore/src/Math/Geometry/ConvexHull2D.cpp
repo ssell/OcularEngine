@@ -74,7 +74,7 @@ namespace Ocular
 
         uint32_t ConvexHull2D::getNumPoints() const
         {
-            return m_Hull.size();
+            return static_cast<uint32_t>(m_Hull.size());
         }
 
         std::vector<Point2f> const& ConvexHull2D::getHull() const

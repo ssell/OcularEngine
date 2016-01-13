@@ -121,7 +121,7 @@ namespace Ocular
         {
             if(m_D3DDeviceContext)
             {
-                const uint32_t size = m_Textures.size();
+                const uint32_t size = static_cast<uint32_t>(m_Textures.size());
 
                 if(m_VertexShader)
                 {
@@ -148,7 +148,7 @@ namespace Ocular
         {
            if(m_D3DDeviceContext)
             {
-                const uint32_t size = m_Textures.size();
+                const uint32_t size = static_cast<uint32_t>(m_Textures.size());
 
                 if(m_VertexShader)
                 {
