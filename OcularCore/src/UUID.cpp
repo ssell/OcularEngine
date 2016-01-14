@@ -26,6 +26,7 @@
 #include "OcularEngine.hpp"
 #include "Math/MathCommon.hpp"
 
+#include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <sstream>
 
@@ -37,19 +38,25 @@ namespace Ocular
 {
     namespace Core
     {
+        struct UUID_Internal
+        {
+            boost::uuids::uuid uuid;
+        };
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
         UUID::UUID()
         {
-            m_UUID = g_UUIDGenerator();
+            m_Internal = new UUID_Internal();
+            m_Internal->uuid = g_UUIDGenerator();
 
             std::stringstream sstream;
-            sstream << static_cast<uint32_t>(m_UUID.data[0]) << "-"
-                    << static_cast<uint32_t>(m_UUID.data[4]) << "-"
-                    << static_cast<uint32_t>(m_UUID.data[8]) << "-"
-                    << static_cast<uint32_t>(m_UUID.data[12]);
+            sstream << static_cast<uint32_t>(m_Internal->uuid.data[0]) << "-"
+                    << static_cast<uint32_t>(m_Internal->uuid.data[4]) << "-"
+                    << static_cast<uint32_t>(m_Internal->uuid.data[8]) << "-"
+                    << static_cast<uint32_t>(m_Internal->uuid.data[12]);
 
             m_String = sstream.str();
             m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
@@ -58,7 +65,8 @@ namespace Ocular
 
         UUID::~UUID()
         {
-        
+            delete m_Internal;
+            m_Internal = nullptr;
         }
 
         //----------------------------------------------------------------------------------
@@ -77,7 +85,7 @@ namespace Ocular
 
             memcpy(&rhsUUID, rhsRaw, sizeof(uint8_t) * 16);
 
-            return (m_UUID == rhsUUID);
+            return (m_Internal->uuid == rhsUUID);
         }
 
         bool UUID::operator!=(UUID const& rhs) const
@@ -87,7 +95,7 @@ namespace Ocular
 
         uint8_t UUID::getData(uint32_t const index) const
         {
-            return m_UUID.data[Math::Clamp<uint32_t>(index, 0, 15)];
+            return m_Internal->uuid.data[Math::Clamp<uint32_t>(index, 0, 15)];
         }
 
         std::string UUID::toString() const

@@ -43,7 +43,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void VSConsoleLoggerListener::onLogMessage(LoggerMessage message)
+        void VSConsoleLoggerListener::onLogMessage(LoggerMessage const& message)
         {
     #ifdef OCULAR_WINDOWS
             std::stringstream sstream;

@@ -22,7 +22,6 @@
 #include "ProfilerScope.hpp"
 
 #include <sstream>
-#include <boost/current_function.hpp>    // I do not like directly referencing boost in a common header.
 
 //------------------------------------------------------------------------------------------
 // Macros

@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/ConsoleText.hpp"
+#include <sstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -33,7 +34,9 @@ namespace Ocular
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
             setReadOnly(true);
 
-            setText("[ERROR]: Some error");
+            setStyleSheet(tr("font-family: \"Lucida Console\", Monaco, monospace;"));
+
+            OcularLogger->registerListener(this);
         }
 
         ConsoleText::~ConsoleText()
@@ -48,6 +51,49 @@ namespace Ocular
         QSize ConsoleText::sizeHint() const
         {
             return QSize(250, 175);
+        }
+
+        void ConsoleText::onLogMessage(Core::LoggerMessage const& message)
+        {
+            switch(message.channel)
+            {
+            case Core::LoggerChannels::Warning:
+                writeWarning(message.message);
+                break;
+
+            case Core::LoggerChannels::Error:    // Intentional fall through
+            case Core::LoggerChannels::Fatal:
+                writeError(message.message);
+                break;
+
+            default:
+                write(message.message);
+                break;
+            }
+        }
+
+        void ConsoleText::write(std::string const& message)
+        {
+            std::stringstream sstream;
+            sstream << "<font color=\"#DDDDDD\">> " << message << "</font><br>";
+
+            insertHtml(tr(sstream.str().c_str()));
+        }
+
+        void ConsoleText::writeWarning(std::string const& message)
+        {
+            std::stringstream sstream;
+            sstream << "<font color=\"#DDDD00\">> " << message << "</font><br>";
+
+            insertHtml(tr(sstream.str().c_str()));
+        }
+
+        void ConsoleText::writeError(std::string const& message)
+        {
+            std::stringstream sstream;
+            sstream << "<font color=\"#DD0000\">> " << message << "</font><br>";
+
+            insertHtml(tr(sstream.str().c_str()));
         }
 
         //----------------------------------------------------------------------------------

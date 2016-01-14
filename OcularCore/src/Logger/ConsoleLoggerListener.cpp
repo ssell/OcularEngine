@@ -37,7 +37,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void ConsoleLoggerListener::onLogMessage(LoggerMessage message)
+        void ConsoleLoggerListener::onLogMessage(LoggerMessage const& message)
         {
             switch (message.channel)
             {

@@ -19,6 +19,7 @@
 #define __H__OCULAR_EDITOR_CONSOLE_TEXT__H__
 
 #include <QtWidgets/qtextedit.h>
+#include "Logger/ILoggerListener.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ namespace Ocular
          * \class ConsoleText
          * \brief 
          */
-        class ConsoleText : public QTextEdit
+        class ConsoleText : public QTextEdit, public Core::ILoggerListener
         {
         public:
 
@@ -46,6 +47,11 @@ namespace Ocular
             ~ConsoleText();
 
             virtual QSize sizeHint() const override;
+            virtual void onLogMessage(Core::LoggerMessage const& message) override;
+
+            void write(std::string const& message);
+            void writeWarning(std::string const& message);
+            void writeError(std::string const& message);
 
         protected:
 

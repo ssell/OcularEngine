@@ -43,7 +43,7 @@ namespace Ocular
         {
         public:
 
-            virtual void onLogMessage(LoggerMessage message) = 0;
+            virtual void onLogMessage(LoggerMessage const& message) = 0;
 
         protected:
 

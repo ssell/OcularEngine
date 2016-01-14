@@ -20,7 +20,6 @@
 
 #include <cstdint>
 #include <string>
-#include <boost/uuid/uuid.hpp>
 
 //------------------------------------------------------------------------------------------
 
@@ -36,6 +35,8 @@ namespace Ocular
      */
     namespace Core
     {
+        struct UUID_Internal;
+
         /**
          * \class UUID
          */
@@ -92,7 +93,7 @@ namespace Ocular
 
         private:
 
-            boost::uuids::uuid m_UUID;
+            UUID_Internal* m_Internal;
 
             uint32_t m_Hash32;
             uint64_t m_Hash64;

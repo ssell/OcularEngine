@@ -47,7 +47,7 @@ namespace Ocular
             ConsoleLoggerListener();
             ~ConsoleLoggerListener();
 
-            void onLogMessage(LoggerMessage message);
+            virtual void onLogMessage(LoggerMessage const& message) override;
 
         protected:
 

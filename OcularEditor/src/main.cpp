@@ -17,6 +17,8 @@
 #include "stdafx.h"
 #include "Widgets/MainWindow.hpp"
 
+#include "D3D11GraphicsDriver.hpp"
+
 #include <QtWidgets/QApplication>
 
 //------------------------------------------------------------------------------------------
@@ -28,5 +30,14 @@ int main(int argc, char *argv[])
     Ocular::Editor::MainWindow mainWindow;
     mainWindow.show();
 
-    return application.exec();
+    if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
+    {
+        OcularLogger->info(OCULAR_VERSION);
+        OcularLogger->warning("Missing texture");
+        OcularLogger->error("Failed to do something");
+
+        application.exec();
+    }
+
+    return 0;
 }

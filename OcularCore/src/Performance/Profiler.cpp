@@ -16,6 +16,7 @@
 
 #include "Performance/Profiler.hpp"
 #include "OcularEngine.hpp"
+
 #include <iostream>
 #include <regex>
 #include <fstream>
