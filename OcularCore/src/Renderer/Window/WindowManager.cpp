@@ -130,9 +130,12 @@ namespace Ocular
 
             for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
             {
-                if((*iter)->getUUID() == uuid)
+                if((*iter))
                 {
-                    return (*iter);
+                    if((*iter)->getUUID() == uuid)
+                    {
+                        return (*iter);
+                    }
                 }
             }
 
