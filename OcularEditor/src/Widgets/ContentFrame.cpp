@@ -16,6 +16,11 @@
 
 #include "stdafx.h"
 #include "Widgets/ContentFrame.hpp"
+#include "Widgets/RenderFrame.hpp"
+#include "Widgets/SceneFrame.hpp"
+#include "Widgets/DetailsFrame.hpp"
+
+#include <QtWidgets/qboxlayout.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -33,7 +38,22 @@ namespace Ocular
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
             setLineWidth(1);
+            
+            m_LayoutContent = new QHBoxLayout();
 
+            m_SceneFrame = new SceneFrame();
+            m_RenderFrame = new RenderFrame();
+            m_DetailsFrame = new DetailsFrame();
+            
+            m_pSplitter = new QSplitter();
+            m_pSplitter->addWidget(m_SceneFrame);
+            m_pSplitter->addWidget(m_RenderFrame);
+            m_pSplitter->addWidget(m_DetailsFrame);
+            m_pSplitter->setStretchFactor(1, 1);     // When window is resized, the render frame will take the majority of the stretch difference
+                                                     // leaving the other two frames relatively the same size
+            m_LayoutContent->addWidget(m_pSplitter);
+
+            setLayout(m_LayoutContent);
             setContentsMargins(0, 0, 0, 0);
         }
 

@@ -34,6 +34,10 @@ namespace Ocular
      */
     namespace Editor
     {
+        class RenderFrame;
+        class SceneFrame;
+        class DetailsFrame;
+
         /**
          * \class ContentFrame
          * \brief 
@@ -50,7 +54,13 @@ namespace Ocular
         protected:
 
         private:
+            
+            QHBoxLayout* m_LayoutContent;
+            QSplitter*   m_pSplitter;
 
+            RenderFrame*   m_RenderFrame;
+            SceneFrame*    m_SceneFrame;
+            DetailsFrame*  m_DetailsFrame;
         };
     }
     /**

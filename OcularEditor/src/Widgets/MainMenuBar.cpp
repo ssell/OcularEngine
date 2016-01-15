@@ -34,7 +34,7 @@ namespace Ocular
               m_MenuEdit(nullptr),
               m_MenuHelp(nullptr)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             createActions();
             createMenus();
@@ -48,6 +48,12 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        QSize MainMenuBar::sizeHint() const
+        {
+            // Some arbitrarily large size so that the frame always exapnds to fill all available space
+            return QSize(99999, 99999);
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
@@ -105,7 +111,7 @@ namespace Ocular
             //------------------------------------------------------------
             // File Menu
 
-            m_MenuFile = addMenu(tr("&File"));
+            m_MenuFile = addMenu(tr("&FILE"));
             m_MenuFile->addAction(m_MenuActionFileNewProject);
             m_MenuFile->addAction(m_MenuActionFileOpenProject);
             m_MenuFile->addAction(m_MenuActionFileCloseProject);
@@ -121,12 +127,12 @@ namespace Ocular
             //------------------------------------------------------------
             // Edit Menu
 
-            m_MenuEdit = addMenu(tr("&Edit"));
+            m_MenuEdit = addMenu(tr("&EDIT"));
             
             //------------------------------------------------------------
             // Help Menu
 
-            m_MenuHelp = addMenu(tr("&Help"));
+            m_MenuHelp = addMenu(tr("&HELP"));
             m_MenuHelp->addAction(m_MenuActionHelpAbout);
         }
 

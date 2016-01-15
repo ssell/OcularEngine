@@ -56,7 +56,8 @@ namespace Ocular
         private:
 
             QVBoxLayout* m_Layout;
-            
+            QSplitter* m_pSplitter;
+
             SceneBox* m_SceneBox;
             ConsoleBox* m_ConsoleBox;
         };

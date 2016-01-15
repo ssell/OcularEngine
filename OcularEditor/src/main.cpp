@@ -28,7 +28,9 @@ int main(int argc, char *argv[])
     QApplication application(argc, argv);
 
     Ocular::Editor::MainWindow mainWindow;
+
     mainWindow.show();
+    mainWindow.showMaximized();
 
     if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
     {
@@ -37,6 +39,8 @@ int main(int argc, char *argv[])
         OcularLogger->error("Failed to do something");
 
         application.exec();
+
+        OcularEngine.shutdown();
     }
 
     return 0;

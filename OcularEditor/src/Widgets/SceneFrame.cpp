@@ -39,10 +39,15 @@ namespace Ocular
 
             m_SceneBox = new SceneBox();
             m_ConsoleBox = new ConsoleBox();
-
+            
+            m_pSplitter = new QSplitter();
+            m_pSplitter->setOrientation(Qt::Vertical);
+            m_pSplitter->addWidget(m_SceneBox);
+            m_pSplitter->addWidget(m_ConsoleBox);
+            m_pSplitter->setStretchFactor(0, 1);     // When window is resized, the scene tree will take the majority of the stretch difference
+                                                     // leaving the console box relatively the same size
             m_Layout = new QVBoxLayout();
-            m_Layout->addWidget(m_SceneBox);
-            m_Layout->addWidget(m_ConsoleBox);
+            m_Layout->addWidget(m_pSplitter);
             m_Layout->setContentsMargins(0, 0, 0, 0);
 
             setLayout(m_Layout);

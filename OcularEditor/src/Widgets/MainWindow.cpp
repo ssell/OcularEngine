@@ -21,9 +21,6 @@
 #include "Widgets/MainStatusBar.hpp"
 #include "Widgets/ToolBarCommon.hpp"
 #include "Widgets/ContentFrame.hpp"
-#include "Widgets/RenderFrame.hpp"
-#include "Widgets/SceneFrame.hpp"
-#include "Widgets/DetailsFrame.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,7 +36,7 @@ namespace Ocular
             : QMainWindow(parent)
         {
             setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-       
+
             setupLayouts();
             setupMenus();
             setupToolBars();
@@ -73,8 +70,7 @@ namespace Ocular
 
         void MainWindow::setupLayouts()
         {
-            m_LayoutMain    = new QVBoxLayout();
-            m_LayoutContent = new QHBoxLayout();
+            m_LayoutMain = new QVBoxLayout();
         }
 
         void MainWindow::setupMenus()
@@ -107,16 +103,6 @@ namespace Ocular
         void MainWindow::setupContent()
         {
             m_ContentFrame = new ContentFrame();
-            m_SceneFrame   = new SceneFrame();
-            m_RenderFrame  = new RenderFrame();
-            m_DetailsFrame = new DetailsFrame();
-            
-            m_LayoutContent->addWidget(m_SceneFrame);
-            m_LayoutContent->addWidget(m_RenderFrame, 1);
-            m_LayoutContent->addWidget(m_DetailsFrame);
-
-            m_ContentFrame->setLayout(m_LayoutContent);
-
             m_LayoutMain->addWidget(m_ContentFrame, 1, (Qt::AlignHCenter | Qt::AlignTop));
         }
     }

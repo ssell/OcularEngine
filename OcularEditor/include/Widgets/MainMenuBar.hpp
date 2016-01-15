@@ -52,6 +52,8 @@ namespace Ocular
             MainMenuBar(MainWindow* parent = nullptr);
             ~MainMenuBar();
 
+            virtual QSize sizeHint() const override;
+
         protected:
 
             void createActions();
