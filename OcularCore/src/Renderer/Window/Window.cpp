@@ -28,7 +28,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AWindow::AWindow(WindowDescriptor const descriptor)
+        AWindow::AWindow(WindowDescriptor const& descriptor)
             : Object(descriptor.displayName, "AWindow"),
               m_Descriptor(descriptor),
               m_RenderTexture(nullptr),

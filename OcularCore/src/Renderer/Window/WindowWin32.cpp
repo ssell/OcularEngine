@@ -20,6 +20,7 @@
 #include "Events/Events/ShutdownEvent.hpp"
 #include "Events/Events/WindowResizeEvent.hpp"
 #include "Time/Timer.hpp"
+#include "Utilities/StringComposer.hpp"
 
 #include <sstream>
 #include <bitset>
@@ -71,16 +72,21 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        WindowWin32::WindowWin32(WindowDescriptor const descriptor)
+        WindowWin32::WindowWin32(WindowDescriptor const& descriptor)
             : AWindow(descriptor), m_HINSTANCE(nullptr), m_HWND(nullptr)
         {
-            m_HINSTANCE = nullptr;
-            m_HWND = nullptr;
+
+        }
+
+        WindowWin32::WindowWin32(WindowDescriptor const& descriptor, void* windowID)
+            : AWindow(descriptor), m_HINSTANCE(nullptr), m_HWND((HWND)(windowID))
+        {
+
         }
 
         WindowWin32::~WindowWin32() 
         {
-            if(m_HWND != nullptr)
+            if((m_HWND != nullptr) && (m_Descriptor.external == false))
             {
                 DestroyWindow(m_HWND);
                 UnregisterClass(TEXT(m_Name.c_str()), m_HINSTANCE);
@@ -93,6 +99,32 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void WindowWin32::showCursor(bool show)
+        {
+            if(show)
+            {
+                while(ShowCursor(true) < 0);
+            }
+            else
+            {
+                while(ShowCursor(false) >= 0);
+            }
+        }
+
+        HWND WindowWin32::getHWND() const
+        {
+            return m_HWND;
+        }
+
+        HINSTANCE WindowWin32::getHINSTANCE() const 
+        {
+            return m_HINSTANCE;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
         void WindowWin32::open()
         {
             if(m_HWND == nullptr)
@@ -102,10 +134,7 @@ namespace Ocular
                 if(m_HINSTANCE == nullptr)
                 {
                     const DWORD error = GetLastError();
-                    std::stringstream stream;
-                    stream << "Failed to get HINSTANCE [WinApi error " << error << "]";
-
-                    THROW_EXCEPTION(stream.str());
+                    THROW_EXCEPTION(OCULAR_STRING_COMPOSER("Failed to get HINSTANCE [WinApi error ", error, "]"));
                 }
 
                 RECT windowRect = createWindowRect();
@@ -164,6 +193,41 @@ namespace Ocular
 
                 registerRawInput();
             }
+            else if(m_HINSTANCE == nullptr)
+            {
+                // We were provided a window handle already
+                connect();
+            }
+        }
+        
+        void WindowWin32::connect()
+        {
+             m_HINSTANCE = GetModuleHandle(NULL);
+
+            if(m_HINSTANCE == nullptr)
+            {
+                const DWORD error = GetLastError();
+                THROW_EXCEPTION(OCULAR_STRING_COMPOSER("Failed to get HINSTANCE [WinApi error ", error, "]"));
+            }
+
+            if(IsWindow(m_HWND))
+            {
+                RECT rect;
+
+                if(GetWindowRect(m_HWND, &rect) == TRUE)
+                {
+                    m_Descriptor.width = rect.right;
+                    m_Descriptor.height = rect.bottom;
+                }
+                else
+                {
+                    THROW_EXCEPTION("Failed to retrieve Window Rect");
+                }
+            }
+            else
+            {
+                THROW_EXCEPTION("Invalid HWND Provided");
+            }
         }
 
         void WindowWin32::update(uint64_t const time)
@@ -212,32 +276,6 @@ namespace Ocular
                 THROW_EXCEPTION(stream.str());
             }
         }
-
-        void WindowWin32::showCursor(bool show)
-        {
-            if(show)
-            {
-                while(ShowCursor(true) < 0);
-            }
-            else
-            {
-                while(ShowCursor(false) >= 0);
-            }
-        }
-
-        HWND WindowWin32::getHWND() const
-        {
-            return m_HWND;
-        }
-
-        HINSTANCE WindowWin32::getHINSTANCE() const 
-        {
-            return m_HINSTANCE;
-        }
-
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

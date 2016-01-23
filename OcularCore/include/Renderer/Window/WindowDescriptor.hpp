@@ -89,8 +89,9 @@ namespace Ocular
             WindowDisplayMode displayMode;
             
             bool exclusiveMode;
+            bool external;                 ///< If true, the window was created externally (ie in Editor) and should not be destroyed
 
-            WindowDescriptor() : displayName("Window"), width(800), height(600), colorBits(8), depthBits(8), stencilBits(8), displayMode(WindowDisplayMode::WindowedBordered), exclusiveMode(false) { }
+            WindowDescriptor() : displayName("Window"), width(800), height(600), colorBits(8), depthBits(8), stencilBits(8), displayMode(WindowDisplayMode::WindowedBordered), exclusiveMode(false), external(false) { }
         };
     }
     /**

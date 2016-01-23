@@ -58,9 +58,14 @@ namespace Ocular
              * \param display
              * \param alwaysOnTop
              */
-            WindowWin32(WindowDescriptor descriptor);
+            WindowWin32(WindowDescriptor const& descriptor);
 
-            ~WindowWin32();
+            /**
+             *
+             */
+            WindowWin32(WindowDescriptor const& descriptor, void* windowID);
+
+            virtual ~WindowWin32();
 
             /**
              * Turns the cursor on and off.
@@ -99,6 +104,11 @@ namespace Ocular
              * See ::Window::open
              */
             void open();
+
+            /**
+             *
+             */
+            void connect();
 
             /**
              * See ::Window::update

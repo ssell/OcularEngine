@@ -71,7 +71,7 @@ namespace Ocular
              * \param display     Display mode
              * \param alwaysOnTop Should this Window be rendered on top of other Windows? (Exclusive mode rendering)
              */
-            AWindow(WindowDescriptor descriptor);
+            AWindow(WindowDescriptor const& descriptor);
 
             virtual ~AWindow();
 

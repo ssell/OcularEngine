@@ -45,7 +45,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        std::shared_ptr<AWindow> WindowManager::openWindow(WindowDescriptor const descriptor)
+        std::shared_ptr<AWindow> WindowManager::openWindow(WindowDescriptor const& descriptor)
         {
 #ifdef OCULAR_WINDOWS
             return openWindowWin32(descriptor);
@@ -53,6 +53,17 @@ namespace Ocular
             return openWindowOSX(descriptor);
 #elif OCULAR_LINUX
             return openWindowLinux(descriptor);
+#endif
+        }
+
+        std::shared_ptr<AWindow> WindowManager::connectWindow(WindowDescriptor const& descriptor, void* windowID)
+        {
+#ifdef OCULAR_WINDOWS
+            return connectWindowWin32(descriptor, windowID);
+#elif OCULAR_OSX
+            return connectWindowOSX(descriptor, windowID);
+#elif OCULAR_LINUX
+            return connectWindowLinux(descriptor, windowID);
 #endif
         }
 
@@ -168,7 +179,7 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        std::shared_ptr<AWindow> WindowManager::openWindowWin32(WindowDescriptor const descriptor)
+        std::shared_ptr<AWindow> WindowManager::openWindowWin32(WindowDescriptor const& descriptor)
         {
             std::shared_ptr<AWindow> result;
 
@@ -197,7 +208,7 @@ namespace Ocular
             return result;
         }
 
-        std::shared_ptr<AWindow> WindowManager::openWindowOSX(WindowDescriptor const descriptor)
+        std::shared_ptr<AWindow> WindowManager::openWindowOSX(WindowDescriptor const& descriptor)
         {
             std::shared_ptr<AWindow> result = nullptr;
 
@@ -221,7 +232,7 @@ namespace Ocular
             return result;
         }
 
-        std::shared_ptr<AWindow> WindowManager::openWindowLinux(WindowDescriptor const descriptor)
+        std::shared_ptr<AWindow> WindowManager::openWindowLinux(WindowDescriptor const& descriptor)
         {
             std::shared_ptr<AWindow> result = nullptr;
 
@@ -240,6 +251,57 @@ namespace Ocular
             {
                 OcularEngine.Logger()->error(e);
             }
+#endif
+
+            return result;
+        }
+
+        std::shared_ptr<AWindow> WindowManager::connectWindowWin32(WindowDescriptor const& descriptor, void* windowID)
+        {
+            std::shared_ptr<AWindow> result;
+
+#ifdef OCULAR_WINDOWS
+            try
+            {
+                m_Windows.push_front(std::make_shared<WindowWin32>(descriptor, windowID));
+                result = m_Windows.front();
+
+                if(result != nullptr) 
+                {
+                    result->open();
+
+                    if(m_MainWindow == nullptr)
+                    {
+                        m_MainWindow = result;
+                    }
+                }
+            } 
+            catch(Exception& e)
+            {
+                OcularEngine.Logger()->error(e);
+            }
+#endif
+
+            return result;
+        }
+
+        std::shared_ptr<AWindow> WindowManager::connectWindowOSX(WindowDescriptor const& descriptor, void* windowID)
+        {
+            std::shared_ptr<AWindow> result = nullptr;
+
+#ifdef OCULAR_OSX
+
+#endif
+
+            return result;
+        }
+
+        std::shared_ptr<AWindow> WindowManager::connectWindowLinux(WindowDescriptor const& descriptor, void* windowID)
+        {
+            std::shared_ptr<AWindow> result = nullptr;
+
+#ifdef OCULAR_LINUX
+
 #endif
 
             return result;

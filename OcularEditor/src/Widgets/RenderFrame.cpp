@@ -34,6 +34,22 @@ namespace Ocular
             setFrameStyle(QFrame::Panel | QFrame::Plain);
             setLineWidth(1);
 
+            //------------------------------------------------------------
+
+            Ocular::Core::WindowDescriptor descriptor;
+            descriptor.displayName   = "Ocular Editor Render Frame";
+            descriptor.colorBits     = 8;
+            descriptor.depthBits     = 8;
+            descriptor.stencilBits   = 8;
+            descriptor.displayMode   = Core::WindowDisplayMode::WindowedBordered;
+            descriptor.exclusiveMode = false;
+            descriptor.external      = true;
+
+            HWND hwnd = (HWND)winId();
+            auto window = OcularWindows->connectWindow(descriptor, hwnd);
+
+            //------------------------------------------------------------
+
             setStyleSheet(GeneralStyles::frameStyle);
         }
 

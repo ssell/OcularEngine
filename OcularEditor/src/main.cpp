@@ -18,27 +18,85 @@
 #include "Widgets/MainWindow.hpp"
 
 #include "D3D11GraphicsDriver.hpp"
+#include "D3D11DynamicRegistration.hpp"
+#include "Scene/Renderables/MeshRenderable.hpp"
 
 #include <QtWidgets/QApplication>
 
+using namespace Ocular::Core;
+using namespace Ocular::Utils;
+using namespace Ocular::Math;
+using namespace Ocular::Graphics;
+
 //------------------------------------------------------------------------------------------
+
+void setupCamera()
+{
+    Camera* camera = OcularCameras->getMainCamera();
+
+    if(camera)
+    {
+        camera->setPosition(0.0f, 0.2f, 0.5f);
+        camera->addRoutine("FreeFlyController");
+        camera->addRoutine("InputLogger");
+    }
+}
+
+void setupVisual()
+{
+    SceneObject* object = OcularScene->createObject("Test Object");
+
+    if(object)
+    {
+        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
+
+        if(renderable)
+        {
+            const uint64_t start = OcularClock->getEpochMS();
+            renderable->setMesh("Meshes/dragon_normals");
+            const uint64_t end = OcularClock->getEpochMS();
+
+            renderable->setMaterial("Materials/Flat");
+
+            OcularLogger->info("Mesh loaded in ", (end - start), "ms");
+        }
+    }
+
+    object->setScale(Vector3f(1.5f, 1.5f, 1.5f));
+}
+
+void setupScene()
+{
+    OcularScene->loadScene("TestScene");
+    
+    setupCamera();
+    setupVisual();
+}
 
 int main(int argc, char *argv[])
 {
     QApplication application(argc, argv);
 
-    Ocular::Editor::MainWindow mainWindow;
-
-    mainWindow.show();
-    mainWindow.showMaximized();
-
     if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
     {
-        OcularLogger->info(OCULAR_VERSION);
-        OcularLogger->warning("Missing texture");
-        OcularLogger->error("Failed to do something");
+        Ocular::Editor::MainWindow mainWindow;
 
-        application.exec();
+        mainWindow.show();
+        mainWindow.showMaximized();
+
+        if(OcularGraphics->initialize())
+        {
+            OcularLogger->info(OCULAR_VERSION);
+            OcularLogger->warning("Missing texture");
+            OcularLogger->error("Failed to do something");
+
+            setupScene();
+
+            while(OcularEngine.run())
+            {
+                application.processEvents();
+            }
+        }
 
         OcularEngine.shutdown();
     }

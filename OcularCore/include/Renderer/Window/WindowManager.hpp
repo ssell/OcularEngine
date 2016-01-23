@@ -63,7 +63,15 @@ namespace Ocular
              * \param descriptor 
              * \return A pointer to the new window. If nullptr, then an error occurred during creation.
              */
-            std::shared_ptr<AWindow> openWindow(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindow(WindowDescriptor const& descriptor);
+
+            /**
+             * Connects to a pre-existing window.
+             *
+             * \param[in] windowID The system specific window identifier (HWND in Windows, etc.)
+             * \return A pointer to the new Ocular window context. If nullptr, then an error occurred during connection.
+             */
+            std::shared_ptr<AWindow> connectWindow(WindowDescriptor const& descriptor, void* windowID);
 
             /**
              * Destroys the Window with the specified UID.
@@ -122,9 +130,13 @@ namespace Ocular
 
         private:
 
-            std::shared_ptr<AWindow> openWindowWin32(WindowDescriptor descriptor);
-            std::shared_ptr<AWindow> openWindowOSX(WindowDescriptor descriptor);
-            std::shared_ptr<AWindow> openWindowLinux(WindowDescriptor descriptor);
+            std::shared_ptr<AWindow> openWindowWin32(WindowDescriptor const& descriptor);
+            std::shared_ptr<AWindow> openWindowOSX(WindowDescriptor const& descriptor);
+            std::shared_ptr<AWindow> openWindowLinux(WindowDescriptor const& descriptor);
+            
+            std::shared_ptr<AWindow> connectWindowWin32(WindowDescriptor const& descriptor, void* windowID);
+            std::shared_ptr<AWindow> connectWindowOSX(WindowDescriptor const& descriptor, void* windowID);
+            std::shared_ptr<AWindow> connectWindowLinux(WindowDescriptor const& descriptor, void* windowID);
 
             std::list<std::shared_ptr<AWindow>> m_Windows;
             std::shared_ptr<AWindow> m_MainWindow;
