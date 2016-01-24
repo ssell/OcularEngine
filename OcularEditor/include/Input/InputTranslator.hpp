@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#pragma once
-#ifndef __H__OCULAR_EDITOR_RENDER_FRAME__H__
-#define __H__OCULAR_EDITOR_RENDER_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_INPUT_TRANSLATOR__H__
+#define __H__OCULAR_EDITOR_INPUT_TRANSLATOR__H__
 
-#include <QtWidgets/qframe.h>
+#include "Input/Keys.hpp"
+#include <qobject.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -34,27 +34,33 @@ namespace Ocular
      */
     namespace Editor
     {
-        class InputTranslator;
-
         /**
-         * \class RenderFrame
-         * \brief 
+         * \class InputTranslator
+         * \brief Translates QT input events into Ocular input events
          */
-        class RenderFrame : public QFrame
+        class InputTranslator : public QObject
         {
+            Q_OBJECT 
+
         public:
-
-            RenderFrame(QWidget* parent = nullptr);
-            ~RenderFrame();
-
-            virtual QSize sizeHint() const override;
+    
+            InputTranslator(QObject* parent = nullptr);
+            virtual ~InputTranslator();
 
         protected:
 
-            InputTranslator* m_Input;
+            virtual bool eventFilter(QObject* obj, QEvent* event) override;
+
+            bool processKeyPress(QEvent* event);
+            bool processKeyRelease(QEvent* event);
+            bool processMousePress(QEvent* event);
+            bool processMouseRelease(QEvent* event);
+            bool processMouseMove(QEvent* event);
+
+            Core::KeyboardKeys convertKey(int32_t key);
+            Core::MouseButtons convertButton(int32_t button);
 
         private:
-
         };
     }
     /**

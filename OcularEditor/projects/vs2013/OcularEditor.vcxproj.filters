@@ -45,6 +45,12 @@
     <Filter Include="Source Files\Styles">
       <UniqueIdentifier>{d40cc28c-b3dc-43ba-b164-c657dadf66eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{e2796b7f-9ddd-4260-9b72-a96097adbfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{e08b0bfd-6b12-4626-9eb0-24ac4690acca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -104,6 +110,15 @@
     <ClCompile Include="..\..\src\Styles\GeneralStyles.cpp">
       <Filter>Source Files\Styles</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_InputTranslator.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_InputTranslator.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputTranslator.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -149,6 +164,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\MainMenuBar.hpp">
       <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">
+      <Filter>Header Files\Input</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

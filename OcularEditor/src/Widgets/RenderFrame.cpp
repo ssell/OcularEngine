@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/RenderFrame.hpp"
+#include "Input/InputTranslator.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,7 +29,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RenderFrame::RenderFrame(QWidget *parent)
-            : QFrame(parent)
+            : QFrame(parent),
+              m_Input(new InputTranslator(this))
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setFrameStyle(QFrame::Panel | QFrame::Plain);
@@ -51,6 +53,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             setStyleSheet(GeneralStyles::frameStyle);
+            installEventFilter(m_Input);
         }
 
         RenderFrame::~RenderFrame()
