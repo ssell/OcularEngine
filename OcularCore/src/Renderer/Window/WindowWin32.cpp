@@ -320,11 +320,11 @@ namespace Ocular
             case WM_DESTROY:
             case WM_CLOSE:
             case WM_QUIT:
-                OcularEngine.EventManager()->queueEvent(std::make_shared<Events::ShutdownEvent>());
+                OcularEngine.EventManager()->queueEvent(std::make_shared<ShutdownEvent>());
                 break;
 
             case WM_SIZE:
-                OcularEngine.EventManager()->queueEvent(std::make_shared<Events::WindowResizeEvent>(
+                OcularEngine.EventManager()->queueEvent(std::make_shared<WindowResizeEvent>(
                     OcularEngine.WindowManager()->getWindow(m_UUID),   // Smart pointer to this window
                     static_cast<unsigned>(LOWORD(lParam)),             // New width
                     static_cast<unsigned>(HIWORD(lParam)),             // New height

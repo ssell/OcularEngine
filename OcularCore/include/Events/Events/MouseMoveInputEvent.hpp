@@ -37,38 +37,29 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \addtogroup Events
-         * @{
+         * \class MouseMoveInputEvent
+         *
+         * Event notifying of mouse movement input.
+         *
+         * String Descriptor: "MouseMoveInputEvent" <br/>
+         * Event Priority: Medium 
          */
-        namespace Events
+        class MouseMoveInputEvent : public AEvent 
         {
-            /**
-             * \class MouseMoveInputEvent
-             *
-             * Event notifying of mouse movement input.
-             *
-             * String Descriptor: "MouseMoveInputEvent" <br/>
-             * Event Priority: Medium 
-             */
-            class MouseMoveInputEvent : public AEvent 
-            {
-            public:
+        public:
 
-                MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr);
-                MouseMoveInputEvent();
-                ~MouseMoveInputEvent();
+            MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr);
+            MouseMoveInputEvent();
+                
+            virtual ~MouseMoveInputEvent();
 
-                Math::Vector2i prevPosition;
-                Math::Vector2i currPosition;
+            Math::Vector2i prevPosition;
+            Math::Vector2i currPosition;
 
-            protected:
+        protected:
 
-            private:
-            };
-        }
-        /**
-         * @} End of Doxygen Groups
-         */
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

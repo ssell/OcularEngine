@@ -36,38 +36,29 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \addtogroup Events
-         * @{
+         * \class KeyboardInputEvent
+         *
+         * Event notifying of keyboard input.
+         *
+         * String Descriptor: "KeyboardInputEvent" <br/>
+         * Event Priority: Medium 
          */
-        namespace Events
+        class KeyboardInputEvent : public AEvent 
         {
-            /**
-             * \class KeyboardInputEvent
-             *
-             * Event notifying of keyboard input.
-             *
-             * String Descriptor: "KeyboardInputEvent" <br/>
-             * Event Priority: Medium 
-             */
-            class KeyboardInputEvent : public AEvent 
-            {
-            public:
+        public:
 
-                KeyboardInputEvent(KeyboardKeys key, KeyState state);
-                KeyboardInputEvent();
-                ~KeyboardInputEvent();
+            KeyboardInputEvent(KeyboardKeys key, KeyState state);
+            KeyboardInputEvent();
+                
+            virtual ~KeyboardInputEvent();
 
-                KeyboardKeys key;    /// Key that was pressed or released
-                KeyState state;      /// New state of the key
+            KeyboardKeys key;    /// Key that was pressed or released
+            KeyState state;      /// New state of the key
 
-            protected:
+        protected:
 
-            private:
-            };
-        }
-        /**
-         * @} End of Doxygen Groups
-         */
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

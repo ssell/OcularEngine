@@ -22,40 +22,37 @@ namespace Ocular
 {
     namespace Core
     {
-        namespace Events
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
+
+        MouseMoveInputEvent::MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr)
+            : AEvent("MouseMoveInputEvent", Priority::Medium), prevPosition(prev), currPosition(curr)
         {
-            //------------------------------------------------------------------------------
-            // CONSTRUCTORS
-            //------------------------------------------------------------------------------
 
-            MouseMoveInputEvent::MouseMoveInputEvent(Math::Vector2i const& prev, Math::Vector2i const& curr)
-                : AEvent("MouseMoveInputEvent", Priority::Medium), prevPosition(prev), currPosition(curr)
-            {
-
-            }
-
-            MouseMoveInputEvent::MouseMoveInputEvent()
-                : AEvent("MouseMoveInputEvent", Priority::Medium)
-            {
-
-            }
-
-            MouseMoveInputEvent::~MouseMoveInputEvent()
-            {
-        
-            }
-
-            //------------------------------------------------------------------------------
-            // PUBLIC METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PROTECTED METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PRIVATE METHODS
-            //------------------------------------------------------------------------------
         }
+
+        MouseMoveInputEvent::MouseMoveInputEvent()
+            : AEvent("MouseMoveInputEvent", Priority::Medium)
+        {
+
+        }
+
+        MouseMoveInputEvent::~MouseMoveInputEvent()
+        {
+        
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
 }

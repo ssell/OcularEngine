@@ -47,53 +47,42 @@ namespace Ocular
         };
 
         /**
-         * \addtogroup Events
-         * @{
+         * \class WindowResizeEvent
+         *
+         * Event notifying of a window resize. <br/>
+         * This event contains the following additional information: <br/>
+         *
+         * <ul>
+         *     <li>Pointer to Window that was resized</li>
+         *     <li>New Window width</li>
+         *     <li>New Window height</li>
+         *     <li>Type of resize event (normal resize, maximize, minimize)</li>
+         * </ul><br/>
+         *
+         * String Descriptor: "WindowResizeEvent" <br/>
+         * Event Priority: Low 
          */
-        namespace Events
+        class WindowResizeEvent : public AEvent 
         {
-            /**
-             * \class WindowResizeEvent
-             *
-             * Event notifying of a window resize. <br/>
-             * This event contains the following additional information: <br/>
-             *
-             * <ul>
-             *     <li>Pointer to Window that was resized</li>
-             *     <li>New Window width</li>
-             *     <li>New Window height</li>
-             *     <li>Type of resize event (normal resize, maximize, minimize)</li>
-             * </ul><br/>
-             *
-             * String Descriptor: "WindowResizeEvent" <br/>
-             * Event Priority: Low 
-             */
-            class WindowResizeEvent : public AEvent 
-            {
-            public:
+        public:
 
-                WindowResizeEvent(std::shared_ptr<AWindow> pWindow, unsigned pWidth, unsigned pHeight, WindowResizeType pType);
-                ~WindowResizeEvent();
+            WindowResizeEvent(std::shared_ptr<AWindow> pWindow, unsigned pWidth, unsigned pHeight, WindowResizeType pType);
+            virtual ~WindowResizeEvent();
 
-                //----------------------------------------
+            //----------------------------------------
 
-                unsigned width;
-                unsigned height;
+            unsigned width;
+            unsigned height;
 
-                WindowResizeType type;
+            WindowResizeType type;
 
-                std::shared_ptr<AWindow> window;
+            std::shared_ptr<AWindow> window;
 
-            protected:
+        protected:
 
-            private:
+        private:
 
-                
-            };
-        }
-        /**
-         * @} End of Doxygen Groups
-         */
+        };
     }
     /**
      * @} End of Doxygen Groups

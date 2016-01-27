@@ -16,6 +16,7 @@
 
 #include "Scene/SceneManager.hpp"
 #include "Scene/Camera/Camera.hpp"
+#include "Events/Events/SceneObjectAddedEvent.hpp"
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -187,6 +188,22 @@ namespace Ocular
             return result;
         }
 
+        void SceneManager::findTopObjects(std::vector<SceneObject*>& objects) const
+        {
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
+            {
+                SceneObject* object = (*iter).second;
+
+                if(object)
+                {
+                    if(object->getParent() == nullptr)
+                    {
+                        objects.push_back(object);
+                    }
+                }
+            }
+        }
+
         void SceneManager::loadScene(std::string const& name, SceneTreeType treeType)
         {
             /**
@@ -259,6 +276,8 @@ namespace Ocular
                         {
                             m_Scene->addObject(object);
                         }
+
+                        OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));
                     }
                 }
             }

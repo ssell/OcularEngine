@@ -36,37 +36,28 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \addtogroup Events
-         * @{
+         * \class MouseScrollInputEvent
+         *
+         * Event notifying of mouse scrolling input.
+         *
+         * String Descriptor: "MouseScrollInputEvent" <br/>
+         * Event Priority: Medium 
          */
-        namespace Events
+        class MouseScrollInputEvent : public AEvent 
         {
-            /**
-             * \class MouseScrollInputEvent
-             *
-             * Event notifying of mouse scrolling input.
-             *
-             * String Descriptor: "MouseScrollInputEvent" <br/>
-             * Event Priority: Medium 
-             */
-            class MouseScrollInputEvent : public AEvent 
-            {
-            public:
+        public:
 
-                MouseScrollInputEvent(int8_t delta);
-                MouseScrollInputEvent();
-                ~MouseScrollInputEvent();
+            MouseScrollInputEvent(int8_t delta);
+            MouseScrollInputEvent();
+                
+            virtual ~MouseScrollInputEvent();
 
-                int8_t delta;
+            int8_t delta;
 
-            protected:
+        protected:
 
-            private:
-            };
-        }
-        /**
-         * @} End of Doxygen Groups
-         */
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

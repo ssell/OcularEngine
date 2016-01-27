@@ -22,38 +22,35 @@ namespace Ocular
 {
     namespace Core
     {
-        namespace Events
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
+
+        WindowResizeEvent::WindowResizeEvent(
+            std::shared_ptr<AWindow> pWindow, unsigned const pWidth, unsigned const pHeight, WindowResizeType const pType)
+            : AEvent("WindowResizeEvent", Priority::Low)
         {
-            //------------------------------------------------------------------------------
-            // CONSTRUCTORS
-            //------------------------------------------------------------------------------
-
-            WindowResizeEvent::WindowResizeEvent(
-                std::shared_ptr<AWindow> pWindow, unsigned const pWidth, unsigned const pHeight, WindowResizeType const pType)
-                : AEvent("WindowResizeEvent", Priority::Low)
-            {
-                width  = pWidth;
-                height = pHeight;
-                window = pWindow;
-                type   = pType;
-            }
-
-            WindowResizeEvent::~WindowResizeEvent()
-            {
-                window = nullptr;
-            }
-
-            //------------------------------------------------------------------------------
-            // PUBLIC METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PROTECTED METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PRIVATE METHODS
-            //------------------------------------------------------------------------------
+            width  = pWidth;
+            height = pHeight;
+            window = pWindow;
+            type   = pType;
         }
+
+        WindowResizeEvent::~WindowResizeEvent()
+        {
+            window = nullptr;
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
 }

@@ -170,6 +170,11 @@ namespace Ocular
              */
             SceneObject* findObject(UUID const& uuid) const;
 
+            /**
+             * Finds and returns a container of all top-level SceneObjects (object with no parents).
+             */
+            void findTopObjects(std::vector<SceneObject*>& object) const;
+
             //------------------------------------------------------------------------------
             // Scene Methods
 
@@ -260,7 +265,7 @@ namespace Ocular
 
             void deleteObject(SceneObject* object);
 
-            std::unordered_map<std::string, SceneObject*> m_Objects; 
+            std::unordered_map<std::string, SceneObject*> m_Objects;    ///< Key is the string representation of the object UUID
             Scene* m_Scene;
 
             ComponentFactory<ARoutine> m_RoutineFactory;

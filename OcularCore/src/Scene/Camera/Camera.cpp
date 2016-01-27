@@ -218,9 +218,9 @@ namespace Ocular
 
         bool Camera::onEvent(std::shared_ptr<AEvent> event)
         {
-            if(event->isType<Events::WindowResizeEvent>())
+            if(event->isType<WindowResizeEvent>())
             {
-                Events::WindowResizeEvent* resizeEvent = dynamic_cast<Events::WindowResizeEvent*>(event.get());
+                WindowResizeEvent* resizeEvent = dynamic_cast<WindowResizeEvent*>(event.get());
 
                 if(!m_IsFixedProjection)
                 {

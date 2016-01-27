@@ -22,40 +22,37 @@ namespace Ocular
 {
     namespace Core
     {
-        namespace Events
+        //----------------------------------------------------------------------------------
+        // CONSTRUCTORS
+        //----------------------------------------------------------------------------------
+
+        MouseButtonInputEvent::MouseButtonInputEvent(MouseButtons const button, KeyState const state)
+            : AEvent("MouseButtonInputEvent", Priority::Medium), button(button), state(state)
         {
-            //------------------------------------------------------------------------------
-            // CONSTRUCTORS
-            //------------------------------------------------------------------------------
 
-            MouseButtonInputEvent::MouseButtonInputEvent(MouseButtons const button, KeyState const state)
-                : AEvent("MouseButtonInputEvent", Priority::Medium), button(button), state(state)
-            {
-
-            }
-
-            MouseButtonInputEvent::MouseButtonInputEvent()
-                : AEvent("MouseButtonInputEvent", Priority::Medium)
-            {
-
-            }
-
-            MouseButtonInputEvent::~MouseButtonInputEvent()
-            {
-        
-            }
-
-            //------------------------------------------------------------------------------
-            // PUBLIC METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PROTECTED METHODS
-            //------------------------------------------------------------------------------
-
-            //------------------------------------------------------------------------------
-            // PRIVATE METHODS
-            //------------------------------------------------------------------------------
         }
+
+        MouseButtonInputEvent::MouseButtonInputEvent()
+            : AEvent("MouseButtonInputEvent", Priority::Medium)
+        {
+
+        }
+
+        MouseButtonInputEvent::~MouseButtonInputEvent()
+        {
+        
+        }
+
+        //----------------------------------------------------------------------------------
+        // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
     }
 }

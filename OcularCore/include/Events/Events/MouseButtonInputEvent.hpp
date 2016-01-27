@@ -37,38 +37,29 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \addtogroup Events
-         * @{
+         * \class MouseButtonInputEvent
+         *
+         * Event notifying of mouse input.
+         *
+         * String Descriptor: "MouseButtonInputEvent" <br/>
+         * Event Priority: Medium 
          */
-        namespace Events
+        class MouseButtonInputEvent : public AEvent 
         {
-            /**
-             * \class MouseButtonInputEvent
-             *
-             * Event notifying of mouse input.
-             *
-             * String Descriptor: "MouseButtonInputEvent" <br/>
-             * Event Priority: Medium 
-             */
-            class MouseButtonInputEvent : public AEvent 
-            {
-            public:
+        public:
 
-                MouseButtonInputEvent(MouseButtons button, KeyState state);
-                MouseButtonInputEvent();
-                ~MouseButtonInputEvent();
+            MouseButtonInputEvent(MouseButtons button, KeyState state);
+            MouseButtonInputEvent();
+                
+            virtual ~MouseButtonInputEvent();
 
-                MouseButtons button;    /// Button that was pressed or released
-                KeyState state;         /// New state of the button
+            MouseButtons button;    /// Button that was pressed or released
+            KeyState state;         /// New state of the button
 
-            protected:
+        protected:
 
-            private:
-            };
-        }
-        /**
-         * @} End of Doxygen Groups
-         */
+        private:
+        };
     }
     /**
      * @} End of Doxygen Groups

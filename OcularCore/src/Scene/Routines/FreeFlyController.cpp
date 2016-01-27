@@ -75,9 +75,9 @@ namespace Ocular
 
         bool FreeFlyController::onEvent(std::shared_ptr<AEvent> event)
         {
-            if(event->isType<Events::KeyboardInputEvent>())
+            if(event->isType<KeyboardInputEvent>())
             {
-                Events::KeyboardInputEvent* inputEvent = dynamic_cast<Events::KeyboardInputEvent*>(event.get());
+                KeyboardInputEvent* inputEvent = dynamic_cast<KeyboardInputEvent*>(event.get());
 
                 switch(inputEvent->key)
                 {

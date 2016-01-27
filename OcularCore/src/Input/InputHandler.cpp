@@ -104,7 +104,7 @@ namespace Ocular
         {
             if(delta != 0)
             {
-                OcularEvents->queueEvent(std::make_shared<Events::MouseScrollInputEvent>(delta));
+                OcularEvents->queueEvent(std::make_shared<MouseScrollInputEvent>(delta));
             }
         }
 
@@ -113,7 +113,7 @@ namespace Ocular
             if(delta.x != 0 || delta.y != 0)
             {
                 const Math::Vector2i newPosition = m_MousePosition + delta;
-                OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePosition, newPosition));
+                OcularEvents->queueEvent(std::make_shared<MouseMoveInputEvent>(m_MousePosition, newPosition));
 
                 m_MousePosition = newPosition;
             }
@@ -123,7 +123,7 @@ namespace Ocular
         {
             if(m_MousePosition != position)
             {
-                OcularEvents->queueEvent(std::make_shared<Events::MouseMoveInputEvent>(m_MousePosition, position));
+                OcularEvents->queueEvent(std::make_shared<MouseMoveInputEvent>(m_MousePosition, position));
                 m_MousePosition = position;
             }
         }
@@ -203,7 +203,7 @@ namespace Ocular
             const uint8_t index = static_cast<uint8_t>(key);
             const KeyState state = (!m_KeyboardState[index] ? KeyState::Pressed : KeyState::Released);
 
-            OcularEvents->queueEvent(std::make_shared<Events::KeyboardInputEvent>(key, state));
+            OcularEvents->queueEvent(std::make_shared<KeyboardInputEvent>(key, state));
 
             m_KeyboardState[index] = !m_KeyboardState[index];
         }
@@ -215,7 +215,7 @@ namespace Ocular
             const uint8_t index = static_cast<uint8_t>(button);
             const KeyState state = (!m_MouseState[index] ? KeyState::Pressed : KeyState::Released);
 
-            OcularEvents->queueEvent(std::make_shared<Events::MouseButtonInputEvent>(button, state));
+            OcularEvents->queueEvent(std::make_shared<MouseButtonInputEvent>(button, state));
 
             m_MouseState[index] = !m_MouseState[index];
         }

@@ -606,6 +606,9 @@
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1108,6 +1111,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Types.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,60 +14,42 @@
  * limitations under the License.
  */
 
-#include "stdafx.h"
-#include "Widgets/SceneTree.hpp"
 #include "Events/Events/SceneObjectAddedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Editor
+    namespace Core
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneTree::SceneTree(QWidget *parent)
-            : QTreeWidget(parent)
+        SceneObjectAddedEvent::SceneObjectAddedEvent(SceneObject* object)
+            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(object)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
         }
 
-        SceneTree::~SceneTree()
+        SceneObjectAddedEvent::SceneObjectAddedEvent()
+            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(nullptr)
         {
 
+        }
+
+        SceneObjectAddedEvent::~SceneObjectAddedEvent()
+        {
+        
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize SceneTree::sizeHint() const
-        {
-            return QSize(250, 500);
-        }
-
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
-        bool SceneTree::onEvent(std::shared_ptr<Core::AEvent> event)
-        {
-            Core::SceneObjectAddedEvent* objectEvent = dynamic_cast<Core::SceneObjectAddedEvent*>(event.get());
-
-            if(objectEvent)
-            {
-                Core::SceneObject* object = objectEvent->object;
-
-                if(object)
-                {
-
-                }
-            }
-
-            return true;
-        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

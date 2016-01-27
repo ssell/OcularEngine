@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
-#define __H__OCULAR_EVENTS_SHUTDOWN_EVENT__H__
+#ifndef __H__OCULAR_EVENTS_SCENE_OBJECT_ADDED_EVENT__H__
+#define __H__OCULAR_EVENTS_SCENE_OBJECT_ADDED_EVENT__H__
 
 #include "Events/AEvent.hpp"
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,19 +36,23 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \class ShutdownEvent
+         * \class SceneObjectAddedEvent
          *
-         * Event notifying of application shutdown. <br/> <br/>
+         * Event notifying that a SceneObject has been added to the active Scene.
          *
-         * String Descriptor: "ShutdownEvent" <br/>
-         * Event Priority: Critical 
+         * String Descriptor: "SceneObjectAddedEvent" <br/>
+         * Event Priority: Medium 
          */
-        class ShutdownEvent : public AEvent 
+        class SceneObjectAddedEvent : public AEvent 
         {
         public:
 
-            ShutdownEvent();
-            virtual ~ShutdownEvent();
+            SceneObjectAddedEvent(SceneObject* object);
+            SceneObjectAddedEvent();
+
+            virtual ~SceneObjectAddedEvent();
+
+            SceneObject* object;
 
         protected:
 

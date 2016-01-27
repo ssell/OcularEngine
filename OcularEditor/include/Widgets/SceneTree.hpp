@@ -19,6 +19,7 @@
 #define __H__OCULAR_EDITOR_SCENE_TREE__H__
 
 #include <QtWidgets/qtreewidget.h>
+#include "Events/AEventListener.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ namespace Ocular
          * \class SceneTree
          * \brief 
          */
-        class SceneTree : public QTreeWidget
+        class SceneTree : public QTreeWidget, public Ocular::Core::AEventListener
         {
         public:
 
@@ -48,6 +49,8 @@ namespace Ocular
             virtual QSize sizeHint() const override;
 
         protected:
+
+            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
         private:
         };
