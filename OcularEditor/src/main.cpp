@@ -63,6 +63,8 @@ void setupVisual()
     }
 
     object->setScale(Vector3f(1.5f, 1.5f, 1.5f));
+
+    SceneObject* someChild = object->createChild("Some Child");
 }
 
 void setupScene()

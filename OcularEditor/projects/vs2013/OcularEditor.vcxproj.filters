@@ -119,6 +119,9 @@
     <ClCompile Include="..\..\src\Input\InputTranslator.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneTreeItem.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp">
       <Filter>Header Files\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneTreeItem.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

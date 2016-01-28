@@ -197,6 +197,7 @@
     <ClCompile Include="..\..\src\Widgets\SceneBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\SceneFrame.cpp" />
     <ClCompile Include="..\..\src\Widgets\SceneTree.cpp" />
+    <ClCompile Include="..\..\src\Widgets\SceneTreeItem.cpp" />
     <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     <ClInclude Include="..\..\include\Widgets\SceneBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\SceneFrame.hpp" />
     <ClInclude Include="..\..\include\Widgets\SceneTree.hpp" />
+    <ClInclude Include="..\..\include\Widgets\SceneTreeItem.hpp" />
     <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp" />
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

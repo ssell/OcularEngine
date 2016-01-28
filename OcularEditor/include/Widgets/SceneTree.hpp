@@ -35,6 +35,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class SceneTreeItem;
+
         /**
          * \class SceneTree
          * \brief 
@@ -48,9 +50,28 @@ namespace Ocular
 
             virtual QSize sizeHint() const override;
 
+            /**
+             * Retrieves the item representing the specified SceneObject.
+             *
+             * \param[in] object
+             * \return NULL if no matching item was found
+             */
+            SceneTreeItem* getItem(Core::SceneObject* object);
+
+            /**
+             * Retrieves the item representing the SceneObject with the specified UUID.
+             *
+             * \param[in] uuid
+             * \return NULL if no matching item was found
+             */
+            SceneTreeItem* getItem(Core::UUID const& uuid);
+
         protected:
 
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
+
+            void addObject(Core::SceneObject* object);
+            bool isObjectTracked(Core::SceneObject* object);
 
         private:
         };

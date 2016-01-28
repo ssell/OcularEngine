@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/SceneTree.hpp"
+#include "Widgets/SceneTreeItem.hpp"
 #include "Events/Events/SceneObjectAddedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -31,6 +32,7 @@ namespace Ocular
         SceneTree::SceneTree(QWidget *parent)
             : QTreeWidget(parent)
         {
+            OcularEvents->registerListener(this, Core::Priority::Medium);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         }
 
@@ -48,6 +50,39 @@ namespace Ocular
             return QSize(250, 500);
         }
 
+        SceneTreeItem* SceneTree::getItem(Core::SceneObject* object)
+        {
+            SceneTreeItem* result = nullptr;
+            
+            if(object)
+            {
+                // The second (hidden) column for our items is the UUID string, so search for items matching that data
+                auto items = findItems(QString(object->getUUID().toString().c_str()), Qt::MatchFlag::MatchExactly, 1);
+
+                if(items.size() > 0)
+                {
+                    result = dynamic_cast<SceneTreeItem*>(items[0]);
+                }
+            }
+
+            return result;
+        }
+
+        SceneTreeItem* SceneTree::getItem(Core::UUID const& uuid)
+        {
+            SceneTreeItem* result = nullptr;
+
+            // The second (hidden) column for our items is the UUID string, so search for items matching that data
+            auto items = findItems(QString(uuid.toString().c_str()), Qt::MatchFlag::MatchExactly, 1);
+
+            if(items.size() > 0)
+            {
+                result = dynamic_cast<SceneTreeItem*>(items[0]);
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -62,11 +97,50 @@ namespace Ocular
 
                 if(object)
                 {
-
+                    addObject(object);
                 }
             }
 
-            return true;
+            return true;    // Do not consume this event
+        }
+
+        void SceneTree::addObject(Core::SceneObject* object)
+        {
+            if(!isObjectTracked(object))
+            {
+                Core::SceneObject* parent = object->getParent();
+
+                if(parent)
+                {
+                    SceneTreeItem* parentItem = getItem(parent);
+
+                    if(parentItem)
+                    {
+                        SceneTreeItem* item = new SceneTreeItem(parentItem, object);
+                    }
+                    else
+                    {
+                        SceneTreeItem* item = new SceneTreeItem(this, object);
+                        OcularLogger->warning("Unexpected SceneTreeItem ancestry", OCULAR_INTERNAL_LOG("Editor::SceneTree", "addObject"));
+                    }
+                }
+                else
+                {
+                    SceneTreeItem* item = new SceneTreeItem(this, object);
+                }
+            }
+        }
+
+        bool SceneTree::isObjectTracked(Core::SceneObject* object)
+        {
+            bool result = false;
+
+            if(getItem(object))
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
