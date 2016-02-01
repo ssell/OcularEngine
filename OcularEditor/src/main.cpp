@@ -37,7 +37,7 @@ void setupCamera()
     if(camera)
     {
         camera->setPosition(0.0f, 0.2f, 0.5f);
-        camera->addRoutine("FreeFlyController");
+        camera->addRoutine("EditorCameraController");
         camera->addRoutine("InputLogger");
     }
 }

@@ -273,7 +273,7 @@ namespace Ocular
 
         void FreeFlyController::handleMouseRotation()
         {
-            Math::Vector2i currentMousePos = OcularInput->getMousePosition();
+            const Math::Vector2i currentMousePos = OcularInput->getMousePosition();
 
             if(currentMousePos != m_LastMousePos)
             {

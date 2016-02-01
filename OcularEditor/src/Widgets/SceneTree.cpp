@@ -34,6 +34,10 @@ namespace Ocular
         {
             OcularEvents->registerListener(this, Core::Priority::Medium);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+            setHeaderHidden(true);
+            setColumnCount(2);           // First column is object name; Second is object UUID
+            setColumnHidden(1, true);
         }
 
         SceneTree::~SceneTree()

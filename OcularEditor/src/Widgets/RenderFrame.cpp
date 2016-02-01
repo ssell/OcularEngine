@@ -70,6 +70,14 @@ namespace Ocular
             return QSize(700, 700);
         }
 
+        void RenderFrame::wheelEvent(QWheelEvent* event)
+        {
+            if(event)
+            {
+                OcularInput->triggerMouseScrollDelta(static_cast<int8_t>(event->delta()));
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

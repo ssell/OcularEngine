@@ -140,7 +140,7 @@ namespace Ocular
 
         bool InputHandler::isMouseButtonDown(MouseButtons const button) const
         {
-            return m_KeyboardState[static_cast<uint8_t>(button)];
+            return m_MouseState[static_cast<uint8_t>(button)];
         }
 
         bool InputHandler::isLeftShiftDown() const

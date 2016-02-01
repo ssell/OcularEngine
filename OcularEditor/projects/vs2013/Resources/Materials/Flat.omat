@@ -1,0 +1,10 @@
+<OcularMaterial>
+    <ShaderProgram>
+        <Vertex>
+            <Path>Shaders/Flat</Path>
+        </Vertex>
+        <Fragment>
+            <Path>Shaders/Flat</Path>
+        </Fragment>
+    </ShaderProgram>
+</OcularMaterial>

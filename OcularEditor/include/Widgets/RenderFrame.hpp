@@ -48,6 +48,7 @@ namespace Ocular
             ~RenderFrame();
 
             virtual QSize sizeHint() const override;
+            virtual void wheelEvent(QWheelEvent* event) override;
 
         protected:
 

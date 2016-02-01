@@ -27,6 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        // (211, 211, 211) : Default Text
+        // (255, 255, 255) : Highlighted / Special Text
+
+        // (45, 45, 48) : Normal Background
+        // (51, 51, 51) : Grouping Background
+        // (56, 56, 60) : Grouping Highlight
+        // (27, 27, 28) : Dark Selected
+        // (62, 62, 64) : Light Hover
+
         const QString GeneralStyles::windowStyle =
             "QWidget"
             "{"
@@ -59,7 +68,26 @@ namespace Ocular
             "}"
             "QTreeWidget"
             "{"
+            "    border: 0px solid black;"
+            "}"
+            "QTreeWidget::item"
+            "{"
+            "    color: rgb(211, 221, 211);"
+            "}"
+            "QTreeWidget::item::focus"
+            "{"
+            "    border: 0px solid black;"
+            "}"
+            "QTreeWidget::item::selected"
+            "{"
             "    color: rgb(255, 255, 255);"
+            "    background-color: rgb(56, 56, 60);"
+            "    border: 0px solid black;"
+            "}"
+            "QTreeWidget::item::hover"
+            "{"
+            "    color: rgb(255, 255, 255);"
+            "    background-color: rgb(62, 62, 64);"
             "    border: 0px solid black;"
             "}"
             "QMenuBar::item"
