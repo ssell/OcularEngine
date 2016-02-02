@@ -55,6 +55,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Controller Specific Methods
             //------------------------------------------------------------
+
+            void focus(Core::SceneObject const* object);
             
             void setLookSensitivity(float sensitivity);
             float getLookSensitivity() const;

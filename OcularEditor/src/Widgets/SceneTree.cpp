@@ -91,6 +91,23 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void SceneTree::mouseDoubleClickEvent(QMouseEvent* event)
+        {
+            if(event)
+            {
+                SceneTreeItem* item = dynamic_cast<SceneTreeItem*>(itemAt(event->pos()));
+
+                if(item)
+                {
+                    OcularLogger->info("Double Click on ", item->getUUID().toString());
+                }
+                else
+                {
+                    OcularLogger->info("Double click");
+                }
+            }
+        }
+
         bool SceneTree::onEvent(std::shared_ptr<Core::AEvent> event)
         {
             Core::SceneObjectAddedEvent* objectEvent = dynamic_cast<Core::SceneObjectAddedEvent*>(event.get());

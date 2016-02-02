@@ -163,9 +163,6 @@
     <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\SceneTree.hpp">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp">
       <Filter>Header Files\Styles</Filter>
     </ClInclude>
@@ -185,6 +182,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">
       <Filter>Header Files\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

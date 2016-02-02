@@ -100,6 +100,17 @@ namespace Ocular
         // Controller Specific Methods
         //----------------------------------------------------------------------------------
 
+        void EditorCameraController::focus(Core::SceneObject const* object)
+        {
+            if(object)
+            {
+                if(m_Parent)
+                {
+                    m_Parent->getTransform().lookAt(object->getPosition());
+                }
+            }
+        }
+
         void EditorCameraController::setLookSensitivity(float sensitivity)
         {
             m_LookSensitivity = sensitivity;
@@ -143,17 +154,18 @@ namespace Ocular
                 if(OcularInput->isMouseButtonDown(Core::MouseButtons::Left))
                 {
                     m_Mode = CameraMode::Drag;
+                    m_LastMousePos = OcularInput->getMousePosition();
                 }
                 else if(OcularInput->isMouseButtonDown(Core::MouseButtons::Right))
                 {
                     m_Mode = CameraMode::Look;
+                    m_LastMousePos = OcularInput->getMousePosition();
                 }
                 else if(OcularInput->isMouseButtonDown(Core::MouseButtons::Middle))
                 {
                     m_Mode = CameraMode::Pan;
+                    m_LastMousePos = OcularInput->getMousePosition();
                 }
-
-                m_LastMousePos = OcularInput->getMousePosition();
 
                 break;
             }
@@ -195,6 +207,8 @@ namespace Ocular
 
         void EditorCameraController::handleMouseMovement()
         {
+            static const float DeltaMax = 200.0f;
+
             if(m_Mode != CameraMode::Default)
             {
                 const Math::Vector2i currentPos = OcularInput->getMousePosition();
@@ -202,22 +216,26 @@ namespace Ocular
                 m_DeltaVector.x = (static_cast<float>(currentPos.x) - static_cast<float>(m_LastMousePos.x));
                 m_DeltaVector.y = (static_cast<float>(currentPos.y) - static_cast<float>(m_LastMousePos.y));
 
-                switch(m_Mode)
+                if((m_DeltaVector.x > -DeltaMax) && (m_DeltaVector.x < DeltaMax) &&
+                   (m_DeltaVector.y > -DeltaMax) && (m_DeltaVector.y < DeltaMax))
                 {
-                case CameraMode::Drag:
-                    handleMouseDrag();
-                    break;
+                    switch(m_Mode)
+                    {
+                    case CameraMode::Drag:
+                        handleMouseDrag();
+                        break;
 
-                case CameraMode::Look:
-                    handleMouseLook();
-                    break;
+                    case CameraMode::Look:
+                        handleMouseLook();
+                        break;
 
-                case CameraMode::Pan:
-                    handleMousePan();
-                    break;
+                    case CameraMode::Pan:
+                        handleMousePan();
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                    }
                 }
 
                 m_LastMousePos = currentPos;
@@ -231,8 +249,8 @@ namespace Ocular
 
         void EditorCameraController::handleMouseLook()
         {
-            m_LookEuler.x += -m_DeltaVector.x * m_LookSensitivity;
-            m_LookEuler.y += -m_DeltaVector.y * m_LookSensitivity;
+            m_LookEuler.x += -m_DeltaVector.y * m_LookSensitivity;
+            m_LookEuler.y += -m_DeltaVector.x * m_LookSensitivity;
 
             m_Parent->setRotation(Math::Quaternion(m_LookEuler));
         }

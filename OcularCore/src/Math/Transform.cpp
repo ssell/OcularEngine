@@ -73,6 +73,7 @@ namespace Ocular
         void Transform::setRotation(Quaternion const& rotation)
         {
             m_Rotation = rotation;
+            m_IsMatrixDirty = true;
         }
 
         Quaternion const& Transform::getRotation() const
@@ -83,6 +84,7 @@ namespace Ocular
         void Transform::setScale(Vector3f const& scale)
         {
             m_Scale = scale;
+            m_IsMatrixDirty = true;
         }
 
         Vector3f const& Transform::getScale() const

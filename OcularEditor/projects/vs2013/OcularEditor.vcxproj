@@ -230,7 +230,32 @@
     <ClInclude Include="..\..\include\Widgets\RenderFrame.hpp" />
     <ClInclude Include="..\..\include\Widgets\SceneBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\SceneFrame.hpp" />
-    <ClInclude Include="..\..\include\Widgets\SceneTree.hpp" />
+    <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="..\..\include\Widgets\SceneTreeItem.hpp" />
     <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp" />
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
