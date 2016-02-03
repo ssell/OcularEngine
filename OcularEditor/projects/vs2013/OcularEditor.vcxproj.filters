@@ -131,6 +131,9 @@
     <ClCompile Include="..\..\src\Routines\EditorCameraController.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\EditorHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Routines\EditorCameraController.hpp">
       <Filter>Header Files\Routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\EditorHelpers.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

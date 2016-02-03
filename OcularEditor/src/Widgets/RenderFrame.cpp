@@ -78,6 +78,41 @@ namespace Ocular
             }
         }
 
+        void RenderFrame::resizeEvent(QResizeEvent* event)
+        {
+            if(event)
+            {
+                Core::Camera* camera = Helpers::GetEditorCamera();
+
+                if(camera)
+                {
+                    const QSize size = event->size();
+                    Graphics::Viewport* viewport = camera->getViewport();
+
+                    if(viewport)
+                    {
+                        camera->setViewport(
+                            viewport->getOriginX(), 
+                            viewport->getOriginY(),
+                            static_cast<float>(size.width()), 
+                            static_cast<float>(size.height()),
+                            viewport->getMinDepth(), 
+                            viewport->getMaxDepth());
+                    }
+                    else
+                    {
+                        camera->setViewport(
+                            0.0f,
+                            0.0f,
+                            static_cast<float>(size.width()),
+                            static_cast<float>(size.height()),
+                            0.0f,
+                            1.0f);
+                    }
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -36,9 +36,9 @@ void setupCamera()
 
     if(camera)
     {
+        camera->setName(Ocular::Editor::Helpers::EditorCameraName);
         camera->setPosition(0.0f, 0.2f, 0.5f);
         camera->addRoutine("EditorCameraController");
-        camera->addRoutine("InputLogger");
     }
 }
 
@@ -53,7 +53,7 @@ void setupVisual()
         if(renderable)
         {
             const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/bunny_normals");
+            renderable->setMesh("Meshes/cube_normals");
             const uint64_t end = OcularClock->getEpochMS();
 
             renderable->setMaterial("Materials/Flat");
@@ -61,8 +61,6 @@ void setupVisual()
             OcularLogger->info("Mesh loaded in ", (end - start), "ms");
         }
     }
-
-    object->setScale(Vector3f(1.5f, 1.5f, 1.5f));
 
     SceneObject* someChild = object->createChild("Some Child");
 }

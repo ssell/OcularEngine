@@ -34,15 +34,15 @@ bool openWindow()
     WindowDescriptor descriptor;
 
     descriptor.displayName   = "Ocular Engine";
-    descriptor.width         = 800;
-    descriptor.height        = 600;
+    descriptor.width         = 1300;
+    descriptor.height        = 900;
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
     descriptor.displayMode   = WindowDisplayMode::WindowedBordered;
     descriptor.exclusiveMode = false;
 
-    if(OcularEngine.WindowManager()->openWindow(WindowDescriptor()))
+    if(OcularEngine.WindowManager()->openWindow(descriptor))
     {
         OcularWindows->getMainWindow()->showCursor(false);
 
@@ -78,7 +78,7 @@ void setupVisual()
         if(renderable)
         {
             const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/bunny_normals");
+            renderable->setMesh("Meshes/cube_normals");
             const uint64_t end = OcularClock->getEpochMS();
 
             renderable->setMaterial("Materials/Flat");

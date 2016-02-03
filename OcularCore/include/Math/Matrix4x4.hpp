@@ -288,27 +288,43 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
+             * \param[in] translate The translate vector to apply
+             * \param[in] matrix    Optional matrix to apply the translation to
              *
+             * \return A matrix that performs the specified translation (if non-identity matrix is supplied, then that matrix after the translation)
              */
-            static Matrix4x4 CreateTranslationMatrix(Vector3<float> const& translate, Matrix4x4 const& matrix = Matrix4x4() );
+            static Matrix4x4 CreateTranslationMatrix(Vector3<float> const& translate, Matrix4x4 const& matrix = Matrix4x4());
 
             /**
+             * \param[in] scale  The scaling to apply
+             * \param[in] matrix Optional matrix to apply the scaling to
              *
+             * \return A matrix that performs the specified scaling (if non-identity matrix is supplied, then that matrix after the scaling)
              */
             static Matrix4x4 CreateScaleMatrix(Vector3<float> const& scale, Matrix4x4 const& matrix = Matrix4x4());
 
             /**
-             *
+             * \param[in] from Origin (eye) point 
+             * \param[in] to   Point in space to look at
+             * \param[in] up   The up vector
              */
             static Matrix4x4 CreateLookAtMatrix(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up);
 
             /**
-             *
+             * \param[in] xMin
+             * \param[in] xMax
+             * \param[in] yMin
+             * \param[in] yMax 
+             * \param[in] nearClip Distance to the near clipping plane
+             * \param[in] farClip  Distance to the far clipping plane
              */
             static Matrix4x4 CreateOrthographicMatrix(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
 
             /**
-             *
+             * \param[in] fov         Field-of-view in degrees
+             * \param[in] aspectRatio Relation between the view width and height (width / height)
+             * \param[in] nearClip    Distance to the near clipping plane
+             * \param[in] farClip     Distance to the far clipping plane
              */
             static Matrix4x4 CreatePerspectiveMatrix(float fov, float aspectRatio, float nearClip, float farClip);
 

@@ -279,27 +279,8 @@ namespace Ocular
         {
             Quaternion result;
 
-            const Vector3f forward = (to - from).getNormalized();
-            const float dot = Vector3f::Forward().dot(forward);
-
-            if(abs(dot + 1.0f) < EPSILON_FLOAT)
-            {
-                result.w() = static_cast<float>(PI);
-                result.x() = Vector3f::Up().x;
-                result.y() = Vector3f::Up().y;
-                result.z() = Vector3f::Up().z;
-            }
-            else if(abs(dot - 1.0f) < EPSILON_FLOAT)
-            {
-                // Do nothing. Return identity.
-            }
-            else
-            {
-                const float rotAngle = acos(dot);
-                const Vector3f rotAxis = Vector3f::Forward().cross(forward).getNormalized();
-
-                result = Quaternion(rotAngle, rotAxis);
-            }
+            glm::mat4 lookAtMatrix = glm::lookAtRH(glm::vec3(from.x, from.y, from.z), glm::vec3(to.x, to.y, to.z), glm::vec3(up.x, up.y, up.z));
+            result = Quaternion(Quaternion_Internal(glm::quat(lookAtMatrix)));
 
             return result;
         }

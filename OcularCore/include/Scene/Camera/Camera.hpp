@@ -188,8 +188,9 @@ namespace Ocular
              * \param[in] height
              * \param[in] minDepth
              * \param[in] maxDepth
+             * \param[in] updateMatrix 
              */
-            void setViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f);
+            void setViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f, bool updateMatrix = true);
             
             /**
              * \return Current viewport

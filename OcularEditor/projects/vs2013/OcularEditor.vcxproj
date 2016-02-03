@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\EditorHelpers.cpp" />
     <ClCompile Include="..\..\src\Input\InputTranslator.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\QtGenerated\Debug\moc_InputTranslator.cpp">
@@ -220,6 +221,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Input/InputTranslator.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
     </CustomBuild>
+    <ClInclude Include="..\..\include\EditorHelpers.hpp" />
     <ClInclude Include="..\..\include\Routines\EditorCameraController.hpp" />
     <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp" />
     <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp" />

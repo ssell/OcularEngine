@@ -18,6 +18,7 @@
 #include "Widgets/SceneTree.hpp"
 #include "Widgets/SceneTreeItem.hpp"
 #include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Routines/EditorCameraController.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -99,11 +100,27 @@ namespace Ocular
 
                 if(item)
                 {
-                    OcularLogger->info("Double Click on ", item->getUUID().toString());
-                }
-                else
-                {
-                    OcularLogger->info("Double click");
+                    Core::SceneObject* focusObject = item->getObject();
+
+                    if(focusObject == nullptr)
+                    {
+                        focusObject = OcularScene->findObject(item->getUUID());
+                    }
+
+                    if(focusObject)
+                    {
+                        Core::Camera* editorCamera = Helpers::GetEditorCamera();
+
+                        if(editorCamera)
+                        {
+                            EditorCameraController* controller = dynamic_cast<EditorCameraController*>(editorCamera->getRoutine("EditorCameraController"));
+
+                            if(controller)
+                            {
+                                controller->focus(focusObject);
+                            }
+                        }
+                    }
                 }
             }
         }

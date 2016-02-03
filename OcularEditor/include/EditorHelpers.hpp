@@ -15,10 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RENDER_FRAME__H__
-#define __H__OCULAR_EDITOR_RENDER_FRAME__H__
-
-#include <QtWidgets/qframe.h>
+#ifndef __H__OCULAR_EDITOR_HELPERS__H__
+#define __H__OCULAR_EDITOR_HELPERS__H__
 
 //------------------------------------------------------------------------------------------
 
@@ -28,35 +26,35 @@
  */
 namespace Ocular
 {
+    namespace Core
+    {
+        class SceneObject;
+        class Camera;
+    }
+
     /**
      * \addtogroup Editor
      * @{
      */
     namespace Editor
     {
-        class InputTranslator;
-
         /**
-         * \class RenderFrame
-         * \brief 
+         * \class Helpers
          */
-        class RenderFrame : public QFrame
+        class Helpers
         {
         public:
 
-            RenderFrame(QWidget* parent = nullptr);
-            ~RenderFrame();
+            //------------------------------------------------------------
+            // Camera Helpers
+            //------------------------------------------------------------
 
-            virtual QSize sizeHint() const override;
-            virtual void wheelEvent(QWheelEvent* event) override;
-            virtual void resizeEvent(QResizeEvent* event) override;
+            static Core::Camera* GetEditorCamera();
+            static const char* EditorCameraName;
 
         protected:
 
-            InputTranslator* m_Input;
-
         private:
-
         };
     }
     /**

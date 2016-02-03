@@ -49,26 +49,26 @@ InputLoggerRoutine::~InputLoggerRoutine()
 
 bool InputLoggerRoutine::onEvent(std::shared_ptr<AEvent> event)
 {
-    if(event->isType<Events::KeyboardInputEvent>())
+    if(event->isType<KeyboardInputEvent>())
     {
-        Events::KeyboardInputEvent* inputEvent = dynamic_cast<Events::KeyboardInputEvent*>(event.get());
+        KeyboardInputEvent* inputEvent = dynamic_cast<KeyboardInputEvent*>(event.get());
         
         OcularLogger->info("The '", InputHandler::ToString(inputEvent->key), "' key was ", InputHandler::ToString(inputEvent->state));
 
         if((inputEvent->key == KeyboardKeys::Escape) && (inputEvent->state == KeyState::Released))
         {
-            OcularEvents->queueEvent(std::make_shared<Events::ShutdownEvent>());
+            OcularEvents->queueEvent(std::make_shared<ShutdownEvent>());
         }
     }
-    else if(event->isType<Events::MouseButtonInputEvent>())
+    else if(event->isType<MouseButtonInputEvent>())
     {
-        Events::MouseButtonInputEvent* inputEvent = dynamic_cast<Events::MouseButtonInputEvent*>(event.get());
+        MouseButtonInputEvent* inputEvent = dynamic_cast<MouseButtonInputEvent*>(event.get());
         
         OcularLogger->info("The '", InputHandler::ToString(inputEvent->button), "' button was ", InputHandler::ToString(inputEvent->state));
     }
-    else if(event->isType<Events::MouseScrollInputEvent>())
+    else if(event->isType<MouseScrollInputEvent>())
     {
-        Events::MouseScrollInputEvent* inputEvent = dynamic_cast<Events::MouseScrollInputEvent*>(event.get());
+        MouseScrollInputEvent* inputEvent = dynamic_cast<MouseScrollInputEvent*>(event.get());
         
         OcularLogger->info("The mouse wheel has scrolled ", static_cast<int32_t>(inputEvent->delta));
     }

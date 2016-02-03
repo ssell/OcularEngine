@@ -22,7 +22,7 @@
 
 //------------------------------------------------------------------------------------------
 
-static const float DefaultFOV    = 90.0f;
+static const float DefaultFOV    = 60.0f;
 static const float DefaultNear   = 0.01f;
 static const float DefaultFar    = 10000.0f;
 static const float DefaultWidth  = 1024.0f;
@@ -196,7 +196,7 @@ namespace Ocular
             return m_Priority;
         }
 
-        void Camera::setViewport(float const x, float const y, float const width, float const height, float const minDepth, float const maxDepth)
+        void Camera::setViewport(float const x, float const y, float const width, float const height, float const minDepth, float const maxDepth, bool updateMatrix)
         {
             if(m_Viewport)
             {
@@ -208,6 +208,20 @@ namespace Ocular
             if(OcularCameras->getActiveCamera() == this)
             {
                 m_Viewport->bind();
+            }
+            
+            if(updateMatrix)
+            {
+                if(m_ProjType == ProjectionType::Perspective)
+                {
+                    setProjectionPerspective(m_PerspectiveProj.fieldOfView, (width / height), m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+                }
+                else
+                {
+                    setProjectionOrthographic(m_OrthographicProj.xMin, (m_OrthographicProj.xMin + width), 
+                                              m_OrthographicProj.yMin, (m_OrthographicProj.yMin + height),
+                                              m_OrthographicProj.nearClip, m_OrthographicProj.farClip);
+                }
             }
         }
 

@@ -223,7 +223,7 @@ namespace Ocular
                     if(currentRTV)
                     {
                         //const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
-                        const static float clearColor[4] = { 0.17647f, 0.17647f, 0.18823f, 1.0f };
+                        const static float clearColor[4] = { 0.17647f, 1.17647f, 0.18823f, 1.0f };
 
                         m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
                         currentRTV->Release();

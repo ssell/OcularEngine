@@ -57,13 +57,15 @@ namespace Ocular
 
             Vector3(Quaternion const& quat)
             {
-
+                x = static_cast<T>(quat.getPitch());
+                y = static_cast<T>(quat.getYaw());
+                z = static_cast<T>(quat.getRoll());
             }
 
             Vector3(Euler const& euler)
             {
-                x = static_cast<T>(euler.getYaw());
-                y = static_cast<T>(euler.getPitch());
+                x = static_cast<T>(euler.getPitch());
+                y = static_cast<T>(euler.getYaw());
                 z = static_cast<T>(euler.getRoll());
             }
 

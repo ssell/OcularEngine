@@ -496,6 +496,8 @@ namespace Ocular
 
             if(result)
             {
+                m_Routines.push_back(result);
+
                 result->setParent(this);
                 result->setName(name);
                 result->onCreation();
@@ -508,6 +510,7 @@ namespace Ocular
         {
             if(routine)
             {
+                m_Routines.push_back(routine);
                 routine->setParent(this);
             }
         }
