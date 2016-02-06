@@ -36,17 +36,6 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \enum WindowResizeType
-         * \brief Represents the type of resize event that occurred.
-         */
-        enum WindowResizeType
-        {
-            Resize = 0,     /// Matches WinAPI SIZE_RESTORED
-            Minimized = 1,  /// Matches WinAPI SIZE_MINIMIZED
-            Maximized = 2   /// Matches WinAPI SIZE_MAXIMIZED
-        };
-
-        /**
          * \class WindowResizeEvent
          *
          * Event notifying of a window resize. <br/>
@@ -66,17 +55,15 @@ namespace Ocular
         {
         public:
 
-            WindowResizeEvent(std::shared_ptr<AWindow> pWindow, unsigned pWidth, unsigned pHeight, WindowResizeType pType);
+            WindowResizeEvent(AWindow* pWindow, uint32_t pWidth, uint32_t pHeight);
             virtual ~WindowResizeEvent();
 
             //----------------------------------------
 
-            unsigned width;
-            unsigned height;
+            uint32_t width;
+            uint32_t height;
 
-            WindowResizeType type;
-
-            std::shared_ptr<AWindow> window;
+            AWindow* window;
 
         protected:
 

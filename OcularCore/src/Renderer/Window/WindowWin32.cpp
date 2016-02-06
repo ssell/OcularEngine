@@ -180,6 +180,8 @@ namespace Ocular
                     THROW_EXCEPTION(stream.str());
                 }
 
+                m_OSPointer = (void*)(m_HWND);
+
                 // Setup our window to be later retrieved by WndProc
                 // TODO: Will this cause errors with multiple windows? Need a different ID (GWLP_USERDATA - Window #)?
                 SetWindowLongPtr(m_HWND, GWLP_USERDATA, (LONG)this);
@@ -212,6 +214,8 @@ namespace Ocular
 
             if(IsWindow(m_HWND))
             {
+                m_OSPointer = (void*)(m_HWND);
+
                 RECT rect;
 
                 if(GetWindowRect(m_HWND, &rect) == TRUE)
@@ -324,12 +328,14 @@ namespace Ocular
                 break;
 
             case WM_SIZE:
-                OcularEngine.EventManager()->queueEvent(std::make_shared<WindowResizeEvent>(
-                    OcularEngine.WindowManager()->getWindow(m_UUID),   // Smart pointer to this window
-                    static_cast<unsigned>(LOWORD(lParam)),             // New width
-                    static_cast<unsigned>(HIWORD(lParam)),             // New height
-                    static_cast<WindowResizeType>(wParam)));           // Type of resize event
+            {
+                const uint32_t width  = static_cast<uint32_t>(LOWORD(lParam));
+                const uint32_t height = static_cast<uint32_t>(HIWORD(lParam));
+
+                OcularEngine.EventManager()->queueEvent(std::make_shared<WindowResizeEvent>(this, width, height));
+
                 break;
+            }
 
             case WM_INPUT:
             {

@@ -75,6 +75,11 @@ namespace Ocular
              */
             virtual void refresh() = 0;
 
+            /**
+             * Returns a copy of the texture descriptor that defines this texture resource.
+             */
+            TextureDescriptor getDescriptor() const;
+
         protected:
 
             TextureDescriptor m_Descriptor;

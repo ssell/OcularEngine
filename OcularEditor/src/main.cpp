@@ -86,10 +86,6 @@ int main(int argc, char *argv[])
 
         if(OcularGraphics->initialize())
         {
-            OcularLogger->info(OCULAR_VERSION);
-            OcularLogger->warning("Missing texture");
-            OcularLogger->error("Failed to do something");
-
             setupScene();
 
             while(OcularEngine.run())

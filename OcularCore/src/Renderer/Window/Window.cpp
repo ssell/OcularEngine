@@ -17,6 +17,9 @@
 #include "Renderer/Window/Window.hpp"
 #include "Graphics/Texture/RenderTexture.hpp"
 #include "Graphics/Texture/DepthTexture.hpp"
+#include "Events/Events/WindowResizeEvent.hpp"
+
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,9 +35,10 @@ namespace Ocular
             : Object(descriptor.displayName, "AWindow"),
               m_Descriptor(descriptor),
               m_RenderTexture(nullptr),
-              m_DepthTexture(nullptr)
+              m_DepthTexture(nullptr),
+              m_OSPointer(nullptr)
         {
-
+            OcularEvents->registerListener(this, Priority::Low);
         }
 
         AWindow::~AWindow()
@@ -55,6 +59,59 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        bool AWindow::onEvent(std::shared_ptr<AEvent> event)
+        {
+            bool result = true;
+
+            if(event)
+            {
+                if(event->isType<WindowResizeEvent>())
+                {
+                    WindowResizeEvent* resizeEvent = dynamic_cast<WindowResizeEvent*>(event.get());
+
+                    if(resizeEvent->window == this)
+                    {
+                        resize(resizeEvent->width, resizeEvent->height);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        void AWindow::resize(uint32_t const width, uint32_t const height)
+        {
+            bool rebuild = false;
+
+            if(width != m_Descriptor.width)
+            {
+                m_RenderTexture->setWidth(width);
+                m_DepthTexture->setWidth(width);
+
+                m_Descriptor.width = width;
+                rebuild = true;
+            }
+
+            if(height != m_Descriptor.height)
+            {
+                m_RenderTexture->setHeight(height);
+                m_DepthTexture->setHeight(height);
+
+                m_Descriptor.height = height;
+                rebuild = true;
+            }
+
+            if(rebuild)
+            {
+                // Texture resizes require complete recreation
+                m_RenderTexture->unload();
+                m_DepthTexture->unload();
+
+                m_RenderTexture->apply();
+                m_DepthTexture->apply();
+            }
+        }
 
         WindowDescriptor AWindow::getDescriptor() const
         {
@@ -101,6 +158,11 @@ namespace Ocular
         void AWindow::showCursor(bool show)
         {
 
+        }
+
+        void* AWindow::getOSPointer() const
+        {
+            return m_OSPointer;
         }
 
         //----------------------------------------------------------------------------------

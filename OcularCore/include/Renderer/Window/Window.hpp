@@ -22,6 +22,7 @@
 #include "WindowManager.hpp"
 #include "WindowDisplay.hpp"
 #include "WindowDescriptor.hpp"
+#include "Events/AEventListener.hpp"
 
 #include <string>
 
@@ -56,7 +57,7 @@ namespace Ocular
          * See ::WindowLinux <br/>
          * See ::WindowOSX
          */
-        class AWindow : public Object
+        class AWindow : public Object, public AEventListener
         {
             friend class WindowManager;
         public:
@@ -74,8 +75,20 @@ namespace Ocular
             AWindow(WindowDescriptor const& descriptor);
 
             virtual ~AWindow();
+            
+            virtual bool onEvent(std::shared_ptr<AEvent> event) override;
 
             //--------------------------------------------
+
+            /**
+             * If the window dimensions do not already match the specified width/height, then the
+             * window will be resized. In addition to this, the descriptor, render target, and depth
+             * stencil textures will be updated and recreated to match the new dimensions.
+             *
+             * \param[in] width
+             * \param[in] height
+             */
+            void resize(uint32_t width, uint32_t height);
 
             /**
              * \return The WindowDescriptor for this window instance.
@@ -137,6 +150,12 @@ namespace Ocular
              */
             virtual void showCursor(bool show);
 
+            /** 
+             * Returns the raw Operating System specific pointer for this window.
+             * This can be cast to HWND on Windows, etc.
+             */
+            void* getOSPointer() const;
+
         protected:
 
             /**
@@ -154,12 +173,14 @@ namespace Ocular
              */
             virtual void close() = 0;
 
-            //----------------------------------------
+            //----------------------------------------------------------
 
             WindowDescriptor m_Descriptor;
 
             Graphics::RenderTexture* m_RenderTexture;
             Graphics::DepthTexture*  m_DepthTexture;
+
+            void* m_OSPointer;
 
         private:
         };

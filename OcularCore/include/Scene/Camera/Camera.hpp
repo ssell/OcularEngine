@@ -238,9 +238,13 @@ namespace Ocular
              * The viewport and projection updating will not occur if
              * they are set to fixed (setFixedProjection and setFixedViewport).
              */
-            virtual bool onEvent(std::shared_ptr<AEvent> event);
+            virtual bool onEvent(std::shared_ptr<AEvent> event) override;
 
         protected:
+
+            void updateViewport(float width, float height);
+
+            //------------------------------------------------------------
 
             ProjectionType m_ProjType;
 

@@ -106,6 +106,17 @@ namespace Ocular
             std::shared_ptr<AWindow> getWindow(UUID const& uuid);
 
             /**
+             * Returns a pointer to the Winodw matching the specified OS window pointer.<br/><br/>
+             *
+             * The returned pointer should not be destroyed as object management
+             * is performed by the WindowManager to which the Window belongs.
+             *
+             * \param osPointer
+             * \return A pointer to the window. If nullptr, then no window matches the specified OS pointer.
+             */
+            std::shared_ptr<AWindow> getWindow(void* osPointer);
+
+            /**
              * Returns a pointer to the main/primary window.
              * \return A pointer to the main window. If nullptr, then no windows are being managed.
              */

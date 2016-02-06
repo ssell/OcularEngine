@@ -26,14 +26,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        WindowResizeEvent::WindowResizeEvent(
-            std::shared_ptr<AWindow> pWindow, unsigned const pWidth, unsigned const pHeight, WindowResizeType const pType)
-            : AEvent("WindowResizeEvent", Priority::Low)
+        WindowResizeEvent::WindowResizeEvent(AWindow* pWindow, uint32_t const pWidth, uint32_t const pHeight)
+            : AEvent("WindowResizeEvent", Priority::Medium),
+              width(pWidth),
+              height(pHeight),
+              window(pWindow)
         {
-            width  = pWidth;
-            height = pHeight;
-            window = pWindow;
-            type   = pType;
+
         }
 
         WindowResizeEvent::~WindowResizeEvent()

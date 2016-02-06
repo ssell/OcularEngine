@@ -235,45 +235,16 @@ namespace Ocular
             if(event->isType<WindowResizeEvent>())
             {
                 WindowResizeEvent* resizeEvent = dynamic_cast<WindowResizeEvent*>(event.get());
+                AWindow* window = resizeEvent->window;
 
-                if(!m_IsFixedProjection)
+                if(window)
                 {
-                    if(m_ProjType == ProjectionType::Perspective)
+                    Graphics::RenderTexture* texture = window->getRenderTexture();
+
+                    if((texture) && (texture == m_RenderTexture))
                     {
-                        m_PerspectiveProj.aspectRatio = (static_cast<float>(resizeEvent->width) / static_cast<float>(resizeEvent->height));
-                        setProjectionPerspective(m_PerspectiveProj.fieldOfView, m_PerspectiveProj.aspectRatio, m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+                        updateViewport(static_cast<float>(resizeEvent->width), static_cast<float>(resizeEvent->height));
                     }
-                    //else if(m_ProjType == ProjectionType::Orthographic)
-                    //{
-                        // Ortho xMin/xMax, etc. may not be set on width/height
-                        //setProjectionOrthographic(0.0f, m_ProjWidth, 0.0f, m_ProjHeight, m_NearClip, m_FarClip);
-                    //}
-                    //else
-                    //{
-                        // Unknown. Do nothing
-                    //}
-                }
-
-                if(!m_IsFixedViewport)
-                {
-                    float originX     = 0.0f;
-                    float originY     = 0.0f;
-                    float width       = DefaultWidth;
-                    float height      = DefaultHeight;
-                    float minDepth    = 0.0f;
-                    float maxDepth    = 1.0f;
-
-                    if(m_Viewport)
-                    {
-                        originX  = m_Viewport->getOriginX();
-                        originY  = m_Viewport->getOriginY();
-                        width    = m_Viewport->getWidth();
-                        height   = m_Viewport->getHeight();
-                        minDepth = m_Viewport->getMinDepth();
-                        maxDepth = m_Viewport->getMaxDepth();
-                    }
-
-                    setViewport(originX, originY, width, height, minDepth, maxDepth);
                 }
             }
 
@@ -283,6 +254,26 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void Camera::updateViewport(float const width, float const height)
+        {
+            if((!Math::IsEqual<float>(width, m_Viewport->getWidth())) || (!Math::IsEqual<float>(height, m_Viewport->getHeight())))
+            {
+                if(!m_IsFixedViewport)
+                {
+                    setViewport(m_Viewport->getOriginX(), m_Viewport->getOriginY(), width, height, m_Viewport->getMinDepth(), m_Viewport->getMaxDepth());
+                }
+
+                if(!m_IsFixedProjection)
+                {
+                    if(m_ProjType == ProjectionType::Perspective)
+                    {
+                        m_PerspectiveProj.aspectRatio = (static_cast<float>(width) / static_cast<float>(height));
+                        setProjectionPerspective(m_PerspectiveProj.fieldOfView, m_PerspectiveProj.aspectRatio, m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+                    }
+                }
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

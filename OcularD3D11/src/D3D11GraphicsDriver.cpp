@@ -219,7 +219,7 @@ namespace Ocular
                     ID3D11DepthStencilView* currentDSV = nullptr;
 
                     m_D3DDeviceContext->OMGetRenderTargets(1, &currentRTV, &currentDSV);
-
+                    
                     if(currentRTV)
                     {
                         //const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
@@ -371,19 +371,16 @@ namespace Ocular
                     if(dsv)
                     {
                         dsv->Release();
-                        dsv = nullptr;
                     }
 
                     if(currRTV)
                     {
                         currRTV->Release();
-                        currRTV = nullptr;
                     }
 
                     if(currDSV)
                     {
                         currDSV->Release();
-                        currDSV = nullptr;
                     }
                 }
             }

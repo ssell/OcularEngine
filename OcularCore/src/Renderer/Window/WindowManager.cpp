@@ -137,20 +137,37 @@ namespace Ocular
 
         std::shared_ptr<AWindow> WindowManager::getWindow(UUID const& uuid)
         {
-            std::list<std::shared_ptr<AWindow>>::iterator iter;
+            std::shared_ptr<AWindow> result = nullptr;
 
-            for(iter = m_Windows.begin(); iter != m_Windows.end(); iter++)
+            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); ++iter)
             {
                 if((*iter))
                 {
                     if((*iter)->getUUID() == uuid)
                     {
-                        return (*iter);
+                        result = (*iter);
+                        break;
                     }
                 }
             }
 
-            return nullptr;
+            return result;
+        }
+
+        std::shared_ptr<AWindow> WindowManager::getWindow(void* osPointer)
+        {
+            std::shared_ptr<AWindow> result = nullptr;
+
+            for(auto iter = m_Windows.begin(); iter != m_Windows.end(); ++iter)
+            {
+                if((*iter)->getOSPointer() == osPointer)
+                {
+                    result = (*iter);
+                    break;
+                }
+            }
+
+            return result;
         }
 
         std::shared_ptr<AWindow> WindowManager::getMainWindow()

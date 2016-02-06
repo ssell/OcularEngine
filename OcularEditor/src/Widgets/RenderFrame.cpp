@@ -17,6 +17,7 @@
 #include "stdafx.h"
 #include "Widgets/RenderFrame.hpp"
 #include "Input/InputTranslator.hpp"
+#include "Events/Events/WindowResizeEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -82,33 +83,15 @@ namespace Ocular
         {
             if(event)
             {
-                Core::Camera* camera = Helpers::GetEditorCamera();
+                void* osPointer = (void*)(winId());
+                auto window = OcularWindows->getWindow(osPointer);
 
-                if(camera)
+                if(window)
                 {
-                    const QSize size = event->size();
-                    Graphics::Viewport* viewport = camera->getViewport();
+                    const uint32_t width  = static_cast<uint32_t>(event->size().width());
+                    const uint32_t height = static_cast<uint32_t>(event->size().height());
 
-                    if(viewport)
-                    {
-                        camera->setViewport(
-                            viewport->getOriginX(), 
-                            viewport->getOriginY(),
-                            static_cast<float>(size.width()), 
-                            static_cast<float>(size.height()),
-                            viewport->getMinDepth(), 
-                            viewport->getMaxDepth());
-                    }
-                    else
-                    {
-                        camera->setViewport(
-                            0.0f,
-                            0.0f,
-                            static_cast<float>(size.width()),
-                            static_cast<float>(size.height()),
-                            0.0f,
-                            1.0f);
-                    }
+                    OcularEvents->queueEvent(std::make_shared<Core::WindowResizeEvent>(window.get(), width, height));
                 }
             }
         }
