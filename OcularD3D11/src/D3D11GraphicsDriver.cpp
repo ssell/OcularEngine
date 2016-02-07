@@ -18,6 +18,7 @@
 #include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
 #include "Math/Color.hpp"
+#include "Events/Events/WindowResizeEvent.hpp"
 
 #include "Texture/D3D11Texture2D.hpp"
 #include "Texture/D3D11RenderTexture.hpp"
@@ -54,7 +55,7 @@ namespace Ocular
               m_D3DDeviceContext(nullptr),
               m_D3DSwapChain(nullptr)
         {
-
+            OcularEvents->registerListener(this, Core::Priority::High);    // Need to receive WindowResizeEvent first
         }
 
         D3D11GraphicsDriver::~D3D11GraphicsDriver()
@@ -79,15 +80,7 @@ namespace Ocular
             }
 
 #ifdef _DEBUG
-            ID3D11Debug* d3dDebug = nullptr;
-            m_D3DDevice->QueryInterface(&d3dDebug);
-
-            if(d3dDebug)
-            {
-                d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL);
-                d3dDebug->Release();
-                d3dDebug = nullptr;
-            }
+            printD3DDebug();
 #endif
 
             if(m_D3DDevice)
@@ -160,26 +153,6 @@ namespace Ocular
                         windowWin32->setDepthTexture(depthTexture);
 
                         //------------------------------------------------
-                        // Create and bind render textures
-
-                        ID3D11RenderTargetView* rtv = renderTexture->getD3DRenderTargetView();
-                        ID3D11DepthStencilView* dsv = depthTexture->getD3DDepthStencilView();
-
-                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
-
-                        if(rtv)
-                        {
-                            rtv->Release();
-                            rtv = nullptr;
-                        }
-
-                        if(dsv)
-                        {
-                            dsv->Release();
-                            dsv = nullptr;
-                        }
-
-                        //------------------------------------------------
                         // Create and bind RenderState
 
                         m_RenderState = new D3D11RenderState(m_D3DDevice, m_D3DDeviceContext);
@@ -223,7 +196,7 @@ namespace Ocular
                     if(currentRTV)
                     {
                         //const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
-                        const static float clearColor[4] = { 0.17647f, 1.17647f, 0.18823f, 1.0f };
+                        const static float clearColor[4] = { 0.17647f, 0.17647f, 0.18823f, 1.0f };
 
                         m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
                         currentRTV->Release();
@@ -312,32 +285,9 @@ namespace Ocular
                 {
                     ID3D11RenderTargetView* rtv = d3dTexture->getD3DRenderTargetView();
 
-                    ID3D11RenderTargetView* currRTV = nullptr;
-                    ID3D11DepthStencilView* currDSV = nullptr;
-
                     if(m_D3DDeviceContext)
                     {
-                        m_D3DDeviceContext->OMGetRenderTargets(1, &currRTV, &currDSV);
-
-                        if(currRTV != rtv)
-                        {
-                            m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, currDSV);
-                        }
-                    }
-
-                    if(rtv)
-                    {
-                        rtv->Release();
-                    }
-
-                    if(currRTV)
-                    {
-                        currRTV->Release();
-                    }
-
-                    if(currDSV)
-                    {
-                        currDSV->Release();
+                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, 0);
                     }
                 }
             }
@@ -345,6 +295,7 @@ namespace Ocular
 
         void D3D11GraphicsDriver::setDepthTexture(DepthTexture* texture)
         {
+            return;
             GraphicsDriver::setDepthTexture(texture);
 
             if(texture)
@@ -355,32 +306,9 @@ namespace Ocular
                 {
                     ID3D11DepthStencilView* dsv = d3dTexture->getD3DDepthStencilView();
 
-                    ID3D11RenderTargetView* currRTV = nullptr;
-                    ID3D11DepthStencilView* currDSV = nullptr;
-
                     if(m_D3DDeviceContext)
                     {
-                        m_D3DDeviceContext->OMGetRenderTargets(1, &currRTV, &currDSV);
-
-                        if(currDSV != dsv)
-                        {
-                            m_D3DDeviceContext->OMSetRenderTargets(1, &currRTV, dsv);
-                        }
-                    }
-
-                    if(dsv)
-                    {
-                        dsv->Release();
-                    }
-
-                    if(currRTV)
-                    {
-                        currRTV->Release();
-                    }
-
-                    if(currDSV)
-                    {
-                        currDSV->Release();
+                        m_D3DDeviceContext->OMSetRenderTargets(1, 0, dsv);
                     }
                 }
             }
@@ -546,11 +474,11 @@ namespace Ocular
             return m_D3DSwapChain;
         }
 
-        bool D3D11GraphicsDriver::convertTextureDescriptor(TextureDescriptor const& src, D3D11_TEXTURE2D_DESC &dest)
+        bool D3D11GraphicsDriver::ConvertTextureDescriptor(TextureDescriptor const& src, D3D11_TEXTURE2D_DESC &dest)
         {
             bool result = true;
 
-            if(validateTextureDescriptor(src))
+            if(ValidateTextureDescriptor(src))
             {
                 ZeroMemory(&dest, sizeof(D3D11_TEXTURE2D_DESC));
 
@@ -699,7 +627,7 @@ namespace Ocular
                     break;
 
                 default:
-                    OcularLogger->warning("Unsupported texture format for D3D11. Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                    OcularLogger->warning("Unsupported texture format for D3D11. Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
                     dest.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
                     break;
                 }
@@ -708,7 +636,7 @@ namespace Ocular
             return result;
         }
 
-        bool D3D11GraphicsDriver::convertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest)
+        bool D3D11GraphicsDriver::ConvertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest)
         {
             bool result = true;
 
@@ -752,7 +680,7 @@ namespace Ocular
             }
             else
             {
-                OcularLogger->warning("Unsupported D3D11 Texture2D usage flag ", source.Usage, "; Defaulting to full GPU access", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                OcularLogger->warning("Unsupported D3D11 Texture2D usage flag ", source.Usage, "; Defaulting to full GPU access", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
                 dest.gpuAccess = TextureAccess::ReadWrite;
                 result = false;
             }
@@ -775,7 +703,7 @@ namespace Ocular
                 break;
 
             default:
-                OcularLogger->warning("Unsupported D3D11 Texture2D bind flag ", source.BindFlags, "; Defaulting to Texture2D", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                OcularLogger->warning("Unsupported D3D11 Texture2D bind flag ", source.BindFlags, "; Defaulting to Texture2D", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
                 dest.type = TextureType::Texture2D;
                 result = false;
                 break;
@@ -863,7 +791,7 @@ namespace Ocular
                 break;
 
             default:
-                OcularLogger->warning("Unsupported D3D11 Texture2D format ", source.Format, "; Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "convertTextureDescriptor"));
+                OcularLogger->warning("Unsupported D3D11 Texture2D format ", source.Format, "; Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
                 dest.format = TextureFormat::R32G32B32A32Float;
                 result = false;
                 break;
@@ -875,6 +803,63 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool D3D11GraphicsDriver::onEvent(std::shared_ptr<Core::AEvent> event)
+        {
+            bool result = true;
+
+            if(event->isType<Core::WindowResizeEvent>())
+            {
+                Core::WindowResizeEvent* resizeEvent = dynamic_cast<Core::WindowResizeEvent*>(event.get());
+
+                //--------------------------------------------------------
+                // Release Main Window buffers in preparation for SwapChain resizing
+
+                auto window = resizeEvent->window;
+
+                if(window)
+                {
+                    RenderTexture* rtv = window->getRenderTexture();
+                    DepthTexture* dsv = window->getDepthTexture();
+
+                    if(rtv)
+                    {
+                        rtv->unload();
+                    }
+
+                    if(dsv)
+                    {
+                        dsv->unload();
+                    }
+                }
+
+                resizeSwapChain(resizeEvent->width, resizeEvent->height);
+            }
+
+            return result;
+        }
+
+        void D3D11GraphicsDriver::resizeSwapChain(uint32_t const width, uint32_t const height)
+        {
+            HRESULT hResult = S_OK;
+
+            if(m_D3DSwapChain)
+            {
+                m_D3DDeviceContext->OMSetRenderTargets(0, 0, 0);
+
+                DXGI_SWAP_CHAIN_DESC descr;
+                m_D3DSwapChain->GetDesc(&descr);
+
+                printD3DDebug();
+
+                hResult = m_D3DSwapChain->ResizeBuffers(descr.BufferCount, width, height, DXGI_FORMAT_UNKNOWN, descr.Flags);
+
+                if(FAILED(hResult))
+                {
+                    OcularLogger->error("Failed to resize D3D11 SwapChain with error: ", hResult, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "resizeSwapChain"));
+                }
+            }
+        }
 
         bool D3D11GraphicsDriver::validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const
         {
@@ -1011,7 +996,7 @@ namespace Ocular
             return result;
         }
 
-        bool D3D11GraphicsDriver::validateTextureDescriptor(TextureDescriptor const& descriptor)
+        bool D3D11GraphicsDriver::ValidateTextureDescriptor(TextureDescriptor const& descriptor)
         {
             bool result = true;
             
@@ -1020,23 +1005,23 @@ namespace Ocular
 
             if(descriptor.width == 0)
             {
-                OcularLogger->error("Texture width must be greater than 0", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Texture width must be greater than 0", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
             }
             else if(descriptor.width > OCULAR_MAX_TEXTURE_WIDTH)
             {
-                OcularLogger->error("Texture width may not exceed ", OCULAR_MAX_TEXTURE_WIDTH, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Texture width may not exceed ", OCULAR_MAX_TEXTURE_WIDTH, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
             }
 
             if(descriptor.height == 0)
             {
-                OcularLogger->error("Texture height must be greater than 0", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Texture height must be greater than 0", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
             }
             else if(descriptor.height > OCULAR_MAX_TEXTURE_HEIGHT)
             {
-                OcularLogger->error("Texture height may not exceed ", OCULAR_MAX_TEXTURE_HEIGHT, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Texture height may not exceed ", OCULAR_MAX_TEXTURE_HEIGHT, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
             }
 
@@ -1061,14 +1046,14 @@ namespace Ocular
             switch(descriptor.cpuAccess)
             {
             case TextureAccess::ReadOnly:
-                OcularLogger->error("D3D11 does not support textures with CPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("D3D11 does not support textures with CPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
 
             case TextureAccess::WriteOnly:
                 if(descriptor.gpuAccess != TextureAccess::ReadOnly)
                 {
-                    OcularLogger->error("D3D11 does not support textures with CPU write-only access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with CPU write-only access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
@@ -1076,7 +1061,7 @@ namespace Ocular
             case TextureAccess::ReadWrite:
                 if(descriptor.gpuAccess != TextureAccess::ReadWrite)
                 {
-                    OcularLogger->error("D3D11 does not support textures with CPU read-write access unless accompanied by GPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with CPU read-write access unless accompanied by GPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
@@ -1084,13 +1069,13 @@ namespace Ocular
             case TextureAccess::None:
                 if(descriptor.gpuAccess != TextureAccess::ReadOnly)
                 {
-                    OcularLogger->error("D3D11 does not support textures with no CPU access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with no CPU access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
 
             default:
-                OcularLogger->error("Unsupported CPU access level. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Unsupported CPU access level. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
             }
@@ -1103,31 +1088,31 @@ namespace Ocular
             case TextureAccess::ReadOnly:
                 if((descriptor.cpuAccess != TextureAccess::WriteOnly) && (descriptor.cpuAccess != TextureAccess::None))
                 {
-                    OcularLogger->error("D3D11 does not support textures with GPU read-only access unless accompanied by CPU write-only or CPU no access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with GPU read-only access unless accompanied by CPU write-only or CPU no access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
 
             case TextureAccess::WriteOnly:
-                OcularLogger->error("D3D11 does not support textures with GPU write-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("D3D11 does not support textures with GPU write-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
 
             case TextureAccess::ReadWrite:
                 if(descriptor.cpuAccess != TextureAccess::ReadWrite) 
                 {
-                    OcularLogger->error("D3D11 does not support textures with GPU read-write access unless accompanied by CPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with GPU read-write access unless accompanied by CPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
 
             case TextureAccess::None:
-                OcularLogger->error("D3D11 does not support textures with no GPU access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("D3D11 does not support textures with no GPU access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
 
             default:
-                OcularLogger->error("Unsupported GPU access level. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Unsupported GPU access level. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
             }
 
@@ -1142,7 +1127,7 @@ namespace Ocular
                 break;
 
             default:
-                OcularLogger->error("Unsupported Texture Type for D3D11", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateTextureDescriptor"));
+                OcularLogger->error("Unsupported Texture Type for D3D11", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
             }
@@ -1152,6 +1137,19 @@ namespace Ocular
 
 
             return result;
+        }
+
+        void D3D11GraphicsDriver::printD3DDebug()
+        {
+            ID3D11Debug* d3dDebug = nullptr;
+            m_D3DDevice->QueryInterface(&d3dDebug);
+
+            if(d3dDebug)
+            {
+                d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL);
+                d3dDebug->Release();
+                d3dDebug = nullptr;
+            }
         }
 
         //----------------------------------------------------------------------------------

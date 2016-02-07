@@ -74,7 +74,7 @@ namespace Ocular
             bool result = false;
             D3D11_TEXTURE2D_DESC textureDescr;
 
-            if(D3D11GraphicsDriver::convertTextureDescriptor(descriptor, textureDescr))
+            if(D3D11GraphicsDriver::ConvertTextureDescriptor(descriptor, textureDescr))
             {
                 m_D3DFormat = textureDescr.Format;
                 const HRESULT hResult = m_D3DDevice->CreateTexture2D(&textureDescr, nullptr, &m_D3DTexture);

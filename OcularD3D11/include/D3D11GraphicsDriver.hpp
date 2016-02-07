@@ -19,6 +19,7 @@
 #define __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
 
 #include "Graphics/GraphicsDriver.hpp"
+#include "Events/AEventListener.hpp"
 #include <d3d11.h>
 
 //------------------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ namespace Ocular
         /**
          * \class GraphicsDriver
          */
-        class D3D11GraphicsDriver : public GraphicsDriver
+        class D3D11GraphicsDriver : public GraphicsDriver, public Core::AEventListener
         {
         public:
 
@@ -90,16 +91,21 @@ namespace Ocular
             ID3D11DeviceContext* getD3DDeviceContext() const;
             IDXGISwapChain* getD3DSwapChain() const;
 
-            static bool convertTextureDescriptor(TextureDescriptor const& source, D3D11_TEXTURE2D_DESC& dest);
-            static bool convertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest);
+            static bool ConvertTextureDescriptor(TextureDescriptor const& source, D3D11_TEXTURE2D_DESC& dest);
+            static bool ConvertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest);
 
         protected:
+
+            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
+            void resizeSwapChain(uint32_t width, uint32_t height);
 
             bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
             bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd);
             DXGI_SWAP_CHAIN_DESC createSwapChainDescription(Core::WindowWin32 const* window) const;
 
-            static bool validateTextureDescriptor(TextureDescriptor const& descriptor);
+            static bool ValidateTextureDescriptor(TextureDescriptor const& descriptor);
+
+            void printD3DDebug();
 
         private:
 

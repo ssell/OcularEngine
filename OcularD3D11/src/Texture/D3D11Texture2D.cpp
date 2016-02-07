@@ -114,7 +114,7 @@ namespace Ocular
 
             D3D11_TEXTURE2D_DESC texDescr;
             
-            if(D3D11GraphicsDriver::convertTextureDescriptor(descriptor, texDescr))
+            if(D3D11GraphicsDriver::ConvertTextureDescriptor(descriptor, texDescr))
             {
                 D3D11_SUBRESOURCE_DATA initData;
                 initData.pSysMem          = &m_Pixels[0];

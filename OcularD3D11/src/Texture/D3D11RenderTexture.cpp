@@ -175,7 +175,7 @@ namespace Ocular
                 if(hResult == S_OK)
                 {
                     m_D3DTexture->GetDesc(&texDescr);
-                    D3D11GraphicsDriver::convertTextureDescriptor(texDescr, m_Descriptor);
+                    D3D11GraphicsDriver::ConvertTextureDescriptor(texDescr, m_Descriptor);
                     m_D3DFormat = texDescr.Format;
 
                     result = true;
@@ -185,7 +185,7 @@ namespace Ocular
                     OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
-            else if(D3D11GraphicsDriver::convertTextureDescriptor(m_Descriptor, texDescr))
+            else if(D3D11GraphicsDriver::ConvertTextureDescriptor(m_Descriptor, texDescr))
             {
                 //--------------------------------------------------------
                 // Create the backbuffer Texture2D from scratch using pixel data

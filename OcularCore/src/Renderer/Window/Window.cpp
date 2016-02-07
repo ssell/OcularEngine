@@ -104,10 +104,6 @@ namespace Ocular
 
             if(rebuild)
             {
-                // Texture resizes require complete recreation
-                m_RenderTexture->unload();
-                m_DepthTexture->unload();
-
                 m_RenderTexture->apply();
                 m_DepthTexture->apply();
             }
