@@ -20,6 +20,8 @@
 #include "Scene/RoutineRegistrar.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Events/Events/MouseScrollInputEvent.hpp"
+#include "Math/Bounds/Ray.hpp"
+
 #include "OcularEngine.hpp"
 
 OCULAR_REGISTER_ROUTINE(Ocular::Editor::EditorCameraController, "EditorCameraController")
@@ -107,24 +109,13 @@ namespace Ocular
                 if(m_Parent)
                 {
                     const Math::Vector3f objCenter = object->boundsAABB.getCenter();
+                    const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
 
-                    Math::Vector3f focusPos = objCenter;
-                    focusPos.y += std::max<float>(5.0f, object->boundsSphere.getRadius() * 1.5f);
+                    const float offset = std::max(1.0f, object->boundsSphere.getRadius() * 5.0f);
 
-                    Math::Euler lookDownEuler = Math::Euler(0.0f, -90.0f, 0.0f);
-                    Math::Quaternion quat = Math::Quaternion::CreateLookAtRotation(focusPos, objCenter, Math::Vector3f::Backward());
+                    const Math::Ray ray = Math::Ray(objCenter, forward);
 
-                    m_Parent->getTransform().setPosition(focusPos);
-                    m_Parent->getTransform().setRotation(quat);
-                    
-                    Math::Vector3f euler = Math::Vector3f(quat);
-                    
-                    m_LookEuler.x = euler.y;
-                    m_LookEuler.y = euler.x;
-                    m_LookEuler.z = euler.z;
-
-                    //m_Parent->getTransform().lookAt(object->getPosition());
-                    //m_LookEuler = Math::Vector3f(Math::Euler(m_Parent->getTransform().getRotation()));
+                    m_Parent->getTransform().setPosition(ray.getPointAlong(offset));
                 }
             }
         }
@@ -267,8 +258,8 @@ namespace Ocular
 
         void EditorCameraController::handleMouseLook()
         {
-            m_LookEuler.x += -m_DeltaVector.y * m_LookSensitivity;
-            m_LookEuler.y += -m_DeltaVector.x * m_LookSensitivity;
+            m_LookEuler.x += -m_DeltaVector.x * m_LookSensitivity;
+            m_LookEuler.y += -m_DeltaVector.y * m_LookSensitivity;
 
             m_Parent->setRotation(Math::Quaternion(m_LookEuler));
         }

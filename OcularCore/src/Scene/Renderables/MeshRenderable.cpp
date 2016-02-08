@@ -139,6 +139,9 @@ namespace Ocular
         {
             if(m_Parent && m_Mesh)
             {
+                //--------------------------------------------------------
+                // AABB Bounds
+
                 const Math::Vector3f min = m_Mesh->getMinPoint();
                 const Math::Vector3f max = m_Mesh->getMaxPoint();
 
@@ -146,6 +149,14 @@ namespace Ocular
                 const Math::Vector3f extents = max - center;
 
                 m_Parent->boundsAABB = Math::BoundsAABB(center, extents);
+
+                //--------------------------------------------------------
+                // OBB Bounds
+
+                //--------------------------------------------------------
+                // Sphere Bounds
+
+                m_Parent->boundsSphere = Math::BoundsSphere(center, extents.getLength());
             }
         }
 
