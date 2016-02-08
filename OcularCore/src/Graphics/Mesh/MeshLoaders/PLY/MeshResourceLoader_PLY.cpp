@@ -57,7 +57,14 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool MeshResourceLoader_PLY::readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices)
+        bool MeshResourceLoader_PLY::readFile(
+            Core::File const& file, 
+            std::vector<Graphics::Vertex>& vertices, 
+            std::vector<uint32_t>& indices, 
+            uint32_t& numVertices, 
+            uint32_t& numIndices, 
+            Math::Vector3f& min, 
+            Math::Vector3f& max)
         {
             bool result = false;
 
@@ -67,7 +74,7 @@ namespace Ocular
             {
                 if(parseHeader(stream))
                 {
-                    if(parseBody(stream, vertices, indices, numVertices, numIndices))
+                    if(parseBody(stream, vertices, indices, numVertices, numIndices, min, max))
                     {
                         result = true;
                     }
@@ -363,7 +370,14 @@ namespace Ocular
             return result;
         }
 
-        bool MeshResourceLoader_PLY::parseBody(std::ifstream& stream, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices)
+        bool MeshResourceLoader_PLY::parseBody(
+            std::ifstream& stream, 
+            std::vector<Graphics::Vertex>& vertices, 
+            std::vector<uint32_t>& indices, 
+            uint32_t& numVertices, 
+            uint32_t& numIndices,
+            Math::Vector3f& min,
+            Math::Vector3f& max)
         {
             bool result = true;
 
@@ -380,7 +394,7 @@ namespace Ocular
                 {                  
                     if(line[0] != 'c')   // In the body, all lines should be purely numeric values. Except potential comments. Do dirty check of comments with 'c'
                     {
-                        if(!(*iter)->parse(line, vertices, indices, numVertices, numIndices))
+                        if(!(*iter)->parse(line, vertices, indices, numVertices, numIndices, min, max))
                         {
                             result = false;
                             OcularLogger->error("Failed to parse line '", line, "'", OCULAR_INTERNAL_LOG("MeshResourceLoader_PLY", "parseBody"));

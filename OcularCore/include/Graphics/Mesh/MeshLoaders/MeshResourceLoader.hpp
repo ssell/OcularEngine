@@ -66,10 +66,12 @@ namespace Ocular
              * \param[out] indices     Width of the texture.
              * \param[out] numVertices Number of vertices in the mesh (depending on the loader implementation, this may not equal vertices.size())
              * \param[out] numIndices  Number of indices in the mesh (depending on the loader implementation, this may not equal indices.size())
+             * \param[out] min         The minimum spatial point along the local axis among all vertices 
+             * \param[out] max         The maximum spatial point along the local axis among all vertices 
              *
              * \return TRUE if file was read in successfully.
              */
-            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices) = 0;
+            virtual bool readFile(Core::File const& file, std::vector<Graphics::Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& numVertices, uint32_t& numIndices, Math::Vector3f& min, Math::Vector3f& max) = 0;
 
             /**
              * Creates the new Mesh resource from provided data.
@@ -81,10 +83,12 @@ namespace Ocular
              * \param[in]  height      Height of the texture.
              * \param[in]  numVertices Number of vertices in the mesh (depending on the loader implementation, this may not equal vertices.size())
              * \param[in]  numIndices  Number of indices in the mesh (depending on the loader implementation, this may not equal indices.size())
+             * \param[in]  min         The minimum spatial point along the local axis among all vertices 
+             * \param[in]  max         The maximum spatial point along the local axis among all vertices 
              * 
              * \return TRUE if creation was successful.
              */
-            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices, uint32_t numVertices, uint32_t numIndices);
+            virtual bool createResource(Core::Resource* &resource, Core::File const& file, std::vector<Graphics::Vertex> const& vertices, std::vector<uint32_t> const& indices, uint32_t numVertices, uint32_t numIndices, Math::Vector3f const& min, Math::Vector3f const& max);
 
         private:
         };

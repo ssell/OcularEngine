@@ -60,7 +60,7 @@ namespace Ocular
              *
              * \return TRUE if the line was parsed without any errors.
              */
-            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII = true) = 0;
+            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, Math::Vector3f& min, Math::Vector3f& max, bool isASCII = true) = 0;
 
             //------------------------------------------------------------
 

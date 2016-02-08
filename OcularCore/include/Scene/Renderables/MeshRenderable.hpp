@@ -94,6 +94,10 @@ namespace Ocular
 
         protected:
 
+            void updateBounds();
+
+            //------------------------------------------------------------
+
             Graphics::Mesh* m_Mesh;
             Graphics::Material* m_Material;
 

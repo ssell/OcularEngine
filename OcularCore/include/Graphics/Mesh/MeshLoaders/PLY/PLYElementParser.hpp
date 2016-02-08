@@ -48,7 +48,7 @@ namespace Ocular
             /**
              * \note Currently unsafe. May crash if more than expected number of token delimiters (' ') is encountered in the property line.
              */
-            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII = true) override;
+            virtual bool parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, Math::Vector3f& min, Math::Vector3f& max, bool isASCII = true) override;
 
             void addProperty(PLYPropertyType type);
 

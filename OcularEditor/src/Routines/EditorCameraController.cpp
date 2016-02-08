@@ -106,15 +106,22 @@ namespace Ocular
             {
                 if(m_Parent)
                 {
-                    Math::Vector3f focusPos = object->getPosition();
+                    const Math::Vector3f objCenter = object->boundsAABB.getCenter();
+
+                    Math::Vector3f focusPos = objCenter;
                     focusPos.y += std::max<float>(5.0f, object->boundsSphere.getRadius() * 1.5f);
 
                     Math::Euler lookDownEuler = Math::Euler(0.0f, -90.0f, 0.0f);
+                    Math::Quaternion quat = Math::Quaternion::CreateLookAtRotation(focusPos, objCenter, Math::Vector3f::Backward());
 
                     m_Parent->getTransform().setPosition(focusPos);
-                    m_Parent->getTransform().setRotation(Math::Quaternion(lookDownEuler));
+                    m_Parent->getTransform().setRotation(quat);
                     
-                    m_LookEuler = lookDownEuler;
+                    Math::Vector3f euler = Math::Vector3f(quat);
+                    
+                    m_LookEuler.x = euler.y;
+                    m_LookEuler.y = euler.x;
+                    m_LookEuler.z = euler.z;
 
                     //m_Parent->getTransform().lookAt(object->getPosition());
                     //m_LookEuler = Math::Vector3f(Math::Euler(m_Parent->getTransform().getRotation()));

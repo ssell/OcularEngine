@@ -42,8 +42,9 @@ namespace Ocular
         }
 
         Quaternion::Quaternion(Vector3<float> const& euler)
-        {
-            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.x, euler.y, euler.z)));
+        { 
+            // GLM expects vec3(pitch, yaw, roll)
+            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.y, euler.x, euler.z)));
         }
 
         Quaternion::Quaternion(Matrix3x3 const& matrix)

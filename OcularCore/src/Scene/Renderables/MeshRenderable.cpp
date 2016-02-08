@@ -90,6 +90,7 @@ namespace Ocular
 
             if(m_Mesh)
             {
+                updateBounds();
                 result = true;
             }
 
@@ -99,6 +100,7 @@ namespace Ocular
         void MeshRenderable::setMesh(Graphics::Mesh* mesh)
         {
             m_Mesh = mesh;
+            updateBounds();
         }
 
         Graphics::Mesh* MeshRenderable::getMesh() const
@@ -132,6 +134,20 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void MeshRenderable::updateBounds()
+        {
+            if(m_Parent && m_Mesh)
+            {
+                const Math::Vector3f min = m_Mesh->getMinPoint();
+                const Math::Vector3f max = m_Mesh->getMaxPoint();
+
+                const Math::Vector3f center  = Math::Vector3f::Midpoint(min, max);
+                const Math::Vector3f extents = max - center;
+
+                m_Parent->boundsAABB = Math::BoundsAABB(center, extents);
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

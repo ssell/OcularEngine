@@ -45,7 +45,15 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool PLYElementParser::parse(std::string const& line, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, uint32_t& currVert, uint32_t& currIndex, bool isASCII)
+        bool PLYElementParser::parse(
+            std::string const& line, 
+            std::vector<Vertex>& vertices, 
+            std::vector<uint32_t>& indices, 
+            uint32_t& currVert, 
+            uint32_t& currIndex, 
+            Math::Vector3f& min, 
+            Math::Vector3f& max, 
+            bool isASCII)
         {
             /**
              * Each line represents a single element defined by a variable number of properties.
@@ -85,6 +93,14 @@ namespace Ocular
                     OcularLogger->error("Failed to convert string '", &line[currPos], "' to float with error:", e.what(), OCULAR_INTERNAL_LOG("PLYElementParser", "parse"));
                 }
             }
+            
+            min.x = std::min(min.x, vertices[currVert].position.x);
+            min.y = std::min(min.y, vertices[currVert].position.y);
+            min.z = std::min(min.z, vertices[currVert].position.z);
+            
+            max.x = std::max(min.x, vertices[currVert].position.x);
+            max.y = std::max(max.y, vertices[currVert].position.y);
+            max.z = std::max(max.z, vertices[currVert].position.z);
 
             currVert++;
 

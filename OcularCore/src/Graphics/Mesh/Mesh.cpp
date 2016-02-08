@@ -115,6 +115,53 @@ namespace Ocular
             return m_IndexBuffer;
         }
 
+        void Mesh::calculateMinMaxPoints()
+        {
+            m_MinPoint = Math::Vector3f();
+            m_MaxPoint = Math::Vector3f();
+
+            if(m_VertexBuffer)
+            {
+                auto vb = &m_VertexBuffer->getVertices();
+
+                if(vb)
+                {
+                    if(vb->size())
+                    {
+                        m_MinPoint = vb->at(0).position;
+                        m_MaxPoint = m_MinPoint;
+
+                        for(auto iter = vb->begin(); iter != vb->end(); ++iter)
+                        {
+                            m_MinPoint.x = std::min(m_MinPoint.x, (*iter).position.x);
+                            m_MinPoint.y = std::min(m_MinPoint.y, (*iter).position.y);
+                            m_MinPoint.z = std::min(m_MinPoint.z, (*iter).position.z);
+                            
+                            m_MaxPoint.x = std::max(m_MaxPoint.x, (*iter).position.x);
+                            m_MaxPoint.y = std::max(m_MaxPoint.y, (*iter).position.y);
+                            m_MaxPoint.z = std::max(m_MaxPoint.z, (*iter).position.z);
+                        }
+                    }
+                }
+            }
+        }
+
+        void Mesh::setMinMaxPoints(Math::Vector3f const& min, Math::Vector3f const& max)
+        {
+            m_MinPoint = min;
+            m_MaxPoint = max;
+        }
+
+        Math::Vector3f const& Mesh::getMinPoint() const
+        {
+            return m_MinPoint;
+        }
+
+        Math::Vector3f const& Mesh::getMaxPoint() const
+        {
+            return m_MaxPoint;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

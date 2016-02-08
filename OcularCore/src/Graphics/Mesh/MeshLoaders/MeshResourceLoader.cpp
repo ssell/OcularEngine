@@ -59,9 +59,12 @@ namespace Ocular
                 uint32_t numVertices = 0;
                 uint32_t numIndices = 0;
 
-                if(readFile(file, vertices, indices, numVertices, numIndices))
+                Math::Vector3f min;
+                Math::Vector3f max;
+
+                if(readFile(file, vertices, indices, numVertices, numIndices, min, max))
                 {
-                    if(createResource(resource, file, vertices, indices, numVertices, numIndices))
+                    if(createResource(resource, file, vertices, indices, numVertices, numIndices, min, max))
                     {
                         result = true;
                     }
@@ -89,7 +92,9 @@ namespace Ocular
             std::vector<Graphics::Vertex> const& vertices, 
             std::vector<uint32_t> const& indices, 
             uint32_t const numVertices, 
-            uint32_t const numIndices)
+            uint32_t const numIndices,
+            Math::Vector3f const& min,
+            Math::Vector3f const& max)
         {
             // We are either creating a brand new resource, or loading into memory a pre-existing one.
             // If mesh is NULL, then create a new one. Otherwise, make sure it is unloaded.
@@ -137,6 +142,7 @@ namespace Ocular
                             {
                                 mesh->setVertexBuffer(vertexBuffer);
                                 mesh->setIndexBuffer(indexBuffer);
+                                mesh->setMinMaxPoints(min, max);
 
                                 result = true;
                             }
