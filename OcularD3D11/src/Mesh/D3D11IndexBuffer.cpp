@@ -78,7 +78,7 @@ namespace Ocular
 
                 if(hResult != S_OK)
                 {
-                    OcularLogger->error("Failed to create D3D11 Index Buffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "build"));
+                    OcularLogger->error("Failed to create D3D11 Index Buffer with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "build"));
                     result = false;
                 }
             }

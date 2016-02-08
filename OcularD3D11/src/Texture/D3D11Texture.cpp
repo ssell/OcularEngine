@@ -85,7 +85,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to create D3D11Texture2D with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DTexture2D"));
                 }
             }
             else
@@ -120,7 +120,7 @@ namespace Ocular
                         D3D11_TEXTURE2D_DESC descr;
                         m_D3DTexture->GetDesc(&descr);
 
-                        OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
+                        OcularLogger->error("Failed to create D3D11ShaderResourceView with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
                         result = false;
                     }
                 }

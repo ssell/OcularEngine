@@ -25,6 +25,7 @@
 #include "Input/InputHandler.hpp"
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/HashGenerator.hpp"
+#include "Utilities/StringUtils.hpp"
 #include "Resources/ResourceManager.hpp"
 #include "Performance/Profiler.hpp"
 #include "Scene/SceneManager.hpp"

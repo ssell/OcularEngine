@@ -22,6 +22,8 @@
 
 #include <string>
 #include <cstdint>
+#include <sstream>
+#include <iomanip>
 
 //------------------------------------------------------------------------------------------
 
@@ -169,6 +171,19 @@ namespace Ocular
              * \return TRUE if successfully converted the string.
              */
             bool stringToMatrix(std::string const& string, Math::Matrix4x4& value);
+
+            /**
+             * Converts an integer type to a hex string. <br/>
+             * Source: http://stackoverflow.com/a/5100745/735425
+             */
+            template<typename T>
+            std::string toHex(T const x)
+            {
+                std::stringstream sstream;
+                sstream << "0x" << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << x;
+
+                return sstream.str();
+            }
 
         }
         /**

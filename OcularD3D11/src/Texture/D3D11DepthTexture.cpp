@@ -159,7 +159,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to create D3D11Texture2D with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DTexture2D"));
                 }
             }
             else
@@ -183,7 +183,7 @@ namespace Ocular
 
             if(hResult != S_OK)
             {
-                OcularLogger->error("Failed to create D3D11DepthStencilView with error ", hResult, OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DDepthStencil"));
+                OcularLogger->error("Failed to create D3D11DepthStencilView with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11DepthTexture", "createD3DDepthStencil"));
                 result = false;
             }
 

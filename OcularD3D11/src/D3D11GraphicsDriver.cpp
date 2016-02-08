@@ -221,7 +221,17 @@ namespace Ocular
 
                 if(hResult != S_OK)
                 {
-                    OcularLogger->error("Failed to swap buffers with error ", hResult, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "swapBuffers"));
+                    if(hResult != DXGI_STATUS_OCCLUDED)
+                    {
+                        OcularLogger->error("Failed to swap buffers with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "swapBuffers"));
+                    }
+                    //else
+                    //{
+                        // Window content is not visible (window dimensions <= 0).
+                        // Currently, do nothing. But in future this may be used as a signal
+                        // to stop rendering until a DXGI_PRESENT_TEST reveals that the 
+                        // window content is once again visible.
+                    //}
                 }
             }
         }
@@ -791,7 +801,6 @@ namespace Ocular
                 break;
 
             default:
-                OcularLogger->warning("Unsupported D3D11 Texture2D format ", source.Format, "; Defaulting to R32G32B32A32Float", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
                 dest.format = TextureFormat::R32G32B32A32Float;
                 result = false;
                 break;
@@ -850,13 +859,11 @@ namespace Ocular
                 DXGI_SWAP_CHAIN_DESC descr;
                 m_D3DSwapChain->GetDesc(&descr);
 
-                printD3DDebug();
-
                 hResult = m_D3DSwapChain->ResizeBuffers(descr.BufferCount, width, height, DXGI_FORMAT_UNKNOWN, descr.Flags);
 
                 if(FAILED(hResult))
                 {
-                    OcularLogger->error("Failed to resize D3D11 SwapChain with error: ", hResult, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "resizeSwapChain"));
+                    OcularLogger->error("Failed to resize D3D11 SwapChain with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "resizeSwapChain"));
                 }
             }
         }
@@ -958,7 +965,7 @@ namespace Ocular
 
             if(hResult != S_OK)
             {
-                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error ", hResult, OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
+                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
                 result = false;
             }
 

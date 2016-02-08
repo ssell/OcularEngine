@@ -153,7 +153,7 @@ namespace Ocular
 
                     if(hResult != S_OK)
                     {
-                        OcularLogger->error("Failed to create D3D11 Input Layout with error ", hResult, OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
+                        OcularLogger->error("Failed to create D3D11 Input Layout with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11VertexShader", "createInputLayout"));
                     }
                     else
                     {

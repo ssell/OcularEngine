@@ -316,7 +316,7 @@ namespace Ocular
 
             if(hResult != S_OK)
             {
-                OcularLogger->error("Failed to create D3DBuffer with error ", hResult, OCULAR_INTERNAL_LOG("D3D11UniformBuffer", "buildD3DBuffer"));
+                OcularLogger->error("Failed to create D3DBuffer with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11UniformBuffer", "buildD3DBuffer"));
             }
         }
 
