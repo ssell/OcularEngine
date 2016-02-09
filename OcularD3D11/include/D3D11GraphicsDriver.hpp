@@ -59,8 +59,6 @@ namespace Ocular
 
             virtual void clearBuffers() override;
             virtual void swapBuffers() override;
-            
-            virtual bool renderMesh(Mesh* mesh) override;
 
             virtual void setRenderTexture(RenderTexture* texture) override;
             virtual void setDepthTexture(DepthTexture* texture) override;
@@ -83,6 +81,9 @@ namespace Ocular
 
             virtual IndexBuffer* createIndexBuffer() const override;
             virtual VertexBuffer* createVertexBuffer() const override;
+            
+            virtual bool renderMesh(Mesh* mesh) override;
+            virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type) override;
 
             //------------------------------------------------------------
             // D3D Specific Methods

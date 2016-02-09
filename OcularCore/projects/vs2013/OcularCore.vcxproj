@@ -223,6 +223,7 @@
     <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp" />
     <ClCompile Include="..\..\src\Graphics\Viewport.cpp" />
     <ClCompile Include="..\..\src\Input\InputHandler.cpp" />
+    <ClCompile Include="..\..\src\Math\Bounds\Bounds.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsSphere.cpp" />
@@ -360,6 +361,7 @@
     <ClInclude Include="..\..\include\Graphics\Viewport.hpp" />
     <ClInclude Include="..\..\include\Input\InputHandler.hpp" />
     <ClInclude Include="..\..\include\Input\Keys.hpp" />
+    <ClInclude Include="..\..\include\Math\Bounds\Bounds.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsOBB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp" />

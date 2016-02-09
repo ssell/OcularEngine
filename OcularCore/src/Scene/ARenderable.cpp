@@ -70,9 +70,14 @@ namespace Ocular
 
         }
 
-        SceneObject* ARenderable::getParent()
+        SceneObject* ARenderable::getParent() const
         {
             return m_Parent;
+        }
+
+        std::string const& ARenderable::getName() const
+        {
+            return m_Name;
         }
 
         //----------------------------------------------------------------------------------

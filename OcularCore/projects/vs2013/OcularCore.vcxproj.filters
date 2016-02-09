@@ -609,6 +609,9 @@
     <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Math\Bounds\Bounds.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1114,6 +1117,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp">
       <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Bounds\Bounds.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

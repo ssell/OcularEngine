@@ -378,12 +378,12 @@ namespace Ocular
                 // Adapted from http://en.wikipedia.org/wiki/Slerp
 
                 fraction = Clamp<double>(fraction, 0.0, 1.0);
-                double omega = angleBetween(from, to);
+                double omega = from.angleBetween(to);
 
                 double lhs = std::sin((1.0 - fraction) * omega) / std::sin(omega);
                 double rhs = std::sin(fraction * omega) / std::sin(omega);
 
-                return (lhs * from) + (rhs * to);
+                return (from * lhs) + (to * rhs);
             }
 
             /**

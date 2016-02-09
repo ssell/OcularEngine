@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_BOUNDS_SPHERE__H__
 #define __H__OCULAR_MATH_BOUNDS_SPHERE__H__
 
+#include "Math/Bounds/Bounds.hpp"
 #include "Math/Vector3.hpp"
 #include <list>
 
@@ -43,7 +44,7 @@ namespace Ocular
         /**
          * \class BoundsSphere
          */
-        class BoundsSphere
+        class BoundsSphere : public Bounds
         {
         public:
 

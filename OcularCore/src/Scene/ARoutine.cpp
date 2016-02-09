@@ -119,7 +119,7 @@ namespace Ocular
             return m_Parent;
         }
 
-        std::string ARoutine::getName() const
+        std::string const& ARoutine::getName() const
         {
             return m_Name;
         }

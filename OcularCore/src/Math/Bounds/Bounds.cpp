@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-#include "Math/Bounds/BoundsOBB.hpp"
-#include "Math/Bounds/BoundsSphere.hpp"
 #include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
 #include "Math/Bounds/Ray.hpp"
+#include "Math/Geometry/Plane.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,79 +30,30 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BoundsOBB::BoundsOBB(Vector3f const& center, Vector3f const& extents, Vector3f const& xDir, Vector3f const& yDir, Vector3f const& zDir)
-            : Bounds(BoundsType::AABB)
+        Bounds::Bounds(BoundsType const type)
+            : m_Type(type),
+              m_Visible(false)
         {
 
-        }
-
-        BoundsOBB::BoundsOBB()
-            : Bounds(BoundsType::AABB)
-        {
-        
-        }
-
-        BoundsOBB::~BoundsOBB()
-        {
-        
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        Vector3f const& BoundsOBB::getCenter() const
+        BoundsType Bounds::getType() const
         {
-            return m_Center;
+            return m_Type;
         }
 
-        Vector3f const& BoundsOBB::getExtents() const
+        bool Bounds::isVisible() const
         {
-            return m_Extents;
+            return m_Visible;
         }
 
-        Vector3f const& BoundsOBB::getDirectionX() const
+        void Bounds::setVisible(bool visible)
         {
-            return m_DirectionX;
-        }
-
-        Vector3f const& BoundsOBB::getDirectionY() const
-        {
-            return m_DirectionY;
-        }
-
-        Vector3f const& BoundsOBB::getDirectionZ() const
-        {
-            return m_DirectionZ;
-        }
-
-        //----------------------------------------------------------------------------------
-        // Intersection and Containment Testing
-        //----------------------------------------------------------------------------------
-
-        bool BoundsOBB::intersects(Ray const& ray) const
-        {
-            return false;
-        }
-
-        bool BoundsOBB::intersects(BoundsSphere const& bounds) const
-        {
-            return false;
-        }
-
-        bool BoundsOBB::intersects(BoundsAABB const& bounds) const
-        {
-            return false;
-        }
-
-        bool BoundsOBB::intersects(BoundsOBB const& bounds) const
-        {
-            return false;
-        }
-
-        bool BoundsOBB::intersects(Plane const& plane, IntersectionType* result) const
-        {
-            return false;
+            m_Visible = visible;
         }
 
         //----------------------------------------------------------------------------------

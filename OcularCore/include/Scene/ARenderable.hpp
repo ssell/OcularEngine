@@ -50,19 +50,51 @@ namespace Ocular
 
             virtual bool initialize();
 
-            virtual bool preRender();     ///< If returns FALSE, will cancel mesh rendering
+            /**
+             * Called prior to the render method. 
+             *
+             * Should handle any setup required for rendering to be successful,
+             * such as Material binding, etc.
+             *
+             * \return If return FALSE, rendering will be cancelled.
+             */
+            virtual bool preRender();
+
+            /**
+             * Performs any necessary rendering calls such as GraphicsDriver::renderMesh.
+             */
             virtual void render();
+
+            /**
+             * Performs any post-render cleanup or state resetting.
+             *
+             * For example, if a particular Renderable should be drawn as lines then
+             * the RenderState should be returned to triangle list or whatever else
+             * the default for that application may be.
+             *
+             * Note that manual state changes should be kept to a minimal, and where
+             * possible, they should be specified via Materials so that any active
+             * renderers may best optimize and reduce the number of state changes.
+             */
             virtual void postRender();
 
             //------------------------------------------------------------
             // Getters and Setters
+            //------------------------------------------------------------
 
-            SceneObject* getParent();
+            /**
+             * Returns the SceneObject that this Renderable belongs to.
+             */
+            SceneObject* getParent() const;
+
+            /**
+             * Returns the non-unique name assigned to this Renderable.
+             */
+            std::string const& getName() const;
 
         protected:
 
             std::string m_Name;
-
             SceneObject* m_Parent;
 
         private:

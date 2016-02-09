@@ -61,11 +61,6 @@ namespace Ocular
             // Nothing to do without an active graphics API
         }
 
-        bool GraphicsDriver::renderMesh(Mesh* mesh)
-        {
-            return false;
-        }
-
         RenderState* GraphicsDriver::getRenderState()
         {
             return m_RenderState;
@@ -187,6 +182,20 @@ namespace Ocular
         VertexBuffer* GraphicsDriver::createVertexBuffer() const
         {
             return new VertexBuffer;
+        }
+
+        //----------------------------------------------------------------------------------
+        // Temp Methods (to be moved to dedicated Renderer class in future)
+        //----------------------------------------------------------------------------------
+        
+        bool GraphicsDriver::renderMesh(Mesh* mesh)
+        {
+            return false;
+        }
+        
+        bool GraphicsDriver::renderBounds(Core::SceneObject* object, Math::BoundsType const type)
+        {
+            return false;
         }
 
         //----------------------------------------------------------------------------------

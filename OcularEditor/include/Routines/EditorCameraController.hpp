@@ -69,6 +69,7 @@ namespace Ocular
 
         protected:
 
+            void updateFocusMove(float const delta);
             void updateCameraMode();
 
             void handleMouseMovement();
@@ -87,6 +88,15 @@ namespace Ocular
             Math::Vector2i m_LastMousePos;
             Math::Vector3f m_DeltaVector;
             Math::Vector3f m_LookEuler;
+
+            //------------------------------------------------------------
+            // Focus Update Variables
+
+            bool m_IsMovingFocus;              ///< If true, we are in the process of moving the camera for a focus event
+            float m_FocusElapsed;              ///< The amount of time left to finish moving the camera for a focus event
+
+            Math::Vector3f m_FocusStartPos;    ///< The position that the focus move started at
+            Math::Vector3f m_FocusEndPos;      ///< The position that the focus move will end at
         };
     }
     /**

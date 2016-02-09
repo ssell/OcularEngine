@@ -35,6 +35,8 @@ namespace
         Look,
         Pan
     };
+
+    const float FocusProcessTime = 0.25f;       // Amount of time, in seconds, to process a camera focus move event
 }
 
 //------------------------------------------------------------------------------------------
@@ -52,7 +54,9 @@ namespace Ocular
               m_Mode(CameraMode::Default),
               m_LookSensitivity(0.001f),
               m_PanSensitivity(0.001f),
-              m_ZoomSensitivity(0.001f)           // Scroll events typically generate deltas of 120, so default to treat as 0.12
+              m_ZoomSensitivity(0.001f),          // Scroll events typically generate deltas of 120, so default to treat as 0.12
+              m_IsMovingFocus(false),
+              m_FocusElapsed(0.0f)
         {
             OcularEvents->registerListener(this, Core::Priority::Medium);
         }
@@ -76,6 +80,7 @@ namespace Ocular
 
             if(m_Parent)
             {
+                updateFocusMove(delta);
                 updateCameraMode();
                 handleMouseMovement();
             }
@@ -112,10 +117,12 @@ namespace Ocular
                     const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
 
                     const float offset = std::max(1.0f, object->boundsSphere.getRadius() * 5.0f);
-
                     const Math::Ray ray = Math::Ray(objCenter, forward);
 
-                    m_Parent->getTransform().setPosition(ray.getPointAlong(offset));
+                    m_FocusStartPos = m_Parent->getTransform().getPosition();
+                    m_FocusEndPos   = ray.getPointAlong(offset);
+                    m_IsMovingFocus = true;
+                    m_FocusElapsed  = FocusProcessTime;
                 }
             }
         }
@@ -153,6 +160,30 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void EditorCameraController::updateFocusMove(float const delta)
+        {
+            if(m_IsMovingFocus)
+            {
+                if(m_FocusElapsed > 0.0f)
+                {
+                    m_FocusElapsed -= delta;
+
+                    if(m_Parent)
+                    {
+                        const float fractional = (FocusProcessTime - m_FocusElapsed) / FocusProcessTime;
+                        const Math::Vector3f currPos = Math::Vector3f::Lerp(m_FocusStartPos, m_FocusEndPos, fractional);
+
+                        m_Parent->getTransform().setPosition(currPos);
+                    }
+                }
+                else
+                {
+                    m_FocusElapsed = 0.0f;
+                    m_IsMovingFocus = false;
+                }
+            }
+        }
 
         void EditorCameraController::updateCameraMode()
         {
@@ -228,6 +259,8 @@ namespace Ocular
                 if((m_DeltaVector.x > -DeltaMax) && (m_DeltaVector.x < DeltaMax) &&
                    (m_DeltaVector.y > -DeltaMax) && (m_DeltaVector.y < DeltaMax))
                 {
+                    m_IsMovingFocus = false;
+
                     switch(m_Mode)
                     {
                     case CameraMode::Drag:

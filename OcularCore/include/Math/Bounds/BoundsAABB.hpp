@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_BOUNDS_AABB__H__
 #define __H__OCULAR_MATH_BOUNDS_AABB__H__
 
+#include "Math/Bounds/Bounds.hpp"
 #include "Math/Vector3.hpp"
 #include <list>
 
@@ -54,7 +55,7 @@ namespace Ocular
          *
          * To perform an intersection test see the Ocular::Math::Intersects functions.
          */
-        class BoundsAABB
+        class BoundsAABB : public Bounds
         {
         public:
 

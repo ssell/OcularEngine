@@ -568,7 +568,7 @@ namespace Ocular
             ARenderable* getRenderable() const;
 
             //------------------------------------------------------------
-            // Public Members
+            // Bounds Related
             //------------------------------------------------------------
 
 			Math::BoundsSphere boundsSphere;

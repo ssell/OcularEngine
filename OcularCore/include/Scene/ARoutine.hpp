@@ -160,9 +160,9 @@ namespace Ocular
             SceneObject* getParent() const;
 
             /**
-             *
+             * Returns the non-unique name assigned to this Routine.
              */
-            std::string getName() const;
+            std::string const& getName() const;
 
         protected:
 

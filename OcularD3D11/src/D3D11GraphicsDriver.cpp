@@ -236,53 +236,6 @@ namespace Ocular
             }
         }
 
-        bool D3D11GraphicsDriver::renderMesh(Mesh* mesh)
-        {
-            bool result = false;
-
-            if(mesh)
-            {
-                if(mesh->bind())
-                {
-                    ID3D11VertexShader* currVS = nullptr;
-                    ID3D11PixelShader* currPS = nullptr;
-                    ID3D11Buffer* currVB = nullptr;
-                    ID3D11Buffer* currIB = nullptr;
-
-                    m_D3DDeviceContext->VSGetShader(&currVS, nullptr, nullptr);
-                    m_D3DDeviceContext->PSGetShader(&currPS, nullptr, nullptr);
-                    m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currVB, nullptr, nullptr);
-                    m_D3DDeviceContext->IAGetIndexBuffer(&currIB, nullptr, nullptr);
-
-                    m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
-
-                    if(currVS)
-                    {
-                        currVS->Release();
-                    }
-
-                    if(currPS)
-                    {
-                        currPS->Release();
-                    }
-
-                    if(currVB)
-                    {
-                        currVB->Release();
-                    }
-
-                    if(currIB)
-                    {
-                        currIB->Release();
-                    }
-
-                    result = true;
-                }
-            }
-
-            return result;
-        }
-
         void D3D11GraphicsDriver::setRenderTexture(RenderTexture* texture)
         {
             GraphicsDriver::setRenderTexture(texture);
@@ -463,6 +416,62 @@ namespace Ocular
         VertexBuffer* D3D11GraphicsDriver::createVertexBuffer() const
         {
             return new D3D11VertexBuffer(m_D3DDevice, m_D3DDeviceContext);
+        }
+
+        //----------------------------------------------------------------------------------
+        // Temp Methods
+        //----------------------------------------------------------------------------------
+
+        bool D3D11GraphicsDriver::renderMesh(Mesh* mesh)
+        {
+            bool result = false;
+
+            if(mesh)
+            {
+                if(mesh->bind())
+                {
+                    ID3D11VertexShader* currVS = nullptr;
+                    ID3D11PixelShader* currPS = nullptr;
+                    ID3D11Buffer* currVB = nullptr;
+                    ID3D11Buffer* currIB = nullptr;
+
+                    m_D3DDeviceContext->VSGetShader(&currVS, nullptr, nullptr);
+                    m_D3DDeviceContext->PSGetShader(&currPS, nullptr, nullptr);
+                    m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currVB, nullptr, nullptr);
+                    m_D3DDeviceContext->IAGetIndexBuffer(&currIB, nullptr, nullptr);
+
+                    m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
+
+                    if(currVS)
+                    {
+                        currVS->Release();
+                    }
+
+                    if(currPS)
+                    {
+                        currPS->Release();
+                    }
+
+                    if(currVB)
+                    {
+                        currVB->Release();
+                    }
+
+                    if(currIB)
+                    {
+                        currIB->Release();
+                    }
+
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+        
+        bool D3D11GraphicsDriver::renderBounds(Core::SceneObject* object, Math::BoundsType const type)
+        {
+            return false;
         }
 
         //----------------------------------------------------------------------------------

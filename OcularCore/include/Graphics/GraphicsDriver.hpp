@@ -33,6 +33,8 @@
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Viewport.hpp"
 
+#include "Scene/SceneObject.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -72,14 +74,6 @@ namespace Ocular
              * Swaps the back and front buffers.
              */
             virtual void swapBuffers();
-
-            /**
-             * Renders the specified mesh and it's vertex and index buffers.
-             *
-             * \param[in] mesh Mesh to render.
-             * \return TRUE if rendered successfully. 
-             */
-            virtual bool renderMesh(Mesh* mesh);
 
             /**
              * Returns the current RenderState for the GraphicsDriver.
@@ -247,6 +241,26 @@ namespace Ocular
              *         NULL if buffer creation failed.
              */
             virtual VertexBuffer* createVertexBuffer() const;
+
+            //------------------------------------------------------------------------------
+            // Temp Methods (to be moved to dedicated Renderer class in future)
+            //------------------------------------------------------------------------------
+
+            /**
+             * Renders the specified mesh and it's vertex and index buffers.
+             *
+             * \param[in] mesh Mesh to render.
+             * \return TRUE if rendered successfully. 
+             */
+            virtual bool renderMesh(Mesh* mesh);
+
+            /**
+             * Renders the bounds of the specified SceneObject
+             *
+             * \param[in] object
+             * \param[in] type
+             */
+            virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type);
 
         protected:
 

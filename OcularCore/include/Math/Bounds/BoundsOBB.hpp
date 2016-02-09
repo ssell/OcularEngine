@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_MATH_BOUNDS_OBB__H__
 #define __H__OCULAR_MATH_BOUNDS_OBB__H__
 
+#include "Math/Bounds/Bounds.hpp"
 #include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -52,7 +53,7 @@ namespace Ocular
          * Additionally, in most cases an OBB will also provide a tighter
          * fit than an AABB.
          */
-        class BoundsOBB
+        class BoundsOBB : public Bounds
         {
         public:
 

@@ -31,17 +31,20 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         BoundsSphere::BoundsSphere(std::list<Point3f> const& points)
+            : Bounds(BoundsType::AABB)
         {
             construct(points);
         }
 
         BoundsSphere::BoundsSphere(Vector3f const& center, float const radius)
+            : Bounds(BoundsType::AABB)
         {
             m_Center = center;
             m_Radius = radius;
         }
 
         BoundsSphere::BoundsSphere()
+            : Bounds(BoundsType::AABB)
         {
             m_Radius = 0.0f;
         }

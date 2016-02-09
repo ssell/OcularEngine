@@ -415,6 +415,8 @@ namespace Ocular
 
                 if(renderable)
                 {
+                    OcularGraphics->renderBounds(object, Math::BoundsType::AABB);
+
                     if(renderable->preRender())
                     {
                         renderable->render();

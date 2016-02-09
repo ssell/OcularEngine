@@ -31,11 +31,13 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         BoundsAABB::BoundsAABB(std::list<Point3f> const& points)
+            : Bounds(BoundsType::AABB)
         {
             construct(points);
         }
 
         BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
+            : Bounds(BoundsType::AABB)
         {
             m_Center  = center;
             m_Extents = Vector3f(fmaxf(extents.x, 0.0f), fmaxf(extents.y, 0.0f), fmaxf(extents.z, 0.0f));
@@ -44,6 +46,7 @@ namespace Ocular
         }
 
         BoundsAABB::BoundsAABB()
+            : Bounds(BoundsType::AABB)
         {
         
         }
