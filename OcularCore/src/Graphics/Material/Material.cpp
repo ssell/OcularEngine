@@ -38,11 +38,19 @@ namespace Ocular
               m_GeometryShader(nullptr),
               m_FragmentShader(nullptr),
               m_PreTessellationShader(nullptr),
-              m_PostTessellationShader(nullptr)
+              m_PostTessellationShader(nullptr),
+              m_PrimitiveStyle(PrimitiveStyle::TriangleList)
         {
             m_Type = Core::ResourceType::Material;
             m_UniformBuffer = OcularGraphics->createUniformBuffer(UniformBufferType::PerMaterial);
             m_Textures.reserve(OcularGraphics->getMaxBoundTextures());
+
+            RenderState* renderState = OcularGraphics->getRenderState();
+
+            if(renderState)
+            {
+                m_StoredRasterState = renderState->getRasterState();
+            }
         }
 
         Material::~Material()
@@ -62,6 +70,7 @@ namespace Ocular
 
         void Material::bind()
         {
+            bindStateChanges();
             bindShaders();
             //bindTextures
 
@@ -70,6 +79,7 @@ namespace Ocular
 
         void Material::unbind()
         {
+            unbindStateChanges();
             unbindShaders();
         }
 
@@ -78,9 +88,9 @@ namespace Ocular
             // Intentionally left empty
         }
 
-        //--------------------------------------------
+        //----------------------------------------------------------------------------------
         // Texture Methods
-        //--------------------------------------------
+        //----------------------------------------------------------------------------------
 
         bool Material::setTexture(uint32_t const index, std::string const& name, Texture* texture)
         {
@@ -161,9 +171,9 @@ namespace Ocular
             }
         }
 
-        //--------------------------------------------
+        //----------------------------------------------------------------------------------
         // Shader Methods
-        //--------------------------------------------
+        //----------------------------------------------------------------------------------
 
         bool Material::setVertexShader(std::string const& name)
         {
@@ -350,9 +360,9 @@ namespace Ocular
             return m_PostTessellationShader;
         }
 
-        //------------------------------------------------------------
+        //----------------------------------------------------------------------------------
         // Uniform Methods
-        //------------------------------------------------------------
+        //----------------------------------------------------------------------------------
 
         void Material::setUniform(std::string const& name, uint32_t registerIndex, float const value)
         {
@@ -515,6 +525,20 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------------------------
+        // Render State Changes
+        //----------------------------------------------------------------------------------
+
+        void Material::setPrimitiveStyle(PrimitiveStyle const style)
+        {
+            m_PrimitiveStyle = style;
+        }
+
+        PrimitiveStyle Material::getPrimitiveStyle() const
+        {
+            return m_PrimitiveStyle;
+        }
+
+        //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
@@ -571,6 +595,39 @@ namespace Ocular
             if(m_PostTessellationShader)
             {
                 m_PostTessellationShader->unbind();
+            }
+        }
+
+        void Material::bindStateChanges()
+        {
+            RenderState* renderState = OcularGraphics->getRenderState();
+
+            if(renderState)
+            {
+                RasterState currState = renderState->getRasterState();
+
+                if(currState.primitiveStyle != m_PrimitiveStyle)
+                {
+                    m_StoredRasterState = currState;
+                    currState.primitiveStyle = m_PrimitiveStyle;
+
+                    renderState->setRasterState(currState);
+                    renderState->bind();
+                }
+            }
+        }
+
+        void Material::unbindStateChanges()
+        {
+            RenderState* renderState = OcularGraphics->getRenderState();
+
+            if(renderState)
+            {
+                if(m_StoredRasterState.primitiveStyle != m_PrimitiveStyle)
+                {
+                    renderState->setRasterState(m_StoredRasterState);
+                    renderState->bind();
+                }
             }
         }
 

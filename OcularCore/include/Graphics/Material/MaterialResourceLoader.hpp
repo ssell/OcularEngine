@@ -103,6 +103,9 @@ namespace Ocular
          *                 </Value>
          *             </Uniform>
          *         </Uniforms>
+         *         <RenderState>
+         *             <PrimitiveStyle>0</PrimitiveStyle>
+         *         </RenderState>
          *     </OcularMaterial>
          *
          * The above XML can be broken into three major sections: ShaderProgram, Textures, and Uniforms.
@@ -188,6 +191,15 @@ namespace Ocular
          *                </Value>
          * 
          * All numbers are converted to 32-bit floats.
+         *
+         * ## Render State ##
+         *
+         * Select parts of the Render State may be changed via Materials.
+         * Currently, the following fields may be specified:
+         *
+         *     PrimitiveStyle: unsigned integer corresponding to the PrimitiveStyle enum definitions
+         *
+         * 
          */
         class MaterialResourceLoader : public Core::AResourceLoader
         {

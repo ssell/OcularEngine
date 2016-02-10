@@ -20,7 +20,10 @@
 
 #include "Math/Bounds/Bounds.hpp"
 #include "Math/Vector3.hpp"
+#include "Graphics/Mesh/Vertex.hpp"
+
 #include <list>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -66,6 +69,11 @@ namespace Ocular
             BoundsAABB(std::list<Point3f> const& points);
 
             /**
+             * 
+             */
+            BoundsAABB(std::vector<Graphics::Vertex> const& vertices);
+
+            /**
              * Creates a new AABB with the specified parameters.
              *
              * \param[in] center Center position of the AABB
@@ -83,6 +91,11 @@ namespace Ocular
              * \param[in] points
              */
             void construct(std::list<Point3f> const& points);
+
+            /**
+             *
+             */
+            void construct(std::vector<Graphics::Vertex> const& vertices);
 
             /**
              * Sets the center point of the bounding box.

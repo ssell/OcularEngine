@@ -36,6 +36,12 @@ namespace Ocular
             construct(points);
         }
 
+        BoundsAABB::BoundsAABB(std::vector<Graphics::Vertex> const& vertices)
+            : Bounds(BoundsType::AABB)
+        {
+            construct(vertices);
+        }
+
         BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
             : Bounds(BoundsType::AABB)
         {
@@ -79,6 +85,33 @@ namespace Ocular
                 maxX = fmaxf(maxX, point.x);
                 maxY = fmaxf(maxY, point.y);
                 maxZ = fmaxf(maxZ, point.z);
+            }
+
+            m_MinPoint = Vector3f(minX, minY, minZ);
+            m_MaxPoint = Vector3f(maxX, maxY, maxZ);
+            m_Center   = Vector3f::Midpoint(m_MinPoint, m_MaxPoint);
+            m_Extents  = m_MaxPoint - m_Center;
+        }
+
+        void BoundsAABB::construct(std::vector<Graphics::Vertex> const& vertices)
+        {
+            float minX = FLT_MAX;
+            float minY = FLT_MAX;
+            float minZ = FLT_MAX;
+
+            float maxX = FLT_MIN;
+            float maxY = FLT_MIN;
+            float maxZ = FLT_MIN;
+
+            for(auto vertex : vertices)
+            {
+                minX = fminf(minX, vertex.position.x);
+                minY = fminf(minY, vertex.position.y);
+                minZ = fminf(minZ, vertex.position.z);
+
+                maxX = fmaxf(maxX, vertex.position.x);
+                maxY = fmaxf(maxY, vertex.position.y);
+                maxZ = fmaxf(maxZ, vertex.position.z);
             }
 
             m_MinPoint = Vector3f(minX, minY, minZ);

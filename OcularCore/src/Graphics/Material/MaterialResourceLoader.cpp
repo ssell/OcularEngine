@@ -36,6 +36,7 @@ namespace Ocular
         bool parseShaderProgram(Material* material, pugi::xml_node& root, Core::File const& source);
         void parseTextureList(Material* material, pugi::xml_node& root, Core::File const& source);
         void parseUniformList(Material* material, pugi::xml_node& root, Core::File const& source);
+        void parseRenderState(Material* material, pugi::xml_node& root, Core::File const& source);
 
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
@@ -78,6 +79,7 @@ namespace Ocular
                         {
                             parseTextureList(material, rootNode, file);
                             parseUniformList(material, rootNode, file);
+                            parseRenderState(material, rootNode, file);
 
                             resource = material;
                             result = true;
@@ -552,6 +554,51 @@ namespace Ocular
                     if(!result)
                     {
                         OcularLogger->warning("Failed to parse Uniform in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
+                    }
+                }
+            }
+        }
+
+        void parseRenderState(Material* material, pugi::xml_node& rootNode, Core::File const& source)
+        {
+            /**
+             * <RenderState>
+             *     <PrimitiveStyle>0</PrimitiveStyle>
+             * </RenderState>
+             */
+
+            pugi::xml_node renderStateNode = rootNode.child("RenderState");
+
+            if(renderStateNode)
+            {
+                bool result = true;
+                const std::string primitiveStyle = renderStateNode.child_value("PrimitiveStyle");
+
+                if(primitiveStyle.size())
+                {
+                    uint32_t primitiveStyleValue = 0;
+
+                    try
+                    {
+                        primitiveStyleValue = std::stoul(primitiveStyle);
+                    }
+                    catch(std::invalid_argument const& error)
+                    {
+                        OcularLogger->warning("Failed to convert PrimitiveStyle '", primitiveStyleValue, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseRenderState"));
+                        result = false;
+                    }
+                    catch(std::out_of_range const& error)
+                    {
+                        OcularLogger->warning("Failed to convert PrimitiveStyle '", primitiveStyleValue, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseRenderState"));
+                        result = false;
+                    }
+
+                    if(result)
+                    {
+                        if(primitiveStyleValue < (uint32_t)(PrimitiveStyle::Undefined))
+                        {
+                            material->setPrimitiveStyle((PrimitiveStyle)primitiveStyleValue);
+                        }
                     }
                 }
             }

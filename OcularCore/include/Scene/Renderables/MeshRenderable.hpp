@@ -91,10 +91,13 @@ namespace Ocular
              *
              */
             Graphics::Material* getMaterial() const;
+            
+            /**
+             *
+             */
+            void updateBounds();
 
         protected:
-
-            void updateBounds();
 
             //------------------------------------------------------------
 

@@ -131,34 +131,18 @@ namespace Ocular
             return m_Material;
         }
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
-
         void MeshRenderable::updateBounds()
         {
             if(m_Parent && m_Mesh)
             {
-                //--------------------------------------------------------
-                // AABB Bounds
-
-                const Math::Vector3f min = m_Mesh->getMinPoint();
-                const Math::Vector3f max = m_Mesh->getMaxPoint();
-
-                const Math::Vector3f center  = Math::Vector3f::Midpoint(min, max);
-                const Math::Vector3f extents = max - center;
-
-                m_Parent->boundsAABB = Math::BoundsAABB(center, extents);
-
-                //--------------------------------------------------------
-                // OBB Bounds
-
-                //--------------------------------------------------------
-                // Sphere Bounds
-
-                m_Parent->boundsSphere = Math::BoundsSphere(center, extents.getLength());
+                m_Parent->boundsAABB   = Math::BoundsAABB(m_Mesh->getVertexBuffer()->getVertices());
+                m_Parent->boundsSphere = Math::BoundsSphere(m_Mesh->getVertexBuffer()->getVertices());
             }
         }
+
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

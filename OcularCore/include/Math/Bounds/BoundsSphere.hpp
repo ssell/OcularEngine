@@ -20,7 +20,10 @@
 
 #include "Math/Bounds/Bounds.hpp"
 #include "Math/Vector3.hpp"
+#include "Graphics/Mesh/Vertex.hpp"
+
 #include <list>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -49,6 +52,7 @@ namespace Ocular
         public:
 
             BoundsSphere(std::list<Point3f> const& points);
+            BoundsSphere(std::vector<Graphics::Vertex> const& vertices);
             BoundsSphere(Vector3f const& center, float radius);
             BoundsSphere();
             ~BoundsSphere();
@@ -58,6 +62,11 @@ namespace Ocular
              * \param[in] points
              */
             void construct(std::list<Point3f> const& points);
+
+            /**
+             *
+             */
+            void construct(std::vector<Graphics::Vertex> const& vertices);
             
             /**
              * Sets the center of the bounding sphere.

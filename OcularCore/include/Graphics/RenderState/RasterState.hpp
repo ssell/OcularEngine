@@ -38,7 +38,8 @@ namespace Ocular
         enum class FillMode
         {
             Solid = 0,                                ///< Vertices are filled
-            Wireframe                                 ///< Draws only lines connecting vertices
+            Wireframe,                                ///< Draws only lines connecting vertices
+            Undefined
         };
 
         /**
@@ -48,7 +49,8 @@ namespace Ocular
         {
             None = 0,                                 ///< Always draws all triangles
             Front,                                    ///< Culls away front-facing triangles
-            Back                                      ///< Culls away back-facing triangles
+            Back,                                     ///< Culls away back-facing triangles
+            Undefined
         };
 
         /**
@@ -57,7 +59,8 @@ namespace Ocular
         enum class CullDirection
         {
             CounterClockwise = 0,                     ///< A triangle is front-facing if it's vertices are ordered counter-clockwise
-            Clockwise                                 ///< A triangle is front-facing if it's vertices are ordered clockwise
+            Clockwise,                                ///< A triangle is front-facing if it's vertices are ordered clockwise
+            Undefined
         };
 
         /**
@@ -69,7 +72,8 @@ namespace Ocular
             TriangleStrip,                            ///< Vertex data is treated as a strip of triangles
             PointList,                                ///< Vertex data is treated as a list of points
             LineList,                                 ///< Vertex data is treated as a list of lines
-            LineStrip                                 ///< Vertex data is treated as a string of lines
+            LineStrip,                                ///< Vertex data is treated as a strip of lines
+            Undefined
         };
 
         /**

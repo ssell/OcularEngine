@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_H__
 
 #include "Graphics/Shader/Uniform/UniformBuffer.hpp"
+#include "Graphics/RenderState/RasterState.hpp"
 #include "Resources/Resource.hpp"
 #include "Math/Matrix4x4.hpp"
 
@@ -310,16 +311,39 @@ namespace Ocular
              */
             UniformBuffer const* getUniformBuffer() const;
 
+            //------------------------------------------------------------
+            // Render State Changes
+            //------------------------------------------------------------
+
+            /**
+             * Sets the primitive style that the material should render as.
+             * \param[in] style
+             */
+            void setPrimitiveStyle(PrimitiveStyle style);
+
+            /**
+             * \return Primitive style used by this material
+             */
+            PrimitiveStyle getPrimitiveStyle() const;
+
         protected:
 
             void bindShaders();
             void unbindShaders();
+
+            void bindStateChanges();
+            void unbindStateChanges();
+
+            //------------------------------------------------------------
 
             VertexShader*           m_VertexShader;
             GeometryShader*         m_GeometryShader;
             FragmentShader*         m_FragmentShader;
             PreTessellationShader*  m_PreTessellationShader;
             PostTessellationShader* m_PostTessellationShader;
+
+            PrimitiveStyle m_PrimitiveStyle;
+            RasterState m_StoredRasterState;
 
             std::vector<TextureSamplerInfo> m_Textures;
             UniformBuffer* m_UniformBuffer;
