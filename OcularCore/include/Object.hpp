@@ -81,11 +81,17 @@ namespace Ocular
              * \return String representation of the object's Class
              */
             std::string getClass() const;
-        
+
+            /**
+             * Sets the UUID based off of the properly formatted UUID string.
+             * \param[in] uuid
+             */
+            void setUUID(std::string const& uuid);
+
             /**
              * \return The UID of the Object
              */
-            UUID getUUID() const;
+            UUID const& getUUID() const;
 
             /**
              * \return The time this object was created in MS since engine initialization
@@ -107,7 +113,7 @@ namespace Ocular
             std::string m_Name;   /**< Non-unique name of the Object */
             std::string m_Class;  /**< Name of the class of which Object is an instance */
 
-            const UUID m_UUID;
+            UUID m_UUID;
             const int64_t m_CreationTime;
         
         private:

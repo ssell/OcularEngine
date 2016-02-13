@@ -27,8 +27,9 @@
 #include "Math/MathCommon.hpp"
 
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
-#include <sstream>
+#include <boost/lexical_cast.hpp>
 
 //------------------------------------------------------------------------------------------
 
@@ -47,31 +48,43 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
+        UUID::UUID(std::string const& uuid)
+        {
+            m_Internal = new UUID_Internal();
+            set(uuid);
+        }
+
         UUID::UUID()
         {
             m_Internal = new UUID_Internal();
             m_Internal->uuid = g_UUIDGenerator();
-
-            std::stringstream sstream;
-            sstream << static_cast<uint32_t>(m_Internal->uuid.data[0]) << "-"
-                    << static_cast<uint32_t>(m_Internal->uuid.data[4]) << "-"
-                    << static_cast<uint32_t>(m_Internal->uuid.data[8]) << "-"
-                    << static_cast<uint32_t>(m_Internal->uuid.data[12]);
-
-            m_String = sstream.str();
+         
+            m_String = boost::lexical_cast<std::string>(m_Internal->uuid);
             m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
             m_Hash64 = OcularEngine.HashGenerator()->getHash64(m_String);
         }
 
         UUID::~UUID()
         {
-            //delete m_Internal;
-            //m_Internal = nullptr;
+            delete m_Internal;
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        UUID& UUID::operator=(UUID const& rhs)
+        {
+            const std::string other = rhs.toString();
+
+            m_Internal->uuid = boost::lexical_cast<boost::uuids::uuid>(other);
+
+            m_String = other;
+            m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
+            m_Hash64 = OcularEngine.HashGenerator()->getHash64(m_String);
+
+            return (*this);
+        }
 
         bool UUID::operator==(UUID const& rhs) const
         {
@@ -91,6 +104,17 @@ namespace Ocular
         bool UUID::operator!=(UUID const& rhs) const
         {
             return !(*this == rhs);
+        }
+
+        //----------------------------------------------------------------------------------
+
+        void UUID::set(std::string const& uuid)
+        {
+            m_Internal->uuid = boost::lexical_cast<boost::uuids::uuid>(uuid);
+
+            m_String = uuid;
+            m_Hash32 = OcularEngine.HashGenerator()->getHash32(m_String);
+            m_Hash64 = OcularEngine.HashGenerator()->getHash64(m_String);
         }
 
         uint8_t UUID::getData(uint32_t const index) const

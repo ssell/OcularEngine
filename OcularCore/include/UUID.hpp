@@ -44,11 +44,22 @@ namespace Ocular
         {
         public:
 
+            UUID(std::string const& uuid);
             UUID();
+
             ~UUID();
 
-            bool operator==(UUID const& rhs) const;
-            bool operator!=(UUID const& rhs) const;
+            UUID& operator=(UUID const&);
+            bool operator==(UUID const&) const;
+            bool operator!=(UUID const&) const;
+
+            //------------------------------------------------------------
+
+            /**
+             * Sets the UUID based off of a valid formatted string representation.
+             * \param[in] uuid
+             */
+            void set(std::string const& uuid);
 
             /**
              * Retrieves an individual octet of the UUID. The UUID

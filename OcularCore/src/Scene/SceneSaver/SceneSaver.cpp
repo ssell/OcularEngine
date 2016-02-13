@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-#include "Object.hpp"
+#include "Scene/SceneSaver/SceneSaver.hpp"
+#include "Scene/SceneSaver/SceneObjectSaver.hpp"
+#include "Scene/SceneLoader/SceneLoadInternal.hpp"
+
 #include "OcularEngine.hpp"
-#include <sstream>
 
 //------------------------------------------------------------------------------------------
 
@@ -27,76 +29,21 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-    
-        Object::Object(std::string name, std::string className)
-            : m_Name(name), m_Class(className), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
-        {
-
-        }
-
-        Object::Object(std::string name)
-            : m_Name(name), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
-        {
         
-        }
-    
-        Object::Object()
-            : m_Name("Name"), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
-        {
-        
-        }
-    
-        Object::~Object()
-        {
-        
-        }
-    
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-    
-        void Object::setName(std::string name)
-        {
-            m_Name = name;
-        }
-    
-        std::string Object::getName() const
-        {
-            return m_Name;
-        }
-
-        std::string Object::getClass() const
-        {
-            return m_Class;
-        }
-
-        void Object::setUUID(std::string const& uuid)
-        {
-            m_UUID.set(uuid);
-        }
-    
-        UUID const& Object::getUUID() const
-        {
-            return m_UUID;
-        }
-
-        int64_t Object::getCreationTime() const
-        {
-            return m_CreationTime;
-        }
-    
-        std::string Object::toString() const
-        {
-            std::stringstream sstream;
-            sstream << "Class[" << m_Class << "] Name['" << m_Name << "'] UID[" << m_UUID.toString() << "]";
         
-            return sstream.str();
+        bool SceneSaver::save(Scene const* scene, File const& file)
+        {
+            bool result = false;
+            return result;
         }
-    
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-    
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
