@@ -63,6 +63,21 @@ void setupVisual()
     }
 
     SceneObject* someChild = object->createChild("Some Child");
+
+    if(someChild)
+    {
+        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
+
+        if(renderable)
+        {
+            renderable->setMesh("Meshes/BoundingBox");
+            
+            if(renderable->setMaterial("Materials/BoundingBox"))
+            {
+                renderable->getMaterial()->setUniform("Color", 0, Ocular::Math::Vector3f(1.0f, 0.0f, 0.0f));
+            }
+        }
+    }
 }
 
 void setupScene()

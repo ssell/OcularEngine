@@ -57,7 +57,7 @@ namespace Ocular
         {
             bool result = true;
 
-            if(type == PLYElementType::Face)
+            if((type == PLYElementType::Face) || (type == PLYElementType::Edge))
             {
                 size_t currPos = 0;
                 size_t nextPos = 0;
@@ -69,28 +69,35 @@ namespace Ocular
                 {
                     numIndices = std::stoul(line, &currPos);
                     
-                    if(numIndices == 3)
+                    if((numIndices > 1) && (numIndices <= 4))
                     {
                         for( ; numParsed < numIndices; numParsed++, currPos += nextPos)
                         {
                             m_IndexBuffer[numParsed] = std::stoul(&line[currPos], &nextPos);
                         }
 
-                        addTriangleFace(indices, currIndex);
-                    }
-                    else if(numIndices == 4)
-                    {
-                        for( ; numParsed < numIndices; numParsed++, currPos += nextPos)
+                        switch(numIndices)
                         {
-                            m_IndexBuffer[numParsed] = std::stoul(&line[currPos], &nextPos);
-                        }
+                        case 2:
+                            addEdgeFace(indices, currIndex);
+                            break;
 
-                        addQuadFace(indices, currIndex);
+                        case 3:
+                            addTriangleFace(indices, currIndex);
+                            break;
+
+                        case 4:
+                            addQuadFace(indices, currIndex);
+                            break;
+
+                        default: 
+                            break;
+                        }
                     }
                     else
                     {
                         result = false;
-                        OcularLogger->error("Invalid number of indices (", numIndices, "); Must be 3 or 4", OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
+                        OcularLogger->error("Invalid number of indices (", numIndices, "); Must be 2, 3 or 4", OCULAR_INTERNAL_LOG("PLYElementListParser", "parse"));
                     }
                 }
                 catch(std::invalid_argument const& e)
@@ -115,6 +122,12 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void PLYElementListParser::addEdgeFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const
+        {
+            indices[currIndex++] = m_IndexBuffer[0];
+            indices[currIndex++] = m_IndexBuffer[1];
+        }
 
         void PLYElementListParser::addTriangleFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const
         {

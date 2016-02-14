@@ -50,6 +50,7 @@ namespace Ocular
 
         private:
             
+            void addEdgeFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const;
             void addTriangleFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const;
             void addQuadFace(std::vector<uint32_t>& indices, uint32_t& currIndex) const;
 

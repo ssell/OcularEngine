@@ -390,7 +390,7 @@ namespace Ocular
 
             while((std::getline(stream, line) && (iter != m_Parsers.end())))
             { 
-                if(((*iter)->type == PLYElementType::Vertex) || ((*iter)->type == PLYElementType::Face))
+                if((*iter)->type != PLYElementType::Unknown)
                 {                  
                     if(line[0] != 'c')   // In the body, all lines should be purely numeric values. Except potential comments. Do dirty check of comments with 'c'
                     {
@@ -535,6 +535,9 @@ namespace Ocular
             }
             else if(Utils::StringUtils::isEqual(str, "edge", true))
             {
+                // Edge is handled in the same way as faces as it is
+                // up to the Material to define whether a mesh should
+                // be rendered in triangles or lines
                 result = PLYElementType::Edge;
             }
 
@@ -548,6 +551,10 @@ namespace Ocular
                 if((*iter)->type == PLYElementType::Vertex)
                 {
                     vertices.resize((*iter)->count);
+                }
+                else if((*iter)->type == PLYElementType::Edge)
+                {
+                    indices.resize((*iter)->count * 2);
                 }
                 else if((*iter)->type == PLYElementType::Face)
                 {

@@ -211,3 +211,4 @@ FakesAssemblies/
 *.stackdump
 *.ply
 *.ply
+OcularEditor/projects/vs2013/Resources/Materials/BoundingBox.omat
