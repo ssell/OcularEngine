@@ -247,10 +247,17 @@ namespace Ocular
                 if(d3dTexture)
                 {
                     ID3D11RenderTargetView* rtv = d3dTexture->getD3DRenderTargetView();
-
+                    ID3D11DepthStencilView* dsv = nullptr;
+                    
                     if(m_D3DDeviceContext)
                     {
-                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, 0);
+                        m_D3DDeviceContext->OMGetRenderTargets(1, nullptr, &dsv);
+                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+                        if(dsv)
+                        {
+                            dsv->Release();
+                        }
                     }
                 }
             }
@@ -258,7 +265,6 @@ namespace Ocular
 
         void D3D11GraphicsDriver::setDepthTexture(DepthTexture* texture)
         {
-            return;
             GraphicsDriver::setDepthTexture(texture);
 
             if(texture)
@@ -268,10 +274,17 @@ namespace Ocular
                 if(d3dTexture)
                 {
                     ID3D11DepthStencilView* dsv = d3dTexture->getD3DDepthStencilView();
-
+                    ID3D11RenderTargetView* rtv = nullptr;
+                    
                     if(m_D3DDeviceContext)
                     {
-                        m_D3DDeviceContext->OMSetRenderTargets(1, 0, dsv);
+                        m_D3DDeviceContext->OMGetRenderTargets(1, &rtv, nullptr);
+                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+                        if(rtv)
+                        {
+                            rtv->Release();
+                        }
                     }
                 }
             }
@@ -430,38 +443,7 @@ namespace Ocular
             {
                 if(mesh->bind())
                 {
-                    ID3D11VertexShader* currVS = nullptr;
-                    ID3D11PixelShader* currPS = nullptr;
-                    ID3D11Buffer* currVB = nullptr;
-                    ID3D11Buffer* currIB = nullptr;
-
-                    m_D3DDeviceContext->VSGetShader(&currVS, nullptr, nullptr);
-                    m_D3DDeviceContext->PSGetShader(&currPS, nullptr, nullptr);
-                    m_D3DDeviceContext->IAGetVertexBuffers(0, 1, &currVB, nullptr, nullptr);
-                    m_D3DDeviceContext->IAGetIndexBuffer(&currIB, nullptr, nullptr);
-
                     m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
-
-                    if(currVS)
-                    {
-                        currVS->Release();
-                    }
-
-                    if(currPS)
-                    {
-                        currPS->Release();
-                    }
-
-                    if(currVB)
-                    {
-                        currVB->Release();
-                    }
-
-                    if(currIB)
-                    {
-                        currIB->Release();
-                    }
-
                     result = true;
                 }
             }
@@ -471,7 +453,49 @@ namespace Ocular
         
         bool D3D11GraphicsDriver::renderBounds(Core::SceneObject* object, Math::BoundsType const type)
         {
-            return false;
+            bool result = false;
+
+            if(object)
+            {
+                Mesh* mesh = nullptr;
+                Material* material = nullptr;
+
+                switch(type)
+                {
+                case Math::BoundsType::AABB:
+                    mesh = OcularResources->getResource<Mesh>("Meshes/BoundingBox");
+                    material = OcularResources->getResource<Material>("Materials/BoundingBox");
+                    break;
+
+                case Math::BoundsType::OBB:
+                    break;
+
+                case Math::BoundsType::Sphere:
+                    break;
+
+                default:
+                    break;
+
+                }
+
+                if(mesh && material)
+                {
+                    const Math::Vector3f scaling = (object->boundsAABB.getExtents() * 2.0f);
+                    const Math::Vector3f offset = object->boundsAABB.getCenter();
+
+                    Math::Transform transform;
+                    transform.setPosition(offset);
+                    transform.setScale(scaling);
+
+                    material->setUniform("Color", 0, Math::Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+                    material->setUniform("BoundMatrix", 1, transform.getModelMatrix());
+
+                    material->bind();
+                    result = renderMesh(mesh);
+                }
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

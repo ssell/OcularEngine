@@ -52,13 +52,12 @@ void setupVisual()
 
         if(renderable)
         {
-            const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/cube_normals");
-            const uint64_t end = OcularClock->getEpochMS();
-
+            renderable->setMesh("Meshes/dragon_normals");
             renderable->setMaterial("Materials/Flat");
+            renderable->getMaterial()->setUniform("Color", 0, Ocular::Math::Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
 
-            OcularLogger->info("Mesh loaded in ", (end - start), "ms");
+            object->setPosition(Ocular::Math::Vector3f(5.0f, 0.0f, 0.0f));
+            object->setScale(5.0f, 5.0f, 5.0f);
         }
     }
 
@@ -66,16 +65,14 @@ void setupVisual()
 
     if(someChild)
     {
-        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
+        MeshRenderable* renderable = (MeshRenderable*)someChild->setRenderable("Mesh");
 
         if(renderable)
         {
-            renderable->setMesh("Meshes/BoundingBox");
-            
-            if(renderable->setMaterial("Materials/BoundingBox"))
-            {
-                renderable->getMaterial()->setUniform("Color", 0, Ocular::Math::Vector3f(1.0f, 0.0f, 0.0f));
-            }
+            renderable->setMesh("Meshes/cube_normals");
+            renderable->setMaterial("Materials/Flat");
+
+            someChild->setPosition(Ocular::Math::Vector3f(-5.0f, -2.0f, 0.0f));
         }
     }
 }

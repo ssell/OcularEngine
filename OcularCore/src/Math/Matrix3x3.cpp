@@ -237,6 +237,20 @@ namespace Ocular
             }
         }
 
+        Vector3<float> Matrix3x3::getRow(uint32_t const index) const
+        {
+            Vector3<float> result;
+
+            if(index < 3)
+            {
+                result[0] = m_Internal->matrix[0][index];
+                result[1] = m_Internal->matrix[1][index];
+                result[2] = m_Internal->matrix[2][index];
+            }
+
+            return result;
+        }
+
         void Matrix3x3::setCol(uint32_t const index, Vector3<float> const& col)
         {
             if(index < 3)
@@ -255,6 +269,20 @@ namespace Ocular
                 col[1] = m_Internal->matrix[index][1];
                 col[2] = m_Internal->matrix[index][2];
             }
+        }
+
+        Vector3<float> Matrix3x3::getCol(uint32_t const index) const
+        {
+            Vector3<float> result;
+
+            if(index < 3)
+            {
+                result[0] = m_Internal->matrix[index][0];
+                result[1] = m_Internal->matrix[index][1];
+                result[2] = m_Internal->matrix[index][2];
+            }
+
+            return result;
         }
 
         void Matrix3x3::setData(float const* data)

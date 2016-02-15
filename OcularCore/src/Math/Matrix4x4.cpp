@@ -276,6 +276,21 @@ namespace Ocular
             }
         }
 
+        Vector4<float> Matrix4x4::getRow(uint32_t const index) const
+        {
+            Vector4<float> result;
+            
+            if(index < 4)
+            {
+                result[0] = m_Internal->matrix[0][index];
+                result[1] = m_Internal->matrix[1][index];
+                result[2] = m_Internal->matrix[2][index];
+                result[3] = m_Internal->matrix[3][index];
+            }
+
+            return result;
+        }
+
         void Matrix4x4::setCol(uint32_t const index, Vector4<float> const& col)
         {
             if(index < 4)
@@ -306,6 +321,21 @@ namespace Ocular
                 col[2] = m_Internal->matrix[index][2];
                 col[3] = m_Internal->matrix[index][3];
             }
+        }
+
+        Vector4<float> Matrix4x4::getCol(uint32_t const index) const
+        {
+            Vector4<float> result;
+            
+            if(index < 4)
+            {
+                result[0] = m_Internal->matrix[index][0];
+                result[1] = m_Internal->matrix[index][1];
+                result[2] = m_Internal->matrix[index][2];
+                result[3] = m_Internal->matrix[index][3];
+            }
+
+            return result;
         }
 
         void Matrix4x4::setData(float const* data)
@@ -376,6 +406,12 @@ namespace Ocular
         {
             // Keep in mind: http://www.gamedev.net/topic/669955-glmlookat-with-directx/#entry5239993
             Matrix4x4 result = Matrix4x4(Matrix4x4_Internal(glm::perspectiveRH(Math::DegreesToRadians(fov), aspectRatio, nearClip, farClip)));
+
+            //static const Matrix4x4 scaleZ = Matrix4x4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+            //static const Matrix4x4 transZ = Matrix4x4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
+
+            //result = result * scaleZ * transZ;
+
             return result;
         }
 

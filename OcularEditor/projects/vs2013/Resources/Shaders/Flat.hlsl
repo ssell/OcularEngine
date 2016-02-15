@@ -23,7 +23,7 @@
 
 cbuffer cbPerMaterial : register(b3)
 {
-    float4 _MaterialColor;
+    float4 _Color;
 };
 
 struct VSOutput
@@ -57,7 +57,7 @@ float4 PSMain(VSOutput input) : SV_Target
 
     float angle = dot(input.normal, normalize(lightPos - input.fragPosition));
 
-    outColor *= angle;
+    outColor *= angle * _Color;
 
     return outColor;
 }

@@ -236,7 +236,7 @@ namespace Ocular
             /**
              * \return The SceneObject's position
              */
-            Math::Vector3f const& getPosition() const;
+            Math::Vector3f getPosition(bool local = true) const;
 
             /**
              * Translates the SceneObject along the given vector
@@ -297,6 +297,11 @@ namespace Ocular
              *
              */
             Math::Transform const& getTransform() const;
+
+            /**
+             *
+             */
+            Math::Matrix4x4 getModelMatrix(bool local = true) const;
 
             //------------------------------------------------------------
             // Child Object Methods

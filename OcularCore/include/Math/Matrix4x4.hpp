@@ -227,6 +227,11 @@ namespace Ocular
             void getRow(uint32_t index, Vector4<float>& row) const;
 
             /**
+             *
+             */
+            Vector4<float> getRow(uint32_t index) const;
+
+            /**
              * Sets the value of a single column of the matrix.
              * 
              * \param[in] index Column index [0,4)
@@ -246,6 +251,11 @@ namespace Ocular
              * \param[out] col   Vector to store the column values
              */
             void getCol(uint32_t index, Vector4<float>& col) const;
+
+            /**
+             *
+             */
+            Vector4<float> getCol(uint32_t index) const;
 
             /**
              * Sets the matrix data values from an array of floats.
@@ -354,7 +364,6 @@ namespace Ocular
         Matrix4x4 operator*(Matrix4x4 const& lhs, float rhs);
         
         Vector4<float> operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs);
-
     }
     /**
      * @} End of Doxygen Groups

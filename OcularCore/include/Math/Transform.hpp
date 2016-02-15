@@ -164,7 +164,7 @@ namespace Ocular
             /**
              *
              */
-            Matrix4x4 const&  getModelMatrix();
+            Matrix4x4 const&  getModelMatrix() const;
 
         protected:
 
@@ -175,8 +175,6 @@ namespace Ocular
             Vector3f   m_Scale;
 
             Matrix4x4 m_ModelMatrix;
-
-            bool m_IsMatrixDirty;
         };
     }
     /**

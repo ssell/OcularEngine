@@ -239,9 +239,21 @@ namespace Ocular
             m_Transform.setPosition(position);
         }
 
-        Math::Vector3f const& SceneObject::getPosition() const
+        Math::Vector3f SceneObject::getPosition(bool const local) const
         {
-            return m_Transform.getPosition();
+            Math::Vector4f position;
+
+            if(local)
+            {
+                position = Math::Vector4f(m_Transform.getPosition());
+            }
+            else
+            {
+                const Math::Matrix4x4 matrix = getModelMatrix(false);
+                position = matrix * position;
+            }
+
+            return Math::Vector3f(position.x, position.y, position.z);
         }
 
         void SceneObject::translate(Math::Vector3f const& translation, bool local)
@@ -297,6 +309,30 @@ namespace Ocular
         Math::Transform const& SceneObject::getTransform() const
         {
             return m_Transform;
+        }
+
+        Math::Matrix4x4 SceneObject::getModelMatrix(bool const local) const
+        {
+            Math::Matrix4x4 result;
+            const Math::Matrix4x4 localMatrix = m_Transform.getModelMatrix();
+
+            if(local)
+            {
+                result = localMatrix;
+            }
+            else
+            {
+                Math::Matrix4x4 parentMatrix;
+
+                if(m_Parent)
+                {
+                    parentMatrix = m_Parent->getModelMatrix(false);
+                }
+
+                result = localMatrix * parentMatrix;
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------

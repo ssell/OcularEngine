@@ -192,6 +192,11 @@ namespace Ocular
              * \param[out] row   Vector to store the row values
              */
             void getRow(uint32_t index, Vector3<float>& row) const;
+            
+            /**
+             *
+             */
+            Vector3<float> getRow(uint32_t index) const;
 
             /**
              * Sets the value of a single column of the matrix.
@@ -208,6 +213,11 @@ namespace Ocular
              * \param[out] col   Vector to store the column values
              */
             void getCol(uint32_t index, Vector3<float>& col) const;
+            
+            /**
+             *
+             */
+            Vector3<float> getCol(uint32_t index) const;
 
             /**
              * Sets the matrix data values from an array of floats.
