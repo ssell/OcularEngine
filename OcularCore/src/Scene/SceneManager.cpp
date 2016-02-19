@@ -204,7 +204,7 @@ namespace Ocular
             }
         }
 
-        void SceneManager::loadScene(std::string const& name, SceneTreeType treeType)
+        void SceneManager::createScene(std::string const& name, SceneTreeType const staticType, SceneTreeType const dynamicType)
         {
             /**
              * Loading a scene requires the following steps:
@@ -219,9 +219,11 @@ namespace Ocular
                 unloadScene();
             }
 
-            /// \todo Search for a scene file and load it. But for now, always create a new scene.
-            m_Scene = new Scene(treeType);
-            
+            m_Scene = new Scene();
+            m_Scene->setStaticTreeType(staticType);
+            m_Scene->setDynamicTreeType(dynamicType);
+            m_Scene->initialize();
+
             std::vector<SceneObject*> persistentObjects(m_Objects.size());
 
             for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
@@ -235,6 +237,20 @@ namespace Ocular
             // If there is no camera in the scene yet, create one
 
             Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
+        }
+
+        bool SceneManager::loadScene(File const& file)
+        {
+            bool result = false;
+
+            return result;
+        }
+
+        bool SceneManager::saveScene(File const& file)
+        {
+            bool result = false;
+
+            return result;
         }
 
         ComponentFactory<ARoutine>& SceneManager::getRoutineFactory()

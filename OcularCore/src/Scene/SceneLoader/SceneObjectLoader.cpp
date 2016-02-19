@@ -20,6 +20,8 @@
 
 #include "OcularEngine.hpp"
 
+#include <pugixml/pugixml.hpp>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -34,13 +36,13 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        SceneObject* SceneObjectLoader::load(File const& file)
+        SceneObject* SceneObjectLoader::Load(File const& file)
         {
             SceneObject* result = nullptr;
             return result;
         }
 
-        SceneObject* SceneObjectLoader::load(Node_Internal* node)
+        SceneObject* SceneObjectLoader::Load(Node_Internal* node)
         {
             SceneObject* result = nullptr;
             return result;

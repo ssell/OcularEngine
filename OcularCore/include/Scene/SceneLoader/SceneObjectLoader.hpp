@@ -58,7 +58,7 @@ namespace Ocular
              * \return The new SceneObject. The object is already owned by the primary SceneManager (OcularScene),
              *         and as such should not be manually destroyed. Returns NULL if failed to load.
              */
-            static SceneObject* load(File const& file);
+            static SceneObject* Load(File const& file);
 
             /**
              * Attempts to the load the SceneObject from the provided node.
@@ -69,7 +69,7 @@ namespace Ocular
              * \return The new SceneObject. The object is already owned by the primary SceneManager (OcularScene),
              *         and as such should not be manually destroyed. Returns NULL if failed to load.
              */
-            static SceneObject* load(Node_Internal* node);
+            static SceneObject* Load(Node_Internal* node);
 
         protected:
 

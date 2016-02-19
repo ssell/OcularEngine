@@ -92,7 +92,7 @@ void setupVisual()
 
 void setupScene()
 {
-    OcularScene->loadScene("TestScene");
+    OcularScene->createScene("TestScene");
     
     setupCamera();
     setupVisual();

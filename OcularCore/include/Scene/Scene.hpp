@@ -71,6 +71,11 @@ namespace Ocular
 
            virtual ~Scene();
 
+           /**
+            *
+            */
+           void initialize();
+
             /**
              * Adds the specified object to the scene's tree.
              * \param[in] object
@@ -121,9 +126,23 @@ namespace Ocular
              */
             void render();
 
+            //------------------------------------------------------------------------------
+            // Getters / Setters
+            //------------------------------------------------------------------------------
+
+            /**
+             * \param[in] type
+             */
+            void setStaticTreeType(SceneTreeType type);
+
+            /**
+             * \param[in] type
+             */
+            void setDynamicTreeType(SceneTreeType type);
+
         protected:
 
-            Scene(SceneTreeType treeType);
+            Scene();
 
             void updateTrees();
 
@@ -172,6 +191,9 @@ namespace Ocular
 
             Graphics::UniformBuffer* m_UniformBufferPerFrame;
             Graphics::UniformBuffer* m_UniformBufferPerObject;
+
+            SceneTreeType m_StaticTreeType;
+            SceneTreeType m_DynamicTreeType;
 
             ISceneTree* m_StaticSceneTree;
             ISceneTree* m_DynamicSceneTree;

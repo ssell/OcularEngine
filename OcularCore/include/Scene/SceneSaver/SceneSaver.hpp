@@ -57,7 +57,7 @@ namespace Ocular
              *
              * \return TRUE if saved successfully, else FALSE.
              */
-            static bool save(Scene const* scene, File const& file);
+            static bool Save(Scene const* scene, File const& file);
 
         protected:
 

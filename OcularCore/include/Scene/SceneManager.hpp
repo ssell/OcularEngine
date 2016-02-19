@@ -22,6 +22,7 @@
 #include "SceneObject.hpp"
 #include "SceneTreeType.hpp"
 #include "ComponentFactory.hpp"
+#include "FileIO/File.hpp"
 
 #include <unordered_map>
 
@@ -179,15 +180,40 @@ namespace Ocular
             // Scene Methods
 
             /**
-             * Loads the Scene with the specified name. If no matching scene is found,
-             * then a new Scene is created. 
+             * Creates a new Scene with the specified name.
              *
-             * If a Scene is already in memory, then that Scene is first unloaded.
+             * Note that if a Scene is already active, that Scene will be first unloaded.
+             * If any changes to that Scene need to be saved prior to unloading, then the
+             * saveScene method should be called prior to createScene.
              *
-             * \param[in] name Name of the Scene to load.
-             * \param[in] treeType The type of scene tree to be used.
+             * \param[in] name
+             * \param[in] staticType  Type of SceneTree to use for static objects (default CPU BVH)
+             * \param[in] dynamicType Type of SceneTree to use for dynamic objects (default CPU BVH)
              */
-            void loadScene(std::string const& name, SceneTreeType treeType = SceneTreeType::BoundingVolumeHierarchyCPU);
+            void createScene(std::string const& name, SceneTreeType staticType = SceneTreeType::BoundingVolumeHierarchyCPU, SceneTreeType dynamicType = SceneTreeType::BoundingVolumeHierarchyCPU);
+
+            /**
+             * Attempts to load the Scene from the specified .oscene file.
+             *
+             * If the specified Scene can not be loaded, then an empty default Scene
+             * will be created instead.
+             *
+             * Note that if a Scene is already active, that Scene will be first unloaded.
+             * If any changes to that Scene need to be saved prior to unloading, then the
+             * saveScene method should be called prior to loadScene.
+             *
+             * \param[in] file
+             * \return TRUE if loaded successfully
+             */
+            bool loadScene(File const& file);
+
+            /**
+             * Attempts to save the Scene to the specified .oscene file.
+             *
+             * \param[in] file
+             * \return TRUE if saved successfully
+             */
+            bool saveScene(File const& file);
 
             /**
              *

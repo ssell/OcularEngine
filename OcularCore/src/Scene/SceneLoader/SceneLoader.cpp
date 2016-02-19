@@ -17,10 +17,17 @@
 #include "Scene/SceneLoader/SceneLoader.hpp"
 #include "Scene/SceneLoader/SceneObjectLoader.hpp"
 #include "Scene/SceneLoader/SceneLoadInternal.hpp"
+#include "Utilities/StringUtils.hpp"
 
 #include "OcularEngine.hpp"
 
+#include <pugixml/pugixml.hpp>
+
 //------------------------------------------------------------------------------------------
+
+bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene);
+void ParseSceneTreeType(pugi::xml_node& root, Ocular::Core::SceneTreeType& staticType, Ocular::Core::SceneTreeType& dynamicType);
+bool ParseSceneTree(pugi::xml_node& root);
 
 namespace Ocular
 {
@@ -34,9 +41,61 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        Scene* SceneLoader::load(File const& file)
+        bool SceneLoader::Load(Scene* scene, File const& file)
         {
-            Scene* result = nullptr;
+            bool result = false;
+
+            if(scene)
+            {
+                if(ValidateFile(file))
+                {
+                    pugi::xml_document document;
+                    pugi::xml_parse_result parseResult = document.load_file(file.getFullPath().c_str());
+
+                    if(parseResult)
+                    {
+                        pugi::xml_node root = document.child("OcularScene");
+
+                        if(root)
+                        {
+                            if(ParseSceneHeader(root, scene))
+                            {
+                                scene->initialize();
+                                
+                                if(ParseSceneTree(root))
+                                {
+                                    result = true;
+                                }
+                                else
+                                {
+                                    OcularLogger->error("Failed to parse scene tree", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                                }
+                            }
+                            else
+                            {
+                                OcularLogger->error("Failed to parse header", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                            }
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to locate root node <OcularScene>", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to parse XML document", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Invalid file '", file.getFullPath(), "' specified", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Invalid (NULL) Scene parameter", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+            }
+
             return result;
         }
 
@@ -44,8 +103,113 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
         
+        bool SceneLoader::ValidateFile(File const& file)
+        {
+            bool result = false;
+
+            if(file.exists() && file.canRead() && Utils::StringUtils::isEqual(".oscene", file.getExtension(), true))
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
     }
+}
+
+//------------------------------------------------------------------------------------------
+// OUT-OF-CLASS FUNCTIONS
+//------------------------------------------------------------------------------------------
+
+bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene)
+{
+    bool result = false;
+    pugi::xml_node headerNode = root.child("SceneHeader");
+
+    if(headerNode)
+    {
+        pugi::xml_node typeNode = root.child("SceneTreeType");
+
+        if(typeNode)
+        {
+            Ocular::Core::SceneTreeType staticType;
+            Ocular::Core::SceneTreeType dynamicType;
+
+            ParseSceneTreeType(typeNode, staticType, dynamicType);
+
+            scene->setStaticTreeType(staticType);
+            scene->setDynamicTreeType(dynamicType);
+        }
+        // else
+        // {
+        //     The <SceneTreeType> node is optional, so it's absence 
+        //     does not necessarily indicate an error 
+        // }
+
+        result = true;
+    }
+    else
+    {
+        OcularLogger->error("Failed to locate header node <SceneHeader>", OCULAR_INTERNAL_LOG("SceneLoader", "ParseSceneHeader"));
+    }
+
+    return result;
+}
+
+void ParseSceneTreeType(pugi::xml_node& typeNode, Ocular::Core::SceneTreeType& staticType, Ocular::Core::SceneTreeType& dynamicType)
+{
+    staticType  = Ocular::Core::SceneTreeType::BoundingVolumeHierarchyCPU;      // CPU BVH by default
+    dynamicType = Ocular::Core::SceneTreeType::BoundingVolumeHierarchyCPU;
+
+    pugi::xml_node staticNode  = typeNode.child("Static");
+    pugi::xml_node dynamicNode = typeNode.child("Dynamic");
+
+    uint32_t value;
+
+    if(staticNode)
+    {
+        value = staticNode.text().as_uint();
+        staticType = static_cast<Ocular::Core::SceneTreeType>(value);
+    }
+
+    if(dynamicNode)
+    {
+        value = dynamicNode.text().as_uint();
+        dynamicType = static_cast<Ocular::Core::SceneTreeType>(value);
+    }
+}
+
+bool ParseSceneTree(pugi::xml_node& root)
+{
+    // At this point, the Scene will have been created and set as the 
+    // active Scene. So any new objects will be automatically added
+    // to it via the SceneManager. So all we have to do is create
+    // the objects, and the rest is handled automatically.
+
+    bool result = false;
+    pugi::xml_node treeRoot = root.child("SceneTree");
+
+    if(treeRoot)
+    {
+        auto sceneObjects = root.children();
+        Ocular::Core::Node_Internal node;
+        
+        for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); ++iter)
+        {
+            node.node = &(*iter);
+            Ocular::Core::SceneObjectLoader::Load(&node);
+        }
+
+        result = true;
+    }
+    else
+    {
+        OcularLogger->error("Failed to locate tree node <SceneTree>", OCULAR_INTERNAL_LOG("SceneLoader", "ParseSceneTree"));
+    }
+
+    return result;
 }

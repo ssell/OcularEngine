@@ -37,29 +37,16 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        Scene::Scene(SceneTreeType treeType)
+        Scene::Scene()
             : m_UniformBufferPerFrame(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerFrame)),
-              m_UniformBufferPerObject(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject))
+              m_UniformBufferPerObject(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject)),
+              m_RoutinesAreDirty(false),
+              m_StaticTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
+              m_DynamicTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
+              m_StaticSceneTree(nullptr),
+              m_DynamicSceneTree(nullptr)
         {
-            m_RoutinesAreDirty = false;
 
-            switch(treeType)
-            {
-            case SceneTreeType::BoundingVolumeHierarchyCPU:
-            {
-                m_StaticSceneTree = new BVHSceneTree();
-                m_DynamicSceneTree = new BVHSceneTree();
-                break;
-            }
-
-            default:
-            {
-                m_StaticSceneTree = nullptr;
-                m_DynamicSceneTree = nullptr;
-                OcularLogger->error("Unsupported SceneTree Type specified for new SceneTree", OCULAR_INTERNAL_LOG("Scene", "Scene"));
-                break;
-            }
-            }
         }
 
         Scene::~Scene()
@@ -113,6 +100,34 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        void Scene::initialize()
+        {
+            switch(m_StaticTreeType)
+            {
+            case SceneTreeType::BoundingVolumeHierarchyCPU:
+                m_StaticSceneTree = new BVHSceneTree();
+                m_DynamicSceneTree = new BVHSceneTree();
+                break;
+
+            default:
+                m_StaticSceneTree = nullptr;
+                OcularLogger->error("Unsupported SceneTree Type specified for new Static SceneTree", OCULAR_INTERNAL_LOG("Scene", "Scene"));
+                break;
+            }
+
+            switch(m_DynamicTreeType)
+            {
+            case SceneTreeType::BoundingVolumeHierarchyCPU:
+                m_DynamicSceneTree = new BVHSceneTree();
+                break;
+
+            default:
+                m_DynamicSceneTree = nullptr;
+                OcularLogger->error("Unsupported SceneTree Type specified for new Dynamic SceneTree", OCULAR_INTERNAL_LOG("Scene", "Scene"));
+                break;
+            }
+        }
 
         void Scene::addObject(SceneObject* object)
         {
@@ -251,6 +266,20 @@ namespace Ocular
                     renderObject(objects[i]);
                 }
             }
+        }
+
+        //----------------------------------------------------------------------------------
+        // Getters / Setters
+        //----------------------------------------------------------------------------------
+
+        void Scene::setStaticTreeType(SceneTreeType const type)
+        {
+            m_StaticTreeType = type;
+        }
+
+        void Scene::setDynamicTreeType(SceneTreeType const type)
+        {
+            m_DynamicTreeType = type;
         }
 
         //----------------------------------------------------------------------------------

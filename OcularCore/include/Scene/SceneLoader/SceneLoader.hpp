@@ -44,6 +44,28 @@ namespace Ocular
          *
          * As a Scene is not a Resource, this loader is a standalone class separate from the standard
          * loader/saver pattern found within the Resource subsystem.
+         *
+         * Example Scene file:
+         *
+         *     <OcularScene>
+         *         <SceneHeader>
+         *             <SceneTreeType>
+         *                 <Static>0</Static>
+         *                 <Dynamic>0</Dynamic>
+         *             </SceneTreeType>
+         *         </SceneHeader>
+         *         <SceneTree>
+         *             <SceneObject>
+         *             </SceneObject>
+         *         </SceneTree>
+         *     </OcularScene>
+         *
+         * SceneTreeType values for <Static> and <Dynamic> correspond to the enum values defined
+         * in the SceneTreeType enum (Core/Scene/SceneTreeType.hpp)
+         *
+         * SceneObject parameters are detailed in the SceneObjectLoader class description.
+         *
+         * Even if they are empty, the <SceneHeader> and <SceneTree> nodes are required.
          */
         class SceneLoader
         {
@@ -57,9 +79,11 @@ namespace Ocular
              * \return The new Scene object. Ownership of (and responsibility to destroy) this object is
              *         transferred to the method caller. May return NULL if failed to load.
              */
-            static Scene* load(File const& file);
+            static bool Load(Scene* scene, File const& file);
 
         protected:
+
+            static bool ValidateFile(File const& file);
 
         private:
         };

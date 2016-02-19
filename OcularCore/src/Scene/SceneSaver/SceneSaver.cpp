@@ -20,6 +20,8 @@
 
 #include "OcularEngine.hpp"
 
+#include <pugixml/pugixml.hpp>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -34,7 +36,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool SceneSaver::save(Scene const* scene, File const& file)
+        bool SceneSaver::Save(Scene const* scene, File const& file)
         {
             bool result = false;
             return result;
