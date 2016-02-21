@@ -293,6 +293,7 @@
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Exposable.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
@@ -464,6 +465,7 @@
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Exposable.hpp" />
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringUtils.hpp" />

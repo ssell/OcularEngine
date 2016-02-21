@@ -16,7 +16,11 @@
 
 #include "Scene/SceneManager.hpp"
 #include "Scene/Camera/Camera.hpp"
+#include "Scene/SceneLoader/SceneLoader.hpp"
+#include "Scene/SceneSaver/SceneSaver.hpp"
+
 #include "Events/Events/SceneObjectAddedEvent.hpp"
+
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -224,24 +228,30 @@ namespace Ocular
             m_Scene->setDynamicTreeType(dynamicType);
             m_Scene->initialize();
 
-            std::vector<SceneObject*> persistentObjects(m_Objects.size());
-
-            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
-            {
-                persistentObjects.emplace_back(iter->second);
-            }
-
-            m_Scene->addObjects(persistentObjects);
-
-            //------------------------------------------------------------
-            // If there is no camera in the scene yet, create one
-
-            Camera* mainCamera = OcularScene->createObject<Camera>("MainCamera", nullptr);
+            loadPersistentObjects();
         }
 
         bool SceneManager::loadScene(File const& file)
         {
             bool result = false;
+
+            if(m_Scene)
+            {
+                unloadScene();
+            }
+
+            m_Scene = new Scene();
+
+            if(SceneLoader::Load(m_Scene, file))
+            {
+                result = true;
+            }
+            else
+            {
+                m_Scene->initialize();
+            }
+
+            loadPersistentObjects();
 
             return result;
         }
@@ -249,6 +259,11 @@ namespace Ocular
         bool SceneManager::saveScene(File const& file)
         {
             bool result = false;
+
+            if(m_Scene)
+            {
+                result = SceneSaver::Save(m_Scene, file);
+            }
 
             return result;
         }
@@ -266,6 +281,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void SceneManager::loadPersistentObjects()
+        {
+            std::vector<SceneObject*> persistentObjects(m_Objects.size());
+
+            for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
+            {
+                persistentObjects.emplace_back(iter->second);
+            }
+
+            m_Scene->addObjects(persistentObjects);
+        }
 
         void SceneManager::addObject(SceneObject* object, SceneObject* parent)
         {

@@ -37,6 +37,7 @@ namespace Ocular
               m_IsVisible(false),
               m_ForcedVisible(false),
               m_Persists(false),
+              m_Renderable(nullptr),
               m_Parent(parent)
         {
             OcularScene->addObject(this, parent);
@@ -49,6 +50,7 @@ namespace Ocular
               m_IsVisible(false),
               m_ForcedVisible(false),
               m_Persists(false),
+              m_Renderable(nullptr),
               m_Parent(nullptr)
         {
             OcularScene->addObject(this);

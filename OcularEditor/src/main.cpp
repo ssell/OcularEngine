@@ -32,11 +32,10 @@ using namespace Ocular::Graphics;
 
 void setupCamera()
 {
-    Camera* camera = OcularCameras->getMainCamera();
+    Camera* camera = OcularScene->createObject<Camera>(Ocular::Editor::Helpers::EditorCameraName, nullptr);
 
     if(camera)
     {
-        camera->setName(Ocular::Editor::Helpers::EditorCameraName);
         camera->setPosition(0.0f, 0.2f, 0.5f);
         camera->addRoutine("EditorCameraController");
     }
@@ -52,12 +51,12 @@ void setupVisual()
 
         if(renderable)
         {
-            renderable->setMesh("Meshes/dragon_normals");
+            renderable->setMesh("Meshes/cube_normals");
             renderable->setMaterial("Materials/Flat");
             renderable->getMaterial()->setUniform("Color", 0, Ocular::Math::Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
 
             object->setPosition(Ocular::Math::Vector3f(5.0f, 0.0f, 0.0f));
-            object->setScale(5.0f, 5.0f, 5.0f);
+            //object->setScale(5.0f, 5.0f, 5.0f);
         }
     }
 

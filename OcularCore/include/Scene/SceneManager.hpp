@@ -227,6 +227,8 @@ namespace Ocular
 
         protected:
 
+            void loadPersistentObjects();
+
             /**
              * Adds the provided SceneObject to the current Scene.
              * \param[in] object
