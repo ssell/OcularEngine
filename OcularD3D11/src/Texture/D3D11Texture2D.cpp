@@ -129,7 +129,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture2D", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture2D", "createD3DTexture2D"));
                 }
             }
             else

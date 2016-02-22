@@ -83,7 +83,7 @@ namespace Ocular
 
         protected:
 
-            static bool ValidateFile(File const& file);
+            static bool IsValidFile(File const& file);
 
         private:
         };

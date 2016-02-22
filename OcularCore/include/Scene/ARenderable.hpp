@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
+#include "Utilities/Exposable.hpp"
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ namespace Ocular
         /**
          * \class ARenderable
          */
-        class ARenderable
+        class ARenderable : public Utils::Exposable
         {
             friend class SceneObject;
 

@@ -20,6 +20,8 @@
 
 #include "ResourceType.hpp"
 #include "FileIO/File.hpp"
+#include "Utilities/Types.hpp"
+
 #include <cstdint>
 
 //------------------------------------------------------------------------------------------
@@ -142,6 +144,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Core::Resource, "Resource");
 
 //------------------------------------------------------------------------------------------
 

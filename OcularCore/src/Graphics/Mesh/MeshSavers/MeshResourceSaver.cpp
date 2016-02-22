@@ -90,7 +90,7 @@ namespace Ocular
             {
                 if(file.canWrite())
                 {
-                    if(Utils::StringUtils::isEqual(file.getExtension(), m_SupportedExtension, true))
+                    if(Utils::StringUtils::IsEqual(file.getExtension(), m_SupportedExtension, true))
                     {
                         result = true;
                     }

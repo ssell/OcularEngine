@@ -185,8 +185,6 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Transform, "Transform");
-
 //------------------------------------------------------------------------------------------
 
 #endif

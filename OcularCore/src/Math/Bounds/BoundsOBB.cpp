@@ -55,9 +55,19 @@ namespace Ocular
             return m_Center;
         }
 
+        void BoundsOBB::setCenter(Vector3f const& center)
+        {
+            m_Center = center;
+        }
+
         Vector3f const& BoundsOBB::getExtents() const
         {
             return m_Extents;
+        }
+
+        void BoundsOBB::setExtents(Vector3f const& extents)
+        {
+            m_Extents = extents;
         }
 
         Vector3f const& BoundsOBB::getDirectionX() const
@@ -65,14 +75,29 @@ namespace Ocular
             return m_DirectionX;
         }
 
+        void BoundsOBB::setDirectionX(Vector3f const& dirX)
+        {
+            m_DirectionX = dirX;
+        }
+
         Vector3f const& BoundsOBB::getDirectionY() const
         {
             return m_DirectionY;
         }
 
+        void BoundsOBB::setDirectionY(Vector3f const& dirY)
+        {
+            m_DirectionY = dirY;
+        }
+
         Vector3f const& BoundsOBB::getDirectionZ() const
         {
             return m_DirectionZ;
+        }
+
+        void BoundsOBB::setDirectionZ(Vector3f const& dirZ)
+        {
+            m_DirectionZ = dirZ;
         }
 
         //----------------------------------------------------------------------------------

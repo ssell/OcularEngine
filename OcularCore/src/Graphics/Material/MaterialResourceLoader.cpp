@@ -484,11 +484,11 @@ namespace Ocular
 
                         if(result)
                         {
-                            if(Utils::StringUtils::isEqual(type, "Float", true))
+                            if(Utils::StringUtils::IsEqual(type, "Float", true))
                             {
                                 float uniformValue = 0.0f;
                         
-                                if(Utils::StringUtils::stringToFloat(value, uniformValue))
+                                if(Utils::StringUtils::StringToFloat(value, uniformValue))
                                 {
                                     material->setUniform(name, registerIndex, uniformValue);
                                 }
@@ -498,11 +498,11 @@ namespace Ocular
                                     result = false;
                                 }
                             }
-                            else if(Utils::StringUtils::isEqual(type, "Vector4", true))
+                            else if(Utils::StringUtils::IsEqual(type, "Vector4", true))
                             {
                                 Math::Vector4f uniformValue;
 
-                                if(Utils::StringUtils::stringToVector(value, uniformValue))
+                                if(Utils::StringUtils::StringToVector(value, uniformValue))
                                 {
                                     material->setUniform(name, registerIndex, uniformValue);
                                 }
@@ -512,11 +512,11 @@ namespace Ocular
                                     result = false;
                                 }
                             }
-                            else if(Utils::StringUtils::isEqual(type, "Matrix3x3", true))
+                            else if(Utils::StringUtils::IsEqual(type, "Matrix3x3", true))
                             {
                                 Math::Matrix3x3 uniformValue;
                         
-                                if(Utils::StringUtils::stringToMatrix(value, uniformValue))
+                                if(Utils::StringUtils::StringToMatrix(value, uniformValue))
                                 {
                                     material->setUniform(name, registerIndex, uniformValue);
                                 }
@@ -526,11 +526,11 @@ namespace Ocular
                                     result = false;
                                 }
                             }
-                            else if(Utils::StringUtils::isEqual(type, "Matrix4x4", true))
+                            else if(Utils::StringUtils::IsEqual(type, "Matrix4x4", true))
                             {
                                 Math::Matrix4x4 uniformValue;
                         
-                                if(Utils::StringUtils::stringToMatrix(value, uniformValue))
+                                if(Utils::StringUtils::StringToMatrix(value, uniformValue))
                                 {
                                     material->setUniform(name, registerIndex, uniformValue);
                                 }

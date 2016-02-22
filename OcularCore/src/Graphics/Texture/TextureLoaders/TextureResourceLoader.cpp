@@ -128,7 +128,7 @@ namespace Ocular
                         texture->unload();
                     }
 
-                    if(!Utils::StringUtils::isEqual(file.getFullPath(), texture->getSourceFile().getFullPath()))
+                    if(!Utils::StringUtils::IsEqual(file.getFullPath(), texture->getSourceFile().getFullPath()))
                     {
                         OcularLogger->warning("Source file mismatch for pre-existing resource", OCULAR_INTERNAL_LOG("TextureResourceLoader", "createResource"));
                         texture->setSourceFile(file);

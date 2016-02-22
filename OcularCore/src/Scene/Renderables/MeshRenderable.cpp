@@ -34,7 +34,8 @@ namespace Ocular
               m_Mesh(nullptr),
               m_Material(nullptr)
         {
-
+            OCULAR_EXPOSE(m_Mesh);
+            OCULAR_EXPOSE(m_Material);
         }
 
         MeshRenderable::~MeshRenderable()

@@ -76,7 +76,7 @@ namespace Ocular
 
                 if(hResult != S_OK)
                 {
-                    OcularLogger->error("Failed to create D3D11 Vertex Buffer with error ", Utils::StringUtils::toHex(hResult), OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
+                    OcularLogger->error("Failed to create D3D11 Vertex Buffer with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
                     result = false;
                 }
             }

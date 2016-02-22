@@ -41,7 +41,7 @@ namespace Ocular
     {
         namespace StringUtils
         {
-            std::string toLower(std::string const& str)
+            std::string ToLower(std::string const& str)
             {
                 std::string result = str;
 
@@ -50,7 +50,7 @@ namespace Ocular
                 return result;
             }
 
-            std::string toUpper(std::string const& str)
+            std::string ToUpper(std::string const& str)
             {
                 std::string result = str;
 
@@ -59,7 +59,7 @@ namespace Ocular
                 return result;
             }
 
-            bool isEqual(std::string const& strA, std::string const& strB, bool const ignoreCase)
+            bool IsEqual(std::string const& strA, std::string const& strB, bool const ignoreCase)
             {
                 bool result = false;
 
@@ -78,7 +78,7 @@ namespace Ocular
                 return result;
             }
 
-            std::string windowsErrorToString(unsigned long error)
+            std::string WindowsErrorToString(unsigned long error)
             {
                 std::string errorMessage = "UNKNOWN ERROR";
 
@@ -114,7 +114,7 @@ namespace Ocular
                 return errorMessage;
             }
 
-            std::string bytesToString(uint64_t bytes)
+            std::string BytesToString(uint64_t bytes)
             {
                 std::string result = "";
 
@@ -148,7 +148,7 @@ namespace Ocular
                 return result;
             }
 
-            bool stringToFloat(std::string const& string, float& value)
+            bool StringToFloat(std::string const& string, float& value)
             {
                 bool result = true;
 
@@ -159,13 +159,69 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to float value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToFloat"));
+                    OcularLogger->error("Failed to convert string '", string, "' to float value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToFloat"));
                 }
 
                 return true;
             }
 
-            bool stringToVector(std::string const& string, Math::Vector4f& value)
+            bool StringToVector(std::string const& string, Math::Vector2f& value)
+            {
+                bool result = true;
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 2))
+                    {
+                        value[index] = std::stof(string.substr(cumulativePos), &nextPos);
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Vector2f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToVector"));
+                }
+
+                return result;
+            }
+
+            bool StringToVector(std::string const& string, Math::Vector3f& value)
+            {
+                bool result = true;
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 3))
+                    {
+                        value[index] = std::stof(string.substr(cumulativePos), &nextPos);
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Vector3f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToVector"));
+                }
+
+                return result;
+            }
+
+            bool StringToVector(std::string const& string, Math::Vector4f& value)
             {
                 bool result = true;
 
@@ -187,13 +243,45 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to Vector4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToVector"));
+                    OcularLogger->error("Failed to convert string '", string, "' to Vector4f value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToVector"));
                 }
 
                 return result;
             }
 
-            bool stringToMatrix(std::string const& string, Math::Matrix3x3& value)
+            bool StringToQuaternion(std::string const& string, Math::Quaternion& value)
+            {
+                bool result = true;
+
+                float values[4] { 0.0f, 0.0f, 0.0f, 1.0f };
+
+                uint32_t index = 0;
+
+                size_t cumulativePos = 0;
+                size_t nextPos = 0;
+
+                try
+                {
+                    while((cumulativePos < string.size()) && (index < 4))
+                    {
+                        values[index] = std::stof(string.substr(cumulativePos), &nextPos);
+
+                        cumulativePos += nextPos;
+                        index += 1;
+                    }
+
+                    value = Math::Quaternion(values[0], values[1], values[2], values[3]);
+                }
+                catch(std::invalid_argument const& e)
+                {
+                    result = false;
+                    OcularLogger->error("Failed to convert string '", string, "' to Quaternion value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToQuaternion"));
+                }
+
+                return result;
+            }
+
+            bool StringToMatrix(std::string const& string, Math::Matrix3x3& value)
             {
                 bool result = true;
 
@@ -215,13 +303,13 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to Matrix3x3 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix3x3 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToMatrix"));
                 }
 
                 return result;
             }
 
-            bool stringToMatrix(std::string const& string, Math::Matrix4x4& value)
+            bool StringToMatrix(std::string const& string, Math::Matrix4x4& value)
             {
                 bool result = true;
 
@@ -243,7 +331,7 @@ namespace Ocular
                 catch(std::invalid_argument const& e)
                 {
                     result = false;
-                    OcularLogger->error("Failed to convert string '", string, "' to Matrix4x4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "stringToMatrix"));
+                    OcularLogger->error("Failed to convert string '", string, "' to Matrix4x4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToMatrix"));
                 }
                 
                 return result;

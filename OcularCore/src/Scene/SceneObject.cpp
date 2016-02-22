@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-#include "OcularEngine.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
 #include "Math/Matrix4x4.hpp"
+
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -40,6 +41,10 @@ namespace Ocular
               m_Renderable(nullptr),
               m_Parent(parent)
         {
+            OCULAR_EXPOSE(m_IsStatic);
+            OCULAR_EXPOSE(m_ForcedVisible);
+            OCULAR_EXPOSE(m_Persists);
+            
             OcularScene->addObject(this, parent);
         }
 

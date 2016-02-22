@@ -57,7 +57,7 @@ namespace Ocular
              * \param[in] str String to convert
              * \return Converted string
              */
-            std::string toLower(std::string const& str);
+            std::string ToLower(std::string const& str);
 
             /**
              * Converts a mixed-case string to all upper-case
@@ -65,7 +65,7 @@ namespace Ocular
              * \param[in] str String to convert
              * \return Converted string
              */
-            std::string toUpper(std::string const& str);
+            std::string ToUpper(std::string const& str);
 
             /**
              * \param[in] strA
@@ -74,7 +74,7 @@ namespace Ocular
              * 
              * \return TRUE if the strings are equal.
              */
-            bool isEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
+            bool IsEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
 
             /**
              * Converts a Win32 specific system error DWORD into a human readable string.
@@ -82,7 +82,7 @@ namespace Ocular
              * \param[in] error The DWORD error message
              * \return String representation of the error
              */
-            std::string windowsErrorToString(unsigned long error);
+            std::string WindowsErrorToString(unsigned long error);
 
             /**
              * Supports sizes up to tebibytes in size.
@@ -95,7 +95,7 @@ namespace Ocular
              * \param[in] bytes
              * \return Formatted string
              */
-            std::string bytesToString(uint64_t bytes);
+            std::string BytesToString(uint64_t bytes);
 
             /**
              * Converts a string to a single float. 
@@ -111,7 +111,37 @@ namespace Ocular
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToFloat(std::string const& string, float& value);
+            bool StringToFloat(std::string const& string, float& value);
+
+            /**
+             * Converts a string to a Vector2f.
+             * Input is expected as whitespace-separated floats.
+             *
+             *     # #
+             *
+             * Where '#' is a properly formatted float (see StringToFloat).
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Vector3f retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool StringToVector(std::string const& string, Math::Vector2f& value);
+
+            /**
+             * Converts a string to a Vector3f.
+             * Input is expected as whitespace-separated floats.
+             *
+             *     # # #
+             *
+             * Where '#' is a properly formatted float (see StringToFloat).
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Vector3f retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool StringToVector(std::string const& string, Math::Vector3f& value);
 
             /**
              * Converts a string to a Vector4f.
@@ -119,14 +149,31 @@ namespace Ocular
              *
              *     # # # #
              *
-             * Where '#' is a properly formatted float (see stringToFloat).
+             * Where '#' is a properly formatted float (see StringToFloat).
              *
              * \param[in]  string Source string to be converted
              * \param[out] value  Vector4f retrieved from the string
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToVector(std::string const& string, Math::Vector4f& value);
+            bool StringToVector(std::string const& string, Math::Vector4f& value);
+
+            /**
+             * Converts a string to Quaternion.
+             * Input is expected as whitespace-separated floats.
+             *
+             *     # # # #
+             *
+             * Where '#' is a properly formatted float (see StringToFloat) in the following order:
+             *
+             *     w x y z
+             *
+             * \param[in]  string Source string to be converted
+             * \param[out] value  Quaternion retrieved from the string
+             *
+             * \return TRUE if successfully converted the string.
+             */
+            bool StringToQuaternion(std::string const& string, Math::Quaternion& value);
 
             /**
              * Converts a string to a Matrix3x3.
@@ -140,7 +187,7 @@ namespace Ocular
              *
              *     # # #   # # #   # # #
              *
-             * Where '#' is a properly formatted float (see stringToFloat).
+             * Where '#' is a properly formatted float (see StringToFloat).
              * Spaces are optional.
              *
              * \param[in]  string Source string to be converted
@@ -148,7 +195,7 @@ namespace Ocular
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToMatrix(std::string const& string, Math::Matrix3x3& value);
+            bool StringToMatrix(std::string const& string, Math::Matrix3x3& value);
 
             /**
              * Converts a string to a Matrix4x4.
@@ -163,21 +210,21 @@ namespace Ocular
              *
              *     # # # #   # # # #   # # # #   # # # # 
              *
-             * Where '#' is a properly formatted float (see stringToFloat).
+             * Where '#' is a properly formatted float (see StringToFloat).
              *
              * \param[in]  string Source string to be converted
              * \param[out] value  Matix4x4f retrieved from the string
              *
              * \return TRUE if successfully converted the string.
              */
-            bool stringToMatrix(std::string const& string, Math::Matrix4x4& value);
+            bool StringToMatrix(std::string const& string, Math::Matrix4x4& value);
 
             /**
              * Converts an integer type to a hex string. <br/>
              * Source: http://stackoverflow.com/a/5100745/735425
              */
             template<typename T>
-            std::string toHex(T const x)
+            std::string ToHex(T const x)
             {
                 std::stringstream sstream;
                 sstream << "0x" << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << x;

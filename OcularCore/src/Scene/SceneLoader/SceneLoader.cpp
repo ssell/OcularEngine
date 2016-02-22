@@ -47,7 +47,7 @@ namespace Ocular
 
             if(scene)
             {
-                if(ValidateFile(file))
+                if(IsValidFile(file))
                 {
                     pugi::xml_document document;
                     pugi::xml_parse_result parseResult = document.load_file(file.getFullPath().c_str());
@@ -88,7 +88,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Invalid file '", file.getFullPath(), "' specified", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
+                    OcularLogger->error("Failed to validate file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("SceneLoader", "Load"));
                 }
             }
             else
@@ -103,13 +103,26 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
         
-        bool SceneLoader::ValidateFile(File const& file)
+        bool SceneLoader::IsValidFile(File const& file)
         {
-            bool result = false;
+            bool result = true;
 
-            if(file.exists() && file.canRead() && Utils::StringUtils::isEqual(".oscene", file.getExtension(), true))
+            if(!file.exists())
             {
-                result = true;
+                OcularLogger->error("File does not exist", OCULAR_INTERNAL_LOG("SceneLoader", "IsValidFile"));
+                result = false;
+            }
+
+            if(!file.canRead())
+            {
+                OcularLogger->error("File can not be read", OCULAR_INTERNAL_LOG("SceneLoader", "IsValidFile"));
+                result = false;
+            }
+
+            if(!Utils::StringUtils::IsEqual(file.getExtension(), ".oscene"))
+            {
+                OcularLogger->error("File is invalid type. Expecting '.oscene'", OCULAR_INTERNAL_LOG("SceneLoader", "IsValidFile"));
+                result = false;
             }
 
             return result;

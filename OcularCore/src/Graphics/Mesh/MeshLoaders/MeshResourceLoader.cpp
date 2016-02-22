@@ -119,7 +119,7 @@ namespace Ocular
                     mesh->unload();
                 }
 
-                if(!Utils::StringUtils::isEqual(file.getFullPath(), mesh->getSourceFile().getFullPath()))
+                if(!Utils::StringUtils::IsEqual(file.getFullPath(), mesh->getSourceFile().getFullPath()))
                 {
                     OcularLogger->warning("Source file mismatch for pre-existing resource", OCULAR_INTERNAL_LOG("MeshResourceLoader", "createResource"));
                     mesh->setSourceFile(file);

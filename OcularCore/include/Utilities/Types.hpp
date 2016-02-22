@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_UTILITIES_TYPES__H__
 #define __H__OCULAR_UTILITIES_TYPES__H__
 
+#include <cstdint>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -115,22 +117,19 @@ namespace Ocular
  */
 #define OCULAR_TYPE(X) OCULAR_TYPE_NAME(decltype(X))
 
-
 //----------------------------------------------------------------------------------
 // REGISTERING TYPES
 //----------------------------------------------------------------------------------
 
+OCULAR_REGISTER_TYPE(int8_t);
+OCULAR_REGISTER_TYPE(uint8_t);
+OCULAR_REGISTER_TYPE(int16_t);
+OCULAR_REGISTER_TYPE(uint16_t);
+OCULAR_REGISTER_TYPE(int32_t);
+OCULAR_REGISTER_TYPE(uint32_t);
+OCULAR_REGISTER_TYPE(int64_t);
+OCULAR_REGISTER_TYPE(uint64_t);
 OCULAR_REGISTER_TYPE(bool);
-OCULAR_REGISTER_TYPE(char);
-OCULAR_REGISTER_TYPE(unsigned char);
-OCULAR_REGISTER_TYPE(short);
-OCULAR_REGISTER_TYPE(unsigned short);
-OCULAR_REGISTER_TYPE(int);
-OCULAR_REGISTER_TYPE(unsigned int);
-OCULAR_REGISTER_TYPE(long);
-OCULAR_REGISTER_TYPE(unsigned long);
-OCULAR_REGISTER_TYPE(long long);
-OCULAR_REGISTER_TYPE(unsigned long long);
 OCULAR_REGISTER_TYPE(float);
 OCULAR_REGISTER_TYPE(double);
 OCULAR_REGISTER_TYPE(long double);

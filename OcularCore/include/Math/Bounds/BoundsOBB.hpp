@@ -65,27 +65,52 @@ namespace Ocular
              * Returns the center of the bounding box.
              */
             Vector3f const& getCenter() const;
+            
+            /**
+             * /param[in] center
+             */
+            void setCenter(Vector3f const& center);
 
             /**
              * Returns the positive half-lengths of the box.
              * These are the distances along each local axis to the box edge.
              */
             Vector3f const& getExtents() const;
+            
+            /**
+             * /param[in] extents
+             */
+            void setExtents(Vector3f const& extents);
 
             /**
              * Returns the normalized direction of the x-axis of the bounding box.
              */
             Vector3f const& getDirectionX() const;
+            
+            /**
+             * /param[in] dirX
+             */
+            void setDirectionX(Vector3f const& dirX);
 
             /**
              * Returns the normalized direction of the y-axis of the bounding box.
              */
             Vector3f const& getDirectionY() const;
+            
+            /**
+             * /param[in] dirY
+             */
+            void setDirectionY(Vector3f const& dirY);
 
             /**
              * Returns the normalized direction of the z-axis of the bounding box.
              */
             Vector3f const& getDirectionZ() const;
+
+            /**
+             * /param[in] dirZ
+             */
+            void setDirectionZ(Vector3f const& dirZ);
 
             //------------------------------------------------------------------------------
             // Intersection and Containment Testing
