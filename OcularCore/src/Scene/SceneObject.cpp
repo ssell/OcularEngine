@@ -723,6 +723,30 @@ namespace Ocular
             return m_Renderable;
         }
 
+        //----------------------------------------------------------------
+        // Inherited Methods
+        //----------------------------------------------------------------
+
+        void SceneObject::onLoad(BuilderNode const* node)
+        {
+            Buildable::onLoad(node);
+
+            if(node)
+            {
+
+            }
+        }
+
+        void SceneObject::onSave(BuilderNode* node)
+        {
+            Buildable::onSave(node);
+
+            if(node)
+            {
+
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

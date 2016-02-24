@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_CORE_SCENE_AROUTINE__H__
 #define __H__OCULAR_CORE_SCENE_AROUTINE__H__
 
+#include "ObjectIO/Exposable.hpp"
+#include "ObjectIO/Buildable.hpp"
+
 #include "Events/AEventListener.hpp"
 #include "Priority.hpp"
 
@@ -54,7 +57,7 @@ namespace Ocular
          * |  PostRender | TBD                                                         |
          * |       Event | TBD                                                         |
          */
-        class ARoutine : public AEventListener
+        class ARoutine : public AEventListener, public Exposable, public Buildable
         {
             friend class SceneObject;
 
@@ -163,6 +166,13 @@ namespace Ocular
              * Returns the non-unique name assigned to this Routine.
              */
             std::string const& getName() const;
+
+            //------------------------------------------------------------
+            // Inherited Methods
+            //------------------------------------------------------------
+
+            void onLoad(BuilderNode const* node) override;
+            void onSave(BuilderNode* node) override;
 
         protected:
 

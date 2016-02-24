@@ -18,7 +18,9 @@
 #ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
-#include "Utilities/Exposable.hpp"
+#include "ObjectIO/Exposable.hpp"
+#include "ObjectIO/Buildable.hpp"
+
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -40,7 +42,7 @@ namespace Ocular
         /**
          * \class ARenderable
          */
-        class ARenderable : public Utils::Exposable
+        class ARenderable : public Exposable, public Buildable
         {
             friend class SceneObject;
 
@@ -92,6 +94,13 @@ namespace Ocular
              * Returns the non-unique name assigned to this Renderable.
              */
             std::string const& getName() const;
+
+            //------------------------------------------------------------
+            // Inherited Methods
+            //------------------------------------------------------------
+
+            void onLoad(BuilderNode const* node) override;
+            void onSave(BuilderNode* node) override;
 
         protected:
 

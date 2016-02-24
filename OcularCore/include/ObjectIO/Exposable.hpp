@@ -15,11 +15,13 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_UTILITIES_EXPOSABLE__H__
-#define __H__OCULAR_UTILITIES_EXPOSABLE__H__
+#ifndef __H__OCULAR_CORE_EXPOSABLE__H__
+#define __H__OCULAR_CORE_EXPOSABLE__H__
 
-#include "Types.hpp"
-#include "StringUtils.hpp"
+#include "ExposedVariable.hpp"
+
+#include "Utilities/Types.hpp"
+#include "Utilities/StringUtils.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -33,23 +35,33 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Utils
+     * \addtogroup Core
      * @{
      */
-    namespace Utils
+    namespace Core
     {
-        /**
-         * \struct ExposedVariable
-         */
-        struct ExposedVariable
-        {
-            std::string name;     ///< Name of the member variable
-            std::string type;     ///< String representation of the variable type 
-            void* ptr;            ///< Raw generic pointer to the variable
-        };
 
         /**
          * \class Exposable
+         *
+         * When inheriting from Exposable, an object is allowing for selected variables
+         * and pointers to be inspected, and potentially modified, by any outside source.
+         * 
+         * While external behaviour can not be guaranteed, the Ocular Engine will only
+         * inspect or modify variables when generic access is required. This typically
+         * falls under the following scenarios:
+         *
+         *     - Loading object from file
+         *     - Saving object to file
+         *     - Ocular Editor inspection
+         *
+         * Many fundamental classes inherit from Exposable (including SceneObjects,
+         * Renderables, Routines, various Resources, etc.) in order to allow for the 
+         * above scenarios to take place.
+         *
+         * A class that inherits from Exposable may also see special automatic behaviour
+         * when also inheriting from the Buildable class. This typically includes 
+         * automatic building from, and saving to, BuilderNode chains.
          */
         class Exposable
         {

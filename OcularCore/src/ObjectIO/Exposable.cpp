@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include "Utilities/Exposable.hpp"
+#include "ObjectIO/Exposable.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Utils
+    namespace Core
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
@@ -65,7 +65,7 @@ namespace Ocular
 
             if(find == m_ExposedVariables.end())
             {
-                m_ExposedVariables[name] = ExposedVariable{ name, type, ptr };
+                m_ExposedVariables[name] = ExposedVariable(name, type, ptr, false);
             }
         }
 

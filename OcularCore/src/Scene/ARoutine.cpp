@@ -124,6 +124,30 @@ namespace Ocular
             return m_Name;
         }
 
+        //----------------------------------------------------------------
+        // Inherited Methods
+        //----------------------------------------------------------------
+
+        void ARoutine::onLoad(BuilderNode const* node)
+        {
+            Buildable::onLoad(node);
+
+            if(node)
+            {
+
+            }
+        }
+
+        void ARoutine::onSave(BuilderNode* node)
+        {
+            Buildable::onSave(node);
+
+            if(node)
+            {
+
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

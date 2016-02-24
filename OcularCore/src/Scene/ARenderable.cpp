@@ -80,6 +80,30 @@ namespace Ocular
             return m_Name;
         }
 
+        //----------------------------------------------------------------
+        // Inherited Methods
+        //----------------------------------------------------------------
+
+        void ARenderable::onLoad(BuilderNode const* node)
+        {
+            Buildable::onLoad(node);
+
+            if(node)
+            {
+
+            }
+        }
+
+        void ARenderable::onSave(BuilderNode* node)
+        {
+            Buildable::onSave(node);
+
+            if(node)
+            {
+
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

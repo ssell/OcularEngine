@@ -19,7 +19,9 @@
 #define __H__OCULAR_CORE_SCENE_OBJECT__H__
 
 #include "Object.hpp"
-#include "Utilities\Exposable.hpp"
+
+#include "ObjectIO/Exposable.hpp"
+#include "ObjectIO/Buildable.hpp"
 
 #include "Math/Transform.hpp"
 #include "Math/Bounds/BoundsSphere.hpp"
@@ -87,7 +89,7 @@ namespace Ocular
          * In either case, the SceneManager owns the object and handles adding it to the Scene,
          * invoking the Routines and Renderables, intersection testing, etc.
          */
-        class SceneObject : public Object, public Utils::Exposable
+        class SceneObject : public Object, public Exposable, public Buildable
         {
             friend class SceneManager;
 
@@ -572,6 +574,13 @@ namespace Ocular
              *
              */
             ARenderable* getRenderable() const;
+
+            //------------------------------------------------------------
+            // Inherited Methods
+            //------------------------------------------------------------
+
+            virtual void onLoad(BuilderNode const* node) override;
+            virtual void onSave(BuilderNode* node) override;
 
             //------------------------------------------------------------
             // Bounds Related

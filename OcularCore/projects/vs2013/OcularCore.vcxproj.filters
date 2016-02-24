@@ -259,6 +259,12 @@
     <Filter Include="Source Files\Scene\SceneSaver">
       <UniqueIdentifier>{0bb8cc5b-2294-4e87-bc35-2243be17c2b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ObjectIO">
+      <UniqueIdentifier>{6bb46708-0fb8-4d48-a61b-c8e0ceacaab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjectIO">
+      <UniqueIdentifier>{8b2efd5a-1793-4b87-b73b-58e71719b93d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -636,8 +642,14 @@
     <ClCompile Include="..\..\src\Scene\SceneSaver\SceneObjectSaver.cpp">
       <Filter>Source Files\Scene\SceneSaver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Exposable.cpp">
-      <Filter>Source Files\Utilities</Filter>
+    <ClCompile Include="..\..\src\ObjectIO\Exposable.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\Buildable.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\BuilderNode.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1163,8 +1175,17 @@
     <ClInclude Include="..\..\include\Scene\SceneSaver\SceneObjectSaver.hpp">
       <Filter>Header Files\Scene\SceneSaver</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\Exposable.hpp">
-      <Filter>Header Files\Utilities</Filter>
+    <ClInclude Include="..\..\include\ObjectIO\Buildable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\BuilderNode.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\Exposable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\ExposedVariable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

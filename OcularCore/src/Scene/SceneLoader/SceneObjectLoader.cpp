@@ -35,7 +35,7 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object);
 void ParseTransform(pugi::xml_node& root, Ocular::Core::SceneObject* object);
 void ParseRenderable(pugi::xml_node& root, Ocular::Core::SceneObject* object);
 void ParseRoutines(pugi::xml_node& root, Ocular::Core::SceneObject* object);
-void SetExposedValue(std::string const& value, ExposedVariable& exposed);
+//void SetExposedValue(std::string const& value, ExposedVariable& exposed);
 
 namespace Ocular
 {
@@ -423,7 +423,7 @@ void ParseRenderable(pugi::xml_node& root, Ocular::Core::SceneObject* object)
             {
                 // Successfully added renderable. Now check for and parse any exposed variables
 
-                std::vector<std::string> exposedNames;
+                /*std::vector<std::string> exposedNames;
                 renderable->getAllExposedNames(exposedNames);
 
                 for(auto exposedName : exposedNames)
@@ -435,7 +435,7 @@ void ParseRenderable(pugi::xml_node& root, Ocular::Core::SceneObject* object)
                     {
                         SetExposedValue(exposedNode.text().as_string(), exposed);
                     }
-                }
+                }*/
             }
             else
             {
@@ -458,7 +458,7 @@ void ParseRoutines(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
 }
 
-void SetExposedValue(std::string const& value, ExposedVariable& exposed)
+/*void SetExposedValue(std::string const& value, ExposedVariable& exposed)
 {
     const std::string type = exposed.type;
 
@@ -470,4 +470,4 @@ void SetExposedValue(std::string const& value, ExposedVariable& exposed)
     {
         *(&exposed.ptr) = OcularResources->getResource(value);
     }
-}
+}*/
