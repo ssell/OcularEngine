@@ -493,27 +493,27 @@ namespace Ocular
         {
             PLYPropertyType result = PLYPropertyType::Unknown;
             
-            if(Utils::StringUtils::IsEqual(str, "x", true))
+            if(Utils::String::IsEqual(str, "x", true))
             {
                 result = PLYPropertyType::X;
             }
-            else if(Utils::StringUtils::IsEqual(str, "y", true))
+            else if(Utils::String::IsEqual(str, "y", true))
             {
                 result = PLYPropertyType::Y;
             }
-            else if(Utils::StringUtils::IsEqual(str, "z", true))
+            else if(Utils::String::IsEqual(str, "z", true))
             {
                 result = PLYPropertyType::Z;
             }
-            else if(Utils::StringUtils::IsEqual(str, "nx", true))
+            else if(Utils::String::IsEqual(str, "nx", true))
             {
                 result = PLYPropertyType::NormalX;
             }
-            else if(Utils::StringUtils::IsEqual(str, "ny", true))
+            else if(Utils::String::IsEqual(str, "ny", true))
             {
                 result = PLYPropertyType::NormalY;
             }
-            else if(Utils::StringUtils::IsEqual(str, "nz", true))
+            else if(Utils::String::IsEqual(str, "nz", true))
             {
                 result = PLYPropertyType::NormalZ;
             }
@@ -525,15 +525,15 @@ namespace Ocular
         {
             PLYElementType result = PLYElementType::Unknown;
             
-            if(Utils::StringUtils::IsEqual(str, "vertex", true))
+            if(Utils::String::IsEqual(str, "vertex", true))
             {
                 result = PLYElementType::Vertex;
             }
-            else if(Utils::StringUtils::IsEqual(str, "face", true))
+            else if(Utils::String::IsEqual(str, "face", true))
             {
                 result = PLYElementType::Face;
             }
-            else if(Utils::StringUtils::IsEqual(str, "edge", true))
+            else if(Utils::String::IsEqual(str, "edge", true))
             {
                 // Edge is handled in the same way as faces as it is
                 // up to the Material to define whether a mesh should

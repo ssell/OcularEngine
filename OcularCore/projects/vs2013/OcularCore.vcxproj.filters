@@ -1187,5 +1187,8 @@
     <ClInclude Include="..\..\include\ObjectIO\ExposedVariable.hpp">
       <Filter>Header Files\ObjectIO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\VoidCast.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

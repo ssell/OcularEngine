@@ -103,7 +103,7 @@ namespace Ocular
 
                 if(find != m_ExposedVariables.end())
                 {
-                    if(StringUtils::isEqual(OCULAR_TYPE(T), find->second.type))
+                    if(String::IsEqual(OCULAR_TYPE(T), find->second.type))
                     {
                         value = *(T*)(find->second.ptr);
                         result = true;
@@ -131,7 +131,7 @@ namespace Ocular
 
                 if(find != m_ExposedVariables.end())
                 {
-                    if(StringUtils::isEqual(OCULAR_TYPE(T), find->second.type))
+                    if(String::IsEqual(OCULAR_TYPE(T), find->second.type))
                     {
                         *(find->second.ptr) = value;
                         result = true;

@@ -218,7 +218,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create Vertex Shader with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                        OcularLogger->error("Failed to create Vertex Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
                     }
                 }
                 // else
@@ -282,7 +282,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create Geometry Shader with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileGeometryShader"));
+                        OcularLogger->error("Failed to create Geometry Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileGeometryShader"));
                     }
                 }
                 // else
@@ -344,7 +344,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create Fragment Shader with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileFragmentShader"));
+                        OcularLogger->error("Failed to create Fragment Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileFragmentShader"));
                     }
                 }
                 // else
@@ -406,7 +406,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create PreTessellation Shader with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePreTessellationShader"));
+                        OcularLogger->error("Failed to create PreTessellation Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePreTessellationShader"));
                     }
                 }
                 // else
@@ -468,7 +468,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
-                        OcularLogger->error("Failed to create PostTessellation Shader with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePostTessellationShader"));
+                        OcularLogger->error("Failed to create PostTessellation Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compilePostTessellationShader"));
                     }
                 }
                 // else

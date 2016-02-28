@@ -136,7 +136,7 @@ namespace Ocular
                 result = false;
             }
 
-            if(!Utils::StringUtils::IsEqual(file.getExtension(), ".opre"))
+            if(!Utils::String::IsEqual(file.getExtension(), ".opre"))
             {
                 OcularLogger->error("File is invalid type. Expecting '.opre'", OCULAR_INTERNAL_LOG("SceneObjectLoader", "IsValidFile"));
                 result = false;
@@ -244,17 +244,13 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center;
-            StringUtils::StringToVector(centerNode.text().as_string(), center);
-
+            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsAABB.setCenter(center);
         }
 
         if(extentsNode)
         {
-            Ocular::Math::Vector3f extents;
-            StringUtils::StringToVector(extentsNode.text().as_string(), extents);
-
+            Ocular::Math::Vector3f extents = String::FromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
             object->boundsAABB.setExtents(extents);
         }
     }
@@ -281,41 +277,31 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center;
-            StringUtils::StringToVector(centerNode.text().as_string(), center);
-
+            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsOBB.setCenter(center);
         }
 
         if(extentsNode)
         {
-            Ocular::Math::Vector3f extents;
-            StringUtils::StringToVector(extentsNode.text().as_string(), extents);
-
+            Ocular::Math::Vector3f extents = String::FromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
             object->boundsOBB.setCenter(extents);
         }
 
         if(xDirNode)
         {
-            Ocular::Math::Vector3f xDir;
-            StringUtils::StringToVector(xDirNode.text().as_string(), xDir);
-
+            Ocular::Math::Vector3f xDir = String::FromString<Ocular::Math::Vector3f>(xDirNode.text().as_string());
             object->boundsOBB.setCenter(xDir);
         }
 
         if(yDirNode)
         {
-            Ocular::Math::Vector3f yDir;
-            StringUtils::StringToVector(yDirNode.text().as_string(), yDir);
-
+            Ocular::Math::Vector3f yDir = String::FromString<Ocular::Math::Vector3f>(yDirNode.text().as_string());
             object->boundsOBB.setCenter(yDir);
         }
 
         if(zDirNode)
         {
-            Ocular::Math::Vector3f zDir;
-            StringUtils::StringToVector(zDirNode.text().as_string(), zDir);
-
+            Ocular::Math::Vector3f zDir = String::FromString<Ocular::Math::Vector3f>(zDirNode.text().as_string());
             object->boundsOBB.setCenter(zDir);
         }
     }
@@ -336,9 +322,7 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center;
-            StringUtils::StringToVector(centerNode.text().as_string(), center);
-
+            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsSphere.setCenter(center);
         }
 
@@ -371,25 +355,19 @@ void ParseTransform(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(positionNode)
         {
-            Ocular::Math::Vector3f position;
-            StringUtils::StringToVector(positionNode.text().as_string(), position);
-
+            Ocular::Math::Vector3f position = String::FromString<Ocular::Math::Vector3f>(positionNode.text().as_string());
             object->getTransform().setPosition(position);
         }
 
         if(scalingNode)
         {
-            Ocular::Math::Vector3f scaling;
-            StringUtils::StringToVector(scalingNode.text().as_string(), scaling);
-
+            Ocular::Math::Vector3f scaling = String::FromString<Ocular::Math::Vector3f>(scalingNode.text().as_string());
             object->getTransform().setScale(scaling);
         }
 
         if(rotationNode)
         {
-            Ocular::Math::Quaternion rotation;
-            StringUtils::StringToQuaternion(rotationNode.text().as_string(), rotation);
-
+            Ocular::Math::Vector3f rotation = String::FromString<Ocular::Math::Vector3f>(rotationNode.text().as_string());
             object->getTransform().setRotation(rotation);
         }
     }
@@ -462,11 +440,11 @@ void ParseRoutines(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 {
     const std::string type = exposed.type;
 
-    if(StringUtils::IsEqual(type, OCULAR_TYPE_NAME(float)))
+    if(String::IsEqual(type, OCULAR_TYPE_NAME(float)))
     {
         StringUtils::StringToFloat(value, *(float*)exposed.ptr);
     }
-    else if(StringUtils::IsEqual(type, OCULAR_TYPE_NAME(Ocular::Core::Resource)))
+    else if(String::IsEqual(type, OCULAR_TYPE_NAME(Ocular::Core::Resource)))
     {
         *(&exposed.ptr) = OcularResources->getResource(value);
     }

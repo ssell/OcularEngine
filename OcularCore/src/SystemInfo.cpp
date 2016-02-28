@@ -159,10 +159,10 @@ namespace Ocular
                "\n\t- Endianness:       ", endianString, 
                "\n\t- OpenGL Support:   ", openglString, 
                "\n\t- DirectX Support:  ", directxString, 
-               "\n\t- Total RAM:        ", Utils::StringUtils::BytesToString(m_TotalRAM),
-               "\n\t- Free RAM:         ", Utils::StringUtils::BytesToString(m_FreeRAM),
-               "\n\t- Total GPU Memory: ", Utils::StringUtils::BytesToString(m_TotalGPUMemory),
-               "\n\t- Free GPU Memory:  ", Utils::StringUtils::BytesToString(m_FreeGPUMemory),
+               "\n\t- Total RAM:        ", Utils::String::FormatBytes(m_TotalRAM),
+               "\n\t- Free RAM:         ", Utils::String::FormatBytes(m_FreeRAM),
+               "\n\t- Total GPU Memory: ", Utils::String::FormatBytes(m_TotalGPUMemory),
+               "\n\t- Free GPU Memory:  ", Utils::String::FormatBytes(m_FreeGPUMemory),
                "\n\t- Output Channels:  ", m_NumberOfChannels);
         }
 
@@ -315,7 +315,7 @@ namespace Ocular
                 DWORD error = GetLastError();
                 OcularLogger->error(
                     "Failed to retrieve available system RAM with error (", error, "): ",
-                    Utils::StringUtils::WindowsErrorToString(error),
+                    Utils::String::FormatWindowsError(error),
                     OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
             }
 #endif
@@ -335,7 +335,7 @@ namespace Ocular
                 DWORD error = GetLastError();
                 OcularLogger->error(
                     "Failed to retrieve available system RAM with error (", error, "): ",
-                    Utils::StringUtils::WindowsErrorToString(error),
+                    Utils::String::FormatWindowsError(error),
                     OCULAR_INTERNAL_LOG("SystemInfo", "discoverAvailableRAM"));
             }
 #endif

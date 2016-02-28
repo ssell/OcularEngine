@@ -65,7 +65,7 @@ namespace Ocular
             {
                 if(file.canRead())
                 {
-                    if(Utils::StringUtils::IsEqual(file.getExtension(), m_SupportedExtension, true))
+                    if(Utils::String::IsEqual(file.getExtension(), m_SupportedExtension, true))
                     {
                         result = true;
                     }

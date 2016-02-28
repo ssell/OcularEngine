@@ -21,10 +21,60 @@
 #include "Math/Vector3.hpp"
 #include "Math/Vector4.hpp"
 
+#include "Utilities/StringUtils.hpp"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "OcularEngine.hpp"
+
 //------------------------------------------------------------------------------------------
+
+OCULAR_REGISTER_TO_STRING(Ocular::Math::Matrix4x4, OCULAR_TO_STRING_LAMBDA 
+{ 
+    std::string result;
+
+    if(raw)
+    {
+        Ocular::Math::Matrix4x4 matrix = void_cast<Ocular::Math::Matrix4x4>(raw);
+        std::stringstream sstream;
+        
+        for(uint32_t i = 0; i < 16; i++)
+        {
+            sstream << matrix[i] << " ";
+        }
+
+        result = sstream.str();
+    }
+
+    return result; 
+});
+
+OCULAR_REGISTER_FROM_STRING(Ocular::Math::Matrix4x4, OCULAR_FROM_STRING_LAMBDA
+{
+    Ocular::Math::Matrix4x4 result;
+
+    uint32_t index = 0;
+    size_t cumulativePos = 0;
+    size_t nextPos = 0;
+
+    try
+    {
+        while((cumulativePos < str.size()) && (index < 16))
+        {
+            result.setElement(index, std::stof(str.substr(cumulativePos), &nextPos));
+
+            cumulativePos += nextPos;
+            index += 1;
+        }
+    }
+    catch(std::invalid_argument const& e)
+    {
+        OcularLogger->error("Failed to convert string '", str, "' to Matrix4x4 value with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "StringToMatrix"));
+    }
+
+    return void_cast<Ocular::Math::Matrix4x4>(result);
+});
 
 namespace Ocular
 {

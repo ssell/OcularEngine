@@ -119,7 +119,7 @@ namespace Ocular
                 result = false;
             }
 
-            if(!Utils::StringUtils::IsEqual(file.getExtension(), ".oscene"))
+            if(!Utils::String::IsEqual(file.getExtension(), ".oscene"))
             {
                 OcularLogger->error("File is invalid type. Expecting '.oscene'", OCULAR_INTERNAL_LOG("SceneLoader", "IsValidFile"));
                 result = false;

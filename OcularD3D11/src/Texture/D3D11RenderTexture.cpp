@@ -182,7 +182,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to retrieve D3D11SwapChain backbuffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
             else if(D3D11GraphicsDriver::ConvertTextureDescriptor(m_Descriptor, texDescr))
@@ -204,7 +204,7 @@ namespace Ocular
                 }
                 else
                 {
-                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
+                    OcularLogger->error("Failed to create D3D11Texture2D with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DTexture2D"));
                 }
             }
             else
@@ -227,7 +227,7 @@ namespace Ocular
 
             if(hResult != S_OK)
             {
-                OcularLogger->error("Failed to create D3D11RenderTargetView with error ", Utils::StringUtils::ToHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DRenderTarget"));
+                OcularLogger->error("Failed to create D3D11RenderTargetView with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11RenderTexture", "createD3DRenderTarget"));
                 result = false;
             }
 

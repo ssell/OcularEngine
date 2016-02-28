@@ -78,7 +78,7 @@ void setupVisual()
         if(renderable)
         {
             const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/hand_normals");
+            renderable->setMesh("Meshes/cube_normals");
             const uint64_t end = OcularClock->getEpochMS();
 
             renderable->setMaterial("Materials/Flat");

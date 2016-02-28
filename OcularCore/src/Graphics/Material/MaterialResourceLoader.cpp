@@ -484,61 +484,21 @@ namespace Ocular
 
                         if(result)
                         {
-                            if(Utils::StringUtils::IsEqual(type, "Float", true))
+                            if(Utils::String::IsEqual(type, "Float", true))
                             {
-                                float uniformValue = 0.0f;
-                        
-                                if(Utils::StringUtils::StringToFloat(value, uniformValue))
-                                {
-                                    material->setUniform(name, registerIndex, uniformValue);
-                                }
-                                else
-                                {
-                                    OcularLogger->warning("Failed to convert Uniform '", name, "' value of '", value, "' to Float", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                                    result = false;
-                                }
+                                material->setUniform(name, registerIndex, Utils::String::FromString<float>(value));
                             }
-                            else if(Utils::StringUtils::IsEqual(type, "Vector4", true))
+                            else if(Utils::String::IsEqual(type, "Vector4", true))
                             {
-                                Math::Vector4f uniformValue;
-
-                                if(Utils::StringUtils::StringToVector(value, uniformValue))
-                                {
-                                    material->setUniform(name, registerIndex, uniformValue);
-                                }
-                                else
-                                {
-                                    OcularLogger->warning("Failed to convert Uniform '", name, "' value of '", value, "' to Vector4", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                                    result = false;
-                                }
+                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Vector4f>(value));
                             }
-                            else if(Utils::StringUtils::IsEqual(type, "Matrix3x3", true))
+                            else if(Utils::String::IsEqual(type, "Matrix3x3", true))
                             {
-                                Math::Matrix3x3 uniformValue;
-                        
-                                if(Utils::StringUtils::StringToMatrix(value, uniformValue))
-                                {
-                                    material->setUniform(name, registerIndex, uniformValue);
-                                }
-                                else
-                                {
-                                    OcularLogger->warning("Failed to convert Uniform '", name, "' value of '", value, "' to Matrix3x3", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                                    result = false;
-                                }
+                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Matrix3x3>(value));
                             }
-                            else if(Utils::StringUtils::IsEqual(type, "Matrix4x4", true))
+                            else if(Utils::String::IsEqual(type, "Matrix4x4", true))
                             {
-                                Math::Matrix4x4 uniformValue;
-                        
-                                if(Utils::StringUtils::StringToMatrix(value, uniformValue))
-                                {
-                                    material->setUniform(name, registerIndex, uniformValue);
-                                }
-                                else
-                                {
-                                    OcularLogger->warning("Failed to convert Uniform '", name, "' value of '", value, "' to Matrix4x4", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                                    result = false;
-                                }
+                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Matrix4x4>(value));
                             }
                             else
                             {

@@ -35,7 +35,7 @@ namespace Ocular
     namespace Utils
     {
         template<typename T>
-        struct OCULAR_INTERNAL_TypeRegister { static const char* name;  };
+        struct TypeName { static const char* name;  };
     }
     /**
      * @} End of Doxygen Groups
@@ -63,7 +63,7 @@ namespace Ocular
  *     // "Type: int"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE(X) const char* Ocular::Utils::OCULAR_INTERNAL_TypeRegister<X>::name = #X 
+#define OCULAR_REGISTER_TYPE(X) const char* Ocular::Utils::TypeName<X>::name = #X 
 
 /**
  * Registers a type with a custom string name represenation.
@@ -81,7 +81,7 @@ namespace Ocular
  *     // "Type: Matrix3x3"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) const char* Ocular::Utils::OCULAR_INTERNAL_TypeRegister<X>::name = Y 
+#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) const char* Ocular::Utils::TypeName<X>::name = Y 
 
 /**
  * Given a type, it will give back a string representation of that type.
@@ -95,7 +95,7 @@ namespace Ocular
  *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
  *       for custom type registering.
  */
-#define OCULAR_TYPE_NAME(X) Ocular::Utils::OCULAR_INTERNAL_TypeRegister<X>::name
+#define OCULAR_TYPE_NAME(X) Ocular::Utils::TypeName<X>::name
 
 /**
  * Given a type or variable, it will give back a string representation of that type.
