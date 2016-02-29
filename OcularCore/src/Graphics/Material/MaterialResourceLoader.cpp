@@ -486,19 +486,19 @@ namespace Ocular
                         {
                             if(Utils::String::IsEqual(type, "Float", true))
                             {
-                                material->setUniform(name, registerIndex, Utils::String::FromString<float>(value));
+                                material->setUniform(name, registerIndex, OcularString->fromString<float>(value));
                             }
                             else if(Utils::String::IsEqual(type, "Vector4", true))
                             {
-                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Vector4f>(value));
+                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Vector4f>(value));
                             }
                             else if(Utils::String::IsEqual(type, "Matrix3x3", true))
                             {
-                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Matrix3x3>(value));
+                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Matrix3x3>(value));
                             }
                             else if(Utils::String::IsEqual(type, "Matrix4x4", true))
                             {
-                                material->setUniform(name, registerIndex, Utils::String::FromString<Math::Matrix4x4>(value));
+                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Matrix4x4>(value));
                             }
                             else
                             {

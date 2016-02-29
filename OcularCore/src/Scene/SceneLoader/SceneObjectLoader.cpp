@@ -244,13 +244,13 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
+            Ocular::Math::Vector3f center = OcularString->fromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsAABB.setCenter(center);
         }
 
         if(extentsNode)
         {
-            Ocular::Math::Vector3f extents = String::FromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
+            Ocular::Math::Vector3f extents = OcularString->fromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
             object->boundsAABB.setExtents(extents);
         }
     }
@@ -277,31 +277,31 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
+            Ocular::Math::Vector3f center = OcularString->fromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsOBB.setCenter(center);
         }
 
         if(extentsNode)
         {
-            Ocular::Math::Vector3f extents = String::FromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
+            Ocular::Math::Vector3f extents = OcularString->fromString<Ocular::Math::Vector3f>(extentsNode.text().as_string());
             object->boundsOBB.setCenter(extents);
         }
 
         if(xDirNode)
         {
-            Ocular::Math::Vector3f xDir = String::FromString<Ocular::Math::Vector3f>(xDirNode.text().as_string());
+            Ocular::Math::Vector3f xDir = OcularString->fromString<Ocular::Math::Vector3f>(xDirNode.text().as_string());
             object->boundsOBB.setCenter(xDir);
         }
 
         if(yDirNode)
         {
-            Ocular::Math::Vector3f yDir = String::FromString<Ocular::Math::Vector3f>(yDirNode.text().as_string());
+            Ocular::Math::Vector3f yDir = OcularString->fromString<Ocular::Math::Vector3f>(yDirNode.text().as_string());
             object->boundsOBB.setCenter(yDir);
         }
 
         if(zDirNode)
         {
-            Ocular::Math::Vector3f zDir = String::FromString<Ocular::Math::Vector3f>(zDirNode.text().as_string());
+            Ocular::Math::Vector3f zDir = OcularString->fromString<Ocular::Math::Vector3f>(zDirNode.text().as_string());
             object->boundsOBB.setCenter(zDir);
         }
     }
@@ -322,7 +322,7 @@ void ParseBounds(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(centerNode)
         {
-            Ocular::Math::Vector3f center = String::FromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
+            Ocular::Math::Vector3f center = OcularString->fromString<Ocular::Math::Vector3f>(centerNode.text().as_string());
             object->boundsSphere.setCenter(center);
         }
 
@@ -355,19 +355,19 @@ void ParseTransform(pugi::xml_node& root, Ocular::Core::SceneObject* object)
 
         if(positionNode)
         {
-            Ocular::Math::Vector3f position = String::FromString<Ocular::Math::Vector3f>(positionNode.text().as_string());
+            Ocular::Math::Vector3f position = OcularString->fromString<Ocular::Math::Vector3f>(positionNode.text().as_string());
             object->getTransform().setPosition(position);
         }
 
         if(scalingNode)
         {
-            Ocular::Math::Vector3f scaling = String::FromString<Ocular::Math::Vector3f>(scalingNode.text().as_string());
+            Ocular::Math::Vector3f scaling = OcularString->fromString<Ocular::Math::Vector3f>(scalingNode.text().as_string());
             object->getTransform().setScale(scaling);
         }
 
         if(rotationNode)
         {
-            Ocular::Math::Vector3f rotation = String::FromString<Ocular::Math::Vector3f>(rotationNode.text().as_string());
+            Ocular::Math::Vector3f rotation = OcularString->fromString<Ocular::Math::Vector3f>(rotationNode.text().as_string());
             object->getTransform().setRotation(rotation);
         }
     }

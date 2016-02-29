@@ -424,6 +424,8 @@ namespace Ocular
             union{ T y, g, v, t; };
             union{ T z, b, w; };
 
+            static bool OCULAR_INTERNAL_Force;
+
         protected:
 
         private:

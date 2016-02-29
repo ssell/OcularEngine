@@ -120,6 +120,11 @@ namespace Ocular
          * \return Reference to the primary Hash Generator
          */
         std::shared_ptr<Utils::HashGenerator> HashGenerator() const;
+        
+        /**
+         * \return Reference to the primary String Utilities
+         */
+        std::shared_ptr<Utils::String> StringUtils() const;
 
         /**
          * \return Reference to the primary ResourceManager
@@ -186,6 +191,7 @@ namespace Ocular
         std::shared_ptr<Core::CameraManager>      m_CameraManager;
         std::shared_ptr<Core::WindowManager>      m_WindowManager;
         std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
+        std::shared_ptr<Utils::String>            m_StringUtils;
         std::shared_ptr<Core::Profiler>           m_Profiler;
         std::shared_ptr<Graphics::GraphicsDriver> m_GraphicsDriver;
 
@@ -207,6 +213,7 @@ namespace Ocular
 #define OcularWindows   OcularEngine.WindowManager()
 #define OcularProfiler  OcularEngine.Profiler()
 #define OcularGraphics  OcularEngine.GraphicsDriver()
+#define OcularString    OcularEngine.StringUtils()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"

@@ -106,7 +106,32 @@ namespace Ocular
             /**
              * 
              */
-            template<class T> bool isType() { return (dynamic_cast<T*>(this) ? true : false); }
+            template<class T> bool isType() 
+            { 
+                /* Unfortunately, this dynamic_cast seems to be the best solution.
+                 * Using std::is_base_of, std::is_convertible, typeid() ==, etc. just aren't sufficient.
+                 *
+                 * The issue is that a common use-case for this method is checking if an event is a
+                 * certain type. For example, we get an Ocular::Core::AEvent* and we want to see if it
+                 * is an instance of Ocular::Core::MouseScrollInputEvent.
+                 *
+                 * The other approaches such as:
+                 *
+                 *      std::is_base_of<T, std::remove_pointer<decltype(this)>::type>::value
+                 *      typeid(T*) == typeid(*this)
+                 *
+                 * Work fine if checking making this comparison in a vaccuum. Ie:
+                 *
+                 *     std::is_convertible<AEvent*, MouseScrollInputEvent*>  -> true
+                 *     std::is_convertible<MouseScrollInputEvent*, AEvent*>  -> true
+                 *
+                 * But since this a method of Object, when we call `this`, all of the types return
+                 * the type of `Object` and not whatever the actual derived caller may be (in this
+                 * example MouseScrollInputEvent).
+                 */
+
+                return (dynamic_cast<T*>(this) ? true : false); 
+            }
         
         protected:
         

@@ -49,6 +49,9 @@ namespace Ocular
         {
         public:
 
+            String();
+            ~String();
+
             //------------------------------------------------------------------------------
             // General String Operations
             //------------------------------------------------------------------------------
@@ -116,8 +119,14 @@ namespace Ocular
             // To/From Methods and Helpers
             //------------------------------------------------------------------------------
 
+            // The following methods can not be static like the rest. If we make the maps static, then
+            // their is a very strong likelihood that some other static initializer will call these methods,
+            // particularly the registers, before the String static initializers can act. This leads to
+            // a crash when performing a search in the uninitialized map and why this class was added
+            // to the main engine class as OcularString.
+
             template<typename T>
-            static typename std::enable_if<!std::is_pointer<T>::value, std::string>::type ToString(T const& data)
+            typename std::enable_if<!std::is_pointer<T>::value, std::string>::type toString(T const& data)
             {
                 std::string result;
 
@@ -133,7 +142,7 @@ namespace Ocular
             }
 
             template<typename T>
-            static typename std::enable_if<!std::is_pointer<T>::value, T>::type FromString(std::string const& str)
+            typename std::enable_if<!std::is_pointer<T>::value, T>::type fromString(std::string const& str)
             {
                 T result;
 
@@ -149,7 +158,7 @@ namespace Ocular
             }
 
             template<typename T>
-            static typename std::enable_if<!std::is_pointer<T>::value, void>::type RegisterToString(std::function<std::string(void*)> func)
+            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerToString(std::function<std::string(void*)> func)
             {
                 const std::string tStr = TypeName<T>::name;
                 auto find = m_ToFunctions.find(tStr);
@@ -161,7 +170,7 @@ namespace Ocular
             }
 
             template<typename T>
-            static typename std::enable_if<!std::is_pointer<T>::value, void>::type RegisterFromString(std::function<void*(std::string const&)> func)
+            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerFromString(std::function<void*(std::string const&)> func)
             {
                 const std::string tStr = TypeName<T>::name;
                 auto find = m_FromFunctions.find(tStr);
@@ -176,30 +185,8 @@ namespace Ocular
 
         private:
 
-            static std::unordered_map<std::string, std::function<std::string(void*)>> m_ToFunctions;
-            static std::unordered_map<std::string, std::function<void*(std::string const&)>> m_FromFunctions;
-        };
-
-        template<typename T>
-        class ToStringRegistrar
-        {
-        public:
-
-            ToStringRegistrar(std::function<std::string(void*)> func)
-            {
-                String::RegisterToString<T>(func);
-            }
-        };
-
-        template<typename T>
-        class FromStringRegistrar
-        {
-        public:
-
-            FromStringRegistrar(std::function<void*(std::string const&)> func)
-            {
-                String::RegisterFromString<T>(func);
-            }
+            std::unordered_map<std::string, std::function<std::string(void*)>> m_ToFunctions;
+            std::unordered_map<std::string, std::function<void*(std::string const&)>> m_FromFunctions;
         };
     }
     /**
@@ -209,54 +196,6 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
-
-/**
- * Helper macro to assist in registering ToString functions with the Ocular::Utils::String class.
- * Can be envoked anywhere, including globally (outside of a function).
- *
- * Example:
- *
- *     OCULAR_REGISTER_TO_STRING(float, OCULAR_TO_STRING_LAMBDA { return std::to_string(void_cast<float>(raw)); });
- *
- * This registers the above lambda function (which makes use of the void_cast helper to transform the raw void*
- * into a float) to be used whenever Ocular::Utils::String::ToString<float>() is called.
- */
-#define OCULAR_REGISTER_TO_STRING(X,Y) Ocular::Utils::ToStringRegistrar<X> OCULAR_INTERNAL_ToStringRegister(Y)
-
-/**
- * Helper macro to assist in registering FromString functions with the Ocular::Utils::String class.
- * Can be envoked anywhere, including globally (outside of a function).
- *
- * Example:
- *
- *     OCULAR_REGISTER_FROM_STRING(float, OCULAR_FROM_STRING_LAMBDA { return void_cast<float>(std::stof(string, nullptr)); });
- *
- * This registers the above lambda function (which makes use of the void_cast helper to transform the raw float
- * into a raw void*) to be used whenever Ocular::Utils::String::FromString<float>() is called.
- */
-#define OCULAR_REGISTER_FROM_STRING(X,Y) Ocular::Utils::FromStringRegistrar<X> OCULAR_INTERNAL_FromStringRegister(Y)
-
-/**
- * Helper macro to make registering ToString lambda functions easier.
- *
- *     OCULAR_REGISTER_TO_STRING(float, [](void* raw)->std::string { ... });
- *
- * to
- *
- *     OCULAR_REGISTER_TO_STRING(float, OCULAR_TO_STRING_LAMBDA { ... });
- */
-#define OCULAR_TO_STRING_LAMBDA [](void* raw)->std::string
-
-/**
- * Helper macro to make registering FromString lambda functions easier.
- *
- *     OCULAR_REGISTER_FROM_STRING(float, [](std::string const& str)->void* { ... });
- *
- * to
- *
- *     OCULAR_REGISTER_FROM_STRING(float, OCULAR_FROM_STRING_LAMBDA { ... });
- */
-#define OCULAR_FROM_STRING_LAMBDA [](std::string const& str)->void*
 
 //------------------------------------------------------------------------------------------
 

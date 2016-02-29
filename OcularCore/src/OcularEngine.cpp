@@ -41,6 +41,7 @@ namespace Ocular
         m_Logger          = std::make_shared<Core::Logger>();
         m_Clock           = std::make_shared<Core::Clock>();
         m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
+        m_StringUtils     = std::make_shared<Utils::String>();
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_InputHandler    = std::make_shared<Core::InputHandler>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
@@ -61,6 +62,7 @@ namespace Ocular
         m_Logger          = nullptr;
         m_Clock           = nullptr;
         m_HashGenerator   = nullptr;
+        m_StringUtils     = nullptr;
         m_EventManager    = nullptr;
         m_ResourceManager = nullptr;
         m_SceneManager    = nullptr;
@@ -144,6 +146,11 @@ namespace Ocular
     std::shared_ptr<Utils::HashGenerator> Engine::HashGenerator() const
     {
         return m_HashGenerator;
+    }
+
+    std::shared_ptr<Utils::String> Engine::StringUtils() const
+    {
+        return m_StringUtils;
     }
 
     std::shared_ptr<Core::ResourceManager> Engine::ResourceManager() const

@@ -20,12 +20,63 @@
 #include "Math/Vector3.hpp"
 #include "Math/Vector4.hpp"
 
+#include "Utilities/StringRegistrar.hpp"
+#include "OcularEngine.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
     namespace Math
     {
+        OCULAR_REGISTER_TO_STRING(Matrix3x3, OCULAR_TO_STRING_LAMBDA 
+        { 
+            std::string result;
+
+            if(raw)
+            {
+                Matrix3x3 matrix = void_cast<Matrix3x3>(raw);
+                std::stringstream sstream;
+        
+                for(uint32_t i = 0; i < 9; i++)
+                {
+                    sstream << matrix[i] << " ";
+                }
+
+                result = sstream.str();
+            }
+
+            return result; 
+        });
+
+        OCULAR_REGISTER_FROM_STRING(Matrix3x3, OCULAR_FROM_STRING_LAMBDA
+        {
+            static Matrix3x3 result;
+
+            uint32_t index = 0;
+            size_t cumulativePos = 0;
+            size_t nextPos = 0;
+
+            try
+            {
+                float value = 0.0f;
+
+                while((cumulativePos < str.size()) && (index < 9))
+                {
+                    result.setElement(index, std::stof(str.substr(cumulativePos), &nextPos));
+
+                    cumulativePos += nextPos;
+                    index += 1;
+                }
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to Matrix3x3 with error: ", e.what(), OCULAR_INTERNAL_LOG("Matrix3x3", "FromString"));
+            }
+
+            return void_cast<Matrix3x3>(result);
+        });
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------

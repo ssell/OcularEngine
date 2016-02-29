@@ -103,14 +103,11 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize(new D3D11GraphicsDriver());
 
-    Matrix4x4 matrixA = Matrix4x4(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f);
-    Matrix4x4 matrixB;
+    Vector3f vector = Vector3f(1.0f, 2.0f, 3.0f);
+    std::string str = OcularString->toString<Vector3f>(vector);
 
-    std::string str = Ocular::Utils::String::ToString<Matrix4x4>(matrixA);
-
+    OcularLogger->info(TypeName<Vector3f>::name);
     OcularLogger->info(str);
-
-    matrixB = Ocular::Utils::String::FromString<Matrix4x4>(str);
 
 
     //if(openWindow())

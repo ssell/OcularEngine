@@ -15,6 +15,7 @@
  */
 
 #include "ObjectIO/Buildable.hpp"
+#include "ObjectIO/Exposable.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,12 +33,22 @@ namespace Ocular
 
         void Buildable::onLoad(BuilderNode const* node)
         {
+            Exposable* exposable = (Exposable*)(this);
 
+            if(exposable)
+            {
+
+            }
         }
 
         void Buildable::onSave(BuilderNode* node)
         {
+            Exposable* exposable = (Exposable*)(this);
 
+            if(exposable)
+            {
+
+            }
         }
 
         //--------------------------------------------------------------------------------------
