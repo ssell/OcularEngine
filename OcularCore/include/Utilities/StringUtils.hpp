@@ -120,7 +120,9 @@ namespace Ocular
             static typename std::enable_if<!std::is_pointer<T>::value, std::string>::type ToString(T const& data)
             {
                 std::string result;
-                auto find = m_ToFunctions.find(TypeName<T>::name);
+
+                const std::string tStr = TypeName<T>::name;
+                auto find = m_ToFunctions.find(tStr);
 
                 if(find != m_ToFunctions.end())
                 {
@@ -134,7 +136,9 @@ namespace Ocular
             static typename std::enable_if<!std::is_pointer<T>::value, T>::type FromString(std::string const& str)
             {
                 T result;
-                auto find = m_FromFunctions.find(TypeName<T>::name);
+
+                const std::string tStr = TypeName<T>::name;
+                auto find = m_FromFunctions.find(tStr);
 
                 if(find != m_FromFunctions.end())
                 {
@@ -147,22 +151,24 @@ namespace Ocular
             template<typename T>
             static typename std::enable_if<!std::is_pointer<T>::value, void>::type RegisterToString(std::function<std::string(void*)> func)
             {
-                auto find = m_ToFunctions.find(TypeName<T>::name);
+                const std::string tStr = TypeName<T>::name;
+                auto find = m_ToFunctions.find(tStr);
 
                 if(find == m_ToFunctions.end())
                 {
-                    m_ToFunctions.insert({TypeName<T>::name, func});
+                    m_ToFunctions.insert({tStr, func});
                 }
             }
 
             template<typename T>
             static typename std::enable_if<!std::is_pointer<T>::value, void>::type RegisterFromString(std::function<void*(std::string const&)> func)
             {
-                auto find = m_FromFunctions.find(TypeName<T>::name);
+                const std::string tStr = TypeName<T>::name;
+                auto find = m_FromFunctions.find(tStr);
 
                 if(find == m_FromFunctions.end())
                 {
-                    m_FromFunctions.insert({TypeName<T>::name, func});
+                    m_FromFunctions.insert({tStr, func});
                 }
             }
 

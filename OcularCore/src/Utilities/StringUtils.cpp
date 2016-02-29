@@ -35,6 +35,9 @@ namespace Ocular
 {
     namespace Utils
     {
+        std::unordered_map<std::string, std::function<std::string(void*)>> String::m_ToFunctions = std::unordered_map<std::string, std::function<std::string(void*)>>();
+        std::unordered_map<std::string, std::function<void*(std::string const&)>> String::m_FromFunctions = std::unordered_map<std::string, std::function<void*(std::string const&)>>();
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
