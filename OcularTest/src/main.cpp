@@ -103,11 +103,14 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize(new D3D11GraphicsDriver());
 
-    Vector3f vector = Vector3f(1.0f, 2.0f, 3.0f);
-    std::string str = OcularString->toString<Vector3f>(vector);
+    float x = 5.0f;
+    float y = 8.0f;
 
-    OcularLogger->info(TypeName<Vector3f>::name);
-    OcularLogger->info(str);
+    void* xvp = void_cast<float*>(&x);
+
+    std::string yStr = OcularString->toString(TypeName<float>::name, void_cast<float>(y));
+
+    OcularString->fromString(TypeName<float>::name, yStr, xvp, sizeof(float));
 
 
     //if(openWindow())

@@ -68,8 +68,9 @@ namespace Ocular
             return m_Parent;
         }
 
-        void BuilderNode::addChild(std::string const& name, std::string const& value, std::string const& type)
+        BuilderNode* BuilderNode::addChild(std::string const& name, std::string const& value, std::string const& type)
         {
+            BuilderNode* result = nullptr;
             auto findPair = m_ChildMap.find(name);
 
             if(findPair != m_ChildMap.end())
@@ -77,7 +78,10 @@ namespace Ocular
                 delete findPair->second;
             }
 
-            m_ChildMap[name] = new BuilderNode(this, name, value, type);
+            result = new BuilderNode(this, name, value, type);
+            m_ChildMap[name] = result;
+
+            return result;
         }
 
         BuilderNode const* BuilderNode::getChild(std::string const& name) const

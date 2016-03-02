@@ -89,7 +89,7 @@ namespace Ocular
              * \param[in] value
              * \param[in] type
              */
-            void addChild(std::string const& name, std::string const& value, std::string const& type);
+            BuilderNode* addChild(std::string const& name, std::string const& value, std::string const& type);
 
             /**
              * Attempts to retrieve the child with the specified name.

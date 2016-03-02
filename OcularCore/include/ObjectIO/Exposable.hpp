@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_EXPOSABLE__H__
 
 #include "ExposedVariable.hpp"
+#include "Buildable.hpp"
 
 #include "Utilities/Types.hpp"
 #include "Utilities/StringUtils.hpp"
@@ -65,6 +66,8 @@ namespace Ocular
          */
         class Exposable
         {
+            friend class Buildable;
+
         public:
            
             /**
@@ -160,9 +163,9 @@ namespace Ocular
              */
             void exposeVariable(std::string const& name, std::string const& type, void* ptr);
 
-        private:
-
             std::unordered_map<std::string, ExposedVariable> m_ExposedVariables;
+
+        private:
         };
 
 /**

@@ -125,8 +125,20 @@ namespace Ocular
             // a crash when performing a search in the uninitialized map and why this class was added
             // to the main engine class as OcularString.
 
+            /**
+             * Attempts to convert the provided object to a string.
+             *
+             * In order to perform the conversion, an appropriate 'ToString' method must have been
+             * registered (via registerToString). If no matching function has been registered, then
+             * an empty string is returned.
+             *
+             * See also the bool return variant of this method.
+             *
+             * \param[in] data Object to convert to a string
+             * \return String representation of the object, or an empty string if no conversion was available.
+             */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, std::string>::type toString(T const& data)
+            typename std::enable_if<!std::is_pointer<T>::value, std::string>::type toString(T const& data) const
             {
                 std::string result;
 
@@ -141,8 +153,109 @@ namespace Ocular
                 return result;
             }
 
+            /**
+             * Attempts to convert the provided object to a string.
+             *
+             * In order to perform the conversion, an appropriate 'ToString' method must have been
+             * registered (via registerToString). If no matching function has been registered, then
+             * FALSE is returned.
+             *
+             * \param[in]  data Object to convert to a string
+             * \param[out] str
+             *
+             * \return Returns TRUE if a matching 'ToString' function was found, else FALSE.
+             */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, T>::type fromString(std::string const& str)
+            typename std::enable_if<!std::is_pointer<T>::value, bool>::type toString(T const& data, std::string& str) const
+            {
+                bool result = false;
+
+                const std::string tStr = TypeName<T>::name;
+                auto find = m_ToFunctions.find(tStr);
+
+                if(find != m_ToFunctions.end())
+                {
+                    str = find->second(void_cast<T>(data));
+                    result = true;
+                }
+
+                return result;
+            }
+
+            /**
+             * Attempts to convert the provided raw data to a string.
+             *
+             * In order to perform the conversion, an appropriate 'ToString' method must have been
+             * registered (via registerToString) for the provided type. If no matching function has
+             * been registered, then an empty string is returned.
+             *
+             * \param[in] type String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
+             * \param[in] data Data to be converted to string
+             * 
+             * \return String representation of the object, or an empty string if no conversion was available.
+             */
+            std::string toString(std::string const& type, void* data) const
+            {
+                std::string result;
+
+                if(data)
+                {
+                    auto find = m_ToFunctions.find(type);
+
+                    if(find != m_ToFunctions.end())
+                    {
+                        result = find->second(data);
+                    }
+                }
+
+                return result;
+            }
+
+            /**
+             * Attempts to convert the provided object to a string.
+             *
+             * In order to perform the conversion, an appropriate 'ToString' method must have been
+             * registered (via registerToString). If no matching function has been registered, then
+             * FALSE is returned.
+             *
+             * \param[in]  type String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
+             * \param[in]  data Data to be converted to string
+             * \param[out] str
+             *
+             * \return Returns TRUE if a matching 'ToString' function was found, else returns FALSE.
+             */
+            bool toString(std::string const& type, void* data, std::string& str) const
+            {
+                bool result = false;
+
+                if(data)
+                {
+                    auto find = m_ToFunctions.find(type);
+
+                    if(find != m_ToFunctions.end())
+                    {
+                        str = find->second(data);
+                        result = true;
+                    }
+                }
+
+                return result;
+            }
+
+            /**
+             * Attempts to create an object of the specified type from the provided string.
+             *
+             * In order to perform the conversion, an appropriate 'FromString' method must have been
+             * registered (via registerFromString). If no matching function has been registered, then
+             * a default object of the type is returned.
+             *
+             * See also the bool return variant of this method.
+             *
+             * \param[in] str String representation of the type
+             * \return Object resulting form the string. Returns a default constructed object of the type if no function was found.
+             */
+            template<typename T>
+            typename std::enable_if<!std::is_pointer<T>::value, T>::type fromString(std::string const& str) const
             {
                 T result;
 
@@ -157,6 +270,129 @@ namespace Ocular
                 return result;
             }
 
+            /**
+             * Attempts to create an object of the specified type from the provided string.
+             *
+             * In order to perform the conversion, an appropriate 'FromString' method must have been
+             * registered (via registerFromString). If no matching function has been registered, then
+             * FALSE is returned.
+             *
+             * \param[in]  str    String representation of the type
+             * \param[out] object Object to be set based on the input string
+             *
+             * \return Returns TRUE if a matching 'FromString' function was found, else returns FALSE.
+             */
+            template<typename T>
+            typename std::enable_if<!std::is_pointer<T>::value, bool>::type fromString(std::string const& str, T& object) const
+            {
+                bool result = false;
+                auto find = m_FromFunctions.find(str);
+
+                if(find != m_FromFunctions.end())
+                {
+                    object = void_cast<T>(find->second(str));
+                    result = true;
+                }
+
+                return result;
+            }
+
+            /**
+             * Attempts to modify the data pointed to by the object parameter so that it matches the 
+             * conversion performed on the specified string for the given type.
+             *
+             * Note that this method is potentially dangerous if improper parameters are supplied. 
+             * As such, it is recommended to use a different variation of the fromString method if
+             * it is at all possible.
+             *
+             * If this method is the only option, then the following conditions must be met:
+             *
+             *     - object points to the address of an object of the specified type
+             *     - size is the proper size for given type
+             *
+             * Example:
+             *
+             *     //-----------------------------------------------------
+             *     // Good
+             *     //-----------------------------------------------------
+             *
+             *     float x = 5.0f;
+             *     void* xvp = void_cast<float*>(&x);
+             *
+             *     OcularString->fromString(TypeName<float>::name, "8.0", xvp, sizeof(float)); 
+             *     // x == 8.0
+             *
+             *     //-----------------------------------------------------
+             *     // Bad (crash)
+             *     //-----------------------------------------------------
+             *
+             *     float y = 5.0f;
+             *     void* yvp = void_cast<float>(y);
+             *
+             *     OcularString->fromString(TypeName<float>::name, "8.0", yvp, sizeof(float));
+             *     // crash
+             *
+             *     //-----------------------------------------------------
+             *     // Bad (crash)
+             *     //-----------------------------------------------------
+             *
+             *     float z = 5.0f;
+             *     float zvp = void_cast<float*>(&z);
+             *
+             *     OcularString->fromString(TypeName<float>::name, "8.0", zvp, sizeof(double));
+             *     // crash
+             *
+             *     //-----------------------------------------------------
+             *     // Bad (best case no action taken)
+             *     //-----------------------------------------------------
+             *
+             *     float w = 5.0f;
+             *     float wvp = void_cast<float*>(&z);
+             *
+             *     OcularString->fromString("floatt", "8.0", wvp, sizeof(float));
+             *     // crash or no action depending on if there is a mapping for 'floatt' type conversion
+             *
+             *     //-----------------------------------------------------
+             *     // Bad (best case default value)
+             *     //-----------------------------------------------------
+             *
+             *     float v = 5.0f;
+             *     float vvp = void_cast<float*>(&z);
+             *
+             *     OcularString->fromString(TypeName<float>::name, "abcdef", vvp, sizeof(float));
+             *     // crash or default value set depending on implementation of the registered 'float' conversion function
+             *
+             * \param[in]  type
+             * \param[in]  str
+             * \param[out] object
+             * \param[in]  size
+             *
+             * \return Returns TRUE if a matching 'FromString' function was found, else returns FALSE.
+             */
+            bool fromString(std::string const& type, std::string const& str, void* object, uint32_t const& size)
+            {
+                bool result = false;
+
+                if(object)
+                {
+                    auto find = m_FromFunctions.find(type);
+
+                    if(find != m_FromFunctions.end())
+                    {
+                        void* cast = find->second(str);
+                        memcpy(object, &cast, size);
+                        result = true;
+                    }
+                }
+
+                return result;
+            }
+
+            /**
+             * Registers a function to be called when the specified type is requested to be converted.
+             *
+             * For more information, see the OCULAR_REGISTER_TO_STRING helper macro defined in 'Utilities/StringRegistrar.hpp'
+             */
             template<typename T>
             typename std::enable_if<!std::is_pointer<T>::value, void>::type registerToString(std::function<std::string(void*)> func)
             {
@@ -169,6 +405,11 @@ namespace Ocular
                 }
             }
 
+            /**
+             * Registers a function to be called when the specified type is requested to be converted.
+             *
+             * For more information, see the OCULAR_REGISTER_FROM_STRING helper macro defined in 'Utilities/StringRegistrar.hpp'
+             */
             template<typename T>
             typename std::enable_if<!std::is_pointer<T>::value, void>::type registerFromString(std::function<void*(std::string const&)> func)
             {

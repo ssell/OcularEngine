@@ -16,6 +16,7 @@
 
 #include "ObjectIO/Buildable.hpp"
 #include "ObjectIO/Exposable.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -43,11 +44,41 @@ namespace Ocular
 
         void Buildable::onSave(BuilderNode* node)
         {
-            Exposable* exposable = (Exposable*)(this);
+            // If this also inherits from Exposable, then automatically
+            // add any exposed variables/pointers to the node chain.
 
-            if(exposable)
+            if(node)
             {
+                Exposable* exposable = (Exposable*)(this);
 
+                if(exposable)
+                {
+                    for(auto variableMapping : exposable->m_ExposedVariables)
+                    {
+                        ExposedVariable* variable = &variableMapping.second;
+
+                        if(variable)
+                        {
+                            if(variable->isPointer)
+                            {
+                                // If the variable is a pointer, we only add it to the node chain
+                                // if it can be cast to another Buildable. If it can, then we add
+                                // it as a new child and let it's onSave build itself.
+
+                                Buildable* buildableChild = (Buildable*)(variable->data);
+
+                                if(buildableChild)
+                                {
+                                    buildableChild->onSave(node->addChild(variable->name, "", variable->type));
+                                }
+                            }
+                            else
+                            {
+                                node->addChild(variable->name, OcularString->toString(variable->type, variable->data), variable->type);
+                            }
+                        }
+                    }
+                }
             }
         }
 

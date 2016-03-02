@@ -34,6 +34,33 @@ namespace Ocular
      */
     namespace Utils
     {
+        /**
+         * \struct TypeName
+         * \brief Utility structure to convert a type T to a string representation.
+         *
+         * In order to perform the conversion, an appropriate string name must have 
+         * been provided via the OCULAR_REGISTER_TYPE or OCULAR_REGISTER_TYPE_CUSTOM
+         * macros. If the type has not been properly registered, then a compile-time
+         * error will be generated.
+         *
+         * Example of use:
+         *
+         *     std::cout << TypeName<float>::name << std::endl;
+         *     std::cout << TypeName<int32_t>::name << std::endl;
+         *     std::cout << TypeName<Ocular::Math::Matrix4x4>::name << std::endl;
+         *
+         *     // float
+         *     // int
+         *     // Matrix4x4
+         *
+         * This structure, and the associated macros, are used instead of built-in
+         * approaches (such as typeid) as those other approaches will not give 
+         * uniform results across all platforms.
+         *
+         * For example, using typeid on MSVC will return a human-readable string
+         * but it will also include 'class ' or 'struct ', etc. While using it on
+         * GCC will give a distinctly non-readable string output.
+         */
         template<typename T>
         struct TypeName { static const char* name;  };
     }
