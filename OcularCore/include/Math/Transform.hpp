@@ -18,10 +18,12 @@
 #ifndef __H__OCULAR_MATH_TRANSFORM__H__
 #define __H__OCULAR_MATH_TRANSFORM__H__
 
-#include "Utilities/Types.hpp"
 #include "Vector3.hpp"
 #include "Quaternion.hpp"
 #include "Matrix4x4.hpp"
+
+#include "Utilities/Types.hpp"
+#include "ObjectIO/ObjectIO.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -40,7 +42,7 @@ namespace Ocular
         /**
          * \class Transform
          */
-        class Transform
+        class Transform : public Core::ObjectIO
         {
         public:
 
@@ -184,6 +186,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Math::Transform, "Transform");
 
 //------------------------------------------------------------------------------------------
 

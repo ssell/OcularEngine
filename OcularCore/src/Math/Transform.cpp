@@ -34,13 +34,17 @@ namespace Ocular
               m_Rotation(rotation), 
               m_Scale(scale)
         {
-        
+            OCULAR_EXPOSE(m_Position);
+            OCULAR_EXPOSE(m_Rotation);
+            OCULAR_EXPOSE(m_Scale);
         }
 
         Transform::Transform()
             : m_Scale(Vector3f(1.0f, 1.0f, 1.0f))
         {
-
+            OCULAR_EXPOSE(m_Position);
+            OCULAR_EXPOSE(m_Rotation);
+            OCULAR_EXPOSE(m_Scale);
         }
 
         Transform::~Transform()

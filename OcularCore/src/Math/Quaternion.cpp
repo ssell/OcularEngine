@@ -21,12 +21,62 @@
 #include "Math/Vector3.hpp"
 #include "Math/Vector4.hpp"
 
+#include "Utilities/StringRegistrar.hpp"
+#include "OcularEngine.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
     namespace Math
     {
+        OCULAR_REGISTER_TO_STRING(Quaternion, OCULAR_TO_STRING_LAMBDA 
+        { 
+            std::string result;
+
+            if(raw)
+            {
+                Quaternion quat = void_cast<Quaternion>(raw);
+
+                std::stringstream sstream;
+                sstream << quat.x() << " " << quat.y() << " " << quat.z() << " " << quat.w();
+
+                result = sstream.str();
+            }
+
+            return result; 
+        });
+
+        OCULAR_REGISTER_FROM_STRING(Quaternion, OCULAR_FROM_STRING_LAMBDA
+        {
+            static Quaternion result;
+
+            size_t cumulativePos = 0;
+            size_t nextPos = 0;
+
+            try
+            {
+                float value = 0.0f;
+
+                result.x() = std::stof(str.substr(cumulativePos), &nextPos);
+                cumulativePos += nextPos;
+
+                result.y() = std::stof(str.substr(cumulativePos), &nextPos);
+                cumulativePos += nextPos;
+
+                result.z() = std::stof(str.substr(cumulativePos), &nextPos);
+                cumulativePos += nextPos;
+
+                result.w() = std::stof(str.substr(cumulativePos), &nextPos);
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to Quaternion with error: ", e.what(), OCULAR_INTERNAL_LOG("Quaternion", "FromString"));
+            }
+
+            return void_cast<Quaternion>(result);
+        });
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------

@@ -20,8 +20,7 @@
 
 #include "Object.hpp"
 
-#include "ObjectIO/Exposable.hpp"
-#include "ObjectIO/Buildable.hpp"
+#include "ObjectIO/ObjectIO.hpp"
 
 #include "Math/Transform.hpp"
 #include "Math/Bounds/BoundsSphere.hpp"
@@ -89,7 +88,7 @@ namespace Ocular
          * In either case, the SceneManager owns the object and handles adding it to the Scene,
          * invoking the Routines and Renderables, intersection testing, etc.
          */
-        class SceneObject : public Object, public Exposable, public Buildable
+        class SceneObject : public Object, public ObjectIO
         {
             friend class SceneManager;
 
@@ -598,10 +597,6 @@ namespace Ocular
 
             SceneObject* m_Parent;
 
-            //------------------------------------------------------------
-            // General Characteristics
-
-            std::string m_Name;        ///< Unique name for this SceneObject instance.
             uint32_t m_Layer;          ///< The render layer this object is part of.
 
             //------------------------------------------------------------

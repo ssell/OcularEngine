@@ -39,7 +39,6 @@ namespace Ocular
                 }
 
                 result = sstream.str();
-                OcularLogger->info("Converted vector to: ", result);
             }
 
             return result; 

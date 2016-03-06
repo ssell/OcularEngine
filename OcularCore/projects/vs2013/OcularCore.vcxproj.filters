@@ -660,6 +660,9 @@
     <ClCompile Include="..\..\src\Math\Vector2.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\ObjectIO.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1201,6 +1204,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\ObjectIO.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

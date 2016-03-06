@@ -145,7 +145,7 @@ bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene)
 
     if(headerNode)
     {
-        pugi::xml_node typeNode = root.child("SceneTreeType");
+        pugi::xml_node typeNode = headerNode.child("SceneTreeType");
 
         if(typeNode)
         {
@@ -208,7 +208,7 @@ bool ParseSceneTree(pugi::xml_node& root)
 
     if(treeRoot)
     {
-        auto sceneObjects = root.children();
+        auto sceneObjects = treeRoot.children();
         Ocular::Core::Node_Internal node;
         
         for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); ++iter)

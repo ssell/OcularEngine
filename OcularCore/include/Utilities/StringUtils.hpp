@@ -251,11 +251,11 @@ namespace Ocular
              *
              * See also the bool return variant of this method.
              *
-             * \param[in] str String representation of the type
+             * \param[in] value  String representation of the value. Must be castable to the specified type.
              * \return Object resulting form the string. Returns a default constructed object of the type if no function was found.
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, T>::type fromString(std::string const& str) const
+            typename std::enable_if<!std::is_pointer<T>::value, T>::type fromString(std::string const& value) const
             {
                 T result;
 
@@ -264,7 +264,7 @@ namespace Ocular
 
                 if(find != m_FromFunctions.end())
                 {
-                    result = void_cast<T>(find->second(str));
+                    result = void_cast<T>(find->second(value));
                 }
 
                 return result;
@@ -277,20 +277,20 @@ namespace Ocular
              * registered (via registerFromString). If no matching function has been registered, then
              * FALSE is returned.
              *
-             * \param[in]  str    String representation of the type
+             * \param[in]  value  String representation of the value. Must be castable to the specified type.
              * \param[out] object Object to be set based on the input string
              *
              * \return Returns TRUE if a matching 'FromString' function was found, else returns FALSE.
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, bool>::type fromString(std::string const& str, T& object) const
+            typename std::enable_if<!std::is_pointer<T>::value, bool>::type fromString(std::string const& value, T& object) const
             {
                 bool result = false;
-                auto find = m_FromFunctions.find(str);
+                auto find = m_FromFunctions.find(value);
 
                 if(find != m_FromFunctions.end())
                 {
-                    object = void_cast<T>(find->second(str));
+                    object = void_cast<T>(find->second(value));
                     result = true;
                 }
 
@@ -362,14 +362,15 @@ namespace Ocular
              *     OcularString->fromString(TypeName<float>::name, "abcdef", vvp, sizeof(float));
              *     // crash or default value set depending on implementation of the registered 'float' conversion function
              *
-             * \param[in]  type
-             * \param[in]  str
-             * \param[out] object
-             * \param[in]  size
+             * \param[in]  type    String representation of the type. See Utils::TypeName and OCULAR_TYPE macro
+             * \param[in]  value   String representation of the value. Must be castable to the specified type.
+             * \param[out] object  Raw object data pointer where the converted value will be placed
+             * \param[in]  size    Size of the data type 
+             * \param[in]  trivial Is it a trivial data type? See std::is_trivial
              *
              * \return Returns TRUE if a matching 'FromString' function was found, else returns FALSE.
              */
-            bool fromString(std::string const& type, std::string const& str, void* object, uint32_t const& size)
+            bool fromString(std::string const& type, std::string const& value, void* object, uint32_t const& size, bool isTrivial = true)
             {
                 bool result = false;
 
@@ -379,8 +380,17 @@ namespace Ocular
 
                     if(find != m_FromFunctions.end())
                     {
-                        void* cast = find->second(str);
-                        memcpy(object, &cast, size);
+                        void* cast = find->second(value);
+
+                        if(isTrivial)
+                        {
+                            memcpy(object, &cast, size);
+                        }
+                        else
+                        {
+                            memcpy(object, cast, size);
+                        }
+
                         result = true;
                     }
                 }

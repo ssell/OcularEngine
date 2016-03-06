@@ -19,6 +19,7 @@
 #define __H__OCULAR_UTILITIES_TYPES__H__
 
 #include <cstdint>
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -160,6 +161,8 @@ OCULAR_REGISTER_TYPE(bool);
 OCULAR_REGISTER_TYPE(float);
 OCULAR_REGISTER_TYPE(double);
 OCULAR_REGISTER_TYPE(long double);
+
+OCULAR_REGISTER_TYPE_CUSTOM(std::string, "String");
 
 //------------------------------------------------------------------------------------------
 

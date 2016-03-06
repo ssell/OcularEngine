@@ -59,13 +59,13 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void Exposable::exposeVariable(std::string const& name, std::string const& type, void* ptr)
+        void Exposable::exposeVariable(std::string const& name, std::string const& type, uint32_t size, bool isPointer, bool isTrivial, bool isExposed, void* data)
         {
             auto find = m_ExposedVariables.find(name);
 
             if(find == m_ExposedVariables.end())
             {
-                m_ExposedVariables[name] = ExposedVariable(name, type, ptr, false);
+                m_ExposedVariables[name] = ExposedVariable(name, type, data, isPointer, isTrivial, isExposed, size);
             }
         }
 

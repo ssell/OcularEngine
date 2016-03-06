@@ -69,7 +69,7 @@ namespace Ocular
             friend class Buildable;
 
         public:
-           
+
             /**
              * Fills a vector with the names of all exposed variables. These names
              * can then be used with the various get/set variable methods.
@@ -161,7 +161,7 @@ namespace Ocular
              * \param[in] type String representation of the member variable type (see OCULAR_TYPE macro)
              * \param[in] ptr  Pointer to the member variable to expose
              */
-            void exposeVariable(std::string const& name, std::string const& type, void* ptr);
+            void exposeVariable(std::string const& name, std::string const& type, uint32_t size, bool isPointer, bool isTrivial, bool isExposed, void* data);
 
             std::unordered_map<std::string, ExposedVariable> m_ExposedVariables;
 
@@ -171,8 +171,7 @@ namespace Ocular
 /**
  * Exposes the specified member variable. See Ocular::Utils::Exposable
  */
-#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), OCULAR_TYPE(X), &X)
-
+#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), Ocular::Utils::TypeName<decltype(X)>::name, sizeof(X), std::is_pointer<decltype(X)>::value, std::is_trivial<decltype(X)>::value, std::is_base_of<Ocular::Core::Exposable, decltype(X)>::value, &X)
     }
     /**
      * @} End of Doxygen Groups

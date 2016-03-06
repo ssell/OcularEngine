@@ -103,15 +103,9 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize(new D3D11GraphicsDriver());
 
-    float x = 5.0f;
-    float y = 8.0f;
+    File file("../../../projects/vs2013/OcularTest/Resources/Scenes/TestScene.oscene");
 
-    void* xvp = void_cast<float*>(&x);
-
-    std::string yStr = OcularString->toString(TypeName<float>::name, void_cast<float>(y));
-
-    OcularString->fromString(TypeName<float>::name, yStr, xvp, sizeof(float));
-
+    OcularScene->loadScene(file);
 
     //if(openWindow())
     //{
