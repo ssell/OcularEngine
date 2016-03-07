@@ -135,10 +135,14 @@ namespace Ocular
              */
             void setStaticTreeType(SceneTreeType type);
 
+            SceneTreeType const& getStaticTreeType() const;
+
             /**
              * \param[in] type
              */
             void setDynamicTreeType(SceneTreeType type);
+
+            SceneTreeType const& getDynamicTreeType() const;
 
         protected:
 

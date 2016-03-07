@@ -61,6 +61,8 @@ namespace Ocular
 
         protected:
 
+            static bool IsValidFile(File const& file);
+
         private:
         };
     }

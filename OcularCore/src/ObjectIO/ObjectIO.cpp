@@ -102,6 +102,15 @@ namespace Ocular
                                 buildableChild->onSave(node->addChild(variable->name, "", variable->type));
                             }
                         }
+                        else if(variable->isExposed)
+                        {
+                            ObjectIO* io = (ObjectIO*)(variable->data);
+
+                            if(io)
+                            {
+                                io->onSave(node->addChild(variable->name, "", variable->type));
+                            }
+                        }
                         else
                         {
                             node->addChild(variable->name, OcularString->toString(variable->type, variable->data), variable->type);

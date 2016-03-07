@@ -39,12 +39,93 @@ namespace Ocular
         bool SceneSaver::Save(Scene const* scene, File const& file)
         {
             bool result = false;
+
+            if(scene)
+            {
+                if(IsValidFile(file))
+                {
+                    pugi::xml_document document;
+                    pugi::xml_node root = document.append_child("OcularScene");
+
+                    if(root)
+                    {
+                        //------------------------------------------------
+                        // Header
+                        //------------------------------------------------
+
+                        pugi::xml_node headerRoot  = root.append_child("SceneHeader");
+                        pugi::xml_node typeRoot    = headerRoot.append_child("SceneTreeType");
+                        pugi::xml_node staticNode  = typeRoot.append_child("Static");
+                        pugi::xml_node dynamicNode = typeRoot.append_child("Dynamic");
+                        
+                        staticNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getStaticTreeType())).c_str());
+                        dynamicNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getDynamicTreeType())).c_str());
+
+                        //------------------------------------------------
+                        // SceneTree
+                        //------------------------------------------------
+
+                        pugi::xml_node treeRoot = root.append_child("SceneTree");
+                        std::vector<SceneObject*> topObjects;
+                        OcularScene->findTopObjects(topObjects);
+
+                        for(auto object : topObjects)
+                        {
+                            pugi::xml_node childNode = treeRoot.append_child("SceneObject");
+
+                            Ocular::Core::Node_Internal internal;
+                            internal.node = &childNode;
+
+                            SceneObjectSaver::Save(object, &internal);
+                        }
+
+                        //------------------------------------------------
+                        // Write
+                        //------------------------------------------------
+
+                        if(document.save_file(file.getFullPath().c_str(), "    "))
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to write XML document", OCULAR_INTERNAL_LOG("SceneSaver", "Save"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to create root node", OCULAR_INTERNAL_LOG("SceneSaver", "Save"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to validate output file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("SceneSaver", "Save"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Invalid (NULL) Scene parameter", OCULAR_INTERNAL_LOG("SceneSaver", "Save"));
+            }
+
             return result;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool SceneSaver::IsValidFile(File const& file)
+        {
+            bool result = true;
+
+            if(!Utils::String::IsEqual(file.getExtension(), ".oscene"))
+            {
+                OcularLogger->error("Invalid file extension '", file.getExtension(), "' provided. Expected '.oscene'", OCULAR_INTERNAL_LOG("SceneSaver", "IsValidFile"));
+                result = false;
+            }
+
+            return result;
+        }
         
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

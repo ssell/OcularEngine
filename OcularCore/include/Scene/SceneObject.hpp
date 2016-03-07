@@ -596,7 +596,6 @@ namespace Ocular
             //------------------------------------------------------------
 
             SceneObject* m_Parent;
-
             uint32_t m_Layer;          ///< The render layer this object is part of.
 
             //------------------------------------------------------------

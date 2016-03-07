@@ -433,7 +433,8 @@ const Ocular::Utils::FromStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64FromStr
 
 const Ocular::Utils::ToStringRegistrar<bool> OCULAR_INTERNAL_BoolToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return (void_cast<bool>(raw) ? "true" : "false");
+    bool cast = *static_cast<bool*>(raw);
+    return (cast ? "true" : "false");
 });
 
 const Ocular::Utils::FromStringRegistrar<bool> OCULAR_INTERNAL_BoolFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA

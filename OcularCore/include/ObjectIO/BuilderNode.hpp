@@ -105,6 +105,11 @@ namespace Ocular
              */
             void getAllChildren(std::vector<BuilderNode*>& children) const;
 
+            /**
+             * Returns number of child nodes.
+             */
+            uint32_t getNumChildren() const;
+
         protected:
 
         private:

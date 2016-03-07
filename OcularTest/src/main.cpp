@@ -103,9 +103,12 @@ int main(int argc, char** argv)
 {
     OcularEngine.initialize(new D3D11GraphicsDriver());
 
-    File file("../../../projects/vs2013/OcularTest/Resources/Scenes/TestScene.oscene");
+    File inFile("../../../projects/vs2013/OcularTest/Resources/Scenes/TestScene.oscene");
+    File outFile("../../../projects/vs2013/OcularTest/Resources/Scenes/TestSceneOut.oscene");
 
-    OcularScene->loadScene(file);
+
+    OcularScene->loadScene(inFile);
+    OcularScene->saveScene(outFile);
 
     //if(openWindow())
     //{

@@ -24,6 +24,8 @@
 
 //------------------------------------------------------------------------------------------
 
+void ParseNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node* xmlNode);
+
 namespace Ocular
 {
     namespace Core
@@ -42,9 +44,20 @@ namespace Ocular
             return result;
         }
 
-        bool SceneObjectSaver::Save(SceneObject const* object, Node_Internal* node)
+        bool SceneObjectSaver::Save(SceneObject* object, Node_Internal* node)
         {
             bool result = false;
+
+            if(object)
+            {
+                BuilderNode builderNode(nullptr, "", "", "");
+                object->onSave(&builderNode);
+
+                ParseNode(&builderNode, node->node);
+
+                result = true;
+            }
+
             return result;
         }
 
@@ -55,5 +68,35 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+    }
+}
+
+void ParseNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node* xmlNode)
+{
+    if(builderNode && xmlNode)
+    {
+        std::vector<Ocular::Core::BuilderNode*> children;
+        builderNode->getAllChildren(children);
+
+        for(auto child : children)
+        {
+            pugi::xml_node xmlChild = xmlNode->append_child("var");
+
+            if(xmlChild)
+            {
+                pugi::xml_attribute nameAttribute  = xmlChild.append_attribute("name");
+                pugi::xml_attribute typeAttribute  = xmlChild.append_attribute("type");
+                pugi::xml_attribute valueAttribute = xmlChild.append_attribute("value");
+
+                nameAttribute.set_value(child->getName().c_str());
+                typeAttribute.set_value(child->getType().c_str());
+                valueAttribute.set_value(child->getValue().c_str());
+
+                if(child->getNumChildren())
+                {
+                    ParseNode(child, &xmlChild);
+                }
+            }
+        }
     }
 }

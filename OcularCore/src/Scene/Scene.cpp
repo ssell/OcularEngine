@@ -277,9 +277,19 @@ namespace Ocular
             m_StaticTreeType = type;
         }
 
+        SceneTreeType const& Scene::getStaticTreeType() const
+        {
+            return m_StaticTreeType;
+        }
+
         void Scene::setDynamicTreeType(SceneTreeType const type)
         {
             m_DynamicTreeType = type;
+        }
+
+        SceneTreeType const& Scene::getDynamicTreeType() const
+        {
+            return m_DynamicTreeType;
         }
 
         //----------------------------------------------------------------------------------
