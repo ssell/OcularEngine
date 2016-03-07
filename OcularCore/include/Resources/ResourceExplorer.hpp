@@ -66,6 +66,11 @@ namespace Ocular
             void setResourceDirectoryName(std::string const& name);
 
             /**
+             *
+             */
+            std::string const& getResourceDirectoryName() const;
+
+            /**
              * If extension-sensitive, then map keys will include the file extension. <br/>
              *
              * Example: <br/>

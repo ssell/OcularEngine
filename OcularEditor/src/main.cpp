@@ -33,6 +33,7 @@ using namespace Ocular::Graphics;
 void setupCamera()
 {
     Camera* camera = OcularScene->createObject<Camera>(Ocular::Editor::Helpers::EditorCameraName, nullptr);
+    camera->setPersistent(true);
 
     if(camera)
     {

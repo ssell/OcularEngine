@@ -355,6 +355,11 @@ namespace Ocular
             m_ResourceExplorer.setResourceDirectoryName(directory);
         }
 
+        std::string const& ResourceManager::getSourceDirectory() const
+        {
+            return m_ResourceExplorer.getResourceDirectoryName();
+        }
+
         void ResourceManager::registerResourceLoader(std::shared_ptr<AResourceLoader> loader)
         {
             m_ResourceLoaderManager.registerResourceLoader(loader);

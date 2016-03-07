@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\src\Events\Events\MouseMoveInputEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\MouseScrollInputEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp" />
     <ClInclude Include="..\..\include\Events\Events\MouseScrollInputEvent.hpp" />
     <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectRemovedEvent.hpp" />
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp" />

@@ -45,6 +45,7 @@ namespace Ocular
         public:
 
             UUID(std::string const& uuid);
+            UUID(UUID const& other);
             UUID();
 
             ~UUID();
@@ -80,7 +81,7 @@ namespace Ocular
              *
              * \note The string representation is precomputed.
              */
-            std::string toString() const;
+            std::string const& toString() const;
 
             /**
              * Retrieves a 32-bit hash of the string representation of the UUID. Example:
@@ -102,14 +103,14 @@ namespace Ocular
 
         protected:
 
-        private:
-
             UUID_Internal* m_Internal;
 
             uint32_t m_Hash32;
             uint64_t m_Hash64;
 
             std::string m_String;
+
+        private:
         };
     }
     /**

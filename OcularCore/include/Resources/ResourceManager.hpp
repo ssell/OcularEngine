@@ -254,6 +254,11 @@ namespace Ocular
              * \param[in] directory Name of resource directories
              */
             void setSourceDirectory(std::string const& directory);
+
+            /**
+             * Returns the directory path in which resources are expected.
+             */
+            std::string const& getSourceDirectory() const;
             
             /**
              * Registers the ResourceLoader

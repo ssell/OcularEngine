@@ -60,6 +60,11 @@ namespace Ocular
             m_DirectoryName = name;
         }
 
+        std::string const& ResourceExplorer::getResourceDirectoryName() const
+        {
+            return m_DirectoryName;
+        }
+
         void ResourceExplorer::setIsExtensionSensitive(bool const sensitive)
         {
             m_ExtensionSensitive = sensitive;

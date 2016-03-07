@@ -109,7 +109,7 @@ namespace Ocular
 
         uint32_t BuilderNode::getNumChildren() const
         {
-            return m_ChildMap.size();
+            return static_cast<uint32_t>(m_ChildMap.size());
         }
 
         //--------------------------------------------------------------------------------------

@@ -66,12 +66,21 @@ namespace Ocular
              */
             SceneTreeItem* getItem(Core::UUID const& uuid);
 
+            /**
+             *
+             */
+            void addObject(Core::SceneObject* object);
+
+            /**
+             *
+             */
+            void removeObject(Core::UUID const& uuid);
+
         protected:
 
             virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
-            void addObject(Core::SceneObject* object);
             bool isObjectTracked(Core::SceneObject* object);
 
         private:

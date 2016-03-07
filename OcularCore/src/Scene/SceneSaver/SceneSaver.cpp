@@ -71,12 +71,15 @@ namespace Ocular
 
                         for(auto object : topObjects)
                         {
-                            pugi::xml_node childNode = treeRoot.append_child("SceneObject");
+                            if(!object->isPersistent())
+                            {
+                                pugi::xml_node childNode = treeRoot.append_child("SceneObject");
 
-                            Ocular::Core::Node_Internal internal;
-                            internal.node = &childNode;
+                                Ocular::Core::Node_Internal internal;
+                                internal.node = &childNode;
 
-                            SceneObjectSaver::Save(object, &internal);
+                                SceneObjectSaver::Save(object, &internal);
+                            }
                         }
 
                         //------------------------------------------------

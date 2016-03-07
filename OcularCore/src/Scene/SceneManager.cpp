@@ -20,6 +20,7 @@
 #include "Scene/SceneSaver/SceneSaver.hpp"
 
 #include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Events/Events/SceneObjectRemovedEvent.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -450,6 +451,7 @@ namespace Ocular
             {
                 //--------------------------------------------------------
                 // 1. Remove the object from the Scene
+                //--------------------------------------------------------
 
                 if(m_Scene)
                 {
@@ -463,6 +465,7 @@ namespace Ocular
 
                 //--------------------------------------------------------
                 // 3. Destroy any child objects
+                //--------------------------------------------------------
 
                 auto children = object->getAllChildren();
 
@@ -470,9 +473,19 @@ namespace Ocular
                 {
                     destroyObject((*child)->getUUID());
                 }
-                
+
                 //--------------------------------------------------------
-                // 4. Delete the object
+                // 4. Inform about the removal
+                //--------------------------------------------------------
+
+                // We do this now so that our children generate removal events
+                // before we do to preserve the bottom up flow.
+
+                OcularEvents->queueEvent(std::make_shared<SceneObjectRemovedEvent>(object->getUUID()));
+
+                //--------------------------------------------------------
+                // 5. Delete the object
+                //--------------------------------------------------------
 
                 delete object;
                 object = nullptr;

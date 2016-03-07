@@ -18,6 +18,7 @@
 #include "Widgets/SceneTree.hpp"
 #include "Widgets/SceneTreeItem.hpp"
 #include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Events/Events/SceneObjectRemovedEvent.hpp"
 #include "Routines/EditorCameraController.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ namespace Ocular
 
             setHeaderHidden(true);
             setColumnCount(2);           // First column is object name; Second is object UUID
-            setColumnHidden(1, true);
+            //setColumnHidden(1, true);
         }
 
         SceneTree::~SceneTree()
@@ -88,6 +89,43 @@ namespace Ocular
             return result;
         }
 
+        void SceneTree::addObject(Core::SceneObject* object)
+        {
+            if(!isObjectTracked(object))
+            {
+                Core::SceneObject* parent = object->getParent();
+
+                if(parent)
+                {
+                    SceneTreeItem* parentItem = getItem(parent);
+
+                    if(parentItem)
+                    {
+                        SceneTreeItem* item = new SceneTreeItem(parentItem, object);
+                    }
+                    else
+                    {
+                        SceneTreeItem* item = new SceneTreeItem(this, object);
+                        OcularLogger->warning("Unexpected SceneTreeItem ancestry", OCULAR_INTERNAL_LOG("Editor::SceneTree", "addObject"));
+                    }
+                }
+                else
+                {
+                    SceneTreeItem* item = new SceneTreeItem(this, object);
+                }
+            }
+        }
+
+        void SceneTree::removeObject(Core::UUID const& uuid)
+        {
+            auto item = getItem(uuid);
+
+            if(item)
+            {
+                delete item;
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -127,46 +165,31 @@ namespace Ocular
 
         bool SceneTree::onEvent(std::shared_ptr<Core::AEvent> event)
         {
-            Core::SceneObjectAddedEvent* objectEvent = dynamic_cast<Core::SceneObjectAddedEvent*>(event.get());
-
-            if(objectEvent)
+            if(event->isType<Core::SceneObjectAddedEvent>())
             {
-                Core::SceneObject* object = objectEvent->object;
+                Core::SceneObjectAddedEvent* objectEvent = dynamic_cast<Core::SceneObjectAddedEvent*>(event.get());
 
-                if(object)
+                if(objectEvent)
                 {
-                    addObject(object);
+                    Core::SceneObject* object = objectEvent->object;
+
+                    if(object)
+                    {
+                        addObject(object);
+                    }
+                }
+            }
+            else if(event->isType<Core::SceneObjectRemovedEvent>())
+            {
+                Core::SceneObjectRemovedEvent* objectEvent = dynamic_cast<Core::SceneObjectRemovedEvent*>(event.get());
+
+                if(objectEvent)
+                {
+                    removeObject(objectEvent->uuid);
                 }
             }
 
             return true;    // Do not consume this event
-        }
-
-        void SceneTree::addObject(Core::SceneObject* object)
-        {
-            if(!isObjectTracked(object))
-            {
-                Core::SceneObject* parent = object->getParent();
-
-                if(parent)
-                {
-                    SceneTreeItem* parentItem = getItem(parent);
-
-                    if(parentItem)
-                    {
-                        SceneTreeItem* item = new SceneTreeItem(parentItem, object);
-                    }
-                    else
-                    {
-                        SceneTreeItem* item = new SceneTreeItem(this, object);
-                        OcularLogger->warning("Unexpected SceneTreeItem ancestry", OCULAR_INTERNAL_LOG("Editor::SceneTree", "addObject"));
-                    }
-                }
-                else
-                {
-                    SceneTreeItem* item = new SceneTreeItem(this, object);
-                }
-            }
         }
 
         bool SceneTree::isObjectTracked(Core::SceneObject* object)

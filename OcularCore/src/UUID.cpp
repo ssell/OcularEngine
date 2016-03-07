@@ -54,6 +54,16 @@ namespace Ocular
             set(uuid);
         }
 
+        UUID::UUID(UUID const& other)
+        {
+            m_Internal = new UUID_Internal();
+            m_Internal->uuid = other.m_Internal->uuid;
+
+            m_String = other.m_String;
+            m_Hash32 = other.m_Hash32;
+            m_Hash64 = other.m_Hash64;
+        }
+
         UUID::UUID()
         {
             m_Internal = new UUID_Internal();
@@ -122,7 +132,7 @@ namespace Ocular
             return m_Internal->uuid.data[Math::Clamp<uint32_t>(index, 0, 15)];
         }
 
-        std::string UUID::toString() const
+        std::string const& UUID::toString() const
         {
             return m_String;
         }

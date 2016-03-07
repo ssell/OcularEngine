@@ -70,28 +70,28 @@ namespace Ocular
             connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileNewProject()));
 
             m_MenuActionFileOpenProject = new QAction(tr("Open Project"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileOpenProject()));
+            connect(m_MenuActionFileOpenProject, SIGNAL(triggered()), this, SLOT(fileOpenProject()));
 
             m_MenuActionFileCloseProject = new QAction(tr("Close Project"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileCloseProject()));
+            connect(m_MenuActionFileCloseProject, SIGNAL(triggered()), this, SLOT(fileCloseProject()));
 
             m_MenuActionFileNewScene = new QAction(tr("New Scene"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileNewScene()));
+            connect(m_MenuActionFileNewScene, SIGNAL(triggered()), this, SLOT(fileNewScene()));
 
             m_MenuActionFileOpenScene = new QAction(tr("Open Scene"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileOpenScene()));
+            connect(m_MenuActionFileOpenScene, SIGNAL(triggered()), this, SLOT(fileOpenScene()));
 
             m_MenuActionFileSaveScene = new QAction(tr("Save Scene"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileSaveScene()));
+            connect(m_MenuActionFileSaveScene, SIGNAL(triggered()), this, SLOT(fileSaveScene()));
 
             m_MenuActionFileSaveSceneAs = new QAction(tr("Save Scene As..."), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileSaveSceneAs()));
+            connect(m_MenuActionFileSaveSceneAs, SIGNAL(triggered()), this, SLOT(fileSaveSceneAs()));
 
             m_MenuActionFileCloseScene = new QAction(tr("Close Scene"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileCloseScene()));
+            connect(m_MenuActionFileCloseScene, SIGNAL(triggered()), this, SLOT(fileCloseScene()));
 
             m_MenuActionFileExit = new QAction(tr("Exit"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileExit()));
+            connect(m_MenuActionFileExit, SIGNAL(triggered()), this, SLOT(fileExit()));
 
             //------------------------------------------------------------
             // Edit Menu Actions
@@ -100,7 +100,7 @@ namespace Ocular
             // Help Menu Actions
 
             m_MenuActionHelpAbout = new QAction(tr("About Ocular Editor"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(helpAbout()));
+            connect(m_MenuActionHelpAbout, SIGNAL(triggered()), this, SLOT(helpAbout()));
 
         }
 
@@ -162,17 +162,43 @@ namespace Ocular
 
         void MainMenuBar::fileOpenScene()
         {
+            const std::string searchPath = (m_LastScenePath.size() ? m_LastScenePath : OcularResources->getSourceDirectory());
+            const std::string path = QFileDialog::getOpenFileName(this, tr("Open Scene"), searchPath.c_str(), tr("Ocular Scene Files (*.oscene)")).toStdString();
 
+            Core::File openFile(path);
+
+            if(openFile.exists() && openFile.canRead() && Utils::String::IsEqual(openFile.getExtension(), ".oscene"))
+            {
+                if(OcularScene->loadScene(openFile))
+                {
+                    m_LastScenePath = path;
+                }
+            }
         }
 
         void MainMenuBar::fileSaveScene()
         {
-
+            if(m_LastScenePath.size())
+            {
+                OcularScene->saveScene(Core::File(m_LastScenePath));
+            }
+            else
+            {
+                fileSaveSceneAs();
+            }
         }
 
         void MainMenuBar::fileSaveSceneAs()
         {
+            const std::string searchPath = (m_LastScenePath.size() ? m_LastScenePath : OcularResources->getSourceDirectory());
+            const std::string path = QFileDialog::getSaveFileName(this, tr("Save Scene"), searchPath.c_str(), tr("Ocular Scene Files (*.oscene)")).toStdString();
 
+            Core::File saveFile(path);
+
+            if(OcularScene->saveScene(saveFile))
+            {
+                m_LastScenePath = path;
+            }
         }
 
         void MainMenuBar::fileCloseScene()

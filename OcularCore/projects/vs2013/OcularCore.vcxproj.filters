@@ -663,6 +663,9 @@
     <ClCompile Include="..\..\src\ObjectIO\ObjectIO.cpp">
       <Filter>Source Files\ObjectIO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1207,6 +1210,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\ObjectIO\ObjectIO.hpp">
       <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectRemovedEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

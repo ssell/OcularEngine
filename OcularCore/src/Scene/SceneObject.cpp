@@ -41,12 +41,12 @@ namespace Ocular
               m_Renderable(nullptr),
               m_Parent(parent)
         {
+            OcularScene->addObject(this, parent);
+
             OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_IsStatic);
             OCULAR_EXPOSE(m_ForcedVisible);
-            OCULAR_EXPOSE(m_Persists);
-            
-            OcularScene->addObject(this, parent);
+            OCULAR_EXPOSE(m_Transform);
         }
 
         SceneObject::SceneObject()
@@ -64,7 +64,6 @@ namespace Ocular
             OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_IsStatic);
             OCULAR_EXPOSE(m_ForcedVisible);
-            OCULAR_EXPOSE(m_Persists);
             OCULAR_EXPOSE(m_Transform);
         }
 
@@ -746,11 +745,14 @@ namespace Ocular
 
         void SceneObject::onSave(BuilderNode* node)
         {
-            ObjectIO::onSave(node);
-
-            if(node)
+            if(!m_Persists)
             {
+                ObjectIO::onSave(node);
 
+                if(node)
+                {
+
+                }
             }
         }
 

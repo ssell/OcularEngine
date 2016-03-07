@@ -89,6 +89,8 @@ namespace Ocular
 
             QMenu* m_MenuHelp;
             QAction* m_MenuActionHelpAbout;
+
+            std::string m_LastScenePath;
         };
     }
     /**
