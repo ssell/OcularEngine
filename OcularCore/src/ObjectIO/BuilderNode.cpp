@@ -26,7 +26,7 @@ namespace Ocular
         // CONSTRUCTORS
         //--------------------------------------------------------------------------------------
 
-        BuilderNode::BuilderNode(BuilderNode* parent, std::string const& name, std::string const& value, std::string const& type)
+        BuilderNode::BuilderNode(BuilderNode* parent, std::string const& name, std::string const& type, std::string const& value)
             : m_Parent(parent),
             m_Name(name),
             m_Value(value),
@@ -68,7 +68,7 @@ namespace Ocular
             return m_Parent;
         }
 
-        BuilderNode* BuilderNode::addChild(std::string const& name, std::string const& value, std::string const& type)
+        BuilderNode* BuilderNode::addChild(std::string const& name, std::string const& type, std::string const& value)
         {
             BuilderNode* result = nullptr;
             auto findPair = m_ChildMap.find(name);
@@ -78,7 +78,7 @@ namespace Ocular
                 delete findPair->second;
             }
 
-            result = new BuilderNode(this, name, value, type);
+            result = new BuilderNode(this, name, type, value);
             m_ChildMap[name] = result;
 
             return result;

@@ -112,7 +112,8 @@ namespace Ocular
             std::string const& getName() const;
 
             /**
-             *
+             * \return The mapping name used to find the resource. This is typically the relative
+             *         local path without the file extension.
              */
             std::string const& getMappingName() const;
 

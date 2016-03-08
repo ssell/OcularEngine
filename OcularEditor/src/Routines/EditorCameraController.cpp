@@ -50,7 +50,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         EditorCameraController::EditorCameraController()
-            : ARoutine(),
+            : ARoutine("EditorCameraController", "EditorCameraController"),
               m_Mode(CameraMode::Default),
               m_LookSensitivity(0.001f),
               m_PanSensitivity(0.001f),

@@ -88,7 +88,7 @@ namespace Ocular
          * In either case, the SceneManager owns the object and handles adding it to the Scene,
          * invoking the Routines and Renderables, intersection testing, etc.
          */
-        class SceneObject : public Object, public ObjectIO
+        class SceneObject : public Object
         {
             friend class SceneManager;
 

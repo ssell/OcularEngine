@@ -99,7 +99,7 @@ namespace Ocular
                             if(buildableChild)
                             {
                                 // Add a new node for this child, and envoke it's onSave so it can build itself
-                                buildableChild->onSave(node->addChild(variable->name, "", variable->type));
+                                buildableChild->onSave(node->addChild(variable->name, variable->type, ""));
                             }
                         }
                         else if(variable->isExposed)
@@ -108,12 +108,12 @@ namespace Ocular
 
                             if(io)
                             {
-                                io->onSave(node->addChild(variable->name, "", variable->type));
+                                io->onSave(node->addChild(variable->name, variable->type, ""));
                             }
                         }
                         else
                         {
-                            node->addChild(variable->name, OcularString->toString(variable->type, variable->data), variable->type);
+                            node->addChild(variable->name, variable->type, OcularString->toString(variable->type, variable->data));
                         }
                     }
                 }

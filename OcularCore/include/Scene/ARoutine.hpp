@@ -18,10 +18,9 @@
 #ifndef __H__OCULAR_CORE_SCENE_AROUTINE__H__
 #define __H__OCULAR_CORE_SCENE_AROUTINE__H__
 
-#include "ObjectIO/Exposable.hpp"
-#include "ObjectIO/Buildable.hpp"
-
+#include "Object.hpp"
 #include "Events/AEventListener.hpp"
+#include "Scene/RoutineRegistrar.hpp"
 #include "Priority.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -57,13 +56,13 @@ namespace Ocular
          * |  PostRender | TBD                                                         |
          * |       Event | TBD                                                         |
          */
-        class ARoutine : public AEventListener, public Exposable, public Buildable
+        class ARoutine : public Object, public AEventListener
         {
             friend class SceneObject;
 
         public:
 
-            ARoutine();
+            ARoutine(std::string const& name, std::string const& type);
             virtual ~ARoutine();
             
             bool operator<(ARoutine const& rhs);
@@ -167,21 +166,12 @@ namespace Ocular
              */
             std::string const& getName() const;
 
-            //------------------------------------------------------------
-            // Inherited Methods
-            //------------------------------------------------------------
-
-            void onLoad(BuilderNode const* node) override;
-            void onSave(BuilderNode* node) override;
-
         protected:
 
             void setParent(SceneObject* object);
             void setName(std::string const& name);
 
             Priority m_Priority;      ///< Priority level of this Routine in the Routine Queue.
-            std::string m_Name;
-
             SceneObject* m_Parent;    ///< The SceneObject instance that this routine is attached to.
 
         private:

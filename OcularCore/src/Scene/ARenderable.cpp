@@ -27,8 +27,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARenderable::ARenderable(std::string const& name, SceneObject* parent)
-            : m_Name(name),
+        ARenderable::ARenderable(std::string const& name, std::string const& type, SceneObject* parent)
+            : Object(name, type),
               m_Parent(parent)
         {
             if(m_Parent)
@@ -78,30 +78,6 @@ namespace Ocular
         std::string const& ARenderable::getName() const
         {
             return m_Name;
-        }
-
-        //----------------------------------------------------------------
-        // Inherited Methods
-        //----------------------------------------------------------------
-
-        void ARenderable::onLoad(BuilderNode const* node)
-        {
-            Buildable::onLoad(node);
-
-            if(node)
-            {
-
-            }
-        }
-
-        void ARenderable::onSave(BuilderNode* node)
-        {
-            Buildable::onSave(node);
-
-            if(node)
-            {
-
-            }
         }
 
         //----------------------------------------------------------------------------------

@@ -18,7 +18,9 @@
 #ifndef __H__OCULAR_OBJECT__H__
 #define __H__OCULAR_OBJECT__H__
 
+#include "ObjectIO/ObjectIO.hpp"
 #include "UUID.hpp"
+
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -39,7 +41,7 @@ namespace Ocular
          * \class Object
          * \brief Base class of all representable Ocular constructs.
          */
-        class Object
+        class Object : public ObjectIO
         {
         public:
         
@@ -69,7 +71,7 @@ namespace Ocular
             /**
              * \return The name of the Object
              */
-            std::string getName() const;
+            std::string const& getName() const;
         
             /**
              * \brief Sets the name of the Object
@@ -80,7 +82,7 @@ namespace Ocular
             /**
              * \return String representation of the object's Class
              */
-            std::string getClass() const;
+            std::string const& getClass() const;
 
             /**
              * Sets the UUID based off of the properly formatted UUID string.

@@ -23,8 +23,10 @@
 #endif
 
 #include "UUID.hpp"
-#include "OcularEngine.hpp"
 #include "Math/MathCommon.hpp"
+#include "Utilities/StringRegistrar.hpp"
+
+#include "OcularEngine.hpp"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -39,6 +41,20 @@ namespace Ocular
 {
     namespace Core
     {
+        OCULAR_REGISTER_TO_STRING(UUID, OCULAR_TO_STRING_LAMBDA
+        {
+            UUID uuid = void_cast<UUID>(raw);
+            return uuid.toString();
+        });
+
+        OCULAR_REGISTER_FROM_STRING(UUID, OCULAR_FROM_STRING_LAMBDA
+        {
+            static UUID result;
+            result.set(str);
+
+            return void_cast<UUID>(result);
+        });
+
         struct UUID_Internal
         {
             boost::uuids::uuid uuid;

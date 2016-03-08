@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         SceneObject::SceneObject(std::string const& name, SceneObject* parent)
-            : Object(name),
+            : Object(name, "SceneObject"),
               m_IsStatic(false),
               m_IsActive(true),
               m_IsVisible(false),
@@ -43,7 +43,6 @@ namespace Ocular
         {
             OcularScene->addObject(this, parent);
 
-            OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_IsStatic);
             OCULAR_EXPOSE(m_ForcedVisible);
             OCULAR_EXPOSE(m_Transform);
@@ -61,7 +60,6 @@ namespace Ocular
         {
             OcularScene->addObject(this);
 
-            OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_IsStatic);
             OCULAR_EXPOSE(m_ForcedVisible);
             OCULAR_EXPOSE(m_Transform);
@@ -735,11 +733,20 @@ namespace Ocular
 
         void SceneObject::onLoad(BuilderNode const* node)
         {
-            ObjectIO::onLoad(node);
+            Object::onLoad(node);
 
             if(node)
             {
+                if(m_Renderable)
+                {
+                    m_Renderable->onLoad(node->getChild(m_Renderable->getName()));
+                    const BuilderNode* child = node->getChild(m_Renderable->getName());
 
+                    if(child)
+                    {
+                        m_Renderable->onLoad(child);
+                    }
+                }
             }
         }
 
@@ -747,11 +754,19 @@ namespace Ocular
         {
             if(!m_Persists)
             {
-                ObjectIO::onSave(node);
+                Object::onSave(node);
 
                 if(node)
                 {
+                    if(m_Renderable)
+                    {
+                        BuilderNode* child = node->addChild(m_Renderable->getName(), m_Renderable->getClass(), "");
 
+                        if(child)
+                        {
+                            m_Renderable->onSave(child);
+                        }
+                    }
                 }
             }
         }

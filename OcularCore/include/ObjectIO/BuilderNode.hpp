@@ -52,7 +52,7 @@ namespace Ocular
         {
         public:
 
-            BuilderNode(BuilderNode* parent, std::string const& name, std::string const& value, std::string const& type);
+            BuilderNode(BuilderNode* parent, std::string const& name, std::string const& type, std::string const& value);
             ~BuilderNode();
 
             //--------------------------------------------------------------------
@@ -86,10 +86,10 @@ namespace Ocular
              * overwritten by the new child.
              *
              * \param[in] name
-             * \param[in] value
              * \param[in] type
+             * \param[in] value
              */
-            BuilderNode* addChild(std::string const& name, std::string const& value, std::string const& type);
+            BuilderNode* addChild(std::string const& name, std::string const& type, std::string const& value);
 
             /**
              * Attempts to retrieve the child with the specified name.

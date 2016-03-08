@@ -30,7 +30,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshRenderable::MeshRenderable(std::string const& name, SceneObject* parent)
-            : ARenderable(name, parent),
+            : ARenderable(name, "Mesh", parent),
               m_Mesh(nullptr),
               m_Material(nullptr)
         {
@@ -76,6 +76,45 @@ namespace Ocular
             if(m_Mesh)
             {
                 OcularGraphics->renderMesh(m_Mesh);
+            }
+        }
+
+        void MeshRenderable::onLoad(BuilderNode const* node)
+        {
+            Object::onLoad(node);
+
+            if(node)
+            {
+                const BuilderNode* meshChild = node->getChild("m_Mesh");
+                const BuilderNode* materialChild = node->getChild("m_Material");
+
+                if(meshChild)
+                {
+                    m_Mesh = OcularResources->getResource<Graphics::Mesh>(meshChild->getValue());
+                }
+
+                if(materialChild)
+                {
+                    m_Material = OcularResources->getResource<Graphics::Material>(materialChild->getValue());
+                }
+            }
+        }
+
+        void MeshRenderable::onSave(BuilderNode* node)
+        {
+            Object::onSave(node);
+
+            if(node)
+            {
+                if(m_Mesh)
+                {
+                    node->addChild("m_Mesh", Utils::TypeName<std::string>::name, m_Mesh->getMappingName());
+                }
+                
+                if(m_Material)
+                {
+                    node->addChild("m_Material", Utils::TypeName<std::string>::name, m_Material->getMappingName());
+                }
             }
         }
 

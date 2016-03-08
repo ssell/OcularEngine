@@ -156,7 +156,7 @@ void ParseNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode)
         if(type.size())
         {
             // May have no value which is OK
-            Ocular::Core::BuilderNode* newNode = builderNode->addChild(name, value, type);
+            Ocular::Core::BuilderNode* newNode = builderNode->addChild(name, type, value);
 
             for(auto child : xmlNode.children())
             {

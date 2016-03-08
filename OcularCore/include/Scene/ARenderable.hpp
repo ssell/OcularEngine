@@ -18,9 +18,7 @@
 #ifndef __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
-#include "ObjectIO/Exposable.hpp"
-#include "ObjectIO/Buildable.hpp"
-
+#include "Object.hpp"
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -42,13 +40,13 @@ namespace Ocular
         /**
          * \class ARenderable
          */
-        class ARenderable : public Exposable, public Buildable
+        class ARenderable : public Object
         {
             friend class SceneObject;
 
         public:
 
-            ARenderable(std::string const& name, SceneObject* parent);
+            ARenderable(std::string const& name = "ARenderable", std::string const& type = "ARenderable", SceneObject* parent = nullptr);
             virtual ~ARenderable();
 
             virtual bool initialize();
@@ -95,16 +93,8 @@ namespace Ocular
              */
             std::string const& getName() const;
 
-            //------------------------------------------------------------
-            // Inherited Methods
-            //------------------------------------------------------------
-
-            void onLoad(BuilderNode const* node) override;
-            void onSave(BuilderNode* node) override;
-
         protected:
 
-            std::string m_Name;
             SceneObject* m_Parent;
 
         private:

@@ -27,12 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ARoutine::ARoutine()
+        ARoutine::ARoutine(std::string const& name, std::string const& type)
+            : Object(name, type),
+              m_Priority(Priority::Medium),
+              m_Parent(nullptr)
         {
-            m_Priority = Priority::Medium;
-            m_Parent = nullptr;
-
             OcularScene->objectAddedRoutine(this);
+
+            //uint32_t* priority = (uint32_t*)(&m_Priority);
+            //OCULAR_EXPOSE(priority);
         }
 
         ARoutine::~ARoutine()
@@ -122,30 +125,6 @@ namespace Ocular
         std::string const& ARoutine::getName() const
         {
             return m_Name;
-        }
-
-        //----------------------------------------------------------------
-        // Inherited Methods
-        //----------------------------------------------------------------
-
-        void ARoutine::onLoad(BuilderNode const* node)
-        {
-            Buildable::onLoad(node);
-
-            if(node)
-            {
-
-            }
-        }
-
-        void ARoutine::onSave(BuilderNode* node)
-        {
-            Buildable::onSave(node);
-
-            if(node)
-            {
-
-            }
         }
 
         //----------------------------------------------------------------------------------

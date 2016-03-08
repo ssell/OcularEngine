@@ -15,18 +15,18 @@
  */
 
 #include "Scene/Routines/FreeFlyController.hpp"
-
-#include "Scene/RoutineRegistrar.hpp"
 #include "Scene/SceneObject.hpp"
 #include "Events/Events/KeyboardInputEvent.hpp"
-
 #include "Math/Matrix3x3.hpp"
 
 #include "OcularEngine.hpp"
 
 OCULAR_REGISTER_ROUTINE(Ocular::Core::FreeFlyController, "FreeFlyController")
 
-static const float StaticSensitivityScale = 0.001f;      ///< Default scaling applied to mouse looking, as even a sensitivity of 1.0 is extremely high.
+namespace
+{
+    const float StaticSensitivityScale = 0.001f;      ///< Default scaling applied to mouse looking, as even a sensitivity of 1.0 is extremely high.
+}
 
 //------------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         FreeFlyController::FreeFlyController()
-            : ARoutine(),
+            : ARoutine("FreeFlyController", "FreeFlyController"),
               m_LookSensitivity(1.0f),
               m_MovementSpeed(1.0f),
               m_BurstModifier(5.0f),
@@ -47,6 +47,12 @@ namespace Ocular
               m_IsInBurst(false)
         {
             OcularEvents->registerListener(this, Priority::Medium);
+            
+            OCULAR_EXPOSE(m_LookSensitivity);
+            OCULAR_EXPOSE(m_MovementSpeed);
+            OCULAR_EXPOSE(m_BurstModifier);
+            OCULAR_EXPOSE(m_BurstModifier);
+            OCULAR_EXPOSE(m_IsInBurst);
         }
 
         FreeFlyController::~FreeFlyController()
