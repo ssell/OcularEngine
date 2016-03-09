@@ -53,6 +53,7 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Getters and Setters
+            //------------------------------------------------------------
 
             /**
              *
@@ -103,9 +104,15 @@ namespace Ocular
              * Retrieves the right (positive x-axis) vector of this transform.
              */
             Vector3f getRight() const;
+            
+            /**
+             * Returns the model matrix composed of the current position, rotation, and scale.
+             */
+            Matrix4x4 const&  getModelMatrix() const;
 
             //------------------------------------------------------------
             // Movement
+            //------------------------------------------------------------
 
             /**
              * Translates the transform in the specified direction and distance.
@@ -139,6 +146,7 @@ namespace Ocular
             
             //------------------------------------------------------------
             // Rotation
+            //------------------------------------------------------------
 
             /**
              * Rotates the transform on the specified axis by the given angle.
@@ -162,11 +170,10 @@ namespace Ocular
             void lookAt(Vector3f const& point, Vector3f const& upVector = Vector3f::Up());
 
             //------------------------------------------------------------
-            
-            /**
-             *
-             */
-            Matrix4x4 const&  getModelMatrix() const;
+            // Inherited Methods
+            //------------------------------------------------------------
+
+            virtual void onLoad(Core::BuilderNode const* node) override;
 
         protected:
 

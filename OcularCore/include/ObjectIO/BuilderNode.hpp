@@ -100,6 +100,23 @@ namespace Ocular
             BuilderNode const* getChild(std::string const& name) const;
 
             /**
+             * Finds all children with the specified string in their name.
+             * \note Names are unique, so this searches for any children whose name contains the string.
+             *
+             * \param[out] children
+             * \param[in]  name
+             */
+            void findChildrenByName(std::vector<BuilderNode*>& children, std::string const& name) const;
+
+            /**
+             * Finds all children whose type matches the specified string.
+             *
+             * \param[out] children
+             * \param[in]  type
+             */
+            void findChildrenByType(std::vector<BuilderNode*>& children, std::string const& type) const;
+
+            /**
              * Adds references to all children into the provided vector container.
              * \param[out] children
              */

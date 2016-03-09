@@ -141,6 +141,13 @@ namespace Ocular
                 {
                     m_DynamicSceneTree->addObject(object);
                 }
+
+                auto routines = object->getAllRoutines();
+
+                for(auto routine : routines)
+                {
+                    routineAdded(routine);
+                }
             }
         }
 

@@ -18,6 +18,7 @@
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
 #include "Math/Matrix4x4.hpp"
+#include "Utilities/StringComposer.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -737,14 +738,59 @@ namespace Ocular
 
             if(node)
             {
-                if(m_Renderable)
-                {
-                    m_Renderable->onLoad(node->getChild(m_Renderable->getName()));
-                    const BuilderNode* child = node->getChild(m_Renderable->getName());
+                //----------------------------------------------------
+                // Load Renderable
+                //----------------------------------------------------
 
-                    if(child)
+                const BuilderNode* renderableNode = node->getChild("m_Renderable");
+
+                if(renderableNode)
+                {
+                    setRenderable(renderableNode->getType());
+
+                    if(m_Renderable)
                     {
-                        m_Renderable->onLoad(child);
+                        m_Renderable->onLoad(renderableNode);
+                    }
+                }
+
+                //----------------------------------------------------
+                // Load Routines
+                //----------------------------------------------------
+
+                std::vector<BuilderNode*> routineNodes;
+                node->findChildrenByName(routineNodes, "Routine_");
+
+                for(auto routineNode : routineNodes)
+                {
+                    if(routineNode)
+                    {
+                        ARoutine* routine = addRoutine(routineNode->getType());
+
+                        if(routine)
+                        {
+                            routine->onLoad(routineNode);
+                        }
+                    }
+                }
+
+                //----------------------------------------------------
+                // Load Child Objects
+                //----------------------------------------------------
+
+                // Tentative as it will only work on pure SceneObjects currently...
+
+                std::vector<BuilderNode*> childNodes;
+                node->findChildrenByName(childNodes, "Child_");
+
+                for(auto childNode : childNodes)
+                {
+                    if(childNode)
+                    {
+                        SceneObject* child = new SceneObject();
+                        addChild(child);
+
+                        child->onLoad(childNode);
                     }
                 }
             }
@@ -758,13 +804,59 @@ namespace Ocular
 
                 if(node)
                 {
+                    //----------------------------------------------------
+                    // Save Renderable
+                    //----------------------------------------------------
+
                     if(m_Renderable)
                     {
-                        BuilderNode* child = node->addChild(m_Renderable->getName(), m_Renderable->getClass(), "");
+                        BuilderNode* renderableNode = node->addChild("m_Renderable", m_Renderable->getClass(), "");
 
-                        if(child)
+                        if(renderableNode)
                         {
-                            m_Renderable->onSave(child);
+                            m_Renderable->onSave(renderableNode);
+                        }
+                    }
+
+                    //----------------------------------------------------
+                    // Save Routines
+                    //----------------------------------------------------
+
+                    const uint32_t numRoutines = static_cast<uint32_t>(m_Routines.size());
+
+                    if(numRoutines > 0)
+                    {
+                        for(uint32_t i = 0; i < numRoutines; i++)
+                        {
+                            ARoutine* routine = m_Routines[i];
+
+                            if(routine)
+                            {
+                                BuilderNode* routineNode = node->addChild(OCULAR_STRING_COMPOSER("Routine_", i), routine->getClass(), "");
+                                routine->onSave(routineNode);
+                            }
+                        }
+                    }
+
+                    //----------------------------------------------------
+                    // Save Child Objects
+                    //----------------------------------------------------
+
+                    // Tentative as it will only work on pure SceneObjects currently...
+
+                    const uint32_t numChildren = static_cast<uint32_t>(m_Children.size());
+
+                    if(numChildren > 0)
+                    {
+                        for(uint32_t i = 0; i < numChildren; i++)
+                        {
+                            SceneObject* child = m_Children[i];
+
+                            if(child)
+                            {
+                                BuilderNode* childNode = node->addChild(OCULAR_STRING_COMPOSER("Child_", i), child->getClass(), "");
+                                child->onSave(childNode);
+                            }
                         }
                     }
                 }

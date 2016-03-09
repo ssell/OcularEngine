@@ -90,12 +90,12 @@ namespace Ocular
 
                 if(meshChild)
                 {
-                    m_Mesh = OcularResources->getResource<Graphics::Mesh>(meshChild->getValue());
+                    setMesh(meshChild->getValue());
                 }
 
                 if(materialChild)
                 {
-                    m_Material = OcularResources->getResource<Graphics::Material>(materialChild->getValue());
+                    setMaterial(materialChild->getValue());
                 }
             }
         }

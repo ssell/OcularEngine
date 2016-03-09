@@ -212,3 +212,5 @@ FakesAssemblies/
 *.ply
 *.ply
 OcularEditor/projects/vs2013/Resources/Materials/BoundingBox.omat
+*.oscene
+OcularEditor/projects/vs2013/Resources/testnew.oscene

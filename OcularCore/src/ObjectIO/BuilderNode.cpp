@@ -96,6 +96,42 @@ namespace Ocular
 
             return result;
         }
+        
+        void BuilderNode::findChildrenByName(std::vector<BuilderNode*>& children, std::string const& name) const
+        {
+            children.reserve(m_ChildMap.size());
+
+            for(auto childPair : m_ChildMap)
+            {
+                BuilderNode* node = childPair.second;
+
+                if(node)
+                {
+                    if(node->getName().find(name) != std::string::npos)
+                    {
+                        children.emplace_back(node);
+                    }
+                }
+            }
+        }
+        
+        void BuilderNode::findChildrenByType(std::vector<BuilderNode*>& children, std::string const& type) const
+        {
+            children.reserve(m_ChildMap.size());
+
+            for(auto childPair : m_ChildMap)
+            {
+                BuilderNode* node = childPair.second;
+
+                if(node)
+                {
+                    if(Utils::String::IsEqual(type, node->getType()))
+                    {
+                        children.emplace_back(node);
+                    }
+                }
+            }
+        }
 
         void BuilderNode::getAllChildren(std::vector<BuilderNode*>& children) const
         {

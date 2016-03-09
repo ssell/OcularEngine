@@ -56,6 +56,10 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        //----------------------------------------------------------------
+        // Getters and Setters
+        //----------------------------------------------------------------
+
         void Transform::setPosition(Vector3f const& position)
         {
             m_Position = position;
@@ -128,6 +132,15 @@ namespace Ocular
             return result;
         }
 
+        Matrix4x4 const& Transform::getModelMatrix() const
+        {
+            return m_ModelMatrix;
+        }
+        
+        //----------------------------------------------------------------
+        // Movement
+        //----------------------------------------------------------------
+
         void Transform::translate(Vector3f const& translation, bool local)
         {
             if(local)
@@ -156,6 +169,10 @@ namespace Ocular
         {
             translate(getRight() * delta);
         }
+        
+        //----------------------------------------------------------------
+        // Rotation
+        //----------------------------------------------------------------
 
         void Transform::rotate(float const angle, Vector3f const& axis)
         {
@@ -174,10 +191,15 @@ namespace Ocular
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
             m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
         }
+        
+        //----------------------------------------------------------------
+        // Inherited Methods
+        //----------------------------------------------------------------
 
-        Matrix4x4 const& Transform::getModelMatrix() const
+        void Transform::onLoad(Core::BuilderNode const* node)
         {
-            return m_ModelMatrix;
+            ObjectIO::onLoad(node);
+            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
         }
 
         //----------------------------------------------------------------------------------

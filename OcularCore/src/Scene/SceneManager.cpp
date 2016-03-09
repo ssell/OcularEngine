@@ -285,11 +285,17 @@ namespace Ocular
 
         void SceneManager::loadPersistentObjects()
         {
-            std::vector<SceneObject*> persistentObjects(m_Objects.size());
+            std::vector<SceneObject*> persistentObjects;
+            persistentObjects.reserve(m_Objects.size());
 
             for(auto iter = m_Objects.begin(); iter != m_Objects.end(); ++iter)
             {
-                persistentObjects.emplace_back(iter->second);
+                SceneObject* object = iter->second;
+
+                if(object && object->isPersistent())
+                {
+                    persistentObjects.emplace_back(object);
+                }
             }
 
             m_Scene->addObjects(persistentObjects);
@@ -372,8 +378,6 @@ namespace Ocular
             {
                 m_Scene->update();
             }
-
-            
         }
 
         void SceneManager::render()

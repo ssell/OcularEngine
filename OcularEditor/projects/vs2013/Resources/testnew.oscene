@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <OcularScene>
     <SceneHeader>
         <SceneTreeType>
@@ -10,7 +9,7 @@
         <SceneObject>
             <var name="m_Name" type="String" value="Test Object" />
             <var name="m_Class" type="String" value="Object" />
-            <var name="MeshRenderable" type="Mesh" value="">
+            <var name="m_Renderable" type="Mesh" value="">
                 <var name="m_Name" type="String" value="MeshRenderable" />
                 <var name="m_Class" type="String" value="Mesh" />
                 <var name="m_Material" type="String" value="Materials/Flat" />
