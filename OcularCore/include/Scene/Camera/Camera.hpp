@@ -84,6 +84,9 @@ namespace Ocular
              * \param[in] parent
              */
             Camera(std::string const& name, SceneObject* parent = nullptr);
+
+            Camera();
+
             virtual ~Camera();
             
             /**
@@ -241,6 +244,9 @@ namespace Ocular
             virtual bool onEvent(std::shared_ptr<AEvent> event) override;
 
         protected:
+
+            void onCreation();
+            void exposeVariables();
 
             void updateViewport(float width, float height);
 

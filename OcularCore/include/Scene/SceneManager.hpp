@@ -76,8 +76,8 @@ namespace Ocular
             /**
              * Creates and adds a new empty SceneObject to the active scene.
              * 
-             * \param[in] name 
-             * \param[in] parent Optional parent SceneObject
+             * \param[in] name   Non-unique display name for the object
+             * \param[in] parent Optional parent SceneObject. NULL if no parent.
              *
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
              */
@@ -94,6 +94,20 @@ namespace Ocular
 
                 return result;
             }
+
+            /**
+             * Attempts to create an object of the given type.
+             * 
+             * This is an alternative to createObject<T> when the explicit type T is not directly available.
+             *
+             * \param[in] type   A valid SceneObject type name (ie "SceneObject", "Camera", etc.)
+             * \param[in] name   Non-unique display name for the object
+             * \param[in] parent Optional parent SceneObject. NULL if no parent.
+             *
+             * \return The newly created SceneObject. May return false if the provided type is invalid (not found registered with 
+             *         the SceneObject factory (SceneManager::getSceneObjectFactory))
+             */
+            SceneObject* createObjectOfType(std::string const& type, std::string const& name = "Unnamed", SceneObject* parent = nullptr);
 
             /**
              * Creates and adds a new SceneObject to the active scene that is an
@@ -225,6 +239,11 @@ namespace Ocular
              */
             ComponentFactory<ARenderable>& getRenderableFactory();
 
+            /**
+             *
+             */
+            ComponentFactory<SceneObject>& getSceneObjectFactory();
+
         protected:
 
             void loadPersistentObjects();
@@ -296,8 +315,9 @@ namespace Ocular
             std::unordered_map<std::string, SceneObject*> m_Objects;    ///< Key is the string representation of the object UUID
             Scene* m_Scene;
 
-            ComponentFactory<ARoutine> m_RoutineFactory;
+            ComponentFactory<ARoutine>    m_RoutineFactory;
             ComponentFactory<ARenderable> m_RenderableFactory;
+            ComponentFactory<SceneObject> m_SceneObjectFactory;
         };
     }
     /**

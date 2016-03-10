@@ -1214,5 +1214,8 @@
     <ClInclude Include="..\..\include\Events\Events\SceneObjectRemovedEvent.hpp">
       <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneObjectRegistrar.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,10 +15,13 @@
  */
 
 #include "Scene/Camera/Camera.hpp"
+#include "Scene/SceneObjectRegistrar.hpp"
 #include "Events/Events/WindowResizeEvent.hpp"
 #include "Renderer/Window/Window.hpp"
 
 #include "OcularEngine.hpp"
+
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::Camera, "Camera");
 
 //------------------------------------------------------------------------------------------
 
@@ -47,39 +50,22 @@ namespace Ocular
               m_IsFixedProjection(false)
 
         {
-            OcularCameras->addCamera(this);
-            OcularEvents->registerListener(this, Priority::Medium);
+            onCreation();
+            exposeVariables();
+        }
 
-            //------------------------------------------------------------
-            // Set default viewport and projection
-
-            auto mainWindow = OcularWindows->getMainWindow();
-
-            float width  = DefaultWidth;
-            float height = DefaultHeight;
-
-            if(mainWindow)
-            {
-                const WindowDescriptor descriptor = mainWindow->getDescriptor();
-
-                width  = static_cast<float>(descriptor.width);
-                height = static_cast<float>(descriptor.height);
-
-                // If this is the only camera set it's RenderTexture, etc. to the main window
-                if(this == OcularCameras->getMainCamera())
-                {
-                    m_RenderTexture = mainWindow->getRenderTexture();
-                    m_DepthTexture = mainWindow->getDepthTexture();
-                }
-            }
-
-            m_PerspectiveProj.fieldOfView = DefaultFOV;
-            m_PerspectiveProj.aspectRatio = (width / height);
-            m_PerspectiveProj.nearClip = DefaultNear;
-            m_PerspectiveProj.farClip = DefaultFar;
-
-            setViewport(0.0f, 0.0f, width, height);
-            setProjectionPerspective(m_PerspectiveProj.fieldOfView, m_PerspectiveProj.aspectRatio, m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+        Camera::Camera()
+            : SceneObject(),
+              m_ProjType(ProjectionType::Perspective),
+              m_RenderTexture(nullptr),
+              m_DepthTexture(nullptr),
+              m_Viewport(nullptr),
+              m_Priority(Priority::Medium),
+              m_IsFixedViewport(false),
+              m_IsFixedProjection(false)
+        {
+            onCreation();
+            exposeVariables();
         }
 
         Camera::~Camera()
@@ -254,6 +240,48 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void Camera::onCreation()
+        {
+            OcularCameras->addCamera(this);
+            OcularEvents->registerListener(this, Priority::Medium);
+
+            //------------------------------------------------------------
+            // Set default viewport and projection
+
+            auto mainWindow = OcularWindows->getMainWindow();
+
+            float width  = DefaultWidth;
+            float height = DefaultHeight;
+
+            if(mainWindow)
+            {
+                const WindowDescriptor descriptor = mainWindow->getDescriptor();
+
+                width  = static_cast<float>(descriptor.width);
+                height = static_cast<float>(descriptor.height);
+
+                // If this is the only camera set it's RenderTexture, etc. to the main window
+                if(this == OcularCameras->getMainCamera())
+                {
+                    m_RenderTexture = mainWindow->getRenderTexture();
+                    m_DepthTexture = mainWindow->getDepthTexture();
+                }
+            }
+
+            m_PerspectiveProj.fieldOfView = DefaultFOV;
+            m_PerspectiveProj.aspectRatio = (width / height);
+            m_PerspectiveProj.nearClip = DefaultNear;
+            m_PerspectiveProj.farClip = DefaultFar;
+
+            setViewport(0.0f, 0.0f, width, height);
+            setProjectionPerspective(m_PerspectiveProj.fieldOfView, m_PerspectiveProj.aspectRatio, m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+        }
+
+        void Camera::exposeVariables()
+        {
+            /// \todo Expose camera variables
+        }
 
         void Camera::updateViewport(float const width, float const height)
         {

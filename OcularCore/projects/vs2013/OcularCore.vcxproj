@@ -469,6 +469,7 @@
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneObject.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneObjectRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneSaver\SceneObjectSaver.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneSaver\SceneSaver.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp" />

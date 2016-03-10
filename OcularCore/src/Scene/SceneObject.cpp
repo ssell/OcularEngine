@@ -15,12 +15,15 @@
  */
 
 #include "Scene/SceneObject.hpp"
+#include "Scene/SceneObjectRegistrar.hpp"
 #include "Scene/ARoutine.hpp"
 #include "Scene/ARenderable.hpp"
 #include "Math/Matrix4x4.hpp"
 #include "Utilities/StringComposer.hpp"
 
 #include "OcularEngine.hpp"
+
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::SceneObject, "SceneObject");
 
 //------------------------------------------------------------------------------------------
 
@@ -787,7 +790,7 @@ namespace Ocular
                 {
                     if(childNode)
                     {
-                        SceneObject* child = new SceneObject();
+                        SceneObject* child = OcularScene->createObjectOfType(childNode->getType(), "", this);
                         addChild(child);
 
                         child->onLoad(childNode);

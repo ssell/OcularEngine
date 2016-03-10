@@ -82,7 +82,7 @@ void setupScene()
     OcularScene->createScene("TestScene");
     
     setupCamera();
-    setupVisual();
+    //setupVisual();
 }
 
 int main(int argc, char *argv[])

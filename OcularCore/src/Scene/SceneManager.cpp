@@ -77,6 +77,19 @@ namespace Ocular
             return newObject;
         }
 
+        SceneObject* SceneManager::createObjectOfType(std::string const& type, std::string const& name, SceneObject* parent)
+        {
+            SceneObject* result = m_SceneObjectFactory.createComponent(type);
+
+            if(result)
+            {
+                result->setName(name);
+                result->setParent(parent);
+            }
+
+            return result;
+        }
+
         SceneObject* SceneManager::duplicateObject(SceneObject const* object)
         {
             return nullptr;
@@ -277,6 +290,11 @@ namespace Ocular
         ComponentFactory<ARenderable>& SceneManager::getRenderableFactory()
         {
             return m_RenderableFactory;
+        }
+
+        ComponentFactory<SceneObject>& SceneManager::getSceneObjectFactory()
+        {
+            return m_SceneObjectFactory;
         }
 
         //----------------------------------------------------------------------------------
