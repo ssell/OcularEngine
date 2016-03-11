@@ -15,7 +15,6 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/DetailsFrame.hpp"
 #include "Widgets/PropertiesBox.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -28,24 +27,21 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        DetailsFrame::DetailsFrame(QWidget *parent)
-            : QFrame(parent)
+        PropertiesBox::PropertiesBox(QWidget *parent)
+            : QGroupBox("Object Properties", parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::Panel | QFrame::Plain);
-            setStyleSheet(GeneralStyles::frameStyle);
-            setLineWidth(0);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            m_PropertiesBox = new PropertiesBox();
+            //m_SceneTree = new SceneTree();
 
             m_Layout = new QVBoxLayout();
-            m_Layout->addWidget(m_PropertiesBox);
-            m_Layout->setContentsMargins(0, 0, 0, 0);
-            
+            //m_Layout->addWidget(m_SceneTree);
+            m_Layout->setContentsMargins(5, 25, 5, 5);
+
             setLayout(m_Layout);
         }
 
-        DetailsFrame::~DetailsFrame()
+        PropertiesBox::~PropertiesBox()
         {
 
         }
@@ -54,9 +50,9 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize DetailsFrame::sizeHint() const
+        QSize PropertiesBox::sizeHint() const
         {
-            return QSize(275, 700);
+            return QSize(250, 500);
         }
 
         //----------------------------------------------------------------------------------

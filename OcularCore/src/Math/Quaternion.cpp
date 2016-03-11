@@ -36,12 +36,15 @@ namespace Ocular
 
             if(raw)
             {
-                Quaternion quat = void_cast<Quaternion>(raw);
+                Quaternion* quat = void_cast<Quaternion*>(raw);
 
-                std::stringstream sstream;
-                sstream << quat.x() << " " << quat.y() << " " << quat.z() << " " << quat.w();
+                if(quat)
+                {
+                    std::stringstream sstream;
+                    sstream << quat->x() << " " << quat->y() << " " << quat->z() << " " << quat->w();
 
-                result = sstream.str();
+                    result = sstream.str();
+                }
             }
 
             return result; 
@@ -49,32 +52,34 @@ namespace Ocular
 
         OCULAR_REGISTER_FROM_STRING(Quaternion, OCULAR_FROM_STRING_LAMBDA
         {
-            static Quaternion result;
-
-            size_t cumulativePos = 0;
-            size_t nextPos = 0;
-
-            try
+            if(out)
             {
-                float value = 0.0f;
+                Quaternion* result = void_cast<Quaternion*>(out);
 
-                result.x() = std::stof(str.substr(cumulativePos), &nextPos);
-                cumulativePos += nextPos;
+                if(result)
+                {
+                    size_t cumulativePos = 0;
+                    size_t nextPos = 0;
 
-                result.y() = std::stof(str.substr(cumulativePos), &nextPos);
-                cumulativePos += nextPos;
-
-                result.z() = std::stof(str.substr(cumulativePos), &nextPos);
-                cumulativePos += nextPos;
-
-                result.w() = std::stof(str.substr(cumulativePos), &nextPos);
+                    try
+                    {
+                        result->x() = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->y() = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->z() = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->w() = std::stof(str.substr(cumulativePos), &nextPos);
+                    }
+                    catch(std::invalid_argument const& e)
+                    {
+                        OcularLogger->error("Failed to convert string '", str, "' to Quaternion with error: ", e.what(), OCULAR_INTERNAL_LOG("Quaternion", "FromString"));
+                    }
+                }
             }
-            catch(std::invalid_argument const& e)
-            {
-                OcularLogger->error("Failed to convert string '", str, "' to Quaternion with error: ", e.what(), OCULAR_INTERNAL_LOG("Quaternion", "FromString"));
-            }
-
-            return void_cast<Quaternion>(result);
         });
 
         //----------------------------------------------------------------------------------

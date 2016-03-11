@@ -191,6 +191,7 @@
     <ClCompile Include="..\..\src\Widgets\ConsoleBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\ConsoleText.cpp" />
     <ClCompile Include="..\..\src\Widgets\ContentFrame.cpp" />
+    <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\DetailsFrame.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainMenuBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp" />
     <ClInclude Include="..\..\include\Widgets\ContentFrame.hpp" />
+    <ClInclude Include="..\..\include\Widgets\PropertiesBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\DetailsFrame.hpp" />
     <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp" />
     <ClInclude Include="..\..\include\Widgets\RenderFrame.hpp" />

@@ -30,15 +30,15 @@ namespace Ocular
 
             if(raw)
             {
-                Vector4f vector = void_cast<Vector4f>(raw);
-                std::stringstream sstream;
-        
-                for(uint32_t i = 0; i < 4; i++)
+                Vector4f* vector = void_cast<Vector4f*>(raw);
+                
+                if(vector)
                 {
-                    sstream << vector[i] << " ";
-                }
+                    std::stringstream sstream;
+                    sstream << vector->x << " " << vector->y << " " << vector->z << " " << vector->w;
 
-                result = sstream.str();
+                    result = sstream.str();
+                }
             }
 
             return result; 
@@ -46,29 +46,34 @@ namespace Ocular
 
         OCULAR_REGISTER_FROM_STRING(Vector4f, OCULAR_FROM_STRING_LAMBDA
         {
-            static Vector4f result;
-
-            uint32_t index = 0;
-            size_t cumulativePos = 0;
-            size_t nextPos = 0;
-
-            try
+            if(out)
             {
-                float value = 0.0f;
+                Vector4f* result = void_cast<Vector4f*>(out);
 
-                while((cumulativePos < str.size()) && (index < 4))
+                if(result)
                 {
-                    result[index] = std::stof(str.substr(cumulativePos), &nextPos);
-                    cumulativePos += nextPos;
-                    index += 1;
+                    size_t cumulativePos = 0;
+                    size_t nextPos = 0;
+
+                    try
+                    {
+                        result->x = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->y = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->z = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->w = std::stof(str.substr(cumulativePos), &nextPos);
+                    }
+                    catch(std::invalid_argument const& e)
+                    {
+                        OcularLogger->error("Failed to convert string '", str, "' to Vector4f with error: ", e.what(), OCULAR_INTERNAL_LOG("Vector4f", "FromString"));
+                    }
                 }
             }
-            catch(std::invalid_argument const& e)
-            {
-                OcularLogger->error("Failed to convert string '", str, "' to Vector4f with error: ", e.what(), OCULAR_INTERNAL_LOG("Vector4f", "FromString"));
-            }
-
-            return void_cast<Vector4f>(result);
         });
 
         bool Vector4f::OCULAR_INTERNAL_Force = false;

@@ -186,19 +186,24 @@ const Ocular::Utils::ToStringRegistrar<float> OCULAR_INTERNAL_FloatToStringRegis
 
 const Ocular::Utils::FromStringRegistrar<float> OCULAR_INTERNAL_FloatFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static float result;
-    result = 0.0f;
-
-    try
+    if(out)
     {
-        result = std::stof(str);
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "FloatFromString"));
-    }
+        float* result = void_cast<float*>(out);
 
-    return void_cast<float>(result);
+        if(result)
+        {
+            *result = 0.0f;
+
+            try
+            {
+                *result = std::stof(str);
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "FloatFromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -212,19 +217,24 @@ const Ocular::Utils::ToStringRegistrar<double> OCULAR_INTERNAL_DoubleToStringReg
 
 const Ocular::Utils::FromStringRegistrar<double> OCULAR_INTERNAL_DoubleFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static double result;
-    result = 0.0;
-
-    try
+    if(out)
     {
-        result = std::stod(str);
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to double with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "DoubleFromString"));
-    }
+        double* result = void_cast<double*>(out);
 
-    return void_cast<double>(result);
+        if(result)
+        {
+            *result = 0.0;
+
+            try
+            {
+                *result = std::stod(str);
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to double with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "DoubleFromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -241,14 +251,17 @@ const Ocular::Utils::ToStringRegistrar<int8_t> OCULAR_INTERNAL_Int8ToStringRegis
 
 const Ocular::Utils::FromStringRegistrar<int8_t> OCULAR_INTERNAL_Int8FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static int8_t result;
-    result = 0;
+    if(out)
+    {
+        int8_t* result = void_cast<int8_t*>(out);
 
-    std::stringstream sstream;
-    sstream << str;
-    sstream >> result;
-
-    return void_cast<int8_t>(result);
+        if(result)
+        {
+            std::stringstream sstream;
+            sstream << str;
+            sstream >> *result;
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -265,14 +278,17 @@ const Ocular::Utils::ToStringRegistrar<uint8_t> OCULAR_INTERNAL_UInt8ToStringReg
 
 const Ocular::Utils::FromStringRegistrar<uint8_t> OCULAR_INTERNAL_UInt8FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static uint8_t result;
-    result = 0;
+    if(out)
+    {
+        uint8_t* result = void_cast<uint8_t*>(out);
 
-    std::stringstream sstream;
-    sstream << str;
-    sstream >> result;
-
-    return void_cast<uint8_t>(result);
+        if(result)
+        {
+            std::stringstream sstream;
+            sstream << str;
+            sstream >> *result;
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -289,14 +305,17 @@ const Ocular::Utils::ToStringRegistrar<int16_t> OCULAR_INTERNAL_Int16ToStringReg
 
 const Ocular::Utils::FromStringRegistrar<int16_t> OCULAR_INTERNAL_Int16FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static int16_t result;
-    result = 0;
+    if(out)
+    {
+        int16_t* result = void_cast<int16_t*>(out);
 
-    std::stringstream sstream;
-    sstream << str;
-    sstream >> result;
-
-    return void_cast<int16_t>(result);
+        if(result)
+        {
+            std::stringstream sstream;
+            sstream << str;
+            sstream >> *result;
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -313,14 +332,17 @@ const Ocular::Utils::ToStringRegistrar<uint16_t> OCULAR_INTERNAL_UInt16ToStringR
 
 const Ocular::Utils::FromStringRegistrar<uint16_t> OCULAR_INTERNAL_UInt16FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static uint16_t result;
-    result = 0;
+    if(out)
+    {
+        uint16_t* result = void_cast<uint16_t*>(out);
 
-    std::stringstream sstream;
-    sstream << str;
-    sstream >> result;
-
-    return void_cast<uint16_t>(result);
+        if(result)
+        {
+            std::stringstream sstream;
+            sstream << str;
+            sstream >> *result;
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -334,19 +356,24 @@ const Ocular::Utils::ToStringRegistrar<int32_t> OCULAR_INTERNAL_Int32ToStringReg
 
 const Ocular::Utils::FromStringRegistrar<int32_t> OCULAR_INTERNAL_Int32FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static int32_t result;
-    result = 0;
-
-    try
+    if(out)
     {
-        result = static_cast<int32_t>(std::stol(str));
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to int32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int32FromString"));
-    }
+        int32_t* result = void_cast<int32_t*>(out);
 
-    return void_cast<int32_t>(result);
+        if(result)
+        {
+            *result = 0;
+
+            try
+            {
+                *result = static_cast<int32_t>(std::stol(str));
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to int32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int32FromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -360,19 +387,24 @@ const Ocular::Utils::ToStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32ToStringR
 
 const Ocular::Utils::FromStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static uint32_t result;
-    result = 0;
-
-    try
+    if(out)
     {
-        result = static_cast<uint32_t>(std::stoul(str));
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to uint32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt32FromString"));
-    }
+        uint32_t* result = void_cast<uint32_t*>(out);
 
-    return void_cast<uint32_t>(result);
+        if(result)
+        {
+            *result = 0;
+
+            try
+            {
+                *result = static_cast<uint32_t>(std::stol(str));
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to uint32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt32FromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -386,19 +418,24 @@ const Ocular::Utils::ToStringRegistrar<int64_t> OCULAR_INTERNAL_Int64ToStringReg
 
 const Ocular::Utils::FromStringRegistrar<int64_t> OCULAR_INTERNAL_Int64FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static int64_t result;
-    result = 0;
-
-    try
+    if(out)
     {
-        result = static_cast<int64_t>(std::stoll(str));
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to int64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int64FromString"));
-    }
+        int64_t* result = void_cast<int64_t*>(out);
 
-    return void_cast<int64_t>(result);
+        if(result)
+        {
+            *result = 0;
+
+            try
+            {
+                *result = static_cast<int64_t>(std::stol(str));
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to int64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int64FromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -412,19 +449,24 @@ const Ocular::Utils::ToStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64ToStringR
 
 const Ocular::Utils::FromStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static uint64_t result;
-    result = 0;
-
-    try
+    if(out)
     {
-        result = static_cast<uint64_t>(std::stoull(str));
-    }
-    catch(std::invalid_argument const& e)
-    {
-        OcularLogger->error("Failed to convert string '", str, "' to uint64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt64FromString"));
-    }
+        uint64_t* result = void_cast<uint64_t*>(out);
 
-    return void_cast<uint64_t>(result);
+        if(result)
+        {
+            *result = 0;
+
+            try
+            {
+                *result = static_cast<uint64_t>(std::stol(str));
+            }
+            catch(std::invalid_argument const& e)
+            {
+                OcularLogger->error("Failed to convert string '", str, "' to uint64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt64FromString"));
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -439,15 +481,20 @@ const Ocular::Utils::ToStringRegistrar<bool> OCULAR_INTERNAL_BoolToStringRegiste
 
 const Ocular::Utils::FromStringRegistrar<bool> OCULAR_INTERNAL_BoolFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static bool result;
-    result = false;
-
-    if(Ocular::Utils::String::IsEqual(str, "true", true))
+    if(out)
     {
-        result = true;
-    }
+        bool* result = void_cast<bool*>(out);
 
-    return void_cast<bool>(result);
+        if(result)
+        {
+            *result = false;
+
+            if(Ocular::Utils::String::IsEqual(str, "true", true))
+            {
+                *result = true;
+            }
+        }
+    }
 });
 
 //------------------------------------------------------------------------------------------
@@ -461,8 +508,13 @@ const Ocular::Utils::ToStringRegistrar<std::string> OCULAR_INTERNAL_StringToStri
 
 const Ocular::Utils::FromStringRegistrar<std::string> OCULAR_INTERNAL_StringFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
 {
-    static std::string result;
-    result = str;
+    if(out)
+    {
+        std::string* result = void_cast<std::string*>(out);
 
-    return void_cast<std::string>(result);
+        if(result)
+        {
+            *result = str;
+        }
+    }
 });

@@ -1205,9 +1205,6 @@
     <ClInclude Include="..\..\include\Utilities\VoidCast.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\ObjectIO\ObjectIO.hpp">
       <Filter>Header Files\ObjectIO</Filter>
     </ClInclude>
@@ -1216,6 +1213,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\SceneObjectRegistrar.hpp">
       <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

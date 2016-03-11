@@ -264,7 +264,7 @@ namespace Ocular
 
                 if(find != m_FromFunctions.end())
                 {
-                    result = void_cast<T>(find->second(value));
+                    find->second(value, void_cast<T>(result));
                 }
 
                 return result;
@@ -290,7 +290,7 @@ namespace Ocular
 
                 if(find != m_FromFunctions.end())
                 {
-                    object = void_cast<T>(find->second(value));
+                    find->second(value, object);
                     result = true;
                 }
 
@@ -380,16 +380,16 @@ namespace Ocular
 
                     if(find != m_FromFunctions.end())
                     {
-                        void* cast = find->second(value);
+                        find->second(value, object);
 
-                        if(isTrivial)
-                        {
-                            memcpy(object, &cast, size);
-                        }
-                        else
-                        {
-                            memcpy(object, cast, size);
-                        }
+                        //if(isTrivial)
+                        //{
+                        //    memcpy(object, &cast, size);
+                        //}
+                        //else
+                        //{
+                        //    memcpy(object, cast, size);
+                        //}
 
                         result = true;
                     }
@@ -421,7 +421,7 @@ namespace Ocular
              * For more information, see the OCULAR_REGISTER_FROM_STRING helper macro defined in 'Utilities/StringRegistrar.hpp'
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerFromString(std::function<void*(std::string const&)> func)
+            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerFromString(std::function<void(std::string const&, void*)> func)
             {
                 const std::string tStr = TypeName<T>::name;
                 auto find = m_FromFunctions.find(tStr);
@@ -437,7 +437,7 @@ namespace Ocular
         private:
 
             std::unordered_map<std::string, std::function<std::string(void*)>> m_ToFunctions;
-            std::unordered_map<std::string, std::function<void*(std::string const&)>> m_FromFunctions;
+            std::unordered_map<std::string, std::function<void(std::string const&, void*)>> m_FromFunctions;
         };
     }
     /**

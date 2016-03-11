@@ -43,16 +43,32 @@ namespace Ocular
     {
         OCULAR_REGISTER_TO_STRING(UUID, OCULAR_TO_STRING_LAMBDA
         {
-            UUID uuid = void_cast<UUID>(raw);
-            return uuid.toString();
+            std::string result;
+
+            if(raw)
+            {
+                UUID* uuid = void_cast<UUID*>(raw);
+
+                if(uuid)
+                {
+                    result = uuid->toString();
+                }
+            }
+
+            return result;
         });
 
         OCULAR_REGISTER_FROM_STRING(UUID, OCULAR_FROM_STRING_LAMBDA
         {
-            static UUID result;
-            result.set(str);
+            if(out)
+            {
+                UUID* result = void_cast<UUID*>(out);
 
-            return void_cast<UUID>(result);
+                if(result)
+                {
+                    result->set(str);
+                }
+            }
         });
 
         struct UUID_Internal

@@ -33,9 +33,10 @@ namespace Ocular
         SceneFrame::SceneFrame(QWidget *parent)
             : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);setFrameStyle(QFrame::Panel | QFrame::Plain);
-            setLineWidth(0);
+            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+            setFrameStyle(QFrame::Panel | QFrame::Plain);
             setStyleSheet(GeneralStyles::frameStyle);
+            setLineWidth(0);
 
             m_SceneBox = new SceneBox();
             m_ConsoleBox = new ConsoleBox();

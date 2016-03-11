@@ -40,7 +40,10 @@ namespace Ocular
 
         /**
          * \class SceneFrame
-         * \brief 
+         *
+         * The SceneFrame is split into two distinct parts. On top is a SceneBox which
+         * ultimately houses a SceneTree widget. While on bottom there is the ConsoleBox
+         * which contains a ConsoleText widget.
          */
         class SceneFrame : public QFrame
         {

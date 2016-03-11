@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_DETAILS_FRAME__H__
-#define __H__OCULAR_EDITOR_DETAILS_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_DETAILS_BOX__H__
+#define __H__OCULAR_EDITOR_DETAILS_BOX__H__
 
-#include <QtWidgets/qframe.h>
+#include <QtWidgets/qgroupbox.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -34,18 +34,18 @@ namespace Ocular
      */
     namespace Editor
     {
-        class PropertiesBox;
+        class SceneTree;
 
         /**
-         * \class DetailsFrame
+         * \class PropertiesBox
          * \brief 
          */
-        class DetailsFrame : public QFrame
+        class PropertiesBox : public QGroupBox
         {
         public:
 
-            DetailsFrame(QWidget* parent = nullptr);
-            ~DetailsFrame();
+            PropertiesBox(QWidget* parent = nullptr);
+            ~PropertiesBox();
 
             virtual QSize sizeHint() const override;
 
@@ -54,8 +54,6 @@ namespace Ocular
         private:
             
             QVBoxLayout* m_Layout;
-            PropertiesBox* m_PropertiesBox;
-
         };
     }
     /**

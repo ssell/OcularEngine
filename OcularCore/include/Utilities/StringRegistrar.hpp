@@ -50,7 +50,7 @@ namespace Ocular
         {
         public:
 
-            FromStringRegistrar(std::function<void*(std::string const&)> func)
+            FromStringRegistrar(std::function<void(std::string const&, void*)> func)
             {
                 OcularString->registerFromString<T>(func);
             }
@@ -110,7 +110,7 @@ namespace Ocular
  *
  *     OCULAR_REGISTER_FROM_STRING(float, OCULAR_FROM_STRING_LAMBDA { ... });
  */
-#define OCULAR_FROM_STRING_LAMBDA [](std::string const& str)->void*
+#define OCULAR_FROM_STRING_LAMBDA [](std::string const& str, void* out)
 
 //------------------------------------------------------------------------------------------
 

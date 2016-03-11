@@ -30,15 +30,15 @@ namespace Ocular
 
             if(raw)
             {
-                Vector2f vector = void_cast<Vector2f>(raw);
-                std::stringstream sstream;
-        
-                for(uint32_t i = 0; i < 2; i++)
+                Vector2f* vector = void_cast<Vector2f*>(raw);
+                
+                if(vector)
                 {
-                    sstream << vector[i] << " ";
-                }
+                    std::stringstream sstream;
+                    sstream << vector->x << " " << vector->y;
 
-                result = sstream.str();
+                    result = sstream.str();
+                }
             }
 
             return result; 
@@ -46,29 +46,28 @@ namespace Ocular
 
         OCULAR_REGISTER_FROM_STRING(Vector2f, OCULAR_FROM_STRING_LAMBDA
         {
-            static Vector2f result;
-
-            uint32_t index = 0;
-            size_t cumulativePos = 0;
-            size_t nextPos = 0;
-
-            try
+            if(out)
             {
-                float value = 0.0f;
+                Vector2f* result = void_cast<Vector2f*>(out);
 
-                while((cumulativePos < str.size()) && (index < 2))
+                if(result)
                 {
-                    result[index] = std::stof(str.substr(cumulativePos), &nextPos);
-                    cumulativePos += nextPos;
-                    index += 1;
+                    size_t cumulativePos = 0;
+                    size_t nextPos = 0;
+
+                    try
+                    {
+                        result->x = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->y = std::stof(str.substr(cumulativePos), &nextPos);
+                    }
+                    catch(std::invalid_argument const& e)
+                    {
+                        OcularLogger->error("Failed to convert string '", str, "' to Vector2f with error: ", e.what(), OCULAR_INTERNAL_LOG("Vector2f", "FromString"));
+                    }
                 }
             }
-            catch(std::invalid_argument const& e)
-            {
-                OcularLogger->error("Failed to convert string '", str, "' to Vector2f with error: ", e.what(), OCULAR_INTERNAL_LOG("Vector2f", "FromString"));
-            }
-
-            return void_cast<Vector2f>(result);
         });
 
         bool Vector2f::OCULAR_INTERNAL_Force = false;
