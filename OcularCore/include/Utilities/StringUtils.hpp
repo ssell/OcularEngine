@@ -301,76 +301,20 @@ namespace Ocular
              * Attempts to modify the data pointed to by the object parameter so that it matches the 
              * conversion performed on the specified string for the given type.
              *
-             * Note that this method is potentially dangerous if improper parameters are supplied. 
-             * As such, it is recommended to use a different variation of the fromString method if
-             * it is at all possible.
-             *
-             * If this method is the only option, then the following conditions must be met:
-             *
-             *     - object points to the address of an object of the specified type
-             *     - size is the proper size for given type
-             *
              * Example:
              *
-             *     //-----------------------------------------------------
-             *     // Good
-             *     //-----------------------------------------------------
-             *
-             *     float x = 5.0f;
-             *     void* xvp = void_cast<float*>(&x);
-             *
-             *     OcularString->fromString(TypeName<float>::name, "8.0", xvp, sizeof(float)); 
-             *     // x == 8.0
-             *
-             *     //-----------------------------------------------------
-             *     // Bad (crash)
-             *     //-----------------------------------------------------
-             *
-             *     float y = 5.0f;
-             *     void* yvp = void_cast<float>(y);
-             *
-             *     OcularString->fromString(TypeName<float>::name, "8.0", yvp, sizeof(float));
-             *     // crash
-             *
-             *     //-----------------------------------------------------
-             *     // Bad (crash)
-             *     //-----------------------------------------------------
-             *
-             *     float z = 5.0f;
-             *     float zvp = void_cast<float*>(&z);
-             *
-             *     OcularString->fromString(TypeName<float>::name, "8.0", zvp, sizeof(double));
-             *     // crash
-             *
-             *     //-----------------------------------------------------
-             *     // Bad (best case no action taken)
-             *     //-----------------------------------------------------
-             *
-             *     float w = 5.0f;
-             *     float wvp = void_cast<float*>(&z);
-             *
-             *     OcularString->fromString("floatt", "8.0", wvp, sizeof(float));
-             *     // crash or no action depending on if there is a mapping for 'floatt' type conversion
-             *
-             *     //-----------------------------------------------------
-             *     // Bad (best case default value)
-             *     //-----------------------------------------------------
-             *
-             *     float v = 5.0f;
-             *     float vvp = void_cast<float*>(&z);
-             *
-             *     OcularString->fromString(TypeName<float>::name, "abcdef", vvp, sizeof(float));
-             *     // crash or default value set depending on implementation of the registered 'float' conversion function
+             *     void Foo(void* vectorVoid)
+             *     {
+             *         OcularString->fromString(Utils::TypeName<Vector3f>::name, "0.0 1.0 2.0", vectorVoid);
+             *     }
              *
              * \param[in]  type    String representation of the type. See Utils::TypeName and OCULAR_TYPE macro
              * \param[in]  value   String representation of the value. Must be castable to the specified type.
              * \param[out] object  Raw object data pointer where the converted value will be placed
-             * \param[in]  size    Size of the data type 
-             * \param[in]  trivial Is it a trivial data type? See std::is_trivial
              *
              * \return Returns TRUE if a matching 'FromString' function was found, else returns FALSE.
              */
-            bool fromString(std::string const& type, std::string const& value, void* object, uint32_t const& size, bool isTrivial = true)
+            bool fromString(std::string const& type, std::string const& value, void* object)
             {
                 bool result = false;
 
@@ -381,16 +325,6 @@ namespace Ocular
                     if(find != m_FromFunctions.end())
                     {
                         find->second(value, object);
-
-                        //if(isTrivial)
-                        //{
-                        //    memcpy(object, &cast, size);
-                        //}
-                        //else
-                        //{
-                        //    memcpy(object, cast, size);
-                        //}
-
                         result = true;
                     }
                 }

@@ -43,11 +43,11 @@ namespace Ocular
          */
         struct ExposedVariable
         {
-            ExposedVariable(std::string const& name, std::string const& type, void* data, bool pointer, bool trivial, bool exposed, uint32_t size)
-                : name(name), type(type), data(data), isPointer(pointer), isTrivial(trivial), isExposed(exposed), size(size) { }
+            ExposedVariable(std::string const& name, std::string const& type, void* data, bool pointer, bool exposed)
+                : name(name), type(type), data(data), isPointer(pointer), isExposed(exposed) { }
 
             ExposedVariable()
-                : data(nullptr), isPointer(false), isTrivial(true), isExposed(false), size(0) { }
+                : data(nullptr), isPointer(false), isExposed(false) { }
 
             //------------------------------------------------------------
 
@@ -57,10 +57,7 @@ namespace Ocular
             void* data;           ///< Raw data value of the variable
 
             bool isPointer;       ///< If true, the exposed variable is a pointer (and must be handled accordingly).
-            bool isTrivial;       ///< If true, is a trivial data type
             bool isExposed;       ///< If true, the type inherits from Exposable
-
-            uint32_t size;        ///< Size of the data type
         };
 
     }

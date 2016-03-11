@@ -70,7 +70,7 @@ namespace Ocular
                             }
                             else
                             {
-                                OcularString->fromString(variable->type, child->getValue(), variable->data, variable->size, variable->isTrivial);
+                                OcularString->fromString(variable->type, child->getValue(), variable->data);
                             }
                         }
                     }

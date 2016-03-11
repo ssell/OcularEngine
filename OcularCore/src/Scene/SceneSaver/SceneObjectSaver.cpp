@@ -38,9 +38,53 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool SceneObjectSaver::Save(SceneObject const* scene, File const& file)
+        bool SceneObjectSaver::Save(SceneObject* object, File const& file)
         {
             bool result = false;
+
+            if(object)
+            {
+                if(isValidFile(file))
+                {
+                    pugi::xml_document document;
+                    pugi::xml_node root = document.append_child("SceneObject");
+
+                    if(root)
+                    {
+                        Node_Internal internalCast;
+                        internalCast.node = &root;
+
+                        if(Save(object, &internalCast))
+                        {
+                            if(document.save_file(file.getFullPath().c_str(), "    "))
+                            {
+                                result = true;
+                            }
+                            else
+                            {
+                                OcularLogger->error("Failed to write XML document", OCULAR_INTERNAL_LOG("SceneObjectSaver", "Save"));
+                            }    
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to save SceneObject to XML", OCULAR_INTERNAL_LOG("SceneObjectSaver", "Save"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to create root XML node <SceneObject>", OCULAR_INTERNAL_LOG("SceneObjectSaver", "Save"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to validate output file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("SceneObjectSaver", "Save"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Invalid (NULL) SceneObject parameter", OCULAR_INTERNAL_LOG("SceneObjectSaver", "Save"));
+            }
+
             return result;
         }
 

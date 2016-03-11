@@ -157,11 +157,13 @@ namespace Ocular
              * \note If a variable with the specified name was already exposed, then no
              * action will be taken.
              *
-             * \param[in] name Full unique case-sensitive name of the member variable
-             * \param[in] type String representation of the member variable type (see OCULAR_TYPE macro)
-             * \param[in] ptr  Pointer to the member variable to expose
+             * \param[in] name      Full unique case-sensitive name of the member variable
+             * \param[in] type      String representation of the member variable type (see OCULAR_TYPE macro)
+             * \param[in] isPointer Set to TRUE if the variable is a pointer
+             * \param[in] isExposed Set to TRUE if the variable inherits from Exposable
+             * \param[in] ptr       Pointer to the member variable to expose
              */
-            void exposeVariable(std::string const& name, std::string const& type, uint32_t size, bool isPointer, bool isTrivial, bool isExposed, void* data);
+            void exposeVariable(std::string const& name, std::string const& type, bool isPointer, bool isExposed, void* data);
 
             std::unordered_map<std::string, ExposedVariable> m_ExposedVariables;
 
@@ -171,7 +173,7 @@ namespace Ocular
 /**
  * Exposes the specified member variable. See Ocular::Utils::Exposable
  */
-#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), Ocular::Utils::TypeName<decltype(X)>::name, sizeof(X), std::is_pointer<decltype(X)>::value, std::is_trivial<decltype(X)>::value, std::is_base_of<Ocular::Core::Exposable, decltype(X)>::value, &X)
+#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), Ocular::Utils::TypeName<decltype(X)>::name, std::is_pointer<decltype(X)>::value, std::is_base_of<Ocular::Core::Exposable, decltype(X)>::value, &X)
     }
     /**
      * @} End of Doxygen Groups

@@ -33,7 +33,7 @@ OCULAR_REGISTER_ROUTINE(InputLoggerRoutine, "InputLogger")
 //----------------------------------------------------------------------------------
 
 InputLoggerRoutine::InputLoggerRoutine()
-    : ARoutine()
+    : ARoutine("InputLogger", "InputLogger")
 {
     OcularEvents->registerListener(this, Priority::Medium);
 }

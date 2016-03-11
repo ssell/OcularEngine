@@ -58,7 +58,7 @@ namespace Ocular
              *
              * \return TRUE if saved successfully, else FALSE.
              */
-            static bool Save(SceneObject const* object, File const& file);
+            static bool Save(SceneObject* object, File const& file);
 
             /**
              * Attempts to the save the SceneObject to the provided node.
@@ -72,6 +72,8 @@ namespace Ocular
             static bool Save(SceneObject* object, Node_Internal* node);
 
         protected:
+
+            static bool isValidFile(File const& file);
 
         private:
         };
