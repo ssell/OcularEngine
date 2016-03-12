@@ -15,8 +15,9 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/PropertiesBox.hpp"
 #include "Widgets/PropertiesPanel.hpp"
+#include "Widgets/Properties/CommonPropertiesDisplay.hpp"
+#include "Events/SceneObjectSelectedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,22 +29,23 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PropertiesBox::PropertiesBox(QWidget *parent)
-            : QGroupBox("Properties", parent)
+        PropertiesPanel::PropertiesPanel(QWidget *parent)
+            : QFrame(parent)
         {
+            OcularEvents->registerListener(this, Core::Priority::Low);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            m_PropertiesPanel = new PropertiesPanel();
-
+            m_CommonProperties = new CommonPropertiesDisplay();
+            
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->addWidget(m_PropertiesPanel);
-            m_Layout->setContentsMargins(0, 16, 0, 5);
+            m_Layout->addWidget(m_CommonProperties);
+            m_Layout->setContentsMargins(2, 2, 2, 2);
 
             setLayout(m_Layout);
         }
 
-        PropertiesBox::~PropertiesBox()
+        PropertiesPanel::~PropertiesPanel()
         {
 
         }
@@ -52,14 +54,57 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize PropertiesBox::sizeHint() const
+        QSize PropertiesPanel::sizeHint() const
         {
             return QSize(275, 500);
+        }
+
+        void PropertiesPanel::selectObject(Core::SceneObject* object)
+        {
+            if(object)
+            {
+                m_CommonProperties->setObject(object);
+            }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool PropertiesPanel::onEvent(std::shared_ptr<Core::AEvent> event)
+        {
+            if(event->isType<SceneObjectSelectedEvent>())
+            {
+                SceneObjectSelectedEvent* objectEvent = dynamic_cast<SceneObjectSelectedEvent*>(event.get());
+
+                if(objectEvent)
+                {
+                    selectObject(objectEvent->object);
+                }
+            }
+
+            return true;    // Do not consume this event
+        }
+
+        void PropertiesPanel::displayCommon(Core::SceneObject* object)
+        {
+
+        }
+
+        void PropertiesPanel::displayCustom(Core::SceneObject* object)
+        {
+
+        }
+
+        void PropertiesPanel::displayRenderable(Core::SceneObject* object)
+        {
+
+        }
+
+        void PropertiesPanel::displayRoutines(Core::SceneObject* object)
+        {
+
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

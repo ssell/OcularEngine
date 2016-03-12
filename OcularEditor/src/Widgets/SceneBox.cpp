@@ -53,7 +53,7 @@ namespace Ocular
 
         QSize SceneBox::sizeHint() const
         {
-            return QSize(250, 500);
+            return QSize(275, 500);
         }
 
         //----------------------------------------------------------------------------------

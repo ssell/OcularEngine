@@ -15,8 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/PropertiesBox.hpp"
-#include "Widgets/PropertiesPanel.hpp"
+#include "Events/SceneObjectSelectedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,39 +27,25 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PropertiesBox::PropertiesBox(QWidget *parent)
-            : QGroupBox("Properties", parent)
-        {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-            m_PropertiesPanel = new PropertiesPanel();
-
-            m_Layout = new QVBoxLayout();
-            m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->addWidget(m_PropertiesPanel);
-            m_Layout->setContentsMargins(0, 16, 0, 5);
-
-            setLayout(m_Layout);
-        }
-
-        PropertiesBox::~PropertiesBox()
+        SceneObjectSelectedEvent::SceneObjectSelectedEvent(Core::SceneObject* object)
+            : AEvent("SceneObjectSelectedEvent", Core::Priority::Medium), object(object)
         {
 
         }
 
+        SceneObjectSelectedEvent::~SceneObjectSelectedEvent()
+        {
+
+        }
+        
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        QSize PropertiesBox::sizeHint() const
-        {
-            return QSize(275, 500);
-        }
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

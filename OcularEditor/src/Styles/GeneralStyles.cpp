@@ -43,10 +43,14 @@ namespace Ocular
             "    background-color: rgb(45, 45, 48);"
             "    border-color: rgb(63, 63, 70);"
             "}"
+            "QLabel"
+            "{"
+            "    color: rgb(211, 211, 211);"
+            "}"
             "QGroupBox"
             "{"
-            "    border: 1px solid rgb(51, 51, 55);"
-            "    background-color: rgb(51, 51, 55);"
+            "    border: 3px solid rgb(51, 51, 55);"
+            "    background-color: rgb(45, 45, 48);"
             "}"
             "QGroupBox::title"
             "{"
@@ -120,7 +124,7 @@ namespace Ocular
             "}";
 
         const QString GeneralStyles::frameStyle =
-            "color: rgb(63, 63, 70);";
+            "color: rgb(211, 211, 211);";
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS

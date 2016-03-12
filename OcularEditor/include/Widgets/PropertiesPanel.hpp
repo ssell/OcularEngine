@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_SCENE_FRAME__H__
-#define __H__OCULAR_EDITOR_SCENE_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
+#define __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
 
 #include <QtWidgets/qframe.h>
-#include <QtWidgets/qgroupbox.h>
+#include "Events/AEventListener.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,34 +35,37 @@ namespace Ocular
      */
     namespace Editor
     {
-        class SceneBox;
-        class ConsoleBox;
+        class CommonPropertiesDisplay;
 
         /**
-         * \class SceneFrame
-         *
-         * The SceneFrame is split into two distinct parts. On top is a SceneBox which
-         * ultimately houses a SceneTree widget. While on bottom there is the ConsoleBox
-         * which contains a ConsoleText widget.
+         * \class PropertiesPanel
          */
-        class SceneFrame : public QFrame
+        class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
         {
         public:
 
-            SceneFrame(QWidget* parent = nullptr);
-            ~SceneFrame();
+            PropertiesPanel(QWidget* parent = nullptr);
+            ~PropertiesPanel();
 
             virtual QSize sizeHint() const override;
 
+            //------------------------------------------------------------
+
+            void selectObject(Core::SceneObject* object);
+
         protected:
+
+            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
+
+            void displayCommon(Core::SceneObject* object);
+            void displayCustom(Core::SceneObject* object);
+            void displayRenderable(Core::SceneObject* object);
+            void displayRoutines(Core::SceneObject* object);
 
         private:
 
             QVBoxLayout* m_Layout;
-            QSplitter*   m_Splitter;
-
-            SceneBox*   m_SceneBox;
-            ConsoleBox* m_ConsoleBox;
+            CommonPropertiesDisplay* m_CommonProperties;
         };
     }
     /**

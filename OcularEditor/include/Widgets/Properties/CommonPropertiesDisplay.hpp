@@ -15,11 +15,14 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_SCENE_FRAME__H__
-#define __H__OCULAR_EDITOR_SCENE_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_COMMON_PROPERTIES_DISPLAY__H__
+#define __H__OCULAR_EDITOR_COMMON_PROPERTIES_DISPLAY__H__
 
 #include <QtWidgets/qframe.h>
-#include <QtWidgets/qgroupbox.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qlineedit.h>
+
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,34 +38,34 @@ namespace Ocular
      */
     namespace Editor
     {
-        class SceneBox;
-        class ConsoleBox;
-
         /**
-         * \class SceneFrame
-         *
-         * The SceneFrame is split into two distinct parts. On top is a SceneBox which
-         * ultimately houses a SceneTree widget. While on bottom there is the ConsoleBox
-         * which contains a ConsoleText widget.
+         * \class CommonPropertiesDisplay
          */
-        class SceneFrame : public QFrame
+        class CommonPropertiesDisplay : public QGroupBox
         {
         public:
 
-            SceneFrame(QWidget* parent = nullptr);
-            ~SceneFrame();
+            CommonPropertiesDisplay(QWidget* parent = nullptr);
+            ~CommonPropertiesDisplay();
 
             virtual QSize sizeHint() const override;
 
+            //------------------------------------------------------------
+
+            void setObject(Core::SceneObject* object);
+
         protected:
 
-        private:
-
             QVBoxLayout* m_Layout;
-            QSplitter*   m_Splitter;
 
-            SceneBox*   m_SceneBox;
-            ConsoleBox* m_ConsoleBox;
+            QLabel* m_LabelTransform;
+            QLabel* m_LabelPosition;
+            QLabel* m_LabelRotation;
+            QLabel* m_LabelScale;
+
+            QLineEdit* m_LineName;
+
+        private:
         };
     }
     /**

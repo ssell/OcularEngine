@@ -53,7 +53,7 @@ namespace Ocular
 
         QSize ConsoleBox::sizeHint() const
         {
-            return QSize(250, 175);
+            return QSize(275, 175);
         }
 
         //----------------------------------------------------------------------------------

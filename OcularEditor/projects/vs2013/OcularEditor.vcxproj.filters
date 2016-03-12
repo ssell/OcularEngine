@@ -57,6 +57,18 @@
     <Filter Include="Source Files\Routines">
       <UniqueIdentifier>{cbf87723-5422-40a2-8c17-b4dcbbc05f2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{87853f2c-eebf-4719-ae24-977b870c0959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties">
+      <UniqueIdentifier>{5916cc52-7e15-4cec-b74e-768874453d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties">
+      <UniqueIdentifier>{ae180ee6-2d57-40b8-9bfa-a7ea45aa3112}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -134,8 +146,17 @@
     <ClCompile Include="..\..\src\EditorHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\PropertiesPanel.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\CommonPropertiesDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,8 +202,17 @@
     <ClInclude Include="..\..\include\EditorHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Events\SceneObjectSelectedEvent.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\PropertiesPanel.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\PropertiesBox.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CommonPropertiesDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

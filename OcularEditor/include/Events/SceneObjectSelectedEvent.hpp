@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_SCENE_FRAME__H__
-#define __H__OCULAR_EDITOR_SCENE_FRAME__H__
+#ifndef __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_SELECTED__H__
+#define __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_SELECTED__H__
 
-#include <QtWidgets/qframe.h>
-#include <QtWidgets/qgroupbox.h>
+#include "Events/AEvent.hpp"
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,34 +35,18 @@ namespace Ocular
      */
     namespace Editor
     {
-        class SceneBox;
-        class ConsoleBox;
-
-        /**
-         * \class SceneFrame
-         *
-         * The SceneFrame is split into two distinct parts. On top is a SceneBox which
-         * ultimately houses a SceneTree widget. While on bottom there is the ConsoleBox
-         * which contains a ConsoleText widget.
-         */
-        class SceneFrame : public QFrame
+        class SceneObjectSelectedEvent : public Core::AEvent
         {
         public:
 
-            SceneFrame(QWidget* parent = nullptr);
-            ~SceneFrame();
+            SceneObjectSelectedEvent(Core::SceneObject* object);
+            ~SceneObjectSelectedEvent();
 
-            virtual QSize sizeHint() const override;
+            Core::SceneObject* object;
 
         protected:
 
         private:
-
-            QVBoxLayout* m_Layout;
-            QSplitter*   m_Splitter;
-
-            SceneBox*   m_SceneBox;
-            ConsoleBox* m_ConsoleBox;
         };
     }
     /**

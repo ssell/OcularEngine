@@ -19,6 +19,7 @@
 #include "Widgets/SceneTreeItem.hpp"
 #include "Events/Events/SceneObjectAddedEvent.hpp"
 #include "Events/Events/SceneObjectRemovedEvent.hpp"
+#include "Events/SceneObjectSelectedEvent.hpp"
 #include "Routines/EditorCameraController.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ namespace Ocular
 
             setHeaderHidden(true);
             setColumnCount(2);           // First column is object name; Second is object UUID
-            //setColumnHidden(1, true);
+            setColumnHidden(1, true);
         }
 
         SceneTree::~SceneTree()
@@ -53,7 +54,7 @@ namespace Ocular
 
         QSize SceneTree::sizeHint() const
         {
-            return QSize(250, 500);
+            return QSize(275, 500);
         }
 
         SceneTreeItem* SceneTree::getItem(Core::SceneObject* object)
@@ -130,8 +131,35 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void SceneTree::mousePressEvent(QMouseEvent* event)
+        {
+            QTreeWidget::mousePressEvent(event);
+
+            if(event)
+            {
+                SceneTreeItem* item = dynamic_cast<SceneTreeItem*>(itemAt(event->pos()));
+
+                if(item)
+                {
+                    Core::SceneObject* focusObject = item->getObject();
+
+                    if(focusObject == nullptr)
+                    {
+                        focusObject = OcularScene->findObject(item->getUUID());
+                    }
+
+                    if(focusObject)
+                    {
+                        OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(focusObject));
+                    }
+                }
+            }
+        }
+
         void SceneTree::mouseDoubleClickEvent(QMouseEvent* event)
         {
+            QTreeWidget::mouseDoubleClickEvent(event);
+
             if(event)
             {
                 SceneTreeItem* item = dynamic_cast<SceneTreeItem*>(itemAt(event->pos()));

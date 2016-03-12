@@ -34,7 +34,7 @@ namespace Ocular
      */
     namespace Editor
     {
-        class SceneTree;
+        class PropertiesPanel;
 
         /**
          * \class PropertiesBox
@@ -54,6 +54,7 @@ namespace Ocular
         private:
             
             QVBoxLayout* m_Layout;
+            PropertiesPanel* m_PropertiesPanel;
         };
     }
     /**

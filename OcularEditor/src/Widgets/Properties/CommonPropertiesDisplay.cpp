@@ -15,8 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/PropertiesBox.hpp"
-#include "Widgets/PropertiesPanel.hpp"
+#include "Widgets/Properties/CommonPropertiesDisplay.hpp"
+#include "Utilities/VoidCast.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,22 +28,25 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PropertiesBox::PropertiesBox(QWidget *parent)
-            : QGroupBox("Properties", parent)
+        CommonPropertiesDisplay::CommonPropertiesDisplay(QWidget* parent)
+            : QGroupBox("", parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-            m_PropertiesPanel = new PropertiesPanel();
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->addWidget(m_PropertiesPanel);
-            m_Layout->setContentsMargins(0, 16, 0, 5);
+            m_Layout->setContentsMargins(5, 5, 5, 5);
+
+            m_LineName = new QLineEdit();
+            m_LabelTransform = new QLabel("Transform");
+
+            m_Layout->addWidget(m_LineName);
+            m_Layout->addWidget(m_LabelTransform);
 
             setLayout(m_Layout);
         }
 
-        PropertiesBox::~PropertiesBox()
+        CommonPropertiesDisplay::~CommonPropertiesDisplay()
         {
 
         }
@@ -52,9 +55,20 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize PropertiesBox::sizeHint() const
+        QSize CommonPropertiesDisplay::sizeHint() const
         {
-            return QSize(275, 500);
+            return QSize(275, 150);
+        }
+
+        void CommonPropertiesDisplay::setObject(Core::SceneObject* object)
+        {
+            if(object)
+            {
+                Core::ExposedVariable variable;
+
+                object->getVariable("m_Name", variable);
+                m_LineName->setText(void_cast<std::string>(variable.data).c_str());
+            }
         }
 
         //----------------------------------------------------------------------------------

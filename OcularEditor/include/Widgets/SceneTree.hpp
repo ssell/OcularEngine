@@ -78,6 +78,7 @@ namespace Ocular
 
         protected:
 
+            virtual void mousePressEvent(QMouseEvent* event) override;
             virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
