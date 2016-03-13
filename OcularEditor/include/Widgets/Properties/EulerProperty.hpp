@@ -47,7 +47,7 @@ namespace Ocular
             EulerProperty(QString const& displayName, QWidget* parent = nullptr);
             ~EulerProperty();
 
-            virtual void updateProperties() override;
+            virtual bool updateProperties() override;
 
         protected:
 
@@ -57,9 +57,9 @@ namespace Ocular
             QLabel* m_LabelY;
             QLabel* m_LabelZ;
 
-            QLineEdit* m_EditX;
-            QLineEdit* m_EditY;
-            QLineEdit* m_EditZ;
+            LineProperty* m_EditX;
+            LineProperty* m_EditY;
+            LineProperty* m_EditZ;
         };
     }
     /**

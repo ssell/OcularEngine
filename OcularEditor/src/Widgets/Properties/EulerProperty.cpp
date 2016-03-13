@@ -35,9 +35,9 @@ namespace Ocular
             m_LabelY = new QLabel("Y");
             m_LabelZ = new QLabel("Z");
             
-            m_EditX = new QLineEdit();
-            m_EditY = new QLineEdit();
-            m_EditZ = new QLineEdit();
+            m_EditX = new LineProperty(LineType::Float);
+            m_EditY = new LineProperty(LineType::Float);
+            m_EditZ = new LineProperty(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
@@ -56,27 +56,49 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void EulerProperty::updateProperties()
+        bool EulerProperty::updateProperties()
         {
+            bool result = false;
+
             if(m_Variable.data)
             {
-                Math::Euler euler = void_cast<Math::Euler>(m_Variable.data);
+                Math::Euler* euler = void_cast<Math::Euler*>(m_Variable.data);
 
                 if(!m_EditX->hasFocus())
                 {
-                    m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
+                    m_EditX->setText(OcularString->toString<float>(euler->getPitch()).c_str());
                 }
 
                 if(!m_EditY->hasFocus())
                 {
-                    m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
+                    m_EditY->setText(OcularString->toString<float>(euler->getYaw()).c_str());
                 }
 
                 if(!m_EditZ->hasFocus())
                 {
-                    m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
+                    m_EditZ->setText(OcularString->toString<float>(euler->getRoll()).c_str());
+                }
+
+                if(m_EditX->wasEdited())
+                {
+                    (*euler).setPitch(m_EditX->asFloat());
+                    result = true;
+                }
+
+                if(m_EditY->wasEdited())
+                {
+                    (*euler).setYaw(m_EditY->asFloat());
+                    result = true;
+                }
+
+                if(m_EditZ->wasEdited())
+                {
+                    (*euler).setRoll(m_EditZ->asFloat());
+                    result = true;
                 }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

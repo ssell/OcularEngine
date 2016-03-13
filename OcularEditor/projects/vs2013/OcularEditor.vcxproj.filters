@@ -179,6 +179,15 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Vector4Property.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\LineProperty.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineProperty.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineProperty.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -269,6 +278,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
       <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Properties\LineProperty.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

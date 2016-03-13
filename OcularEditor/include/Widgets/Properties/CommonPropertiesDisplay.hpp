@@ -74,6 +74,8 @@ namespace Ocular
             QuatAsEulerProperty* m_PropertyRotation;
             Vector3Property*     m_PropertyScale;
 
+            Core::SceneObject* m_Object;
+
         private:
         };
     }

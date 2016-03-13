@@ -22,6 +22,7 @@
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
 
+#include "Widgets/Properties/LineProperty.hpp"
 #include "ObjectIO/ExposedVariable.hpp"
 #include "Utilities/VoidCast.hpp"
 
@@ -60,8 +61,10 @@ namespace Ocular
             /**
              * Update method that is called up to once a frame so that changes to the 
              * tracked variable may be checked for, and displayed.
+             *
+             * \return Should return TRUE if a property was modified by the user; otherwise return FALSE.
              */
-            virtual void updateProperties() = 0;
+            virtual bool updateProperties() = 0;
 
             /**
              * Sets the variable whose data should be displayed and made available to

@@ -36,9 +36,9 @@ namespace Ocular
             m_LabelY = new QLabel("Y");
             m_LabelZ = new QLabel("Z");
             
-            m_EditX = new QLineEdit();
-            m_EditY = new QLineEdit();
-            m_EditZ = new QLineEdit();
+            m_EditX = new LineProperty(LineType::Float);
+            m_EditY = new LineProperty(LineType::Float);
+            m_EditZ = new LineProperty(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
@@ -57,8 +57,10 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void QuatAsEulerProperty::updateProperties()
+        bool QuatAsEulerProperty::updateProperties()
         {
+            bool result = false;
+
             if(m_Variable.data)
             {
                 Math::Quaternion quaternion = void_cast<Math::Quaternion>(m_Variable.data);
@@ -67,21 +69,49 @@ namespace Ocular
                 if(!m_EditX->hasFocus())
                 {
                     m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
-                    m_EditX->setCursorPosition(0);
                 }
 
                 if(!m_EditY->hasFocus())
                 {
                     m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
-                    m_EditY->setCursorPosition(0);
                 }
 
                 if(!m_EditZ->hasFocus())
                 {
                     m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
-                    m_EditZ->setCursorPosition(0);
+                }
+
+                if(m_EditX->wasEdited())
+                {
+                    euler.setPitch(m_EditX->asFloat());
+                    result = true;
+                }
+
+                if(m_EditY->wasEdited())
+                {
+                    euler.setYaw(m_EditY->asFloat());
+                    result = true;
+                }
+
+                if(m_EditZ->wasEdited())
+                {
+                    euler.setRoll(m_EditZ->asFloat());
+                    result = true;
+                }
+
+                if(result)
+                {
+                    quaternion = Math::Quaternion(euler);
+                    Math::Quaternion* quatPtr = void_cast<Math::Quaternion*>(m_Variable.data);
+                    
+                    (*quatPtr).w() = quaternion.w();
+                    (*quatPtr).x() = quaternion.x();
+                    (*quatPtr).y() = quaternion.y();
+                    (*quatPtr).z() = quaternion.z();
                 }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

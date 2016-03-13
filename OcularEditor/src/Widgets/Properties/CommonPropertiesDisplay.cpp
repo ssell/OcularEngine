@@ -30,7 +30,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         CommonPropertiesDisplay::CommonPropertiesDisplay(QWidget* parent)
-            : QGroupBox("", parent)
+            : QGroupBox("", parent),
+              m_Object(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -80,14 +81,22 @@ namespace Ocular
                 
                 transform->getVariable("m_Scale", variable);
                 m_PropertyScale->setVariable(variable);
+
+                m_Object = object;
             }
         }
 
         void CommonPropertiesDisplay::updateProperties()
         {
-            m_PropertyPosition->updateProperties();
-            m_PropertyRotation->updateProperties();
-            m_PropertyScale->updateProperties();
+            if(m_Object)
+            {
+                if(m_PropertyPosition->updateProperties() ||
+                   m_PropertyRotation->updateProperties() ||
+                   m_PropertyScale->updateProperties())
+                {
+                    m_Object->getTransform().refresh();
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------

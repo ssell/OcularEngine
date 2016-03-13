@@ -264,7 +264,7 @@ namespace Ocular
 
                 if(find != m_FromFunctions.end())
                 {
-                    find->second(value, void_cast<T>(result));
+                    find->second(value, void_cast<T*>(&result));
                 }
 
                 return result;

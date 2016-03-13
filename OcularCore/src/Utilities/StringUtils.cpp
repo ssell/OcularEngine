@@ -200,7 +200,8 @@ const Ocular::Utils::FromStringRegistrar<float> OCULAR_INTERNAL_FloatFromStringR
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "FloatFromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to float with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "FloatFromString"));
             }
         }
     }
@@ -231,7 +232,8 @@ const Ocular::Utils::FromStringRegistrar<double> OCULAR_INTERNAL_DoubleFromStrin
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to double with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "DoubleFromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to double with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "DoubleFromString"));
             }
         }
     }
@@ -370,7 +372,8 @@ const Ocular::Utils::FromStringRegistrar<int32_t> OCULAR_INTERNAL_Int32FromStrin
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to int32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int32FromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to int32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int32FromString"));
             }
         }
     }
@@ -401,7 +404,8 @@ const Ocular::Utils::FromStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32FromStr
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to uint32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt32FromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to uint32_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt32FromString"));
             }
         }
     }
@@ -432,7 +436,8 @@ const Ocular::Utils::FromStringRegistrar<int64_t> OCULAR_INTERNAL_Int64FromStrin
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to int64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int64FromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to int64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "Int64FromString"));
             }
         }
     }
@@ -463,7 +468,8 @@ const Ocular::Utils::FromStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64FromStr
             }
             catch(std::invalid_argument const& e)
             {
-                OcularLogger->error("Failed to convert string '", str, "' to uint64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt64FromString"));
+                e.what();
+                //OcularLogger->error("Failed to convert string '", str, "' to uint64_t with error: ", e.what(), OCULAR_INTERNAL_LOG("StringUtils", "UInt64FromString"));
             }
         }
     }

@@ -56,6 +56,11 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        void Transform::refresh()
+        {
+            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+        }
+
         //----------------------------------------------------------------
         // Getters and Setters
         //----------------------------------------------------------------
@@ -63,7 +68,7 @@ namespace Ocular
         void Transform::setPosition(Vector3f const& position)
         {
             m_Position = position;
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         void Transform::setPosition(float const x, float const y, float const z)
@@ -72,7 +77,7 @@ namespace Ocular
             m_Position.y = y;
             m_Position.z = z;
             
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         Vector3f const& Transform::getPosition() const
@@ -83,7 +88,7 @@ namespace Ocular
         void Transform::setRotation(Quaternion const& rotation)
         {
             m_Rotation = rotation;
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         Quaternion const& Transform::getRotation() const
@@ -94,7 +99,7 @@ namespace Ocular
         void Transform::setScale(Vector3f const& scale)
         {
             m_Scale = scale;
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         Vector3f const& Transform::getScale() const
@@ -152,7 +157,7 @@ namespace Ocular
                 m_Position += translation;
             }
             
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         void Transform::moveForward(float const delta)
@@ -177,19 +182,19 @@ namespace Ocular
         void Transform::rotate(float const angle, Vector3f const& axis)
         {
             m_Rotation = Quaternion::Rotate(m_Rotation, angle, axis);
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         void Transform::rotate(Math::Quaternion const& rotation)
         {
             m_Rotation = m_Rotation * rotation;
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
         {
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
         
         //----------------------------------------------------------------
@@ -199,7 +204,7 @@ namespace Ocular
         void Transform::onLoad(Core::BuilderNode const* node)
         {
             ObjectIO::onLoad(node);
-            m_ModelMatrix = Matrix4x4(m_Position, m_Rotation, m_Scale);
+            refresh();
         }
 
         //----------------------------------------------------------------------------------

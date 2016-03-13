@@ -51,6 +51,12 @@ namespace Ocular
 
             ~Transform();
 
+            /**
+             * Forces a rebuild of the Model matrix.
+             * Typically this matrix is only built when a 'set' method is called.
+             */
+            void refresh();
+
             //------------------------------------------------------------
             // Getters and Setters
             //------------------------------------------------------------

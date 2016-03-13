@@ -34,8 +34,8 @@ namespace Ocular
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
             
-            m_EditX = new QLineEdit();
-            m_EditY = new QLineEdit();
+            m_EditX = new LineProperty(LineType::Float);
+            m_EditY = new LineProperty(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
@@ -52,22 +52,38 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        void Vector2Property::updateProperties()
+        bool Vector2Property::updateProperties()
         {
+            bool result = false;
+
             if(m_Variable.data)
             {
-                Math::Vector2f vector = void_cast<Math::Vector2f>(m_Variable.data);
+                Math::Vector2f* vector = void_cast<Math::Vector2f*>(m_Variable.data);
 
                 if(!m_EditX->hasFocus())
                 {
-                    m_EditX->setText(OcularString->toString<float>(vector.x).c_str());
+                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
                 }
 
                 if(!m_EditY->hasFocus())
                 {
-                    m_EditY->setText(OcularString->toString<float>(vector.y).c_str());
+                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
+                }
+
+                if(m_EditX->wasEdited())
+                {
+                    (*vector).x = m_EditX->asFloat();
+                    result = true;
+                }
+
+                if(m_EditY->wasEdited())
+                {
+                    (*vector).y = m_EditY->asFloat();
+                    result = true;
                 }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

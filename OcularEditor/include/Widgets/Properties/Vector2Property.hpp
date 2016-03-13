@@ -47,7 +47,7 @@ namespace Ocular
             Vector2Property(QString const& displayName, QWidget* parent = nullptr);
             ~Vector2Property();
 
-            virtual void updateProperties() override;
+            virtual bool updateProperties() override;
 
         protected:
 
@@ -56,8 +56,8 @@ namespace Ocular
             QLabel* m_LabelX;
             QLabel* m_LabelY;
 
-            QLineEdit* m_EditX;
-            QLineEdit* m_EditY;
+            LineProperty* m_EditX;
+            LineProperty* m_EditY;
         };
     }
     /**
