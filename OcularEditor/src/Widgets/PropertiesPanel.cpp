@@ -67,6 +67,11 @@ namespace Ocular
             }
         }
 
+        void PropertiesPanel::update()
+        {
+            m_CommonProperties->updateProperties();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

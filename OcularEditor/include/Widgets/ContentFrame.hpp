@@ -37,6 +37,7 @@ namespace Ocular
         class RenderFrame;
         class SceneFrame;
         class DetailsFrame;
+        class PropertiesPanel;
 
         /**
          * \class ContentFrame
@@ -50,6 +51,8 @@ namespace Ocular
             ~ContentFrame();
 
             virtual QSize sizeHint() const override;
+
+            PropertiesPanel* getPropertiesPanel();
 
         protected:
 

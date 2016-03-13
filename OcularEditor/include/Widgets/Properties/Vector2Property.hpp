@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
-#define __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
+#ifndef __H__OCULAR_EDITOR_VECTOR2_PROPERTY__H__
+#define __H__OCULAR_EDITOR_VECTOR2_PROPERTY__H__
 
-#include <QtWidgets/qframe.h>
-#include "Events/AEventListener.hpp"
+#include "PropertyWidget.hpp"
+#include <QtWidgets/qlineedit.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,38 +35,29 @@ namespace Ocular
      */
     namespace Editor
     {
-        class CommonPropertiesDisplay;
-
         /**
-         * \class PropertiesPanel
+         * \class Vector2Property
+         *
+         * Pre-built property display for Vector2f variables.
          */
-        class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
+        class Vector2Property : public PropertyWidget
         {
         public:
 
-            PropertiesPanel(QWidget* parent = nullptr);
-            ~PropertiesPanel();
+            Vector2Property(QString const& displayName, QWidget* parent = nullptr);
+            ~Vector2Property();
 
-            virtual QSize sizeHint() const override;
-
-            //------------------------------------------------------------
-
-            void update();
-            void selectObject(Core::SceneObject* object);
+            virtual void updateProperties() override;
 
         protected:
 
-            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
-
-            void displayCommon(Core::SceneObject* object);
-            void displayCustom(Core::SceneObject* object);
-            void displayRenderable(Core::SceneObject* object);
-            void displayRoutines(Core::SceneObject* object);
-
         private:
 
-            QVBoxLayout* m_Layout;
-            CommonPropertiesDisplay* m_CommonProperties;
+            QLabel* m_LabelX;
+            QLabel* m_LabelY;
+
+            QLineEdit* m_EditX;
+            QLineEdit* m_EditY;
         };
     }
     /**

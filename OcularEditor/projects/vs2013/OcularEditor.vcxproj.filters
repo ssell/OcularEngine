@@ -149,13 +149,34 @@
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
+    <ClCompile Include="..\..\src\Widgets\Properties\CommonPropertiesDisplay.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesPanel.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\CommonPropertiesDisplay.cpp">
+    <ClCompile Include="..\..\src\Widgets\Properties\Vector3Property.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\QuatAsEulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\QuaternionProperty.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\EulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Vector2Property.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Vector4Property.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,13 +226,34 @@
     <ClInclude Include="..\..\include\Events\SceneObjectSelectedEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\PropertiesPanel.hpp">
+    <ClInclude Include="..\..\include\Widgets\Properties\CommonPropertiesDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidget.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\PropertiesBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\PropertiesPanel.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Vector3Property.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\CommonPropertiesDisplay.hpp">
+    <ClInclude Include="..\..\include\Widgets\Properties\Vector4Property.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Vector2Property.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\QuaternionProperty.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\EulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\QuatAsEulerProperty.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
   </ItemGroup>

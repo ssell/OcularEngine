@@ -48,6 +48,8 @@ namespace Ocular
             ~PropertiesBox();
 
             virtual QSize sizeHint() const override;
+            
+            PropertiesPanel* getPropertiesPanel();
 
         protected:
 

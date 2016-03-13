@@ -57,6 +57,11 @@ namespace Ocular
             return QSize(275, 500);
         }
 
+        PropertiesPanel* PropertiesBox::getPropertiesPanel()
+        {
+            return m_PropertiesPanel;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

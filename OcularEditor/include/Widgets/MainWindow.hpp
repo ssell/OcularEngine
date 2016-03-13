@@ -54,6 +54,8 @@ namespace Ocular
 
             virtual QSize sizeHint() const override;
 
+            void update();
+
         protected:
 
         private:

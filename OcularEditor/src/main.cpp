@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 
             while(OcularEngine.run())
             {
+                mainWindow.update();
                 application.processEvents();
             }
         }

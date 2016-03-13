@@ -49,6 +49,28 @@ namespace Ocular
             ExposedVariable()
                 : data(nullptr), isPointer(false), isExposed(false) { }
 
+            ExposedVariable(ExposedVariable const& other)
+            {
+                name = other.name;
+                type = other.type;
+                data = other.data;
+
+                isPointer = other.isPointer;
+                isExposed = other.isExposed;
+            }
+
+            ExposedVariable& operator=(ExposedVariable const& other)
+            {
+                name = other.name;
+                type = other.type;
+                data = other.data;
+
+                isPointer = other.isPointer;
+                isExposed = other.isExposed;
+
+                return (*this);
+            }
+
             //------------------------------------------------------------
 
             std::string name;     ///< Name of the member variable

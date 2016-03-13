@@ -15,13 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentFrame.hpp"
-#include "Widgets/RenderFrame.hpp"
-#include "Widgets/SceneFrame.hpp"
-#include "Widgets/DetailsFrame.hpp"
-#include "Widgets/PropertiesPanel.hpp"
-
-#include <QtWidgets/qboxlayout.h>
+#include "Widgets/Properties/PropertyWidget.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,33 +26,46 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        ContentFrame::ContentFrame(QWidget *parent)
+        
+        PropertyWidget::PropertyWidget(QString const& displayName, QWidget* parent)
             : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-            setLineWidth(1);
-            
-            m_LayoutContent = new QHBoxLayout();
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            m_SceneFrame = new SceneFrame();
-            m_RenderFrame = new RenderFrame();
-            m_DetailsFrame = new DetailsFrame();
-            
-            m_pSplitter = new QSplitter();
-            m_pSplitter->addWidget(m_SceneFrame);
-            m_pSplitter->addWidget(m_RenderFrame);
-            m_pSplitter->addWidget(m_DetailsFrame);
-            m_pSplitter->setStretchFactor(1, 1);     // When window is resized, the render frame will take the majority of the stretch difference
-                                                     // leaving the other two frames relatively the same size
-            m_LayoutContent->addWidget(m_pSplitter);
+            //------------------------------------------------------------
+            // Left Side
+            //------------------------------------------------------------
 
-            setLayout(m_LayoutContent);
-            setContentsMargins(0, 0, 0, 0);
+            m_LabelName = new QLabel(displayName);
+            
+            m_LayoutLeft = new QHBoxLayout();
+            m_LayoutLeft->addWidget(m_LabelName);
+            
+            m_FrameLeftSide = new QFrame();
+            m_FrameLeftSide->setLayout(m_LayoutLeft);
+            m_FrameLeftSide->setFixedWidth(75);
+
+            //------------------------------------------------------------
+            // Right Side
+            //------------------------------------------------------------
+
+            m_LayoutRight = new QHBoxLayout();
+            m_FrameRightSide = new QFrame();
+            m_FrameRightSide->setLayout(m_LayoutRight);
+
+            //------------------------------------------------------------
+            // Main Layout
+            //------------------------------------------------------------
+
+            m_Layout = new QHBoxLayout();
+            m_Layout->setContentsMargins(5, 0, 5, 0);
+            m_Layout->addWidget(m_FrameLeftSide);
+            m_Layout->addWidget(m_FrameRightSide);
+
+            setLayout(m_Layout);
         }
 
-        ContentFrame::~ContentFrame()
+        PropertyWidget::~PropertyWidget()
         {
 
         }
@@ -67,21 +74,20 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ContentFrame::sizeHint() const
+        QSize PropertyWidget::sizeHint() const
         {
-            // Some arbitrarily large size so that the frame always exapnds to fill all available space
-            return QSize(99999, 99999);
+            return QSize(275, 30);
         }
 
-        PropertiesPanel* ContentFrame::getPropertiesPanel()
+        void PropertyWidget::setVariable(Core::ExposedVariable& variable)
         {
-            return m_DetailsFrame->getPropertiesPanel();
+            m_Variable = variable;
         }
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

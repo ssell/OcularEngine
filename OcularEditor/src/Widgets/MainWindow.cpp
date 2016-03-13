@@ -21,6 +21,7 @@
 #include "Widgets/MainStatusBar.hpp"
 #include "Widgets/ToolBarCommon.hpp"
 #include "Widgets/ContentFrame.hpp"
+#include "Widgets/PropertiesPanel.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -58,6 +59,11 @@ namespace Ocular
         QSize MainWindow::sizeHint() const
         {
             return QSize(1024, 768);
+        }
+
+        void MainWindow::update()
+        {
+            m_ContentFrame->getPropertiesPanel()->update();
         }
 
         //----------------------------------------------------------------------------------

@@ -17,6 +17,7 @@
 #include "stdafx.h"
 #include "Widgets/DetailsFrame.hpp"
 #include "Widgets/PropertiesBox.hpp"
+#include "Widgets/PropertiesPanel.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -57,6 +58,11 @@ namespace Ocular
         QSize DetailsFrame::sizeHint() const
         {
             return QSize(275, 700);
+        }
+
+        PropertiesPanel* DetailsFrame::getPropertiesPanel()
+        {
+            return m_PropertiesBox->getPropertiesPanel();
         }
 
         //----------------------------------------------------------------------------------

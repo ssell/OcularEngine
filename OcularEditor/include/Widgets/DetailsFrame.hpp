@@ -35,6 +35,7 @@ namespace Ocular
     namespace Editor
     {
         class PropertiesBox;
+        class PropertiesPanel;
 
         /**
          * \class DetailsFrame
@@ -48,6 +49,8 @@ namespace Ocular
             ~DetailsFrame();
 
             virtual QSize sizeHint() const override;
+
+            PropertiesPanel* getPropertiesPanel();
 
         protected:
 

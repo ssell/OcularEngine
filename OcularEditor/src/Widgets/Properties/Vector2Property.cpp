@@ -15,13 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ContentFrame.hpp"
-#include "Widgets/RenderFrame.hpp"
-#include "Widgets/SceneFrame.hpp"
-#include "Widgets/DetailsFrame.hpp"
-#include "Widgets/PropertiesPanel.hpp"
-
-#include <QtWidgets/qboxlayout.h>
+#include "Widgets/Properties/Vector2Property.hpp"
+#include "Math/Vector2.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,33 +27,23 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        ContentFrame::ContentFrame(QWidget *parent)
-            : QFrame(parent)
+        
+        Vector2Property::Vector2Property(QString const& displayName, QWidget* parent)
+            : PropertyWidget(displayName, parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-            setLineWidth(1);
+            m_LabelX = new QLabel("X");
+            m_LabelY = new QLabel("Y");
             
-            m_LayoutContent = new QHBoxLayout();
-
-            m_SceneFrame = new SceneFrame();
-            m_RenderFrame = new RenderFrame();
-            m_DetailsFrame = new DetailsFrame();
+            m_EditX = new QLineEdit();
+            m_EditY = new QLineEdit();
             
-            m_pSplitter = new QSplitter();
-            m_pSplitter->addWidget(m_SceneFrame);
-            m_pSplitter->addWidget(m_RenderFrame);
-            m_pSplitter->addWidget(m_DetailsFrame);
-            m_pSplitter->setStretchFactor(1, 1);     // When window is resized, the render frame will take the majority of the stretch difference
-                                                     // leaving the other two frames relatively the same size
-            m_LayoutContent->addWidget(m_pSplitter);
-
-            setLayout(m_LayoutContent);
-            setContentsMargins(0, 0, 0, 0);
+            m_LayoutRight->addWidget(m_LabelX);
+            m_LayoutRight->addWidget(m_EditX);
+            m_LayoutRight->addWidget(m_LabelY);
+            m_LayoutRight->addWidget(m_EditY);
         }
 
-        ContentFrame::~ContentFrame()
+        Vector2Property::~Vector2Property()
         {
 
         }
@@ -66,22 +51,29 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        QSize ContentFrame::sizeHint() const
+        
+        void Vector2Property::updateProperties()
         {
-            // Some arbitrarily large size so that the frame always exapnds to fill all available space
-            return QSize(99999, 99999);
-        }
+            if(m_Variable.data)
+            {
+                Math::Vector2f vector = void_cast<Math::Vector2f>(m_Variable.data);
 
-        PropertiesPanel* ContentFrame::getPropertiesPanel()
-        {
-            return m_DetailsFrame->getPropertiesPanel();
+                if(!m_EditX->hasFocus())
+                {
+                    m_EditX->setText(OcularString->toString<float>(vector.x).c_str());
+                }
+
+                if(!m_EditY->hasFocus())
+                {
+                    m_EditY->setText(OcularString->toString<float>(vector.y).c_str());
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

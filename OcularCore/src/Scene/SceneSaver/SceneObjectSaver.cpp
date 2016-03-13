@@ -44,7 +44,7 @@ namespace Ocular
 
             if(object)
             {
-                if(isValidFile(file))
+                if(IsValidFile(file))
                 {
                     pugi::xml_document document;
                     pugi::xml_node root = document.append_child("SceneObject");
@@ -109,6 +109,19 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
         
+        bool SceneObjectSaver::IsValidFile(File const& file)
+        {
+            bool result = true;
+
+            if(!Utils::String::IsEqual(file.getExtension(), ".opre"))
+            {
+                OcularLogger->error("Invalid file extension '", file.getExtension(), "' specified. Expected '.opre'", OCULAR_INTERNAL_LOG("SceneObjectSaver", "IsValidFile"));
+                result = false;
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
