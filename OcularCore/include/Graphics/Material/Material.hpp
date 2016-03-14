@@ -21,6 +21,7 @@
 #include "Graphics/Shader/Uniform/UniformBuffer.hpp"
 #include "Graphics/RenderState/RasterState.hpp"
 #include "Resources/Resource.hpp"
+#include "ObjectIO/ObjectIO.hpp"
 #include "Math/Matrix4x4.hpp"
 
 #include <unordered_map>
@@ -56,7 +57,7 @@ namespace Ocular
         /**
          * \class Material
          */
-        class Material : public Core::Resource
+        class Material : public Core::Resource, public Core::ObjectIO
         {
         public:
 
@@ -67,6 +68,13 @@ namespace Ocular
             virtual void unbind();
 
             virtual void unload() override;
+
+            //------------------------------------------------------------
+            // Inherited Methods
+            //------------------------------------------------------------
+
+            virtual void onLoad(Core::BuilderNode const* node);
+            virtual void onSave(Core::BuilderNode* node);
 
             //------------------------------------------------------------
             // Texture Methods
@@ -327,6 +335,8 @@ namespace Ocular
             PrimitiveStyle getPrimitiveStyle() const;
 
         protected:
+
+            void exposeProperties();
 
             void bindShaders();
             void unbindShaders();
