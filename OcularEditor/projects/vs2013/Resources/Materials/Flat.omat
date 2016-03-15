@@ -1,10 +1,6 @@
 <OcularMaterial>
     <ShaderProgram>
-        <Vertex>
-            <Path>Shaders/Flat</Path>
-        </Vertex>
-        <Fragment>
-            <Path>Shaders/Flat</Path>
-        </Fragment>
+        <var name="Vertex" type="Shader" value="Shaders/Flat" />
+        <var name="Fragment" type="Shader" value="Shaders/Flat" />
     </ShaderProgram>
 </OcularMaterial>

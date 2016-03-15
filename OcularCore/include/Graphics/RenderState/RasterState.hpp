@@ -35,7 +35,7 @@ namespace Ocular
         /**
          * \enum FillMode
          */
-        enum class FillMode
+        enum class FillMode : uint32_t
         {
             Solid = 0,                                ///< Vertices are filled
             Wireframe,                                ///< Draws only lines connecting vertices
@@ -45,7 +45,7 @@ namespace Ocular
         /**
          * \enum CullMode
          */
-        enum class CullMode
+        enum class CullMode : uint32_t
         {
             None = 0,                                 ///< Always draws all triangles
             Front,                                    ///< Culls away front-facing triangles
@@ -56,7 +56,7 @@ namespace Ocular
         /**
          * \enum CullDirection
          */
-        enum class CullDirection
+        enum class CullDirection : uint32_t
         {
             CounterClockwise = 0,                     ///< A triangle is front-facing if it's vertices are ordered counter-clockwise
             Clockwise,                                ///< A triangle is front-facing if it's vertices are ordered clockwise
@@ -66,7 +66,7 @@ namespace Ocular
         /**
          * \enum PrimtiveStyle
          */
-        enum class PrimitiveStyle
+        enum class PrimitiveStyle : uint32_t
         {
             TriangleList = 0,                         ///< Vertex data is treated as a list of triangles
             TriangleStrip,                            ///< Vertex data is treated as a strip of triangles
@@ -107,6 +107,11 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::FillMode, Ocular::Utils::TypeName<uint32_t>::name);
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullMode, Ocular::Utils::TypeName<uint32_t>::name);
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullDirection, Ocular::Utils::TypeName<uint32_t>::name);
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::PrimitiveStyle, Ocular::Utils::TypeName<uint32_t>::name);
 
 //------------------------------------------------------------------------------------------
 

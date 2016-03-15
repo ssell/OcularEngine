@@ -29,15 +29,13 @@ OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::MaterialResourceLoader)
 
 //------------------------------------------------------------------------------------------
 
+void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode);
+void ParseVarNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode);
+
 namespace Ocular
 {
     namespace Graphics
     {
-        bool parseShaderProgram(Material* material, pugi::xml_node& root, Core::File const& source);
-        void parseTextureList(Material* material, pugi::xml_node& root, Core::File const& source);
-        void parseUniformList(Material* material, pugi::xml_node& root, Core::File const& source);
-        void parseRenderState(Material* material, pugi::xml_node& root, Core::File const& source);
-
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
@@ -72,25 +70,36 @@ namespace Ocular
 
                     if(rootNode)
                     {
+                        Ocular::Core::BuilderNode builderNode(nullptr, "OcularMaterial", "", "");
+
+                        //------------------------------------------------
+                        // Parse generic variable nodes
+                        //------------------------------------------------
+
+                        for(auto child : rootNode.children())
+                        {
+                            if(Ocular::Utils::String::IsEqual(child.name(), "var"))
+                            {
+                                ParseVarNode(&builderNode, child);
+                            }
+                        }
+
+                        //------------------------------------------------
+                        // Parse Material specific nodes
+                        //------------------------------------------------
+
+                        ParseMaterialTree(&builderNode, rootNode);
+                        
+                        //------------------------------------------------
+                        // Create and load the Material
+                        //------------------------------------------------
+
                         Material* material = new Material();
                         material->setSourceFile(file);
+                        material->onLoad(&builderNode);
 
-                        if(parseShaderProgram(material, rootNode, file))
-                        {
-                            parseTextureList(material, rootNode, file);
-                            parseUniformList(material, rootNode, file);
-                            parseRenderState(material, rootNode, file);
-
-                            resource = material;
-                            result = true;
-                        }
-                        else
-                        {
-                            delete material;
-                            material = nullptr;
-
-                            OcularLogger->error("Failed to parse required Shader data in Material '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "loadResource"));
-                        }
+                        resource = material;
+                        result = true;
                     }
                     else
                     {
@@ -117,453 +126,70 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+    }
+}
 
-        //----------------------------------------------------------------------------------
-        // OUT-OF-CLASS FUNCTIONS
-        //----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
+// OUT-OF-CLASS METHODS
+//------------------------------------------------------------------------------------------
 
-        bool parseShaderProgram(Material* material, pugi::xml_node& rootNode, Core::File const& source)
+void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode)
+{
+    if(builderNode)
+    {
+        pugi::xml_node shadersXMLNode  = xmlNode.child("ShaderProgram");
+        pugi::xml_node texturesXMLNode = xmlNode.child("Textures");
+        pugi::xml_node uniformsXMLNode = xmlNode.child("Uniforms");
+        
+        if(shadersXMLNode)
         {
-            /**
-             * <ShaderProgram>
-             *     <Vertex>
-             *         <Path>Shaders/Flat</Path>
-             *     </Vertex>
-             *     <Fragment>
-             *         <Path>Shaders/Flat</Path>
-             *     </Fragment>
-             * </ShaderProgram>
-             */
+            Ocular::Core::BuilderNode* shadersBuilderNode = builderNode->addChild("ShaderProgram", "", "");
 
-            // This method can only outright fail if the ShaderProgram, Vertex, or Fragment children are missing.
-            // Everything else is optional and merits either no response or a warning.
-
-            bool success = true;
-            pugi::xml_node shaderNode = rootNode.child("ShaderProgram");
-
-            if(shaderNode)
+            for(auto child : shadersXMLNode.children())
             {
-                //----------------------------------------------------------------
-                // Fetch the individual Shader nodes
-
-                pugi::xml_node vertexNode   = shaderNode.child("Vertex");
-                pugi::xml_node geometryNode = shaderNode.child("Geometry");
-                pugi::xml_node fragmentNode = shaderNode.child("Fragment");
-                pugi::xml_node preTessNode  = shaderNode.child("PreTessellation");
-                pugi::xml_node postTessNode = shaderNode.child("PostTessellation");
-
-                //----------------------------------------------------------------
-                // Check for alternate names
-
-                if(!fragmentNode)
+                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
                 {
-                    fragmentNode = shaderNode.child("Pixel");
-                }
-
-                if(!preTessNode)
-                {
-                    preTessNode = shaderNode.child("Hull");
-                }
-
-                if(!postTessNode)
-                {
-                    postTessNode = shaderNode.child("Domain");
-                }
-
-                //----------------------------------------------------------------
-                // Fetch the data
-
-                if(vertexNode)
-                {
-                    const std::string path = vertexNode.child_value("Path");
-                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(path);
-
-                    if(program)
-                    {
-                        material->setVertexShader(program->getVertexShader());
-                    }
-                    else
-                    {
-                        OcularLogger->error("Failed to retrieve ShaderProgram '", path, "' in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                        success = false;    // Vertex Shader is required
-                    }
-                }
-                else
-                {
-                    OcularLogger->error("Material at '", source.getFullPath(), "' is missing required Vertex program", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                    success = false;        // Vertex Shader is required
-                }
-
-                if(geometryNode)
-                {
-                    const std::string path = geometryNode.child_value("Path");
-                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(path);
-
-                    if(program)
-                    {
-                        material->setGeometryShader(program->getGeometryShader());
-                    }
-                    else
-                    {
-                        OcularLogger->warning("Failed to retrieve ShaderProgram '", path, "' in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                    }
-                }
-
-                if(fragmentNode)
-                {
-                    const std::string path = fragmentNode.child_value("Path");
-                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(path);
-
-                    if(program)
-                    {
-                        material->setFragmentShader(program->getFragmentShader());
-                    }
-                    else
-                    {
-                        OcularLogger->error("Failed to retrieve ShaderProgram '", path, "' in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                        success = false;    // Fragment Shader is required
-                    }
-                }
-                else
-                {
-                    OcularLogger->error("Material at '", source.getFullPath(), "' is missing required Fragment program", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                    success = false;        // Fragment Shader is required
-                }
-
-                if(preTessNode)
-                {
-                    const std::string path = preTessNode.child_value("Path");
-                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(path);
-
-                    if(program)
-                    {
-                        material->setPreTessellationShader(program->getPreTessellationShader());
-                    }
-                    else
-                    {
-                        OcularLogger->warning("Failed to retrieve ShaderProgram '", path, "' in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                    }
-                }
-
-                if(postTessNode)
-                {
-                    const std::string path = postTessNode.child_value("Path");
-                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(path);
-
-                    if(program)
-                    {
-                        material->setPostTessellationShader(program->getPostTessellationShader());
-                    }
-                    else
-                    {
-                        OcularLogger->warning("Failed to retrieve ShaderProgram '", path, "' in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                    }
-                }
-            }
-            else
-            {
-                OcularLogger->error("Failed to find required 'ShaderProgram' child in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseShaderProgram"));
-                success = false;
-            }
-
-            return success;
-        }
-
-        void parseTextureList(Material* material, pugi::xml_node& rootNode, Core::File const& source)
-        {
-            /**
-             * <Textures>
-             *     <Texture>
-             *         <Path>Textures/Grass</Path>
-             *         <Name>GrassDiffuse</Name>
-             *         <Register>0</Register>
-             *     </Texture>
-             *     <Texture>
-             *         <Path>Textures/GrassBump</Path>
-             *         <Name>GrassBumpMap</Name>
-             *         <Register>1</Register>
-             *     </Texture>
-             * </Textures>
-             */
-
-            // Textures are not required, so at most only warnings are generated. 
-
-            pugi::xml_node texturesNode = rootNode.child("Textures");
-
-            if(texturesNode)
-            {
-                // Loop through all texture children
-                for(pugi::xml_node textureNode = texturesNode.child("Texture"); textureNode; textureNode = textureNode.next_sibling("Texture"))
-                {
-                    bool result = true;
-
-                    //--------------------------------------------------------------
-                    // Ensure each required child node is present
-
-                    if(!textureNode.child("Path"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Path'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                        result = false;
-                    }
-
-                    if(!textureNode.child("Name"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Name'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                        result = false;
-                    }
-
-                    if(!textureNode.child("Register"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Register'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                        result = false;
-                    }
-
-                    if(result)
-                    {
-                        //--------------------------------------------------------------
-                        // Get the value of each required child node
-
-                        const std::string path  = textureNode.child_value("Path");
-                        const std::string name  = textureNode.child_value("Name");
-                        const std::string index = textureNode.child_value("Register");
-
-                        //--------------------------------------------------------------
-                        // Attempt to convert the index string value to an uint
-
-                        uint32_t registerIndex = 0;
-
-                        try
-                        {
-                            registerIndex = std::stoul(index);
-                        }
-                        catch(std::invalid_argument const& error)
-                        {
-                            OcularLogger->warning("Failed to convert Texture register value of '", index, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                            result = false;
-                        }
-                        catch(std::out_of_range const& error)
-                        {
-                            OcularLogger->warning("Failed to convert Texture register value of '", index, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                            result = false;
-                        }
-
-                        //--------------------------------------------------------------
-                        // Attempt to fetch the Texture resource and set the material values
-
-                        if(result)
-                        {
-                            Texture* texture = OcularResources->getResource<Texture>(path);
-
-                            if(texture)
-                            {
-                                material->setTexture(registerIndex, name, texture);
-                            }
-                            else
-                            {
-                                OcularLogger->warning("Failed to retrieve Texture '", path, "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                                result = false;
-                            }
-                        }
-                    }
-
-                    //----------------------------------------------------
-                    // Report any failure
-
-                    if(!result)
-                    {
-                        OcularLogger->warning("Failed to parse Texture in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseTextureList"));
-                    }
+                    ParseVarNode(shadersBuilderNode, child);
                 }
             }
         }
 
-        void parseUniformList(Material* material, pugi::xml_node& rootNode, Core::File const& source)
+        if(texturesXMLNode)
         {
-            /**
-             * <Uniforms>
-             *     <Uniform>
-             *         <Type>Vector4</Type>
-             *         <Name>Offset</Name>
-             *         <Register>0</Register>
-             *         <Value>1.0 0.5 3.0 0.0</Value>
-             *     </Uniform>
-             *     <Uniform>
-             *         <Type>Float</Type>
-             *         <Name>Fade</Name>
-             *         <Register>1</Register>
-             *         <Value>0.5</Value>
-             *     </Uniform>
-             *     <Uniform>
-             *         <Type>Matrix3x3</Type>
-             *         <Name>Identity3x3</Name>
-             *         <Register>2</Register>
-             *         <Value>1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0</Value>
-             *     </Uniform>
-             *     <Uniform>
-             *         <Type>Matrix3x3</Type>
-             *         <Name>Rot3x3</Name>
-             *         <Register>3</Register>
-             *         <Value>
-             *             0.38 1.0 0.0
-             *             1.97 3.0 0.5
-             *             0.01 0.9 1.0
-             *         </Value>
-             *     </Uniform>
-             * </Uniforms>
-             */
+            Ocular::Core::BuilderNode* texturesBuilderNode = builderNode->addChild("Textures", "", "");
 
-            // Uniforms are not required, so at most only warnings are generated.
-
-            pugi::xml_node uniformsNode = rootNode.child("Uniforms");
-
-            if(uniformsNode)
+            for(auto child : texturesXMLNode.children())
             {
-                for(pugi::xml_node uniformNode = uniformsNode.child("Uniform"); uniformNode; uniformNode = uniformNode.next_sibling())
+                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
                 {
-                    bool result = true;
-
-                    //--------------------------------------------------------------
-                    // Ensure each required child node is present
-
-                    if(!uniformNode.child("Type"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Type'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                        result = false;
-                    }
-
-                    if(!uniformNode.child("Name"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Name'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                        result = false;
-                    }
-
-                    if(!uniformNode.child("Register"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Register'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                        result = false;
-                    }
-
-                    if(!uniformNode.child("Value"))
-                    {
-                        OcularLogger->warning("Uniform is missing required child node 'Value'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                        result = false;
-                    }
-
-                    if(result)
-                    {
-                        //--------------------------------------------------------------
-                        // Get the value of each required child node
-
-                        const std::string type  = uniformNode.child_value("Type");
-                        const std::string name  = uniformNode.child_value("Name");
-                        const std::string index = uniformNode.child_value("Register");
-                        const std::string value = uniformNode.child_value("Value");
-
-                        uint32_t registerIndex = 0;
-
-                        //--------------------------------------------------------------
-                        // Attempt to convert the index string value to an uint
-
-                        try
-                        {
-                            registerIndex = std::stoul(index);
-                        }
-                        catch(std::invalid_argument const& error)
-                        {
-                            OcularLogger->warning("Failed to convert Uniform '", name, "' register value of '", index, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                            result = false;
-                        }
-                        catch(std::out_of_range const& error)
-                        {
-                            OcularLogger->warning("Failed to convert Uniform '", name, "' register value of '", index, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                            result = false;
-                        }
-
-                        //--------------------------------------------------------------
-                        // Attempt to convert the uniform value string to the appropriate data structure
-
-                        if(result)
-                        {
-                            if(Utils::String::IsEqual(type, "Float", true))
-                            {
-                                material->setUniform(name, registerIndex, OcularString->fromString<float>(value));
-                            }
-                            else if(Utils::String::IsEqual(type, "Vector4", true))
-                            {
-                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Vector4f>(value));
-                            }
-                            else if(Utils::String::IsEqual(type, "Matrix3x3", true))
-                            {
-                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Matrix3x3>(value));
-                            }
-                            else if(Utils::String::IsEqual(type, "Matrix4x4", true))
-                            {
-                                material->setUniform(name, registerIndex, OcularString->fromString<Math::Matrix4x4>(value));
-                            }
-                            else
-                            {
-                                OcularLogger->warning("Invalid Uniform '", name, "' Type of '", type, "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                                result = false;
-                            }
-                        }
-                    }
-
-                    //----------------------------------------------------
-                    // Report any failure
-
-                    if(!result)
-                    {
-                        OcularLogger->warning("Failed to parse Uniform in Material '", source.getFullPath(), "'", OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseUniformList"));
-                    }
+                    ParseVarNode(texturesBuilderNode, child);
                 }
             }
         }
 
-        void parseRenderState(Material* material, pugi::xml_node& rootNode, Core::File const& source)
+        if(uniformsXMLNode)
         {
-            /**
-             * <RenderState>
-             *     <PrimitiveStyle>0</PrimitiveStyle>
-             * </RenderState>
-             */
+            Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild("Textures", "", "");
 
-            pugi::xml_node renderStateNode = rootNode.child("RenderState");
-
-            if(renderStateNode)
+            for(auto child : uniformsXMLNode.children())
             {
-                bool result = true;
-                const std::string primitiveStyle = renderStateNode.child_value("PrimitiveStyle");
-
-                if(primitiveStyle.size())
+                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
                 {
-                    uint32_t primitiveStyleValue = 0;
-
-                    try
-                    {
-                        primitiveStyleValue = std::stoul(primitiveStyle);
-                    }
-                    catch(std::invalid_argument const& error)
-                    {
-                        OcularLogger->warning("Failed to convert PrimitiveStyle '", primitiveStyleValue, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseRenderState"));
-                        result = false;
-                    }
-                    catch(std::out_of_range const& error)
-                    {
-                        OcularLogger->warning("Failed to convert PrimitiveStyle '", primitiveStyleValue, "' to integer with error: ", error.what(), OCULAR_INTERNAL_LOG("MaterialResourceLoader", "parseRenderState"));
-                        result = false;
-                    }
-
-                    if(result)
-                    {
-                        if(primitiveStyleValue < (uint32_t)(PrimitiveStyle::Undefined))
-                        {
-                            material->setPrimitiveStyle((PrimitiveStyle)primitiveStyleValue);
-                        }
-                    }
+                    ParseVarNode(uniformsBuilderNode, child);
                 }
             }
         }
     }
 }
 
+void ParseVarNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode)
+{
+    if(builderNode && xmlNode)
+    {
+        const std::string name  = xmlNode.attribute("name").as_string();
+        const std::string type  = xmlNode.attribute("type").as_string();
+        const std::string value = xmlNode.attribute("value").as_string();
 
+        builderNode->addChild(name, type, value);
+    }
+}

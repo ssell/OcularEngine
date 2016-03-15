@@ -153,19 +153,12 @@ void ParseNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode)
 
     if(name.size())
     {
-        if(type.size())
-        {
-            // May have no value which is OK
-            Ocular::Core::BuilderNode* newNode = builderNode->addChild(name, type, value);
+        // May have no type or value which is OK
+        Ocular::Core::BuilderNode* newNode = builderNode->addChild(name, type, value);
 
-            for(auto child : xmlNode.children())
-            {
-                ParseNode(newNode, child);
-            }
-        }
-        else
+        for(auto child : xmlNode.children())
         {
-            OcularLogger->warning("Failed to parse type attribute from node", OCULAR_INTERNAL_LOG("SceneObjectLoader", "ParseNode"));
+            ParseNode(newNode, child);
         }
     }
     else

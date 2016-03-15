@@ -51,6 +51,8 @@ namespace Ocular
             {
                 m_StoredRasterState = renderState->getRasterState();
             }
+
+            exposeProperties();
         }
 
         Material::~Material()
@@ -106,35 +108,60 @@ namespace Ocular
 
                     if(vertexNode)
                     {
-                        m_VertexShader = dynamic_cast<VertexShader*>(OcularResources->getResource<Shader>(vertexNode->getValue()));
+                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(vertexNode->getValue());
+
+                        if(program)
+                        {
+                            m_VertexShader = program->getVertexShader();
+                        }
                     }
 
                     const Core::BuilderNode* geometryNode = shaderProgramNode->getChild("Geometry");
 
                     if(geometryNode)
                     {
-                        m_GeometryShader = dynamic_cast<GeometryShader*>(OcularResources->getResource<Shader>(geometryNode->getValue()));
+                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(geometryNode->getValue());
+
+                        if(program)
+                        {
+                            m_GeometryShader = program->getGeometryShader();
+                        }
                     }
 
                     const Core::BuilderNode* fragmentNode = shaderProgramNode->getChild("Fragment");
 
                     if(fragmentNode)
                     {
-                        m_FragmentShader = dynamic_cast<FragmentShader*>(OcularResources->getResource<Shader>(fragmentNode->getValue()));
+                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(fragmentNode->getValue());
+
+                        if(program)
+                        {
+                            m_FragmentShader = program->getFragmentShader();
+                        }
                     }
 
                     const Core::BuilderNode* preTessellationNode = shaderProgramNode->getChild("PreTessellation");
 
                     if(preTessellationNode)
                     {
-                        m_PreTessellationShader = dynamic_cast<PreTessellationShader*>(OcularResources->getResource<Shader>(preTessellationNode->getValue()));
+                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(preTessellationNode->getValue());
+
+                        if(program)
+                        {
+                            m_PreTessellationShader = program->getPreTessellationShader();
+                        }
                     }
 
                     const Core::BuilderNode* postTessellationNode = shaderProgramNode->getChild("PostTessellation");
 
                     if(postTessellationNode)
                     {
-                        m_PostTessellationShader = dynamic_cast<PostTessellationShader*>(OcularResources->getResource<Shader>(postTessellationNode->getValue()));
+                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(postTessellationNode->getValue());
+
+                        if(program)
+                        {
+                            m_PostTessellationShader = program->getPostTessellationShader();
+                        }
                     }
                 }
 
@@ -147,11 +174,23 @@ namespace Ocular
                 if(texturesNode)
                 {
                     std::vector<Core::BuilderNode*> textureNodes;
-                    texturesNode->findChildrenByName(textureNodes, "Texture");
+                    texturesNode->findChildrenByType(textureNodes, "Texture");
+
+                    m_Textures.clear();
+                    m_Textures.reserve(textureNodes.size());
 
                     for(auto textureNode : textureNodes)
                     {
-                        // ...
+                        TextureSamplerInfo info;
+
+                        info.texture         = OcularResources->getResource<Texture>(textureNode->getValue());
+                        info.samplerName     = textureNode->getName();
+                        info.samplerRegister = static_cast<uint32_t>(m_Textures.size());
+
+                        if(info.texture)
+                        {
+                            m_Textures.emplace_back(info);
+                        }
                     }
                 }
 
@@ -166,9 +205,43 @@ namespace Ocular
                     std::vector<Core::BuilderNode*> uniformNodes;
                     uniformsNode->findChildrenByName(uniformNodes, "Uniform");
 
+                    uint32_t index = 0;
+
                     for(auto uniformNode : uniformNodes)
                     {
-                        // ...
+                        Uniform uniform;
+
+                        if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<float>::name))
+                        {
+                            float data = OcularString->fromString<float>(uniformNode->getValue());
+                            uniform.setData(data);
+                        }
+                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Vector4f>::name))
+                        {
+                            Math::Vector4f data = OcularString->fromString<Math::Vector4f>(uniformNode->getValue());
+                            uniform.setData(data);
+                        }
+                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Matrix3x3>::name))
+                        {
+                            Math::Matrix3x3 data = OcularString->fromString<Math::Matrix3x3>(uniformNode->getValue());
+                            uniform.setData(data);
+                        }
+                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Matrix4x4>::name))
+                        {
+                            Math::Matrix4x4 data = OcularString->fromString<Math::Matrix4x4>(uniformNode->getValue());
+                            uniform.setData(data);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        uniform.setName(uniformNode->getName());
+                        uniform.setRegister(index);
+
+                        m_UniformBuffer->setUniform(uniform);
+
+                        index++;
                     }
                 }
 
@@ -225,7 +298,12 @@ namespace Ocular
                 {
                     for(auto texture : m_Textures)
                     {
-                        texturesNode->addChild("Texture", "Texture2D", texture.texture->getMappingName());
+                        // Store in node as: 
+                        // name:  sampler name
+                        // type:  sampler register
+                        // value: resource relative path
+
+                        texturesNode->addChild(texture.samplerName, OcularString->toString<uint32_t>(texture.samplerRegister), texture.texture->getMappingName());
                     }
                 }
                 
@@ -242,36 +320,41 @@ namespace Ocular
                         for(uint32_t i = 0; i < m_UniformBuffer->getNumUniforms(); i++)
                         {
                             const Uniform* uniform = m_UniformBuffer->getUniform(i);
-
+                            
                             if(uniform)
                             {
+                                // Store in node as: 
+                                // name:  uniform name
+                                // type:  uniform size
+                                // value: uniform value as string
+
                                 switch(uniform->getSize())
                                 {
                                 case 1:
                                 {
                                     float value = uniform->getData()[0];
-                                    uniformsNode->addChild("Uniform", Utils::TypeName<float>::name, OcularString->toString<float>(value));
+                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<float>::name, OcularString->toString<float>(value));
                                     break;
                                 }
 
                                 case 4:
                                 {
                                     Math::Vector4f value = Math::Vector4f(uniform->getData());
-                                    uniformsNode->addChild("Uniform", Utils::TypeName<Math::Vector4f>::name, OcularString->toString<Math::Vector4f>(value));
+                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Vector4f>::name, OcularString->toString<Math::Vector4f>(value));
                                     break;
                                 }
 
                                 case 9:
                                 {
                                     Math::Matrix3x3 value = Math::Matrix3x3(uniform->getData());
-                                    uniformsNode->addChild("Uniform", Utils::TypeName<Math::Matrix3x3>::name, OcularString->toString<Math::Matrix3x3>(value));
+                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Matrix3x3>::name, OcularString->toString<Math::Matrix3x3>(value));
                                     break;
                                 }
 
                                 case 16:
                                 {
                                     Math::Matrix4x4 value = Math::Matrix4x4(uniform->getData());
-                                    uniformsNode->addChild("Uniform", Utils::TypeName<Math::Matrix4x4>::name, OcularString->toString<Math::Matrix4x4>(value));
+                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Matrix4x4>::name, OcularString->toString<Math::Matrix4x4>(value));
                                     break;
                                 }
 
@@ -741,7 +824,7 @@ namespace Ocular
 
         void Material::exposeProperties()
         {
-            
+            OCULAR_EXPOSE(m_PrimitiveStyle);
         }
 
         void Material::bindShaders()
