@@ -209,9 +209,11 @@
     <ClCompile Include="..\..\src\Widgets\Properties\CommonPropertiesDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\EulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\LineProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\QuatAsEulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\QuaternionProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Vector2Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Vector3Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Vector4Property.cpp" />
@@ -272,9 +274,11 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Properties/LineProperty.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
     </CustomBuild>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidget.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\QuatAsEulerProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\QuaternionProperty.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\RenderablePropertiesDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Vector2Property.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Vector3Property.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Vector4Property.hpp" />

@@ -15,11 +15,14 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
-#define __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
+#ifndef __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
+#define __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
+
+#include "PropertiesDisplayBox.hpp"
 
 #include <QtWidgets/qframe.h>
-#include "Events/AEventListener.hpp"
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qlineedit.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +38,26 @@ namespace Ocular
      */
     namespace Editor
     {
-        class CommonPropertiesDisplay;
-        class RenderablePropertiesDisplay;
-
         /**
-         * \class PropertiesPanel
+         * \class RenderablePropertiesDisplay
          */
-        class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
+        class RenderablePropertiesDisplay : public PropertiesDisplayBox
         {
         public:
 
-            PropertiesPanel(QWidget* parent = nullptr);
-            ~PropertiesPanel();
-
-            virtual QSize sizeHint() const override;
+            RenderablePropertiesDisplay(QWidget* parent = nullptr);
+            ~RenderablePropertiesDisplay();
 
             //------------------------------------------------------------
 
-            void update();
-            void selectObject(Core::SceneObject* object);
+            virtual void setObject(Core::SceneObject* object) override;
+            virtual void updateProperties() override;
 
         protected:
 
-            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
-
-            void displayCommon(Core::SceneObject* object);
-            void displayCustom(Core::SceneObject* object);
-            void displayRenderable(Core::SceneObject* object);
-            void displayRoutines(Core::SceneObject* object);
+            //------------------------------------------------------------
 
         private:
-
-            QVBoxLayout* m_Layout;
-            CommonPropertiesDisplay* m_CommonProperties;
-            RenderablePropertiesDisplay* m_RenderableProperties;
         };
     }
     /**

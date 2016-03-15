@@ -30,12 +30,15 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         CommonPropertiesDisplay::CommonPropertiesDisplay(QWidget* parent)
-            : QGroupBox("", parent),
-              m_Object(nullptr)
+            : PropertiesDisplayBox("", parent),
+              m_LabelTransform(nullptr),
+              m_LineName(nullptr),
+              m_PropertyPosition(nullptr),
+              m_PropertyRotation(nullptr),
+              m_PropertyScale(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            buildLayout();
             buildName();
             buildTransform();
         }
@@ -48,11 +51,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        QSize CommonPropertiesDisplay::sizeHint() const
-        {
-            return QSize(275, 150);
-        }
 
         void CommonPropertiesDisplay::setObject(Core::SceneObject* object)
         {
@@ -102,15 +100,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
-        void CommonPropertiesDisplay::buildLayout()
-        {
-            m_Layout = new QVBoxLayout();
-            m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->setContentsMargins(5, 5, 5, 5);
-
-            setLayout(m_Layout);
-        }
 
         void CommonPropertiesDisplay::buildName()
         {

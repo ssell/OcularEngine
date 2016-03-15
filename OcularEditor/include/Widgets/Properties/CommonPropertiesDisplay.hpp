@@ -18,11 +18,11 @@
 #ifndef __H__OCULAR_EDITOR_COMMON_PROPERTIES_DISPLAY__H__
 #define __H__OCULAR_EDITOR_COMMON_PROPERTIES_DISPLAY__H__
 
+#include "PropertiesDisplayBox.hpp"
+
 #include <QtWidgets/qframe.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qlineedit.h>
-
-#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -44,37 +44,31 @@ namespace Ocular
         /**
          * \class CommonPropertiesDisplay
          */
-        class CommonPropertiesDisplay : public QGroupBox
+        class CommonPropertiesDisplay : public PropertiesDisplayBox
         {
         public:
 
             CommonPropertiesDisplay(QWidget* parent = nullptr);
             ~CommonPropertiesDisplay();
 
-            virtual QSize sizeHint() const override;
-
             //------------------------------------------------------------
 
-            void setObject(Core::SceneObject* object);
-            void updateProperties();
+            virtual void setObject(Core::SceneObject* object) override;
+            virtual void updateProperties() override;
 
         protected:
             
-            void buildLayout();
             void buildName();
             void buildTransform();
 
             //------------------------------------------------------------
 
-            QVBoxLayout* m_Layout;
             QLabel*      m_LabelTransform;
             QLineEdit*   m_LineName;
 
             Vector3Property*     m_PropertyPosition;
             QuatAsEulerProperty* m_PropertyRotation;
             Vector3Property*     m_PropertyScale;
-
-            Core::SceneObject* m_Object;
 
         private:
         };

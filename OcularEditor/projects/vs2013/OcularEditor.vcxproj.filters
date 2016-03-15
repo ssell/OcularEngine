@@ -188,6 +188,12 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineProperty.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -263,6 +269,12 @@
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\QuatAsEulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\RenderablePropertiesDisplay.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
   </ItemGroup>

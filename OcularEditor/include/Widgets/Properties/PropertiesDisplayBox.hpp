@@ -15,11 +15,14 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
-#define __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
+#ifndef __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_BOX__H__
+#define __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_BOX__H__
 
-#include <QtWidgets/qframe.h>
-#include "Events/AEventListener.hpp"
+
+#include <QtWidgets/qgroupbox.h>
+#include <QtWidgets/qboxlayout.h>
+
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +38,35 @@ namespace Ocular
      */
     namespace Editor
     {
-        class CommonPropertiesDisplay;
-        class RenderablePropertiesDisplay;
-
         /**
-         * \class PropertiesPanel
+         * \class PropertiesDisplayBox
          */
-        class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
+        class PropertiesDisplayBox : public QGroupBox
         {
         public:
 
-            PropertiesPanel(QWidget* parent = nullptr);
-            ~PropertiesPanel();
+            PropertiesDisplayBox(QString const& displayName, QWidget* parent = nullptr);
+            ~PropertiesDisplayBox();
 
             virtual QSize sizeHint() const override;
 
             //------------------------------------------------------------
 
-            void update();
-            void selectObject(Core::SceneObject* object);
+            virtual void setObject(Core::SceneObject* object) = 0;
+            virtual void updateProperties() = 0;
 
         protected:
+            
+            void buildLayout();
+            void buildName();
+            void buildTransform();
 
-            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
-
-            void displayCommon(Core::SceneObject* object);
-            void displayCustom(Core::SceneObject* object);
-            void displayRenderable(Core::SceneObject* object);
-            void displayRoutines(Core::SceneObject* object);
-
-        private:
+            //------------------------------------------------------------
 
             QVBoxLayout* m_Layout;
-            CommonPropertiesDisplay* m_CommonProperties;
-            RenderablePropertiesDisplay* m_RenderableProperties;
+            Core::SceneObject* m_Object;
+
+        private:
         };
     }
     /**

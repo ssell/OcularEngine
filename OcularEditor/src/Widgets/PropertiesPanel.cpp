@@ -17,6 +17,7 @@
 #include "stdafx.h"
 #include "Widgets/PropertiesPanel.hpp"
 #include "Widgets/Properties/CommonPropertiesDisplay.hpp"
+#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
 #include "Events/SceneObjectSelectedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -36,10 +37,12 @@ namespace Ocular
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             m_CommonProperties = new CommonPropertiesDisplay();
-            
+            m_RenderableProperties = new RenderablePropertiesDisplay();
+
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
             m_Layout->addWidget(m_CommonProperties);
+            m_Layout->addWidget(m_RenderableProperties);
             m_Layout->setContentsMargins(2, 2, 2, 2);
 
             setLayout(m_Layout);
