@@ -22,7 +22,7 @@
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
 
-#include "Widgets/Properties/LineProperty.hpp"
+#include "Widgets/Properties/LineEdit.hpp"
 #include "ObjectIO/ExposedVariable.hpp"
 #include "Utilities/VoidCast.hpp"
 

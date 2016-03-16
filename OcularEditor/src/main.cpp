@@ -15,100 +15,15 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/MainWindow.hpp"
-
-#include "D3D11GraphicsDriver.hpp"
-#include "D3D11DynamicRegistration.hpp"
-#include "Scene/Renderables/MeshRenderable.hpp"
-
-#include <QtWidgets/QApplication>
-
-using namespace Ocular::Core;
-using namespace Ocular::Utils;
-using namespace Ocular::Math;
-using namespace Ocular::Graphics;
 
 //------------------------------------------------------------------------------------------
 
-void setupCamera()
+int main(int argc, char** argv)
 {
-    Camera* camera = OcularScene->createObject<Camera>(Ocular::Editor::Helpers::EditorCameraName, nullptr);
-    camera->setPersistent(true);
-
-    if(camera)
+    if(OcularEditor.initialize(argc, argv))
     {
-        camera->setPosition(0.0f, 0.2f, 0.5f);
-        camera->addRoutine("EditorCameraController");
+        while(OcularEditor.run());
+
+        OcularEditor.shutdown();
     }
-}
-
-void setupVisual()
-{
-    SceneObject* object = OcularScene->createObject("Test Object");
-
-    if(object)
-    {
-        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
-
-        if(renderable)
-        {
-            renderable->setMesh("Meshes/cube_normals");
-            renderable->setMaterial("Materials/Flat");
-            renderable->getMaterial()->setUniform("Color", 0, Ocular::Math::Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
-
-            object->setPosition(Ocular::Math::Vector3f(5.0f, 0.0f, 0.0f));
-            //object->setScale(5.0f, 5.0f, 5.0f);
-        }
-    }
-
-    SceneObject* someChild = object->createChild("Some Child");
-
-    if(someChild)
-    {
-        MeshRenderable* renderable = (MeshRenderable*)someChild->setRenderable("Mesh");
-
-        if(renderable)
-        {
-            renderable->setMesh("Meshes/cube_normals");
-            renderable->setMaterial("Materials/Flat");
-
-            someChild->setPosition(Ocular::Math::Vector3f(-5.0f, -2.0f, 0.0f));
-        }
-    }
-}
-
-void setupScene()
-{
-    OcularScene->createScene("TestScene");
-    
-    setupCamera();
-    //setupVisual();
-}
-
-int main(int argc, char *argv[])
-{
-    QApplication application(argc, argv);
-
-    if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
-    {
-        Ocular::Editor::MainWindow mainWindow;
-
-        mainWindow.show();
-        mainWindow.showMaximized();
-
-        if(OcularGraphics->initialize())
-        {
-            setupScene();
-
-            while(OcularEngine.run())
-            {
-                mainWindow.update();
-                application.processEvents();
-            }
-        }
-
-        OcularEngine.shutdown();
-    }
-
-    return 0;
 }

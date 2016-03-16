@@ -15,8 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/QuaternionProperty.hpp"
-#include "Math/Quaternion.hpp"
+#include "Widgets/Properties/Types/Vector3Property.hpp"
+#include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,21 +28,17 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        QuaternionProperty::QuaternionProperty(QString const& displayName, QWidget* parent)
+        Vector3Property::Vector3Property(QString const& displayName, QWidget* parent)
             : PropertyWidget(displayName, parent)
         {
-            m_LabelW = new QLabel("W");
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
             m_LabelZ = new QLabel("Z");
             
-            m_EditW = new LineProperty(LineType::Float);
-            m_EditX = new LineProperty(LineType::Float);
-            m_EditY = new LineProperty(LineType::Float);
-            m_EditZ = new LineProperty(LineType::Float);
+            m_EditX = new LineEdit(LineType::Float);
+            m_EditY = new LineEdit(LineType::Float);
+            m_EditZ = new LineEdit(LineType::Float);
             
-            m_LayoutRight->addWidget(m_LabelW);
-            m_LayoutRight->addWidget(m_EditW);
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
             m_LayoutRight->addWidget(m_LabelY);
@@ -51,7 +47,7 @@ namespace Ocular
             m_LayoutRight->addWidget(m_EditZ);
         }
 
-        QuaternionProperty::~QuaternionProperty()
+        Vector3Property::~Vector3Property()
         {
 
         }
@@ -60,55 +56,44 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool QuaternionProperty::updateProperties()
+        bool Vector3Property::updateProperties()
         {
             bool result = false;
 
             if(m_Variable.data)
             {
-                Math::Quaternion* quaternion = void_cast<Math::Quaternion*>(m_Variable.data);
-
-                if(!m_EditW->hasFocus())
-                {
-                    m_EditW->setText(OcularString->toString<float>(quaternion->w()).c_str());
-                }
+                Math::Vector3f* vector = void_cast<Math::Vector3f*>(m_Variable.data);
 
                 if(!m_EditX->hasFocus())
                 {
-                    m_EditX->setText(OcularString->toString<float>(quaternion->x()).c_str());
+                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
                 }
 
                 if(!m_EditY->hasFocus())
                 {
-                    m_EditY->setText(OcularString->toString<float>(quaternion->y()).c_str());
+                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
                 }
 
                 if(!m_EditZ->hasFocus())
                 {
-                    m_EditZ->setText(OcularString->toString<float>(quaternion->z()).c_str());
-                }
-
-                if(m_EditW->wasEdited())
-                {
-                    (*quaternion).w() = m_EditW->asFloat();
-                    result = true;
+                    m_EditZ->setText(OcularString->toString<float>(vector->z).c_str());
                 }
 
                 if(m_EditX->wasEdited())
                 {
-                    (*quaternion).x() = m_EditX->asFloat();
+                    (*vector).x = m_EditX->asFloat();
                     result = true;
                 }
 
                 if(m_EditY->wasEdited())
                 {
-                    (*quaternion).y() = m_EditY->asFloat();
+                    (*vector).y = m_EditY->asFloat();
                     result = true;
                 }
 
                 if(m_EditZ->wasEdited())
                 {
-                    (*quaternion).z() = m_EditZ->asFloat();
+                    (*vector).z = m_EditZ->asFloat();
                     result = true;
                 }
             }

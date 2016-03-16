@@ -165,8 +165,8 @@ namespace Ocular
     private:
 
         Engine();
-        Engine(Engine const&);
-        void operator=(Engine const&);
+        Engine(Engine const&) = delete;
+        void operator=(Engine const&) = delete;
 
         // Running
 

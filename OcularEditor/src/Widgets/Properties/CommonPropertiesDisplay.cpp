@@ -16,8 +16,8 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/CommonPropertiesDisplay.hpp"
-#include "Widgets/Properties/Vector3Property.hpp"
-#include "Widgets/Properties/QuatAsEulerProperty.hpp"
+#include "Widgets/Properties/Types/Vector3Property.hpp"
+#include "Widgets/Properties/Types/QuatAsEulerProperty.hpp"
 
 //------------------------------------------------------------------------------------------
 

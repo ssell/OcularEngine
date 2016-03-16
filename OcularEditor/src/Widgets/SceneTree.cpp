@@ -175,7 +175,7 @@ namespace Ocular
 
                     if(focusObject)
                     {
-                        Core::Camera* editorCamera = Helpers::GetEditorCamera();
+                        Core::Camera* editorCamera = OcularEditor.getEditorCamera();
 
                         if(editorCamera)
                         {

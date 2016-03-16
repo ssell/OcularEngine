@@ -19,7 +19,7 @@
 #include "Widgets/MainWindow.hpp"
 #include "Widgets/MainMenuBar.hpp"
 #include "Widgets/MainStatusBar.hpp"
-#include "Widgets/ToolBarCommon.hpp"
+#include "Widgets/ToolbarCommon.hpp"
 #include "Widgets/ContentFrame.hpp"
 #include "Widgets/PropertiesPanel.hpp"
 
@@ -40,7 +40,7 @@ namespace Ocular
 
             setupLayouts();
             setupMenus();
-            setupToolBars();
+            setupToolbars();
             setupContent();
             setupMainWidget();
 
@@ -100,16 +100,35 @@ namespace Ocular
             setCentralWidget(m_MainWidget);
         }
 
-        void MainWindow::setupToolBars()
+        void MainWindow::setupToolbars()
         {
-            m_ToolBarCommon = new ToolBarCommon();
-            m_LayoutMain->addWidget(m_ToolBarCommon, 0, (Qt::AlignLeft | Qt::AlignTop));
+            m_ToolbarCommon = new ToolbarCommon();
+            m_LayoutMain->addWidget(m_ToolbarCommon, 0, (Qt::AlignLeft | Qt::AlignTop));
         }
 
         void MainWindow::setupContent()
         {
             m_ContentFrame = new ContentFrame();
             m_LayoutMain->addWidget(m_ContentFrame, 1, (Qt::AlignHCenter | Qt::AlignTop));
+        }
+
+        //----------------------------------------------------------------------------------
+        // Getters
+        //----------------------------------------------------------------------------------
+
+        MainMenuBar* MainWindow::getMainMenu()
+        {
+            return m_MenuBar;
+        }
+
+        MainStatusBar* MainWindow::getMainStatusBar()
+        {
+            return m_StatusBar;
+        }
+
+        ToolbarCommon* MainWindow::getCommonToolbar()
+        {
+            return m_ToolbarCommon;
         }
     }
 }

@@ -35,7 +35,7 @@
 //------------------------------------------------------------------------
 
 #include "Styles/GeneralStyles.hpp"
-#include "EditorHelpers.hpp"
+#include "OcularEditor.hpp"
 
 //------------------------------------------------------------------------------------------
 // Standard Includes

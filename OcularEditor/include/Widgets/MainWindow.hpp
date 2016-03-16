@@ -37,7 +37,7 @@ namespace Ocular
         class MainMenuBar;
         class MainStatusBar;
         class ContentFrame;
-        class ToolBarCommon;
+        class ToolbarCommon;
 
         /**
          * \class MainWindow
@@ -56,6 +56,25 @@ namespace Ocular
 
             void update();
 
+            //------------------------------------------------------------
+            // Getters
+            //------------------------------------------------------------
+
+            /**
+             *
+             */
+            MainMenuBar* getMainMenu();
+
+            /**
+             *
+             */
+            MainStatusBar* getMainStatusBar();
+
+            /**
+             *
+             */
+            ToolbarCommon* getCommonToolbar();
+
         protected:
 
         private:
@@ -63,7 +82,7 @@ namespace Ocular
             void setupLayouts();
             void setupMenus();
             void setupMainWidget();
-            void setupToolBars();
+            void setupToolbars();
             void setupContent();
 
             //------------------------------------------------------------
@@ -76,7 +95,7 @@ namespace Ocular
             MainStatusBar* m_StatusBar;
             ContentFrame*  m_ContentFrame;
 
-            ToolBarCommon* m_ToolBarCommon;
+            ToolbarCommon* m_ToolbarCommon;
         };
     }
     /**

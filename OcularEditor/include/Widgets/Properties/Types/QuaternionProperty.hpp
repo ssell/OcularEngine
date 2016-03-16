@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
-#define __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_QUATERNION_PROPERTY__H__
+#define __H__OCULAR_EDITOR_QUATERNION_PROPERTY__H__
 
-#include "PropertyWidget.hpp"
-#include <QtWidgets/qlineedit.h>
+#include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Properties/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,19 +36,16 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class QuatAsEulerProperty
+         * \class QuaternionProperty
          *
          * Pre-built property display for Quaternion variables.
-         * Special version which displays the Quaternion in Euler form.
-         *
-         * To display a standard Quaternion, see the QuaternionProperty class.
          */
-        class QuatAsEulerProperty : public PropertyWidget
+        class QuaternionProperty : public PropertyWidget
         {
         public:
 
-            QuatAsEulerProperty(QString const& displayName, QWidget* parent = nullptr);
-            ~QuatAsEulerProperty();
+            QuaternionProperty(QString const& displayName, QWidget* parent = nullptr);
+            ~QuaternionProperty();
 
             virtual bool updateProperties() override;
 
@@ -59,10 +56,12 @@ namespace Ocular
             QLabel* m_LabelX;
             QLabel* m_LabelY;
             QLabel* m_LabelZ;
+            QLabel* m_LabelW;
 
-            LineProperty* m_EditX;
-            LineProperty* m_EditY;
-            LineProperty* m_EditZ;
+            LineEdit* m_EditX;
+            LineEdit* m_EditY;
+            LineEdit* m_EditZ;
+            LineEdit* m_EditW;
         };
     }
     /**

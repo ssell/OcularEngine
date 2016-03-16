@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Vector2Property.hpp"
+#include "Widgets/Properties/Types/Vector2Property.hpp"
 #include "Math/Vector2.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -34,8 +34,8 @@ namespace Ocular
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
             
-            m_EditX = new LineProperty(LineType::Float);
-            m_EditY = new LineProperty(LineType::Float);
+            m_EditX = new LineEdit(LineType::Float);
+            m_EditY = new LineEdit(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);

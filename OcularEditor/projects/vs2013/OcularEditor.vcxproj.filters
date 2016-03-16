@@ -69,6 +69,12 @@
     <Filter Include="Source Files\Widgets\Properties">
       <UniqueIdentifier>{ae180ee6-2d57-40b8-9bfa-a7ea45aa3112}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Types">
+      <UniqueIdentifier>{7ca5f9e6-fe21-4021-aabb-5cd6fed84cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Types">
+      <UniqueIdentifier>{e69643b0-8249-455f-a3f4-10704d3b13be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -96,9 +102,6 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\ToolBarCommon.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\RenderFrame.cpp">
@@ -143,9 +146,6 @@
     <ClCompile Include="..\..\src\Routines\EditorCameraController.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\EditorHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
@@ -161,38 +161,44 @@
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\Vector3Property.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\QuatAsEulerProperty.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\QuaternionProperty.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\EulerProperty.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\Vector2Property.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\Vector4Property.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\LineProperty.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineProperty.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineProperty.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\QuatAsEulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\QuaternionProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector2Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector3Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector4Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\LineEdit.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ToolbarCommon.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OcularEditor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +206,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\ToolBarCommon.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\RenderFrame.hpp">
@@ -235,9 +238,6 @@
     <ClInclude Include="..\..\include\Routines\EditorCameraController.hpp">
       <Filter>Header Files\Routines</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\EditorHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Events\SceneObjectSelectedEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -253,29 +253,35 @@
     <ClInclude Include="..\..\include\Widgets\PropertiesPanel.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Vector3Property.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Vector4Property.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Vector2Property.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\QuaternionProperty.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\EulerProperty.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\QuatAsEulerProperty.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\RenderablePropertiesDisplay.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\EulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\QuatAsEulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\QuaternionProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector2Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector3Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector4Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\OcularEditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +297,7 @@
     <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\include\Widgets\Properties\LineProperty.hpp">
+    <CustomBuild Include="..\..\include\Widgets\Properties\LineEdit.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </CustomBuild>
   </ItemGroup>

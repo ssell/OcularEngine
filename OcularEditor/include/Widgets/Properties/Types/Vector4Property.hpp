@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_EULER_PROPERTY__H__
-#define __H__OCULAR_EDITOR_EULER_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_VECTOR4_PROPERTY__H__
+#define __H__OCULAR_EDITOR_VECTOR4_PROPERTY__H__
 
-#include "PropertyWidget.hpp"
-#include <QtWidgets/qlineedit.h>
+#include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Properties/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,16 +36,16 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class EulerProperty
+         * \class Vector4Property
          *
-         * Pre-built property display for Euler variables.
+         * Pre-built property display for Vector4f variables.
          */
-        class EulerProperty : public PropertyWidget
+        class Vector4Property : public PropertyWidget
         {
         public:
 
-            EulerProperty(QString const& displayName, QWidget* parent = nullptr);
-            ~EulerProperty();
+            Vector4Property(QString const& displayName, QWidget* parent = nullptr);
+            ~Vector4Property();
 
             virtual bool updateProperties() override;
 
@@ -56,10 +56,12 @@ namespace Ocular
             QLabel* m_LabelX;
             QLabel* m_LabelY;
             QLabel* m_LabelZ;
+            QLabel* m_LabelW;
 
-            LineProperty* m_EditX;
-            LineProperty* m_EditY;
-            LineProperty* m_EditZ;
+            LineEdit* m_EditX;
+            LineEdit* m_EditY;
+            LineEdit* m_EditZ;
+            LineEdit* m_EditW;
         };
     }
     /**

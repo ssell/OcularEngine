@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_LINE_PROPERTY__H__
-#define __H__OCULAR_EDITOR_LINE_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_LINE_EDIT__H__
+#define __H__OCULAR_EDITOR_LINE_EDIT__H__
 
 #include <QtWidgets/qlineedit.h>
 
@@ -43,19 +43,19 @@ namespace Ocular
         };
 
         /**
-         * \class LineProperty
+         * \class LineEdit
          *
          * Helper class that automatically handles input mask, etc. setup based
          * on the specified LineType.
          */
-        class LineProperty : public QLineEdit
+        class LineEdit : public QLineEdit
         {
             Q_OBJECT
 
         public:
 
-            LineProperty(LineType type, QWidget* parent = nullptr);
-            ~LineProperty();
+            LineEdit(LineType type, QWidget* parent = nullptr);
+            ~LineEdit();
 
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.

@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/ToolBarCommon.hpp"
+#include "Widgets/ToolbarCommon.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,14 +27,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ToolBarCommon::ToolBarCommon(QWidget *parent)
+        ToolbarCommon::ToolbarCommon(QWidget *parent)
             : QToolBar(parent)
         {
             setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
             addAction("Testo");
         }
 
-        ToolBarCommon::~ToolBarCommon()
+        ToolbarCommon::~ToolbarCommon()
         {
 
         }
@@ -43,7 +43,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize ToolBarCommon::sizeHint() const
+        QSize ToolbarCommon::sizeHint() const
         {
             return QSize(500, 30);
         }

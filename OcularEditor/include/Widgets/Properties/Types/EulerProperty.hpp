@@ -15,8 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_HELPERS__H__
-#define __H__OCULAR_EDITOR_HELPERS__H__
+#ifndef __H__OCULAR_EDITOR_EULER_PROPERTY__H__
+#define __H__OCULAR_EDITOR_EULER_PROPERTY__H__
+
+#include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Properties/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,12 +29,6 @@
  */
 namespace Ocular
 {
-    namespace Core
-    {
-        class SceneObject;
-        class Camera;
-    }
-
     /**
      * \addtogroup Editor
      * @{
@@ -39,22 +36,30 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class Helpers
+         * \class EulerProperty
+         *
+         * Pre-built property display for Euler variables.
          */
-        class Helpers
+        class EulerProperty : public PropertyWidget
         {
         public:
 
-            //------------------------------------------------------------
-            // Camera Helpers
-            //------------------------------------------------------------
+            EulerProperty(QString const& displayName, QWidget* parent = nullptr);
+            ~EulerProperty();
 
-            static Core::Camera* GetEditorCamera();
-            static const char* EditorCameraName;
+            virtual bool updateProperties() override;
 
         protected:
 
         private:
+
+            QLabel* m_LabelX;
+            QLabel* m_LabelY;
+            QLabel* m_LabelZ;
+
+            LineEdit* m_EditX;
+            LineEdit* m_EditY;
+            LineEdit* m_EditZ;
         };
     }
     /**

@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/LineProperty.hpp"
+#include "Widgets/Properties/LineEdit.hpp"
 #include "QtGui/qvalidator.h"
 
 #include <limits>
@@ -30,7 +30,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        LineProperty::LineProperty(LineType type, QWidget* parent)
+        LineEdit::LineEdit(LineType type, QWidget* parent)
             : QLineEdit(parent),
               m_Type(type),
               m_WasEdited(false)
@@ -58,7 +58,7 @@ namespace Ocular
             connect(this, SIGNAL(textEdited(QString const&)), this, SLOT(userEdited(QString const&)));
         }
 
-        LineProperty::~LineProperty()
+        LineEdit::~LineEdit()
         {
 
         }
@@ -67,7 +67,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool LineProperty::wasEdited(bool reset)
+        bool LineEdit::wasEdited(bool reset)
         {
             bool result = m_WasEdited;
 
@@ -79,17 +79,17 @@ namespace Ocular
             return result;
         }
 
-        int32_t LineProperty::asInt() const
+        int32_t LineEdit::asInt() const
         {
             return OcularString->fromString<int32_t>(text().toStdString());
         }
 
-        uint32_t LineProperty::asUint() const
+        uint32_t LineEdit::asUint() const
         {
             return OcularString->fromString<uint32_t>(text().toStdString());
         }
 
-        float LineProperty::asFloat() const
+        float LineEdit::asFloat() const
         {
             return OcularString->fromString<float>(text().toStdString());
         }
@@ -102,12 +102,12 @@ namespace Ocular
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
         
-        void LineProperty::contentsChanged(QString const& text)
+        void LineEdit::contentsChanged(QString const& text)
         {
             //setCursorPosition(0);
         }
 
-        void LineProperty::userEdited(QString const& text)
+        void LineEdit::userEdited(QString const& text)
         {
             m_WasEdited = true;
         }

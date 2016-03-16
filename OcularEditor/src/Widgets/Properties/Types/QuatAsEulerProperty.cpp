@@ -15,8 +15,9 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Vector3Property.hpp"
-#include "Math/Vector3.hpp"
+#include "Widgets/Properties/Types/QuatAsEulerProperty.hpp"
+#include "Math/Quaternion.hpp"
+#include "Math/Euler.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,16 +29,16 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        Vector3Property::Vector3Property(QString const& displayName, QWidget* parent)
+        QuatAsEulerProperty::QuatAsEulerProperty(QString const& displayName, QWidget* parent)
             : PropertyWidget(displayName, parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
             m_LabelZ = new QLabel("Z");
             
-            m_EditX = new LineProperty(LineType::Float);
-            m_EditY = new LineProperty(LineType::Float);
-            m_EditZ = new LineProperty(LineType::Float);
+            m_EditX = new LineEdit(LineType::Float);
+            m_EditY = new LineEdit(LineType::Float);
+            m_EditZ = new LineEdit(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
@@ -47,7 +48,7 @@ namespace Ocular
             m_LayoutRight->addWidget(m_EditZ);
         }
 
-        Vector3Property::~Vector3Property()
+        QuatAsEulerProperty::~QuatAsEulerProperty()
         {
 
         }
@@ -56,45 +57,57 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool Vector3Property::updateProperties()
+        bool QuatAsEulerProperty::updateProperties()
         {
             bool result = false;
 
             if(m_Variable.data)
             {
-                Math::Vector3f* vector = void_cast<Math::Vector3f*>(m_Variable.data);
+                Math::Quaternion quaternion = void_cast<Math::Quaternion>(m_Variable.data);
+                Math::Euler euler(quaternion);
 
                 if(!m_EditX->hasFocus())
                 {
-                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
+                    m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
                 }
 
                 if(!m_EditY->hasFocus())
                 {
-                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
+                    m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
                 }
 
                 if(!m_EditZ->hasFocus())
                 {
-                    m_EditZ->setText(OcularString->toString<float>(vector->z).c_str());
+                    m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
                 }
 
                 if(m_EditX->wasEdited())
                 {
-                    (*vector).x = m_EditX->asFloat();
+                    euler.setPitch(m_EditX->asFloat());
                     result = true;
                 }
 
                 if(m_EditY->wasEdited())
                 {
-                    (*vector).y = m_EditY->asFloat();
+                    euler.setYaw(m_EditY->asFloat());
                     result = true;
                 }
 
                 if(m_EditZ->wasEdited())
                 {
-                    (*vector).z = m_EditZ->asFloat();
+                    euler.setRoll(m_EditZ->asFloat());
                     result = true;
+                }
+
+                if(result)
+                {
+                    quaternion = Math::Quaternion(euler);
+                    Math::Quaternion* quatPtr = void_cast<Math::Quaternion*>(m_Variable.data);
+                    
+                    (*quatPtr).w() = quaternion.w();
+                    (*quatPtr).x() = quaternion.x();
+                    (*quatPtr).y() = quaternion.y();
+                    (*quatPtr).z() = quaternion.z();
                 }
             }
 

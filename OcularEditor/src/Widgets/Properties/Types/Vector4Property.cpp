@@ -15,9 +15,8 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/QuatAsEulerProperty.hpp"
-#include "Math/Quaternion.hpp"
-#include "Math/Euler.hpp"
+#include "Widgets/Properties/Types/Vector4Property.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -29,16 +28,18 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        QuatAsEulerProperty::QuatAsEulerProperty(QString const& displayName, QWidget* parent)
+        Vector4Property::Vector4Property(QString const& displayName, QWidget* parent)
             : PropertyWidget(displayName, parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
             m_LabelZ = new QLabel("Z");
+            m_LabelW = new QLabel("W");
             
-            m_EditX = new LineProperty(LineType::Float);
-            m_EditY = new LineProperty(LineType::Float);
-            m_EditZ = new LineProperty(LineType::Float);
+            m_EditX = new LineEdit(LineType::Float);
+            m_EditY = new LineEdit(LineType::Float);
+            m_EditZ = new LineEdit(LineType::Float);
+            m_EditW = new LineEdit(LineType::Float);
             
             m_LayoutRight->addWidget(m_LabelX);
             m_LayoutRight->addWidget(m_EditX);
@@ -46,9 +47,11 @@ namespace Ocular
             m_LayoutRight->addWidget(m_EditY);
             m_LayoutRight->addWidget(m_LabelZ);
             m_LayoutRight->addWidget(m_EditZ);
+            m_LayoutRight->addWidget(m_LabelW);
+            m_LayoutRight->addWidget(m_EditW);
         }
 
-        QuatAsEulerProperty::~QuatAsEulerProperty()
+        Vector4Property::~Vector4Property()
         {
 
         }
@@ -57,57 +60,56 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool QuatAsEulerProperty::updateProperties()
+        bool Vector4Property::updateProperties()
         {
             bool result = false;
 
             if(m_Variable.data)
             {
-                Math::Quaternion quaternion = void_cast<Math::Quaternion>(m_Variable.data);
-                Math::Euler euler(quaternion);
+                Math::Vector4f* vector = void_cast<Math::Vector4f*>(m_Variable.data);
 
                 if(!m_EditX->hasFocus())
                 {
-                    m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
+                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
                 }
 
                 if(!m_EditY->hasFocus())
                 {
-                    m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
+                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
                 }
 
                 if(!m_EditZ->hasFocus())
                 {
-                    m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
+                    m_EditZ->setText(OcularString->toString<float>(vector->z).c_str());
+                }
+
+                if(!m_EditW->hasFocus())
+                {
+                    m_EditW->setText(OcularString->toString<float>(vector->w).c_str());
                 }
 
                 if(m_EditX->wasEdited())
                 {
-                    euler.setPitch(m_EditX->asFloat());
+                    (*vector).x = m_EditX->asFloat();
                     result = true;
                 }
 
                 if(m_EditY->wasEdited())
                 {
-                    euler.setYaw(m_EditY->asFloat());
+                    (*vector).y = m_EditY->asFloat();
                     result = true;
                 }
 
                 if(m_EditZ->wasEdited())
                 {
-                    euler.setRoll(m_EditZ->asFloat());
+                    (*vector).z = m_EditZ->asFloat();
                     result = true;
                 }
 
-                if(result)
+                if(m_EditW->wasEdited())
                 {
-                    quaternion = Math::Quaternion(euler);
-                    Math::Quaternion* quatPtr = void_cast<Math::Quaternion*>(m_Variable.data);
-                    
-                    (*quatPtr).w() = quaternion.w();
-                    (*quatPtr).x() = quaternion.x();
-                    (*quatPtr).y() = quaternion.y();
-                    (*quatPtr).z() = quaternion.z();
+                    (*vector).w = m_EditW->asFloat();
+                    result = true;
                 }
             }
 

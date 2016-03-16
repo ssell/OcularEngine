@@ -35,15 +35,15 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class ToolBarCommon
+         * \class ToolbarCommon
          * \brief Tool Bar for common actions (save, camera behaviour, etc.)
          */
-        class ToolBarCommon : public QToolBar
+        class ToolbarCommon : public QToolBar
         {
         public:
 
-            ToolBarCommon(QWidget* parent = nullptr);
-            ~ToolBarCommon();
+            ToolbarCommon(QWidget* parent = nullptr);
+            ~ToolbarCommon();
 
             virtual QSize sizeHint() const override;
 
