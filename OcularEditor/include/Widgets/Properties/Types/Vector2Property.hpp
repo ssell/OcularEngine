@@ -45,7 +45,7 @@ namespace Ocular
         public:
 
             Vector2Property(QWidget* parent = nullptr);
-            ~Vector2Property();
+            virtual ~Vector2Property();
 
             virtual bool updateProperties() override;
 

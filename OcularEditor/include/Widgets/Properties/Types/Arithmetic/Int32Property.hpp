@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
-#define __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_INT32_PROPERTY__H__
+#define __H__OCULAR_EDITOR_INT32_PROPERTY__H__
 
 #include "Widgets/Properties/PropertyWidget.hpp"
 #include "Widgets/Properties/LineEdit.hpp"
@@ -36,19 +36,16 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class QuatAsEulerProperty
+         * \class Int32Property
          *
-         * Pre-built property display for Quaternion variables.
-         * Special version which displays the Quaternion in Euler form.
-         *
-         * To display a standard Quaternion, see the QuaternionProperty class.
+         * Pre-built property display for 32-bit signed integers.
          */
-        class QuatAsEulerProperty : public PropertyWidget
+        class Int32Property : public PropertyWidget
         {
         public:
 
-            QuatAsEulerProperty(QWidget* parent = nullptr);
-            virtual ~QuatAsEulerProperty();
+            Int32Property(QWidget* parent = nullptr);
+            virtual ~Int32Property();
 
             virtual bool updateProperties() override;
 
@@ -56,13 +53,7 @@ namespace Ocular
 
         private:
 
-            QLabel* m_LabelX;
-            QLabel* m_LabelY;
-            QLabel* m_LabelZ;
-
-            LineEdit* m_EditX;
-            LineEdit* m_EditY;
-            LineEdit* m_EditZ;
+            LineEdit* m_EditValue;
         };
     }
     /**

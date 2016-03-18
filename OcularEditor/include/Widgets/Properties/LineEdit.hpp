@@ -37,9 +37,14 @@ namespace Ocular
         enum class LineType
         {
             String = 0,
-            Integer,
-            UnsignedInteger,
-            Float
+            Int8,
+            UInt8,
+            Int16,
+            UInt16,
+            Int32,
+            UInt32,
+            Float,
+            Double
         };
 
         /**

@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/LineEdit.hpp"
+#include "Widgets/Properties/Types/Arithmetic/UInt32Validator.hpp"
 #include "QtGui/qvalidator.h"
 
 #include <limits>
@@ -37,15 +38,32 @@ namespace Ocular
         {
             switch(m_Type)
             {
-            case LineType::Integer:
-                setValidator(new QIntValidator(this));
+            case LineType::Int8:
+                setValidator(new QIntValidator(static_cast<int32_t>(std::numeric_limits<int8_t>::min()), static_cast<int32_t>(std::numeric_limits<int8_t>::max()), this));
                 break;
 
-            case LineType::UnsignedInteger:
-                setValidator(new QIntValidator(0, INT_MAX, this));
+            case LineType::UInt8:
+                setValidator(new QIntValidator(static_cast<int32_t>(std::numeric_limits<uint8_t>::min()), static_cast<int32_t>(std::numeric_limits<uint8_t>::max()), this));
                 break;
 
-            case LineType::Float:
+            case LineType::Int16:
+                setValidator(new QIntValidator(static_cast<int32_t>(std::numeric_limits<int16_t>::min()), static_cast<int32_t>(std::numeric_limits<int16_t>::max()), this));
+                break;
+
+            case LineType::UInt16:
+                setValidator(new QIntValidator(static_cast<int32_t>(std::numeric_limits<uint16_t>::min()), static_cast<int32_t>(std::numeric_limits<uint16_t>::max()), this));
+                break;
+
+            case LineType::Int32:
+                setValidator(new QIntValidator(std::numeric_limits<int32_t>::min(), std::numeric_limits<int32_t>::max(), this));
+                break;
+
+            case LineType::UInt32:
+                setValidator(new UInt32Validator(this));
+                break;
+
+            case LineType::Float:    // Explicit fall through
+            case LineType::Double:
                 setValidator(new QDoubleValidator(this));
                 break;
                 

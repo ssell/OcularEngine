@@ -211,6 +211,13 @@
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int16Property.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int32Property.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int8Property.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt16Property.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Property.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Validator.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt8Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuatAsEulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuaternionProperty.cpp" />
@@ -226,6 +233,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int16Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int32Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int8Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt8Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt16Property.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Validator.hpp" />
     <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp" />
     <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

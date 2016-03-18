@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
-#define __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_UINT32_VALIDATOR__H__
+#define __H__OCULAR_EDITOR_UINT32_VALIDATOR__H__
 
-#include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Properties/LineEdit.hpp"
+#include <QtGui/qvalidator.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -36,33 +35,23 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class QuatAsEulerProperty
+         * \class UIntValidator
          *
-         * Pre-built property display for Quaternion variables.
-         * Special version which displays the Quaternion in Euler form.
-         *
-         * To display a standard Quaternion, see the QuaternionProperty class.
+         * Implementation of QValidator which handles 32-bit unsigned integers.
+         * This is needed as the built-in QIntValidator only supports 32-bit signed.
          */
-        class QuatAsEulerProperty : public PropertyWidget
+        class UInt32Validator : public QValidator
         {
         public:
 
-            QuatAsEulerProperty(QWidget* parent = nullptr);
-            virtual ~QuatAsEulerProperty();
+            UInt32Validator(QObject* parent = nullptr);
+            virtual ~UInt32Validator();
 
-            virtual bool updateProperties() override;
+            virtual State validate(QString& input, int& pos) const override;
 
         protected:
 
         private:
-
-            QLabel* m_LabelX;
-            QLabel* m_LabelY;
-            QLabel* m_LabelZ;
-
-            LineEdit* m_EditX;
-            LineEdit* m_EditY;
-            LineEdit* m_EditZ;
         };
     }
     /**

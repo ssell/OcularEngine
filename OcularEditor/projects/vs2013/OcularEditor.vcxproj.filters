@@ -75,6 +75,12 @@
     <Filter Include="Source Files\Widgets\Properties\Types">
       <UniqueIdentifier>{e69643b0-8249-455f-a3f4-10704d3b13be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Types\Arithmetic">
+      <UniqueIdentifier>{c2f8c85f-0ce8-4ac6-9525-dc00f83fe2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Types\Arithmetic">
+      <UniqueIdentifier>{8fd68fee-3864-40a2-9889-d1582c5c203a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -200,6 +206,27 @@
     <ClCompile Include="..\..\src\OcularEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int32Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int16Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt16Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt8Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int8Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Validator.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -285,6 +312,27 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int32Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int16Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int8Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt16Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt8Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Validator.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
