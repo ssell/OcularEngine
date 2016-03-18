@@ -44,7 +44,7 @@ namespace Ocular
         {
         public:
 
-            QuaternionProperty(QString const& displayName, QWidget* parent = nullptr);
+            QuaternionProperty(QWidget* parent = nullptr);
             ~QuaternionProperty();
 
             virtual bool updateProperties() override;

@@ -283,6 +283,9 @@
     <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">

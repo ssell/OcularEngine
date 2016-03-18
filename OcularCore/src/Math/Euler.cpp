@@ -87,9 +87,19 @@ namespace Ocular
             return RadiansToDegrees<float>(m_Yaw);
         }
 
+        float Euler::getYawRadians() const
+        {
+            return m_Yaw;
+        }
+
         float Euler::getPitch() const
         {
             return RadiansToDegrees<float>(m_Pitch);
+        }
+
+        float Euler::getPitchRadians() const
+        {
+            return m_Pitch;
         }
 
         float Euler::getRoll() const
@@ -97,17 +107,37 @@ namespace Ocular
             return RadiansToDegrees<float>(m_Roll);
         }
 
-        void Euler::setYaw(float const& yaw)
+        float Euler::getRollRadians() const
+        {
+            return m_Roll;
+        }
+
+        void Euler::setYaw(float const yaw)
+        {
+            m_Yaw = DegreesToRadians<float>(yaw);
+        }
+
+        void Euler::setYawRadians(float const yaw)
         {
             m_Yaw = yaw;
         }
 
-        void Euler::setPitch(float const& pitch)
+        void Euler::setPitch(float const pitch)
+        {
+            m_Pitch = DegreesToRadians<float>(pitch);
+        }
+
+        void Euler::setPitchRadians(float const pitch)
         {
             m_Pitch = pitch;
         }
 
-        void Euler::setRoll(float const& roll)
+        void Euler::setRoll(float const roll)
+        {
+            m_Roll = DegreesToRadians<float>(roll);
+        }
+
+        void Euler::setRollRadians(float const roll)
         {
             m_Roll = roll;
         }

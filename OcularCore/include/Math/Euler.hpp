@@ -64,12 +64,15 @@ namespace Ocular
             Euler();
 
             /**
-             * \param[in] pYaw
-             * \param[in] pPitch
-             * \param[in] pRoll
+             * \param[in] pPitch Rotation (in degrees) around the local x-axis
+             * \param[in] pYaw   Rotation (in degrees) around the local y-axis
+             * \param[in] pRoll  Rotation (in degrees) around the local z-axis
              */
-            Euler(float const pYaw, float const pPitch, float const pRoll);
+            Euler(float const pPitch, float const pYaw, float const pRoll);
 
+            /**
+             * \param[in] vector Vector expected in form of (Pitch, Yaw, Roll) or (X-Rotation, Y-Rotation, Z-Rotation)
+             */
             Euler(Vector3<float> const& vector);
 
             /**
@@ -97,14 +100,29 @@ namespace Ocular
             float getYaw() const;
 
             /**
+             * \return The Yaw in radians.
+             */
+            float getYawRadians() const;
+
+            /**
              * \return The Pitch in degrees.
              */
             float getPitch() const;
 
             /**
+             * \return The Pitch in radians.
+             */
+            float getPitchRadians() const;
+
+            /**
              * \return The Roll in degrees.
              */
             float getRoll() const;
+
+            /**
+             * \return The Roll in radians.
+             */
+            float getRollRadians() const;
             
             /**
              * Directly sets the yaw of this Euler angles. 
@@ -112,7 +130,12 @@ namespace Ocular
              *
              * \param[in] yaw The Yaw in degrees.
              */
-            void setYaw(float const& yaw);
+            void setYaw(float const yaw);
+
+            /**
+             * \param[in] yaw The Yaw in radians.
+             */
+            void setYawRadians(float const yaw);
 
             /**
              * Directly sets the pitch of this Euler angles. 
@@ -120,7 +143,12 @@ namespace Ocular
              *
              * \param[in] pitch The Pitch in degrees.
              */
-            void setPitch(float const& pitch);
+            void setPitch(float const pitch);
+
+            /**
+             * \param[in] pitch The Pitch in radians.
+             */
+            void setPitchRadians(float const pitch);
 
             /**
              * Directly sets the roll of this Euler angles. 
@@ -128,7 +156,12 @@ namespace Ocular
              *
              * \param[in] roll The Roll in degrees.
              */
-            void setRoll(float const& roll);
+            void setRoll(float const roll);
+
+            /**
+             * \param[in] roll The Roll in radians.
+             */
+            void setRollRadians(float const roll);
 
             //------------------------------------------------------------
             // CONVERSIONS

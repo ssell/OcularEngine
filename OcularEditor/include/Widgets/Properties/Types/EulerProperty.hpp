@@ -44,7 +44,7 @@ namespace Ocular
         {
         public:
 
-            EulerProperty(QString const& displayName, QWidget* parent = nullptr);
+            EulerProperty(QWidget* parent = nullptr);
             ~EulerProperty();
 
             virtual bool updateProperties() override;

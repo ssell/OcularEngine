@@ -16,6 +16,7 @@
 
 #include "Math/Quaternion.hpp"
 #include "Math/MathInternal.hpp"
+#include "Math/Euler.hpp"
 #include "Math/Matrix3x3.hpp"
 #include "Math/Matrix4x4.hpp"
 #include "Math/Vector3.hpp"
@@ -96,10 +97,15 @@ namespace Ocular
             m_Internal = new Quaternion_Internal(glm::quat(Math::DegreesToRadians(angle), glm::vec3(axis.x, axis.y, axis.z)));
         }
 
+        Quaternion::Quaternion(Euler const& euler)
+        {
+            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.getPitchRadians(), euler.getYawRadians(), euler.getRollRadians())));
+        }
+
         Quaternion::Quaternion(Vector3<float> const& euler)
         { 
             // GLM expects vec3(pitch, yaw, roll)
-            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.y, euler.x, euler.z)));
+            m_Internal = new Quaternion_Internal(glm::quat(glm::vec3(euler.x, euler.y, euler.z)));
         }
 
         Quaternion::Quaternion(Matrix3x3 const& matrix)

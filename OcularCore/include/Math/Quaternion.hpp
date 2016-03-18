@@ -37,6 +37,8 @@ namespace Ocular
     {
         template<typename T> class Vector3;
         template<typename T> class Vector4;
+
+        class Euler;
         class Matrix3x3;
         class Matrix4x4;
 
@@ -63,6 +65,11 @@ namespace Ocular
              * \param[in] axis  Axis to rotate around
              */
             Quaternion(float angle, Vector3<float> const& axis);
+            
+            /**
+             *
+             */
+            Quaternion(Euler const& euler);
             
             /**
              *

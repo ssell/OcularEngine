@@ -107,6 +107,23 @@ namespace Ocular
             return m_EditorCamera;
         }
 
+        PropertyWidget* Editor::createPropertyWidget(std::string const& displayName, std::string const& type)
+        {
+            PropertyWidget* result = m_PropertyWidgetFactory.createComponent(type);
+
+            if(result)
+            {
+                result->setDisplayName(displayName);
+            }
+
+            return result;
+        }
+
+        Core::ComponentFactory<PropertyWidget>& Editor::getPropertyWidgetFactory()
+        {
+            return m_PropertyWidgetFactory;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

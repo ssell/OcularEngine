@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_VECTOR2_PROPERTY__H__
-#define __H__OCULAR_EDITOR_VECTOR2_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_PROPERTY_WIDGET_REGISTRAR__H__
+#define __H__OCULAR_EDITOR_PROPERTY_WIDGET_REGISTRAR__H__
 
-#include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Properties/LineEdit.hpp"
+#include "OcularEditor.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,29 +34,28 @@ namespace Ocular
      */
     namespace Editor
     {
-        /**
-         * \class Vector2Property
-         *
-         * Pre-built property display for Vector2f variables.
-         */
-        class Vector2Property : public PropertyWidget
+        template<class T>
+        class PropertyWidgetRegistrar
         {
         public:
 
-            Vector2Property(QWidget* parent = nullptr);
-            ~Vector2Property();
+            PropertyWidgetRegistrar(std::string const& type)
+            {
+                if(!OcularEditor.getPropertyWidgetFactory().registerComponent<T>(type))
+                {
+                    OcularLogger->error("Failed to register PropertyWidget for type '", type, "' as the type is already in use",
+                                         OCULAR_INTERNAL_LOG("PropertyWidgetRegistrar", "PropertyWidgetRegistrar"));
+                }
+            }
 
-            virtual bool updateProperties() override;
+            ~PropertyWidgetRegistrar()
+            {
+
+            }
 
         protected:
 
         private:
-
-            QLabel* m_LabelX;
-            QLabel* m_LabelY;
-
-            LineEdit* m_EditX;
-            LineEdit* m_EditY;
         };
     }
     /**
@@ -67,6 +65,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+#define OCULAR_REGISTER_PROPERTY_WIDGET(X,Y) Ocular::Editor::PropertyWidgetRegistrar<X> OCULAR_INTERNAL_PropertyWidgetRegistrar(Y)
 
 //------------------------------------------------------------------------------------------
 

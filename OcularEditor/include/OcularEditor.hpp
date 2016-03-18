@@ -19,6 +19,8 @@
 #define __H__OCULAR_EDITOR__H__
 
 #include "Widgets/MainWindow.hpp"
+#include "Scene/ComponentFactory.hpp"
+#include "Widgets/Properties/PropertyWidget.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -47,8 +49,31 @@ namespace Ocular
 
             //------------------------------------------------------------------------------
 
+            /**
+             * \return Pointer to the main Qt window for the editor application.
+             */
             MainWindow* getMainWindow();
+
+            /**
+             * \return Pointer to the editor-specific camera used to view scenes.
+             */
             Core::Camera* getEditorCamera();
+
+            /**
+             * Attempts to create a property widget for the specified type.
+             *
+             * \param[in] displayName Name of the property widget (display on left-hand side of widget)
+             * \param[in] type        Type name of the property to be represented. See Utils::TypeName (ie Utils::TypeName<Vector3f>::name)
+             *
+             * \return Pointer to new widget, if matching constructor was found for specified type.
+             *         Otherwise, returns NULL. The caller must assume ownership of the object.
+             */
+            PropertyWidget* createPropertyWidget(std::string const& displayName, std::string const& type);
+
+            /**
+             * \return Reference to the property widget factory used by the Editor
+             */
+            Core::ComponentFactory<PropertyWidget>& getPropertyWidgetFactory();
 
         protected:
 
@@ -67,6 +92,7 @@ namespace Ocular
             MainWindow* m_MainWindow;
             Core::Camera* m_EditorCamera;
 
+            Core::ComponentFactory<PropertyWidget> m_PropertyWidgetFactory;
         };
     }
     /**

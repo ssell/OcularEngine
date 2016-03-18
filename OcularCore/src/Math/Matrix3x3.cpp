@@ -16,6 +16,7 @@
 
 #include "Math/Matrix3x3.hpp"
 #include "Math/MathInternal.hpp"
+#include "Math/Euler.hpp"
 #include "Math/Quaternion.hpp"
 #include "Math/Vector3.hpp"
 #include "Math/Vector4.hpp"
@@ -122,6 +123,11 @@ namespace Ocular
         Matrix3x3::Matrix3x3(Quaternion const& quat)
         {
             m_Internal = new Matrix3x3_Internal(glm::mat3_cast(quat.getInternal()->quat));
+        }
+
+        Matrix3x3::Matrix3x3(Euler const& euler)
+        {
+            m_Internal = new Matrix3x3_Internal(glm::mat3_cast(glm::quat(glm::vec3(euler.getPitch(), euler.getYaw(), euler.getRoll()))));
         }
 
         Matrix3x3::Matrix3x3(Vector3<float> const& euler)

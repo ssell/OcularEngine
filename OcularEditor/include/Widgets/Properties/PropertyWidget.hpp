@@ -51,7 +51,7 @@ namespace Ocular
         {
         public:
 
-            PropertyWidget(QString const& displayName, QWidget* parent = nullptr);
+            PropertyWidget(QWidget* parent = nullptr);
             ~PropertyWidget();
 
             virtual QSize sizeHint() const override;
@@ -74,6 +74,10 @@ namespace Ocular
              */
             void setVariable(Core::ExposedVariable& variable);
 
+            void setDisplayName(std::string const& name);
+
+            std::string const& getDisplayName() const;
+
         protected:
             
             QHBoxLayout* m_LayoutRight;          ///< Layout for the right-side frame
@@ -82,6 +86,12 @@ namespace Ocular
 
         private:
 
+            void createLeftSide();
+            void createRightSide();
+            void createLayout();
+
+            //------------------------------------------------------------
+
             QFrame* m_FrameLeftSide;             ///< Frame for the name label. Fixed width of 75.
             QFrame* m_FrameRightSide;            ///< Frame for the implementation-specific widgets
             
@@ -89,6 +99,8 @@ namespace Ocular
             QHBoxLayout* m_LayoutLeft;           ///< Layout for the left-side frame
 
             QLabel* m_LabelName;
+
+            std::string m_DisplayName;
         };
     }
     /**

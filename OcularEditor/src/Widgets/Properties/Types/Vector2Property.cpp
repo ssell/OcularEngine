@@ -16,7 +16,10 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/Types/Vector2Property.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Vector2.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::Vector2Property, Ocular::Utils::TypeName<Ocular::Math::Vector2f>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -28,8 +31,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        Vector2Property::Vector2Property(QString const& displayName, QWidget* parent)
-            : PropertyWidget(displayName, parent)
+        Vector2Property::Vector2Property(QWidget* parent)
+            : PropertyWidget(parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");

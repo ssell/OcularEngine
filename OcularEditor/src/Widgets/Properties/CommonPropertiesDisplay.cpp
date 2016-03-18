@@ -16,8 +16,6 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/CommonPropertiesDisplay.hpp"
-#include "Widgets/Properties/Types/Vector3Property.hpp"
-#include "Widgets/Properties/Types/QuatAsEulerProperty.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -71,14 +69,23 @@ namespace Ocular
 
                 Math::Transform* transform = &(object->getTransform());
                 
-                transform->getVariable("m_Position", variable);
-                m_PropertyPosition->setVariable(variable);
+                if(m_PropertyPosition)
+                {
+                    transform->getVariable("m_Position", variable);
+                    m_PropertyPosition->setVariable(variable);
+                }
                 
-                transform->getVariable("m_Rotation", variable);
-                m_PropertyRotation->setVariable(variable);
+                if(m_PropertyRotation)
+                {
+                    transform->getVariable("m_Rotation", variable);
+                    m_PropertyRotation->setVariable(variable);
+                }
                 
-                transform->getVariable("m_Scale", variable);
-                m_PropertyScale->setVariable(variable);
+                if(m_PropertyScale)
+                {
+                    transform->getVariable("m_Scale", variable);
+                    m_PropertyScale->setVariable(variable);
+                }
 
                 m_Object = object;
             }
@@ -88,9 +95,33 @@ namespace Ocular
         {
             if(m_Object)
             {
-                if(m_PropertyPosition->updateProperties() ||
-                   m_PropertyRotation->updateProperties() ||
-                   m_PropertyScale->updateProperties())
+                bool refresh = false;
+
+                if(m_PropertyPosition)
+                {
+                    if(m_PropertyPosition->updateProperties())
+                    {
+                        refresh = true;
+                    }
+                }
+
+                if(m_PropertyRotation)
+                {
+                    if(m_PropertyRotation->updateProperties())
+                    {
+                        refresh = true;
+                    }
+                }
+
+                if(m_PropertyScale)
+                {
+                    if(m_PropertyScale->updateProperties())
+                    {
+                        refresh = true;
+                    }
+                }
+
+                if(refresh)
                 {
                     m_Object->getTransform().refresh();
                 }
@@ -110,9 +141,9 @@ namespace Ocular
         void CommonPropertiesDisplay::buildTransform()
         {
             m_LabelTransform   = new QLabel("Transform");
-            m_PropertyPosition = new Vector3Property("Position");
-            m_PropertyRotation = new QuatAsEulerProperty("Rotation");
-            m_PropertyScale    = new Vector3Property("Scale");
+            m_PropertyPosition = OcularEditor.createPropertyWidget("Position", Utils::TypeName<Math::Vector3f>::name);
+            m_PropertyRotation = OcularEditor.createPropertyWidget("Rotation", "QuatAsEuler");
+            m_PropertyScale    = OcularEditor.createPropertyWidget("Scale", Utils::TypeName<Math::Vector3f>::name);
             
             m_Layout->addWidget(m_LabelTransform);
             m_Layout->addWidget(m_PropertyPosition);

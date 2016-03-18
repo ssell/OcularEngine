@@ -293,8 +293,8 @@ namespace Ocular
 
         void EditorCameraController::handleMouseLook()
         {
-            m_LookEuler.x += -m_DeltaVector.x * m_LookSensitivity;
-            m_LookEuler.y += -m_DeltaVector.y * m_LookSensitivity;
+            m_LookEuler.x += -m_DeltaVector.y * m_LookSensitivity;
+            m_LookEuler.y += -m_DeltaVector.x * m_LookSensitivity;
 
             m_Parent->setRotation(Math::Quaternion(m_LookEuler));
         }

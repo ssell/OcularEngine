@@ -16,7 +16,10 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/Types/EulerProperty.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Euler.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::EulerProperty, Ocular::Utils::TypeName<Ocular::Math::Euler>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -28,8 +31,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        EulerProperty::EulerProperty(QString const& displayName, QWidget* parent)
-            : PropertyWidget(displayName, parent)
+        EulerProperty::EulerProperty(QWidget* parent)
+            : PropertyWidget(parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");

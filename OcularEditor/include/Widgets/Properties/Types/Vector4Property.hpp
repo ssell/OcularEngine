@@ -44,7 +44,7 @@ namespace Ocular
         {
         public:
 
-            Vector4Property(QString const& displayName, QWidget* parent = nullptr);
+            Vector4Property(QWidget* parent = nullptr);
             ~Vector4Property();
 
             virtual bool updateProperties() override;

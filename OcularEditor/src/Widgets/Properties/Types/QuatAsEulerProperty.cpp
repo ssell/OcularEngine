@@ -16,8 +16,11 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/Types/QuatAsEulerProperty.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Quaternion.hpp"
 #include "Math/Euler.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::QuatAsEulerProperty, "QuatAsEuler");
 
 //------------------------------------------------------------------------------------------
 
@@ -29,8 +32,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        QuatAsEulerProperty::QuatAsEulerProperty(QString const& displayName, QWidget* parent)
-            : PropertyWidget(displayName, parent)
+        QuatAsEulerProperty::QuatAsEulerProperty(QWidget* parent)
+            : PropertyWidget(parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");

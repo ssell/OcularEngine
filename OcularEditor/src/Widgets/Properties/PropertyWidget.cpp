@@ -27,42 +27,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        PropertyWidget::PropertyWidget(QString const& displayName, QWidget* parent)
+        PropertyWidget::PropertyWidget(QWidget* parent)
             : QFrame(parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            //------------------------------------------------------------
-            // Left Side
-            //------------------------------------------------------------
-
-            m_LabelName = new QLabel(displayName);
-            
-            m_LayoutLeft = new QHBoxLayout();
-            m_LayoutLeft->addWidget(m_LabelName);
-            
-            m_FrameLeftSide = new QFrame();
-            m_FrameLeftSide->setLayout(m_LayoutLeft);
-            m_FrameLeftSide->setFixedWidth(75);
-
-            //------------------------------------------------------------
-            // Right Side
-            //------------------------------------------------------------
-
-            m_LayoutRight = new QHBoxLayout();
-            m_FrameRightSide = new QFrame();
-            m_FrameRightSide->setLayout(m_LayoutRight);
-
-            //------------------------------------------------------------
-            // Main Layout
-            //------------------------------------------------------------
-
-            m_Layout = new QHBoxLayout();
-            m_Layout->setContentsMargins(5, 0, 5, 0);
-            m_Layout->addWidget(m_FrameLeftSide);
-            m_Layout->addWidget(m_FrameRightSide);
-
-            setLayout(m_Layout);
+            createLeftSide();
+            createRightSide();
+            createLayout();
         }
 
         PropertyWidget::~PropertyWidget()
@@ -84,6 +56,17 @@ namespace Ocular
             m_Variable = variable;
         }
         
+        void PropertyWidget::setDisplayName(std::string const& name)
+        {
+            m_DisplayName = name;
+            m_LabelName->setText(name.c_str());
+        }
+
+        std::string const& PropertyWidget::getDisplayName() const
+        {
+            return m_DisplayName;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -91,5 +74,34 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void PropertyWidget::createLeftSide()
+        {
+            m_LabelName = new QLabel(m_DisplayName.c_str());
+            
+            m_LayoutLeft = new QHBoxLayout();
+            m_LayoutLeft->addWidget(m_LabelName);
+            
+            m_FrameLeftSide = new QFrame();
+            m_FrameLeftSide->setLayout(m_LayoutLeft);
+            m_FrameLeftSide->setFixedWidth(75);
+        }
+
+        void PropertyWidget::createRightSide()
+        {
+            m_LayoutRight = new QHBoxLayout();
+            m_FrameRightSide = new QFrame();
+            m_FrameRightSide->setLayout(m_LayoutRight);
+        }
+
+        void PropertyWidget::createLayout()
+        {
+            m_Layout = new QHBoxLayout();
+            m_Layout->setContentsMargins(5, 0, 5, 0);
+            m_Layout->addWidget(m_FrameLeftSide);
+            m_Layout->addWidget(m_FrameRightSide);
+
+            setLayout(m_Layout);
+        }
     }
 }

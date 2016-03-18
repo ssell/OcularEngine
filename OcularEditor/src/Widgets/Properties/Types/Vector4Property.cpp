@@ -16,7 +16,10 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/Types/Vector4Property.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Vector4.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::Vector4Property, Ocular::Utils::TypeName<Ocular::Math::Vector4f>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -28,8 +31,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        Vector4Property::Vector4Property(QString const& displayName, QWidget* parent)
-            : PropertyWidget(displayName, parent)
+        Vector4Property::Vector4Property(QWidget* parent)
+            : PropertyWidget(parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");

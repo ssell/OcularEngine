@@ -16,7 +16,10 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/Types/QuaternionProperty.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Quaternion.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::QuaternionProperty, Ocular::Utils::TypeName<Ocular::Math::Quaternion>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -28,8 +31,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        QuaternionProperty::QuaternionProperty(QString const& displayName, QWidget* parent)
-            : PropertyWidget(displayName, parent)
+        QuaternionProperty::QuaternionProperty(QWidget* parent)
+            : PropertyWidget(parent)
         {
             m_LabelW = new QLabel("W");
             m_LabelX = new QLabel("X");

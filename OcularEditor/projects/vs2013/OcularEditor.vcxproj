@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\src\Widgets\ToolbarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp" />
     <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

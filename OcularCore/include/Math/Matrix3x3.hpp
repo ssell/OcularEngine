@@ -37,6 +37,8 @@ namespace Ocular
     {
         template<typename T> class Vector3;
         template<typename T> class Vector4;
+
+        class Euler;
         class Matrix4x4;
         class Quaternion;
 
@@ -99,6 +101,12 @@ namespace Ocular
              * \param[in] quat
              */
             Matrix3x3(Quaternion const& quat);
+
+            /**
+             * Constructs a 3x3 rotational matrix from a set of Euler angles.
+             * \param[in] euler
+             */
+            Matrix3x3(Euler const& euler);
 
             /**
              * Constructs a 3x3 rotational matrix from a set of euler angles.

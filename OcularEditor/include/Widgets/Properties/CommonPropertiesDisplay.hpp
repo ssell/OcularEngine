@@ -38,9 +38,6 @@ namespace Ocular
      */
     namespace Editor
     {
-        class Vector3Property;
-        class QuatAsEulerProperty;
-
         /**
          * \class CommonPropertiesDisplay
          */
@@ -66,9 +63,9 @@ namespace Ocular
             QLabel*      m_LabelTransform;
             QLineEdit*   m_LineName;
 
-            Vector3Property*     m_PropertyPosition;
-            QuatAsEulerProperty* m_PropertyRotation;
-            Vector3Property*     m_PropertyScale;
+            PropertyWidget* m_PropertyPosition;
+            PropertyWidget* m_PropertyRotation;
+            PropertyWidget* m_PropertyScale;
 
         private:
         };
