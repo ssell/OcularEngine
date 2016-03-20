@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_CORE_FILEIO_FILE__H__
 #define __H__OCULAR_CORE_FILEIO_FILE__H__
 
+#include "Utilities/Types.hpp"
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -189,6 +190,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Core::File, "File");
 
 //------------------------------------------------------------------------------------------
 

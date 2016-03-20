@@ -245,6 +245,12 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\BoolProperty.cpp">
       <Filter>Source Files\Widgets\Properties\Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\StringProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\FileProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -353,6 +359,12 @@
       <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\BoolProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\FileProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
   </ItemGroup>

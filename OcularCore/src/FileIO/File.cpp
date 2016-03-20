@@ -18,6 +18,7 @@
 #include "FileIO/File.hpp"
 #include "FileIO/Directory.hpp"
 #include "Exceptions/FileReadWriteException.hpp"
+#include "Utilities/StringRegistrar.hpp"
 
 #include <boost/filesystem/operations.hpp>
 #include <fstream>
@@ -29,6 +30,37 @@ namespace Ocular
 {
     namespace Core
     {
+        OCULAR_REGISTER_TO_STRING(File, OCULAR_TO_STRING_LAMBDA
+        {
+            std::string result;
+
+            if(raw)
+            {
+                File* file = void_cast<File*>(raw);
+
+                if(file)
+                {
+                    result = file->getFullPath();
+                }
+            }
+
+            return result;
+        });
+
+        OCULAR_REGISTER_FROM_STRING(File, OCULAR_FROM_STRING_LAMBDA
+        {
+            if(out)
+            {
+                File* result = void_cast<File*>(out); 
+
+                if(result)
+                {
+                    result->setPath(str);
+                }
+            }
+        });
+
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
