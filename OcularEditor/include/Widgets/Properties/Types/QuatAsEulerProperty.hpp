@@ -19,7 +19,7 @@
 #define __H__OCULAR_EDITOR_QUAT_AS_EULER_PROPERTY__H__
 
 #include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Properties/LineEdit.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 

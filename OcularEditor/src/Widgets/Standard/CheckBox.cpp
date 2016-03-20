@@ -15,11 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Types/Arithmetic/UInt32Property.hpp"
-#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-#include "Math/Euler.hpp"
-
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt32Property, Ocular::Utils::TypeName<uint32_t>::name);
+#include "Widgets/Standard/CheckBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -31,14 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        UInt32Property::UInt32Property(QWidget* parent)
-            : PropertyWidget(parent)
+        CheckBox::CheckBox(QWidget* parent)
+            : QCheckBox(parent)
         {
-            m_EditValue = new LineEdit(LineType::UInt32);
-            m_LayoutRight->addWidget(m_EditValue);
+            connect(this, SIGNAL(stateChanged(int)), this, SLOT(stateChanged(int)));
         }
 
-        UInt32Property::~UInt32Property()
+        CheckBox::~CheckBox()
         {
 
         }
@@ -46,24 +41,14 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
-        bool UInt32Property::updateProperties()
+
+        bool CheckBox::wasEdited(bool reset)
         {
-            bool result = false;
+            bool result = m_WasEdited;
 
-            if(m_Variable.data)
+            if(reset)
             {
-                uint32_t* value = void_cast<uint32_t*>(m_Variable.data);
-
-                if(m_EditValue->wasEdited())
-                {
-                    (*value) = m_EditValue->asUint();
-                    result = true;
-                }
-                else if(!m_EditValue->hasFocus())
-                {
-                    m_EditValue->setText(OcularString->toString<uint32_t>(*value).c_str());
-                }
+                m_WasEdited = false;
             }
 
             return result;
@@ -72,9 +57,14 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-        
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void CheckBox::stateChanged(int state)
+        {
+            m_WasEdited = true;
+        }
     }
 }

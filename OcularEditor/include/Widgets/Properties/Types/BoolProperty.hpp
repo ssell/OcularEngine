@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_UINT32_PROPERTY__H__
-#define __H__OCULAR_EDITOR_UINT32_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_BOOL_PROPERTY__H__
+#define __H__OCULAR_EDITOR_BOOL_PROPERTY__H__
 
 #include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Standard/LineEdit.hpp"
+#include "Widgets/Standard/CheckBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,16 +36,16 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class UInt32Property
+         * \class BoolProperty
          *
-         * Pre-built property display for 32-bit unsigned integers.
+         * Pre-built property display for boolean variables.
          */
-        class UInt32Property : public PropertyWidget
+        class BoolProperty : public PropertyWidget
         {
         public:
 
-            UInt32Property(QWidget* parent = nullptr);
-            virtual ~UInt32Property();
+            BoolProperty(QWidget* parent = nullptr);
+            virtual ~BoolProperty();
 
             virtual bool updateProperties() override;
 
@@ -53,7 +53,7 @@ namespace Ocular
 
         private:
 
-            LineEdit* m_EditValue;
+            CheckBox* m_CheckValue;
         };
     }
     /**

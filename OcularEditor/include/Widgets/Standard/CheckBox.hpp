@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_UINT32_PROPERTY__H__
-#define __H__OCULAR_EDITOR_UINT32_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_CHECK_BOX__H__
+#define __H__OCULAR_EDITOR_CHECK_BOX__H__
 
-#include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Standard/LineEdit.hpp"
+#include <QtWidgets/qcheckbox.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -36,24 +35,34 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class UInt32Property
+         * \class CheckBox
          *
-         * Pre-built property display for 32-bit unsigned integers.
+         * Helper class implementation of QCheckBox
          */
-        class UInt32Property : public PropertyWidget
+        class CheckBox : public QCheckBox
         {
+            Q_OBJECT
+
         public:
 
-            UInt32Property(QWidget* parent = nullptr);
-            virtual ~UInt32Property();
+            CheckBox(QWidget* parent = nullptr);
+            ~CheckBox();
 
-            virtual bool updateProperties() override;
+            /**
+             * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
+             * \return TRUE if the user has modifed this edit. 
+             */
+            bool wasEdited(bool reset = true);
 
         protected:
+            
+        private slots:
+
+            void stateChanged(int state);
 
         private:
 
-            LineEdit* m_EditValue;
+            bool m_WasEdited;
         };
     }
     /**

@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/LineEdit.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
 #include "Widgets/Properties/Types/Arithmetic/UInt32Validator.hpp"
 #include "QtGui/qvalidator.h"
 

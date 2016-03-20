@@ -71,30 +71,14 @@ namespace Ocular
             {
                 Math::Quaternion* quaternion = void_cast<Math::Quaternion*>(m_Variable.data);
 
-                if(!m_EditW->hasFocus())
-                {
-                    m_EditW->setText(OcularString->toString<float>(quaternion->w()).c_str());
-                }
-
-                if(!m_EditX->hasFocus())
-                {
-                    m_EditX->setText(OcularString->toString<float>(quaternion->x()).c_str());
-                }
-
-                if(!m_EditY->hasFocus())
-                {
-                    m_EditY->setText(OcularString->toString<float>(quaternion->y()).c_str());
-                }
-
-                if(!m_EditZ->hasFocus())
-                {
-                    m_EditZ->setText(OcularString->toString<float>(quaternion->z()).c_str());
-                }
-
                 if(m_EditW->wasEdited())
                 {
                     (*quaternion).w() = m_EditW->asFloat();
                     result = true;
+                }
+                else if(!m_EditW->hasFocus())
+                {
+                    m_EditW->setText(OcularString->toString<float>(quaternion->w()).c_str());
                 }
 
                 if(m_EditX->wasEdited())
@@ -102,17 +86,29 @@ namespace Ocular
                     (*quaternion).x() = m_EditX->asFloat();
                     result = true;
                 }
+                else if(!m_EditX->hasFocus())
+                {
+                    m_EditX->setText(OcularString->toString<float>(quaternion->x()).c_str());
+                }
 
                 if(m_EditY->wasEdited())
                 {
                     (*quaternion).y() = m_EditY->asFloat();
                     result = true;
                 }
+                else if(!m_EditY->hasFocus())
+                {
+                    m_EditY->setText(OcularString->toString<float>(quaternion->y()).c_str());
+                }
 
                 if(m_EditZ->wasEdited())
                 {
                     (*quaternion).z() = m_EditZ->asFloat();
                     result = true;
+                }
+                else if(!m_EditZ->hasFocus())
+                {
+                    m_EditZ->setText(OcularString->toString<float>(quaternion->z()).c_str());
                 }
             }
 

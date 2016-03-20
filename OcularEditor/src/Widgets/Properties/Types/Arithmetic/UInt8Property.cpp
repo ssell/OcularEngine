@@ -55,15 +55,14 @@ namespace Ocular
             {
                 uint8_t* value = void_cast<uint8_t*>(m_Variable.data);
 
-                if(!m_EditValue->hasFocus())
-                {
-                    m_EditValue->setText(OcularString->toString<uint8_t>(*value).c_str());
-                }
-
                 if(m_EditValue->wasEdited())
                 {
                     (*value) = static_cast<uint8_t>(m_EditValue->asUint());
                     result = true;
+                }
+                else if(!m_EditValue->hasFocus())
+                {
+                    m_EditValue->setText(OcularString->toString<uint8_t>(*value).c_str());
                 }
             }
 

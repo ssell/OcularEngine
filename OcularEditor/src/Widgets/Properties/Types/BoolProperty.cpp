@@ -15,11 +15,10 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Types/Arithmetic/UInt32Property.hpp"
+#include "Widgets/Properties/Types/BoolProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-#include "Math/Euler.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt32Property, Ocular::Utils::TypeName<uint32_t>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::BoolProperty, Ocular::Utils::TypeName<bool>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -31,14 +30,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        UInt32Property::UInt32Property(QWidget* parent)
+        BoolProperty::BoolProperty(QWidget* parent)
             : PropertyWidget(parent)
         {
-            m_EditValue = new LineEdit(LineType::UInt32);
-            m_LayoutRight->addWidget(m_EditValue);
+            m_CheckValue = new CheckBox();
+            m_LayoutRight->addWidget(m_CheckValue);
         }
 
-        UInt32Property::~UInt32Property()
+        BoolProperty::~BoolProperty()
         {
 
         }
@@ -47,22 +46,22 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool UInt32Property::updateProperties()
+        bool BoolProperty::updateProperties()
         {
             bool result = false;
 
             if(m_Variable.data)
             {
-                uint32_t* value = void_cast<uint32_t*>(m_Variable.data);
+                bool* value = void_cast<bool*>(m_Variable.data);
 
-                if(m_EditValue->wasEdited())
+                if(m_CheckValue->wasEdited())
                 {
-                    (*value) = m_EditValue->asUint();
+                    (*value) = m_CheckValue->isChecked();
                     result = true;
                 }
-                else if(!m_EditValue->hasFocus())
+                else
                 {
-                    m_EditValue->setText(OcularString->toString<uint32_t>(*value).c_str());
+                    m_CheckValue->setChecked((*value));
                 }
             }
 

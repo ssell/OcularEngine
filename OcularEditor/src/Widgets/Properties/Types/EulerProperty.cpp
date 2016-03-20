@@ -67,25 +67,14 @@ namespace Ocular
             {
                 Math::Euler* euler = void_cast<Math::Euler*>(m_Variable.data);
 
-                if(!m_EditX->hasFocus())
-                {
-                    m_EditX->setText(OcularString->toString<float>(euler->getPitch()).c_str());
-                }
-
-                if(!m_EditY->hasFocus())
-                {
-                    m_EditY->setText(OcularString->toString<float>(euler->getYaw()).c_str());
-                }
-
-                if(!m_EditZ->hasFocus())
-                {
-                    m_EditZ->setText(OcularString->toString<float>(euler->getRoll()).c_str());
-                }
-
                 if(m_EditX->wasEdited())
                 {
                     (*euler).setPitch(m_EditX->asFloat());
                     result = true;
+                }
+                else if(!m_EditX->hasFocus())
+                {
+                    m_EditX->setText(OcularString->toString<float>(euler->getPitch()).c_str());
                 }
 
                 if(m_EditY->wasEdited())
@@ -93,11 +82,19 @@ namespace Ocular
                     (*euler).setYaw(m_EditY->asFloat());
                     result = true;
                 }
+                else if(!m_EditY->hasFocus())
+                {
+                    m_EditY->setText(OcularString->toString<float>(euler->getYaw()).c_str());
+                }
 
                 if(m_EditZ->wasEdited())
                 {
                     (*euler).setRoll(m_EditZ->asFloat());
                     result = true;
+                }
+                else if(!m_EditZ->hasFocus())
+                {
+                    m_EditZ->setText(OcularString->toString<float>(euler->getRoll()).c_str());
                 }
             }
 

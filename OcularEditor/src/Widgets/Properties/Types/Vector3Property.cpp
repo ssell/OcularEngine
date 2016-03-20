@@ -67,25 +67,14 @@ namespace Ocular
             {
                 Math::Vector3f* vector = void_cast<Math::Vector3f*>(m_Variable.data);
 
-                if(!m_EditX->hasFocus())
-                {
-                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
-                }
-
-                if(!m_EditY->hasFocus())
-                {
-                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
-                }
-
-                if(!m_EditZ->hasFocus())
-                {
-                    m_EditZ->setText(OcularString->toString<float>(vector->z).c_str());
-                }
-
                 if(m_EditX->wasEdited())
                 {
                     (*vector).x = m_EditX->asFloat();
                     result = true;
+                }
+                else if(!m_EditX->hasFocus())
+                {
+                    m_EditX->setText(OcularString->toString<float>(vector->x).c_str());
                 }
 
                 if(m_EditY->wasEdited())
@@ -93,11 +82,19 @@ namespace Ocular
                     (*vector).y = m_EditY->asFloat();
                     result = true;
                 }
+                else if(!m_EditY->hasFocus())
+                {
+                    m_EditY->setText(OcularString->toString<float>(vector->y).c_str());
+                }
 
                 if(m_EditZ->wasEdited())
                 {
                     (*vector).z = m_EditZ->asFloat();
                     result = true;
+                }
+                else if(!m_EditZ->hasFocus())
+                {
+                    m_EditZ->setText(OcularString->toString<float>(vector->z).c_str());
                 }
             }
 

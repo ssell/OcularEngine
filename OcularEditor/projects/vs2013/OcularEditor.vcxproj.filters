@@ -81,6 +81,12 @@
     <Filter Include="Source Files\Widgets\Properties\Types\Arithmetic">
       <UniqueIdentifier>{8fd68fee-3864-40a2-9889-d1582c5c203a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets\Standard">
+      <UniqueIdentifier>{5c9f2c30-9ad1-43e2-96e5-e4cffbf009d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Standard">
+      <UniqueIdentifier>{3e80c6d6-66c3-423a-bafd-c4c11a2d5655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -191,15 +197,6 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector4Property.cpp">
       <Filter>Source Files\Widgets\Properties\Types</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineEdit.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineEdit.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\LineEdit.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Widgets\ToolbarCommon.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
@@ -226,6 +223,27 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Property.cpp">
       <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\LineEdit.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\CheckBox.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_CheckBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_CheckBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\BoolProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +352,9 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Property.hpp">
       <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\BoolProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -348,8 +369,11 @@
     <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\include\Widgets\Properties\LineEdit.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
+    <CustomBuild Include="..\..\include\Widgets\Standard\LineEdit.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\CheckBox.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

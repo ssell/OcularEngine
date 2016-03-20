@@ -19,7 +19,7 @@
 #define __H__OCULAR_EDITOR_INT8_PROPERTY__H__
 
 #include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Properties/LineEdit.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 

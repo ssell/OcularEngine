@@ -69,25 +69,14 @@ namespace Ocular
                 Math::Quaternion quaternion = void_cast<Math::Quaternion>(m_Variable.data);
                 Math::Euler euler(quaternion);
 
-                if(!m_EditX->hasFocus())
-                {
-                    m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
-                }
-
-                if(!m_EditY->hasFocus())
-                {
-                    m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
-                }
-
-                if(!m_EditZ->hasFocus())
-                {
-                    m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
-                }
-
                 if(m_EditX->wasEdited())
                 {
                     euler.setPitch(m_EditX->asFloat());
                     result = true;
+                }
+                else if(!m_EditX->hasFocus())
+                {
+                    m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
                 }
 
                 if(m_EditY->wasEdited())
@@ -95,11 +84,19 @@ namespace Ocular
                     euler.setYaw(m_EditY->asFloat());
                     result = true;
                 }
+                else if(!m_EditY->hasFocus())
+                {
+                    m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
+                }
 
                 if(m_EditZ->wasEdited())
                 {
                     euler.setRoll(m_EditZ->asFloat());
                     result = true;
+                }
+                else if(!m_EditZ->hasFocus())
+                {
+                    m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
                 }
 
                 if(result)
