@@ -67,12 +67,14 @@ namespace Ocular
             if(object)
             {
                 m_CommonProperties->setObject(object);
+                m_RenderableProperties->setObject(object);
             }
         }
 
         void PropertiesPanel::update()
         {
             m_CommonProperties->updateProperties();
+            m_RenderableProperties->updateProperties();
         }
 
         //----------------------------------------------------------------------------------

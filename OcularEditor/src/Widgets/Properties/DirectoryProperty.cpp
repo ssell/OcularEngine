@@ -15,7 +15,11 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Properties/Types/DirectoryProperty.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
+#include "FileIO/Directory.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DirectoryProperty, Ocular::Utils::TypeName<Ocular::Core::Directory>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -26,17 +30,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        
+        DirectoryProperty::DirectoryProperty(QWidget* parent)
+            : PropertyWidget(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            m_LineValue = new LineEdit(LineType::String);
+            m_ButtonBrowse = new ButtonDirectoryBrowse();
 
-            test = OcularEditor.createPropertyWidget("Test File", Utils::TypeName<Core::File>::name);
-            m_Layout->addWidget(test);
+            m_LayoutRight->addWidget(m_LineValue);
+            m_LayoutRight->addWidget(m_ButtonBrowse);
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        DirectoryProperty::~DirectoryProperty()
         {
 
         }
@@ -44,30 +49,43 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        
+        bool DirectoryProperty::updateProperties()
         {
-            if(object)
-            {
-                m_Object = object;
-            }
-        }
+            bool result = false;
 
-        void RenderablePropertiesDisplay::updateProperties()
-        {
-            if(m_Object)
+            if(m_Variable.data)
             {
-                if(test)
+                Core::File* value = void_cast<Core::File*>(m_Variable.data);
+                
+                if(m_ButtonBrowse->wasEdited())
                 {
-                    test->updateProperties();
+                    (*value).setPath(m_ButtonBrowse->getSelectedDirectory());
+                    m_LineValue->setText(m_ButtonBrowse->getSelectedDirectory().c_str());
+
+                    result = true;
+                }
+                else
+                {
+                    if(m_LineValue->wasEdited())
+                    {
+                        (*value).setPath(m_LineValue->text().toStdString());
+                        result = true;
+                    }
+                    else
+                    {
+                        m_LineValue->setText((*value).getFullPath().c_str());
+                    }
                 }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

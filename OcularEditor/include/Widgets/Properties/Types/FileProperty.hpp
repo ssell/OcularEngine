@@ -20,6 +20,7 @@
 
 #include "Widgets/Properties/PropertyWidget.hpp"
 #include "Widgets/Standard/LineEdit.hpp"
+#include "Widgets/Standard/ButtonFileBrowse.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -49,11 +50,17 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            /**
+             * See QFileDialog::setNameFilter
+             */
+            void setNameFilter(std::string const& filter);
+
         protected:
 
         private:
 
             LineEdit* m_LineValue;
+            ButtonFileBrowse* m_ButtonBrowse;
         };
     }
     /**

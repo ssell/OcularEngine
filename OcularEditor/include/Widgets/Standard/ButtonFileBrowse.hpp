@@ -15,14 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
-#define __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
+#ifndef __H__OCULAR_BUTTON_FILE_BROWSE__H__
+#define __H__OCULAR_BUTTON_FILE_BROWSE__H__
 
-#include "PropertiesDisplayBox.hpp"
-
-#include <QtWidgets/qframe.h>
-#include <QtWidgets/qlabel.h>
-#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qpushbutton.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -39,27 +35,48 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class RenderablePropertiesDisplay
+         * \class ButtonFileBrowse
+         *
+         * Helper class implementation of QPushButton for selecting files.
          */
-        class RenderablePropertiesDisplay : public PropertiesDisplayBox
+        class ButtonFileBrowse : public QPushButton
         {
+            Q_OBJECT
+
         public:
 
-            RenderablePropertiesDisplay(QWidget* parent = nullptr);
-            ~RenderablePropertiesDisplay();
+            ButtonFileBrowse(QWidget* parent = nullptr);
+            ~ButtonFileBrowse();
 
-            //------------------------------------------------------------
+            virtual QSize sizeHint() const override;
+            
+            /**
+             *
+             */
+            bool wasEdited(bool reset = true);
 
-            virtual void setObject(Core::SceneObject* object) override;
-            virtual void updateProperties() override;
+            /**
+             * See QFileDialog::setNameFilter
+             */
+            void setNameFilter(std::string const& filter);
+
+            /**
+             *
+             */
+            std::string const& getSelectedFile() const;
 
         protected:
+            
+        private slots :
 
-            //------------------------------------------------------------
+            void onButtonClick();
 
         private:
 
-            PropertyWidget* test;
+            bool m_WasEdited;
+
+            std::string m_FilterString;
+            std::string m_SelectedFile;
         };
     }
     /**

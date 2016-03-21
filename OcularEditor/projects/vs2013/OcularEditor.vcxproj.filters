@@ -251,6 +251,27 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\FileProperty.cpp">
       <Filter>Source Files\Widgets\Properties\Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonFileBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonFileBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonFileBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonDirectoryBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\DirectoryProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonDirectoryBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonDirectoryBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -367,6 +388,9 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -385,6 +409,12 @@
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Standard\CheckBox.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonFileBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonDirectoryBrowse.hpp">
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
   </ItemGroup>

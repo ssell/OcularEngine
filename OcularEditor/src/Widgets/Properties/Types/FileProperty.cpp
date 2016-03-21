@@ -34,7 +34,10 @@ namespace Ocular
             : PropertyWidget(parent)
         {
             m_LineValue = new LineEdit(LineType::String);
+            m_ButtonBrowse = new ButtonFileBrowse();
+
             m_LayoutRight->addWidget(m_LineValue);
+            m_LayoutRight->addWidget(m_ButtonBrowse);
         }
 
         FileProperty::~FileProperty()
@@ -53,19 +56,34 @@ namespace Ocular
             if(m_Variable.data)
             {
                 Core::File* value = void_cast<Core::File*>(m_Variable.data);
-
-                if(m_LineValue->wasEdited())
+                
+                if(m_ButtonBrowse->wasEdited())
                 {
-                    (*value).setPath(m_LineValue->text().toStdString());
+                    (*value).setPath(m_ButtonBrowse->getSelectedFile());
+                    m_LineValue->setText(m_ButtonBrowse->getSelectedFile().c_str());
+
                     result = true;
                 }
                 else
                 {
-                    m_LineValue->setText((*value).getFullPath().c_str());
+                    if(m_LineValue->wasEdited())
+                    {
+                        (*value).setPath(m_LineValue->text().toStdString());
+                        result = true;
+                    }
+                    else
+                    {
+                        m_LineValue->setText((*value).getFullPath().c_str());
+                    }
                 }
             }
 
             return result;
+        }
+
+        void FileProperty::setNameFilter(std::string const& filter)
+        {
+            m_ButtonBrowse->setNameFilter(filter);
         }
 
         //----------------------------------------------------------------------------------

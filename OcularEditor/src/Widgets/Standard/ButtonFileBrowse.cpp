@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Standard/ButtonFileBrowse.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,17 +26,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        
+        ButtonFileBrowse::ButtonFileBrowse(QWidget* parent)
+            : QPushButton(parent),
+              m_WasEdited(false),
+              m_FilterString("Any File (*)")
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-            test = OcularEditor.createPropertyWidget("Test File", Utils::TypeName<Core::File>::name);
-            m_Layout->addWidget(test);
+            setText("...");
+            connect(this, SIGNAL(clicked()), this, SLOT(onButtonClick()));
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        ButtonFileBrowse::~ButtonFileBrowse()
         {
 
         }
@@ -45,23 +47,31 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        QSize ButtonFileBrowse::sizeHint() const
         {
-            if(object)
-            {
-                m_Object = object;
-            }
+            return QSize(50, 0);
         }
 
-        void RenderablePropertiesDisplay::updateProperties()
+        bool ButtonFileBrowse::wasEdited(bool reset)
         {
-            if(m_Object)
+            bool result = m_WasEdited;
+
+            if(reset)
             {
-                if(test)
-                {
-                    test->updateProperties();
-                }
+                m_WasEdited = false;
             }
+
+            return result;
+        }
+
+        void ButtonFileBrowse::setNameFilter(std::string const& filter)
+        {
+            m_FilterString = filter;
+        }
+
+        std::string const& ButtonFileBrowse::getSelectedFile() const
+        {
+            return m_SelectedFile;
         }
 
         //----------------------------------------------------------------------------------
@@ -71,5 +81,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void ButtonFileBrowse::onButtonClick()
+        {
+            m_SelectedFile = QFileDialog::getOpenFileName(this, tr("Select File"), OcularResources->getSourceDirectory().c_str(), m_FilterString.c_str()).toStdString();
+            m_WasEdited = true;
+        }
     }
 }

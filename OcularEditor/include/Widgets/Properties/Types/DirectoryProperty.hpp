@@ -15,14 +15,12 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
-#define __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
+#ifndef __H__OCULAR_EDITOR_DIRECTORY_PROPERTY__H__
+#define __H__OCULAR_EDITOR_DIRECTORY_PROPERTY__H__
 
-#include "PropertiesDisplayBox.hpp"
-
-#include <QtWidgets/qframe.h>
-#include <QtWidgets/qlabel.h>
-#include <QtWidgets/qlineedit.h>
+#include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
+#include "Widgets/Standard/ButtonDirectoryBrowse.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,27 +37,25 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class RenderablePropertiesDisplay
+         * \class DirectoryProperty
+         *
+         * Pre-built property display for directory variables.
          */
-        class RenderablePropertiesDisplay : public PropertiesDisplayBox
+        class DirectoryProperty : public PropertyWidget
         {
         public:
 
-            RenderablePropertiesDisplay(QWidget* parent = nullptr);
-            ~RenderablePropertiesDisplay();
+            DirectoryProperty(QWidget* parent = nullptr);
+            virtual ~DirectoryProperty();
 
-            //------------------------------------------------------------
-
-            virtual void setObject(Core::SceneObject* object) override;
-            virtual void updateProperties() override;
+            virtual bool updateProperties() override;
 
         protected:
 
-            //------------------------------------------------------------
-
         private:
 
-            PropertyWidget* test;
+            LineEdit* m_LineValue;
+            ButtonDirectoryBrowse* m_ButtonBrowse;
         };
     }
     /**

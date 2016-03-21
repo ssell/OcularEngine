@@ -15,6 +15,7 @@
  */
 
 #include "FileIO/Directory.hpp"
+#include "Utilities/StringRegistrar.hpp"
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/foreach.hpp>
@@ -25,6 +26,36 @@ namespace Ocular
 {
     namespace Core
     {
+        OCULAR_REGISTER_TO_STRING(Directory, OCULAR_TO_STRING_LAMBDA
+        {
+            std::string result;
+
+            if(raw)
+            {
+                Directory* file = void_cast<Directory*>(raw);
+
+                if(file)
+                {
+                    result = file->getFullPath();
+                }
+            }
+
+            return result;
+        });
+
+        OCULAR_REGISTER_FROM_STRING(Directory, OCULAR_FROM_STRING_LAMBDA
+        {
+            if(out)
+            {
+                Directory* result = void_cast<Directory*>(out); 
+
+                if(result)
+                {
+                    result->setPath(str);
+                }
+            }
+        });
+
         //----------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------
