@@ -15,7 +15,10 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Properties/Types/ColorProperty.hpp"
+#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
+
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::ColorProperty, Ocular::Utils::TypeName<Ocular::Core::Color>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -26,17 +29,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        
+        ColorProperty::ColorProperty(QWidget* parent)
+            : PropertyWidget(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-            test = OcularEditor.createPropertyWidget("Test Color", Utils::TypeName<Core::Color>::name);
-            m_Layout->addWidget(test);
+            m_ColorPreview = new ColorPreview();
+            m_ButtonColor = new ButtonColorPicker();
+            
+            m_LayoutRight->addWidget(m_ColorPreview);
+            m_LayoutRight->addWidget(m_ButtonColor);
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        ColorProperty::~ColorProperty()
         {
 
         }
@@ -44,30 +48,35 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        
+        bool ColorProperty::updateProperties()
         {
-            if(object)
-            {
-                m_Object = object;
-            }
-        }
+            bool result = false;
 
-        void RenderablePropertiesDisplay::updateProperties()
-        {
-            if(m_Object)
+            //if(m_Variable.data)
             {
-                if(test)
+                //Core::Color* value = void_cast<Core::Color*>(m_Variable.data);
+                
+                if(m_ButtonColor->wasEdited())
                 {
-                    test->updateProperties();
+                    //(*value) = m_ButtonColor->getSelectedColor();
+                    m_ColorPreview->setColor(m_ButtonColor->getSelectedColor());
+
+                    result = true;
+                }
+                else
+                {
+                    //m_ColorPreview->setColor((*value));
                 }
             }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

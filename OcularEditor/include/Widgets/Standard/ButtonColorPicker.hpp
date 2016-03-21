@@ -15,12 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_FILE_PROPERTY__H__
-#define __H__OCULAR_EDITOR_FILE_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
+#define __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
 
-#include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Standard/LineEdit.hpp"
-#include "Widgets/Standard/ButtonFileBrowse.hpp"
+#include <QtWidgets/qpushbutton.h>
+#include "Math/Color.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,30 +36,44 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class FileProperty
+         * \class ButtonColorPicker
          *
-         * Pre-built property display for Core::File variables.
+         * Helper class implementation of QPushButton for picking colors.
          */
-        class FileProperty : public PropertyWidget
+        class ButtonColorPicker : public QPushButton
         {
+            Q_OBJECT
+
         public:
 
-            FileProperty(QWidget* parent = nullptr);
-            virtual ~FileProperty();
+            ButtonColorPicker(QWidget* parent = nullptr);
+            ~ButtonColorPicker();
 
-            virtual bool updateProperties() override;
+            virtual QSize sizeHint() const override;
 
             /**
-             * See QFileDialog::setNameFilter
+             * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
+             * \return TRUE if the user has modifed this edit. 
              */
-            void setNameFilter(std::string const& filter);
+            bool wasEdited(bool reset = true);
+
+            /**
+             *
+             */
+            Core::Color const& getSelectedColor() const;
 
         protected:
+            
+        private slots:
+
+            void onButtonClick();
 
         private:
 
-            LineEdit* m_LineValue;
-            ButtonFileBrowse* m_ButtonBrowse;
+            bool m_WasEdited;
+
+            Core::Color m_SelectedColor;
+            QColor m_QColor;
         };
     }
     /**

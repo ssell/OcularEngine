@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Standard/ButtonColorPicker.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,17 +26,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        
+        ButtonColorPicker::ButtonColorPicker(QWidget* parent)
+            : QPushButton(parent),
+              m_WasEdited(false)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-            test = OcularEditor.createPropertyWidget("Test Color", Utils::TypeName<Core::Color>::name);
-            m_Layout->addWidget(test);
+            setText("...");
+            connect(this, SIGNAL(clicked()), this, SLOT(onButtonClick()));
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        ButtonColorPicker::~ButtonColorPicker()
         {
 
         }
@@ -45,23 +46,26 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        QSize ButtonColorPicker::sizeHint() const
         {
-            if(object)
-            {
-                m_Object = object;
-            }
+            return QSize(50, 0);
         }
 
-        void RenderablePropertiesDisplay::updateProperties()
+        bool ButtonColorPicker::wasEdited(bool reset)
         {
-            if(m_Object)
+            bool result = m_WasEdited;
+
+            if(reset)
             {
-                if(test)
-                {
-                    test->updateProperties();
-                }
+                m_WasEdited = false;
             }
+
+            return result;
+        }
+
+        Core::Color const& ButtonColorPicker::getSelectedColor() const
+        {
+            return m_SelectedColor;
         }
 
         //----------------------------------------------------------------------------------
@@ -71,5 +75,24 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void ButtonColorPicker::onButtonClick()
+        {
+            m_QColor = QColorDialog::getColor(m_QColor, this, "Select Color", QColorDialog::ShowAlphaChannel);
+
+            //------------------------------------------------------------
+            // Convert QColor to Ocular Color
+            //------------------------------------------------------------
+            
+            qreal r = 0.0;
+            qreal g = 0.0;
+            qreal b = 0.0;
+            qreal a = 0.0;
+
+            m_QColor.getRgbF(&r, &g, &b, &a);
+
+            m_SelectedColor = Core::Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b), static_cast<float>(a));
+            m_WasEdited = true;
+        }
     }
 }

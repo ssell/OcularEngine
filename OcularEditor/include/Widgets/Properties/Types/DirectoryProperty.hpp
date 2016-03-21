@@ -39,7 +39,7 @@ namespace Ocular
         /**
          * \class DirectoryProperty
          *
-         * Pre-built property display for directory variables.
+         * Pre-built property display for Core::Directory variables.
          */
         class DirectoryProperty : public PropertyWidget
         {

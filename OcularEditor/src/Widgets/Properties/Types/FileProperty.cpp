@@ -71,7 +71,7 @@ namespace Ocular
                         (*value).setPath(m_LineValue->text().toStdString());
                         result = true;
                     }
-                    else
+                    else if(!m_LineValue->hasFocus())
                     {
                         m_LineValue->setText((*value).getFullPath().c_str());
                     }

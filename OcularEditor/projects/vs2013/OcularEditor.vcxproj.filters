@@ -272,6 +272,27 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonDirectoryBrowse.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\ColorProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonColorPicker.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonColorPicker.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonColorPicker.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ColorPreview.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ColorPreview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ColorPreview.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -391,6 +412,9 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -415,6 +439,12 @@
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Standard\ButtonDirectoryBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonColorPicker.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ColorPreview.hpp">
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
   </ItemGroup>

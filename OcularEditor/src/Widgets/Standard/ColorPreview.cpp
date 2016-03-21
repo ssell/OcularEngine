@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Standard/ColorPreview.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,17 +26,15 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        
+        ColorPreview::ColorPreview(QWidget* parent)
+            : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-            test = OcularEditor.createPropertyWidget("Test Color", Utils::TypeName<Core::Color>::name);
-            m_Layout->addWidget(test);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setColor(Core::Color::White());
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        ColorPreview::~ColorPreview()
         {
 
         }
@@ -45,23 +43,27 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        QSize ColorPreview::sizeHint() const
         {
-            if(object)
-            {
-                m_Object = object;
-            }
+            return QSize(0, 0);
         }
 
-        void RenderablePropertiesDisplay::updateProperties()
+        void ColorPreview::setColor(Core::Color const& color)
         {
-            if(m_Object)
-            {
-                if(test)
-                {
-                    test->updateProperties();
-                }
-            }
+            const uint32_t r = static_cast<uint32_t>(color.r * 255.0f);
+            const uint32_t g = static_cast<uint32_t>(color.g * 255.0f);
+            const uint32_t b = static_cast<uint32_t>(color.b * 255.0f);
+            const uint32_t a = static_cast<uint32_t>(color.a * 255.0f);
+
+            const std::string colorStr =
+                OcularString->toString<uint32_t>(r) + ", " +
+                OcularString->toString<uint32_t>(g) + ", " +
+                OcularString->toString<uint32_t>(b) + ", " +
+                OcularString->toString<uint32_t>(a);
+
+            const std::string stylesheet = "background-color: rgba(" + colorStr + ");";
+
+            setStyleSheet(stylesheet.c_str());
         }
 
         //----------------------------------------------------------------------------------

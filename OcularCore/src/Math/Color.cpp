@@ -15,6 +15,7 @@
  */
 
 #include "Math/Color.hpp"
+#include "Utilities/StringRegistrar.hpp"
 #include "Math/MathCommon.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -23,6 +24,58 @@ namespace Ocular
 {
     namespace Core
     {
+        OCULAR_REGISTER_TO_STRING(Color, OCULAR_TO_STRING_LAMBDA 
+        { 
+            std::string result;
+
+            if(raw)
+            {
+                Color* color = void_cast<Color*>(raw);
+                
+                if(color)
+                {
+                    std::stringstream sstream;
+                    sstream << color->x << " " << color->y << " " << color->z << " " << color->w;
+
+                    result = sstream.str();
+                }
+            }
+
+            return result; 
+        });
+
+        OCULAR_REGISTER_FROM_STRING(Color, OCULAR_FROM_STRING_LAMBDA
+        {
+            if(out)
+            {
+                Color* result = void_cast<Color*>(out);
+
+                if(result)
+                {
+                    size_t cumulativePos = 0;
+                    size_t nextPos = 0;
+
+                    try
+                    {
+                        result->x = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->y = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->z = std::stof(str.substr(cumulativePos), &nextPos);
+                        cumulativePos += nextPos;
+                        
+                        result->w = std::stof(str.substr(cumulativePos), &nextPos);
+                    }
+                    catch(std::invalid_argument const& e)
+                    {
+                        OcularLogger->error("Failed to convert string '", str, "' to Color with error: ", e.what(), OCULAR_INTERNAL_LOG("Color", "FromString"));
+                    }
+                }
+            }
+        });
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------

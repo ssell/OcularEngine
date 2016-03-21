@@ -15,12 +15,12 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_FILE_PROPERTY__H__
-#define __H__OCULAR_EDITOR_FILE_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_COLOR_PROPERTY__H__
+#define __H__OCULAR_EDITOR_COLOR_PROPERTY__H__
 
 #include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Standard/LineEdit.hpp"
-#include "Widgets/Standard/ButtonFileBrowse.hpp"
+#include "Widgets/Standard/ButtonColorPicker.hpp"
+#include "Widgets/Standard/ColorPreview.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -37,30 +37,25 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class FileProperty
+         * \class ColorProperty
          *
-         * Pre-built property display for Core::File variables.
+         * Pre-built property display for Core::Color variables.
          */
-        class FileProperty : public PropertyWidget
+        class ColorProperty : public PropertyWidget
         {
         public:
 
-            FileProperty(QWidget* parent = nullptr);
-            virtual ~FileProperty();
+            ColorProperty(QWidget* parent = nullptr);
+            virtual ~ColorProperty();
 
             virtual bool updateProperties() override;
-
-            /**
-             * See QFileDialog::setNameFilter
-             */
-            void setNameFilter(std::string const& filter);
 
         protected:
 
         private:
 
-            LineEdit* m_LineValue;
-            ButtonFileBrowse* m_ButtonBrowse;
+            ColorPreview* m_ColorPreview;
+            ButtonColorPicker* m_ButtonColor;
         };
     }
     /**

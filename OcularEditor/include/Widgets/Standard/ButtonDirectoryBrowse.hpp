@@ -51,7 +51,8 @@ namespace Ocular
             virtual QSize sizeHint() const override;
             
             /**
-             *
+             * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
+             * \return TRUE if the user has modifed this edit. 
              */
             bool wasEdited(bool reset = true);
 

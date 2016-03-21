@@ -28,7 +28,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         CheckBox::CheckBox(QWidget* parent)
-            : QCheckBox(parent)
+            : QCheckBox(parent),
+              m_WasEdited(false)
         {
             connect(this, SIGNAL(stateChanged(int)), this, SLOT(stateChanged(int)));
         }
