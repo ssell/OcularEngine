@@ -17,7 +17,6 @@
 #include "stdafx.h"
 #include "Widgets/Properties/Types/Arithmetic/UInt8Property.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-#include "Math/Euler.hpp"
 
 OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt8Property, Ocular::Utils::TypeName<uint8_t>::name);
 

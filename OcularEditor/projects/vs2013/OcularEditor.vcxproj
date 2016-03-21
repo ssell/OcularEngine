@@ -251,6 +251,8 @@
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\DoubleProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\FloatProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int16Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int32Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int8Property.cpp" />
@@ -283,6 +285,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\DoubleProperty.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\FloatProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int16Property.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int32Property.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int8Property.hpp" />

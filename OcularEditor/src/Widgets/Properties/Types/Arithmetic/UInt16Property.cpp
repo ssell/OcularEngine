@@ -17,7 +17,6 @@
 #include "stdafx.h"
 #include "Widgets/Properties/Types/Arithmetic/UInt16Property.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-#include "Math/Euler.hpp"
 
 OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt16Property, Ocular::Utils::TypeName<uint16_t>::name);
 

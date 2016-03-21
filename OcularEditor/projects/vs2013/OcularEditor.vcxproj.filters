@@ -293,6 +293,12 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_ColorPreview.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\FloatProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\DoubleProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -414,6 +420,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\FloatProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\DoubleProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

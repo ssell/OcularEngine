@@ -15,10 +15,10 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Types/Arithmetic/Int8Property.hpp"
+#include "Widgets/Properties/Types/Arithmetic/DoubleProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::Int8Property, Ocular::Utils::TypeName<int8_t>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DoubleProperty, Ocular::Utils::TypeName<double>::name);
 
 //------------------------------------------------------------------------------------------
 
@@ -30,14 +30,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        Int8Property::Int8Property(QWidget* parent)
+        DoubleProperty::DoubleProperty(QWidget* parent)
             : PropertyWidget(parent)
         {
-            m_EditValue = new LineEdit(LineType::Int8);
+            m_EditValue = new LineEdit(LineType::Double);
             m_LayoutRight->addWidget(m_EditValue);
         }
 
-        Int8Property::~Int8Property()
+        DoubleProperty::~DoubleProperty()
         {
 
         }
@@ -46,22 +46,22 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool Int8Property::updateProperties()
+        bool DoubleProperty::updateProperties()
         {
             bool result = false;
 
             if(m_Variable.data)
             {
-                int8_t* value = void_cast<int8_t*>(m_Variable.data);
+                double* value = void_cast<double*>(m_Variable.data);
 
                 if(m_EditValue->wasEdited())
                 {
-                    (*value) = static_cast<int8_t>(m_EditValue->asInt());
+                    (*value) = m_EditValue->asInt();
                     result = true;
                 }
                 else if(!m_EditValue->hasFocus())
                 {
-                    m_EditValue->setText(OcularString->toString<int8_t>(*value).c_str());
+                    m_EditValue->setText(OcularString->toString<double>(*value).c_str());
                 }
             }
 
