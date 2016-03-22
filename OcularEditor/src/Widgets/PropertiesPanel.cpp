@@ -44,6 +44,7 @@ namespace Ocular
         {
             OcularEvents->registerListener(this, Core::Priority::Low);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setStyleSheet("QFrame { background-color: rgb(56, 56, 60); }");
 
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);

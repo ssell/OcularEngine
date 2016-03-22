@@ -30,7 +30,8 @@ namespace Ocular
         PropertyWidget::PropertyWidget(QWidget* parent)
             : QFrame(parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setStyleSheet("QFrame { background-color: rgb(56, 56, 60); }");
 
             createLeftSide();
             createRightSide();
@@ -48,7 +49,7 @@ namespace Ocular
 
         QSize PropertyWidget::sizeHint() const
         {
-            return QSize(275, 30);
+            return QSize(275, 5);
         }
 
         void PropertyWidget::setVariable(Core::ExposedVariable& variable)

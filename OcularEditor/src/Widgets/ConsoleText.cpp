@@ -34,7 +34,7 @@ namespace Ocular
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
             setReadOnly(true);
 
-            setStyleSheet(tr("font-family: \"Lucida Console\", Monaco, monospace;"));
+            setStyleSheet(tr("font-family: \"Lucida Console\", Monaco, monospace; background-color: rgb(56, 56, 60);"));
 
             OcularLogger->registerListener(this);
         }
@@ -75,7 +75,7 @@ namespace Ocular
         void ConsoleText::write(std::string const& message)
         {
             std::stringstream sstream;
-            sstream << "<font color=\"#DDDDDD\">> " << message << "</font><br>";
+            sstream << "<font color=\"#DDDDDD\"> " << message << "</font><br>";
 
             insertHtml(tr(sstream.str().c_str()));
         }
@@ -83,7 +83,7 @@ namespace Ocular
         void ConsoleText::writeWarning(std::string const& message)
         {
             std::stringstream sstream;
-            sstream << "<font color=\"#DDDD00\">> " << message << "</font><br>";
+            sstream << "<font color=\"#DDDD00\"> " << message << "</font><br>";
 
             insertHtml(tr(sstream.str().c_str()));
         }
@@ -91,7 +91,7 @@ namespace Ocular
         void ConsoleText::writeError(std::string const& message)
         {
             std::stringstream sstream;
-            sstream << "<font color=\"#DD0000\">> " << message << "</font><br>";
+            sstream << "<font color=\"#DD0000\"> " << message << "</font><br>";
 
             insertHtml(tr(sstream.str().c_str()));
         }
