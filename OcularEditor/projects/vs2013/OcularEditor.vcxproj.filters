@@ -161,9 +161,6 @@
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\CommonPropertiesDisplay.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
@@ -174,9 +171,6 @@
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\RenderablePropertiesDisplay.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp">
@@ -299,6 +293,18 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\DoubleProperty.cpp">
       <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\CommonDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\CustomObjectDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\RenderableDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -340,9 +346,6 @@
     <ClInclude Include="..\..\include\Events\SceneObjectSelectedEvent.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\CommonPropertiesDisplay.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidget.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
@@ -353,9 +356,6 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\RenderablePropertiesDisplay.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\EulerProperty.hpp">
@@ -426,6 +426,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\DoubleProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CommonDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\RenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

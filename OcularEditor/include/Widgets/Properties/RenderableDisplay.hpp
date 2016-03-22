@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
-#define __H__OCULAR_EDITOR_PROPERTIES_PANEL__H__
+#ifndef __H__OCULAR_EDITOR_RENDERABLE_DISPLAY__H__
+#define __H__OCULAR_EDITOR_RENDERABLE_DISPLAY__H__
 
-#include <QtWidgets/qframe.h>
-#include "Events/AEventListener.hpp"
+#include "PropertiesDisplayBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,48 +34,27 @@ namespace Ocular
      */
     namespace Editor
     {
-        class CommonDisplay;
-        class CustomObjectDisplay;
-        class RenderableDisplay;
-        class RoutineDisplay;
-
         /**
-         * \class PropertiesPanel
+         * \class RenderableDisplay
          */
-        class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
+        class RenderableDisplay : public PropertiesDisplayBox
         {
         public:
 
-            PropertiesPanel(QWidget* parent = nullptr);
-            ~PropertiesPanel();
-
-            virtual QSize sizeHint() const override;
+            RenderableDisplay(QWidget* parent = nullptr);
+            ~RenderableDisplay();
 
             //------------------------------------------------------------
 
-            void update();
-            void selectObject(Core::SceneObject* object);
+            virtual void setObject(Core::SceneObject* object) override;
+            virtual void updateProperties() override;
 
         protected:
 
-            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
-
-            void initializeCommon();
-            void initializeCustom();
-            void initializeRenderable();
-            void initializeRoutines();
+            //------------------------------------------------------------
 
         private:
 
-            QVBoxLayout* m_Layout;
-
-            Core::SceneObject* m_CurrentObject;
-
-            CommonDisplay*       m_CommonProperties;
-            CustomObjectDisplay* m_CustomProperties;
-            RenderableDisplay*   m_RenderableProperties;
-
-            std::vector<RoutineDisplay*> m_RoutineProperties;
         };
     }
     /**

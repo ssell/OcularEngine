@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
-#define __H__OCULAR_EDITOR_RENDERABLE_PROPERTIES_DISPLAY__H__
+#ifndef __H__OCULAR_EDITOR_COMMON_DISPLAY__H__
+#define __H__OCULAR_EDITOR_COMMON_DISPLAY__H__
 
 #include "PropertiesDisplayBox.hpp"
 
@@ -39,14 +39,14 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class RenderablePropertiesDisplay
+         * \class CommonDisplay
          */
-        class RenderablePropertiesDisplay : public PropertiesDisplayBox
+        class CommonDisplay : public PropertiesDisplayBox
         {
         public:
 
-            RenderablePropertiesDisplay(QWidget* parent = nullptr);
-            ~RenderablePropertiesDisplay();
+            CommonDisplay(QWidget* parent = nullptr);
+            ~CommonDisplay();
 
             //------------------------------------------------------------
 
@@ -54,12 +54,20 @@ namespace Ocular
             virtual void updateProperties() override;
 
         protected:
+            
+            void buildName();
+            void buildTransform();
 
             //------------------------------------------------------------
 
-        private:
+            QLabel*      m_LabelTransform;
+            QLineEdit*   m_LineName;
 
-            PropertyWidget* test;
+            PropertyWidget* m_PropertyPosition;
+            PropertyWidget* m_PropertyRotation;
+            PropertyWidget* m_PropertyScale;
+
+        private:
         };
     }
     /**

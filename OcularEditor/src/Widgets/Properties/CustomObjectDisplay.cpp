@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Properties/CustomObjectDisplay.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,16 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        RenderablePropertiesDisplay::RenderablePropertiesDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+        CustomObjectDisplay::CustomObjectDisplay(QWidget* parent)
+            : PropertiesDisplayBox("Custom", parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-            test = OcularEditor.createPropertyWidget("Test Color", Utils::TypeName<Core::Color>::name);
-            m_Layout->addWidget(test);
         }
 
-        RenderablePropertiesDisplay::~RenderablePropertiesDisplay()
+        CustomObjectDisplay::~CustomObjectDisplay()
         {
 
         }
@@ -45,7 +42,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void RenderablePropertiesDisplay::setObject(Core::SceneObject* object)
+        void CustomObjectDisplay::setObject(Core::SceneObject* object)
         {
             if(object)
             {
@@ -53,14 +50,11 @@ namespace Ocular
             }
         }
 
-        void RenderablePropertiesDisplay::updateProperties()
+        void CustomObjectDisplay::updateProperties()
         {
             if(m_Object)
             {
-                if(test)
-                {
-                    test->updateProperties();
-                }
+
             }
         }
 

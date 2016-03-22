@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/CommonPropertiesDisplay.hpp"
+#include "Widgets/Properties/CommonDisplay.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        CommonPropertiesDisplay::CommonPropertiesDisplay(QWidget* parent)
+        CommonDisplay::CommonDisplay(QWidget* parent)
             : PropertiesDisplayBox("", parent),
               m_LabelTransform(nullptr),
               m_LineName(nullptr),
@@ -41,7 +41,7 @@ namespace Ocular
             buildTransform();
         }
 
-        CommonPropertiesDisplay::~CommonPropertiesDisplay()
+        CommonDisplay::~CommonDisplay()
         {
 
         }
@@ -50,7 +50,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void CommonPropertiesDisplay::setObject(Core::SceneObject* object)
+        void CommonDisplay::setObject(Core::SceneObject* object)
         {
             if(object)
             {
@@ -91,7 +91,7 @@ namespace Ocular
             }
         }
 
-        void CommonPropertiesDisplay::updateProperties()
+        void CommonDisplay::updateProperties()
         {
             if(m_Object)
             {
@@ -132,13 +132,13 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void CommonPropertiesDisplay::buildName()
+        void CommonDisplay::buildName()
         {
             m_LineName = new QLineEdit();
             m_Layout->addWidget(m_LineName);
         }
 
-        void CommonPropertiesDisplay::buildTransform()
+        void CommonDisplay::buildTransform()
         {
             m_LabelTransform   = new QLabel("Transform");
             m_PropertyPosition = OcularEditor.createPropertyWidget("Position", Utils::TypeName<Math::Vector3f>::name);

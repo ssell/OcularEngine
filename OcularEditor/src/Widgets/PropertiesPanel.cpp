@@ -16,9 +16,14 @@
 
 #include "stdafx.h"
 #include "Widgets/PropertiesPanel.hpp"
-#include "Widgets/Properties/CommonPropertiesDisplay.hpp"
-#include "Widgets/Properties/RenderablePropertiesDisplay.hpp"
+#include "Widgets/Properties/CommonDisplay.hpp"
+#include "Widgets/Properties/CustomObjectDisplay.hpp"
+#include "Widgets/Properties/RenderableDisplay.hpp"
+#include "Widgets/Properties/RoutineDisplay.hpp"
 #include "Events/SceneObjectSelectedEvent.hpp"
+#include "Scene/ARoutine.hpp"
+
+#define SAFE_REMOVE(X) if(X){ m_Layout->removeWidget(X); delete X; X = nullptr; }
 
 //------------------------------------------------------------------------------------------
 
@@ -31,18 +36,17 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         PropertiesPanel::PropertiesPanel(QWidget *parent)
-            : QFrame(parent)
+            : QFrame(parent),
+              m_CurrentObject(nullptr),
+              m_CommonProperties(nullptr),
+              m_CustomProperties(nullptr),
+              m_RenderableProperties(nullptr)
         {
             OcularEvents->registerListener(this, Core::Priority::Low);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            m_CommonProperties = new CommonPropertiesDisplay();
-            m_RenderableProperties = new RenderablePropertiesDisplay();
-
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->addWidget(m_CommonProperties);
-            m_Layout->addWidget(m_RenderableProperties);
             m_Layout->setContentsMargins(2, 2, 2, 2);
 
             setLayout(m_Layout);
@@ -64,17 +68,41 @@ namespace Ocular
 
         void PropertiesPanel::selectObject(Core::SceneObject* object)
         {
-            if(object)
+            if(object != m_CurrentObject)
             {
-                m_CommonProperties->setObject(object);
-                m_RenderableProperties->setObject(object);
+                m_CurrentObject = object;
+
+                initializeCommon();
+                initializeCustom();
+                initializeRenderable();
+                initializeRoutines();
             }
         }
 
         void PropertiesPanel::update()
         {
-            m_CommonProperties->updateProperties();
-            m_RenderableProperties->updateProperties();
+            if(m_CommonProperties)
+            {
+                m_CommonProperties->updateProperties();
+            }
+
+            if(m_CustomProperties)
+            {
+                m_CustomProperties->updateProperties();
+            }
+
+            if(m_RenderableProperties)
+            {
+                m_RenderableProperties->updateProperties();
+            }
+
+            for(auto routine : m_RoutineProperties)
+            {
+                if(routine)
+                {
+                    routine->updateProperties();
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -96,24 +124,83 @@ namespace Ocular
             return true;    // Do not consume this event
         }
 
-        void PropertiesPanel::displayCommon(Core::SceneObject* object)
+        void PropertiesPanel::initializeCommon()
         {
+            SAFE_REMOVE(m_CommonProperties);
 
+            if(m_CurrentObject)
+            {
+                m_CommonProperties = new CommonDisplay();
+                m_CommonProperties->setObject(m_CurrentObject);
+
+                m_Layout->addWidget(m_CommonProperties);
+            }
         }
 
-        void PropertiesPanel::displayCustom(Core::SceneObject* object)
+        void PropertiesPanel::initializeCustom()
         {
+            SAFE_REMOVE(m_CustomProperties);
 
+            if(m_CurrentObject)
+            {
+                const std::string type = m_CurrentObject->getClass();
+
+                if(!Utils::String::IsEqual(type, "SceneObject"))
+                {
+                    // If not a generic SceneObject implementation
+                    m_CustomProperties = new CustomObjectDisplay();
+                    m_CustomProperties->setObject(m_CurrentObject);
+                    m_CustomProperties->setTitle(type.c_str());
+
+                    m_Layout->addWidget(m_CustomProperties);
+                }
+            }
         }
 
-        void PropertiesPanel::displayRenderable(Core::SceneObject* object)
+        void PropertiesPanel::initializeRenderable()
         {
+            SAFE_REMOVE(m_RenderableProperties);
 
+            if(m_CurrentObject)
+            {
+                auto renderable = m_CurrentObject->getRenderable();
+
+                if(renderable)
+                {
+                    m_RenderableProperties = new RenderableDisplay();
+                    m_RenderableProperties->setObject(m_CurrentObject);
+
+                    m_Layout->addWidget(m_RenderableProperties);
+                }
+            }
         }
 
-        void PropertiesPanel::displayRoutines(Core::SceneObject* object)
+        void PropertiesPanel::initializeRoutines()
         {
+            for(auto routine : m_RoutineProperties)
+            {
+                SAFE_REMOVE(routine);
+            }
 
+            m_RoutineProperties.clear();
+
+            if(m_CurrentObject)
+            {
+                auto routines = m_CurrentObject->getAllRoutines();
+
+                for(auto routine : routines)
+                {
+                    if(routine)
+                    {
+                        RoutineDisplay* routineDisplay = new RoutineDisplay();
+                        routineDisplay->setObject(m_CurrentObject);
+                        routineDisplay->setTitle(routine->getName().c_str());
+
+                        m_Layout->addWidget(routineDisplay);
+                        m_RoutineProperties.push_back(routineDisplay);
+                    }
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------

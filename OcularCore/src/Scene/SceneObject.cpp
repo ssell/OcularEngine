@@ -35,8 +35,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneObject::SceneObject(std::string const& name, SceneObject* parent)
-            : Object(name, "SceneObject"),
+        SceneObject::SceneObject(std::string const& name, std::string const& type, SceneObject* parent)
+            : Object(name, type),
               m_IsStatic(false),
               m_IsActive(true),
               m_IsVisible(false),

@@ -40,7 +40,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Camera::Camera(std::string const& name, SceneObject* parent)
-            : SceneObject(name, parent),
+            : SceneObject(name, "Camera", parent),
               m_ProjType(ProjectionType::Perspective),
               m_RenderTexture(nullptr),
               m_DepthTexture(nullptr),

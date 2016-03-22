@@ -344,9 +344,9 @@ namespace Ocular
                         {
                             m_Scene->addObject(object);
                         }
-
-                        OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));
                     }
+
+                    OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));
                 }
             }
         }

@@ -106,7 +106,7 @@ namespace Ocular
              *                   all objects are already uniquely identified via a UUID (see getUUID()).
              * \param[in] parent 
              */
-            SceneObject(std::string const& name, SceneObject* parent = nullptr);
+            SceneObject(std::string const& name, std::string const& type = "SceneObject", SceneObject* parent = nullptr);
 
             /**
              * Creates a new SceneObject with the default name of "SceneObject".
