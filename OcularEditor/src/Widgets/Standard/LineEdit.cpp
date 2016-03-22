@@ -66,11 +66,13 @@ namespace Ocular
             case LineType::Double:
                 setValidator(new QDoubleValidator(this));
                 break;
-                
+
             case LineType::String:
             default:
                 break;
             }
+
+            setAlignment(Qt::AlignVCenter);
             
             connect(this, SIGNAL(textChanged(QString const&)), this, SLOT(contentsChanged(QString const&)));
             connect(this, SIGNAL(textEdited(QString const&)), this, SLOT(userEdited(QString const&)));
@@ -122,7 +124,29 @@ namespace Ocular
         
         void LineEdit::contentsChanged(QString const& text)
         {
-            //setCursorPosition(0);
+            if(!hasFocus())
+            {
+                if((m_Type == LineType::Float) ||
+                    (m_Type == LineType::Double))
+                {
+                    const int index = text.lastIndexOf('.');
+
+                    if(index > 0)
+                    {
+                        const int numDecimals = (text.size() - index);
+                        const int numTrim = numDecimals - 5;
+
+                        if(numTrim > 0)
+                        {
+                            std::string trimText = text.toStdString();
+                            trimText = trimText.substr(0, (text.size() - numTrim));
+
+                            setText(trimText.c_str());
+                            setCursorPosition(0);
+                        }
+                    }
+                }
+            }
         }
 
         void LineEdit::userEdited(QString const& text)

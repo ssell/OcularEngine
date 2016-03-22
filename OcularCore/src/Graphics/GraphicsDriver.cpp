@@ -51,7 +51,7 @@ namespace Ocular
             return false;
         }
 
-        void GraphicsDriver::clearBuffers()
+        void GraphicsDriver::clearBuffers(Core::Color const& clearColor)
         {
             // Nothing to do without an active graphics API
         }

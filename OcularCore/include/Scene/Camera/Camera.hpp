@@ -233,6 +233,16 @@ namespace Ocular
             bool getIsFixedProjection() const;
 
             /**
+             *
+             */
+            void setClearColor(Core::Color const& color);
+
+            /**
+             *
+             */
+            Core::Color const& getClearColor() const;
+
+            /**
              * Handles WindowResizeEvent instances.
              *
              * Upon a WindowResizeEvent, the viewport and projection (if perspective)
@@ -265,6 +275,8 @@ namespace Ocular
             Graphics::RenderTexture* m_RenderTexture;
             Graphics::DepthTexture* m_DepthTexture;
             Graphics::Viewport* m_Viewport;
+
+            Core::Color m_ClearColor;
 
             Priority m_Priority;
 

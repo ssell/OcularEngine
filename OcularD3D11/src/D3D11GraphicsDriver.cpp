@@ -178,7 +178,7 @@ namespace Ocular
             return result;
         }
 
-        void D3D11GraphicsDriver::clearBuffers()
+        void D3D11GraphicsDriver::clearBuffers(Core::Color const& clearColor)
         {
             GraphicsDriver::clearBuffers();
 
@@ -195,10 +195,9 @@ namespace Ocular
                     
                     if(currentRTV)
                     {
-                        //const static float clearColor[4] = { Core::Color::DarkGray().r, Core::Color::DarkGray().g, Core::Color::DarkGray().b, Core::Color::DarkGray().a };
-                        const static float clearColor[4] = { 0.17647f, 0.17647f, 0.18823f, 1.0f };
+                        const float color[4] = { clearColor.r, clearColor.g, clearColor.b, clearColor.a };
 
-                        m_D3DDeviceContext->ClearRenderTargetView(currentRTV, clearColor);
+                        m_D3DDeviceContext->ClearRenderTargetView(currentRTV, color);
                         currentRTV->Release();
                     }
 

@@ -216,8 +216,6 @@ namespace Ocular
     {
         if((m_SceneManager) && (m_GraphicsDriver))
         {
-            m_GraphicsDriver->clearBuffers();
-
             std::vector<Core::Camera*> cameras = m_CameraManager->getCameras();
 
             for(auto iter = cameras.begin(); iter != cameras.end(); ++iter)
@@ -225,8 +223,6 @@ namespace Ocular
                 m_CameraManager->setActiveCamera((*iter));
                 m_SceneManager->render();
             }
-
-            m_GraphicsDriver->swapBuffers();
         }
     }
 

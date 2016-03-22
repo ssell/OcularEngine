@@ -53,20 +53,20 @@ namespace Ocular
         {
             bool result = false;
 
-            //if(m_Variable.data)
+            if(m_Variable.data)
             {
-                //Core::Color* value = void_cast<Core::Color*>(m_Variable.data);
+                Core::Color* value = void_cast<Core::Color*>(m_Variable.data);
                 
                 if(m_ButtonColor->wasEdited())
                 {
-                    //(*value) = m_ButtonColor->getSelectedColor();
+                    (*value) = m_ButtonColor->getSelectedColor();
                     m_ColorPreview->setColor(m_ButtonColor->getSelectedColor());
 
                     result = true;
                 }
                 else
                 {
-                    //m_ColorPreview->setColor((*value));
+                    m_ColorPreview->setColor((*value));
                 }
             }
 

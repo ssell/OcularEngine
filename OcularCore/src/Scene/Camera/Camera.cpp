@@ -47,7 +47,8 @@ namespace Ocular
               m_Viewport(nullptr),
               m_Priority(Priority::Medium),
               m_IsFixedViewport(false),
-              m_IsFixedProjection(false)
+              m_IsFixedProjection(false),
+              m_ClearColor(Core::Color::DefaultClearGray())
 
         {
             onCreation();
@@ -62,7 +63,8 @@ namespace Ocular
               m_Viewport(nullptr),
               m_Priority(Priority::Medium),
               m_IsFixedViewport(false),
-              m_IsFixedProjection(false)
+              m_IsFixedProjection(false),
+              m_ClearColor(Core::Color::DefaultClearGray())
         {
             onCreation();
             exposeVariables();
@@ -237,6 +239,36 @@ namespace Ocular
             return true;
         }
 
+        void Camera::setFixedViewport(bool fixed)
+        {
+            m_IsFixedViewport = fixed;
+        }
+
+        bool Camera::getIsFixedViewport() const
+        {
+            return m_IsFixedViewport;
+        }
+
+        void Camera::setFixedProjection(bool fixed)
+        {
+            m_IsFixedProjection = fixed;
+        }
+
+        bool Camera::getIsFixedProjection() const
+        {
+            return m_IsFixedProjection;
+        }
+
+        void Camera::setClearColor(Core::Color const& color)
+        {
+            m_ClearColor = color;
+        }
+
+        Core::Color const& Camera::getClearColor() const
+        {
+            return m_ClearColor;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -281,6 +313,7 @@ namespace Ocular
         void Camera::exposeVariables()
         {
             /// \todo Expose camera variables
+            OCULAR_EXPOSE(m_ClearColor);
         }
 
         void Camera::updateViewport(float const width, float const height)

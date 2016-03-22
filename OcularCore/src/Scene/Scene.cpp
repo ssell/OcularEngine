@@ -248,6 +248,8 @@ namespace Ocular
             std::vector<SceneObject*> objects;
             Camera* camera = OcularCameras->getActiveCamera();
 
+            OcularGraphics->clearBuffers(camera->getClearColor());
+
             if(camera)
             {
                 Math::Frustum frustum = camera->getFrustum();
@@ -273,6 +275,8 @@ namespace Ocular
                     renderObject(objects[i]);
                 }
             }
+
+            OcularGraphics->swapBuffers();
         }
 
         //----------------------------------------------------------------------------------

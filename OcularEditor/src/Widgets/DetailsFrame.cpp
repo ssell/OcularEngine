@@ -57,7 +57,7 @@ namespace Ocular
 
         QSize DetailsFrame::sizeHint() const
         {
-            return QSize(275, 700);
+            return QSize(325, 700);
         }
 
         PropertiesPanel* DetailsFrame::getPropertiesPanel()

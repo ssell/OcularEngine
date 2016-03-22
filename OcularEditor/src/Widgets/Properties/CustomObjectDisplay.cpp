@@ -44,9 +44,49 @@ namespace Ocular
 
         void CustomObjectDisplay::setObject(Core::SceneObject* object)
         {
-            if(object)
+            if(m_Object != object)
             {
                 m_Object = object;
+
+                for(auto prop : m_Properties)
+                {
+                    if(prop)
+                    {
+                        m_Layout->removeWidget(prop);
+                        delete prop;
+                        prop = nullptr;
+                    }
+                }
+
+                m_Properties.clear();
+
+                //--------------------------------------------------------
+
+                if(m_Object)
+                {
+                    std::vector<std::string> exposedNames;
+                    object->getAllExposedNames(exposedNames);
+
+                    for(auto name : exposedNames)
+                    {
+                        if(!isCommonName(name))
+                        {
+                            Core::ExposedVariable variable;
+
+                            if(object->getVariable(name, variable))
+                            {
+                                PropertyWidget* widget = OcularEditor.createPropertyWidget(variable.name, variable.type);
+
+                                if(widget)
+                                {
+                                    m_Properties.push_back(widget);
+                                    m_Layout->addWidget(widget);
+                                    widget->setVariable(variable);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -54,13 +94,46 @@ namespace Ocular
         {
             if(m_Object)
             {
-
+                for(auto prop : m_Properties)
+                {
+                    if(prop)
+                    {
+                        prop->updateProperties();
+                    }
+                }
             }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool CustomObjectDisplay::isCommonName(std::string const& name)
+        {
+            bool result = false;
+
+            static std::string CommonNames[7] =
+            {
+                "m_Name",
+                "m_Position",
+                "m_Rotation",
+                "m_Scale",
+                "m_Class",
+                "m_IsStatic",
+                "m_ForcedVisible"
+            };
+
+            for(auto commonName : CommonNames)
+            {
+                if(Utils::String::IsEqual(name, commonName))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

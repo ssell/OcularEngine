@@ -80,19 +80,22 @@ namespace Ocular
         {
             m_QColor = QColorDialog::getColor(m_QColor, this, "Select Color", QColorDialog::ShowAlphaChannel);
 
-            //------------------------------------------------------------
-            // Convert QColor to Ocular Color
-            //------------------------------------------------------------
-            
-            qreal r = 0.0;
-            qreal g = 0.0;
-            qreal b = 0.0;
-            qreal a = 0.0;
+            if(m_QColor.isValid())    // Returns false if the user canceled the action
+            {
+                //--------------------------------------------------------
+                // Convert QColor to Ocular Color
+                //--------------------------------------------------------
 
-            m_QColor.getRgbF(&r, &g, &b, &a);
+                qreal r = 0.0;
+                qreal g = 0.0;
+                qreal b = 0.0;
+                qreal a = 0.0;
 
-            m_SelectedColor = Core::Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b), static_cast<float>(a));
-            m_WasEdited = true;
+                m_QColor.getRgbF(&r, &g, &b, &a);
+
+                m_SelectedColor = Core::Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b), static_cast<float>(a));
+                m_WasEdited = true;
+            }
         }
     }
 }

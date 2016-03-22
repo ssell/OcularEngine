@@ -158,6 +158,12 @@ namespace Ocular
             return result;
         }
 
+        Color const& Color::DefaultClearGray()
+        {
+            static const Color result(0.17647f, 0.17647f, 0.18823f, 1.0f);
+            return result;
+        }
+
         Color const& Color::ErrorPink()
         {
             static const Color result(1.0f, 0.078f, 0.576f); 

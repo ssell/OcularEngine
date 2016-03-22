@@ -61,7 +61,7 @@ namespace Ocular
                 OcularString->toString<uint32_t>(b) + ", " +
                 OcularString->toString<uint32_t>(a);
 
-            const std::string stylesheet = "background-color: rgba(" + colorStr + ");";
+            const std::string stylesheet = "background-color: rgba(" + colorStr + "); border: 1px solid rgb(27, 27, 28);";
 
             setStyleSheet(stylesheet.c_str());
         }

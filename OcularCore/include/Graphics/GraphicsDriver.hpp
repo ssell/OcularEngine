@@ -68,7 +68,7 @@ namespace Ocular
             /**
              * Clears the back buffers.
              */
-            virtual void clearBuffers();
+            virtual void clearBuffers(Core::Color const& clearColor = Core::Color::DefaultClearGray());
 
             /**
              * Swaps the back and front buffers.

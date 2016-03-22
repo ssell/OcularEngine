@@ -19,6 +19,7 @@
 #define __H__OCULAR_EDITOR_CUSTOM_OBJECT_DISPLAY__H__
 
 #include "PropertiesDisplayBox.hpp"
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -51,7 +52,9 @@ namespace Ocular
 
         protected:
 
-            //------------------------------------------------------------
+            bool isCommonName(std::string const& name);
+
+            std::vector<PropertyWidget*> m_Properties;
 
         private:
 

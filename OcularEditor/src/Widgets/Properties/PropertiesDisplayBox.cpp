@@ -32,6 +32,8 @@ namespace Ocular
               m_Object(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setStyleSheet("QGroupBox{ border: 0px solid black; }");
+
             buildLayout();
         }
 
@@ -46,7 +48,7 @@ namespace Ocular
 
         QSize PropertiesDisplayBox::sizeHint() const
         {
-            return QSize(275, 150);
+            return QSize(275, 50);
         }
 
         //----------------------------------------------------------------------------------
@@ -57,7 +59,7 @@ namespace Ocular
         {
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->setContentsMargins(5, 5, 5, 5);
+            m_Layout->setContentsMargins(5, 20, 5, 5);
 
             setLayout(m_Layout);
         }

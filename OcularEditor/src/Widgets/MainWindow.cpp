@@ -63,7 +63,14 @@ namespace Ocular
 
         void MainWindow::update()
         {
-            m_ContentFrame->getPropertiesPanel()->update();
+            static float elapsedTime = 0.0f;
+            elapsedTime += OcularClock->getDelta();
+
+            if(elapsedTime > 0.1f)
+            {
+                m_ContentFrame->getPropertiesPanel()->update();
+                elapsedTime = 0.0f;
+            }
         }
 
         //----------------------------------------------------------------------------------

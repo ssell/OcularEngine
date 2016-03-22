@@ -57,7 +57,7 @@ namespace Ocular
 
             virtual bool initialize() override;
 
-            virtual void clearBuffers() override;
+            virtual void clearBuffers(Core::Color const& clearColor = Core::Color::DefaultClearGray()) override;
             virtual void swapBuffers() override;
 
             virtual void setRenderTexture(RenderTexture* texture) override;
