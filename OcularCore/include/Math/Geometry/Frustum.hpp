@@ -249,6 +249,24 @@ namespace Ocular
              */
             Plane const& getFarPlane() const;
 
+            /**
+             * \return The field-of-view. If an orthographic projection, returns 0
+             */
+            float getFieldOfView() const;
+
+            /**
+             * \return The aspect ratio. If an orthographic projection, returns 0
+             */
+            float getAspectRatio() const;
+
+            float getXMin() const;
+
+            float getXMax() const;
+
+            float getYMin() const;
+
+            float getYMax() const;
+
         protected:
 
         private:
@@ -259,6 +277,11 @@ namespace Ocular
             float m_MaxY;
             float m_NearClip;
             float m_FarClip;
+
+            // Perspective-specific variables saved for user querying
+
+            float m_FieldOfView;
+            float m_AspectRatio;
 
             Vector3f m_Origin;
             Vector3f m_Forward;

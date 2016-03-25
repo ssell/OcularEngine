@@ -15,10 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Types/Arithmetic/UInt32Property.hpp"
-#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt32Property, Ocular::Utils::TypeName<uint32_t>::name);
+#include "Widgets/Standard/ComboBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,14 +27,15 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        UInt32Property::UInt32Property(QWidget* parent)
-            : PropertyWidget(parent)
+        ComboBox::ComboBox(QWidget* parent)
+            : QComboBox(parent),
+              m_WasEdited(false),
+              m_ValidationIndex(-1)
         {
-            m_EditValue = new LineEdit(LineType::UInt32);
-            m_LayoutRight->addWidget(m_EditValue);
+            connect(this, SIGNAL(activated(int)), this, SLOT(onIndexChanged(int)));
         }
 
-        UInt32Property::~UInt32Property()
+        ComboBox::~ComboBox()
         {
 
         }
@@ -45,24 +43,14 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
-        bool UInt32Property::updateProperties()
+
+        bool ComboBox::wasEdited(bool reset)
         {
-            bool result = false;
+            bool result = m_WasEdited;
 
-            if(m_Variable.data)
+            if(reset)
             {
-                uint32_t* value = void_cast<uint32_t*>(m_Variable.data);
-
-                if(m_EditValue->wasEdited())
-                {
-                    (*value) = m_EditValue->as<uint32_t>();
-                    result = true;
-                }
-                else if(!m_EditValue->hasFocus())
-                {
-                    m_EditValue->setText(OcularString->toString<uint32_t>(*value).c_str());
-                }
+                m_WasEdited = false;
             }
 
             return result;
@@ -71,9 +59,18 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-        
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void ComboBox::onIndexChanged(int index)
+        {
+            if(index != m_ValidationIndex)
+            {
+                m_ValidationIndex = index;
+                m_WasEdited = true;
+            }
+        }
     }
 }

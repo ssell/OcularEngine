@@ -72,9 +72,9 @@ namespace Ocular
 
             Core::SceneObject* m_CurrentObject;
 
-            CommonDisplay*       m_CommonProperties;
-            CustomObjectDisplay* m_CustomProperties;
-            RenderableDisplay*   m_RenderableProperties;
+            CommonDisplay*        m_CommonProperties;
+            PropertiesDisplayBox* m_CustomProperties;
+            RenderableDisplay*    m_RenderableProperties;
 
             std::vector<RoutineDisplay*> m_RoutineProperties;
         };

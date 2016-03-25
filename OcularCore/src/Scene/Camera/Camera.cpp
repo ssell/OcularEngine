@@ -312,7 +312,6 @@ namespace Ocular
 
         void Camera::exposeVariables()
         {
-            /// \todo Expose camera variables
             OCULAR_EXPOSE(m_ClearColor);
         }
 

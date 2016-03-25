@@ -56,7 +56,7 @@ namespace Ocular
 
                 if(m_EditValue->wasEdited())
                 {
-                    (*value) = m_EditValue->asInt();
+                    (*value) = m_EditValue->asFloat();
                     result = true;
                 }
                 else if(!m_EditValue->hasFocus())
@@ -66,6 +66,21 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        bool FloatProperty::wasEdited(bool reset)
+        {
+            return m_EditValue->wasEdited(reset);
+        }
+
+        void FloatProperty::setValue(float value)
+        {
+            m_EditValue->setText(OcularString->toString<float>(value).c_str());
+        }
+
+        float FloatProperty::getValue() const
+        {
+            return OcularString->fromString<float>(m_EditValue->text().toStdString());
         }
 
         //----------------------------------------------------------------------------------

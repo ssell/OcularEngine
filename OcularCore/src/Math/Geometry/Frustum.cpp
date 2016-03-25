@@ -30,6 +30,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
                 
         Frustum::Frustum()
+            : m_FieldOfView(0.0f),
+              m_AspectRatio(0.0f)
         {
         
         }
@@ -81,6 +83,9 @@ namespace Ocular
         void Frustum::setProjectionPerspective(float const fov, float const aspectRatio, float const nearClip, float const farClip)
         {
             // Source: http://www.songho.ca/opengl/gl_transform.html#projection
+
+            m_FieldOfView = fov;
+            m_AspectRatio = aspectRatio;
 
             const float tangent = tan(DegreesToRadians<float>(fov * 0.5f));
             const float height  = nearClip * tangent;
@@ -437,6 +442,36 @@ namespace Ocular
             m_FarCorners[1] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_BottomPlane);
             m_FarCorners[2] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_TopPlane);
             m_FarCorners[3] = Plane::GetIntersectionPoint(m_FarPlane, m_LeftPlane,  m_TopPlane);
+        }
+
+        float Frustum::getFieldOfView() const
+        {
+            return m_FieldOfView;
+        }
+
+        float Frustum::getAspectRatio() const
+        {
+            return m_AspectRatio;
+        }
+
+        float Frustum::getXMin() const
+        {
+            return m_MinX;
+        }
+
+        float Frustum::getXMax() const
+        {
+            return m_MaxX;
+        }
+
+        float Frustum::getYMin() const
+        {
+            return m_MinY;
+        }
+
+        float Frustum::getYMax() const
+        {
+            return m_MaxY;
         }
 
         //----------------------------------------------------------------------------------

@@ -124,6 +124,23 @@ namespace Ocular
             return m_PropertyWidgetFactory;
         }
 
+        PropertiesDisplayBox* Editor::createCustomDisplay(std::string const& type)
+        {
+            PropertiesDisplayBox* result = m_CustomDisplayFactory.createComponent(type);
+
+            if(result)
+            {
+                result->setTitle(type.c_str());
+            }
+
+            return result;
+        }
+
+        Core::ComponentFactory<PropertiesDisplayBox>& Editor::getCustomDisplayFactory()
+        {
+            return m_CustomDisplayFactory;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

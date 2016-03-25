@@ -52,6 +52,11 @@ namespace Ocular
             return QSize(275, 5);
         }
 
+        bool PropertyWidget::updateProperties()
+        {
+            return false;
+        }
+
         void PropertyWidget::setVariable(Core::ExposedVariable& variable)
         {
             m_Variable = variable;
@@ -66,6 +71,16 @@ namespace Ocular
         std::string const& PropertyWidget::getDisplayName() const
         {
             return m_DisplayName;
+        }
+
+        void PropertyWidget::addWidgetLeftSide(QWidget* widget)
+        {
+            m_LayoutLeft->addWidget(widget);
+        }
+
+        void PropertyWidget::addWidgetRightSide(QWidget* widget)
+        {
+            m_LayoutRight->addWidget(widget);
         }
 
         //----------------------------------------------------------------------------------

@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_LINE_EDIT__H__
-#define __H__OCULAR_EDITOR_LINE_EDIT__H__
+#ifndef __H__OCULAR_EDITOR_COMBO_BOX__H__
+#define __H__OCULAR_EDITOR_COMBO_BOX__H__
 
-#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qcombobox.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -34,69 +34,36 @@ namespace Ocular
      */
     namespace Editor
     {
-        enum class LineType
-        {
-            String = 0,
-            Int8,
-            UInt8,
-            Int16,
-            UInt16,
-            Int32,
-            UInt32,
-            Float,
-            Double
-        };
-
         /**
-         * \class LineEdit
+         * \class ComboBox
          *
-         * Helper class that automatically handles input mask, etc. setup based
-         * on the specified LineType.
+         * Helper class implementation of QComboBox
          */
-        class LineEdit : public QLineEdit
+        class ComboBox : public QComboBox
         {
             Q_OBJECT
 
         public:
 
-            LineEdit(LineType type, QWidget* parent = nullptr);
-            ~LineEdit();
+            ComboBox(QWidget* parent = nullptr);
+            ~ComboBox();
 
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
-             * \return TRUE if the user has modifed this edit (return key was pressed). 
+             * \return TRUE if the user has modifed this edit. 
              */
             bool wasEdited(bool reset = true);
-
-            /**
-             *
-             */
-            int32_t asInt() const;
-
-            /**
-             *
-             */
-            uint32_t asUint() const;
-
-            /**
-             *
-             */
-            float asFloat() const;
-
-            template<typename T>
-            T as() const { return OcularString->fromString<T>(text().toStdString()); }
 
         protected:
             
         private slots:
 
-            void contentsChanged(QString const& text);
-            void userEdited(QString const& text);
+            void onIndexChanged(int index);
 
         private:
 
-            LineType m_Type;
             bool m_WasEdited;
+            int  m_ValidationIndex;
         };
     }
     /**

@@ -149,10 +149,16 @@ namespace Ocular
                 if(!Utils::String::IsEqual(type, "SceneObject"))
                 {
                     // If not a generic SceneObject implementation
-                    m_CustomProperties = new CustomObjectDisplay();
-                    m_CustomProperties->setObject(m_CurrentObject);
-                    m_CustomProperties->setTitle(type.c_str());
+                    m_CustomProperties = OcularEditor.createCustomDisplay(type);
 
+                    if(m_CustomProperties == nullptr)
+                    {
+                        // If no registered custom display for the object type then use a generic CustomObjectDisplay
+                        m_CustomProperties = new CustomObjectDisplay();
+                        m_CustomProperties->setTitle(type.c_str());
+                    }
+                    
+                    m_CustomProperties->setObject(m_CurrentObject);
                     m_Layout->addWidget(m_CustomProperties);
                 }
             }

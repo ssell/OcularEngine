@@ -30,7 +30,7 @@ namespace Ocular
         CustomObjectDisplay::CustomObjectDisplay(QWidget* parent)
             : PropertiesDisplayBox("Custom", parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
         }
 
         CustomObjectDisplay::~CustomObjectDisplay()

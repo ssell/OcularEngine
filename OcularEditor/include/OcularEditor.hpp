@@ -20,7 +20,9 @@
 
 #include "Widgets/MainWindow.hpp"
 #include "Scene/ComponentFactory.hpp"
+
 #include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Properties/PropertiesDisplayBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -74,6 +76,21 @@ namespace Ocular
              * \return Reference to the property widget factory used by the Editor
              */
             Core::ComponentFactory<PropertyWidget>& getPropertyWidgetFactory();
+            
+            /**
+             * Attempts to create a custom display for the specified type.
+             *
+             * \param[in] type Type name of the property to be represented. See Utils::TypeName (ie Utils::TypeName<Vector3f>::name)
+             *
+             * \return Pointer to new display, if matching constructor was found for specified type.
+             *         Otherwise, returns NULL. The caller must assume ownership of the object.
+             */
+            PropertiesDisplayBox* createCustomDisplay(std::string const& type);
+
+            /**
+             * \return Reference to the custom display factory used by the Editor
+             */
+            Core::ComponentFactory<PropertiesDisplayBox>& getCustomDisplayFactory();
 
         protected:
 
@@ -93,6 +110,7 @@ namespace Ocular
             Core::Camera* m_EditorCamera;
 
             Core::ComponentFactory<PropertyWidget> m_PropertyWidgetFactory;
+            Core::ComponentFactory<PropertiesDisplayBox> m_CustomDisplayFactory;
         };
     }
     /**

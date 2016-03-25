@@ -87,6 +87,12 @@
     <Filter Include="Source Files\Widgets\Standard">
       <UniqueIdentifier>{3e80c6d6-66c3-423a-bafd-c4c11a2d5655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Objects">
+      <UniqueIdentifier>{157af9c5-e7c7-4780-9130-1cfaf560c702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Objects">
+      <UniqueIdentifier>{a6960864-a650-4bb3-a6e4-2267ffe1cb10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -305,6 +311,18 @@
     <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Objects\CameraDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ComboBox.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -439,6 +457,12 @@
     <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -469,6 +493,9 @@
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Standard\ColorPreview.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ComboBox.hpp">
       <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
   </ItemGroup>

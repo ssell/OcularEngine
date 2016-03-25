@@ -63,7 +63,7 @@ namespace Ocular
              *
              * \return Should return TRUE if a property was modified by the user; otherwise return FALSE.
              */
-            virtual bool updateProperties() = 0;
+            virtual bool updateProperties();
 
             /**
              * Sets the variable whose data should be displayed and made available to
@@ -73,9 +73,25 @@ namespace Ocular
              */
             void setVariable(Core::ExposedVariable& variable);
 
+            /**
+             *
+             */
             void setDisplayName(std::string const& name);
-
+            
+            /**
+             *
+             */
             std::string const& getDisplayName() const;
+            
+            /**
+             *
+             */
+            void addWidgetLeftSide(QWidget* widget);
+            
+            /**
+             *
+             */
+            void addWidgetRightSide(QWidget* widget);
 
         protected:
             

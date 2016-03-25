@@ -56,7 +56,7 @@ namespace Ocular
 
                 if(m_EditValue->wasEdited())
                 {
-                    (*value) = static_cast<int16_t>(m_EditValue->asInt());
+                    (*value) = m_EditValue->as<int16_t>();
                     result = true;
                 }
                 else if(!m_EditValue->hasFocus())

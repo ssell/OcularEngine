@@ -49,11 +49,15 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            bool wasEdited(bool reset = true);
+            void setValue(float value);
+            float getValue() const;
+
+            LineEdit* m_EditValue;
+
         protected:
 
         private:
-
-            LineEdit* m_EditValue;
         };
     }
     /**
