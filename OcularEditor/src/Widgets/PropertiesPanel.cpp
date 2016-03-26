@@ -199,10 +199,10 @@ namespace Ocular
                 {
                     if(routine)
                     {
-                        RoutineDisplay* routineDisplay = new RoutineDisplay();
+                        RoutineDisplay* routineDisplay = new RoutineDisplay(routine->getName());
                         routineDisplay->setObject(m_CurrentObject);
                         routineDisplay->setTitle(routine->getName().c_str());
-
+                        
                         m_Layout->addWidget(routineDisplay);
                         m_RoutineProperties.push_back(routineDisplay);
                     }

@@ -52,8 +52,6 @@ namespace Ocular
 
         protected:
 
-            bool isCommonName(std::string const& name);
-
             std::vector<PropertyWidget*> m_Properties;
 
         private:

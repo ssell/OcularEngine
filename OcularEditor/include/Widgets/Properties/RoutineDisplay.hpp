@@ -41,7 +41,7 @@ namespace Ocular
         {
         public:
 
-            RoutineDisplay(QWidget* parent = nullptr);
+            RoutineDisplay(std::string const& routineName, QWidget* parent = nullptr);
             ~RoutineDisplay();
 
             //------------------------------------------------------------
@@ -51,9 +51,17 @@ namespace Ocular
 
         protected:
 
+            void buildProperties();
+            void removeProperties();
+
             //------------------------------------------------------------
 
+            Core::ARoutine* m_Routine;
+            std::string m_RoutineName;
+
         private:
+
+            std::vector<PropertyWidget*> m_Properties;
 
         };
     }

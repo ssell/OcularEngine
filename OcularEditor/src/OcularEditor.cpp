@@ -141,6 +141,33 @@ namespace Ocular
             return m_CustomDisplayFactory;
         }
 
+        bool Editor::IsCommonName(std::string const& name)
+        {
+            bool result = false;
+
+            static std::string CommonNames[7] =
+            {
+                "m_Name",
+                "m_Position",
+                "m_Rotation",
+                "m_Scale",
+                "m_Class",
+                "m_IsStatic",
+                "m_ForcedVisible"
+            };
+
+            for(auto commonName : CommonNames)
+            {
+                if(Utils::String::IsEqual(name, commonName))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

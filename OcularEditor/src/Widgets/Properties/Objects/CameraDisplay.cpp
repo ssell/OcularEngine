@@ -18,7 +18,7 @@
 
 #include "Widgets/Properties/Objects/CameraDisplay.hpp"
 #include "Widgets/Properties/Types/Arithmetic/FloatProperty.hpp"
-#include "Widgets/Properties/Types/Vector2Property.hpp"
+#include "Widgets/Properties/Types/MultiProperty.hpp"
 #include "Widgets/Properties/CustomDisplayRegistrar.hpp"
 #include "Widgets/Standard/ComboBox.hpp"
 
@@ -64,11 +64,11 @@ namespace Ocular
             // Clipping Planes
             //------------------------------------------------------------
 
-            m_PropertyClipping = new Vector2Property();
+            m_PropertyClipping = new MultiProperty();
             
             m_PropertyClipping->setDisplayName("Clip Distance");
-            m_PropertyClipping->m_LabelX->setText("Min");
-            m_PropertyClipping->m_LabelY->setText("Max");
+            m_PropertyClipping->addProperty("Min", LineType::Float);
+            m_PropertyClipping->addProperty("Max", LineType::Float);
 
             //------------------------------------------------------------
             // Field of View
@@ -80,18 +80,18 @@ namespace Ocular
             // Orthographic Dimensions
             //------------------------------------------------------------
 
-            m_PropertyXSize = new Vector2Property();
-            m_PropertyYSize = new Vector2Property();
+            m_PropertyXSize = new MultiProperty();
+            m_PropertyYSize = new MultiProperty();
 
             m_PropertyFieldOfView->setDisplayName("Field of View");
 
             m_PropertyXSize->setDisplayName("X Size");
-            m_PropertyXSize->m_LabelX->setText("Min");
-            m_PropertyXSize->m_LabelY->setText("Max");
+            m_PropertyXSize->addProperty("Min", LineType::Float);
+            m_PropertyXSize->addProperty("Min", LineType::Float);
 
             m_PropertyYSize->setDisplayName("Y Size");
-            m_PropertyYSize->m_LabelX->setText("Min");
-            m_PropertyYSize->m_LabelY->setText("Max");
+            m_PropertyYSize->addProperty("Min", LineType::Float);
+            m_PropertyYSize->addProperty("Min", LineType::Float);
             
             //------------------------------------------------------------
             // Layout
@@ -155,10 +155,9 @@ namespace Ocular
 
                 m_Frustum = m_Camera->getFrustum();
                 
-                m_PropertyClipping->m_EditX->setText(OcularString->toString<float>(m_Frustum.getNearClipDistance()).c_str());
-                m_PropertyClipping->m_EditY->setText(OcularString->toString<float>(m_Frustum.getFarClipDistance()).c_str());
-
-                m_PropertyFieldOfView->setValue(m_Frustum.getFieldOfView());
+                m_PropertyClipping->getLineEdit(0)->setText(OcularString->toString<float>(m_Frustum.getNearClipDistance()).c_str());
+                m_PropertyClipping->getLineEdit(1)->setText(OcularString->toString<float>(m_Frustum.getFarClipDistance()).c_str());
+                m_PropertyFieldOfView->getLineEdit()->setText(OcularString->toString<float>(m_Frustum.getFieldOfView()).c_str());
             }
         }
 
@@ -223,24 +222,27 @@ namespace Ocular
             // Clipping Distances
             //------------------------------------------------------------
 
-            if(m_PropertyClipping->m_EditX->wasEdited())
+            LineEdit* propClipMin = m_PropertyClipping->getLineEdit(0);
+            LineEdit* propClipMax = m_PropertyClipping->getLineEdit(1);
+
+            if(propClipMin->wasEdited())
             {
-                nearClip = OcularString->fromString<float>(m_PropertyClipping->m_EditX->text().toStdString());
+                nearClip = OcularString->fromString<float>(propClipMin->text().toStdString());
                 frustumEdited = true;
             }
-            else if(!m_PropertyClipping->m_EditX->hasFocus())
+            else if(!propClipMin->hasFocus())
             {
-                m_PropertyClipping->m_EditX->setText(OcularString->toString<float>(nearClip).c_str());
+                propClipMin->setText(OcularString->toString<float>(nearClip).c_str());
             }
             
-            if(m_PropertyClipping->m_EditY->wasEdited())
+            if(propClipMax->wasEdited())
             {
-                farClip = OcularString->fromString<float>(m_PropertyClipping->m_EditY->text().toStdString());
+                farClip = OcularString->fromString<float>(propClipMax->text().toStdString());
                 frustumEdited = true;
             }
-            else if(!m_PropertyClipping->m_EditY->hasFocus())
+            else if(!propClipMax->hasFocus())
             {
-                m_PropertyClipping->m_EditY->setText(OcularString->toString<float>(farClip).c_str());
+                propClipMax->setText(OcularString->toString<float>(farClip).c_str());
             }
 
             if(m_Camera->getProjectionType() == Core::ProjectionType::Perspective)
@@ -249,14 +251,14 @@ namespace Ocular
                 // Perspective Specific Variables
                 //--------------------------------------------------------
 
-                if(m_PropertyFieldOfView->wasEdited())
+                if(m_PropertyFieldOfView->getLineEdit()->wasEdited())
                 {
-                    fieldOfView = m_PropertyFieldOfView->getValue();
+                    fieldOfView = OcularString->fromString<float>(m_PropertyFieldOfView->getLineEdit()->text().toStdString());
                     frustumEdited = true;
                 }
-                else if(!m_PropertyFieldOfView->m_EditValue->hasFocus())
+                else if(!m_PropertyFieldOfView->getLineEdit()->hasFocus())
                 {
-                    m_PropertyFieldOfView->setValue(fieldOfView);
+                    m_PropertyFieldOfView->getLineEdit()->setText(OcularString->toString<float>(fieldOfView).c_str());
                 }
 
                 if(frustumEdited)
@@ -270,52 +272,58 @@ namespace Ocular
                 // Orthographic Specific Variables
                 //--------------------------------------------------------
 
+                LineEdit* propXMin = m_PropertyXSize->getLineEdit(0);
+                LineEdit* propXMax = m_PropertyXSize->getLineEdit(1);
+
+                LineEdit* propYMin = m_PropertyYSize->getLineEdit(0);
+                LineEdit* propYMax = m_PropertyYSize->getLineEdit(1);
+
                 //--------------------------------------------------------
                 // X Size
                 //--------------------------------------------------------
 
-                if(m_PropertyXSize->m_EditX->wasEdited())
+                if(propXMin->wasEdited())
                 {
-                    xMin = OcularString->fromString<float>(m_PropertyXSize->m_EditX->text().toStdString());
+                    xMin = OcularString->fromString<float>(propXMin->text().toStdString());
                     frustumEdited = true;
                 }
-                else if(!m_PropertyXSize->m_EditX->hasFocus())
+                else if(!propXMin->hasFocus())
                 {
-                    m_PropertyXSize->m_EditX->setText(OcularString->toString<float>(xMin).c_str());
+                    propXMin->setText(OcularString->toString<float>(xMin).c_str());
                 }
 
-                if(m_PropertyXSize->m_EditY->wasEdited())
+                if(propXMax->wasEdited())
                 {
-                    xMax = OcularString->fromString<float>(m_PropertyXSize->m_EditY->text().toStdString());
+                    xMax = OcularString->fromString<float>(propXMax->text().toStdString());
                     frustumEdited = true;
                 }
-                else if(!m_PropertyXSize->m_EditY->hasFocus())
+                else if(!propXMax->hasFocus())
                 {
-                    m_PropertyXSize->m_EditY->setText(OcularString->toString<float>(xMax).c_str());
+                    propXMax->setText(OcularString->toString<float>(xMax).c_str());
                 }
 
                 //--------------------------------------------------------
                 // Y Size
                 //--------------------------------------------------------
 
-                if(m_PropertyYSize->m_EditX->wasEdited())
+                if(propYMin->wasEdited())
                 {
-                    yMin = OcularString->fromString<float>(m_PropertyYSize->m_EditX->text().toStdString());
+                    yMin = OcularString->fromString<float>(propYMin->text().toStdString());
                     frustumEdited = true;
                 }
-                else if(!m_PropertyYSize->m_EditX->hasFocus())
+                else if(!propYMin->hasFocus())
                 {
-                    m_PropertyYSize->m_EditX->setText(OcularString->toString<float>(yMin).c_str());
+                    propYMin->setText(OcularString->toString<float>(yMin).c_str());
                 }
 
-                if(m_PropertyYSize->m_EditY->wasEdited())
+                if(propYMax->wasEdited())
                 {
-                    yMax = OcularString->fromString<float>(m_PropertyYSize->m_EditY->text().toStdString());
+                    yMax = OcularString->fromString<float>(propYMax->text().toStdString());
                     frustumEdited = true;
                 }
-                else if(!m_PropertyYSize->m_EditY->hasFocus())
+                else if(!propYMax->hasFocus())
                 {
-                    m_PropertyYSize->m_EditY->setText(OcularString->toString<float>(yMax).c_str());
+                    propYMax->setText(OcularString->toString<float>(yMax).c_str());
                 }
 
                 if(frustumEdited)

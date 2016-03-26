@@ -68,19 +68,9 @@ namespace Ocular
             return result;
         }
 
-        bool FloatProperty::wasEdited(bool reset)
+        LineEdit* FloatProperty::getLineEdit()
         {
-            return m_EditValue->wasEdited(reset);
-        }
-
-        void FloatProperty::setValue(float value)
-        {
-            m_EditValue->setText(OcularString->toString<float>(value).c_str());
-        }
-
-        float FloatProperty::getValue() const
-        {
-            return OcularString->fromString<float>(m_EditValue->text().toStdString());
+            return m_EditValue;
         }
 
         //----------------------------------------------------------------------------------

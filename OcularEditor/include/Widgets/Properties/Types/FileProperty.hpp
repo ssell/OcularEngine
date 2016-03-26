@@ -22,6 +22,8 @@
 #include "Widgets/Standard/LineEdit.hpp"
 #include "Widgets/Standard/ButtonFileBrowse.hpp"
 
+#include <string>
+
 //------------------------------------------------------------------------------------------
 
 /**

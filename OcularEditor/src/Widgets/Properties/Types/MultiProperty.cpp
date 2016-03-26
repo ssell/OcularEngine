@@ -15,10 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/Types/FileProperty.hpp"
-#include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
-
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::FileProperty, Ocular::Utils::TypeName<Ocular::Core::File>::name);
+#include "Widgets/Properties/Types/MultiProperty.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,17 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        FileProperty::FileProperty(QWidget* parent)
+        MultiProperty::MultiProperty(QWidget* parent)
             : PropertyWidget(parent)
         {
-            m_LineValue = new LineEdit(LineType::String);
-            m_ButtonBrowse = new ButtonFileBrowse();
 
-            m_LayoutRight->addWidget(m_LineValue);
-            m_LayoutRight->addWidget(m_ButtonBrowse);
         }
 
-        FileProperty::~FileProperty()
+        MultiProperty::~MultiProperty()
         {
 
         }
@@ -49,36 +42,53 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        bool FileProperty::updateProperties()
+        bool MultiProperty::updateProperties()
         {
-            bool result = false;
+            return false;
+        }
 
-            if(m_Variable.data)
+        uint32_t MultiProperty::addProperty(std::string const& name, LineType type)
+        {
+            uint32_t index = static_cast<uint32_t>(m_Properties.size());
+
+            QLabel* label = new QLabel(name.c_str());
+            LineEdit* edit = new LineEdit(type);
+
+            m_LayoutRight->addWidget(label);
+            m_LayoutRight->addWidget(edit);
+
+            m_Properties.push_back(std::make_pair(label, edit));
+
+            return 0;
+        }
+
+        QLabel* MultiProperty::getLabel(uint32_t const index)
+        {
+            QLabel* result = nullptr;
+
+            if(index < static_cast<uint32_t>(m_Properties.size()))
             {
-                Core::File* value = void_cast<Core::File*>(m_Variable.data);
-                
-                if(m_ButtonBrowse->wasEdited())
-                {
-                    (*value).setPath(m_ButtonBrowse->getSelectedFile());
-                    m_LineValue->setText(m_ButtonBrowse->getSelectedFile().c_str());
-
-                    result = true;
-                }
-                else
-                {
-                    if(m_LineValue->wasEdited())
-                    {
-                        (*value).setPath(m_LineValue->text().toStdString());
-                        result = true;
-                    }
-                    else if(!m_LineValue->hasFocus())
-                    {
-                        m_LineValue->setText((*value).getFullPath().c_str());
-                    }
-                }
+                result = m_Properties[index].first;
             }
 
             return result;
+        }
+
+        LineEdit* MultiProperty::getLineEdit(uint32_t const index)
+        {
+            LineEdit* result = nullptr;
+
+            if(index < static_cast<uint32_t>(m_Properties.size()))
+            {
+                result = m_Properties[index].second;
+            }
+
+            return result;
+        }
+
+        uint32_t MultiProperty::getNumProperties() const
+        {
+            return static_cast<uint32_t>(m_Properties.size());
         }
 
         //----------------------------------------------------------------------------------

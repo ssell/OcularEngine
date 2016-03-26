@@ -22,6 +22,8 @@
 #include "Widgets/Standard/LineEdit.hpp"
 #include "Widgets/Standard/ButtonDirectoryBrowse.hpp"
 
+#include <string>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -49,7 +51,6 @@ namespace Ocular
             virtual ~DirectoryProperty();
 
             virtual bool updateProperties() override;
-
         protected:
 
         private:

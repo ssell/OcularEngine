@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 Steven T Sell (ssell@ocularinteractive.com)
+ * Copyright 2014-2032 Steven T Sell (ssell@ocularinteractive.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,11 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        LineEdit* Int32Property::getLineEdit()
+        {
+            return m_EditValue;
         }
 
         //----------------------------------------------------------------------------------

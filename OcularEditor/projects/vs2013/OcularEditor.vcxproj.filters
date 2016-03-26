@@ -323,6 +323,9 @@
     <ClCompile Include="..\..\src\Widgets\Standard\ComboBox.cpp">
       <Filter>Source Files\Widgets\Standard</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -462,6 +465,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp">
       <Filter>Header Files\Widgets\Properties\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\MultiProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,8 @@
 #include "Widgets/Properties/PropertyWidget.hpp"
 #include "Widgets/Standard/LineEdit.hpp"
 
+#include <cstdint>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -48,6 +50,8 @@ namespace Ocular
             virtual ~Int32Property();
 
             virtual bool updateProperties() override;
+
+            LineEdit* getLineEdit();
 
         protected:
 

@@ -74,22 +74,28 @@ namespace Ocular
             void setVariable(Core::ExposedVariable& variable);
 
             /**
+             * Sets the text of the label on the left-side of the widget.
              *
+             * \param[in] name
              */
             void setDisplayName(std::string const& name);
             
             /**
-             *
+             * Retrieves the text of the label on the left-side of the widget.
              */
             std::string const& getDisplayName() const;
             
             /**
+             * Adds a new widget to the left-side layout.
              *
+             * \param[in] widget
              */
             void addWidgetLeftSide(QWidget* widget);
             
             /**
+             * Adds a new widget to the right-side layout.
              *
+             * \param[in] widget
              */
             void addWidgetRightSide(QWidget* widget);
 

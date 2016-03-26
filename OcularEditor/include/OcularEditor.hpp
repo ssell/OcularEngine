@@ -92,6 +92,11 @@ namespace Ocular
              */
             Core::ComponentFactory<PropertiesDisplayBox>& getCustomDisplayFactory();
 
+            /**
+             * Checks if the provided name is an object name belongs to either Object or SceneObject base members.
+             */
+            static bool IsCommonName(std::string const& name);
+
         protected:
 
         private:

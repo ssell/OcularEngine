@@ -68,6 +68,11 @@ namespace Ocular
             return result;
         }
 
+        LineEdit* DoubleProperty::getLineEdit()
+        {
+            return m_EditValue;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

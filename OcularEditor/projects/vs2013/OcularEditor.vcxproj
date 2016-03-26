@@ -275,6 +275,7 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\ColorProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\FileProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuatAsEulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuaternionProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\StringProperty.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\FileProperty.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\MultiProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp" />
     <CustomBuild Include="..\..\include\Widgets\Standard\ButtonFileBrowse.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -554,7 +556,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MocDir=".\..\..\src\QtGenerated\$(ConfigurationName)" UicDir=".\..\..\src\QtGenerated" RccDir=".\..\..\src\QtGenerated" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="Qt 5.5" Qt5Version_x0020_x64="Qt 5.5" MocOptions="" />
+      <UserProperties MocDir=".\..\..\src\QtGenerated\$(ConfigurationName)" UicDir=".\..\..\src\QtGenerated" RccDir=".\..\..\src\QtGenerated" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="Qt 5.5" Qt5Version_x0020_x64="$(DefaultQtVersion)" MocOptions="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

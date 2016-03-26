@@ -49,6 +49,8 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            LineEdit* getLineEdit();
+
         protected:
 
         private:

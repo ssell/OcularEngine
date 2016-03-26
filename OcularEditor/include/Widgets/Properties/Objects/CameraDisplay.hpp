@@ -43,7 +43,7 @@ namespace Ocular
     {
         class ComboBox;
         class FloatProperty;
-        class Vector2Property;
+        class MultiProperty;
 
         /**
          * \class CameraDisplay
@@ -86,13 +86,11 @@ namespace Ocular
 
             //------------------------------------------------------------
             // Frustum Properties
-
-            PropertyWidget* m_PropertyFrustum;
             
-            Vector2Property* m_PropertyClipping;
-            Vector2Property* m_PropertyXSize;
-            Vector2Property* m_PropertyYSize;
-            FloatProperty*   m_PropertyFieldOfView;
+            MultiProperty* m_PropertyClipping;
+            MultiProperty* m_PropertyXSize;
+            MultiProperty* m_PropertyYSize;
+            FloatProperty* m_PropertyFieldOfView;
 
             QLabel* m_LabelFrustum;
         };

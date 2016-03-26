@@ -21,6 +21,7 @@
 #include "Widgets/Properties/PropertyWidget.hpp"
 #include "Widgets/Standard/ButtonColorPicker.hpp"
 #include "Widgets/Standard/ColorPreview.hpp"
+#include "Math/Color.hpp"
 
 //------------------------------------------------------------------------------------------
 

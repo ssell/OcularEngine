@@ -27,8 +27,10 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        RoutineDisplay::RoutineDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Routine", parent)
+        RoutineDisplay::RoutineDisplay(std::string const& routineName, QWidget* parent)
+            : PropertiesDisplayBox("Routine", parent),
+              m_Routine(nullptr),
+              m_RoutineName(routineName)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         }
@@ -44,9 +46,16 @@ namespace Ocular
 
         void RoutineDisplay::setObject(Core::SceneObject* object)
         {
-            if(object)
+            if(m_Object != object)
             {
                 m_Object = object;
+                removeProperties();
+
+                if(m_Object)
+                {
+                    m_Routine = m_Object->getRoutine(m_RoutineName);
+                    buildProperties();
+                }
             }
         }
 
@@ -54,13 +63,66 @@ namespace Ocular
         {
             if(m_Object)
             {
+                // Make sure the Routine is still valid and has not been removed
+                m_Routine = m_Object->getRoutine(m_RoutineName);
 
+                if(m_Routine)
+                {
+                    for(auto prop : m_Properties)
+                    {
+                        if(prop)
+                        {
+                            prop->updateProperties();
+                        }
+                    }
+                }
+                else
+                {
+                    removeProperties();
+                }
             }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void RoutineDisplay::buildProperties()
+        {
+            std::vector<std::string> exposedNames;
+            m_Object->getAllExposedNames(exposedNames);
+
+            for(auto name : exposedNames)
+            {
+                if(!OcularEditor.IsCommonName(name))
+                {
+                    Core::ExposedVariable exposed;
+                    m_Object->getVariable(name, exposed);
+
+                    PropertyWidget* widget = OcularEditor.createPropertyWidget(exposed.name, exposed.type);
+
+                    if(widget)
+                    {
+                        m_Properties.push_back(widget);
+                    }
+                }
+            }
+        }
+
+        void RoutineDisplay::removeProperties()
+        {
+            for(auto prop : m_Properties)
+            {
+                if(prop)
+                {
+                    m_Layout->removeWidget(prop);
+                    delete prop;
+                    prop = nullptr;
+                }
+            }
+
+            m_Properties.clear();
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
