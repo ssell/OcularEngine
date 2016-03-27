@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ * Copyright 2014-2016 Steven T Sell (ssell@ocularinteractive.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,16 @@
  */
 
 #include "OcularCommon.hlsl"
-#include "OcularLighting.hlsl"
 
 cbuffer cbPerMaterial : register(b3)
 {
-    float4 _Color;
+    float4 _MaterialColor;
 };
 
 struct VSOutput
 {
-    float4 position     : SV_Position;
-    float4 color        : COLOR0;
-    float4 normal       : COLOR1;
-    float4 fragPosition : COLOR2;
+    float4 position : SV_Position;
+    float4 color    : COLOR0;
 };
 
 struct PSOutput
@@ -41,23 +38,16 @@ struct PSOutput
 
 VSOutput VSMain(VSInput input)
 {
+    matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
+
     VSOutput output;
-    output.fragPosition = mul(input.position, _ModelMatrix);
-    output.position     = mul(output.fragPosition, _ViewProjMatrix);
-    output.normal       = mul(float4(input.normal.xyz, 1.0f), _ModelMatrix);
-    output.color        = input.color;
+    output.position = mul(input.position, mvpMatrix);
+    output.color    = input.color;
 
     return output;
 }
 
 float4 PSMain(VSOutput input) : SV_Target
 {
-    float4 lightPos = float4(0.0f, 100.0f, 0.0f, 1.0f);
-    float4 outColor = input.color;
-
-    float angle = dot(input.normal, normalize(lightPos - input.fragPosition));
-
-    outColor *= angle * _Color;
-
-    return outColor;
+    return input.color;
 }

@@ -326,6 +326,12 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp">
       <Filter>Source Files\Widgets\Properties\Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_SceneTree.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_SceneTree.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">

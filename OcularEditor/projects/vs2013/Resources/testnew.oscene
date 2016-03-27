@@ -13,7 +13,7 @@
                 <var name="m_Name" type="String" value="MeshRenderable" />
                 <var name="m_Class" type="String" value="Mesh" />
                 <var name="m_Material" type="String" value="Materials/Flat" />
-                <var name="m_Mesh" type="String" value="Meshes/cube_normals" />
+                <var name="m_Mesh" type="String" value="Meshes/cube" />
                 <var name="m_UUID" type="UUID" value="a3e2188d-9bb5-40b4-835f-8e4ed4404bd8" />
             </var>
             <var name="m_UUID" type="UUID" value="353844b3-a0d0-43de-b45e-a346af5961d0" />

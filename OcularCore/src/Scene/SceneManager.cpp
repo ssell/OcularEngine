@@ -282,6 +282,11 @@ namespace Ocular
             return result;
         }
 
+        bool SceneManager::isSceneActive() const
+        {
+            return (m_Scene != nullptr);
+        }
+
         ComponentFactory<ARoutine>& SceneManager::getRoutineFactory()
         {
             return m_RoutineFactory;

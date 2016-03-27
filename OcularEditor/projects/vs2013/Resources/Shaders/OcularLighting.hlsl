@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2015 Steven T Sell (ssell@ocularinteractive.com)
+ * Copyright 2014-2016 Steven T Sell (ssell@ocularinteractive.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,7 @@
 float calcLightingIntensitySimpleCos(VSInput input, float4 source)
 {
     float4 transformedNormal = mul(_ModelMatrix, float4(input.normal.xyz, 1.0f));
-    float angleCos = dot(transformedNormal, source);
-
-    return clamp(angleCos, -1.0f, 1.0f);
-}
-
-float calcLightingIntensitySimpleCosSmooth(VSInput input, float4 source)
-{
-    return (calcLightingIntensitySimpleCos(input, source) + 1.0f) * 0.5f;
+    float angleCos = dot(normal, source);
+    
+    return clamp(angleCos, 0.0f, 1.0f);
 }

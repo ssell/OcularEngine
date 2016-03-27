@@ -55,7 +55,7 @@ namespace Ocular
         Graphics::MeshResourceSaver_PLY MeshResourceSaver_PLY;
 
         Graphics::MaterialResourceLoader MaterialResourceLoader;
-        //Graphics::MaterialResourceSaver MaterialResourceSaver;
+        Graphics::MaterialResourceSaver MaterialResourceSaver;
 
         Core::FreeFlyController FreeFlyController;
         Core::MeshRenderable MeshRenderable;

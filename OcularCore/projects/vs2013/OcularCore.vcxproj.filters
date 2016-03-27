@@ -621,9 +621,6 @@
     <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
-      <Filter>Source Files\Graphics\Material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
@@ -665,6 +662,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

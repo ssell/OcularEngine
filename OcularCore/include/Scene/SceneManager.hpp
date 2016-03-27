@@ -230,6 +230,11 @@ namespace Ocular
             bool saveScene(File const& file);
 
             /**
+             * \return TRUE if there is an active Scene running.
+             */
+            bool isSceneActive() const;
+
+            /**
              *
              */
             ComponentFactory<ARoutine>& getRoutineFactory();

@@ -37,7 +37,7 @@ namespace Ocular
 
             m_Layout = new QVBoxLayout();
             m_Layout->addWidget(m_SceneTree);
-            m_Layout->setContentsMargins(5, 25, 5, 5);
+            m_Layout->setContentsMargins(1, 25, 1, 5);
 
             setLayout(m_Layout);
         }

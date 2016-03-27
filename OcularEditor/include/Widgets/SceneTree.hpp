@@ -43,6 +43,8 @@ namespace Ocular
          */
         class SceneTree : public QTreeWidget, public Ocular::Core::AEventListener
         {
+            Q_OBJECT
+
         public:
 
             SceneTree(QWidget* parent = nullptr);
@@ -83,6 +85,22 @@ namespace Ocular
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
             bool isObjectTracked(Core::SceneObject* object);
+
+        private slots:
+
+            void onShowContextMenu(QPoint const& pos);
+
+            void handleContextMenuNoSelection(QMenu* menu, QPoint const& globalPos);
+            void handleContextMenuSingleSelection(QMenu* menu, QPoint const& globalPos);
+            void handleContextMenuMultiSelection(QMenu* menu, QPoint const& globalPos, uint32_t numSelected);
+
+            void handleContextMenuAction(QAction* action);
+            void handleContextMenuActionDuplicate();
+            void handleContextMenuActionRename();
+            void handleContextMenuActionDelete();
+            void handleContextMenuActionCreateObject(std::string const& type);
+            
+            void populateAddObjectSubmenu(QMenu* submenu);
 
         private:
         };

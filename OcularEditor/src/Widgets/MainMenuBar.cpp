@@ -157,7 +157,7 @@ namespace Ocular
 
         void MainMenuBar::fileNewScene()
         {
-
+            OcularScene->createScene("New Scene");
         }
 
         void MainMenuBar::fileOpenScene()

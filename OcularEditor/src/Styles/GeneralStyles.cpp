@@ -36,22 +36,82 @@ namespace Ocular
         // (27, 27, 28) : Dark Selected
         // (62, 62, 64) : Light Hover
 
+        // (37, 194, 62) : Green Selection
+
         const QString GeneralStyles::windowStyle =
+
+            //------------------------------------------------------------
+            // QWidget
+            //------------------------------------------------------------
+
             "QWidget"
             "{"
             "    color: rgb(211, 221, 211);"
             "    background-color: rgb(45, 45, 48);"
             "    border-color: rgb(63, 63, 70);"
+            "    outline: 0;"
             "}"
+
+            //------------------------------------------------------------
+            // QFrame
+            //------------------------------------------------------------
+
             "QFrame"
             "{"
             "    color: rgb(211, 211, 211);"
             "}"
+
+            //------------------------------------------------------------
+            // QLabel
+            //------------------------------------------------------------
+
             "QLabel"
             "{"
             "    color: rgb(211, 211, 211);"
             "    background-color: rgb(56, 56, 60);"
             "}"
+
+            //------------------------------------------------------------
+            // QToolButton
+            //------------------------------------------------------------
+
+            "QToolButton"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
+            "    padding: 5px;"
+            "}"
+            "QToolButton:pressed"
+            "{"
+            "    background-color: rgb(37, 194, 62);"
+            "}"
+            "QToolButton:hover"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
+            "    background-color: rgb(62, 62, 64);"
+            "}"
+
+            //------------------------------------------------------------
+            // QPushButton
+            //------------------------------------------------------------
+
+            "QPushButton"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
+            "    border-radius: 2px;"
+            "}"
+            "QPushButton:hover"
+            "{"
+            "    background-color: rgb(62, 62, 64);"
+            "}"
+            "QPushButton:pressed"
+            "{"
+            "    background-color: rgb(37, 194, 62);"
+            "}"
+
+            //------------------------------------------------------------
+            // QGroupBox
+            //------------------------------------------------------------
+
             "QGroupBox"
             "{"
             "    border: 1px solid rgb(27, 27, 28);"
@@ -70,11 +130,21 @@ namespace Ocular
             "{"
             "    background-color: rgb(0, 255, 0);"
             "}"
+
+            //------------------------------------------------------------
+            // QTextEdit
+            //------------------------------------------------------------
+
             "QTextEdit"
             "{"
             "    color: rgb(255, 255, 255);"
             "    border: 0px solid black;"
             "}"
+
+            //------------------------------------------------------------
+            // QLineEdit
+            //------------------------------------------------------------
+
             "QLineEdit"
             "{"
             "    background-color: rgb(45, 45, 48);"
@@ -89,6 +159,11 @@ namespace Ocular
             "    border-radius: 2px;"
             "    padding: 1px;"
             "}"
+
+            //------------------------------------------------------------
+            // QTreeWidget
+            //------------------------------------------------------------
+
             "QTreeWidget"
             "{"
             "    border: 0px solid black;"
@@ -101,20 +176,25 @@ namespace Ocular
             "}"
             "QTreeWidget::item::focus"
             "{"
+            "    color: rgb(255, 255, 255);"
+            "    background-color: rgb(37, 194, 62);"
             "    border: 0px solid black;"
             "}"
             "QTreeWidget::item::selected"
             "{"
             "    color: rgb(255, 255, 255);"
-            "    background-color: rgb(56, 56, 60);"
+            "    background-color: rgb(37, 194, 62);"
             "    border: 0px solid black;"
             "}"
-            "QTreeWidget::item::hover"
+            "QTreeWidget::branch:selected"
             "{"
-            "    color: rgb(255, 255, 255);"
-            "    background-color: rgb(62, 62, 64);"
-            "    border: 0px solid black;"
+            "    background-color: rgb(37, 194, 62);"
             "}"
+
+            //------------------------------------------------------------
+            // QMenuBar
+            //------------------------------------------------------------
+
             "QMenuBar::item"
             "{"
             "    background-color: transparent;"
@@ -127,6 +207,11 @@ namespace Ocular
             "{"
             "    background-color: rgb(27, 27, 28);"
             "}"
+
+            //------------------------------------------------------------
+            // QMenu
+            //------------------------------------------------------------
+
             "QMenu::item"
             "{"
             "    background-color: rgb(27, 27, 28);"

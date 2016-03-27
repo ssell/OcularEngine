@@ -66,7 +66,7 @@ namespace Ocular
             /**
              *
              */
-            template<class S>
+            template<typename S>
             bool registerComponent(std::string name)
             {
                 bool result = false;
@@ -76,6 +76,19 @@ namespace Ocular
                 {
                     m_ComponentMap.insert(std::make_pair(name, [](){ return new S; }));
                     result = true;
+                }
+
+                return result;
+            }
+
+            std::vector<std::string> getRegisteredKeys() const
+            {
+                std::vector<std::string> result;
+                result.reserve(m_ComponentMap.size());
+
+                for(auto keyvalue : m_ComponentMap)
+                {
+                    result.emplace_back(keyvalue.first);
                 }
 
                 return result;

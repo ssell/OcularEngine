@@ -36,11 +36,16 @@ namespace Ocular
             : QTreeWidget(parent)
         {
             OcularEvents->registerListener(this, Core::Priority::Medium);
+
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setSelectionMode(QAbstractItemView::SelectionMode::MultiSelection);
+            setContextMenuPolicy(Qt::CustomContextMenu);
 
             setHeaderHidden(true);
             setColumnCount(2);           // First column is object name; Second is object UUID
             setColumnHidden(1, true);
+
+            connect(this, SIGNAL(customContextMenuRequested(QPoint const&)), this, SLOT(onShowContextMenu(QPoint const&)));
         }
 
         SceneTree::~SceneTree()
@@ -153,6 +158,13 @@ namespace Ocular
                         OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(focusObject));
                     }
                 }
+                else
+                {
+                    clearSelection();
+
+                    const QModelIndex index;
+                    selectionModel()->setCurrentIndex(index, QItemSelectionModel::Select);
+                }
             }
         }
 
@@ -235,5 +247,156 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void SceneTree::onShowContextMenu(QPoint const& pos)
+        {
+            const QPoint globalPos = mapToGlobal(pos);
+
+            //------------------------------------------------------------
+            // Build Context Menu
+            //------------------------------------------------------------
+
+            QMenu contextMenu;
+
+            auto selectedItems = this->selectedItems();
+            const uint32_t numSelected = static_cast<uint32_t>(selectedItems.size());
+
+            switch(numSelected)
+            {
+            case 0:
+                handleContextMenuNoSelection(&contextMenu, globalPos);
+                break;
+
+            case 1:
+                handleContextMenuSingleSelection(&contextMenu, globalPos);
+                break;
+
+            case 2:
+            default:         // Explicit fall through
+                handleContextMenuMultiSelection(&contextMenu, globalPos, numSelected);
+                break;
+            }
+        }
+
+        void SceneTree::handleContextMenuNoSelection(QMenu* menu, QPoint const& globalPos)
+        {
+            QMenu* submenu = menu->addMenu("Add SceneObject");
+            populateAddObjectSubmenu(submenu);
+
+            menu->addSeparator();
+            menu->addAction("Duplicate")->setDisabled(true);
+            menu->addAction("Rename")->setDisabled(true);
+            menu->addAction("Delete")->setDisabled(true);
+            
+            handleContextMenuAction(menu->exec(globalPos));
+        }
+
+        void SceneTree::handleContextMenuSingleSelection(QMenu* menu, QPoint const& globalPos)
+        {
+            QMenu* submenu = menu->addMenu("AddChild");
+            populateAddObjectSubmenu(submenu);
+
+            menu->addSeparator();
+            menu->addAction("Duplicate");
+            menu->addAction("Rename");
+            menu->addAction("Delete");
+
+            handleContextMenuAction(menu->exec(globalPos));
+        }
+
+        void SceneTree::handleContextMenuMultiSelection(QMenu* menu, QPoint const& globalPos, uint32_t numSelected)
+        {
+            QMenu* submenu = menu->addMenu("Add Children");
+            populateAddObjectSubmenu(submenu);
+
+            menu->addSeparator();
+            menu->addAction("Duplicate");
+            menu->addAction("Rename")->setDisabled(true);
+            menu->addAction("Delete");
+            
+            handleContextMenuAction(menu->exec(globalPos));
+        }
+
+        void SceneTree::handleContextMenuAction(QAction* action)
+        {
+            if(action)
+            {
+                const QString text = action->text();
+
+                if(text.compare("Duplicate") == 0)
+                {
+                    handleContextMenuActionDuplicate();
+                }
+                else if(text.compare("Rename") == 0)
+                {
+                    handleContextMenuActionRename();
+                }
+                else if(text.compare("Delete") == 0)
+                {
+                    handleContextMenuActionDelete();
+                }
+                else
+                {
+                    handleContextMenuActionCreateObject(text.toStdString());                    
+                }
+            }
+        }
+
+        void SceneTree::handleContextMenuActionDuplicate()
+        {
+        
+        }
+
+        void SceneTree::handleContextMenuActionRename()
+        {
+        
+        }
+
+        void SceneTree::handleContextMenuActionDelete()
+        {
+        
+        }
+
+        void SceneTree::handleContextMenuActionCreateObject(std::string const& type)
+        {
+            auto selectedItems = this->selectedItems();
+            const uint32_t numSelected = static_cast<uint32_t>(selectedItems.size());
+
+            if(numSelected == 0)
+            {
+                // We are creating a new, top-level object 
+                OcularScene->createObjectOfType(type, type);
+            }
+            else if(numSelected)
+            {
+                // We are creating one or more child objects
+                for(auto item : selectedItems)
+                {
+                    SceneTreeItem* sceneTreeItem = dynamic_cast<SceneTreeItem*>(item);
+
+                    if(sceneTreeItem)
+                    {
+                        Core::SceneObject* object = sceneTreeItem->getObject();
+
+                        if(object)
+                        {
+                            OcularScene->createObjectOfType(type, type, object);
+                        }
+                    }
+                }
+            }
+        }
+
+        void SceneTree::populateAddObjectSubmenu(QMenu* submenu)
+        {
+            std::vector<std::string> objectTypes = OcularScene->getSceneObjectFactory().getRegisteredKeys();
+            const bool disable = !OcularScene->isSceneActive();
+
+            for(auto objectType : objectTypes)
+            {
+                submenu->addAction(objectType.c_str())->setDisabled(disable);
+            }
+        }
+
     }
 }
