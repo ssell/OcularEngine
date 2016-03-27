@@ -20,6 +20,7 @@
 #include "Widgets/Properties/CustomObjectDisplay.hpp"
 #include "Widgets/Properties/RenderableDisplay.hpp"
 #include "Widgets/Properties/RoutineDisplay.hpp"
+#include "Events/Events/SceneObjectRemovedEvent.hpp"
 #include "Events/SceneObjectSelectedEvent.hpp"
 #include "Scene/ARoutine.hpp"
 
@@ -72,6 +73,11 @@ namespace Ocular
             if(object != m_CurrentObject)
             {
                 m_CurrentObject = object;
+                
+                if(m_CurrentObject)
+                {
+                    m_CurrentObjectUUID = object->getUUID();
+                }
 
                 initializeCommon();
                 initializeCustom();
@@ -82,26 +88,29 @@ namespace Ocular
 
         void PropertiesPanel::update()
         {
-            if(m_CommonProperties)
+            if(m_CurrentObject)
             {
-                m_CommonProperties->updateProperties();
-            }
-
-            if(m_CustomProperties)
-            {
-                m_CustomProperties->updateProperties();
-            }
-
-            if(m_RenderableProperties)
-            {
-                m_RenderableProperties->updateProperties();
-            }
-
-            for(auto routine : m_RoutineProperties)
-            {
-                if(routine)
+                if(m_CommonProperties)
                 {
-                    routine->updateProperties();
+                    m_CommonProperties->updateProperties();
+                }
+
+                if(m_CustomProperties)
+                {
+                    m_CustomProperties->updateProperties();
+                }
+
+                if(m_RenderableProperties)
+                {
+                    m_RenderableProperties->updateProperties();
+                }
+
+                for(auto routine : m_RoutineProperties)
+                {
+                    if(routine)
+                    {
+                        routine->updateProperties();
+                    }
                 }
             }
         }
@@ -121,8 +130,35 @@ namespace Ocular
                     selectObject(objectEvent->object);
                 }
             }
+            else if(event->isType<Core::SceneObjectRemovedEvent>())
+            {
+                Core::SceneObjectRemovedEvent* objectEvent = dynamic_cast<Core::SceneObjectRemovedEvent*>(event.get());
 
+                if(objectEvent)
+                {
+                    if(objectEvent->uuid == m_CurrentObjectUUID)
+                    {
+                        m_CurrentObject = nullptr;
+                        objectDeselected();
+                    }
+                }
+            }
+            
             return true;    // Do not consume this event
+        }
+
+        void PropertiesPanel::objectDeselected()
+        {
+            SAFE_REMOVE(m_CommonProperties);
+            SAFE_REMOVE(m_CustomProperties);
+            SAFE_REMOVE(m_RenderableProperties);
+            
+            for(auto routine : m_RoutineProperties)
+            {
+                SAFE_REMOVE(routine);
+            }
+
+            m_RoutineProperties.clear();
         }
 
         void PropertiesPanel::initializeCommon()

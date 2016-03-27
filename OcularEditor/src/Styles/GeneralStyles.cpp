@@ -138,6 +138,7 @@ namespace Ocular
             "QTextEdit"
             "{"
             "    color: rgb(255, 255, 255);"
+            "    selection-background-color: rgb(37, 194, 62);"
             "    border: 0px solid black;"
             "}"
 
@@ -147,6 +148,7 @@ namespace Ocular
 
             "QLineEdit"
             "{"
+            "    selection-background-color: rgb(37, 194, 62);"
             "    background-color: rgb(45, 45, 48);"
             "    border: 1px solid rgb(52, 52, 54);"
             "    border-radius: 2px;"
@@ -227,6 +229,25 @@ namespace Ocular
             "QMenu::separator"
             "{" 
             "    border-color: rgb(197, 197, 197);" 
+            "}"
+            
+            //------------------------------------------------------------
+            // QComboBox
+            //------------------------------------------------------------
+            
+            "QComboBox"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
+            "}"
+            "QComboBox QAbstractItemView"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
+            "    background-color: rgb(156, 56, 60);"
+            "    selection-background-color: rgb(37, 194, 62);"
+            "}"
+            "QComboBox::drop-down"
+            "{"
+            "    border: 0px solid rgb(27, 27, 28);"
             "}";
 
         const QString GeneralStyles::frameStyle =

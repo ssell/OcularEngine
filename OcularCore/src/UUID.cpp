@@ -130,17 +130,10 @@ namespace Ocular
 
         bool UUID::operator==(UUID const& rhs) const
         {
-            boost::uuids::uuid rhsUUID;
-            uint8_t rhsRaw[16];
+            const std::string lhsStr = m_String;
+            const std::string rhsStr = rhs.toString();
 
-            for(uint32_t i = 0; i < 16; i++)
-            {
-                rhsRaw[i] = rhs.getData(i);
-            }
-
-            memcpy(&rhsUUID, rhsRaw, sizeof(uint8_t) * 16);
-
-            return (m_Internal->uuid == rhsUUID);
+            return OcularString->IsEqual(lhsStr, rhsStr);
         }
 
         bool UUID::operator!=(UUID const& rhs) const

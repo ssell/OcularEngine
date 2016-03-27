@@ -61,6 +61,8 @@ namespace Ocular
 
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
+            void objectDeselected();
+
             void initializeCommon();
             void initializeCustom();
             void initializeRenderable();
@@ -71,6 +73,7 @@ namespace Ocular
             QVBoxLayout* m_Layout;
 
             Core::SceneObject* m_CurrentObject;
+            Core::UUID         m_CurrentObjectUUID;
 
             CommonDisplay*        m_CommonProperties;
             PropertiesDisplayBox* m_CustomProperties;

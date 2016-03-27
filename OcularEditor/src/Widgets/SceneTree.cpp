@@ -38,7 +38,7 @@ namespace Ocular
             OcularEvents->registerListener(this, Core::Priority::Medium);
 
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            setSelectionMode(QAbstractItemView::SelectionMode::MultiSelection);
+            setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);
             setContextMenuPolicy(Qt::CustomContextMenu);
 
             setHeaderHidden(true);
@@ -164,6 +164,8 @@ namespace Ocular
 
                     const QModelIndex index;
                     selectionModel()->setCurrentIndex(index, QItemSelectionModel::Select);
+
+                    OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
                 }
             }
         }
@@ -354,7 +356,18 @@ namespace Ocular
 
         void SceneTree::handleContextMenuActionDelete()
         {
-        
+            auto selectedItems = this->selectedItems();
+            const uint32_t numSelected = static_cast<uint32_t>(selectedItems.size());
+
+            for(auto item : selectedItems)
+            {
+                SceneTreeItem* sceneTreeItem = dynamic_cast<SceneTreeItem*>(item);
+
+                if(sceneTreeItem)
+                {
+                    OcularScene->destroyObject(sceneTreeItem->getUUID());
+                }
+            }
         }
 
         void SceneTree::handleContextMenuActionCreateObject(std::string const& type)
