@@ -28,7 +28,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RenderableDisplay::RenderableDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", parent)
+            : PropertiesDisplayBox("Renderable", true, true, parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         }

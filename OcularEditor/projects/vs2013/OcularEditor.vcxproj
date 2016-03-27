@@ -267,6 +267,7 @@
     <ClCompile Include="..\..\src\Widgets\Properties\DirectoryProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Objects\CameraDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesTitleBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\RenderableDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\DoubleProperty.hpp" />

@@ -53,7 +53,7 @@ namespace Ocular
         }
 
         SceneObject::SceneObject()
-            : Object("SceneObject"),
+            : Object("SceneObject", "SceneObject"),
               m_IsStatic(false),
               m_IsActive(true),
               m_IsVisible(false),

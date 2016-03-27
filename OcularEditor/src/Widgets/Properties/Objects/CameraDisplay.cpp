@@ -40,8 +40,6 @@ namespace Ocular
             : PropertiesDisplayBox("Camera", parent),
               m_Camera(nullptr)
         {
-            m_LabelFrustum = new QLabel("Frustum");
-
             //------------------------------------------------------------
             // Projection ComboBox
             //------------------------------------------------------------
@@ -99,7 +97,6 @@ namespace Ocular
 
             m_Layout->addWidget(m_PropertyProjection);
             m_Layout->addWidget(m_PropertyClearColor);
-            m_Layout->addWidget(m_LabelFrustum);
             m_Layout->addWidget(m_PropertyClipping);
             m_Layout->addWidget(m_PropertyFieldOfView);
             m_Layout->addWidget(m_PropertyXSize);

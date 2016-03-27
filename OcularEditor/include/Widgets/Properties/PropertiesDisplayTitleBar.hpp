@@ -15,14 +15,14 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_BOX__H__
-#define __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_BOX__H__
+#ifndef __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_TITLE_BAR__H__
+#define __H__OCULAR_EDITOR_PROPERTIES_DISPLAY_TITLE_BAR__H__
 
 
-#include <QtWidgets/qgroupbox.h>
+#include <QtWidgets/qframe.h>
 #include <QtWidgets/qboxlayout.h>
-
-#include "Scene/SceneObject.hpp"
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qlabel.h>
 
 //------------------------------------------------------------------------------------------
 
@@ -38,38 +38,40 @@ namespace Ocular
      */
     namespace Editor
     {
-        class PropertiesDisplayTitleBar;
-
         /**
-         * \class PropertiesDisplayBox
+         * \class PropertiesDisplayTitleBar
          */
-        class PropertiesDisplayBox : public QFrame
+        class PropertiesDisplayTitleBar : public QFrame
         {
         public:
 
-            PropertiesDisplayBox(std::string const& displayName, bool canMinimize = true, bool canClose = false, QWidget* parent = nullptr);
-            ~PropertiesDisplayBox();
+            PropertiesDisplayTitleBar(std::string const& displayName, bool canMinimize = true, bool canClose = false, QWidget* parent = nullptr);
+            ~PropertiesDisplayTitleBar();
 
             virtual QSize sizeHint() const override;
 
             //------------------------------------------------------------
 
             void setTitle(std::string const& title);
-
-            virtual void setObject(Core::SceneObject* object) = 0;
-            virtual void updateProperties() = 0;
+            void setCanMinimize(bool canMinimize);
+            void setCanClose(bool canClose);
 
         protected:
-            
+
             void buildLayout();
-            void buildTitleBar(std::string const& displayName, bool canMinimize, bool canClsoe);
+            void buildTitleBar();
 
             //------------------------------------------------------------
 
-            QVBoxLayout* m_Layout;
-            Core::SceneObject* m_Object;
+            QHBoxLayout* m_Layout;
 
-            PropertiesDisplayTitleBar* m_TitleBar;
+            QLabel* m_LabelTitle;
+
+            QPushButton* m_ButtonMinimize;
+            QPushButton* m_ButtonClose;
+            
+            bool m_CanMinimize;
+            bool m_CanClose;
 
         private:
         };

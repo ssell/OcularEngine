@@ -116,6 +116,7 @@ namespace Ocular
             "{"
             "    border: 1px solid rgb(27, 27, 28);"
             "    background-color: rgb(56, 56, 60);"
+            "    padding-left: 0px;"
             "}"
             "QGroupBox::title"
             "{"

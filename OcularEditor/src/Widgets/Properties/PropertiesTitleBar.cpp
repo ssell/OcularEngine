@@ -15,7 +15,6 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/PropertiesDisplayBox.hpp"
 #include "Widgets/Properties/PropertiesDisplayTitleBar.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -28,20 +27,21 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PropertiesDisplayBox::PropertiesDisplayBox(std::string const& displayName, bool canMinimize, bool canClose, QWidget* parent)
+        PropertiesDisplayTitleBar::PropertiesDisplayTitleBar(std::string const& displayName, bool canMinimize, bool canClose, QWidget* parent)
             : QFrame(parent),
-              m_Object(nullptr)
+              m_CanMinimize(canMinimize),
+              m_CanClose(canClose)
         {
+            setStyleSheet("QFrame { background-color: rgb(27, 27, 28); color: rgb(255, 255, 255); border: 0px solid rgb(27, 27, 28); }");
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-            setStyleSheet("QGroupBox{ border: 0px solid black; }");
 
             buildLayout();
-            buildTitleBar(displayName, canMinimize, canClose);
+            buildTitleBar();
 
             setTitle(displayName);
         }
 
-        PropertiesDisplayBox::~PropertiesDisplayBox()
+        PropertiesDisplayTitleBar::~PropertiesDisplayTitleBar()
         {
 
         }
@@ -50,33 +50,59 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize PropertiesDisplayBox::sizeHint() const
+        QSize PropertiesDisplayTitleBar::sizeHint() const
         {
-            return QSize(275, 50);
+            return QSize(275, 15);
         }
 
-        void PropertiesDisplayBox::setTitle(std::string const& title)
+        void PropertiesDisplayTitleBar::setTitle(std::string const& title)
         {
-            m_TitleBar->setTitle(title);
+            m_LabelTitle->setText(title.c_str());
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void PropertiesDisplayBox::buildLayout()
+        void PropertiesDisplayTitleBar::buildLayout()
         {
-            m_Layout = new QVBoxLayout();
+            m_Layout = new QHBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->setContentsMargins(0, 5, 0, 5);
+            m_Layout->setContentsMargins(5, 2, 5, 2);
 
             setLayout(m_Layout);
         }
 
-        void PropertiesDisplayBox::buildTitleBar(std::string const& displayName, bool canMinimize, bool canClose)
+        void PropertiesDisplayTitleBar::buildTitleBar()
         {
-            m_TitleBar = new PropertiesDisplayTitleBar(displayName, canMinimize, canClose);
-            m_Layout->addWidget(m_TitleBar);
+            m_ButtonMinimize = new QPushButton("-");
+            m_ButtonClose = new QPushButton("X");
+            m_LabelTitle = new QLabel("...");
+
+            m_ButtonMinimize->setFixedSize(20, 10);
+            m_ButtonClose->setFixedSize(20, 10);
+            
+            std::string stylesheet = 
+                "QPushButton { background-color: transparent; }"
+                "QPushButton:hover { color: rgb(224, 62, 37); }"
+                "QPushButton:pressed { color: rgb(224, 62, 37); }";
+
+            m_ButtonMinimize->setStyleSheet(stylesheet.c_str());
+            m_ButtonClose->setStyleSheet(stylesheet.c_str());
+
+            m_Layout->addWidget(m_LabelTitle);
+            m_Layout->addWidget(m_ButtonMinimize);
+            m_Layout->addWidget(m_ButtonClose);
+
+            if(!m_CanMinimize)
+            {
+                m_ButtonMinimize->hide();
+            }
+
+            if(!m_CanClose)
+            {
+                m_ButtonClose->hide();
+            }
         }
 
         //----------------------------------------------------------------------------------

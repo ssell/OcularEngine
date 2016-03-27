@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/CommonDisplay.hpp"
+#include "Widgets/Properties/PropertiesDisplayTitleBar.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,6 +40,8 @@ namespace Ocular
 
             buildName();
             buildTransform();
+
+            m_TitleBar->hide();
         }
 
         CommonDisplay::~CommonDisplay()
@@ -135,6 +138,8 @@ namespace Ocular
         void CommonDisplay::buildName()
         {
             m_LineName = new QLineEdit();
+            m_LineName->setStyleSheet("QLineEdit { margin-left: 5px; margin-right: 5px; }");
+
             m_Layout->addWidget(m_LineName);
         }
 

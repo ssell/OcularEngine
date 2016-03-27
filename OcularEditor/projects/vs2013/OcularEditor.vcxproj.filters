@@ -332,6 +332,9 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_SceneTree.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesTitleBar.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -474,6 +477,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\MultiProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -91,8 +91,6 @@ namespace Ocular
             MultiProperty* m_PropertyXSize;
             MultiProperty* m_PropertyYSize;
             FloatProperty* m_PropertyFieldOfView;
-
-            QLabel* m_LabelFrustum;
         };
     }
     /**

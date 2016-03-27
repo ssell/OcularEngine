@@ -28,7 +28,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RoutineDisplay::RoutineDisplay(std::string const& routineName, QWidget* parent)
-            : PropertiesDisplayBox("Routine", parent),
+            : PropertiesDisplayBox("Routine", true, true, parent),
               m_Routine(nullptr),
               m_RoutineName(routineName)
         {

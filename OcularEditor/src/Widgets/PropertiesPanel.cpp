@@ -49,7 +49,7 @@ namespace Ocular
 
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->setContentsMargins(0, 20, 0, 10);
+            m_Layout->setContentsMargins(0, 0, 0, 10);
 
             setLayout(m_Layout);
         }
