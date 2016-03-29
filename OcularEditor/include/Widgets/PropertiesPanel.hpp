@@ -44,7 +44,9 @@ namespace Ocular
          * \class PropertiesPanel
          */
         class PropertiesPanel : public QFrame, public Ocular::Core::AEventListener
-        {
+        { 
+            Q_OBJECT
+
         public:
 
             PropertiesPanel(QWidget* parent = nullptr);
@@ -63,14 +65,23 @@ namespace Ocular
 
             void objectDeselected();
 
+            void refreshWidgets();
+
             void initializeCommon();
             void initializeCustom();
             void initializeRenderable();
             void initializeRoutines();
+            void initializeAddButtons();
+
+        private slots:
+
+            void onAddRenderableClicked();
+            void onAddRoutineClicked();
 
         private:
 
             QVBoxLayout* m_Layout;
+            QHBoxLayout* m_LayoutAdd;
 
             Core::SceneObject* m_CurrentObject;
             Core::UUID         m_CurrentObjectUUID;
@@ -78,6 +89,9 @@ namespace Ocular
             CommonDisplay*        m_CommonProperties;
             PropertiesDisplayBox* m_CustomProperties;
             RenderableDisplay*    m_RenderableProperties;
+
+            QPushButton* m_ButtonAddRenderable;
+            QPushButton* m_ButtonAddRoutine;
 
             std::vector<RoutineDisplay*> m_RoutineProperties;
         };

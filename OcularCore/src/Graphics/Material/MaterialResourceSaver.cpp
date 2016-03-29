@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+//__declspec(dllexport) void getRidOfLNK4221(){}
+
 #include "Graphics/Material/MaterialResourceSaver.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"
 #include "Graphics/Shader/ShaderProgram.hpp"

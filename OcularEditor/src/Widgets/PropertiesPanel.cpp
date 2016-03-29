@@ -20,9 +20,11 @@
 #include "Widgets/Properties/CustomObjectDisplay.hpp"
 #include "Widgets/Properties/RenderableDisplay.hpp"
 #include "Widgets/Properties/RoutineDisplay.hpp"
+#include "Widgets/Properties/SelectResourceDialog.hpp"
 #include "Events/Events/SceneObjectRemovedEvent.hpp"
 #include "Events/SceneObjectSelectedEvent.hpp"
 #include "Scene/ARoutine.hpp"
+#include "Scene/ARenderable.hpp"
 
 #define SAFE_REMOVE(X) if(X){ m_Layout->removeWidget(X); delete X; X = nullptr; }
 
@@ -47,11 +49,42 @@ namespace Ocular
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setStyleSheet("QFrame { background-color: rgb(56, 56, 60); }");
 
+            //------------------------------------------------------------
+            // Create Add Buttons
+            //------------------------------------------------------------
+
+            m_ButtonAddRenderable = new QPushButton("Add Renderable");
+            m_ButtonAddRenderable->setFixedSize(QSize(100, 20));
+            m_ButtonAddRenderable->hide();
+
+            m_ButtonAddRoutine = new QPushButton("Add Routine");
+            m_ButtonAddRoutine->setFixedSize(QSize(100, 20));
+            m_ButtonAddRoutine->hide();
+            
+            connect(m_ButtonAddRenderable, SIGNAL(released()), this, SLOT(onAddRenderableClicked()));
+            connect(m_ButtonAddRoutine, SIGNAL(released()), this, SLOT(onAddRoutineClicked()));
+            
+            //------------------------------------------------------------
+            // Create Layouts
+            //------------------------------------------------------------
+
             m_Layout = new QVBoxLayout();
             m_Layout->setAlignment(Qt::AlignTop);
             m_Layout->setContentsMargins(0, 0, 0, 10);
 
+            m_LayoutAdd = new QHBoxLayout();
+            m_LayoutAdd->setAlignment(Qt::AlignCenter);
+            m_LayoutAdd->setContentsMargins(0, 10, 0, 0);
+            
+            //------------------------------------------------------------
+            // Build Layouts
+            //------------------------------------------------------------
+
+            m_LayoutAdd->addWidget(m_ButtonAddRenderable);
+            m_LayoutAdd->addWidget(m_ButtonAddRoutine);
+            
             setLayout(m_Layout);
+            m_Layout->addLayout(m_LayoutAdd);
         }
 
         PropertiesPanel::~PropertiesPanel()
@@ -79,10 +112,7 @@ namespace Ocular
                     m_CurrentObjectUUID = object->getUUID();
                 }
 
-                initializeCommon();
-                initializeCustom();
-                initializeRenderable();
-                initializeRoutines();
+                refreshWidgets();
             }
         }
 
@@ -161,6 +191,15 @@ namespace Ocular
             m_RoutineProperties.clear();
         }
 
+        void PropertiesPanel::refreshWidgets()
+        {
+            initializeCommon();
+            initializeCustom();
+            initializeRenderable();
+            initializeRoutines();
+            initializeAddButtons();
+        }
+
         void PropertiesPanel::initializeCommon()
         {
             SAFE_REMOVE(m_CommonProperties);
@@ -212,6 +251,7 @@ namespace Ocular
                 {
                     m_RenderableProperties = new RenderableDisplay();
                     m_RenderableProperties->setObject(m_CurrentObject);
+                    m_RenderableProperties->setTitle(renderable->getName());
 
                     m_Layout->addWidget(m_RenderableProperties);
                 }
@@ -246,8 +286,54 @@ namespace Ocular
             }
         }
 
+        void PropertiesPanel::initializeAddButtons()
+        {
+            m_ButtonAddRenderable->setVisible((m_CurrentObject != nullptr));
+            m_ButtonAddRoutine->setVisible((m_CurrentObject != nullptr));
+
+            if(m_CurrentObject)
+            {
+                m_ButtonAddRenderable->setEnabled(m_CurrentObject->getRenderable() == nullptr);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void PropertiesPanel::onAddRenderableClicked()
+        {
+            SelectResourceDialog dialog(ResourceType::Renderable);
+
+            if(dialog.exec())
+            {
+                std::string const& name = dialog.getSelectedName();
+                
+                if(m_CurrentObject)
+                {
+                    m_CurrentObject->setRenderable(name);
+                    refreshWidgets();
+                }
+            }
+        }
+
+        void PropertiesPanel::onAddRoutineClicked()
+        {
+            SelectResourceDialog dialog(ResourceType::Routine);
+
+            if(dialog.exec())
+            {
+                std::string const& name = dialog.getSelectedName();
+                
+                if(m_CurrentObject)
+                {
+                    if(m_CurrentObject->getRoutine(name) == nullptr)
+                    {
+                        m_CurrentObject->addRoutine(name);
+                        refreshWidgets();
+                    }
+                }
+            }
+        }
     }
 }

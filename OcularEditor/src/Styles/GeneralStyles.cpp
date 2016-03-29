@@ -107,6 +107,10 @@ namespace Ocular
             "{"
             "    background-color: rgb(37, 194, 62);"
             "}"
+            "QPushButton:disabled"
+            "{"
+            "    color: rgb(125, 125, 125);"
+            "}"
 
             //------------------------------------------------------------
             // QGroupBox
