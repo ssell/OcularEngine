@@ -30,7 +30,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshResourceSaver::MeshResourceSaver(std::string const& extension)
-            : Core::AResourceSaver(extension)
+            : Core::AResourceSaver(extension, Core::ResourceType::Mesh)
         {
         
         }

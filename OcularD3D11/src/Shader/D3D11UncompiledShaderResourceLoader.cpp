@@ -51,7 +51,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11UncompiledShaderResourceLoader::D3D11UncompiledShaderResourceLoader()
-            : Core::AResourceLoader(".hlsl"),
+            : Core::AResourceLoader(".hlsl", Core::ResourceType::ShaderProgram),
               m_D3DDevice(nullptr),
               m_D3DDeviceContext(nullptr)
         {

@@ -56,7 +56,7 @@ namespace Ocular
         }
 
         Camera::Camera()
-            : SceneObject(),
+            : SceneObject("Camera", "Camera"),
               m_ProjType(ProjectionType::Perspective),
               m_RenderTexture(nullptr),
               m_DepthTexture(nullptr),

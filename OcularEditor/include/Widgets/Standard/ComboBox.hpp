@@ -46,7 +46,7 @@ namespace Ocular
         public:
 
             ComboBox(QWidget* parent = nullptr);
-            ~ComboBox();
+            virtual ~ComboBox();
 
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.

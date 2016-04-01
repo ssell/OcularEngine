@@ -29,9 +29,11 @@ namespace Ocular
         // CONSTRUCTOR
         //----------------------------------------------------------------------------------
 
-        AResourceLoader::AResourceLoader(std::string const& extension)
+        AResourceLoader::AResourceLoader(std::string const& extension, ResourceType type)
+            : m_SupportedExtension(extension),
+              m_Type(type)
         {
-            m_SupportedExtension = extension;
+
         }
 
         AResourceLoader::~AResourceLoader()
@@ -51,6 +53,11 @@ namespace Ocular
         bool AResourceLoader::loadResource(Resource* &resource, File const& file)
         {
             return false;
+        }
+
+        ResourceType AResourceLoader::getResourceType() const
+        {
+            return m_Type;
         }
 
         //----------------------------------------------------------------------------------

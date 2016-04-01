@@ -350,6 +350,18 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_SelectResourceDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\ResourceProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonResourceBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonResourceBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonResourceBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -493,6 +505,9 @@
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -533,6 +548,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Properties\SelectResourceDialog.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonResourceBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

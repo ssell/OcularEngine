@@ -56,7 +56,7 @@ namespace Ocular
         {
         public:
 
-            AResourceLoader(std::string const& extension);
+            AResourceLoader(std::string const& extension, ResourceType type);
             virtual ~AResourceLoader();
 
             /**
@@ -69,6 +69,11 @@ namespace Ocular
              * \param[in]  file
              */
             virtual bool loadResource(Resource* &resource, File const& file);
+
+            /**
+             * Returns the type of resource created by this loader.
+             */
+            ResourceType getResourceType() const;
 
         protected:
           
@@ -84,8 +89,12 @@ namespace Ocular
              */
             bool isFileValid(Core::File const& file) const;
 
+            //------------------------------------------------------------
+
             std::string m_SupportedExtension;
             
+            ResourceType m_Type;
+
         private:
         };
     }

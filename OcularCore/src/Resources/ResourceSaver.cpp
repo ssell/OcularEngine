@@ -28,9 +28,11 @@ namespace Ocular
         // CONSTRUCTOR
         //----------------------------------------------------------------------------------
 
-        AResourceSaver::AResourceSaver(std::string const& extension)
+        AResourceSaver::AResourceSaver(std::string const& extension, ResourceType type)
+            : m_SupportedExtension(extension),
+              m_Type(type)
         {
-            m_SupportedExtension = extension;
+
         }
 
         AResourceSaver::~AResourceSaver()
@@ -50,6 +52,11 @@ namespace Ocular
         bool AResourceSaver::saveResource(Resource* resource, File const& file)
         {
             return false;
+        }
+
+        ResourceType AResourceSaver::getResourceType() const
+        {
+            return m_Type;
         }
 
         //----------------------------------------------------------------------------------

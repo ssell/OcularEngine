@@ -391,6 +391,37 @@ namespace Ocular
             canSave = m_ResourceSaverManager.isExtensionSupported(extension);
         }
 
+        void ResourceManager::getResourcesOfType(ResourceType const type, std::vector<std::string>& resources)
+        {
+            resources.reserve(m_ResourceMap.size());
+
+            for(auto resourceEntry : m_ResourceMap)
+            {
+                if(resourceEntry.second)
+                {
+                    Resource* resource = resourceEntry.second->getResource();
+
+                    if(resource && (resource->getResourceType() == type))
+                    {
+                        resources.push_back(resourceEntry.first);
+                    }
+                }
+                else
+                {
+                    // Never been created
+                    auto findFile = m_FileMap.find(resourceEntry.first);
+
+                    if(findFile != m_FileMap.end())
+                    {
+                        if(m_ResourceLoaderManager.getResourceType(findFile->second.getExtension()) == type)
+                        {
+                            resources.push_back(resourceEntry.first);
+                        }
+                    }
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

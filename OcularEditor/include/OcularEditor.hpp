@@ -97,6 +97,11 @@ namespace Ocular
              */
             static bool IsCommonName(std::string const& name);
 
+            /**
+             *
+             */
+            static std::string FormatName(std::string const& name);
+
         protected:
 
         private:

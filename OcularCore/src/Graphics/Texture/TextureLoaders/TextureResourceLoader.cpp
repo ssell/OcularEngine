@@ -33,7 +33,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         TextureResourceLoader::TextureResourceLoader(std::string const& extension)
-            : Core::AResourceLoader(extension)
+            : Core::AResourceLoader(extension, Core::ResourceType::Texture)
         {
         
         }

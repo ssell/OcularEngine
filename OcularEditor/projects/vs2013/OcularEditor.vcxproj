@@ -169,6 +169,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonResourceBrowse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Debug\moc_CheckBox.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -218,6 +222,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonFileBrowse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonResourceBrowse.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -304,6 +312,7 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuatAsEulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\QuaternionProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\ResourceProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\StringProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector2Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector3Property.cpp" />
@@ -315,6 +324,7 @@
     <ClCompile Include="..\..\src\Widgets\SceneTreeItem.cpp" />
     <ClCompile Include="..\..\src\Widgets\Standard\ButtonDirectoryBrowse.cpp" />
     <ClCompile Include="..\..\src\Widgets\Standard\ButtonFileBrowse.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonResourceBrowse.cpp" />
     <ClCompile Include="..\..\src\Widgets\Standard\CheckBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\Standard\ButtonColorPicker.cpp" />
     <ClCompile Include="..\..\src\Widgets\Standard\ColorPreview.cpp" />
@@ -397,6 +407,7 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\FileProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\MultiProperty.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp" />
     <CustomBuild Include="..\..\include\Widgets\Standard\ButtonFileBrowse.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -487,6 +498,24 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing ComboBox.hpp...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Standard/ComboBox.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonResourceBrowse.hpp">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ButtonResourceBrowse.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Standard/ButtonResourceBrowse.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing ButtonResourceBrowse.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Standard/ButtonResourceBrowse.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ButtonResourceBrowse.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Standard/ButtonResourceBrowse.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing ButtonResourceBrowse.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/Standard/ButtonResourceBrowse.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
     </CustomBuild>
     <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp" />
     <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">

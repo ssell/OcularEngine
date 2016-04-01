@@ -50,7 +50,7 @@ namespace Ocular
         {
         public:
 
-            AResourceSaver(std::string const& extension);
+            AResourceSaver(std::string const& extension, ResourceType type);
             virtual ~AResourceSaver();
 
             virtual std::string getSupportedFileType() const;
@@ -60,6 +60,11 @@ namespace Ocular
              * \param[in] file
              */
             virtual bool saveResource(Resource* resource, File const& file);
+
+            /**
+             * Returns the type of resource handled by this saver.
+             */
+            ResourceType getResourceType() const;
 
         protected:
 
@@ -76,7 +81,11 @@ namespace Ocular
              */
             virtual bool writeFile(Core::File const& file, std::vector<unsigned char> buffer, Endianness fileEndianness);
 
+            //------------------------------------------------------------
+
             std::string m_SupportedExtension;
+
+            ResourceType m_Type;
 
         private:
         };

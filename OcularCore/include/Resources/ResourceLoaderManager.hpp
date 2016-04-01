@@ -82,6 +82,11 @@ namespace Ocular
              */
             bool isExtensionSupported(std::string const& extension) const;
 
+            /**
+             * \return The type of resource stored in the specified extension (if any).
+             */
+            ResourceType getResourceType(std::string const& extension) const;
+
         protected:
 
         private:

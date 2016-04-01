@@ -46,7 +46,7 @@ namespace Ocular
         public:
 
             CheckBox(QWidget* parent = nullptr);
-            ~CheckBox();
+            virtual ~CheckBox();
 
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.

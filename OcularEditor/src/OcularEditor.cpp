@@ -18,6 +18,8 @@
 #include "D3D11GraphicsDriver.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
+#include <regex>
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -164,6 +166,29 @@ namespace Ocular
                     break;
                 }
             }
+
+            return result;
+        }
+
+        std::string Editor::FormatName(std::string const& name)
+        {
+            std::string result = name;
+
+            //------------------------------------------------------------
+            // Remove any "m_"
+
+            // Do regex instead!
+
+            if((result.size() > 2) && (result[0] == 'm') && (result[1] == '_'))
+            {
+                result = result.substr(2);
+            }
+            
+            //------------------------------------------------------------
+            // Split apart camel case
+
+            const std::regex caseExp("([a-z0-9])([A-Z])");
+            result = std::regex_replace(result, caseExp, "$1 $2");
 
             return result;
         }

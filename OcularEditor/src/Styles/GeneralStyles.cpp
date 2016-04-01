@@ -24,7 +24,7 @@ namespace Ocular
     namespace Editor
     {
         //----------------------------------------------------------------------------------
-        // CONSTRUCTORS
+        // Window Style
         //----------------------------------------------------------------------------------
 
         // (211, 211, 211) : Default Text
@@ -37,6 +37,7 @@ namespace Ocular
         // (62, 62, 64) : Light Hover
 
         // (37, 194, 62) : Green Selection
+        // (156, 56, 60) : Error Red
 
         const QString GeneralStyles::windowStyle =
 
@@ -247,7 +248,6 @@ namespace Ocular
             "QComboBox QAbstractItemView"
             "{"
             "    border: 0px solid rgb(27, 27, 28);"
-            "    background-color: rgb(156, 56, 60);"
             "    selection-background-color: rgb(37, 194, 62);"
             "}"
             "QComboBox::drop-down"
@@ -255,20 +255,54 @@ namespace Ocular
             "    border: 0px solid rgb(27, 27, 28);"
             "}";
 
+        //----------------------------------------------------------------------------------
+        // Frame Styles
+        //----------------------------------------------------------------------------------
+
         const QString GeneralStyles::frameStyle =
             ""
             "";
 
         //----------------------------------------------------------------------------------
-        // PUBLIC METHODS
+        // Line Edit Valid Styles
         //----------------------------------------------------------------------------------
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
+        const QString GeneralStyles::lineEditValidStyle =
+            "QLineEdit"
+            "{"
+            "    selection-background-color: rgb(37, 194, 62);"
+            "    background-color: rgb(45, 45, 48);"
+            "    border: 1px solid rgb(52, 52, 54);"
+            "    border-radius: 2px;"
+            "    padding: 1px;"
+            "}"
+            "QLineEdit:focus"
+            "{"
+            "    background-color: rgb(45, 45, 48);"
+            "    border: 1px solid rgb(37, 194, 62);"
+            "    border-radius: 2px;"
+            "    padding: 1px;"
+            "}";
 
         //----------------------------------------------------------------------------------
-        // PRIVATE METHODS
+        // Line Edit Invalid Styles
         //----------------------------------------------------------------------------------
+
+        const QString GeneralStyles::lineEditInvalidStyle =
+            "QLineEdit"
+            "{"
+            "    selection-background-color: rgb(37, 194, 62);"
+            "    background-color: rgb(45, 45, 48);"
+            "    border: 1px solid rgb(156, 56, 60);"
+            "    border-radius: 2px;"
+            "    padding: 1px;"
+            "}"
+            "QLineEdit:focus"
+            "{"
+            "    background-color: rgb(45, 45, 48);"
+            "    border: 1px solid rgb(156, 56, 60);"
+            "    border-radius: 2px;"
+            "    padding: 1px;"
+            "}";
     }
 }

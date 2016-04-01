@@ -33,7 +33,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshResourceLoader::MeshResourceLoader(std::string const& extension)
-            : Core::AResourceLoader(extension)
+            : Core::AResourceLoader(extension, Core::ResourceType::Mesh)
         {
         
         }

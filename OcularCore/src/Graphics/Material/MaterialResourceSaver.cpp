@@ -39,7 +39,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MaterialResourceSaver::MaterialResourceSaver()
-            : Core::AResourceSaver(".omat")
+            : Core::AResourceSaver(".omat", Core::ResourceType::Material)
         {
         
         }

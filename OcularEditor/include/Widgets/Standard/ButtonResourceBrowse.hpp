@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
-#define __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
+#ifndef __H__OCULAR_BUTTON_RESOURCE_BROWSE__H__
+#define __H__OCULAR_BUTTON_RESOURCE_BROWSE__H__
 
 #include <QtWidgets/qpushbutton.h>
-#include "Math/Color.hpp"
+#include "Resources/Resource.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -36,21 +36,21 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class ButtonColorPicker
+         * \class ButtonResourceBrowse
          *
-         * Helper class implementation of QPushButton for picking colors.
+         * Helper class implementation of QPushButton for selecting resources.
          */
-        class ButtonColorPicker : public QPushButton
+        class ButtonResourceBrowse : public QPushButton
         {
             Q_OBJECT
 
         public:
 
-            ButtonColorPicker(QWidget* parent = nullptr);
-            virtual ~ButtonColorPicker();
+            ButtonResourceBrowse(QWidget* parent = nullptr);
+            virtual ~ButtonResourceBrowse();
 
             virtual QSize sizeHint() const override;
-
+            
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
              * \return TRUE if the user has modifed this edit. 
@@ -60,11 +60,16 @@ namespace Ocular
             /**
              *
              */
-            Core::Color const& getSelectedColor() const;
+            void setResourceType(Core::ResourceType type);
+            
+            /**
+             *
+             */
+            std::string const& getSelectedResource() const;
 
         protected:
             
-        private slots:
+        private slots :
 
             void onButtonClick();
 
@@ -72,8 +77,8 @@ namespace Ocular
 
             bool m_WasEdited;
 
-            Core::Color m_SelectedColor;
-            QColor m_QColor;
+            Core::ResourceType m_Type;
+            std::string m_SelectedResource;
         };
     }
     /**

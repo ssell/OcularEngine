@@ -15,11 +15,14 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
-#define __H__OCULAR_EDITOR_BUTTON_COLOR_PICKER__H__
+#ifndef __H__OCULAR_EDITOR_RESOURCE_PROPERTY__H__
+#define __H__OCULAR_EDITOR_RESOURCE_PROPERTY__H__
 
-#include <QtWidgets/qpushbutton.h>
-#include "Math/Color.hpp"
+#include "Widgets/Properties/PropertyWidget.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
+#include "Widgets/Standard/ButtonResourceBrowse.hpp"
+
+#include <string>
 
 //------------------------------------------------------------------------------------------
 
@@ -36,44 +39,32 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class ButtonColorPicker
+         * \class ResourceProperty
          *
-         * Helper class implementation of QPushButton for picking colors.
+         * Pre-built property display for Core::Resource variables.
          */
-        class ButtonColorPicker : public QPushButton
+        class ResourceProperty : public PropertyWidget
         {
-            Q_OBJECT
-
         public:
 
-            ButtonColorPicker(QWidget* parent = nullptr);
-            virtual ~ButtonColorPicker();
+            ResourceProperty(QWidget* parent = nullptr);
+            virtual ~ResourceProperty();
 
-            virtual QSize sizeHint() const override;
-
-            /**
-             * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
-             * \return TRUE if the user has modifed this edit. 
-             */
-            bool wasEdited(bool reset = true);
+            virtual bool updateProperties() override;
 
             /**
              *
              */
-            Core::Color const& getSelectedColor() const;
+            void setResourceType(Core::ResourceType type);
 
         protected:
-            
-        private slots:
-
-            void onButtonClick();
 
         private:
 
-            bool m_WasEdited;
+            LineEdit* m_LineValue;
+            ButtonResourceBrowse* m_ButtonBrowse;
 
-            Core::Color m_SelectedColor;
-            QColor m_QColor;
+            Core::ResourceType m_Type;
         };
     }
     /**

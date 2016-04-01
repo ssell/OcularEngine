@@ -15,6 +15,10 @@
  */
 
 #include "Resources/Resource.hpp"
+#include "Utilities/StringRegistrar.hpp"
+#include "Utilities/VoidCast.hpp"
+
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -22,6 +26,36 @@ namespace Ocular
 {
     namespace Core
     {
+        OCULAR_REGISTER_TO_STRING(Resource, OCULAR_TO_STRING_LAMBDA
+        {
+            std::string result;
+
+            if(raw)
+            {
+                Resource* resource = void_cast<Resource*>(raw);
+
+                if(resource)
+                {
+                    result = resource->getMappingName();
+                }
+            }
+
+            return result;
+        });
+
+        OCULAR_REGISTER_FROM_STRING(Resource, OCULAR_FROM_STRING_LAMBDA
+        {
+            if(out)
+            {
+                Resource** resource = (Resource**)(out);
+
+                if(resource)
+                {
+                    *resource = OcularResources->getResource(str);
+                }
+            }
+        });
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
@@ -55,6 +89,16 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void Resource::unload()
+        {
+
+        }
+
+        void Resource::forceLoad()
+        {
+            /// \todo Resources forceLoad
+        }
+
         File Resource::getSourceFile() const 
         {
             return m_SourceFile;
@@ -83,11 +127,6 @@ namespace Ocular
         ResourceType Resource::getResourceType() const
         {
             return m_Type;
-        }
-
-        void Resource::forceLoad()
-        {
-            /// \todo Resources forceLoad
         }
 
         void Resource::setName(std::string const& name)

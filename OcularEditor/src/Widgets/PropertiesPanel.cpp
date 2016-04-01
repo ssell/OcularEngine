@@ -61,8 +61,8 @@ namespace Ocular
             m_ButtonAddRoutine->setFixedSize(QSize(100, 20));
             m_ButtonAddRoutine->hide();
             
-            connect(m_ButtonAddRenderable, SIGNAL(released()), this, SLOT(onAddRenderableClicked()));
-            connect(m_ButtonAddRoutine, SIGNAL(released()), this, SLOT(onAddRoutineClicked()));
+            connect(m_ButtonAddRenderable, SIGNAL(clicked()), this, SLOT(onAddRenderableClicked()));
+            connect(m_ButtonAddRoutine, SIGNAL(clicked()), this, SLOT(onAddRoutineClicked()));
             
             //------------------------------------------------------------
             // Create Layouts

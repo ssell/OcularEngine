@@ -30,7 +30,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         TextureResourceSaver::TextureResourceSaver(std::string const& extension)
-            : Core::AResourceSaver(extension)
+            : Core::AResourceSaver(extension, Core::ResourceType::Texture)
         {
         
         }

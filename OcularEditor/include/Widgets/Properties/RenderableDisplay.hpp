@@ -51,9 +51,16 @@ namespace Ocular
 
         protected:
 
+            void buildProperties();
+            void removeProperties();
+         
             //------------------------------------------------------------
 
+            Core::ARenderable* m_Renderable;
+
         private:
+
+            std::vector<PropertyWidget*> m_Properties;
 
         };
     }

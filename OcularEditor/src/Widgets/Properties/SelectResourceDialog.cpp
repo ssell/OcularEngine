@@ -35,7 +35,18 @@ namespace Ocular
             buildWidgets();
             populateTree(type);
 
-            connect(m_ButtonSelect, SIGNAL(released()), this, SLOT(onFinished()));
+            connect(m_ButtonSelect, SIGNAL(clicked()), this, SLOT(onFinished()));
+        }
+
+        SelectResourceDialog::SelectResourceDialog(Core::ResourceType const type, QWidget* parent)
+            : QDialog(parent)
+        {
+            setStyleSheet(GeneralStyles::windowStyle);
+
+            buildWidgets();
+            populateTree(type);
+
+            connect(m_ButtonSelect, SIGNAL(clicked()), this, SLOT(onFinished()));
         }
 
         SelectResourceDialog::~SelectResourceDialog()
@@ -90,12 +101,26 @@ namespace Ocular
                 availableNames = OcularScene->getRoutineFactory().getRegisteredKeys();
                 break;
 
-            case ResourceType::Resource:
-                break;
-
             default:
                 break;
             }
+
+            for(auto name : availableNames)
+            {
+                QTreeWidgetItem* item = new QTreeWidgetItem(m_TreeResource);
+                item->setText(0, name.c_str());
+
+                m_TreeResource->addTopLevelItem(item);
+            }
+
+            m_TreeResource->clearSelection();
+            m_TreeResource->selectionModel()->setCurrentIndex(QModelIndex(), QItemSelectionModel::Select);
+        }
+
+        void SelectResourceDialog::populateTree(Core::ResourceType const type)
+        {
+            std::vector<std::string> availableNames;
+            OcularResources->getResourcesOfType(type, availableNames);
 
             for(auto name : availableNames)
             {

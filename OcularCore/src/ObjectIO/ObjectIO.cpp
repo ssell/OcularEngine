@@ -51,12 +51,12 @@ namespace Ocular
                                 // If the variable is a pointer, we only handle loading it
                                 // if it can be cast to another ObjectIO.
 
-                                ObjectIO* buildableVar = (ObjectIO*)(variable->data);
+                                ObjectIO** buildableVar = (ObjectIO**)(variable->data);
 
-                                if(buildableVar)
+                                if(*buildableVar)
                                 {
                                     // Pass off the current child node and let it load itself
-                                    buildableVar->onLoad(child);
+                                    (*buildableVar)->onLoad(child);
                                 }
                             }
                             else if(variable->isExposed)

@@ -117,6 +117,19 @@ namespace Ocular
             return result;
         }
 
+        ResourceType ResourceLoaderManager::getResourceType(std::string const& extension) const
+        {
+            ResourceType result = ResourceType::Undefined;
+            auto findExtension = m_ResourceLoaderMap.find(extension);
+
+            if(findExtension != m_ResourceLoaderMap.end())
+            {
+                result = findExtension->second->getResourceType();
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

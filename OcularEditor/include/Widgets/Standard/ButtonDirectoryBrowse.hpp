@@ -46,7 +46,7 @@ namespace Ocular
         public:
 
             ButtonDirectoryBrowse(QWidget* parent = nullptr);
-            ~ButtonDirectoryBrowse();
+            virtual ~ButtonDirectoryBrowse();
 
             virtual QSize sizeHint() const override;
             

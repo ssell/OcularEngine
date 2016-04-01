@@ -60,13 +60,18 @@ namespace Ocular
         public:
 
             LineEdit(LineType type, QWidget* parent = nullptr);
-            ~LineEdit();
+            virtual ~LineEdit();
 
             /**
              * \param[in] reset If TRUE, then the edited flag is reset back to FALSE.
              * \return TRUE if the user has modifed this edit (return key was pressed). 
              */
             bool wasEdited(bool reset = true);
+
+            /**
+             *
+             */
+            void setInvalid(bool invalid);
 
             /**
              *

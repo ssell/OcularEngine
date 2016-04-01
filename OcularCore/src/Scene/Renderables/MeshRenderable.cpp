@@ -34,7 +34,8 @@ namespace Ocular
               m_Mesh(nullptr),
               m_Material(nullptr)
         {
-
+            exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
+            exposeVariable("m_Material", Utils::TypeName<Resource>::name, true, false, &m_Material);
         }
 
         MeshRenderable::~MeshRenderable()

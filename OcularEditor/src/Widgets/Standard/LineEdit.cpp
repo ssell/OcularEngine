@@ -99,6 +99,18 @@ namespace Ocular
             return result;
         }
 
+        void LineEdit::setInvalid(bool invalid)
+        {
+            if(invalid)
+            {
+                setStyleSheet(GeneralStyles::lineEditInvalidStyle);
+            }
+            else
+            {
+                setStyleSheet(GeneralStyles::lineEditValidStyle);
+            }
+        }
+
         int32_t LineEdit::asInt() const
         {
             return OcularString->fromString<int32_t>(text().toStdString());

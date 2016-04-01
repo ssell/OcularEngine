@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/RoutineDisplay.hpp"
+#include "Scene/ARoutine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -90,20 +91,23 @@ namespace Ocular
         void RoutineDisplay::buildProperties()
         {
             std::vector<std::string> exposedNames;
-            m_Object->getAllExposedNames(exposedNames);
+            m_Routine->getAllExposedNames(exposedNames);
 
             for(auto name : exposedNames)
             {
                 if(!OcularEditor.IsCommonName(name))
                 {
                     Core::ExposedVariable exposed;
-                    m_Object->getVariable(name, exposed);
+                    m_Routine->getVariable(name, exposed);
 
-                    PropertyWidget* widget = OcularEditor.createPropertyWidget(exposed.name, exposed.type);
+                    PropertyWidget* widget = OcularEditor.createPropertyWidget(OcularEditor.FormatName(exposed.name), exposed.type);
 
                     if(widget)
                     {
                         m_Properties.push_back(widget);
+                        m_Layout->addWidget(widget);
+                        
+                        widget->setVariable(exposed);
                     }
                 }
             }

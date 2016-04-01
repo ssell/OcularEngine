@@ -16,6 +16,8 @@
 
 #include "stdafx.h"
 #include "Widgets/Properties/RenderableDisplay.hpp"
+#include "Widgets/Properties/Types/ResourceProperty.hpp"
+#include "Scene/ARenderable.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,7 +30,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RenderableDisplay::RenderableDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", true, true, parent)
+            : PropertiesDisplayBox("Renderable", true, true, parent),
+              m_Renderable(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         }
@@ -44,9 +47,16 @@ namespace Ocular
 
         void RenderableDisplay::setObject(Core::SceneObject* object)
         {
-            if(object)
+            if(m_Object != object)
             {
                 m_Object = object;
+                removeProperties();
+
+                if(m_Object)
+                {
+                    m_Renderable = m_Object->getRenderable();
+                    buildProperties();
+                }
             }
         }
 
@@ -54,13 +64,84 @@ namespace Ocular
         {
             if(m_Object)
             {
+                // Make sure the Renderable is still valid and has not been removed
+                m_Renderable = m_Object->getRenderable();
 
+                if(m_Renderable)
+                {
+                    for(auto prop : m_Properties)
+                    {
+                        if(prop)
+                        {
+                            prop->updateProperties();
+                        }
+                    }
+                }
+                else
+                {
+                    removeProperties();
+                }
             }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void RenderableDisplay::buildProperties()
+        {
+            std::vector<std::string> exposedNames;
+            m_Renderable->getAllExposedNames(exposedNames);
+
+            for(auto name : exposedNames)
+            {
+                if(!OcularEditor.IsCommonName(name))
+                {
+                    Core::ExposedVariable exposed;
+                    m_Renderable->getVariable(name, exposed);
+
+                    PropertyWidget* widget = OcularEditor.createPropertyWidget(OcularEditor.FormatName(name), exposed.type);
+
+                    if(widget)
+                    {
+                        m_Properties.push_back(widget);
+                        m_Layout->addWidget(widget);
+                        
+                        widget->setVariable(exposed);
+
+                        if(OcularString->IsEqual(exposed.type, Utils::TypeName<Core::Resource>::name))
+                        {
+                            ResourceProperty* prop = dynamic_cast<ResourceProperty*>(widget);
+
+                            if(prop)
+                            {
+                                Core::Resource** resource = (Core::Resource**)(exposed.data);
+
+                                if((resource != nullptr) && ((*resource) != nullptr))
+                                {
+                                    prop->setResourceType((*resource)->getResourceType());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        void RenderableDisplay::removeProperties()
+        {
+            for(auto prop : m_Properties)
+            {
+                if(prop)
+                {
+                    m_Layout->removeWidget(prop);
+                    delete prop;
+                    prop = nullptr;
+                }
+            }
+
+            m_Properties.clear();
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

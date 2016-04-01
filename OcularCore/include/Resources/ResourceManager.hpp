@@ -298,6 +298,14 @@ namespace Ocular
              */
             void isFileTypeSupported(std::string const& extension, bool& canLoad, bool& canSave) const;
 
+            /**
+             * Finds all resources of the specified type, and returns a vector containing their mapping names.
+             *
+             * \param[in]  type
+             * \param[out] resources
+             */
+            void getResourcesOfType(ResourceType type, std::vector<std::string>& resources);
+
         protected:
 
             /**

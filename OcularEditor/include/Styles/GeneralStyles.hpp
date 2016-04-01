@@ -40,6 +40,9 @@ namespace Ocular
 
             static const QString windowStyle;        ///< Default style for the entire window/application
             static const QString frameStyle;
+            
+            static const QString lineEditValidStyle;
+            static const QString lineEditInvalidStyle;
 
         protected:
 

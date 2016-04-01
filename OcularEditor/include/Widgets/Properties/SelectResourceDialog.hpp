@@ -21,7 +21,7 @@
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qtreewidget.h>
 
-#include "Events/AEventListener.hpp"
+#include "Resources/Resource.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,10 +39,9 @@ namespace Ocular
     {
         enum class ResourceType
         {
-            None = 0,
+            Undefined = 0,
             Renderable,
-            Routine,
-            Resource
+            Routine
         };
 
         /**
@@ -53,8 +52,10 @@ namespace Ocular
             Q_OBJECT
 
         public:
-
+            
             SelectResourceDialog(ResourceType const type, QWidget* parent = nullptr);
+            SelectResourceDialog(Core::ResourceType const type, QWidget* parent = nullptr);
+
             virtual ~SelectResourceDialog();
 
             std::string const& getSelectedName() const;
@@ -62,7 +63,9 @@ namespace Ocular
         protected:
 
             void buildWidgets();
+            
             void populateTree(ResourceType const type);
+            void populateTree(Core::ResourceType const type);
 
         private slots:
 

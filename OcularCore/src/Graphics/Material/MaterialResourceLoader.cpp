@@ -41,7 +41,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MaterialResourceLoader::MaterialResourceLoader()
-            : Core::AResourceLoader(".omat")
+            : Core::AResourceLoader(".omat", Core::ResourceType::Material)
         {
         
         }

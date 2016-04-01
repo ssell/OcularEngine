@@ -47,7 +47,7 @@ namespace Ocular
         public:
 
             ColorPreview(QWidget* parent = nullptr);
-            ~ColorPreview();
+            virtual ~ColorPreview();
 
             virtual QSize sizeHint() const override;
 
