@@ -79,6 +79,11 @@ namespace Ocular
              */
             virtual void postRender();
 
+            /**
+             *
+             */
+            virtual void updateBounds();
+
             //------------------------------------------------------------
             // Getters and Setters
             //------------------------------------------------------------

@@ -120,6 +120,20 @@ namespace Ocular
             }
         }
 
+        void MeshRenderable::updateBounds()
+        {
+            if(m_Parent && m_Mesh)
+            {
+                auto vertexBuffer = m_Mesh->getVertexBuffer();
+
+                if(vertexBuffer)
+                {
+                    m_Parent->boundsAABB = Math::BoundsAABB(vertexBuffer->getVertices());
+                    m_Parent->boundsSphere = Math::BoundsSphere(vertexBuffer->getVertices());
+                }
+            }
+        }
+
         //----------------------------------------------------------------
         // Getters / Setters
         //----------------------------------------------------------------
@@ -170,15 +184,6 @@ namespace Ocular
         Graphics::Material* MeshRenderable::getMaterial() const
         {
             return m_Material;
-        }
-
-        void MeshRenderable::updateBounds()
-        {
-            if(m_Parent && m_Mesh)
-            {
-                m_Parent->boundsAABB   = Math::BoundsAABB(m_Mesh->getVertexBuffer()->getVertices());
-                m_Parent->boundsSphere = Math::BoundsSphere(m_Mesh->getVertexBuffer()->getVertices());
-            }
         }
 
         //----------------------------------------------------------------------------------

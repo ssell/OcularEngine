@@ -64,6 +64,8 @@ namespace Ocular
         {
             if(m_Object)
             {
+                bool updated = false;
+
                 // Make sure the Renderable is still valid and has not been removed
                 m_Renderable = m_Object->getRenderable();
 
@@ -73,13 +75,18 @@ namespace Ocular
                     {
                         if(prop)
                         {
-                            prop->updateProperties();
+                            updated = (prop->updateProperties() || updated);
                         }
                     }
                 }
                 else
                 {
                     removeProperties();
+                }
+
+                if(updated)
+                {
+                    m_Renderable->updateBounds();
                 }
             }
         }

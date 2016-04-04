@@ -70,6 +70,11 @@ namespace Ocular
 
         }
 
+        void ARenderable::updateBounds()
+        {
+
+        }
+
         SceneObject* ARenderable::getParent() const
         {
             return m_Parent;

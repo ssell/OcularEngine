@@ -62,6 +62,8 @@ namespace Ocular
             virtual void onLoad(BuilderNode const* node) override;
             virtual void onSave(BuilderNode* node) override;
 
+            virtual void updateBounds() override;
+
             //------------------------------------------------------------
             // Getters / Setters
 
@@ -94,11 +96,6 @@ namespace Ocular
              *
              */
             Graphics::Material* getMaterial() const;
-            
-            /**
-             *
-             */
-            void updateBounds();
 
         protected:
 
