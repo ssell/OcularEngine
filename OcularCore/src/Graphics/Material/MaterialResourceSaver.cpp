@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-//__declspec(dllexport) void getRidOfLNK4221(){}
+//------------------------------------------------------------------------------------------
+// This source file keeps getting LNK4221 reporting that the constructor is not defined for whatever reason. This is needed to avoid this error.
+// Source: http://stackoverflow.com/a/25422179/735425
+
+__declspec(dllexport) void getRidOfLNK4221(){}   
+
+//------------------------------------------------------------------------------------------
 
 #include "Graphics/Material/MaterialResourceSaver.hpp"
 #include "Resources/ResourceSaverRegistrar.hpp"

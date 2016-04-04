@@ -30,10 +30,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshRenderable::MeshRenderable(std::string const& name, SceneObject* parent)
-            : ARenderable(name, "Mesh", parent),
-              m_Mesh(nullptr),
-              m_Material(nullptr)
+            : ARenderable(name, "Mesh", parent)
         {
+            m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
+            m_Material = dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material));
+
             exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
             exposeVariable("m_Material", Utils::TypeName<Resource>::name, true, false, &m_Material);
         }

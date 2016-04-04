@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
+#include "OcularCommon.hlsl"
+
  /**
   * Collection of shader lighting methods
   */
 
-float calcLightingIntensitySimpleCos(VSInput input, float4 source)
+float calcLightingIntensitySimpleCos(float4 normal, float4 source)
 {
-    float4 transformedNormal = mul(_ModelMatrix, float4(input.normal.xyz, 1.0f));
-    float angleCos = dot(normal, source);
+    float4 transformedNormal = mul(_ModelMatrix, normal);
+    float angleCos = dot(transformedNormal, source);
     
     return clamp(angleCos, 0.0f, 1.0f);
 }

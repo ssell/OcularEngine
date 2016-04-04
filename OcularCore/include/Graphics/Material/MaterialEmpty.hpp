@@ -15,8 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
+#ifndef __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_EMPTY_H__
+#define __H__OCULAR_GRAPHICS_GRAPHICS_MATERIAL_EMPTY_H__
+
+#include "Material.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,20 +29,33 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
-        enum class ResourceType : unsigned
+        /**
+         * \class MaterialEmpty
+         * \brief Special default 'empty' Material. Typically used internally.
+         */
+        class MaterialEmpty : public Material
         {
-            Texture = 0,
-            Mesh,
-            Material,
-            Shader,
-            ShaderProgram,
-            Data,
-            Undefined            
+        public:
+
+            MaterialEmpty();
+            virtual ~MaterialEmpty();
+
+            virtual void bind() override;
+            virtual void unbind() override;
+
+            virtual void unload() override;
+
+            virtual void onLoad(Core::BuilderNode const* node) override;
+            virtual void onSave(Core::BuilderNode* node) override;
+
+        protected:
+
+        private:
         };
     }
     /**

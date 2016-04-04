@@ -50,7 +50,7 @@ struct VSInput
 {
     float4 position : POSITION0;            ///< Position in model space of the incoming Vertex
     float4 color    : COLOR0;               ///< Default color of the incoming Vertex
-    float3 normal   : NORMAL0;              ///< Normal of the incoming Vertex
+    float4 normal   : NORMAL0;              ///< Normal of the incoming Vertex
 
     float2 uv0      : TEXCOORD0;            ///< 
     float2 uv1      : TEXCOORD1;            ///< 

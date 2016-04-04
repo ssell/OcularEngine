@@ -45,7 +45,7 @@ namespace Ocular
         public:
 
             Mesh();
-            ~Mesh();
+            virtual ~Mesh();
 
             /**
              * Binds the Vertex and Index Buffers of this Mesh

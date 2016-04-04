@@ -18,7 +18,7 @@
  * A basic, generic flat shader. Simply renders the geometry in a single color.
  */
 
-#include "OcularCommon.hlsl"
+#include "OcularLighting.hlsl"
 
 cbuffer cbPerMaterial : register(b3)
 {
@@ -42,7 +42,7 @@ VSOutput VSMain(VSInput input)
 
     VSOutput output;
     output.position = mul(input.position, mvpMatrix);
-    output.color    = input.color;
+    output.color    = input.color * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
 
     return output;
 }

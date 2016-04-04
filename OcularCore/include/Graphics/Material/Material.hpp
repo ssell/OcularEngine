@@ -62,7 +62,7 @@ namespace Ocular
         public:
 
             Material();
-            ~Material();
+            virtual ~Material();
 
             virtual void bind();
             virtual void unbind();

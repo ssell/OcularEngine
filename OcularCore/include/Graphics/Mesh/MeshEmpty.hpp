@@ -15,8 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
-#define __H__OCULAR_RESOURCES_RESOURCE_TYPE__H__
+#ifndef __H__OCULAR_GRAPHICS_MESH_EMPTY__H__
+#define __H__OCULAR_GRAPHICS_MESH_EMPTY__H__
+
+#include "Mesh.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -27,20 +29,40 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Graphics
      * @{
      */
-    namespace Core
+    namespace Graphics
     {
-        enum class ResourceType : unsigned
+        /**
+         * \class MeshEmpty
+         * \brief Special default 'empty' Mesh. Typically used internally.
+         */
+        class MeshEmpty : public Mesh
         {
-            Texture = 0,
-            Mesh,
-            Material,
-            Shader,
-            ShaderProgram,
-            Data,
-            Undefined            
+        public:
+
+            MeshEmpty();
+            virtual ~MeshEmpty();
+
+            /**
+             * \return Always returns TRUE while performing no action.
+             */
+            virtual bool bind() override;
+
+            /**
+             * Performs no action.
+             */
+            virtual void unbind() override;
+
+            /**
+             * Performs no action.
+             */
+            virtual void unload() override;
+
+        protected:
+
+        private:
         };
     }
     /**

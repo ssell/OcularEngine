@@ -666,6 +666,21 @@
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceDefaults.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshMissing.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialMissing.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1216,6 +1231,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceDefaults.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshMissing.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

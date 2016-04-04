@@ -442,7 +442,13 @@ namespace Ocular
             {
                 if(mesh->bind())
                 {
-                    m_D3DDeviceContext->DrawIndexed(mesh->getIndexBuffer()->getNumIndices(), 0, 0);
+                    auto indexBuffer = mesh->getIndexBuffer();
+
+                    if(indexBuffer)
+                    {
+                        m_D3DDeviceContext->DrawIndexed(indexBuffer->getNumIndices(), 0, 0);
+                    }
+
                     result = true;
                 }
             }

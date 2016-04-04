@@ -72,6 +72,8 @@ namespace Ocular
 
         Camera::~Camera()
         {
+            OcularEvents->unregisterListener(this);
+
             OcularCameras->removeCamera(this);
             m_RenderTexture = nullptr;
 

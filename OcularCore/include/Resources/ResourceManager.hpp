@@ -31,6 +31,7 @@
 #include "ResourceLoaderManager.hpp"
 #include "ResourceSaver.hpp"
 #include "ResourceSaverManager.hpp"
+#include "ResourceDefaults.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -171,6 +172,16 @@ namespace Ocular
              * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
              */
             template<class T> T* getResource(std::string const& path) { return dynamic_cast<T*>(getResource(path)); };
+
+            /**
+             *
+             */
+            Resource* getEmptyResource(ResourceType type);
+
+            /**
+             *
+             */
+            Resource* getMissingResource(ResourceType type);
 
             /**
              * \param[in] path Resource path and name
@@ -344,6 +355,7 @@ namespace Ocular
             ResourceLoaderManager m_ResourceLoaderManager;
             ResourceSaverManager  m_ResourceSaverManager;
             ResourceMemoryDetails m_MemoryDetails;
+            ResourceDefaults      m_ResourceDefaults;
 
             ResourcePriorityBehaviour m_PriorityBehaviour;
 

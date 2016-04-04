@@ -49,6 +49,7 @@ namespace Ocular
         void ResourceManager::initialize()
         {
             forceSourceRefresh();
+            m_ResourceDefaults.initialize();
         }
 
         void ResourceManager::unloadAllResources()
@@ -259,6 +260,16 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        Resource* ResourceManager::getEmptyResource(ResourceType const type)
+        {
+            return m_ResourceDefaults.getEmptyResource(type);
+        }
+
+        Resource* ResourceManager::getMissingResource(ResourceType const type)
+        {
+            return m_ResourceDefaults.getMissingResource(type);
         }
 
         bool ResourceManager::isInMemory(std::string const& path)
