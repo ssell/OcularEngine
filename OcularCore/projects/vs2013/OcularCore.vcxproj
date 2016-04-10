@@ -340,6 +340,7 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp" />

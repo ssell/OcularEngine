@@ -265,6 +265,9 @@
     <Filter Include="Source Files\ObjectIO">
       <UniqueIdentifier>{8b2efd5a-1793-4b87-b73b-58e71719b93d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders\OBJ">
+      <UniqueIdentifier>{7c6c93aa-03b3-4277-b685-a49fee24f338}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -1246,6 +1249,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
