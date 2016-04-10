@@ -148,6 +148,20 @@ namespace Ocular
             bool forceUnloadResource(std::string const& path);
 
             /**
+             * Adds the Resource to the ResourceManager. The manager will assume ownership
+             * of the Resource and handle loading/unloading/destruction of it.
+             *
+             * \param[in] name       Mapping name to associate with the Resource. Must be 
+             *                       unique and not already in use by a pre-existing Resource.
+             * \param[in] sourceFile File to load the Resource from. File may be in use by
+             *                       multiple resources, such as with a MultiResource.
+             * \param[in] resource   The Resource to transfer ownership of.
+             *
+             * \return Returns FALSE if the specified path is already occupied.
+             */
+            bool addResource(std::string const& name, File const& sourceFile, Resource* resource);
+
+            /**
              * Retrieves the total amount of memory currently 
              * in use by the Resource Manager.
              *
@@ -174,12 +188,14 @@ namespace Ocular
             template<class T> T* getResource(std::string const& path) { return dynamic_cast<T*>(getResource(path)); };
 
             /**
-             *
+             * Returns the pre-built 'empty' Resource for the specified type.
+             * \param[in] type
              */
             Resource* getEmptyResource(ResourceType type);
 
             /**
-             *
+             * Returns the pre-built 'missing' Resource for the specified type.
+             * \param[in] type
              */
             Resource* getMissingResource(ResourceType type);
 

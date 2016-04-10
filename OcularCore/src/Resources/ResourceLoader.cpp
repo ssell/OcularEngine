@@ -55,6 +55,11 @@ namespace Ocular
             return false;
         }
 
+        bool AResourceLoader::exploreResource(File const& file)
+        {
+            return true;
+        }
+
         ResourceType AResourceLoader::getResourceType() const
         {
             return m_Type;

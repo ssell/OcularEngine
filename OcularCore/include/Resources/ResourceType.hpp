@@ -40,6 +40,7 @@ namespace Ocular
             Shader,
             ShaderProgram,
             Data,
+            Multi,
             Undefined            
         };
     }

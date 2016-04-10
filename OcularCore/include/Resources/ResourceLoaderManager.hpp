@@ -71,6 +71,15 @@ namespace Ocular
              * \return TRUE if the resource was successfully loaded.
              */
             bool loadResource(Resource* &resource, File const& file);
+            
+            /**
+             * Explores the resource in the specified file.
+             *
+             * \param[in] file
+             *
+             * \return TRUE if the resource was successfully explored.
+             */
+            bool exploreResource(File const& file);
 
             /**
              * \return The total number of registered ResourceLoaders

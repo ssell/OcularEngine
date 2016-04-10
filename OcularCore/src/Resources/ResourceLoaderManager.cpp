@@ -66,7 +66,7 @@ namespace Ocular
             {
                 std::shared_ptr<AResourceLoader> loader = findLoader->second;
 
-                if(loader != nullptr)
+                if(loader)
                 {
                     if(loader->loadResource(resource, file))
                     {
@@ -94,6 +94,30 @@ namespace Ocular
             else
             {
                 OcularLogger->error("No ResourceLoader associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadResource"));
+            }
+
+            return result;
+        }
+
+        bool ResourceLoaderManager::exploreResource(File const& file)
+        {
+            bool result = false;
+
+            const std::string extension = file.getExtension();
+            auto findLoader = m_ResourceLoaderMap.find(extension);
+
+            if(findLoader != m_ResourceLoaderMap.end())
+            {
+                std::shared_ptr<AResourceLoader> loader = findLoader->second;
+
+                if(loader)
+                {
+                    result = loader->exploreResource(file);
+                }
+            }
+            else
+            {
+                OcularLogger->error("No ResourceLoader associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "exploreResource"));
             }
 
             return result;

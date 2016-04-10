@@ -70,6 +70,16 @@ namespace Ocular
              */
             virtual bool loadResource(Resource* &resource, File const& file);
 
+            /** 
+             * For use with MultiResources. When called, the Resource will be explored
+             * and all sub-resources should be added to the global resource manager via
+             *
+             *    ResourceManager::addResource
+             *
+             * \param[in] file 
+             */
+            virtual bool exploreResource(File const& file);
+
             /**
              * Returns the type of resource created by this loader.
              */

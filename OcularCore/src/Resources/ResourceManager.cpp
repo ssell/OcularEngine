@@ -90,6 +90,12 @@ namespace Ocular
                 if(findResource == m_ResourceMap.end())
                 {
                     // No entry for this resource path. Add an empty one.
+                    if(m_ResourceLoaderManager.getResourceType((*fileIter).second.getExtension()) == ResourceType::Multi)
+                    {
+                        // This file is a MultiResource. Explore it to ensure all sub-resources are added to tracking
+                        m_ResourceLoaderManager.exploreResource((*fileIter).second);
+                    }
+
                     m_ResourceMap.insert(std::make_pair(fileIter->first, nullptr));
                 }
             }
@@ -164,6 +170,23 @@ namespace Ocular
                         m_MemoryDetails.resourceUnloaded(resource);
                     }
                 }
+            }
+
+            return result;
+        }
+
+        bool ResourceManager::addResource(std::string const& name, File const& file, Resource* resource)
+        {
+            bool result = false;
+
+            auto findResource = m_ResourceMap.find(name);
+
+            if(findResource == m_ResourceMap.end())
+            {
+                m_ResourceMap[name] = std::make_shared<ResourceDetails>(resource);
+                m_FileMap[name] = file;
+
+                result = true;
             }
 
             return result;
