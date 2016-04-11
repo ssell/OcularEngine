@@ -103,6 +103,16 @@ namespace Ocular
             static std::string FormatBytes(uint64_t bytes);
 
             /**
+             * Splits the provided string by the specified deliminator.
+             * Resulting substrings are stored in the tokens container.
+             *
+             * \param[in]  str
+             * \param[in]  delim
+             * \param[out] tokens
+             */
+            static void Split(std::string const& str, char delim, std::vector<std::string>& tokens);
+
+            /**
              * Converts an integer type to a hex string. <br/>
              * Source: http://stackoverflow.com/a/5100745/735425
              */

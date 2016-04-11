@@ -47,7 +47,7 @@ namespace Ocular
 
         public:
 
-            ResourceDetails(Resource* resource);
+            ResourceDetails(Resource* resource, ResourceType type = ResourceType::Undefined);
             ~ResourceDetails();
 
             /**
@@ -78,11 +78,17 @@ namespace Ocular
             /**
              *
              */
+            ResourceType getType() const;
+
+            /**
+             *
+             */
             void reset();
         
         protected:
 
             Resource* m_Resource;
+            ResourceType m_Type;     /// Secondary copy of ResourceType. Mainly used when identifying subresources of MultiResource instances.
 
             uint64_t m_LastRequest;  /// In NS
             unsigned m_NumberOfRequests;

@@ -196,6 +196,8 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.cpp" />
@@ -275,6 +277,7 @@
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
+    <ClCompile Include="..\..\src\Resources\MultiResource.cpp" />
     <ClCompile Include="..\..\src\Resources\Resource.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceDefaults.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceDetails.cpp" />
@@ -341,6 +344,7 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp" />
@@ -447,6 +451,7 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
+    <ClInclude Include="..\..\include\Resources\MultiResource.hpp" />
     <ClInclude Include="..\..\include\Resources\Resource.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceDefaults.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp" />

@@ -16,6 +16,7 @@
 
 #include "Resources/ResourceManager.hpp"
 #include "Resources/ResourceExplorer.hpp"
+#include "Resources/MultiResource.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -175,7 +176,7 @@ namespace Ocular
             return result;
         }
 
-        bool ResourceManager::addResource(std::string const& name, File const& file, Resource* resource)
+        bool ResourceManager::addResource(std::string const& name, File const& file, Resource* resource, ResourceType type)
         {
             bool result = false;
 
@@ -183,7 +184,7 @@ namespace Ocular
 
             if(findResource == m_ResourceMap.end())
             {
-                m_ResourceMap[name] = std::make_shared<ResourceDetails>(resource);
+                m_ResourceMap[name] = std::make_shared<ResourceDetails>(resource, type);
                 m_FileMap[name] = file;
 
                 result = true;
@@ -204,13 +205,13 @@ namespace Ocular
             //------------------------------------------------------------
             // First check if the resource exists
 
-            auto findExists = m_ResourceMap.find(path);
+            auto findResource = m_ResourceMap.find(path);
 
-            if(findExists != m_ResourceMap.end())
+            if(findResource != m_ResourceMap.end())
             {
                 // Resource exists (there is an associated file)
 
-                std::shared_ptr<ResourceDetails> details = findExists->second;
+                std::shared_ptr<ResourceDetails> details = findResource->second;
 
                 if(details == nullptr)
                 {
@@ -218,7 +219,7 @@ namespace Ocular
                     details = m_ResourceMap[path];
                 }
 
-                result = findExists->second->getResource();
+                result = findResource->second->getResource();
 
                 //--------------------------------------------------------
                 // Check if the resource has already been created and if its in memory
@@ -238,16 +239,38 @@ namespace Ocular
                             //--------------------------------------------
                             // Resource simply needs to be reloaded
 
-                            m_ResourceLoaderManager.loadResource(resource, findFile->second);
-
-                            if((result == nullptr) || (!result->isInMemory()))
+                            if((details->getType() == ResourceType::Undefined) ||
+                               (details->getType() == m_ResourceLoaderManager.getResourceType(findFile->second.getExtension())))
                             {
-                                OcularLogger->error("Failed to reload resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
-                                result = nullptr; // We return null on failure irregardless
+                                // The type of the requested Resource matches that of the type associated with the file
+                                m_ResourceLoaderManager.loadResource(resource, findFile->second);
+
+                                if((result == nullptr) || (!result->isInMemory()))
+                                {
+                                    OcularLogger->error("Failed to reload resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                    result = nullptr; // We return null on failure irregardless
+                                }
+                                else
+                                {
+                                    resource->setMappingName(path);
+                                }
                             }
                             else
                             {
-                                resource->setMappingName(path);
+                                // The type of the requested Resource does not match that of the type associated with the file.
+                                // This is typically due to requesting a subresource in a MultiResource.
+
+                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, path);
+
+                                if((result == nullptr) || (!result->isInMemory()))
+                                {
+                                    OcularLogger->error("Failed to reload sub-resource at '", findFile->second.getFullPath(), "' with mapping name '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                    result = nullptr; // We return null on failure irregardless
+                                }
+                                else
+                                {
+                                    resource->setMappingName(path);
+                                }
                             }
                         }
                         else
@@ -255,18 +278,42 @@ namespace Ocular
                             //--------------------------------------------
                             // Resource does not exist at all yet
 
-                            m_ResourceLoaderManager.loadResource(resource, findFile->second);
-
-                            if(resource)
+                            if((details->getType() == ResourceType::Undefined) ||
+                               (details->getType() == m_ResourceLoaderManager.getResourceType(findFile->second.getExtension())))
                             {
-                                resource->setMappingName(path);
-                                details->m_Resource = resource;
-                                result = details->m_Resource;
+                                // The type of the requested Resource matches that of the type associated with the file
+                                m_ResourceLoaderManager.loadResource(resource, findFile->second);
+
+                                if(resource)
+                                {
+                                    resource->setMappingName(path);
+                                    details->m_Resource = resource;
+                                    result = details->m_Resource;
+                                }
+                                else
+                                {
+                                    OcularLogger->error("Failed to create resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                    result = nullptr; // We return null on failure irregardless
+                                }
                             }
                             else
                             {
-                                OcularLogger->error("Failed to create resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
-                                result = nullptr; // We return null on failure irregardless
+                                // The type of the requested Resource does not match that of the type associated with the file.
+                                // This is typically due to requesting a subresource in a MultiResource.
+
+                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, path);
+
+                                if(resource)
+                                {
+                                    resource->setMappingName(path);
+                                    details->m_Resource = resource;
+                                    result = details->m_Resource;
+                                }
+                                else
+                                {
+                                    OcularLogger->error("Failed to create sub-resource at '", findFile->second.getFullPath(), "' with mapping name '", path, "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
+                                    result = nullptr; // We return null on failure irregardless
+                                }
                             }
                         }
                     }
@@ -293,6 +340,35 @@ namespace Ocular
         Resource* ResourceManager::getMissingResource(ResourceType const type)
         {
             return m_ResourceDefaults.getMissingResource(type);
+        }
+
+        File ResourceManager::getResourceFile(std::string const& path) const
+        {
+            File result;
+            auto findFile = m_FileMap.find(path);
+
+            if(findFile != m_FileMap.end())
+            {
+                result = findFile->second;
+            }
+
+            return result;
+        }
+
+        std::string ResourceManager::getResourceMappingName(File const& file) const
+        {
+            std::string result;
+            
+            for(auto filePair : m_FileMap)
+            {
+                if(Utils::String::IsEqual(filePair.second.getFullPath(), file.getFullPath()))
+                {
+                    result = filePair.first;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         bool ResourceManager::isInMemory(std::string const& path)
@@ -435,7 +511,14 @@ namespace Ocular
                 {
                     Resource* resource = resourceEntry.second->getResource();
 
-                    if(resource && (resource->getResourceType() == type))
+                    if(resource)
+                    {
+                        if(resource->getResourceType() == type)
+                        {
+                            resources.push_back(resourceEntry.first);
+                        }
+                    }
+                    else if(resourceEntry.second->getType() == type)
                     {
                         resources.push_back(resourceEntry.first);
                     }

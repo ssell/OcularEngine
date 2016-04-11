@@ -161,6 +161,19 @@ namespace Ocular
             return result;
         }
 
+        void String::Split(std::string const& str, char delim, std::vector<std::string>& tokens)
+        {
+            // Source: http://stackoverflow.com/a/236803/735425
+
+            std::stringstream sstream(str);
+            std::string token;
+
+            while(std::getline(sstream, token, delim))
+            {
+                tokens.push_back(token);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

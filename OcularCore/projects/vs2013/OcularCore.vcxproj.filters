@@ -268,6 +268,9 @@
     <Filter Include="Header Files\Graphics\Mesh\MeshLoaders\OBJ">
       <UniqueIdentifier>{7c6c93aa-03b3-4277-b685-a49fee24f338}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\OBJ">
+      <UniqueIdentifier>{f6020bc9-2ca5-43b2-b3ee-3314ec527b3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -683,6 +686,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Material\MaterialMissing.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Resources\MultiResource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1251,6 +1263,12 @@
       <Filter>Header Files\Graphics\Material</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\MultiResource.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClInclude>
   </ItemGroup>

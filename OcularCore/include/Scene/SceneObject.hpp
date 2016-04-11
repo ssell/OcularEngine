@@ -544,7 +544,7 @@ namespace Ocular
 
             /**
              *
-             */
+             */ 
             template<class T>
             T* setRenderable()
             {
@@ -553,9 +553,8 @@ namespace Ocular
 
                 if(renderable)
                 {
-                    removeRoutine();
+                    removeRenderable();
                     m_Renderable = renderable;
-                    result = true;
                 }
                 else
                 {

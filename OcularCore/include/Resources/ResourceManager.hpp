@@ -156,10 +156,11 @@ namespace Ocular
              * \param[in] sourceFile File to load the Resource from. File may be in use by
              *                       multiple resources, such as with a MultiResource.
              * \param[in] resource   The Resource to transfer ownership of.
+             * \param[in] type
              *
              * \return Returns FALSE if the specified path is already occupied.
              */
-            bool addResource(std::string const& name, File const& sourceFile, Resource* resource);
+            bool addResource(std::string const& name, File const& sourceFile, Resource* resource, ResourceType type);
 
             /**
              * Retrieves the total amount of memory currently 
@@ -170,10 +171,10 @@ namespace Ocular
             ResourceMemoryDetails getMemoryUsage();
 
             /**
-             * Returns the resource at the specified path if it exists. 
+             * Returns the resource with the specified mapping name.
              * The resource is loaded in memory if it is not already.
              *
-             * \param[in] path Resource path and name
+             * \param[in] path Mapping name of the Resource. Relative path from Resources folder, sans extension.
              * \return Pointer to the resource; Returns nullptr if failed to fetch resource.
              */
             Resource* getResource(std::string const& path);
@@ -198,6 +199,40 @@ namespace Ocular
              * \param[in] type
              */
             Resource* getMissingResource(ResourceType type);
+
+            /**
+             * Returns the file associated with the specified resource mapping name.
+             *
+             * For example, the mapping name
+             *
+             *     Textures/Grass
+             *
+             * May return the file located at
+             *
+             *     /path/to/project/Resources/Textures/Grass.png
+             *
+             * \param[in] path
+             * \return If there is no tracked Resource with the specified mapping name,
+             *         then the current directory (default File value) will be returned.
+             */
+            File getResourceFile(std::string const& path) const;
+
+            /**
+             * Returns the mapping name associated with the specified file.
+             *
+             * For example, the file located at 
+             *
+             *     /path/to/project/Resources/Textures/Grass.png
+             *
+             * Would return
+             *
+             *     Textures/Grass
+             *
+             * \param[in] file
+             * \return If there is no tracked Resource at the specified file, then
+             *         an empty string will be returned.
+             */
+            std::string getResourceMappingName(File const& file) const;
 
             /**
              * \param[in] path Resource path and name

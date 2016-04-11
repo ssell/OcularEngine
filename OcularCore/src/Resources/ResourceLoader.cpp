@@ -55,6 +55,11 @@ namespace Ocular
             return false;
         }
 
+        bool AResourceLoader::loadSubResource(Resource* &resource, File const& file, std::string const& mappingName)
+        {
+            return false;
+        }
+
         bool AResourceLoader::exploreResource(File const& file)
         {
             return true;

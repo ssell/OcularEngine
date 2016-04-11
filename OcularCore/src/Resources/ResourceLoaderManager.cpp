@@ -99,6 +99,57 @@ namespace Ocular
             return result;
         }
 
+        bool ResourceLoaderManager::loadSubResource(Resource* &resource, File const& file, std::string const& mappingName)
+        {
+            bool result = false;
+
+            const std::string extension = file.getExtension();
+            auto findLoader = m_ResourceLoaderMap.find(extension);
+
+            if(findLoader != m_ResourceLoaderMap.end())
+            {
+                std::shared_ptr<AResourceLoader> loader = findLoader->second;
+
+                if(loader)
+                {
+                    if(loader->getResourceType() == ResourceType::Multi)
+                    {
+                        if(loader->loadSubResource(resource, file, mappingName))
+                        {
+                            if(resource)
+                            {
+                                resource->setIsInMemory(true);
+                                result = true;
+                            }
+                            else
+                            {
+                                OcularLogger->error("ResourceLoader reported success for '", file.getFullPath(), "' but returned Resource is NULL", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadSubResource"));
+                            }
+                        }
+                        else
+                        {
+                            OcularLogger->error("ResourceLoader for '", extension, "' failed to load the sub-Resource at '", file.getFullPath(), "' with mapping name '", mappingName, "'", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadSubResource"));
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Can not load subresource of non-MultiResource file", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadSubResource"));
+                    }
+                }
+                else
+                {
+                    // This *should* never happen
+                    OcularLogger->error("ResourceLoader for '", extension, "' is invalid", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadSubResource"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("No ResourceLoader associated with '", extension, "' files", OCULAR_INTERNAL_LOG("ResourceLoaderManager", "loadSubResource"));
+            }
+
+            return result;
+        }
+
         bool ResourceLoaderManager::exploreResource(File const& file)
         {
             bool result = false;

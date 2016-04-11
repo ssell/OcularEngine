@@ -70,6 +70,13 @@ namespace Ocular
              */
             virtual bool loadResource(Resource* &resource, File const& file);
 
+            /**
+             * \param[out] resource
+             * \param[in]  file
+             * \param[in]  mappingName
+             */
+            virtual bool loadSubResource(Resource* &resource, File const& file, std::string const& mappingName);
+
             /** 
              * For use with MultiResources. When called, the Resource will be explored
              * and all sub-resources should be added to the global resource manager via

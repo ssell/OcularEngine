@@ -128,6 +128,7 @@ namespace Ocular
                 item->setText(0, name.c_str());
 
                 m_TreeResource->addTopLevelItem(item);
+                m_TreeResource->sortByColumn(0, Qt::SortOrder::AscendingOrder);
             }
 
             m_TreeResource->clearSelection();

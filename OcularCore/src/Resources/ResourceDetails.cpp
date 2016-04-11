@@ -29,11 +29,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceDetails::ResourceDetails(Resource* resource)
+        ResourceDetails::ResourceDetails(Resource* resource, ResourceType const type)
+            : m_Resource(resource),
+              m_Type(type),
+              m_LastRequest(0ULL),
+              m_NumberOfRequests(0)
         {
-            m_Resource = resource;
-            m_LastRequest = 0ULL;
-            m_NumberOfRequests = 0;
+
         }
 
         ResourceDetails::~ResourceDetails()
@@ -78,6 +80,11 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        ResourceType ResourceDetails::getType() const
+        {
+            return m_Type;
         }
 
         void ResourceDetails::reset() 
