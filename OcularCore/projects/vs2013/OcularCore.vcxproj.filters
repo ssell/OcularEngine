@@ -696,6 +696,9 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJState.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1269,6 +1272,9 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJState.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClInclude>
   </ItemGroup>
