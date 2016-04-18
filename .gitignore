@@ -33,12 +33,14 @@ x86/
 build/
 bld/
 [Bb]in/
-[Oo]bj/
 TestOutput/
 bin/
-obj/
 OcularTest/projects/vs2013/OcularTest/Resources/
 OcularTest/projects/vs2015/OcularTest/Resources/
+
+# Below are commented out because they block the Graphics/Mesh/MeshLoaders/OBJ folder
+# [Oo]bj/
+# obj/
 
 # Ignore 3rd Party Distributable
 External/

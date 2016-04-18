@@ -16,7 +16,7 @@
 
 #include "OcularEngine.hpp"
 
-#ifdef _DEBUG
+/*#ifdef _DEBUG
 
 #include "gtest/gtest.h"
 
@@ -32,7 +32,7 @@ TEST(SceneManager, GeneralObject)
      * Can't unit test much of the SceneManager/Scene, but can check the simple,
      * general object methods. The routine handling, SceneTree populating, etc.
      * will need to be tested via other methods.
-     */
+     *
 
     //--------------------------------------------------------------------
     // Test Creation
@@ -111,3 +111,4 @@ TEST(SceneManager, DuplicateObject)
 }
 
 #endif
+*/

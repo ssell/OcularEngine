@@ -12,13 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-//------------------------------------------------------------------------------------------
-// This source file keeps getting LNK4221 reporting that the constructor is not defined for whatever reason. This is needed to avoid this error.
-// Source: http://stackoverflow.com/a/25422179/735425
-
-__declspec(dllexport) void getRidOfLNK4221(){}   
+ */ 
 
 //------------------------------------------------------------------------------------------
 
@@ -31,6 +25,14 @@ __declspec(dllexport) void getRidOfLNK4221(){}
 #include <sstream>
 
 OCULAR_REGISTER_RESOURCE_SAVER(Ocular::Graphics::MaterialResourceSaver)
+
+//------------------------------------------------------------------------------------------
+// This source file keeps getting LNK4221 reporting that the constructor is not defined for whatever reason. This is needed to avoid this error.
+// Source: http://stackoverflow.com/a/25422179/735425
+// May need to move this segment around so it is triggered as a modified file...
+// Yea, I know...
+
+__declspec(dllexport) void getRidOfLNK4221(){}  
 
 //------------------------------------------------------------------------------------------
 

@@ -69,17 +69,17 @@ namespace Ocular
 
             if(position < 0)
             {
-                position += m_PositionData.size();
+                position += static_cast<int32_t>(m_PositionData.size());
             }
             
             if(normal < 0)
             {
-                normal += m_NormalsData.size();
+                normal += static_cast<int32_t>(m_NormalsData.size());
             }
             
             if(texcoord < 0)
             {
-                texcoord += m_TexCoordData.size();
+                texcoord += static_cast<int32_t>(m_TexCoordData.size());
             }
 
             // Incoming OBJ indices are 1-based and we maintain that until it is time to build the vertex buffers

@@ -112,6 +112,7 @@
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(ProjectDir)..\..\..\External\libs\msvc120\x64\$(Configuration)\;$(ProjectDir)..\..\..\OcularCore\bin\x64\;$(ProjectDir)..\..\..\OcularD3D11\bin\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>OcularD3D11_msvc120d.lib;OcularCore_msvc120d.lib;d3d11.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
