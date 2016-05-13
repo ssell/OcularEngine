@@ -21,6 +21,8 @@
 #include "Resources/ResourceLoaderRegistrar.hpp"
 #include "OcularEngine.hpp"
 
+#include "objparser/OBJParser.hpp"
+
 #include <fstream>
 #include <map>
 
@@ -55,7 +57,32 @@ namespace Ocular
         {
             // Requested to the load the entire OBJ as a MultiResource instance
 
-            bool result = false;
+            bool result = true;
+
+            OBJParser parser;
+            OBJState* state = parser.getOBJState();
+
+            if(parser.parseOBJFile(file.getFullPath()) == OBJParser::Result::Success)
+            {
+                std::vector<OBJGroup const*> groups;
+                state->getGroups(groups);
+
+                for(auto iter = groups.begin(); iter != groups.end(); ++iter)
+                {
+                    Core::Resource* mesh = nullptr;
+                    createMesh(mesh, (*iter), state);
+
+                    if(mesh)
+                    {
+                        mesh->setSourceFile(file);
+                    }
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to parse file '", file.getFullPath(), "' with error: ", parser.getLastError(), OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "loadResource"));
+                result = false;
+            }
 
             return result;
         }
@@ -133,6 +160,80 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool ResourceLoader_OBJ::isFileValid(Core::File const& file) const
+        {
+            bool result = true;
+
+            return result;
+        }
+
+        void ResourceLoader_OBJ::createMesh(Core::Resource* resource, OBJGroup const* group, OBJState const* state) const
+        {
+            Mesh* mesh = new Mesh();
+
+            //------------------------------------------------------------
+            // Calculate the amount of vertices/indices and reserve space for them
+
+            std::vector<Vertex> vertices;
+            std::vector<uint32_t> indices;
+
+            uint32_t numTris = group->faces.size();
+
+            if(numTris > 0)
+            {
+                if(group->faces[0].group3.indexSpatial != -1)
+                {
+                    // The faces in this OBJ were written as quads
+                    numTris *= 2;
+                }
+
+                vertices.reserve(numTris * 3);
+                indices.reserve(numTris * 3);
+
+                //--------------------------------------------------------
+                // Populate the vertices container
+
+                for(auto faceIter = group->faces.begin(); faceIter != group->faces.end(); ++faceIter)
+                {
+                    
+                }
+
+                //--------------------------------------------------------
+                // Populate the indices container
+
+            }
+
+            //------------------------------------------------------------
+
+            resource = mesh;
+        }
+
+        void ResourceLoader_OBJ::addFace(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, OBJFace const* face, OBJState const* state) const
+        {
+            Vertex vert0;
+            Vertex vert1;
+            Vertex vert2;
+
+            auto spatial = state->getSpatialData();
+            auto texture = state->getTextureData();
+            auto normal = state->getNormalData();
+
+            if(face->group0.indexSpatial >= 0)
+            {
+                
+            }
+
+            if(face->group3.indexSpatial == -1)
+            {
+                
+            }
+        }
+
+        void ResourceLoader_OBJ::faceToVertex(Vertex& vertex, OBJVertexGroup const& group, OBJState const* state) const
+        {
+
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

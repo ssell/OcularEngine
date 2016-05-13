@@ -22,6 +22,11 @@
 
 //------------------------------------------------------------------------------------------
 
+class OBJState;
+class OBJGroup;
+struct OBJFace;
+struct OBJVertexGroup;
+
 /**
  * \addtogroup Ocular
  * @{
@@ -57,6 +62,12 @@ namespace Ocular
             virtual bool exploreResource(Core::File const& file) override;
 
         protected:
+
+            bool isFileValid(Core::File const& file) const;
+
+            void createMesh(Core::Resource* resource, OBJGroup const* group, OBJState const* state) const;
+            void addFace(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, OBJFace const* face, OBJState const* state) const;
+            void faceToVertex(Vertex& vertex, OBJVertexGroup const& group, OBJState const* state) const;
 
         private:
         };

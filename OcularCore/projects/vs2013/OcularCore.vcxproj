@@ -103,7 +103,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmlsd.lib;libboost_filesystem-vc120-mt-gd-1_60.lib;libboost_iostreams-vc120-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc120d;pugixmlsd.lib;libboost_filesystem-vc120-mt-gd-1_60.lib;libboost_iostreams-vc120-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x86\$(Configuration)\</AdditionalLibraryDirectories>
@@ -122,7 +122,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmlsd.lib;libboost_filesystem-vc120-mt-gd-1_60.lib;libboost_iostreams-vc120-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc120d.lib;pugixmlsd.lib;libboost_filesystem-vc120-mt-gd-1_60.lib;libboost_iostreams-vc120-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x64\$(Configuration)\</AdditionalLibraryDirectories>
@@ -143,7 +143,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmls.lib;libboost_filesystem-vc120-mt-1_60.lib;libboost_iostreams-vc120-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc120;pugixmls.lib;libboost_filesystem-vc120-mt-1_60.lib;libboost_iostreams-vc120-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x86\$(Configuration)\</AdditionalLibraryDirectories>
@@ -164,7 +164,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>pugixmls.lib;libboost_filesystem-vc120-mt-1_60.lib;libboost_iostreams-vc120-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc120;pugixmls.lib;libboost_filesystem-vc120-mt-1_60.lib;libboost_iostreams-vc120-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc120\x64\$(Configuration)\</AdditionalLibraryDirectories>
@@ -197,7 +197,6 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp" />
-    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJState.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp" />
@@ -345,8 +344,6 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJParser.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJState.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp" />

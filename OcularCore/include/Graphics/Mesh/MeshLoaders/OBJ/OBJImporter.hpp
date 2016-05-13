@@ -73,7 +73,7 @@ namespace Ocular
          *
          *    OcularResources->getResource<MultiResource>("Meshes/SomeModel");
          *
-         * Alternatively, this OBJImporter class can be used to import the OBJ in SceneObjects.
+         * Alternatively, this OBJImporter class can be used to import the OBJ as SceneObjects.
          *
          *    SceneObject* parent = OBJImporter::Import("Meshes/SomeModel");
          *
