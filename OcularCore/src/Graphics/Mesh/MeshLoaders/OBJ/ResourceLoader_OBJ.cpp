@@ -39,7 +39,10 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         ResourceLoader_OBJ::ResourceLoader_OBJ()
-            : Core::AResourceLoader(".obj", Core::ResourceType::Multi)
+            : Core::AResourceLoader(".obj", Core::ResourceType::Multi),
+              m_CurrVertexIndex(0),
+              m_CurrIndexIndex(0),
+              m_CurrState(nullptr)
         {
         
         }
@@ -57,24 +60,52 @@ namespace Ocular
         {
             // Requested to the load the entire OBJ as a MultiResource instance
 
+            //------------------------------------------------------------
+            // Create or Unload the MultiResource
+
             bool result = true;
 
+            if(resource == nullptr)
+            {
+                resource = new Core::MultiResource();
+                resource->setSourceFile(file);
+            }
+            else if(resource->isInMemory())
+            {
+                resource->unload();
+            }
+
+            Core::MultiResource* multiResource = dynamic_cast<Core::MultiResource*>(resource);
+            
+            //------------------------------------------------------------
+            // Attempt to parse the file
+
             OBJParser parser;
-            OBJState* state = parser.getOBJState();
+            m_CurrState = parser.getOBJState();
 
             if(parser.parseOBJFile(file.getFullPath()) == OBJParser::Result::Success)
             {
                 std::vector<OBJGroup const*> groups;
-                state->getGroups(groups);
+                m_CurrState->getGroups(groups);
+
+                //--------------------------------------------------------
+                // Iterate over all groups and create a mesh for each
 
                 for(auto iter = groups.begin(); iter != groups.end(); ++iter)
                 {
-                    Core::Resource* mesh = nullptr;
-                    createMesh(mesh, (*iter), state);
+                    OBJGroup const* group = (*iter);
 
-                    if(mesh)
+                    if(group)
                     {
-                        mesh->setSourceFile(file);
+                        Core::Resource* mesh = nullptr;
+                        createMesh(mesh, group);
+
+                        if(mesh)
+                        {
+                            mesh->setSourceFile(file);
+                        }
+
+                        multiResource->addSubResource(mesh, group->name);
                     }
                 }
             }
@@ -168,71 +199,140 @@ namespace Ocular
             return result;
         }
 
-        void ResourceLoader_OBJ::createMesh(Core::Resource* resource, OBJGroup const* group, OBJState const* state) const
+        void ResourceLoader_OBJ::createMesh(Core::Resource* resource, OBJGroup const* group)
         {
             Mesh* mesh = new Mesh();
 
             //------------------------------------------------------------
             // Calculate the amount of vertices/indices and reserve space for them
 
+            Math::Vector3f min = Math::Vector3f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+            Math::Vector3f max = Math::Vector3f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), std::numeric_limits<float>::min());;
+
             std::vector<Vertex> vertices;
             std::vector<uint32_t> indices;
 
-            uint32_t numTris = group->faces.size();
+            uint32_t numFaces = static_cast<uint32_t>(group->faces.size());
 
-            if(numTris > 0)
+            //------------------------------------------------------------
+            // Populate the vector of vertices and indices
+
+            if(numFaces > 0)
             {
-                if(group->faces[0].group3.indexSpatial != -1)
+                if(group->faces[0].group3.indexSpatial >= 0)
                 {
-                    // The faces in this OBJ were written as quads
-                    numTris *= 2;
+                    // Faces are triangles
+                    vertices.resize(numFaces * 3);    // 3 unique vertices per face
+                    indices.resize(numFaces * 3);     // 3 indices to map face to triangle
+                }
+                else
+                {
+                    // Faces are quads
+                    vertices.resize(numFaces * 4);    // 4 unique vertices per face
+                    indices.resize(numFaces * 6);     // 6 unique indices to map face to two triangles
                 }
 
-                vertices.reserve(numTris * 3);
-                indices.reserve(numTris * 3);
-
-                //--------------------------------------------------------
-                // Populate the vertices container
-
-                for(auto faceIter = group->faces.begin(); faceIter != group->faces.end(); ++faceIter)
+                for(std::vector<OBJFace>::size_type i = 0; i < group->faces.size(); i++)
                 {
-                    
+                    addFace(&group->faces[i], vertices, indices, min, max);
                 }
-
-                //--------------------------------------------------------
-                // Populate the indices container
-
             }
+
+            //------------------------------------------------------------
+            // Pass vertices and indices to the Mesh
+
+            auto vb = OcularGraphics->createVertexBuffer();
+            auto ib = OcularGraphics->createIndexBuffer();
+
+            vb->addVertices(vertices);
+            ib->addIndices(indices);
+
+            if(vb->build())
+            {
+                mesh->setVertexBuffer(vb);
+            }
+            else
+            {
+                OcularLogger->error("Failed to build Vertex Buffer", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "createMesh"));
+            }
+
+            if(ib->build())
+            {
+                mesh->setIndexBuffer(ib);
+            }
+            else
+            {
+                OcularLogger->error("Failed to build Index Buffer", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "createMesh"));
+            }
+
+            mesh->setMinMaxPoints(min, max);
 
             //------------------------------------------------------------
 
             resource = mesh;
         }
 
-        void ResourceLoader_OBJ::addFace(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, OBJFace const* face, OBJState const* state) const
+        void ResourceLoader_OBJ::addFace(
+            OBJFace const* face, 
+            std::vector<Vertex>& vertices, 
+            std::vector<uint32_t>& indices, 
+            Math::Vector3f& min, 
+            Math::Vector3f& max)
         {
-            Vertex vert0;
-            Vertex vert1;
-            Vertex vert2;
+            faceToVertex(vertices, face->group0, min, max);
+            faceToVertex(vertices, face->group1, min, max);
+            faceToVertex(vertices, face->group2, min, max);
 
-            auto spatial = state->getSpatialData();
-            auto texture = state->getTextureData();
-            auto normal = state->getNormalData();
-
-            if(face->group0.indexSpatial >= 0)
+            if(face->group3.indexSpatial < 0)
             {
-                
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 2);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 0);
             }
-
-            if(face->group3.indexSpatial == -1)
+            else
             {
-                
+                // Convert the single quad face to two triangle faces
+
+                faceToVertex(vertices, face->group3, min, max);
+
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 3);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 2);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 0);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 3);
             }
         }
 
-        void ResourceLoader_OBJ::faceToVertex(Vertex& vertex, OBJVertexGroup const& group, OBJState const* state) const
+        void ResourceLoader_OBJ::faceToVertex(std::vector<Vertex>& vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max)
         {
+            static const uint32_t VEC3SIZE = sizeof(float) * 3;
+            static const uint32_t VEC2SIZE = sizeof(float) * 2;
 
+            if(group.indexSpatial >= 0)
+            {
+                memcpy(&vertices[m_CurrVertexIndex].position, &(m_CurrState->getSpatialData()[group.indexSpatial]), VEC3SIZE);
+
+                min.x = std::min(min.x, vertices[m_CurrVertexIndex].position.x);
+                min.y = std::min(min.y, vertices[m_CurrVertexIndex].position.y);
+                min.z = std::min(min.z, vertices[m_CurrVertexIndex].position.z);
+            
+                max.x = std::max(max.x, vertices[m_CurrVertexIndex].position.x);
+                max.y = std::max(max.y, vertices[m_CurrVertexIndex].position.y);
+                max.z = std::max(max.z, vertices[m_CurrVertexIndex].position.z);
+            }
+
+            if(group.indexTexture >= 0)
+            {
+                memcpy(&vertices[m_CurrVertexIndex].uv0, &(m_CurrState->getTextureData()[group.indexTexture]), VEC2SIZE);
+            }
+
+            if(group.indexNormal >= 0)
+            {
+                memcpy(&vertices[m_CurrVertexIndex].normal, &(m_CurrState->getTextureData()[group.indexNormal]), VEC3SIZE);
+            }
+
+            m_CurrVertexIndex++;
         }
 
         //----------------------------------------------------------------------------------

@@ -98,7 +98,7 @@ namespace Ocular
             min.y = std::min(min.y, vertices[currVert].position.y);
             min.z = std::min(min.z, vertices[currVert].position.z);
             
-            max.x = std::max(min.x, vertices[currVert].position.x);
+            max.x = std::max(max.x, vertices[currVert].position.x);
             max.y = std::max(max.y, vertices[currVert].position.y);
             max.z = std::max(max.z, vertices[currVert].position.z);
 

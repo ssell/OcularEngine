@@ -19,6 +19,9 @@
 #define __H__OCULAR_GRAPHICS_RESOURCE_LOADER_OBJ__H__
 
 #include "Resources/ResourceLoader.hpp"
+#include "Graphics/Mesh/Vertex.hpp"
+
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -65,11 +68,16 @@ namespace Ocular
 
             bool isFileValid(Core::File const& file) const;
 
-            void createMesh(Core::Resource* resource, OBJGroup const* group, OBJState const* state) const;
-            void addFace(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, OBJFace const* face, OBJState const* state) const;
-            void faceToVertex(Vertex& vertex, OBJVertexGroup const& group, OBJState const* state) const;
+            void createMesh(Core::Resource* resource, OBJGroup const* group);
+            void addFace(OBJFace const* face, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, Math::Vector3f& min, Math::Vector3f& max);
+            void faceToVertex(std::vector<Vertex>& vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max);
 
         private:
+
+            uint32_t m_CurrVertexIndex;
+            uint32_t m_CurrIndexIndex;
+
+            OBJState* m_CurrState;
         };
     }
     /**

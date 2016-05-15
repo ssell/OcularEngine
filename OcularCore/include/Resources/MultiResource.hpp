@@ -59,6 +59,8 @@ namespace Ocular
             MultiResource();
             virtual ~MultiResource();
 
+            void addSubResource(Resource* resource, std::string const& name);
+
             void getSubResourceNames(std::vector<std::string>& names);
             void getSubResources(std::vector<Resource*>& resources);
 

@@ -41,6 +41,11 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        void MultiResource::addSubResource(Resource* resource, std::string const& name)
+        {
+
+        }
+
         void MultiResource::getSubResourceNames(std::vector<std::string>& names)
         {
 
