@@ -15,6 +15,8 @@
  */
 
 #include "Resources/ResourceExplorer.hpp"
+#include "Resources/ResourceLoaderManager.hpp"
+
 #include <algorithm>
 
 //------------------------------------------------------------------------------------------
@@ -70,10 +72,20 @@ namespace Ocular
             m_ExtensionSensitive = sensitive;
         }
 
-        void ResourceExplorer::populateFileMap(std::unordered_map<std::string, File>& fileMap)
+        void ResourceExplorer::populateFileMap(std::unordered_map<std::string, File>& fileMap, ResourceLoaderManager* loader)
         {
             std::list<Directory> rootDirectories;
-            findRootDirectories(rootDirectories);
+
+            Directory specifiedDir = Directory(m_DirectoryName);
+
+            if(specifiedDir.exists())
+            {
+                rootDirectories.push_back(specifiedDir);
+            }
+            else
+            {
+                findRootDirectories(rootDirectories);
+            }
 
             if(rootDirectories.empty())
             {
@@ -90,7 +102,9 @@ namespace Ocular
 
                 for(auto fileIter = resourceFiles.begin(); fileIter != resourceFiles.end(); ++fileIter)
                 {
-                    if(!isBlacklisted((*fileIter).getExtension()))
+                    const std::string extension = (*fileIter).getExtension();
+
+                    if(!isBlacklisted(extension) && loader->isExtensionSupported(extension))
                     {
                         std::string relative = getRelativePathFromResourceRoot((*rootIter), (*fileIter));
                         std::replace(relative.begin(), relative.end(), '\\', '/');
@@ -109,7 +123,7 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool ResourceExplorer::isBlacklisted(std::string extension)
+        bool ResourceExplorer::isBlacklisted(std::string const& extension)
         {
             bool result = false;
 

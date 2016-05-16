@@ -95,9 +95,9 @@ namespace Ocular
                 {
                     OBJGroup const* group = (*iter);
 
-                    if(group)
+                    if(group && !OcularString->IsEqual(group->name, "default", true))
                     {
-                        Core::Resource* mesh = nullptr;
+                        Mesh* mesh = new Mesh();
                         createMesh(mesh, group);
 
                         if(mesh)
@@ -122,7 +122,19 @@ namespace Ocular
         {
             // Requested to load an individual mesh contained within the OBJ
 
-            bool result = false;
+            bool result = true;
+
+            const std::string parentMapping = buildParentMapping(mappingName);
+            Core::MultiResource* parentResource = OcularResources->getResource<Core::MultiResource>(parentMapping);
+
+            if(parentResource)
+            {
+                
+            }
+            else
+            {
+
+            }
 
             return result;
         }
@@ -199,10 +211,8 @@ namespace Ocular
             return result;
         }
 
-        void ResourceLoader_OBJ::createMesh(Core::Resource* resource, OBJGroup const* group)
+        void ResourceLoader_OBJ::createMesh(Mesh* mesh, OBJGroup const* group)
         {
-            Mesh* mesh = new Mesh();
-
             //------------------------------------------------------------
             // Calculate the amount of vertices/indices and reserve space for them
 
@@ -221,15 +231,15 @@ namespace Ocular
             {
                 if(group->faces[0].group3.indexSpatial >= 0)
                 {
-                    // Faces are triangles
-                    vertices.resize(numFaces * 3);    // 3 unique vertices per face
-                    indices.resize(numFaces * 3);     // 3 indices to map face to triangle
-                }
-                else
-                {
                     // Faces are quads
                     vertices.resize(numFaces * 4);    // 4 unique vertices per face
                     indices.resize(numFaces * 6);     // 6 unique indices to map face to two triangles
+                }
+                else
+                {
+                    // Faces are triangles
+                    vertices.resize(numFaces * 3);    // 3 unique vertices per face
+                    indices.resize(numFaces * 3);     // 3 indices to map face to triangle
                 }
 
                 for(std::vector<OBJFace>::size_type i = 0; i < group->faces.size(); i++)
@@ -266,10 +276,6 @@ namespace Ocular
             }
 
             mesh->setMinMaxPoints(min, max);
-
-            //------------------------------------------------------------
-
-            resource = mesh;
         }
 
         void ResourceLoader_OBJ::addFace(
@@ -285,9 +291,9 @@ namespace Ocular
 
             if(face->group3.indexSpatial < 0)
             {
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 3);
                 indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 2);
                 indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
-                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 0);
             }
             else
             {
@@ -295,12 +301,12 @@ namespace Ocular
 
                 faceToVertex(vertices, face->group3, min, max);
 
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 4);
                 indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 3);
                 indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 2);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 2);
                 indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
-                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 1);
-                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 0);
-                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 3);
+                indices[m_CurrIndexIndex++] = (m_CurrVertexIndex - 4);
             }
         }
 
@@ -311,7 +317,7 @@ namespace Ocular
 
             if(group.indexSpatial >= 0)
             {
-                memcpy(&vertices[m_CurrVertexIndex].position, &(m_CurrState->getSpatialData()[group.indexSpatial]), VEC3SIZE);
+                memcpy(&vertices[m_CurrVertexIndex].position, &(m_CurrState->getSpatialData()->at(group.indexSpatial)), VEC3SIZE);
 
                 min.x = std::min(min.x, vertices[m_CurrVertexIndex].position.x);
                 min.y = std::min(min.y, vertices[m_CurrVertexIndex].position.y);
@@ -324,15 +330,28 @@ namespace Ocular
 
             if(group.indexTexture >= 0)
             {
-                memcpy(&vertices[m_CurrVertexIndex].uv0, &(m_CurrState->getTextureData()[group.indexTexture]), VEC2SIZE);
+                memcpy(&vertices[m_CurrVertexIndex].uv0, &(m_CurrState->getTextureData()->at(group.indexTexture)), VEC2SIZE);
             }
 
             if(group.indexNormal >= 0)
             {
-                memcpy(&vertices[m_CurrVertexIndex].normal, &(m_CurrState->getTextureData()[group.indexNormal]), VEC3SIZE);
+                memcpy(&vertices[m_CurrVertexIndex].normal, &(m_CurrState->getNormalData()->at(group.indexNormal)), VEC3SIZE);
             }
 
             m_CurrVertexIndex++;
+        }
+
+        std::string ResourceLoader_OBJ::buildParentMapping(std::string const& mapping) const
+        {
+            std::string result = mapping;
+            auto find = result.find_last_of('/');
+
+            if(find != std::string::npos)
+            {
+                result.erase(find, std::string::npos);
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

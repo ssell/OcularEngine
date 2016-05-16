@@ -79,7 +79,8 @@ namespace Ocular
             //----------------------------------------
             // Populate the file map
 
-            m_ResourceExplorer.populateFileMap(m_FileMap);
+            m_FileMap.clear();
+            m_ResourceExplorer.populateFileMap(m_FileMap, &m_ResourceLoaderManager);
 
             //----------------------------------------
             // Populate the resource map

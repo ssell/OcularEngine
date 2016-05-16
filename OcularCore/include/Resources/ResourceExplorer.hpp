@@ -39,6 +39,8 @@ namespace Ocular
      */
     namespace Core
     {
+        class ResourceLoaderManager;
+
         /**
          * \class ResourceExplorer
          *
@@ -90,14 +92,14 @@ namespace Ocular
             /**
              * \param[out] resourceMap Map of all resource files.
              */
-            void populateFileMap(std::unordered_map<std::string, File>& fileMap);
+            void populateFileMap(std::unordered_map<std::string, File>& fileMap, ResourceLoaderManager* loader);
 
         protected:
 
             /**
              * \return TRUE if the extension is blacklisted.
              */
-            bool isBlacklisted(std::string extension);
+            bool isBlacklisted(std::string const& extension);
             
             /**
              * Finds all root directories to explore for resource files.

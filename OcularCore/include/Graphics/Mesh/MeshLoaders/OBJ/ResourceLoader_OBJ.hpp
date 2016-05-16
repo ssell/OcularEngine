@@ -42,6 +42,8 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class Mesh;
+
         /**
          * \class ResourceLoader_OBJ
          *
@@ -61,6 +63,13 @@ namespace Ocular
             virtual ~ResourceLoader_OBJ();
 
             virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
+
+            /**
+             * Loads a specific OBJ group as an individual Mesh resource.
+             * 
+             * It should be noted that loading an individual group requires the full parsing of the OBJ file.
+             * If the file contains multiple groups, then loadResource or OBJImporter may be more efficient.
+             */
             virtual bool loadSubResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName) override;
             virtual bool exploreResource(Core::File const& file) override;
 
@@ -68,9 +77,11 @@ namespace Ocular
 
             bool isFileValid(Core::File const& file) const;
 
-            void createMesh(Core::Resource* resource, OBJGroup const* group);
+            void createMesh(Mesh* mesh, OBJGroup const* group);
             void addFace(OBJFace const* face, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, Math::Vector3f& min, Math::Vector3f& max);
             void faceToVertex(std::vector<Vertex>& vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max);
+
+            std::string buildParentMapping(std::string const& mapping) const;
 
         private:
 

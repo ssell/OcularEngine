@@ -313,6 +313,7 @@ namespace Ocular
              *
              * Default is "Resources"
              *
+             * \note To update the resource mappings, forceSourceRefresh must be called.
              * \param[in] directory Name of resource directories
              */
             void setSourceDirectory(std::string const& directory);

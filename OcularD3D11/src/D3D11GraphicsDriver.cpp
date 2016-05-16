@@ -468,8 +468,8 @@ namespace Ocular
                 switch(type)
                 {
                 case Math::BoundsType::AABB:
-                    mesh = OcularResources->getResource<Mesh>("Meshes/BoundingBox");
-                    material = OcularResources->getResource<Material>("Materials/BoundingBox");
+                    mesh = OcularResources->getResource<Mesh>("OcularCore/Meshes/BoundingBox");
+                    material = OcularResources->getResource<Material>("OcularCore/Materials/BoundingBox");
                     break;
 
                 case Math::BoundsType::OBB:
