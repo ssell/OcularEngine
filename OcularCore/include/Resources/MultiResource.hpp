@@ -19,7 +19,7 @@
 #define __H__OCULAR_RESOURCES_MULTI_RESOURCE__H__
 
 #include "Resource.hpp"
-#include <vector>
+#include <unordered_map>
 
 //------------------------------------------------------------------------------------------
 
@@ -64,29 +64,31 @@ namespace Ocular
             /**
              *
              */
-            void addSubResource(Resource* resource, std::string const& name);
+            virtual void addSubResource(Resource* resource, std::string const& name);
 
             /**
              *
              */
-            Resource* getSubResource(std::string const& name);
+            virtual Resource* getSubResource(std::string const& name);
             
             /**
              *
              */
-            void getSubResourceNames(std::vector<std::string>& names);
+            virtual void getSubResourceNames(std::vector<std::string>& names);
             
             /**
              *
              */
-            void getSubResources(std::vector<Resource*>& resources);
+            virtual void getSubResources(std::vector<Resource*>& resources);
             
             /**
              *
              */
-            uint32_t getNumSubResources() const;
+            virtual uint32_t getNumSubResources() const;
 
         protected:
+
+            std::unordered_map<std::string, Resource*> m_SubResources;
 
         private:
         };

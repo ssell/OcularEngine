@@ -232,6 +232,8 @@ namespace Ocular
 
                     if(findFile != m_FileMap.end())
                     {
+                        findFile->second.refresh();
+
                         // Found the file we are to load from
                         Resource* resource = result;
 

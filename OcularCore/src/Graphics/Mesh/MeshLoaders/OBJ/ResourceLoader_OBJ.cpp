@@ -65,53 +65,56 @@ namespace Ocular
 
             bool result = true;
 
-            if(resource == nullptr)
+            if(isFileValid(file))
             {
-                resource = new Core::MultiResource();
-                resource->setSourceFile(file);
-            }
-            else if(resource->isInMemory())
-            {
-                resource->unload();
-            }
+                if(resource == nullptr)
+                {
+                    resource = new Core::MultiResource();
+                    resource->setSourceFile(file);
+                    resource->setMappingName(OcularResources->getResourceMappingName(file));
+                }
+                else if(resource->isInMemory())
+                {
+                    resource->unload();
+                }
 
-            Core::MultiResource* multiResource = dynamic_cast<Core::MultiResource*>(resource);
-            
-            //------------------------------------------------------------
-            // Attempt to parse the file
-
-            OBJParser parser;
-            m_CurrState = parser.getOBJState();
-
-            if(parser.parseOBJFile(file.getFullPath()) == OBJParser::Result::Success)
-            {
-                std::vector<OBJGroup const*> groups;
-                m_CurrState->getGroups(groups);
+                Core::MultiResource* multiResource = dynamic_cast<Core::MultiResource*>(resource);
 
                 //--------------------------------------------------------
-                // Iterate over all groups and create a mesh for each
+                // Attempt to parse the file
 
-                for(auto iter = groups.begin(); iter != groups.end(); ++iter)
+                OBJParser parser;
+                m_CurrState = parser.getOBJState();
+
+                if(parser.parseOBJFile(file.getFullPath()) == OBJParser::Result::Success)
                 {
-                    OBJGroup const* group = (*iter);
+                    std::vector<OBJGroup const*> groups;
+                    m_CurrState->getGroups(groups);
 
-                    if(group && !OcularString->IsEqual(group->name, "default", true))
+                    //----------------------------------------------------
+                    // Iterate over all groups and create a mesh for each
+
+                    for(auto iter = groups.begin(); iter != groups.end(); ++iter)
                     {
-                        Mesh* mesh = new Mesh();
-                        createMesh(mesh, group);
+                        OBJGroup const* group = (*iter);
 
-                        if(mesh)
+                        if(group && !OcularString->IsEqual(group->name, "default", true))
                         {
-                            mesh->setSourceFile(file);
-                        }
+                            Mesh* mesh = new Mesh();
+                            createMesh(mesh, group);
 
-                        multiResource->addSubResource(mesh, group->name);
+                            multiResource->addSubResource(mesh, group->name);
+                        }
                     }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to parse file '", file.getFullPath(), "' with error: ", parser.getLastError(), OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "loadResource"));
+                    result = false;
                 }
             }
             else
             {
-                OcularLogger->error("Failed to parse file '", file.getFullPath(), "' with error: ", parser.getLastError(), OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "loadResource"));
                 result = false;
             }
 
@@ -121,19 +124,31 @@ namespace Ocular
         bool ResourceLoader_OBJ::loadSubResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             // Requested to load an individual mesh contained within the OBJ
-
+            
             bool result = true;
 
-            const std::string parentMapping = buildParentMapping(mappingName);
-            Core::MultiResource* parentResource = OcularResources->getResource<Core::MultiResource>(parentMapping);
-
-            if(parentResource)
+            if(isFileValid(file))
             {
-                
+                std::string parentName;
+                std::string subName;
+
+                splitParentSubNames(mappingName, parentName, subName);
+
+                Core::MultiResource* parentResource = OcularResources->getResource<Core::MultiResource>(parentName);
+
+                if(parentResource)
+                {
+                    resource = parentResource->getSubResource(subName);
+                }
+                else
+                {
+                    OcularLogger->error("Failed to load parent MultiResource of '", mappingName, "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "loadSubResource"));
+                    result = false;
+                }
             }
             else
             {
-
+                result = false;
             }
 
             return result;
@@ -147,6 +162,11 @@ namespace Ocular
              */
 
             bool result = false;
+
+            if(!isFileValid(file))
+            {
+                return result;
+            }
 
             std::fstream instream(file.getFullPath(), std::fstream::in);
 
@@ -208,6 +228,24 @@ namespace Ocular
         {
             bool result = true;
 
+            if(!file.exists())
+            {
+                OcularLogger->error("Specified file does not exist '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
+            if(!OcularString->IsEqual(file.getExtension(), ".obj", true))
+            {
+                OcularLogger->error("Invalid extension for file '", file.getFullPath(), "'; Expected '.obj'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
+            if(!file.canRead())
+            {
+                OcularLogger->error("Invalid read access for file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
             return result;
         }
 
@@ -254,12 +292,15 @@ namespace Ocular
             auto vb = OcularGraphics->createVertexBuffer();
             auto ib = OcularGraphics->createIndexBuffer();
 
+            uint64_t size = 0;
+
             vb->addVertices(vertices);
             ib->addIndices(indices);
 
             if(vb->build())
             {
                 mesh->setVertexBuffer(vb);
+                size += static_cast<uint64_t>(vb->getNumVertices() * sizeof(Vertex));
             }
             else
             {
@@ -269,12 +310,14 @@ namespace Ocular
             if(ib->build())
             {
                 mesh->setIndexBuffer(ib);
+                size += static_cast<uint64_t>(ib->getNumIndices() * sizeof(uint32_t));
             }
             else
             {
                 OcularLogger->error("Failed to build Index Buffer", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "createMesh"));
             }
 
+            mesh->setSize(size);
             mesh->setMinMaxPoints(min, max);
         }
 
@@ -341,17 +384,15 @@ namespace Ocular
             m_CurrVertexIndex++;
         }
 
-        std::string ResourceLoader_OBJ::buildParentMapping(std::string const& mapping) const
+        void ResourceLoader_OBJ::splitParentSubNames(std::string const& mappingName, std::string& parent, std::string& sub) const
         {
-            std::string result = mapping;
-            auto find = result.find_last_of('/');
+            auto find = mappingName.find_last_of('/');
 
             if(find != std::string::npos)
             {
-                result.erase(find, std::string::npos);
+                parent = mappingName.substr(0, find); 
+                sub = mappingName.substr(find + 1, std::string::npos);
             }
-
-            return result;
         }
 
         //----------------------------------------------------------------------------------

@@ -119,6 +119,11 @@ namespace Ocular
             return m_IsInMemory;
         }
 
+        void Resource::setSize(uint64_t const size)
+        {
+            m_SizeInMemory = size;
+        }
+
         uint64_t Resource::getSize() const
         {
             return m_SizeInMemory;

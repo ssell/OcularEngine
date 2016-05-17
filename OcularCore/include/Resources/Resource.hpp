@@ -92,6 +92,12 @@ namespace Ocular
             bool isInMemory() const;
 
             /**
+             * Sets the size in bytes that this resource occupies when loaded.
+             * \param[in] size
+             */
+            void setSize(uint64_t size);
+
+            /**
              * \return The size, in bytes, of the Resource
              */
             uint64_t getSize() const;

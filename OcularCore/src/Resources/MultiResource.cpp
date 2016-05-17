@@ -15,6 +15,8 @@
  */
 
 #include "Resources/MultiResource.hpp"
+#include "OcularEngine.hpp"
+#include "Utilities/StringComposer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -43,22 +45,69 @@ namespace Ocular
         
         void MultiResource::addSubResource(Resource* resource, std::string const& name)
         {
+            if(resource)
+            {
+                auto find = m_SubResources.find(name);
 
+                if(find != m_SubResources.end())
+                {
+                    OcularLogger->warning("Duplicate Resource Added", OCULAR_INTERNAL_LOG("MultiResource", "addSubResource"));
+                    
+                    delete (*find).second;
+                    m_SubResources.erase(find);
+                }
+
+                resource->setName(name);
+                resource->setMappingName(m_MappingName + "/" + name);
+                resource->setIsInMemory(true);
+                resource->setSourceFile(m_SourceFile);
+
+                m_SubResources[name] = resource;
+            }
+            else
+            {
+                OcularLogger->warning("Attempted to add NULL Resource to MultiResource", OCULAR_INTERNAL_LOG("MultiResource", "addSubResource"));
+            }
+        }
+
+        Resource* MultiResource::getSubResource(std::string const& name)
+        {
+            Resource* result = nullptr;
+            auto find = m_SubResources.find(name);
+
+            if(find != m_SubResources.end())
+            {
+                result = (*find).second;
+            }
+
+            return result;
         }
 
         void MultiResource::getSubResourceNames(std::vector<std::string>& names)
         {
+            names.clear();
+            names.reserve(m_SubResources.size());
 
+            for(auto iter = m_SubResources.begin(); iter != m_SubResources.end(); ++iter)
+            {
+                names.push_back((*iter).first);
+            }
         }
 
         void MultiResource::getSubResources(std::vector<Resource*>& resources)
         {
+            resources.clear();
+            resources.reserve(m_SubResources.size());
 
+            for(auto iter = m_SubResources.begin(); iter != m_SubResources.end(); ++iter)
+            {
+                resources.push_back((*iter).second);
+            }
         }
 
         uint32_t MultiResource::getNumSubResources() const
         {
-            return 0;
+            return static_cast<uint32_t>(m_SubResources.size());
         }
 
         //----------------------------------------------------------------------------------
