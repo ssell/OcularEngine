@@ -19,8 +19,9 @@
 #define __H__OCULAR_GRAPHICS_MESH__H__
 
 #include "Resources/Resource.hpp"
-#include "IndexBuffer.hpp"
-#include "VertexBuffer.hpp"
+#include "Math/Vector3.hpp"
+
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -36,6 +37,10 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class SubMesh;
+        class VertexBuffer;
+        class IndexBuffer;
+
         /**
          * \class Mesh 
          * \brief Combination of a VertexBuffer and IndexBuffer
@@ -46,6 +51,10 @@ namespace Ocular
 
             Mesh();
             virtual ~Mesh();
+            
+            //------------------------------------------------------------
+            // Virtual Methods
+            //------------------------------------------------------------
 
             /**
              * Binds the Vertex and Index Buffers of this Mesh
@@ -61,6 +70,10 @@ namespace Ocular
              * Unloads this Mesh from CPU and GPU memory
              */
             virtual void unload() override;
+            
+            //------------------------------------------------------------
+            // Buffer Methods
+            //------------------------------------------------------------
 
             /**
              * Sets the VertexBuffer for this Mesh.
@@ -73,8 +86,9 @@ namespace Ocular
              * it is no longer in use.
              *
              * \param[in] buffer
+             * \param[in] submesh Index of the submesh that should receive the new buffer.
              */
-            void setVertexBuffer(VertexBuffer* buffer);
+            void setVertexBuffer(VertexBuffer* buffer, uint32_t submesh = 0);
             
             /**
              * Returns a pointer to the current vertex buffer of this mesh, which can then be modified.
@@ -86,9 +100,10 @@ namespace Ocular
              * Any changes made to the buffer will not take affect until VertexBuffer::build is called
              * and the Mesh is rebound.
              *
-             * \return A pointer to the current VertexBuffer for this mesh.
+             * \param[in] submesh The index of the submesh whose buffer should be retrieved.
+             * \return A pointer to the specified IndexBuffer. May be NULL.
              */
-            VertexBuffer* getVertexBuffer();
+            VertexBuffer* getVertexBuffer(uint32_t submesh = 0);
             
             /**
              * Sets the IndexBuffer for this Mesh.
@@ -97,16 +112,22 @@ namespace Ocular
              *       it is no longer in use.
              *
              * \param[in] buffer
+             * \param[in] submesh Index of the submesh that should receive the new buffer.
              */
-            void setIndexBuffer(IndexBuffer* buffer);
+            void setIndexBuffer(IndexBuffer* buffer, uint32_t submesh = 0);
             
             /**
              * \note Any changes made to the buffer will not take affect until IndexBuffer::build is called
              *       and the Mesh is rebound.
              *
-             * \return A pointer to the current IndexBuffer for this mesh.
+             * \param[in] submesh The index of the submesh whose buffer should be retrieved.
+             * \return A pointer to the specified IndexBuffer. May be NULL.
              */
-            IndexBuffer* getIndexBuffer();
+            IndexBuffer* getIndexBuffer(uint32_t submesh = 0);
+            
+            //------------------------------------------------------------
+            // Min/Max Point Methods
+            //------------------------------------------------------------
 
             /**
              * Calculates the minimum and maximum vertex spatial points within the mesh.
@@ -148,14 +169,60 @@ namespace Ocular
              * \return Maximum point along all 3 local axis.
              */
             Math::Vector3f const& getMaxPoint() const;
+            
+            //------------------------------------------------------------
+            // Sub-Mesh Methods
+            //------------------------------------------------------------
+
+            /**
+             * Returns the SubMesh at the specified index.
+             * 
+             * \param[in] index
+             * \return Pointer to the requested SubMesh. Returns NULL if the specified index is out-of-bounds.
+             */
+            SubMesh* getSubMesh(uint32_t index);
+
+            /**
+             * Adds a SubMesh to the Mesh.
+             *
+             * If provided SubMesh is NULL, then a new SubMesh is created.
+             *
+             * \param[in] submesh
+             * \return Index of the newly added SubMesh
+             */
+            uint32_t addSubMesh(SubMesh* submesh = nullptr);
+
+            /**
+             * Sets the SubMesh at the specified index.
+             *
+             * The pre-existing SubMesh is deleted during this action.
+             *
+             * \param[in] submesh
+             * \param[in] index
+             *
+             * \return Returns TRUE if the SubMesh was correctly set. Returns FALSE if the specified index is invalid.
+             */
+            bool setSubMesh(SubMesh* submesh, uint32_t index);
+            
+            /**
+             * Destroys the SubMesh at the specified index.
+             *
+             * \param[in] index
+             * \return Returns TRUE if the SubMesh was successfully destroyed. Returns FALSE if the specified index is invalid.
+             */
+            bool removeSubMesh(uint32_t index);
+            
+            /**
+             * \return Returns the number of SubMeshes that comprise this Mesh.
+             */
+            uint32_t getNumSubMesh() const;
 
         protected:
-            
-            VertexBuffer* m_VertexBuffer;
-            IndexBuffer* m_IndexBuffer;
 
             Math::Vector3f m_MinPoint;
             Math::Vector3f m_MaxPoint;
+
+            std::vector<SubMesh*> m_SubMeshes;
 
         private:
         };

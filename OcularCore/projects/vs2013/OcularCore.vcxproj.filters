@@ -696,6 +696,9 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\SubMesh.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1270,6 +1273,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp">
       <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

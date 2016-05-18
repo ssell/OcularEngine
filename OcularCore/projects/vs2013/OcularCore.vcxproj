@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshMissing.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\MeshResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\SubMesh.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp" />
     <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshMissing.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\MeshResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />

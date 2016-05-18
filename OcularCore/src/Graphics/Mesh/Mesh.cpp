@@ -16,6 +16,10 @@
 
 #include "Graphics/Mesh/Mesh.hpp"
 
+#include "Graphics/Mesh/SubMesh.hpp"
+#include "Graphics/Mesh/VertexBuffer.hpp"
+#include "Graphics/Mesh/SubMesh.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -27,9 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Mesh::Mesh()
-            : Core::Resource(),
-              m_VertexBuffer(nullptr),
-              m_IndexBuffer(nullptr)
+            : Core::Resource()
         {
             m_Type = Core::ResourceType::Mesh;
         }
@@ -37,21 +39,32 @@ namespace Ocular
         Mesh::~Mesh()
         {
             unload();
+
+            while(m_SubMeshes.size())
+            {
+                delete (*m_SubMeshes.begin());
+                m_SubMeshes.erase(m_SubMeshes.begin());
+            }
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+        
+        //----------------------------------------------------------------------------------
+        // Virtual Methods
+        //----------------------------------------------------------------------------------
 
         bool Mesh::bind()
         {
-            bool result = false;
+            bool result = true;
 
-            if(m_VertexBuffer && m_IndexBuffer)
+            for(auto submesh : m_SubMeshes)
             {
-                m_VertexBuffer->bind();
-                m_IndexBuffer->bind();
-                result = true;
+                if(submesh)
+                {
+                    result = result && submesh->bind();
+                }
             }
 
             return result;
@@ -59,87 +72,129 @@ namespace Ocular
 
         void Mesh::unbind()
         {
-            if(m_VertexBuffer)
+            for(auto submesh : m_SubMeshes)
             {
-                m_VertexBuffer->unbind();
-            }
-
-            if(m_IndexBuffer)
-            {
-                m_IndexBuffer->unbind();
+                if(submesh)
+                {
+                    submesh->unbind();
+                }
             }
         }
 
         void Mesh::unload()
         {
-            if(m_VertexBuffer)
+            for(auto submesh : m_SubMeshes)
             {
-                delete m_VertexBuffer;
-                m_VertexBuffer = nullptr;
-            }
-
-            if(m_IndexBuffer)
-            {
-                delete m_IndexBuffer;
-                m_IndexBuffer = nullptr;
+                if(submesh)
+                {
+                    submesh->unload();
+                }
             }
         }
+        
+        //----------------------------------------------------------------------------------
+        // Buffer Methods
+        //----------------------------------------------------------------------------------
 
-        void Mesh::setVertexBuffer(VertexBuffer* buffer)
+        void Mesh::setVertexBuffer(VertexBuffer* buffer, uint32_t const index)
         {
-            if(m_VertexBuffer)
+            if(index < m_SubMeshes.size())
             {
-                delete m_VertexBuffer;
+                auto submesh = m_SubMeshes[index];
+
+                if(submesh)
+                {
+                    submesh->setVertexBuffer(buffer);
+                }
+            }
+        }
+
+        VertexBuffer* Mesh::getVertexBuffer(uint32_t const index)
+        {
+            VertexBuffer* result = nullptr;
+
+            if(index < m_SubMeshes.size())
+            {
+                auto submesh = m_SubMeshes[index];
+
+                if(submesh)
+                {
+                    result = submesh->getVertexBuffer();
+                }
             }
 
-            m_VertexBuffer = buffer;
+            return result;
         }
 
-        VertexBuffer* Mesh::getVertexBuffer()
+        void Mesh::setIndexBuffer(IndexBuffer* buffer, uint32_t const index)
         {
-            return m_VertexBuffer;
-        }
-
-        void Mesh::setIndexBuffer(IndexBuffer* buffer)
-        {
-            if(m_IndexBuffer)
+            if(index < m_SubMeshes.size())
             {
-                delete m_IndexBuffer;
+                auto submesh = m_SubMeshes[index];
+
+                if(submesh)
+                {
+                    submesh->setIndexBuffer(buffer);
+                }
+            }
+        }
+
+        IndexBuffer* Mesh::getIndexBuffer(uint32_t const index)
+        {
+            IndexBuffer* result = nullptr;
+
+            if(index < m_SubMeshes.size())
+            {
+                auto submesh = m_SubMeshes[index];
+
+                if(submesh)
+                {
+                    result = submesh->getIndexBuffer();
+                }
             }
 
-            m_IndexBuffer = buffer;
+            return result;
         }
-
-        IndexBuffer* Mesh::getIndexBuffer()
-        {
-            return m_IndexBuffer;
-        }
+        
+        //----------------------------------------------------------------------------------
+        // Min/Max Point Methods
+        //----------------------------------------------------------------------------------
 
         void Mesh::calculateMinMaxPoints()
         {
             m_MinPoint = Math::Vector3f();
             m_MaxPoint = Math::Vector3f();
 
-            if(m_VertexBuffer)
+            for(auto submesh : m_SubMeshes)
             {
-                auto vb = &m_VertexBuffer->getVertices();
+                VertexBuffer* vb = nullptr;  
+                
+                if(submesh)
+                {
+                    vb = submesh->getVertexBuffer();
+                }
 
                 if(vb)
                 {
-                    if(vb->size())
-                    {
-                        m_MinPoint = vb->at(0).position;
-                        m_MaxPoint = m_MinPoint;
+                    auto vertices = &vb->getVertices();
 
-                        for(auto iter = vb->begin(); iter != vb->end(); ++iter)
+                    if(vertices)
+                    {
+                        if(vertices->size())
                         {
-                            m_MinPoint.x = std::min(m_MinPoint.x, (*iter).position.x);
-                            m_MinPoint.y = std::min(m_MinPoint.y, (*iter).position.y);
-                            m_MinPoint.z = std::min(m_MinPoint.z, (*iter).position.z);
-                            
-                            m_MaxPoint.x = std::max(m_MaxPoint.x, (*iter).position.x);
-                            m_MaxPoint.y = std::max(m_MaxPoint.y, (*iter).position.y);
-                            m_MaxPoint.z = std::max(m_MaxPoint.z, (*iter).position.z);
+                            m_MinPoint = vertices->at(0).position;
+                            m_MaxPoint = m_MinPoint;
+
+                            for(auto iter = vertices->begin(); iter != vertices->end(); ++iter)
+                            {
+                                m_MinPoint.x = std::min(m_MinPoint.x, (*iter).position.x);
+                                m_MinPoint.y = std::min(m_MinPoint.y, (*iter).position.y);
+                                m_MinPoint.z = std::min(m_MinPoint.z, (*iter).position.z);
+
+                                m_MaxPoint.x = std::max(m_MaxPoint.x, (*iter).position.x);
+                                m_MaxPoint.y = std::max(m_MaxPoint.y, (*iter).position.y);
+                                m_MaxPoint.z = std::max(m_MaxPoint.z, (*iter).position.z);
+                            }
                         }
                     }
                 }
@@ -161,6 +216,10 @@ namespace Ocular
         {
             return m_MaxPoint;
         }
+
+        //----------------------------------------------------------------------------------
+        // Sub-Mesh Methods
+        //----------------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
