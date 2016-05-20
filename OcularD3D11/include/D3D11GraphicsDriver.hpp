@@ -82,7 +82,7 @@ namespace Ocular
             virtual IndexBuffer* createIndexBuffer() const override;
             virtual VertexBuffer* createVertexBuffer() const override;
             
-            virtual bool renderMesh(Mesh* mesh) override;
+            virtual bool renderMesh(Mesh* mesh, uint32_t submesh = 0) override;
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type) override;
 
             //------------------------------------------------------------

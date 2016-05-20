@@ -434,22 +434,23 @@ namespace Ocular
         // Temp Methods
         //----------------------------------------------------------------------------------
 
-        bool D3D11GraphicsDriver::renderMesh(Mesh* mesh)
+        bool D3D11GraphicsDriver::renderMesh(Mesh* mesh, uint32_t const submeshIndex)
         {
             bool result = false;
 
             if(mesh)
             {
-                if(mesh->bind())
+                auto submesh = mesh->getSubMesh(submeshIndex);
+
+                if(submesh && submesh->bind())
                 {
-                    auto indexBuffer = mesh->getIndexBuffer();
+                    auto indexBuffer = submesh->getIndexBuffer();
 
                     if(indexBuffer)
                     {
                         m_D3DDeviceContext->DrawIndexed(indexBuffer->getNumIndices(), 0, 0);
+                        result = true;
                     }
-
-                    result = true;
                 }
             }
 

@@ -15,10 +15,7 @@
  */
 
 #include "Graphics/Mesh/Mesh.hpp"
-
-#include "Graphics/Mesh/SubMesh.hpp"
-#include "Graphics/Mesh/VertexBuffer.hpp"
-#include "Graphics/Mesh/SubMesh.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -59,26 +56,12 @@ namespace Ocular
         {
             bool result = true;
 
-            for(auto submesh : m_SubMeshes)
-            {
-                if(submesh)
-                {
-                    result = result && submesh->bind();
-                }
-            }
-
             return result;
         }
 
         void Mesh::unbind()
         {
-            for(auto submesh : m_SubMeshes)
-            {
-                if(submesh)
-                {
-                    submesh->unbind();
-                }
-            }
+
         }
 
         void Mesh::unload()
@@ -220,6 +203,84 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Sub-Mesh Methods
         //----------------------------------------------------------------------------------
+
+        SubMesh* Mesh::getSubMesh(uint32_t const index) const
+        {
+            SubMesh* result = nullptr;
+
+            if(index < static_cast<uint32_t>(m_SubMeshes.size()))
+            {
+                result = m_SubMeshes[index];
+            }
+
+            return result;
+        }
+
+        uint32_t Mesh::addSubMesh(SubMesh* submesh)
+        {
+            uint32_t result = static_cast<uint32_t>(m_SubMeshes.size());
+
+            if(submesh)
+            {
+                m_SubMeshes.push_back(submesh);
+            }
+            else
+            {
+                m_SubMeshes.push_back(new SubMesh());
+            }
+
+            return result;
+        }
+
+        bool Mesh::setSubMesh(SubMesh* submesh, uint32_t const index)
+        {
+            bool result = false;
+
+            if(submesh)
+            {
+                if(index < static_cast<uint32_t>(m_SubMeshes.size()))
+                {
+                    delete m_SubMeshes[index];
+                    m_SubMeshes[index] = submesh;
+
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->error("Invalid index of ", index, " specified on range [0, ", (m_SubMeshes.size() - 1), "]", OCULAR_INTERNAL_LOG("Mesh", "setSubMesh"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Invalid NULL SubMesh specified", OCULAR_INTERNAL_LOG("Mesh", "setSubMesh"));
+            }
+
+            return result;
+        }
+
+        bool Mesh::removeSubMesh(uint32_t const index)
+        {
+            bool result = false;
+
+            if(index < static_cast<uint32_t>(m_SubMeshes.size()))
+            {
+                delete m_SubMeshes[index];
+                m_SubMeshes.erase(m_SubMeshes.begin() + index);
+
+                result = true;
+            }
+            else
+            {
+                OcularLogger->error("Invalid index of ", index, " specified on range [0, ", (m_SubMeshes.size() - 1), "]", OCULAR_INTERNAL_LOG("Mesh", "removeSubMesh"));
+            }
+
+            return result;
+        }
+
+        uint32_t Mesh::getNumSubMeshes() const
+        {
+            return static_cast<uint32_t>(m_SubMeshes.size());
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

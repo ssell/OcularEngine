@@ -188,7 +188,7 @@ namespace Ocular
         // Temp Methods (to be moved to dedicated Renderer class in future)
         //----------------------------------------------------------------------------------
         
-        bool GraphicsDriver::renderMesh(Mesh* mesh)
+        bool GraphicsDriver::renderMesh(Mesh* mesh, uint32_t const submesh)
         {
             return false;
         }

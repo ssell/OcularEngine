@@ -15,8 +15,6 @@
  */
 
 #include "Graphics/Mesh/SubMesh.hpp"
-#include "Graphics/Mesh/VertexBuffer.hpp"
-#include "Graphics/Mesh/IndexBuffer.hpp"
 
 //------------------------------------------------------------------------------------------
 

@@ -18,6 +18,9 @@
 #ifndef __H__OCULAR_GRAPHICS_SUB_MESH__H__
 #define __H__OCULAR_GRAPHICS_SUB_MESH__H__
 
+#include "Graphics/Mesh/VertexBuffer.hpp"
+#include "Graphics/Mesh/IndexBuffer.hpp"
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -47,12 +50,12 @@ namespace Ocular
             ~SubMesh();
 
             /**
-             * Binds the Vertex and Index Buffers of this Mesh
+             * Binds the Vertex and Index Buffers of this SubMesh
              */
             bool bind();
 
             /**
-             * Unbinds the Vertex and Index Buffers of this Mesh
+             * Unbinds the Vertex and Index Buffers of this SubMesh
              */
             void unbind();
 

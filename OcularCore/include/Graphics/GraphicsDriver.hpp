@@ -249,10 +249,12 @@ namespace Ocular
             /**
              * Renders the specified mesh and it's vertex and index buffers.
              *
-             * \param[in] mesh Mesh to render.
+             * \param[in] mesh    Mesh to render.
+             * \param[in] submesh Index of the SubMesh to render.
+             *
              * \return TRUE if rendered successfully. 
              */
-            virtual bool renderMesh(Mesh* mesh);
+            virtual bool renderMesh(Mesh* mesh, uint32_t submesh = 0);
 
             /**
              * Renders the bounds of the specified SceneObject

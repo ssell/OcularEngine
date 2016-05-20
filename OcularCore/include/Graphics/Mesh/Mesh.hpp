@@ -19,6 +19,7 @@
 #define __H__OCULAR_GRAPHICS_MESH__H__
 
 #include "Resources/Resource.hpp"
+#include "Graphics/Mesh/SubMesh.hpp"
 #include "Math/Vector3.hpp"
 
 #include <vector>
@@ -57,12 +58,16 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             * Binds the Vertex and Index Buffers of this Mesh
+             * Does nothing.
+             *
+             * See SubMesh::Bind to bind a vertex/index buffer pair.
              */
             virtual bool bind();
 
             /**
-             * Unbinds the Vertex and Index Buffers of this Mesh
+             * Does nothing.
+             *
+             * See SubMesh::Unind to unbind a vertex/index buffer pair.
              */
             virtual void unbind();
 
@@ -180,12 +185,14 @@ namespace Ocular
              * \param[in] index
              * \return Pointer to the requested SubMesh. Returns NULL if the specified index is out-of-bounds.
              */
-            SubMesh* getSubMesh(uint32_t index);
+            SubMesh* getSubMesh(uint32_t index) const;
 
             /**
              * Adds a SubMesh to the Mesh.
              *
              * If provided SubMesh is NULL, then a new SubMesh is created.
+             *
+             * \note The Mesh assumes ownership of the SubMesh and will delete it upon destruction or removal.
              *
              * \param[in] submesh
              * \return Index of the newly added SubMesh
@@ -196,6 +203,8 @@ namespace Ocular
              * Sets the SubMesh at the specified index.
              *
              * The pre-existing SubMesh is deleted during this action.
+             *
+             * \note The Mesh assumes ownership of the SubMesh and will delete it upon destruction or removal.
              *
              * \param[in] submesh
              * \param[in] index
@@ -215,7 +224,7 @@ namespace Ocular
             /**
              * \return Returns the number of SubMeshes that comprise this Mesh.
              */
-            uint32_t getNumSubMesh() const;
+            uint32_t getNumSubMeshes() const;
 
         protected:
 

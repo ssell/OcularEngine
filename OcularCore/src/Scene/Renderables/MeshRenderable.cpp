@@ -17,6 +17,9 @@
 #include "Scene/Renderables/MeshRenderable.hpp"
 #include "Scene/RenderableRegistrar.hpp"
 
+#include "Graphics/Mesh/Mesh.hpp"
+#include "Graphics/Material/Material.hpp"
+
 OCULAR_REGISTER_RENDERABLE(Ocular::Core::MeshRenderable, "Mesh");
 
 //------------------------------------------------------------------------------------------
@@ -33,21 +36,25 @@ namespace Ocular
             : ARenderable(name, "Mesh", parent)
         {
             m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
-            m_Material = dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material));
+            //m_Material = dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material));
 
             exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
-            exposeVariable("m_Material", Utils::TypeName<Resource>::name, true, false, &m_Material);
+            //exposeVariable("m_Material", Utils::TypeName<Resource>::name, true, false, &m_Material);
         }
 
         MeshRenderable::~MeshRenderable()
         {
             // Do not delete as Mesh and Materials are shared resources
             m_Mesh = nullptr;
-            m_Material = nullptr;
+            m_Materials.clear();
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
+        //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        // Inherited Methods
         //----------------------------------------------------------------------------------
 
         bool MeshRenderable::initialize()
@@ -59,16 +66,7 @@ namespace Ocular
 
         bool MeshRenderable::preRender()
         {
-            bool result = false;
-
-            if(ARenderable::preRender())
-            {
-                if(m_Mesh && m_Material)
-                {
-                    m_Material->bind();
-                    result = true;
-                }
-            }
+            bool result = ARenderable::preRender();
 
             return result;
         }
@@ -77,7 +75,23 @@ namespace Ocular
         {
             if(m_Mesh)
             {
-                OcularGraphics->renderMesh(m_Mesh);
+                const uint32_t submeshCount = m_Mesh->getNumSubMeshes();
+                const uint32_t materialCount = getNumMaterials();
+
+                for(uint32_t i = 0; i < submeshCount; i++)
+                {
+                    if(i < materialCount)
+                    {
+                        auto material = m_Materials[i];
+
+                        if(material)
+                        {
+                            material->bind();
+                        }
+                    }
+
+                    OcularGraphics->renderMesh(m_Mesh, i);
+                }
             }
         }
 
@@ -95,10 +109,10 @@ namespace Ocular
                     setMesh(meshChild->getValue());
                 }
 
-                if(materialChild)
-                {
-                    setMaterial(materialChild->getValue());
-                }
+                //if(materialChild)
+                //{
+                    //setMaterial(materialChild->getValue());
+                //}
             }
         }
 
@@ -113,10 +127,10 @@ namespace Ocular
                     node->addChild("m_Mesh", Utils::TypeName<std::string>::name, m_Mesh->getMappingName());
                 }
                 
-                if(m_Material)
-                {
-                    node->addChild("m_Material", Utils::TypeName<std::string>::name, m_Material->getMappingName());
-                }
+                //if(m_Material)
+                //{
+                    //node->addChild("m_Material", Utils::TypeName<std::string>::name, m_Material->getMappingName());
+                //}
             }
         }
 
@@ -134,9 +148,9 @@ namespace Ocular
             }
         }
 
-        //----------------------------------------------------------------
-        // Getters / Setters
-        //----------------------------------------------------------------
+        //----------------------------------------------------------------------------------
+        // Mesh Methods
+        //----------------------------------------------------------------------------------
 
         bool MeshRenderable::setMesh(std::string const& name)
         {
@@ -163,27 +177,70 @@ namespace Ocular
             return m_Mesh;
         }
 
-        bool MeshRenderable::setMaterial(std::string const& name)
+        //----------------------------------------------------------------------------------
+        // Material Methods
+        //----------------------------------------------------------------------------------
+
+        uint32_t MeshRenderable::addMaterial(std::string const& name)
+        {
+            const uint32_t result = static_cast<uint32_t>(m_Materials.size());
+            m_Materials.push_back(OcularResources->getResource<Graphics::Material>(name));
+
+            return result;
+        }
+
+        uint32_t MeshRenderable::addMaterial(Graphics::Material* material)
+        {
+            const uint32_t result = static_cast<uint32_t>(m_Materials.size());
+            m_Materials.push_back(material);
+
+            return result;
+        }
+
+        bool MeshRenderable::setMaterial(std::string const& name, uint32_t const index)
         {
             bool result = false;
-            m_Material = OcularResources->getResource<Graphics::Material>(name);
 
-            if(m_Material)
+            if(index < static_cast<uint32_t>(m_Materials.size()))
             {
+                m_Materials[index] = OcularResources->getResource<Graphics::Material>(name);
                 result = true;
             }
 
             return result;
         }
 
-        void MeshRenderable::setMaterial(Graphics::Material* material)
+        void MeshRenderable::setMaterial(Graphics::Material* material, uint32_t const index)
         {
-            m_Material = material;
+            if(index < static_cast<uint32_t>(m_Materials.size()))
+            {
+                m_Materials[index] = material;
+            }
         }
 
-        Graphics::Material* MeshRenderable::getMaterial() const
+        void MeshRenderable::removeMaterial(uint32_t const index)
         {
-            return m_Material;
+            if(index < static_cast<uint32_t>(m_Materials.size()))
+            {
+                m_Materials[index] = nullptr;
+            }
+        }
+
+        Graphics::Material* MeshRenderable::getMaterial(uint32_t const index) const
+        {
+            Graphics::Material* result = nullptr;
+
+            if(index < static_cast<uint32_t>(m_Materials.size()))
+            {
+                result = m_Materials[index];
+            }
+
+            return result;
+        }
+
+        uint32_t MeshRenderable::getNumMaterials() const
+        {
+            return static_cast<uint32_t>(m_Materials.size());
         }
 
         //----------------------------------------------------------------------------------
