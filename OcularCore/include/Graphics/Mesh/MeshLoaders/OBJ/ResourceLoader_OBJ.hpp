@@ -96,15 +96,12 @@ namespace Ocular
             bool isFileValid(Core::File const& file) const;
 
             void createMesh(Mesh* mesh, OBJGroup const* group);
-            void addFace(OBJFace const* face, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, Math::Vector3f& min, Math::Vector3f& max);
-            void faceToVertex(std::vector<Vertex>& vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max);
+            void addFace(OBJFace const* face, std::vector<Vertex>* vertices, std::vector<uint32_t>* indices, Math::Vector3f& min, Math::Vector3f& max);
+            void faceToVertex(std::vector<Vertex>* vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max);
 
             void splitParentSubNames(std::string const& mappingName, std::string& parent, std::string& sub) const;
 
         private:
-
-            uint32_t m_CurrVertexIndex;
-            uint32_t m_CurrIndexIndex;
 
             OBJState* m_CurrState;
         };
