@@ -1,6 +1,0 @@
-<OcularMaterial>
-    <ShaderProgram>
-        <var name="Vertex" type="Shader" value="Shaders/Flat" />
-        <var name="Fragment" type="Shader" value="Shaders/Flat" />
-    </ShaderProgram>
-</OcularMaterial>

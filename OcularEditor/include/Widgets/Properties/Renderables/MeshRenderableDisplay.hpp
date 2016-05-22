@@ -58,6 +58,9 @@ namespace Ocular
 
         private:
 
+            void buildMeshProperty();
+            void buildMaterialProperties();
+
             ResourceProperty* m_MeshProperty;
             std::vector<MeshRenderableDisplayMaterial*> m_MaterialProperties;
 

@@ -34,7 +34,6 @@ namespace Ocular
         
         MeshRenderableDisplayMaterial::MeshRenderableDisplayMaterial(uint32_t index, QWidget* parent)
             : QFrame(parent),
-              m_Material(nullptr),
               m_MaterialIndex(index)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -59,14 +58,54 @@ namespace Ocular
             return QSize(275, 5);
         }
 
-        void MeshRenderableDisplayMaterial::setMaterial(Graphics::Material* material)
+        bool MeshRenderableDisplayMaterial::wasEdited()
+        {
+            bool result = false;
+            std::string resourceName;
+
+            if(m_ButtonBrowse->wasEdited())
+            {
+                resourceName = m_ButtonBrowse->getSelectedResource();
+                result = true;
+            }
+            else if(!m_LineValue->hasFocus() && m_LineValue->wasEdited())
+            {
+                resourceName = m_LineValue->text().toStdString();
+
+                if(OcularResources->doesExist(resourceName))
+                {
+                    m_LineValue->setInvalid(false);
+                    result = true;
+                }
+                else
+                {
+                    m_LineValue->setInvalid(true);
+                }
+            }
+
+            if(result)
+            {
+                m_LineValue->setText(resourceName.c_str());
+                setMaterialMapping(resourceName);
+            }
+
+            return result;
+        }
+
+        void MeshRenderableDisplayMaterial::setMaterialMapping(std::string const& material)
         {
             m_Material = material;
+            m_LineValue->setText(m_Material.c_str());
+        }
 
-            if(m_Material)
-            {
-                
-            }
+        std::string const& MeshRenderableDisplayMaterial::getMaterialMapping() const
+        {
+            return m_Material;
+        }
+
+        uint32_t MeshRenderableDisplayMaterial::getMaterialIndex() const
+        {
+            return m_MaterialIndex;
         }
 
         //----------------------------------------------------------------------------------
@@ -98,6 +137,7 @@ namespace Ocular
 
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonResourceBrowse();
+            m_ButtonBrowse->setResourceType(Core::ResourceType::Material);
 
             m_LayoutRight->addWidget(m_LineValue);
             m_LayoutRight->addWidget(m_ButtonBrowse);

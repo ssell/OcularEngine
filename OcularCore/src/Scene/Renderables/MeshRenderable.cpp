@@ -219,7 +219,7 @@ namespace Ocular
             return result;
         }
 
-        bool MeshRenderable::setMaterial(std::string const& name, uint32_t const index)
+        bool MeshRenderable::setMaterial(std::string const& name, uint32_t const index, bool resize)
         {
             bool result = false;
 
@@ -228,14 +228,25 @@ namespace Ocular
                 m_Materials[index] = OcularResources->getResource<Graphics::Material>(name);
                 result = true;
             }
+            else if(resize)
+            {
+                m_Materials.resize((index + 1), nullptr);
+                m_Materials[index] = OcularResources->getResource<Graphics::Material>(name);
+                result = true;
+            }
 
             return result;
         }
 
-        void MeshRenderable::setMaterial(Graphics::Material* material, uint32_t const index)
+        void MeshRenderable::setMaterial(Graphics::Material* material, uint32_t const index, bool resize)
         {
             if(index < static_cast<uint32_t>(m_Materials.size()))
             {
+                m_Materials[index] = material;
+            }
+            else if(resize)
+            {
+                m_Materials.resize((index + 1), nullptr);
                 m_Materials[index] = material;
             }
         }

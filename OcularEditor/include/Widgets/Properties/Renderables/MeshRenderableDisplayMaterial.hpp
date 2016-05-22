@@ -55,7 +55,25 @@ namespace Ocular
 
             //------------------------------------------------------------
 
-            void setMaterial(Graphics::Material* material);
+            /**
+             * \return Returns TRUE if the material was changed (either by manual editing of text field or via browse button).
+             */
+            bool wasEdited();
+
+            /**
+             *
+             */
+            void setMaterialMapping(std::string const& material);
+
+            /**
+             *
+             */
+            std::string const& getMaterialMapping() const;
+
+            /**
+             *
+             */
+            uint32_t getMaterialIndex() const;
 
         protected:
 
@@ -79,7 +97,7 @@ namespace Ocular
             LineEdit* m_LineValue;
             ButtonResourceBrowse* m_ButtonBrowse;
 
-            Graphics::Material* m_Material;
+            std::string m_Material;
             uint32_t m_MaterialIndex;
         };
     }

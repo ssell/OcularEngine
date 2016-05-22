@@ -132,8 +132,9 @@ namespace Ocular
              * 
              * \param[in] name  The mapping-name of the Material resource.
              * \param[in] index The index to place the Material at. 
+             * \param[in] resize If true, will add NULL Materials to the Material container until the specified index is valid.
              */
-            bool setMaterial(std::string const& name, uint32_t index = 0);
+            bool setMaterial(std::string const& name, uint32_t index = 0, bool resize = false);
             
             /**
              * Sets the Material at the specified index.
@@ -142,8 +143,9 @@ namespace Ocular
              * 
              * \param[in] material Pointer to the Material resource. May be NULL.
              * \param[in] index    The index to place the Material at. 
+             * \param[in] resize If true, will add NULL Materials to the Material container until the specified index is valid.
              */
-            void setMaterial(Graphics::Material* material, uint32_t index = 0);
+            void setMaterial(Graphics::Material* material, uint32_t index = 0, bool resize = false);
 
             /**
              * Removes the Material at the specified index.
