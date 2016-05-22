@@ -289,12 +289,13 @@
     <ClCompile Include="..\..\src\Widgets\PropertiesPanel.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\CommonDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\CustomObjectDisplay.cpp" />
-    <ClCompile Include="..\..\src\Widgets\Properties\DirectoryProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Objects\CameraDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertiesTitleBar.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp" />
-    <ClCompile Include="..\..\src\Widgets\Properties\RenderableDisplay.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplay.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\RenderableDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\SelectResourceDialog.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\DoubleProperty.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt8Property.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\BoolProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\ColorProperty.cpp" />
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\DirectoryProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\FileProperty.cpp" />
     <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp" />
@@ -339,6 +341,10 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplay.hpp" />
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplayRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp" />
     <CustomBuild Include="..\..\include\Widgets\Properties\SelectResourceDialog.hpp">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -568,7 +574,6 @@
     <ClInclude Include="..\..\include\Widgets\Properties\CommonDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidget.hpp" />
-    <ClInclude Include="..\..\include\Widgets\Properties\RenderableDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\EulerProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\QuatAsEulerProperty.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Types\QuaternionProperty.hpp" />

@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RENDERABLE_DISPLAY__H__
-#define __H__OCULAR_EDITOR_RENDERABLE_DISPLAY__H__
+#ifndef __H__OCULAR_EDITOR_RENDERABLE_DISPLAY_REGISTRAR__H__
+#define __H__OCULAR_EDITOR_RENDERABLE_DISPLAY_REGISTRAR__H__
 
-#include "PropertiesDisplayBox.hpp"
+#include "OcularEditor.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,34 +34,28 @@ namespace Ocular
      */
     namespace Editor
     {
-        /**
-         * \class RenderableDisplay
-         */
-        class RenderableDisplay : public PropertiesDisplayBox
+        template<class T>
+        class RenderableDisplayRegistrar
         {
         public:
 
-            RenderableDisplay(QWidget* parent = nullptr);
-            ~RenderableDisplay();
+            RenderableDisplayRegistrar(std::string const& type)
+            {
+                if(!OcularEditor.getRenderableDisplayFactory().registerComponent<T>(type))
+                {
+                    OcularLogger->error("Failed to register RenderableDisplay for type '", type, "' as the type is already in use",
+                                         OCULAR_INTERNAL_LOG("RenderableDisplayRegistrar", "RenderableDisplayRegistrar"));
+                }
+            }
 
-            //------------------------------------------------------------
+            ~RenderableDisplayRegistrar()
+            {
 
-            virtual void setObject(Core::SceneObject* object) override;
-            virtual void updateProperties() override;
+            }
 
         protected:
 
-            void buildProperties();
-            void removeProperties();
-         
-            //------------------------------------------------------------
-
-            Core::ARenderable* m_Renderable;
-
         private:
-
-            std::vector<PropertyWidget*> m_Properties;
-
         };
     }
     /**
@@ -71,6 +65,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+#define OCULAR_REGISTER_RENDERABLE_DISPLAY(X,Y) Ocular::Editor::RenderableDisplayRegistrar<X> OCULAR_INTERNAL_RenderableDisplayRegistrar(Y)
 
 //------------------------------------------------------------------------------------------
 

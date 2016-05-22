@@ -18,6 +18,8 @@
 #include "D3D11GraphicsDriver.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
+#include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
+
 #include <regex>
 
 //------------------------------------------------------------------------------------------
@@ -141,6 +143,23 @@ namespace Ocular
         Core::ComponentFactory<PropertiesDisplayBox>& Editor::getCustomDisplayFactory()
         {
             return m_CustomDisplayFactory;
+        }
+
+        RenderableDisplay* Editor::createRenderableDisplay(std::string const& type)
+        {
+            RenderableDisplay* result = m_RenderableDisplayFactory.createComponent(type);
+
+            if(result)
+            {
+                result->setTitle(type.c_str());
+            }
+
+            return result;
+        }
+
+        Core::ComponentFactory<RenderableDisplay>& Editor::getRenderableDisplayFactory()
+        {
+            return m_RenderableDisplayFactory;
         }
 
         bool Editor::IsCommonName(std::string const& name)

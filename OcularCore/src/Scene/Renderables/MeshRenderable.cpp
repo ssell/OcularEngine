@@ -20,7 +20,9 @@
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Material/Material.hpp"
 
-OCULAR_REGISTER_RENDERABLE(Ocular::Core::MeshRenderable, "Mesh");
+#include "Utilities/StringComposer.hpp"
+
+OCULAR_REGISTER_RENDERABLE(Ocular::Core::MeshRenderable, "MeshRenderable");
 
 //------------------------------------------------------------------------------------------
 
@@ -33,13 +35,10 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshRenderable::MeshRenderable(std::string const& name, SceneObject* parent)
-            : ARenderable(name, "Mesh", parent)
+            : ARenderable(name, "MeshRenderable", parent)
         {
             m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
-            //m_Material = dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material));
-
             exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
-            //exposeVariable("m_Material", Utils::TypeName<Resource>::name, true, false, &m_Material);
         }
 
         MeshRenderable::~MeshRenderable()
@@ -101,18 +100,29 @@ namespace Ocular
 
             if(node)
             {
-                const BuilderNode* meshChild = node->getChild("m_Mesh");
-                const BuilderNode* materialChild = node->getChild("m_Material");
+                const BuilderNode* meshNode = node->getChild("m_Mesh");
+                const BuilderNode* materialsNode = node->getChild("Materials");
 
-                if(meshChild)
+                if(meshNode)
                 {
-                    setMesh(meshChild->getValue());
+                    setMesh(meshNode->getValue());
                 }
 
-                //if(materialChild)
-                //{
-                    //setMaterial(materialChild->getValue());
-                //}
+                if(materialsNode)
+                {
+                    const uint32_t numChildren = materialsNode->getNumChildren();
+
+                    for(uint32_t i = 0; i < numChildren; i++)
+                    {
+                        auto materialNode = materialsNode->getChild(OCULAR_STRING_COMPOSER("Material_", i));
+
+                        if(materialNode)
+                        {
+                            const std::string mappingName = materialNode->getValue();
+                            m_Materials.push_back(OcularResources->getResource<Graphics::Material>(mappingName));
+                        }
+                    }
+                }
             }
         }
 
@@ -127,10 +137,22 @@ namespace Ocular
                     node->addChild("m_Mesh", Utils::TypeName<std::string>::name, m_Mesh->getMappingName());
                 }
                 
-                //if(m_Material)
-                //{
-                    //node->addChild("m_Material", Utils::TypeName<std::string>::name, m_Material->getMappingName());
-                //}
+                auto materialNode = node->addChild("Materials", "", "");
+                
+                if(materialNode)
+                {
+                    uint32_t count = 0;
+
+                    for(auto iter = m_Materials.begin(); iter != m_Materials.end(); ++iter)
+                    {
+                        auto material = (*iter);
+
+                        if(material)
+                        {
+                            materialNode->addChild(OCULAR_STRING_COMPOSER("Material_", count++), Utils::TypeName<std::string>::name, material->getMappingName());
+                        }
+                    }
+                }
             }
         }
 

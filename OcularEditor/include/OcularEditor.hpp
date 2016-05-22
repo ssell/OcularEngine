@@ -23,6 +23,7 @@
 
 #include "Widgets/Properties/PropertyWidget.hpp"
 #include "Widgets/Properties/PropertiesDisplayBox.hpp"
+#include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,6 +39,9 @@ namespace Ocular
      */
     namespace Editor
     {
+        /**
+         *
+         */
         class Editor
         {
         public:
@@ -93,6 +97,16 @@ namespace Ocular
             Core::ComponentFactory<PropertiesDisplayBox>& getCustomDisplayFactory();
 
             /**
+             *
+             */
+            RenderableDisplay* createRenderableDisplay(std::string const& type);
+
+            /**
+             *
+             */
+            Core::ComponentFactory<RenderableDisplay>& getRenderableDisplayFactory();
+
+            /**
              * Checks if the provided name is an object name belongs to either Object or SceneObject base members.
              */
             static bool IsCommonName(std::string const& name);
@@ -121,6 +135,7 @@ namespace Ocular
 
             Core::ComponentFactory<PropertyWidget> m_PropertyWidgetFactory;
             Core::ComponentFactory<PropertiesDisplayBox> m_CustomDisplayFactory;
+            Core::ComponentFactory<RenderableDisplay> m_RenderableDisplayFactory;
         };
     }
     /**

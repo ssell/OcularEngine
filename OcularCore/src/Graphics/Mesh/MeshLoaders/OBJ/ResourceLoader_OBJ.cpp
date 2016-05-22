@@ -346,9 +346,11 @@ namespace Ocular
 
                 auto vb = OcularGraphics->createVertexBuffer();
                 vb->addVertices(vertexBuffers[i].second);
+                vb->build();
 
                 auto ib = OcularGraphics->createIndexBuffer();
                 ib->addIndices(indexBuffers[i].second);
+                ib->build();
 
                 submesh->setVertexBuffer(vb);
                 submesh->setIndexBuffer(ib);

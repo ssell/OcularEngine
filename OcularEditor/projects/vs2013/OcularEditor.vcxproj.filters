@@ -60,9 +60,6 @@
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{87853f2c-eebf-4719-ae24-977b870c0959}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Events">
-      <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Widgets\Properties">
       <UniqueIdentifier>{5916cc52-7e15-4cec-b74e-768874453d3a}</UniqueIdentifier>
     </Filter>
@@ -92,6 +89,15 @@
     </Filter>
     <Filter Include="Source Files\Widgets\Properties\Objects">
       <UniqueIdentifier>{a6960864-a650-4bb3-a6e4-2267ffe1cb10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Renderables">
+      <UniqueIdentifier>{85ba59ef-70ec-4942-9b1d-139431c9ae41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Renderables">
+      <UniqueIdentifier>{ff27e6d5-b168-4ef9-8784-8a1c885c0edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Events">
+      <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +171,7 @@
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+      <Filter>Source Files\Input\Events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
       <Filter>Source Files\Widgets</Filter>
@@ -263,9 +269,6 @@
     <ClCompile Include="..\..\src\Widgets\Standard\ButtonDirectoryBrowse.cpp">
       <Filter>Source Files\Widgets\Standard</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\DirectoryProperty.cpp">
-      <Filter>Source Files\Widgets\Properties\Types</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonDirectoryBrowse.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -303,12 +306,6 @@
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\CustomObjectDisplay.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\RenderableDisplay.cpp">
-      <Filter>Source Files\Widgets\Properties</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp">
       <Filter>Source Files\Widgets\Properties</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Properties\Objects\CameraDisplay.cpp">
@@ -361,6 +358,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\Standard\ButtonResourceBrowse.cpp">
       <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\RenderableDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\DirectoryProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,9 +481,6 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
-      <Filter>Header Files\Widgets\Properties\Types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
@@ -485,9 +494,6 @@
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp">
-      <Filter>Header Files\Widgets\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\RenderableDisplay.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp">
@@ -507,6 +513,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplayRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

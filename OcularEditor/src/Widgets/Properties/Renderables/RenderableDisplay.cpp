@@ -15,7 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/RenderableDisplay.hpp"
+#include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 #include "Widgets/Properties/Types/ResourceProperty.hpp"
 #include "Scene/ARenderable.hpp"
 
@@ -29,8 +29,8 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        RenderableDisplay::RenderableDisplay(QWidget* parent)
-            : PropertiesDisplayBox("Renderable", true, true, parent),
+        RenderableDisplay::RenderableDisplay(std::string const& displayName, QWidget* parent)
+            : PropertiesDisplayBox(displayName, true, true, parent),
               m_Renderable(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);

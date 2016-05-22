@@ -18,7 +18,7 @@
 #include "Widgets/PropertiesPanel.hpp"
 #include "Widgets/Properties/CommonDisplay.hpp"
 #include "Widgets/Properties/CustomObjectDisplay.hpp"
-#include "Widgets/Properties/RenderableDisplay.hpp"
+#include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 #include "Widgets/Properties/RoutineDisplay.hpp"
 #include "Widgets/Properties/SelectResourceDialog.hpp"
 #include "Events/Events/SceneObjectRemovedEvent.hpp"
@@ -249,9 +249,18 @@ namespace Ocular
 
                 if(renderable)
                 {
-                    m_RenderableProperties = new RenderableDisplay();
+                    const std::string type = renderable->getClass();
+
+                    m_RenderableProperties = OcularEditor.createRenderableDisplay(type);
+
+                    if(m_RenderableProperties == nullptr)
+                    {
+                        // If no registered renderable display for the renderable type then use a generic RenderableDisplay
+                        m_RenderableProperties = new RenderableDisplay();
+                    }
+
                     m_RenderableProperties->setObject(m_CurrentObject);
-                    m_RenderableProperties->setTitle(renderable->getName());
+                    m_RenderableProperties->setTitle(type);
 
                     m_Layout->addWidget(m_RenderableProperties);
                 }
