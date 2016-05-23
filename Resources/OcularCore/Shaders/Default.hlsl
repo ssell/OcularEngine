@@ -24,7 +24,7 @@ struct VSOutput
 {
     float4 position : SV_Position;
     float4 color    : COLOR0;
-    float2 uv0      : TEXCOORD0;
+    float4 uv0      : TEXCOORD0;
 };
 
 struct PSOutput
@@ -33,7 +33,13 @@ struct PSOutput
 };
 
 Texture2D g_DiffuseTexture : register(t0);
-SamplerState Sampler;
+
+SamplerState Sampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
 
 //------------------------------------------------------------------------------------------
 // Vertex Shader
@@ -45,7 +51,7 @@ VSOutput VSMain(VSInput input)
 
     VSOutput output;
     output.position = mul(input.position, mvpMatrix);
-    output.color    = input.color * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
+    output.color    = input.color;// * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
     output.uv0      = input.uv0;
 
     return output;
@@ -57,6 +63,6 @@ VSOutput VSMain(VSInput input)
 
 float4 PSMain(VSOutput input) : SV_Target
 {
-	float4 color = g_DiffuseTexture.Sample(Sampler, input.uv0) * input.color;
+	float4 color = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
     return color;
 }

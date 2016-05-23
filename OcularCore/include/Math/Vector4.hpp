@@ -145,6 +145,16 @@ namespace Ocular
                 return *this;
             }
 
+            Vector4<T>& operator=(Vector3<T> const &rhs)
+            {
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
+                w = static_cast<T>(1);
+
+                return *this;
+            }
+
             Vector4<T>& operator+=(Vector4<T> const &rhs)
             {
                 x += rhs.x;
@@ -230,6 +240,22 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
+             *
+             */
+            Vector2<T> xy() const
+            {
+                return Vector2<T>(x, y);
+            }
+
+            /**
+             *
+             */
+            Vector3<T> xyz() const
+            {
+                return Vector3<T>(x, y, z);
+            }
+
+            /**
              * \return The magnitude (length) of the vector.
              */
             T getMagnitude() const
@@ -288,7 +314,7 @@ namespace Ocular
              * \param[in] rhs The second vector dot multiply with
              * \return The dot product of the two vectors (in radians)
              */
-            double dot(Vector4<T> const &rhs) const
+            T dot(Vector4<T> const &rhs) const
             {
                 return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
             }
@@ -300,7 +326,7 @@ namespace Ocular
              * \param[in] rhs The second vector to calculate the angle with
              * \return The angle, in radians, between the vectors
              */
-            double angleBetween(Vector4<T> const &rhs) const
+            T angleBetween(Vector4<T> const &rhs) const
             {
                 Vector4<T> normalLHS = getNormalized();
                 Vector4<T> normalRHS = rhs.getNormalized();
@@ -312,14 +338,14 @@ namespace Ocular
                     angle = PI_TWO - angle;
                 }
 
-                return angle;
+                return static_cast<T>(angle);
             }
 
             /**
              * \param[in] rhs The second vector to calculate the distance with
              * \return The distance between the two vectors
              */
-            double distanceTo(Vector4<T> const &rhs) const
+            T distanceTo(Vector4<T> const &rhs) const
             {
                 Vector4<T> distance = (*this) - rhs;
                 return distance.getMagnitude();
@@ -334,6 +360,24 @@ namespace Ocular
                 y /= w;
                 z /= w;
                 w /= w;
+            }
+
+            /**
+             * Calculates the midpoint of the two provided points.
+             *
+             * \param[in] a
+             * \param[in] b
+             * \return The midpoint vector
+             */
+            static Vector4<T> Midpoint(Vector4<T> const& a, Vector4<T> const& b)
+            {
+                T two = static_cast<T>(2);
+
+                return Vector4<T>(
+                    ((a.x + b.x) / two),
+                    ((a.y + b.y) / two),
+                    ((a.z + b.z) / two),
+                    ((a.w + b.w) / two));
             }
 
             //------------------------------------------------------------------------------

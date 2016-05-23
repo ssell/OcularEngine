@@ -228,6 +228,14 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
+             *
+             */
+            Vector2<T> xy() const
+            {
+                return Vector2<T>(x, y);
+            }
+
+            /**
              * \return The magnitude (length) of the vector.
              */
             T getMagnitude() const

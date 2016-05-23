@@ -165,7 +165,7 @@ namespace Ocular
                     {
                         if(vertices->size())
                         {
-                            m_MinPoint = vertices->at(0).position;
+                            m_MinPoint = vertices->at(0).position.xyz();
                             m_MaxPoint = m_MinPoint;
 
                             for(auto iter = vertices->begin(); iter != vertices->end(); ++iter)

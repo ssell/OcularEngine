@@ -52,8 +52,8 @@ struct VSInput
     float4 color    : COLOR0;               ///< Default color of the incoming Vertex
     float4 normal   : NORMAL0;              ///< Normal of the incoming Vertex
 
-    float2 uv0      : TEXCOORD0;            ///< 
-    float2 uv1      : TEXCOORD1;            ///< 
-    float2 uv2      : TEXCOORD2;            ///< 
-    float2 uv3      : TEXCOORD3;            ///< 
+    float4 uv0      : TEXCOORD0;            ///< 
+    float4 uv1      : TEXCOORD1;            ///< 
+    float4 uv2      : TEXCOORD2;            ///< 
+    float4 uv3      : TEXCOORD3;            ///< 
 };

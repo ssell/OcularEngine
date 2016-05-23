@@ -19,7 +19,7 @@
 #define __H__OCULAR_MATH_BOUNDS_SPHERE__H__
 
 #include "Math/Bounds/Bounds.hpp"
-#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 #include "Graphics/Mesh/Vertex.hpp"
 
 #include <list>
@@ -51,9 +51,9 @@ namespace Ocular
         {
         public:
 
-            BoundsSphere(std::list<Point3f> const& points);
+            BoundsSphere(std::list<Vector4f> const& points);
             BoundsSphere(std::vector<Graphics::Vertex> const& vertices);
-            BoundsSphere(Vector3f const& center, float radius);
+            BoundsSphere(Vector4f const& center, float radius);
             BoundsSphere();
             ~BoundsSphere();
 
@@ -61,7 +61,7 @@ namespace Ocular
              * Constructs the bounds from a collection of spatial points.
              * \param[in] points
              */
-            void construct(std::list<Point3f> const& points);
+            void construct(std::list<Vector4f> const& points);
 
             /**
              *
@@ -72,7 +72,7 @@ namespace Ocular
              * Sets the center of the bounding sphere.
              * \param[in] center
              */
-            void setCenter(Vector3f const& center);
+            void setCenter(Vector4f const& center);
 
             /**
              * Sets the radius of the bounding sphere.
@@ -83,7 +83,7 @@ namespace Ocular
             /**
              * Returns the center of the bounding sphere.
              */
-            Vector3f const& getCenter() const;
+            Vector4f const& getCenter() const;
             
             /**
              * Returns the radius of the bounding sphere.
@@ -102,7 +102,7 @@ namespace Ocular
              *
              * \param[in] point
              */
-            void expandToContain(Point3f const& point);
+            void expandToContain(Vector4f const& point);
 
             //------------------------------------------------------------------------------
             // Intersection and Containment Testing
@@ -129,7 +129,7 @@ namespace Ocular
              *
              * \return TRUE if the ray and bounding sphere intersect.
              */
-            bool intersects(Ray const& ray, Point3f& point, float& distance) const;
+            bool intersects(Ray const& ray, Vector4f& point, float& distance) const;
 
             /**
              * Performs an intersection test on two bounding spheres.
@@ -188,7 +188,7 @@ namespace Ocular
              *
              * \return TRUE if point is inside or intersects.
              */
-            bool contains(Point3f const& point, IntersectionType* result = nullptr) const;
+            bool contains(Vector4f const& point, IntersectionType* result = nullptr) const;
 
             /**
              * Calculates if any portion of the specified bounding sphere is contained within the spere.
@@ -204,7 +204,7 @@ namespace Ocular
 
         private:
 
-            Vector3f m_Center;
+            Vector4f m_Center;
             float m_Radius;
 
         };

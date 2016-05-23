@@ -101,7 +101,7 @@ namespace Ocular
         {
             bool result = false;
 
-            const Vector3f l = bounds.getCenter() - m_Origin;
+            const Vector3f l = bounds.getCenter().xyz() - m_Origin;
 
             const float s = l.dot(m_Direction);
             const float l2 = l.dot(l);
@@ -125,7 +125,7 @@ namespace Ocular
         {
             bool result = false;
 
-            const Vector3f l = bounds.getCenter() - m_Origin;
+            const Vector3f l = bounds.getCenter().xyz() - m_Origin;
 
             const float s = l.dot(m_Direction);
             const float l2 = l.dot(l);

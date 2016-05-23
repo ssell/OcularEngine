@@ -30,7 +30,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BoundsSphere::BoundsSphere(std::list<Point3f> const& points)
+        BoundsSphere::BoundsSphere(std::list<Vector4f> const& points)
             : Bounds(BoundsType::AABB)
         {
             construct(points);
@@ -42,7 +42,7 @@ namespace Ocular
             construct(vertices);
         }
 
-        BoundsSphere::BoundsSphere(Vector3f const& center, float const radius)
+        BoundsSphere::BoundsSphere(Vector4f const& center, float const radius)
             : Bounds(BoundsType::AABB)
         {
             m_Center = center;
@@ -64,7 +64,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void BoundsSphere::construct(std::list<Point3f> const& points)
+        void BoundsSphere::construct(std::list<Vector4f> const& points)
         {
             // Source: Graphics Gems, Page 301
 
@@ -72,8 +72,8 @@ namespace Ocular
             // 1. Find the points in the collection that are the greatest
             //    extents of each axis.
 
-            Vector3f xMin, yMin, zMin;
-            Vector3f xMax, yMax, zMax;
+            Vector4f xMin, yMin, zMin;
+            Vector4f xMax, yMax, zMax;
 
             xMin.x = yMin.y = zMin.z = FLT_MAX;
             xMax.x = yMax.y = zMax.z = FLT_MIN;
@@ -114,9 +114,9 @@ namespace Ocular
             //------------------------------------------------------------
             // 2. Calculate the distance (squared) of each pair of maximal extents.
 
-            const Vector3f xSpan = xMax - xMin;
-            const Vector3f ySpan = yMax - yMin;
-            const Vector3f zSpan = zMax - zMin;
+            const Vector4f xSpan = xMax - xMin;
+            const Vector4f ySpan = yMax - yMin;
+            const Vector4f zSpan = zMax - zMin;
 
             const float xDistanceSquared = xSpan.dot(xSpan);
             const float yDistanceSquared = ySpan.dot(ySpan);
@@ -126,8 +126,8 @@ namespace Ocular
             // 3. Determine which pair of min/max points have the greatest
             //    distance between them.
 
-            Vector3f endpointMin = xMin;
-            Vector3f endpointMax = xMax;
+            Vector4f endpointMin = xMin;
+            Vector4f endpointMax = xMax;
 
             if((yDistanceSquared >= xDistanceSquared) && (yDistanceSquared >= zDistanceSquared))
             {
@@ -143,16 +143,16 @@ namespace Ocular
             //------------------------------------------------------------
             // 4. Calculate initial center and radius
 
-            m_Center = Vector3f::Midpoint(endpointMin, endpointMax);
+            m_Center = Vector4f::Midpoint(endpointMin, endpointMax);
             
-            Vector3f radiusVector = endpointMax - m_Center;
+            Vector4f radiusVector = endpointMax - m_Center;
 
             m_Radius = radiusVector.getLength();
 
             //------------------------------------------------------------
             // 5. Adjust the center and radius to ensure that all points are contained.
             
-            Vector3f pointToCenter;
+            Vector4f pointToCenter;
             float radiiSquared = m_Radius * m_Radius;
             float pointToCenterDistanceSquared = 0.0f;
 
@@ -185,8 +185,8 @@ namespace Ocular
             // 1. Find the points in the collection that are the greatest
             //    extents of each axis.
 
-            Vector3f xMin, yMin, zMin;
-            Vector3f xMax, yMax, zMax;
+            Vector4f xMin, yMin, zMin;
+            Vector4f xMax, yMax, zMax;
 
             xMin.x = yMin.y = zMin.z = FLT_MAX;
             xMax.x = yMax.y = zMax.z = FLT_MIN;
@@ -227,9 +227,9 @@ namespace Ocular
             //------------------------------------------------------------
             // 2. Calculate the distance (squared) of each pair of maximal extents.
 
-            const Vector3f xSpan = xMax - xMin;
-            const Vector3f ySpan = yMax - yMin;
-            const Vector3f zSpan = zMax - zMin;
+            const Vector4f xSpan = xMax - xMin;
+            const Vector4f ySpan = yMax - yMin;
+            const Vector4f zSpan = zMax - zMin;
 
             const float xDistanceSquared = xSpan.dot(xSpan);
             const float yDistanceSquared = ySpan.dot(ySpan);
@@ -239,8 +239,8 @@ namespace Ocular
             // 3. Determine which pair of min/max points have the greatest
             //    distance between them.
 
-            Vector3f endpointMin = xMin;
-            Vector3f endpointMax = xMax;
+            Vector4f endpointMin = xMin;
+            Vector4f endpointMax = xMax;
 
             if((yDistanceSquared >= xDistanceSquared) && (yDistanceSquared >= zDistanceSquared))
             {
@@ -256,16 +256,16 @@ namespace Ocular
             //------------------------------------------------------------
             // 4. Calculate initial center and radius
 
-            m_Center = Vector3f::Midpoint(endpointMin, endpointMax);
+            m_Center = Vector4f::Midpoint(endpointMin, endpointMax);
             
-            Vector3f radiusVector = endpointMax - m_Center;
+            Vector4f radiusVector = endpointMax - m_Center;
 
             m_Radius = radiusVector.getLength();
 
             //------------------------------------------------------------
             // 5. Adjust the center and radius to ensure that all points are contained.
             
-            Vector3f pointToCenter;
+            Vector4f pointToCenter;
             float radiiSquared = m_Radius * m_Radius;
             float pointToCenterDistanceSquared = 0.0f;
 
@@ -290,7 +290,7 @@ namespace Ocular
             }
         }
 
-        void BoundsSphere::setCenter(Vector3f const& center)
+        void BoundsSphere::setCenter(Vector4f const& center)
         {
             m_Center = center;
         }
@@ -300,7 +300,7 @@ namespace Ocular
             m_Radius = fmaxf(radius, 0.0f);
         }
 
-        Vector3f const& BoundsSphere::getCenter() const
+        Vector4f const& BoundsSphere::getCenter() const
         {
             return m_Center;
         }
@@ -315,7 +315,7 @@ namespace Ocular
             m_Radius = fmaxf(m_Radius + amount, 0.0f);
         }
 
-        void BoundsSphere::expandToContain(Point3f const& point)
+        void BoundsSphere::expandToContain(Vector4f const& point)
         {
             /* 
             This is identical to the second pass of the algorithm employed in the construct method.
@@ -337,7 +337,7 @@ namespace Ocular
 
             if(!contains(point))
             {
-                const Vector3f pointToOldCenter = point - m_Center;
+                const Vector4f pointToOldCenter = point - m_Center;
                 const float pointToOldCenterDistance = pointToOldCenter.getLength();
 
                 m_Radius = (m_Radius + pointToOldCenterDistance) * 0.5f;
@@ -357,16 +357,16 @@ namespace Ocular
             return ray.intersects((*this));
         }
 
-        bool BoundsSphere::intersects(Ray const& ray, Point3f& point, float& distance) const
+        bool BoundsSphere::intersects(Ray const& ray, Vector4f& point, float& distance) const
         {
-            return ray.intersects((*this), point, distance);
+            return ray.intersects((*this), Vector3f(point.x, point.y, point.z), distance);
         }
 
         bool BoundsSphere::intersects(BoundsSphere const& bounds) const
         {
             // Source: Real-Time Rendering, 3rd Ed. Page 763
 
-            const Vector3f distance = m_Center - bounds.getCenter();
+            const Vector4f distance = m_Center - bounds.getCenter();
 
             const float radiiSum = m_Radius + bounds.getRadius();
             const float distanceSquared = distance.dot(distance);
@@ -379,18 +379,20 @@ namespace Ocular
         {
             // Source: Real-Time Rendering, 3rd Ed. Page 764
 
-            const Vector3f aabbMin = bounds.getMinPoint();
-            const Vector3f aabbMax = bounds.getMaxPoint();
+            const Vector4f aabbMin = bounds.getMinPoint();
+            const Vector4f aabbMax = bounds.getMaxPoint();
 
-            const Vector3f a(fmaxf((aabbMin.x - m_Center.x), 0.0f),
+            const Vector4f a(fmaxf((aabbMin.x - m_Center.x), 0.0f),
                              fmaxf((aabbMin.y - m_Center.y), 0.0f),
-                             fmaxf((aabbMin.z - m_Center.z), 0.0f));
+                             fmaxf((aabbMin.z - m_Center.z), 0.0f),
+                             fmaxf((aabbMin.w - m_Center.w), 0.0f));
 
-            const Vector3f b(fmaxf((m_Center.x - aabbMax.x), 0.0f),
+            const Vector4f b(fmaxf((m_Center.x - aabbMax.x), 0.0f),
                              fmaxf((m_Center.y - aabbMax.y), 0.0f),
-                             fmaxf((m_Center.z - aabbMax.z), 0.0f));
+                             fmaxf((m_Center.z - aabbMax.z), 0.0f),
+                             fmaxf((m_Center.w - aabbMax.w), 0.0f));
 
-            const Vector3f c = a + b;
+            const Vector4f c = a + b;
 
             float distance = c.dot(c);
                        
@@ -407,7 +409,9 @@ namespace Ocular
             IntersectionType tempResult = IntersectionType::Inside;
             bool intersects = false;
 
-            const float distance = plane.getSignedDistance(m_Center);
+            Vector3f center3 = Vector3f(m_Center.x, m_Center.y, m_Center.z);
+
+            const float distance = plane.getSignedDistance(center3);
             const float absDistance = fabsf(distance);
 
             if(absDistance <= m_Radius)
@@ -428,11 +432,11 @@ namespace Ocular
             return intersects;
         }
 
-        bool BoundsSphere::contains(Point3f const& point, IntersectionType* result) const
+        bool BoundsSphere::contains(Vector4f const& point, IntersectionType* result) const
         {
             IntersectionType tempResult = IntersectionType::Outside;
 
-            const Vector3f pointToCenter = point - m_Center;
+            const Vector4f pointToCenter = point - m_Center;
 
             const float distanceSquared = pointToCenter.dot(pointToCenter);
             const float radiiSquared = m_Radius * m_Radius;
@@ -458,7 +462,7 @@ namespace Ocular
         {
             IntersectionType tempResult = IntersectionType::Inside;
 
-            const Vector3f sphereToSphere = sphere.getCenter() - m_Center;
+            const Vector4f sphereToSphere = sphere.getCenter() - m_Center;
 
             const float sphereRadius = sphere.getRadius();
             const float sphereDistance = sphereToSphere.getLength();

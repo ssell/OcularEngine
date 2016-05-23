@@ -159,7 +159,7 @@ namespace Ocular
 
         void D3D11Material::bindTextures()
         {
-            if(m_D3DDeviceContext)
+            if(m_D3DDeviceContext && m_ShaderResourceViews.size())
             {
                 const uint32_t size = static_cast<uint32_t>(m_Textures.size());
 
@@ -182,10 +182,6 @@ namespace Ocular
                 {
                     m_D3DDeviceContext->PSSetSamplers(0, 1, &m_D3DSampler);
                 }
-            }
-            else
-            {
-                OcularLogger->warning("Attempting to bind material textures with a NULL context", OCULAR_INTERNAL_LOG("D3D11Material", "bindTextures"));
             }
         }
 
