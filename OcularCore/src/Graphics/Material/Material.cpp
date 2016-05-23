@@ -53,6 +53,7 @@ namespace Ocular
             }
 
             exposeProperties();
+            setDefaults();
         }
 
         Material::~Material()
@@ -825,6 +826,20 @@ namespace Ocular
         void Material::exposeProperties()
         {
             OCULAR_EXPOSE(m_PrimitiveStyle);
+        }
+
+        void Material::setDefaults()
+        {
+            ShaderProgram* shaders = OcularResources->getResource<Graphics::ShaderProgram>("OcularCore/Shaders/Default");
+
+            if(shaders)
+            {
+                m_VertexShader           = shaders->getVertexShader();
+                m_GeometryShader         = shaders->getGeometryShader();
+                m_FragmentShader         = shaders->getFragmentShader();
+                m_PreTessellationShader  = shaders->getPreTessellationShader();
+                m_PostTessellationShader = shaders->getPostTessellationShader();
+            }
         }
 
         void Material::bindShaders()

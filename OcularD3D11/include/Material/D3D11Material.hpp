@@ -20,6 +20,7 @@
 
 #include "Graphics/Material/Material.hpp"
 #include <d3d11.h>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -53,13 +54,18 @@ namespace Ocular
 
         protected:
 
+            void createSampler();
+
             void bindTextures();
             void unbindTextures();
 
-            ID3D11DeviceContext* m_D3DDeviceContext;
+            //------------------------------------------------------------
 
-            ID3D11ShaderResourceView** m_ShaderResourceViews;     // Array of ShaderResourceView objects to pass to the shaders.
-            ID3D11ShaderResourceView** m_NullShaderResourceViews; // Used when unbinding textures
+            ID3D11DeviceContext* m_D3DDeviceContext;
+            ID3D11SamplerState* m_D3DSampler;
+
+            std::vector<ID3D11ShaderResourceView*> m_ShaderResourceViews;     // Array of ShaderResourceView objects to pass to the shaders.
+            std::vector<ID3D11ShaderResourceView*> m_NullShaderResourceViews; // Used when unbinding textures
 
         private:
         };

@@ -27,6 +27,8 @@
 
 class OBJState;
 class OBJGroup;
+class OBJMaterial;
+
 struct OBJFace;
 struct OBJVertexGroup;
 
@@ -36,6 +38,11 @@ struct OBJVertexGroup;
  */
 namespace Ocular
 {
+    namespace Core
+    {
+        class MultiResource;
+    }
+
     /**
      * \addtogroup Graphics
      * @{
@@ -43,6 +50,7 @@ namespace Ocular
     namespace Graphics
     {
         class Mesh;
+        class Material;
 
         /**
          * \class ResourceLoader_OBJ
@@ -65,7 +73,7 @@ namespace Ocular
             /**
              * Loads the entire OBJ file into memory and returns a pointer to the resulting MultiResource instance.
              * 
-             * \param[out] resource The MultiResource containing all subresource Meshes contained within the file.
+             * \param[out] resource The MultiResource containing all subresource Meshes and Materials contained within the file.
              * \param[in]  file     The OBJ file that is to be represented by the MultiResource.
              */
             virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
@@ -93,12 +101,27 @@ namespace Ocular
 
         protected:
 
-            bool isFileValid(Core::File const& file) const;
+            //------------------------------------------------------------
+            // Mesh Methods
+            //------------------------------------------------------------
 
+            void createMeshes(Core::MultiResource* multiResource);
             void createMesh(Mesh* mesh, OBJGroup const* group);
             void addFace(OBJFace const* face, std::vector<Vertex>* vertices, std::vector<uint32_t>* indices, Math::Vector3f& min, Math::Vector3f& max);
             void faceToVertex(std::vector<Vertex>* vertices, OBJVertexGroup const& group, Math::Vector3f& min, Math::Vector3f& max);
+            
+            //------------------------------------------------------------
+            // Material Methods
+            //------------------------------------------------------------
 
+            void createMaterials(Core::MultiResource* multiResource);
+            void createMaterial(Material* material, OBJMaterial const* objMaterial, std::string const& relPath);
+            
+            //------------------------------------------------------------
+            // Misc Methods
+            //------------------------------------------------------------
+            
+            bool isFileValid(Core::File const& file) const;
             void splitParentSubNames(std::string const& mappingName, std::string& parent, std::string& sub) const;
 
         private:

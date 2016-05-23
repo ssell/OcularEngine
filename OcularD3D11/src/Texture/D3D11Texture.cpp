@@ -99,8 +99,8 @@ namespace Ocular
         bool D3D11Texture::createD3DShaderResource(TextureDescriptor const& descriptor)
         {
             bool result = true;
-
-            /*if(m_D3DTexture)
+            
+            if(m_D3DTexture)
             {
                 D3D11_TEXTURE2D_DESC descr;
                 m_D3DTexture->GetDesc(&descr);
@@ -124,15 +124,12 @@ namespace Ocular
                         result = false;
                     }
                 }
-                else
-                {
-                    OcularLogger->warning("Attempting to create D3D11 SRV from texture without SRV bind flags", OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
-                }
             }
             else
             {
                 OcularLogger->warning("Attempting to create D3D11 SRV from NULL texture", OCULAR_INTERNAL_LOG("D3D11Texture", "createD3DShaderResource"));
-            }*/
+                result = false;
+            }
 
             return result;
         }

@@ -337,6 +337,7 @@ namespace Ocular
         protected:
 
             void exposeProperties();
+            void setDefaults();
 
             void bindShaders();
             void unbindShaders();

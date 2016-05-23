@@ -31,30 +31,26 @@ namespace Ocular
 
         D3D11Material::D3D11Material(ID3D11DeviceContext* context)
             : Material(),
-              m_D3DDeviceContext(context)
+              m_D3DDeviceContext(context),
+              m_D3DSampler(nullptr)
         {
-            m_ShaderResourceViews = new ID3D11ShaderResourceView*[m_Textures.size()];
-            m_NullShaderResourceViews = new ID3D11ShaderResourceView*[m_Textures.size()];
+            m_ShaderResourceViews.resize(m_Textures.size(), nullptr);
+            m_NullShaderResourceViews.resize(m_Textures.size(), nullptr);
 
-            for(uint32_t i = 0; i < m_Textures.size(); i++)
-            {
-                m_ShaderResourceViews[i] = nullptr;
-                m_NullShaderResourceViews = nullptr;
-            }
+            createSampler();
         }
 
         D3D11Material::~D3D11Material()
         {
             unbind();
 
-            for(uint32_t i = 0; i < m_Textures.size(); i++)
+            for(uint32_t i = 0; i < static_cast<uint32_t>(m_Textures.size()); i++)
             {
                 m_ShaderResourceViews[i]->Release();
                 m_ShaderResourceViews[i] = nullptr;
             }
 
-            delete[] m_ShaderResourceViews;
-            delete[] m_NullShaderResourceViews;
+            m_ShaderResourceViews.clear();
         }
 
         //----------------------------------------------------------------------------------
@@ -63,6 +59,7 @@ namespace Ocular
 
         void D3D11Material::bind()
         {
+            bindStateChanges();
             bindShaders();
             bindTextures();
         }
@@ -79,10 +76,16 @@ namespace Ocular
 
             if(result)
             {
-                D3D11Texture* d3dTexture = (D3D11Texture*)texture;
+                D3D11Texture* d3dTexture = dynamic_cast<D3D11Texture*>(texture);
 
                 if(d3dTexture)
                 {
+                    if(m_ShaderResourceViews.size() < m_Textures.size())
+                    {
+                        m_ShaderResourceViews.resize(m_Textures.size(), nullptr);
+                        m_NullShaderResourceViews.resize(m_Textures.size(), nullptr);
+                    }
+
                     if(m_ShaderResourceViews[index])
                     {
                         m_ShaderResourceViews[index]->Release();
@@ -117,6 +120,43 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
+        void D3D11Material::createSampler()
+        {
+            D3D11_SAMPLER_DESC descr;
+            ZeroMemory(&descr, sizeof(D3D11_SAMPLER_DESC));
+
+            descr.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	        descr.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	        descr.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	        descr.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	        descr.MipLODBias = 0.0f;
+	        descr.MaxAnisotropy = 1;
+	        descr.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	        descr.BorderColor[0] = 0;
+	        descr.BorderColor[1] = 0;
+	        descr.BorderColor[2] = 0;
+	        descr.BorderColor[3] = 0;
+	        descr.MinLOD = 0;
+	        descr.MaxLOD = D3D11_FLOAT32_MAX;
+
+            ID3D11Device* device = nullptr;
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->GetDevice(&device);
+
+                if(device)
+                {
+                    HRESULT hResult = device->CreateSamplerState(&descr, &m_D3DSampler);
+
+                    if(FAILED(hResult))
+                    {
+                        OcularLogger->error("Failed to create D3D11Sampler for Material '", m_MappingName, "'", OCULAR_INTERNAL_LOG("D3D11Material", "createSampler"));
+                    }
+                }
+            }
+        }
+
         void D3D11Material::bindTextures()
         {
             if(m_D3DDeviceContext)
@@ -125,17 +165,22 @@ namespace Ocular
 
                 if(m_VertexShader)
                 {
-                    m_D3DDeviceContext->VSSetShaderResources(0, size, m_ShaderResourceViews);
+                    m_D3DDeviceContext->VSSetShaderResources(0, size, &m_ShaderResourceViews[0]);
                 }
 
                 if(m_GeometryShader)
                 {
-                    m_D3DDeviceContext->GSSetShaderResources(0, size, m_ShaderResourceViews);
+                    m_D3DDeviceContext->GSSetShaderResources(0, size, &m_ShaderResourceViews[0]);
                 }
 
                 if(m_FragmentShader)
                 {
-                    m_D3DDeviceContext->PSSetShaderResources(0, size, m_ShaderResourceViews);
+                    m_D3DDeviceContext->PSSetShaderResources(0, size, &m_ShaderResourceViews[0]);
+                }
+
+                if(m_D3DSampler)
+                {
+                    m_D3DDeviceContext->PSSetSamplers(0, 1, &m_D3DSampler);
                 }
             }
             else
@@ -152,18 +197,20 @@ namespace Ocular
 
                 if(m_VertexShader)
                 {
-                    m_D3DDeviceContext->VSSetShaderResources(0, size, m_NullShaderResourceViews);
+                    m_D3DDeviceContext->VSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
                 }
 
                 if(m_GeometryShader)
                 {
-                    m_D3DDeviceContext->GSSetShaderResources(0, size, m_NullShaderResourceViews);
+                    m_D3DDeviceContext->GSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
                 }
 
                 if(m_FragmentShader)
                 {
-                    m_D3DDeviceContext->PSSetShaderResources(0, size, m_NullShaderResourceViews);
+                    m_D3DDeviceContext->PSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
                 }
+
+                m_D3DDeviceContext->PSSetSamplers(0, 1, nullptr);
             }
             else
             {

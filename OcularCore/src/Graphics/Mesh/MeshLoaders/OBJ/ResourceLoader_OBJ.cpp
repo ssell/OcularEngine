@@ -16,6 +16,7 @@
 
 #include "Graphics/Mesh/MeshLoaders/OBJ/ResourceLoader_OBJ.hpp"
 #include "Graphics/Mesh/Mesh.hpp"
+#include "Graphics/Material/Material.hpp"
 #include "Resources/MultiResource.hpp"
 
 #include "Resources/ResourceLoaderRegistrar.hpp"
@@ -86,24 +87,8 @@ namespace Ocular
 
                 if(parser.parseOBJFile(file.getFullPath()) == OBJParser::Result::Success)
                 {
-                    std::vector<OBJGroup const*> groups;
-                    m_CurrState->getGroups(groups);
-
-                    //----------------------------------------------------
-                    // Iterate over all groups and create a mesh for each
-
-                    for(auto iter = groups.begin(); iter != groups.end(); ++iter)
-                    {
-                        OBJGroup const* group = (*iter);
-
-                        if(group && !OcularString->IsEqual(group->name, "default", true))
-                        {
-                            Mesh* mesh = new Mesh();
-                            createMesh(mesh, group);
-
-                            multiResource->addSubResource(mesh, group->name);
-                        }
-                    }
+                    createMeshes(multiResource);
+                    createMaterials(multiResource);
                 }
                 else
                 {
@@ -157,6 +142,8 @@ namespace Ocular
             /**
              * Explores the OBJ file. For each 'group' tag found that is not 'default' it
              * will add a new Resource mapping path to the global ResourceManager.
+             *
+             * Also checks for materials via the 'usemtl' tag.
              */
 
             bool result = false;
@@ -188,16 +175,20 @@ namespace Ocular
                             {
                                 if(!Utils::String::IsEqual((*iter), "default"))
                                 {
-                                    nameMap[(*iter)] = true;
+                                    OcularResources->addResource((mappingName + "/" + (*iter)), file, nullptr, Core::ResourceType::Mesh);
                                 }
                             }
                         }
-                    }
+                        else if(line[0] == 'u')
+                        {
+                            std::vector<std::string> tokens;
+                            Utils::String::Split(line, ' ', tokens);
 
-                    for(auto name : nameMap)
-                    {
-                        // Add each name to the main resource manager
-                        OcularResources->addResource((mappingName + "/" + name.first), file, nullptr, Core::ResourceType::Mesh);
+                            if(Utils::String::IsEqual(tokens[0], "usemtl"))
+                            {
+                                OcularResources->addResource((mappingName + "/" + tokens[1]), file, nullptr, Core::ResourceType::Material);
+                            }
+                        }
                     }
 
                     result = true;
@@ -221,30 +212,31 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+        
+        //----------------------------------------------------------------------------------
+        // Mesh Methods
+        //----------------------------------------------------------------------------------
 
-        bool ResourceLoader_OBJ::isFileValid(Core::File const& file) const
+        void ResourceLoader_OBJ::createMeshes(Core::MultiResource* multiResource)
         {
-            bool result = true;
+            std::vector<OBJGroup const*> groups;
+            m_CurrState->getGroups(groups);
 
-            if(!file.exists())
+            //----------------------------------------------------
+            // Iterate over all groups and create a mesh for each
+
+            for(auto iter = groups.begin(); iter != groups.end(); ++iter)
             {
-                OcularLogger->error("Specified file does not exist '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
-                result = false;
-            }
+                OBJGroup const* group = (*iter);
 
-            if(!OcularString->IsEqual(file.getExtension(), ".obj", true))
-            {
-                OcularLogger->error("Invalid extension for file '", file.getFullPath(), "'; Expected '.obj'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
-                result = false;
-            }
+                if(group && !OcularString->IsEqual(group->name, "default", true))
+                {
+                    Mesh* mesh = new Mesh();
+                    createMesh(mesh, group);
 
-            if(!file.canRead())
-            {
-                OcularLogger->error("Invalid read access for file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
-                result = false;
+                    multiResource->addSubResource(mesh, group->name);
+                }
             }
-
-            return result;
         }
 
         void ResourceLoader_OBJ::createMesh(Mesh* mesh, OBJGroup const* group)
@@ -431,6 +423,76 @@ namespace Ocular
             }
 
             vertices->push_back(vert);
+        }
+        
+        //----------------------------------------------------------------------------------
+        // Material Methods
+        //----------------------------------------------------------------------------------
+
+        void ResourceLoader_OBJ::createMaterials(Core::MultiResource* multiResource)
+        {
+            const std::string relPath = multiResource->getMappingName().substr(0, multiResource->getMappingName().find_last_of('/'));
+
+            std::vector<OBJMaterial const*> objMaterials;
+            m_CurrState->getMaterials(objMaterials);
+
+            for(auto objMaterial : objMaterials)
+            {
+                if(objMaterial)
+                {
+                    Material* material = OcularGraphics->createMaterial();
+                    createMaterial(material, objMaterial, relPath);
+
+                    multiResource->addSubResource(material, objMaterial->getName());
+                }
+            }
+        }
+
+        void ResourceLoader_OBJ::createMaterial(Material* material, OBJMaterial const* objMaterial, std::string const& relPath)
+        {
+            auto diffuse = objMaterial->getDiffuseTexture();
+
+            if(diffuse.getPath().size())
+            {
+                std::string path = relPath + "/" + diffuse.getPath();
+                path = path.substr(0, path.find_last_of('.'));
+
+                Texture* texture = OcularResources->getResource<Texture>(path);
+
+                if(texture)
+                {
+                    material->setTexture(0, "Diffuse", texture);
+                }
+            }
+        }
+        
+        //----------------------------------------------------------------------------------
+        // Misc Methods
+        //----------------------------------------------------------------------------------
+
+        bool ResourceLoader_OBJ::isFileValid(Core::File const& file) const
+        {
+            bool result = true;
+
+            if(!file.exists())
+            {
+                OcularLogger->error("Specified file does not exist '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
+            if(!OcularString->IsEqual(file.getExtension(), ".obj", true))
+            {
+                OcularLogger->error("Invalid extension for file '", file.getFullPath(), "'; Expected '.obj'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
+            if(!file.canRead())
+            {
+                OcularLogger->error("Invalid read access for file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "isFileValid"));
+                result = false;
+            }
+
+            return result;
         }
 
         void ResourceLoader_OBJ::splitParentSubNames(std::string const& mappingName, std::string& parent, std::string& sub) const
