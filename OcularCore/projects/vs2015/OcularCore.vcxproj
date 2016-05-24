@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3926028B-B885-4FF1-AC6A-3F048BAF21A6}</ProjectGuid>
     <RootNamespace>OcularCore</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -67,24 +66,50 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\x86\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\x86\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)_msvc140d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.lib</TargetExt>
-    <TargetName>$(ProjectName)D</TargetName>
+    <TargetName>$(ProjectName)_msvc140d</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\x64\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\x64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\x86\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\x86\</IntDir>
     <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)_msvc140</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.lib</TargetExt>
+    <OutDir>$(ProjectDir)..\..\bin\x64\</OutDir>
+    <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\x64\</IntDir>
+    <TargetName>$(ProjectName)_msvc140</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\..\External\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>objparser_mmap_msvc140d;pugixmld.lib;libboost_filesystem-vc140-mt-gd-1_60.lib;libboost_iostreams-vc140-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x86\$(Configuration)\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -97,29 +122,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc140-mt-gd-1_59.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc140d.lib;pugixmld.lib;libboost_filesystem-vc140-mt-gd-1_60.lib;libboost_iostreams-vc140-mt-gd-1_60.lib;libpng16d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\$(Configuration)\</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\External\include</AdditionalIncludeDirectories>
-      <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
-      <TreatWarningAsError>true</TreatWarningAsError>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_59.lib</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>"$(SolutionDir)..\External\libs\boost\msvc-12.0\debug"</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x64\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\External\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\..\External\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -137,10 +143,10 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-1_56.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc140;pugixml.lib;libboost_filesystem-vc140-mt-1_60.lib;libboost_iostreams-vc140-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\External\libs\boost\msvc-12.0\release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x86\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,7 +156,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\External\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(SolutionDir)..\..\External\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -158,30 +164,88 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_filesystem-vc120-mt-1_56.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc140;pugixml.lib;libboost_filesystem-vc140-mt-1_60.lib;libboost_iostreams-vc140-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\External\libs\boost\msvc-12.0\release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x64\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
+    <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp" />
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
     <ClCompile Include="..\..\src\Events\EventSnooper.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\KeyboardInputEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\MouseButtonInputEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\MouseMoveInputEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\MouseScrollInputEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp" />
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\ShutdownEvent.cpp" />
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
+    <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialMissing.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYParser.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshMissing.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\MeshResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\SubMesh.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\PostTessellationShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\PreTessellationShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\ShaderProgram.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\Uniform.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\UniformBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\RenderTexture.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture2D.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceLoader_PNG.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Viewport.cpp" />
+    <ClCompile Include="..\..\src\Input\InputHandler.cpp" />
+    <ClCompile Include="..\..\src\Math\Bounds\Bounds.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsOBB.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\BoundsSphere.cpp" />
     <ClCompile Include="..\..\src\Math\Bounds\Ray.cpp" />
+    <ClCompile Include="..\..\src\Math\Color.cpp" />
     <ClCompile Include="..\..\src\Math\Euler.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
+    <ClCompile Include="..\..\src\Math\MathInternal.cpp" />
+    <ClCompile Include="..\..\src\Math\Matrix3x3.cpp" />
+    <ClCompile Include="..\..\src\Math\Matrix4x4.cpp" />
     <ClCompile Include="..\..\src\Math\MortonCode.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\ANoise.cpp" />
     <ClCompile Include="..\..\src\Math\Noise\PerlinNoise.cpp" />
@@ -196,6 +260,13 @@
     <ClCompile Include="..\..\src\Math\Random\WELL.cpp" />
     <ClCompile Include="..\..\src\Math\Random\XorShift.cpp" />
     <ClCompile Include="..\..\src\Math\Transform.cpp" />
+    <ClCompile Include="..\..\src\Math\Vector2.cpp" />
+    <ClCompile Include="..\..\src\Math\Vector3.cpp" />
+    <ClCompile Include="..\..\src\Math\Vector4.cpp" />
+    <ClCompile Include="..\..\src\ObjectIO\Buildable.cpp" />
+    <ClCompile Include="..\..\src\ObjectIO\BuilderNode.cpp" />
+    <ClCompile Include="..\..\src\ObjectIO\Exposable.cpp" />
+    <ClCompile Include="..\..\src\ObjectIO\ObjectIO.cpp" />
     <ClCompile Include="..\..\src\OcularEngine.cpp" />
     <ClCompile Include="..\..\src\Logger\ConsoleLoggerListener.cpp" />
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
@@ -207,7 +278,9 @@
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
+    <ClCompile Include="..\..\src\Resources\MultiResource.cpp" />
     <ClCompile Include="..\..\src\Resources\Resource.cpp" />
+    <ClCompile Include="..\..\src\Resources\ResourceDefaults.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceExplorer.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceLoader.cpp" />
@@ -216,25 +289,43 @@
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\ARenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\ARoutine.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
+    <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
+    <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp" />
+    <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
+    <ClCompile Include="..\..\src\Scene\Scene.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneLoader\SceneLoader.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneLoader\SceneObjectLoader.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneManager.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneObject.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneSaver\SceneObjectSaver.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneSaver\SceneSaver.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
-    <ClCompile Include="..\..\src\Utilities\StringOps.cpp" />
+    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
+    <ClInclude Include="..\..\include\CoreDynamicRegistration.hpp" />
     <ClInclude Include="..\..\include\Events\EventManager.hpp" />
     <ClInclude Include="..\..\include\Events\AEvent.hpp" />
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\KeyboardInputEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\MouseButtonInputEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\MouseScrollInputEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectRemovedEvent.hpp" />
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp" />
     <ClInclude Include="..\..\include\Events\AEventListener.hpp" />
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp" />
@@ -242,10 +333,69 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
+    <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYEnums.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYParser.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshMissing.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\MeshResourceSaver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\PostTessellationShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\PreTessellationShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\ShaderProgram.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\Uniform.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture2D.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureDescriptor.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureEnums.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_PNG.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Viewport.hpp" />
+    <ClInclude Include="..\..\include\Input\InputHandler.hpp" />
+    <ClInclude Include="..\..\include\Input\Keys.hpp" />
+    <ClInclude Include="..\..\include\Math\Bounds\Bounds.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsOBB.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\BoundsSphere.hpp" />
     <ClInclude Include="..\..\include\Math\Bounds\Ray.hpp" />
+    <ClInclude Include="..\..\include\Math\Color.hpp" />
     <ClInclude Include="..\..\include\Math\Definitions.hpp" />
     <ClInclude Include="..\..\include\Math\Euler.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\ConvexHull2D.hpp" />
@@ -259,6 +409,7 @@
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
+    <ClInclude Include="..\..\include\Math\MathInternal.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />
@@ -280,6 +431,11 @@
     <ClInclude Include="..\..\include\Math\Vector2.hpp" />
     <ClInclude Include="..\..\include\Math\Vector3.hpp" />
     <ClInclude Include="..\..\include\Math\Vector4.hpp" />
+    <ClInclude Include="..\..\include\ObjectIO\Buildable.hpp" />
+    <ClInclude Include="..\..\include\ObjectIO\BuilderNode.hpp" />
+    <ClInclude Include="..\..\include\ObjectIO\Exposable.hpp" />
+    <ClInclude Include="..\..\include\ObjectIO\ExposedVariable.hpp" />
+    <ClInclude Include="..\..\include\ObjectIO\ObjectIO.hpp" />
     <ClInclude Include="..\..\include\OcularEngine.hpp" />
     <ClInclude Include="..\..\include\Logger\ConsoleLoggerListener.hpp" />
     <ClInclude Include="..\..\include\Logger\ILoggerListener.hpp" />
@@ -297,7 +453,9 @@
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowManager.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowWin32.hpp" />
+    <ClInclude Include="..\..\include\Resources\MultiResource.hpp" />
     <ClInclude Include="..\..\include\Resources\Resource.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceDefaults.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceDetails.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceExplorer.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceLoader.hpp" />
@@ -312,13 +470,27 @@
     <ClInclude Include="..\..\include\Resources\ResourceType.hpp" />
     <ClInclude Include="..\..\include\Scene\ARenderable.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp" />
+    <ClInclude Include="..\..\include\Scene\Camera\Camera.hpp" />
+    <ClInclude Include="..\..\include\Scene\Camera\CameraManager.hpp" />
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
+    <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp" />
+    <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp" />
+    <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp" />
     <ClInclude Include="..\..\include\Scene\Scene.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneLoader.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneLoadInternal.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneObjectLoader.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneManager.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneNode.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneObject.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneObjectRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneSaver\SceneObjectSaver.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneSaver\SceneSaver.hpp" />
+    <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp" />
     <ClInclude Include="..\..\include\SystemInfo.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
@@ -327,10 +499,13 @@
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />
-    <ClInclude Include="..\..\include\Utilities\StringOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Types.hpp" />
+    <ClInclude Include="..\..\include\Utilities\VoidCast.hpp" />
     <ClInclude Include="..\..\include\UUID.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

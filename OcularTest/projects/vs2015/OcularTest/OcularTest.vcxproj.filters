@@ -46,10 +46,19 @@
     <Filter Include="Source Files\Tests\Core\Scene">
       <UniqueIdentifier>{2d952603-4397-403b-b973-623953ee55b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Routines">
+      <UniqueIdentifier>{aefa67d9-f56c-4c95-982e-3102d619cf14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Routines">
+      <UniqueIdentifier>{7435d400-e844-4905-a099-9bdfc559b6b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
@@ -132,15 +141,27 @@
     <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp">
       <Filter>Source Files\Tests\Performance</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
-      <Filter>Source Files\Tests</Filter>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneManager.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp">
-      <Filter>Source Files\Tests</Filter>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneObject.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp">
+      <Filter>Source Files\Routines</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Foo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp">
@@ -149,11 +170,8 @@
     <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp">
       <Filter>Header Files\Tests\Performance</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
-      <Filter>Header Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Foo.hpp">
-      <Filter>Header Files\Tests</Filter>
+    <ClInclude Include="..\..\..\include\Tests\Routines\InputLoggerRoutine.hpp">
+      <Filter>Header Files\Tests\Routines</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

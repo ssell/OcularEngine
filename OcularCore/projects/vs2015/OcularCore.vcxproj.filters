@@ -37,9 +37,6 @@
     <Filter Include="Source Files\Time">
       <UniqueIdentifier>{9b2f2705-e11c-4874-9760-38f699c8b8a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Events">
-      <UniqueIdentifier>{89c21572-12eb-4192-81cc-94e441b211fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{62f997aa-740e-450b-8415-51f209ccb7fb}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     </Filter>
     <Filter Include="Source Files\Events\Events">
       <UniqueIdentifier>{8983c53a-50e4-447f-b90d-926aa6e09d4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Events\Events">
-      <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\FileIO">
       <UniqueIdentifier>{8842a039-9519-4f8e-9ceb-67fd6a79be74}</UniqueIdentifier>
@@ -132,6 +126,150 @@
     </Filter>
     <Filter Include="Source Files\Performance">
       <UniqueIdentifier>{7ea6c81e-8606-4657-906a-a59526207fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Routine">
+      <UniqueIdentifier>{daa949cf-fb54-4a1b-981c-369d8ea9b017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Renderable">
+      <UniqueIdentifier>{a1b62256-2657-4cb9-b3f3-ad6012343d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Renderable">
+      <UniqueIdentifier>{95e8422a-d35e-40a6-8ed9-cfae952be8b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Routine">
+      <UniqueIdentifier>{f36a69a4-37e0-41aa-8aa5-bd0fdb4a1979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{c0bdfb8f-ee6f-4398-8eed-8437daaae98e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{4252400d-9449-4fd9-be4c-50a92a5f50a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event">
+      <UniqueIdentifier>{89c21572-12eb-4192-81cc-94e441b211fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event\Events">
+      <UniqueIdentifier>{5010c83c-4655-4c4e-aeaf-51c4083d8820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{cd1ce661-1df2-4169-b8a4-9ea7d779ed0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Material">
+      <UniqueIdentifier>{898e2053-3268-44a3-877e-3ced49dbb254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Shader">
+      <UniqueIdentifier>{b2e42bc2-3cb2-4c43-903b-e15c7a7f0df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture">
+      <UniqueIdentifier>{a90ed6a6-f4be-4e56-a89b-b5db8eaed2b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture\TextureLoaders">
+      <UniqueIdentifier>{1a78ca9d-6829-4f19-86c0-4528bd352bd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Texture\TextureSavers">
+      <UniqueIdentifier>{5501dfba-7d57-4b0b-b892-e8bee43c670d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{16236a83-cb9a-402e-b4cd-4d9e00c89e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Material">
+      <UniqueIdentifier>{b37ef229-f0ef-4dd6-b310-a0f2741db132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shader">
+      <UniqueIdentifier>{8900306e-3c09-4db0-b910-1188b46d2911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture">
+      <UniqueIdentifier>{3537954a-92bc-418f-a926-32d4dc34a428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture\TextureLoaders">
+      <UniqueIdentifier>{729a4deb-a09e-4f96-888d-d432f432997a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture\TextureSavers">
+      <UniqueIdentifier>{769d585d-2196-45ed-956a-566e2012a7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh">
+      <UniqueIdentifier>{4cda2bbc-edc2-412b-80f7-f192e9ba0c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh">
+      <UniqueIdentifier>{aee1c94a-3209-444d-a8e0-de7d22a34451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shader\Uniform">
+      <UniqueIdentifier>{0395f666-cbda-472c-a1ad-ea5ece9dff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Shader\Uniform">
+      <UniqueIdentifier>{2020a237-74f8-45ae-bf4f-97ab2ab09b4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Camera">
+      <UniqueIdentifier>{b540b68c-44b0-4fba-9869-f975422d9d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Camera">
+      <UniqueIdentifier>{b51f3cac-fc6f-4f70-8bec-230d1e1e6f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Renderable\Renderables">
+      <UniqueIdentifier>{1ec5a0fd-9fa8-44f7-b9e0-dfd69a4f5178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Renderable\Renderables">
+      <UniqueIdentifier>{23ef16c5-b1fc-4bef-b8ef-f6114e372f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Render State">
+      <UniqueIdentifier>{3adf689a-209f-451f-a65b-be13127498f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Render State">
+      <UniqueIdentifier>{16af85a8-c448-4c7e-bf06-e999d762d28e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Routine\Routines">
+      <UniqueIdentifier>{ccc4ddee-8832-4217-a166-ab1ebfb1eb98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\Routine\Routines">
+      <UniqueIdentifier>{d382f5e7-8c38-48d2-b4f7-c9924d7e5445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders">
+      <UniqueIdentifier>{699cbf6b-d9df-40a5-9842-231bc70a93b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders">
+      <UniqueIdentifier>{83fc2867-34b4-4aaa-bb96-3747fff4d994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders\PLY">
+      <UniqueIdentifier>{b6afa45b-ca32-479e-b800-95afa67d9abc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\PLY">
+      <UniqueIdentifier>{564d215c-b95e-47af-8e4c-ff4b6fbd4974}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshSavers">
+      <UniqueIdentifier>{2c32a2ff-6b84-42b4-84e6-e4b9619e0996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshSavers\PLY">
+      <UniqueIdentifier>{283cef79-e12d-4268-83b5-511a3440ec27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshSavers">
+      <UniqueIdentifier>{ea04af82-ce98-4c7e-9cee-0cadbc6057bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshSavers\PLY">
+      <UniqueIdentifier>{0785ac3a-0961-4823-b233-b92c58e5a4c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\SceneLoader">
+      <UniqueIdentifier>{ee64fca9-6556-4f91-baf1-9b7ed6fdc3df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene\SceneSaver">
+      <UniqueIdentifier>{1a12e571-344f-45c5-a559-b7cacf12194c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\SceneLoader">
+      <UniqueIdentifier>{ac6bbfce-3a6d-44b6-a47b-bd2415ac4a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\SceneSaver">
+      <UniqueIdentifier>{0bb8cc5b-2294-4e87-bc35-2243be17c2b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ObjectIO">
+      <UniqueIdentifier>{6bb46708-0fb8-4d48-a61b-c8e0ceacaab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjectIO">
+      <UniqueIdentifier>{8b2efd5a-1793-4b87-b73b-58e71719b93d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Mesh\MeshLoaders\OBJ">
+      <UniqueIdentifier>{7c6c93aa-03b3-4277-b685-a49fee24f338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\OBJ">
+      <UniqueIdentifier>{f6020bc9-2ca5-43b2-b3ee-3314ec527b3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -222,13 +360,7 @@
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\StringOps.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Euler.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Math\Quaternion.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Random\Random.cpp">
@@ -274,9 +406,6 @@
       <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\SceneNode.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Math\Bounds\BoundsAABB.cpp">
@@ -327,6 +456,249 @@
     <ClCompile Include="..\..\src\Performance\ProfilerScope.cpp">
       <Filter>Source Files\Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneManager.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Scene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\ARoutine.cpp">
+      <Filter>Source Files\Scene\Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\KeyboardInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseButtonInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseMoveInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\MouseScrollInputEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\Material.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\NoiseTexture2D.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\Texture2D.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceLoader_PNG.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.cpp">
+      <Filter>Source Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\FragmentShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\GeometryShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\VertexShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\Mesh.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\IndexBuffer.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\VertexBuffer.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Color.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\RenderTexture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Texture\DepthTexture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\Shader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\ShaderProgram.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\PostTessellationShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\PreTessellationShader.cpp">
+      <Filter>Source Files\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\Uniform.cpp">
+      <Filter>Source Files\Graphics\Shader\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Shader\Uniform\UniformBuffer.cpp">
+      <Filter>Source Files\Graphics\Shader\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\ARenderable.cpp">
+      <Filter>Source Files\Scene\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\StringUtils.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Viewport.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\RenderState\RenderState.cpp">
+      <Filter>Source Files\Graphics\Render State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp">
+      <Filter>Source Files\Scene\Routine\Routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\MathInternal.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Matrix3x3.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Matrix4x4.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Quaternion.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp">
+      <Filter>Source Files\Scene\Renderable\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYParser.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\MeshResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshSavers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshSavers\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectAddedEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Bounds\Bounds.cpp">
+      <Filter>Source Files\Math\Bounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneLoader\SceneLoader.cpp">
+      <Filter>Source Files\Scene\SceneLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneLoader\SceneObjectLoader.cpp">
+      <Filter>Source Files\Scene\SceneLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneSaver\SceneSaver.cpp">
+      <Filter>Source Files\Scene\SceneSaver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\SceneSaver\SceneObjectSaver.cpp">
+      <Filter>Source Files\Scene\SceneSaver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\Exposable.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\Buildable.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\BuilderNode.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Vector4.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Vector3.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Math\Vector2.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ObjectIO\ObjectIO.cpp">
+      <Filter>Source Files\ObjectIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp">
+      <Filter>Source Files\Events\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceDefaults.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshMissing.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialMissing.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Resources\MultiResource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\SubMesh.cpp">
+      <Filter>Source Files\Graphics\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -375,10 +747,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\EventManager.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\AEvent.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp">
       <Filter>Header Files\Utilities\Structures</Filter>
@@ -390,22 +762,16 @@
       <Filter>Header Files\Utilities\Structures</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\ShutdownEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\AEventListener.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\File.hpp">
       <Filter>Header Files\FileIO</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\FileIO\Directory.hpp">
       <Filter>Header Files\FileIO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Matrix3x3.hpp">
-      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Vector3.hpp">
       <Filter>Header Files\Math</Filter>
@@ -426,10 +792,10 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\WindowResizeEvent.hpp">
-      <Filter>Header Files\Events\Events</Filter>
+      <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Events\EventSnooper.hpp">
-      <Filter>Header Files\Events</Filter>
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
@@ -491,16 +857,10 @@
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\StringOps.hpp">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Euler.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Quaternion.hpp">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Random\Random.hpp">
@@ -569,9 +929,6 @@
     <ClInclude Include="..\..\include\Priority.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Math\Bounds\BoundsAABB.hpp">
       <Filter>Header Files\Math\Bounds</Filter>
     </ClInclude>
@@ -608,9 +965,6 @@
     <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp">
       <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
@@ -631,6 +985,297 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Performance\ProfilerScope.hpp">
       <Filter>Header Files\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ARenderable.hpp">
+      <Filter>Header Files\Scene\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ARoutine.hpp">
+      <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\InputHandler.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\Keys.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\KeyboardInputEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseButtonInputEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseMoveInputEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp">
+      <Filter>Header Files\Scene\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\MouseScrollInputEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\Material.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\NoiseTexture2D.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\Texture2D.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureEnums.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_BMP.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureSavers\TextureResourceSaver_PNG.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_BMP.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_PNG.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureLoaders\TextureResourceLoader_TGA.hpp">
+      <Filter>Header Files\Graphics\Texture\TextureLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Shader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\VertexShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\Mesh.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Color.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\RenderTexture.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\TextureDescriptor.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Texture\DepthTexture.hpp">
+      <Filter>Header Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\ShaderProgram.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\PostTessellationShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\PreTessellationShader.hpp">
+      <Filter>Header Files\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\Uniform.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformBuffer.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformsPerFrame.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Camera\Camera.hpp">
+      <Filter>Header Files\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Camera\CameraManager.hpp">
+      <Filter>Header Files\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerCamera.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Uniform\UniformPerObject.hpp">
+      <Filter>Header Files\Graphics\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringUtils.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Viewport.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Routines\FreeFlyController.hpp">
+      <Filter>Header Files\Scene\Routine\Routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp">
+      <Filter>Header Files\Graphics\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\MathInternal.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix3x3.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Matrix4x4.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Quaternion.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp">
+      <Filter>Header Files\Scene\Renderable\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CoreDynamicRegistration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementListParser.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYEnums.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\MeshResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshSavers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshSavers\PLY\MeshResourceSaver_PLY.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshSavers\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp">
+      <Filter>Header Files\Scene\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Types.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Math\Bounds\Bounds.hpp">
+      <Filter>Header Files\Math\Bounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneLoader.hpp">
+      <Filter>Header Files\Scene\SceneLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneObjectLoader.hpp">
+      <Filter>Header Files\Scene\SceneLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneLoader\SceneLoadInternal.hpp">
+      <Filter>Header Files\Scene\SceneLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneSaver\SceneSaver.hpp">
+      <Filter>Header Files\Scene\SceneSaver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneSaver\SceneObjectSaver.hpp">
+      <Filter>Header Files\Scene\SceneSaver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\Buildable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\BuilderNode.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\Exposable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\ExposedVariable.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\VoidCast.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ObjectIO\ObjectIO.hpp">
+      <Filter>Header Files\ObjectIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\Events\SceneObjectRemovedEvent.hpp">
+      <Filter>Header Files\Event\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\SceneObjectRegistrar.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\StringRegistrar.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceDefaults.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshMissing.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\MultiResource.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp">
+      <Filter>Header Files\Graphics\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

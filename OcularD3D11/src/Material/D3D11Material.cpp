@@ -163,6 +163,11 @@ namespace Ocular
             {
                 const uint32_t size = static_cast<uint32_t>(m_Textures.size());
 
+                if(m_D3DSampler)
+                {
+                    m_D3DDeviceContext->PSSetSamplers(0, 1, &m_D3DSampler);
+                }
+
                 if(m_VertexShader)
                 {
                     m_D3DDeviceContext->VSSetShaderResources(0, size, &m_ShaderResourceViews[0]);
@@ -176,11 +181,6 @@ namespace Ocular
                 if(m_FragmentShader)
                 {
                     m_D3DDeviceContext->PSSetShaderResources(0, size, &m_ShaderResourceViews[0]);
-                }
-
-                if(m_D3DSampler)
-                {
-                    m_D3DDeviceContext->PSSetSamplers(0, 1, &m_D3DSampler);
                 }
             }
         }

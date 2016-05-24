@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{5e11e0e0-17a3-4ee7-8ada-1787d02637da}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{4988b828-fe65-4496-9c60-c6000f56a956}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\Widgets">
+      <UniqueIdentifier>{12744a6f-7a3e-4d22-80b4-80ce4a478b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets">
+      <UniqueIdentifier>{18b735ba-e556-4e4a-abd3-8456b3561bc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Styles">
+      <UniqueIdentifier>{8b67a4e6-744b-44f3-b220-14df81ee9b7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Styles">
+      <UniqueIdentifier>{d40cc28c-b3dc-43ba-b164-c657dadf66eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{e2796b7f-9ddd-4260-9b72-a96097adbfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{e08b0bfd-6b12-4626-9eb0-24ac4690acca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Routines">
+      <UniqueIdentifier>{aebba510-c112-4453-8e7f-a11616196a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Routines">
+      <UniqueIdentifier>{cbf87723-5422-40a2-8c17-b4dcbbc05f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{87853f2c-eebf-4719-ae24-977b870c0959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties">
+      <UniqueIdentifier>{5916cc52-7e15-4cec-b74e-768874453d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties">
+      <UniqueIdentifier>{ae180ee6-2d57-40b8-9bfa-a7ea45aa3112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Types">
+      <UniqueIdentifier>{7ca5f9e6-fe21-4021-aabb-5cd6fed84cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Types">
+      <UniqueIdentifier>{e69643b0-8249-455f-a3f4-10704d3b13be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Types\Arithmetic">
+      <UniqueIdentifier>{c2f8c85f-0ce8-4ac6-9525-dc00f83fe2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Types\Arithmetic">
+      <UniqueIdentifier>{8fd68fee-3864-40a2-9889-d1582c5c203a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Standard">
+      <UniqueIdentifier>{5c9f2c30-9ad1-43e2-96e5-e4cffbf009d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Standard">
+      <UniqueIdentifier>{3e80c6d6-66c3-423a-bafd-c4c11a2d5655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Objects">
+      <UniqueIdentifier>{157af9c5-e7c7-4780-9130-1cfaf560c702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Objects">
+      <UniqueIdentifier>{a6960864-a650-4bb3-a6e4-2267ffe1cb10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets\Properties\Renderables">
+      <UniqueIdentifier>{85ba59ef-70ec-4942-9b1d-139431c9ae41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\Properties\Renderables">
+      <UniqueIdentifier>{ff27e6d5-b168-4ef9-8784-8a1c885c0edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Events">
+      <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MainWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_MainWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MainWindow.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MainMenuBar.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MainMenuBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_MainMenuBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MainStatusBar.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\RenderFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ContentFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\DetailsFrame.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ConsoleBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ConsoleText.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneTree.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Styles\GeneralStyles.cpp">
+      <Filter>Source Files\Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_InputTranslator.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_InputTranslator.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputTranslator.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\SceneTreeItem.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Routines\EditorCameraController.cpp">
+      <Filter>Source Files\Routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\PropertiesPanel.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertyWidget.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesDisplayBox.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\EulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\QuatAsEulerProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\QuaternionProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector2Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector3Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Vector4Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ToolbarCommon.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OcularEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int32Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int16Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt16Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt8Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\Int8Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Validator.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\UInt32Property.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_LineEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_LineEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\LineEdit.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\CheckBox.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_CheckBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_CheckBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\BoolProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\StringProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\FileProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonFileBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonFileBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonFileBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonDirectoryBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonDirectoryBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonDirectoryBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\ColorProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonColorPicker.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonColorPicker.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonColorPicker.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ColorPreview.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ColorPreview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ColorPreview.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\FloatProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\Arithmetic\DoubleProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\CommonDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\CustomObjectDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Objects\CameraDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ComboBox.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\MultiProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_SceneTree.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_SceneTree.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\PropertiesTitleBar.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_PropertiesPanel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_PropertiesPanel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\SelectResourceDialog.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_SelectResourceDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_SelectResourceDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\ResourceProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ButtonResourceBrowse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonResourceBrowse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Standard\ButtonResourceBrowse.cpp">
+      <Filter>Source Files\Widgets\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\RoutineDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\RenderableDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Types\DirectoryProperty.cpp">
+      <Filter>Source Files\Widgets\Properties\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\Properties\Renderables\MeshRenderableDisplay.cpp">
+      <Filter>Source Files\Widgets\Properties\Renderables</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\MainStatusBar.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\RenderFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ContentFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\DetailsFrame.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ConsoleBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ConsoleText.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Styles\GeneralStyles.hpp">
+      <Filter>Header Files\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\SceneTreeItem.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Routines\EditorCameraController.hpp">
+      <Filter>Header Files\Routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\SceneObjectSelectedEvent.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidget.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\PropertiesBox.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayBox.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\EulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\QuatAsEulerProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\QuaternionProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector2Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector3Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Vector4Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\OcularEditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\ToolbarCommon.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertyWidgetRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int32Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int16Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\Int8Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt16Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt8Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Validator.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\UInt32Property.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\BoolProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\FileProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\FloatProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\DoubleProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types\Arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CommonDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\RoutineDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\MultiProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplayMaterial.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplayRegistrar.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\MainMenuBar.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Input\InputTranslator.hpp">
+      <Filter>Header Files\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\SceneTree.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\LineEdit.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\CheckBox.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonFileBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonDirectoryBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonColorPicker.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ColorPreview.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ComboBox.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\PropertiesPanel.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Properties\SelectResourceDialog.hpp">
+      <Filter>Header Files\Widgets\Properties</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Standard\ButtonResourceBrowse.hpp">
+      <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

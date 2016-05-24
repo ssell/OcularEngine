@@ -1,22 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{066D9C0A-E3A8-4517-A989-6611D5DF4751}</ProjectGuid>
     <RootNamespace>OcularTest</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
@@ -29,38 +42,73 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\..\bin\msvc140\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\obj\msvc140\$(Configuration)\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\..\..\bin\msvc140\$(Configuration)\x86\</OutDir>
+    <IntDir>$(ProjectDir)..\..\..\obj\msvc140\$(Configuration)\x86\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)..\..\..\bin\msvc140\$(Configuration)\x64\</OutDir>
+    <IntDir>$(ProjectDir)..\..\..\obj\msvc140\$(Configuration)\x64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)..\..\..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\..\bin\msvc140\$(Configuration)\x86\</OutDir>
+    <IntDir>$(ProjectDir)..\..\..\obj\msvc140\$(Configuration)\x86\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)..\..\..\bin\msvc140\$(Configuration)\x64\</OutDir>
+    <IntDir>$(ProjectDir)..\..\..\obj\msvc140\$(Configuration)\x64\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\..\OcularGraphics\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\..\OcularD3D11\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\$(Configuration)\;$(ProjectDir)..\..\..\..\OcularGraphics\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_maind.lib;gtestd.lib;OcularGraphics_msvc140d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x86\$(Configuration)\;$(ProjectDir)..\..\..\..\OcularCore\bin\x86\;$(ProjectDir)..\..\..\..\OcularD3D11\bin\x86\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularD3D11_msvc140d.lib;OcularCore_msvc140d.lib;d3d11.lib;gtest_maind.lib;gtestd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\..\OcularD3D11\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/WX %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x64\$(Configuration)\;$(ProjectDir)..\..\..\..\OcularCore\bin\x64\;$(ProjectDir)..\..\..\..\OcularD3D11\bin\x64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularD3D11_msvc140d.lib;OcularCore_msvc140d.lib;d3d11.lib;gtest_maind.lib;gtestd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,17 +118,36 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\OcularCore\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\..\OcularD3D11\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\OcularCore\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x86\$(Configuration)\;$(ProjectDir)..\..\..\..\OcularCore\bin\x86\;$(ProjectDir)..\..\..\..\OcularD3D11\bin\x86\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularD3D11_msvc140.lib;OcularCore_msvc140.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Projects\glm-master;$(SolutionDir)..\..\External\include;$(ProjectDir)..\..\..\..\OcularCore\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\..\OcularD3D11\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x64\$(Configuration)\;$(ProjectDir)..\..\..\..\OcularCore\bin\x64\;$(ProjectDir)..\..\..\..\OcularD3D11\bin\x64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OcularD3D11_msvc140.lib;OcularCore_msvc140.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp" />
     <ClCompile Include="..\..\..\src\Tests\ATest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsAABB.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsSphere.cpp" />
@@ -105,18 +172,21 @@
     <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector4.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestBVHSceneTree.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneManager.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneObject.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Core\Utilities\Structures\TestPriorityList.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp" />
-    <ClCompile Include="..\..\..\src\Tests\PriorityListTest.cpp" />
     <ClCompile Include="TestMortonCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Foo.hpp" />
+    <ClInclude Include="..\..\..\include\Tests.hpp" />
     <ClInclude Include="..\..\..\include\Tests\ATest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp" />
     <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp" />
+    <ClInclude Include="..\..\..\include\Tests\Routines\InputLoggerRoutine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

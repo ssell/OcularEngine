@@ -184,7 +184,7 @@ namespace Ocular
 
                 // Setup our window to be later retrieved by WndProc
                 // TODO: Will this cause errors with multiple windows? Need a different ID (GWLP_USERDATA - Window #)?
-                SetWindowLongPtr(m_HWND, GWLP_USERDATA, (LONG)this);
+                SetWindowLongPtr(m_HWND, GWLP_USERDATA, (LONG_PTR)this);
 
                 // Show the window
                 ShowWindow(m_HWND, SW_SHOW);
