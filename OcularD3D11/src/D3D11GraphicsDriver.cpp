@@ -216,7 +216,14 @@ namespace Ocular
 
             if(m_D3DSwapChain)
             {
+#ifdef OCULAR_D3D_USE_11_0
                 const HRESULT hResult = m_D3DSwapChain->Present(0, 0);
+#else
+                DXGI_PRESENT_PARAMETERS presentParams;
+                ZeroMemory(&presentParams, sizeof(DXGI_PRESENT_PARAMETERS));
+
+                const HRESULT hResult = m_D3DSwapChain->Present1(0, 0, &presentParams);
+#endif
 
                 if(hResult != S_OK)
                 {
@@ -508,17 +515,17 @@ namespace Ocular
         // D3D Specific
         //----------------------------------------------------------------------------------
 
-        ID3D11Device* D3D11GraphicsDriver::getD3DDevice() const
+        OD3D11Device* D3D11GraphicsDriver::getD3DDevice() const
         {
             return m_D3DDevice;
         }
 
-        ID3D11DeviceContext* D3D11GraphicsDriver::getD3DDeviceContext() const
+        OD3D11DeviceContext* D3D11GraphicsDriver::getD3DDeviceContext() const
         {
             return m_D3DDeviceContext;
         }
 
-        IDXGISwapChain* D3D11GraphicsDriver::getD3DSwapChain() const
+        OD3DSwapChain* D3D11GraphicsDriver::getD3DSwapChain() const
         {
             return m_D3DSwapChain;
         }
@@ -925,17 +932,17 @@ namespace Ocular
                     }
                     else
                     {
-                        OcularLogger->error("Invalid HWND", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "validateWindow"));
+                        OcularLogger->error("Invalid HWND", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateWindow"));
                     }
                 }
                 else
                 {
-                    OcularLogger->error("Invalid window type for DirectX application", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "validateWindow"));
+                    OcularLogger->error("Invalid window type for DirectX application", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateWindow"));
                 }
             }
             else
             {
-                OcularLogger->error("Window is NULL", OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "validateWindow"));
+                OcularLogger->error("Window is NULL", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "validateWindow"));
             }
 
             return result;
@@ -945,8 +952,12 @@ namespace Ocular
         {
             bool result = true;
 
+            ID3D11Device* device = nullptr;
+            ID3D11DeviceContext* deviceContext = nullptr;
+
             //------------------------------------------------------------
             // Set up for device creation
+            //------------------------------------------------------------
 
             uint32_t createDeviceFlags = 0;
 
@@ -971,17 +982,22 @@ namespace Ocular
                 D3D_FEATURE_LEVEL_9_1
             };
 
-            D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+            D3D_FEATURE_LEVEL featureLevel;
 
             //------------------------------------------------------------
             // Create the Swap Chain descriptor
+            //------------------------------------------------------------
 
-            const DXGI_SWAP_CHAIN_DESC swapChainDesc = createSwapChainDescription(window);
+#if defined(OCULAR_D3D_USE_11_0)
 
             //------------------------------------------------------------
             // Create the devices and swap chain
+            //------------------------------------------------------------
+            
+            IDXGISwapChain* swapChain = nullptr;
+            const DXGI_SWAP_CHAIN_DESC swapChainDesc = createSwapChainDescription(window);
 
-            const HRESULT hResult = D3D11CreateDeviceAndSwapChain(
+            HRESULT hResult = D3D11CreateDeviceAndSwapChain(
                     nullptr,
                     D3D_DRIVER_TYPE_HARDWARE,
                     nullptr,
@@ -990,27 +1006,54 @@ namespace Ocular
                     ARRAYSIZE(featureLevels),
                     D3D11_SDK_VERSION,
                     &swapChainDesc,
-                    &m_D3DSwapChain,
-                    &m_D3DDevice,
+                    &swapChain,
+                    &device,
                     &featureLevel,
-                    &m_D3DDeviceContext
+                    &deviceContext
                 );
+#else
+            // In 11.1/2 we initially only create the Device and DeviceContext.
+            // The SwapChain is retrieved later via the DXGIFactory
+
+            HRESULT hResult = D3D11CreateDevice(
+                nullptr,
+                D3D_DRIVER_TYPE_HARDWARE,
+                nullptr,
+                createDeviceFlags,
+                featureLevels,
+                ARRAYSIZE(featureLevels),
+                D3D11_SDK_VERSION,
+                &device,
+                &featureLevel,
+                &deviceContext);
+#endif
 
             //------------------------------------------------------------
-            // Handle multiple swap chains here?
-
+            // Fetch the 11.1/2 Devices
             //------------------------------------------------------------
-            // Error handling
 
-            if(hResult != S_OK)
+            if(SUCCEEDED(hResult))
             {
-                OcularLogger->error("Failed to create D3D 11.1 Device and SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("GraphicsDriverDX11", "createDeviceAndSwapChain"));
+#if defined(OCULAR_D3D_USE_11_0)
+                m_D3DDevice = device;
+                m_D3DDeviceContext = deviceContext;
+                m_D3DSwapChain = swapChain;
+#elif defined(OCULAR_D3D_USE_11_1)
+                fetchDeviceAndSwapChain1(device, deviceContext, window);
+#elif defined(OCULAR_D3D_USE_11_2)
+                fetchDeviceAndSwapChain2(device, deviceContext, window);
+#endif
+            }
+            else
+            {
+                OcularLogger->error("Failed to create D3D11 Device and SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "createDeviceAndSwapChain"));
                 result = false;
             }
 
             return result;
         }
-
+        
+#if defined(OCULAR_D3D_USE_11_0)
         DXGI_SWAP_CHAIN_DESC D3D11GraphicsDriver::createSwapChainDescription(Core::WindowWin32 const* window) const
         {
             Core::WindowDescriptor windowDesc = window->getDescriptor();
@@ -1038,6 +1081,270 @@ namespace Ocular
             {
                 result.Windowed = TRUE;
             }
+
+            return result;
+        }
+#else
+        DXGI_SWAP_CHAIN_DESC1 D3D11GraphicsDriver::createSwapChainDescription(Core::WindowWin32 const* window) const
+        {
+            Core::WindowDescriptor windowDesc = window->getDescriptor();
+
+            DXGI_SWAP_CHAIN_DESC1 result;
+            ZeroMemory(&result, sizeof(result));
+
+            result.Width              = windowDesc.width;
+            result.Height             = windowDesc.height;
+            result.Format             = DXGI_FORMAT_R8G8B8A8_UNORM;
+            result.Stereo             = FALSE;
+            result.SampleDesc.Count   = 1;
+            result.SampleDesc.Quality = 0;
+            result.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+            result.BufferCount        = 1;
+            result.Scaling            = DXGI_SCALING_NONE;
+            result.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
+            result.AlphaMode          = DXGI_ALPHA_MODE_UNSPECIFIED;
+            result.Flags              = 0;
+
+            return result;
+        }
+#endif
+
+        bool D3D11GraphicsDriver::fetchDeviceAndSwapChain1(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window)
+        {
+            bool result = true;
+
+#if defined(OCULAR_D3D_USE_11_1)
+            // Fetch the 11.1 objects
+            // https://blogs.msdn.microsoft.com/chuckw/2014/02/05/anatomy-of-direct3d-11-create-device/
+
+            ID3D11Device1* device1 = nullptr;
+            ID3D11DeviceContext1* deviceContext1 = nullptr;
+                
+            HRESULT hResult = device->QueryInterface(__uuidof(ID3D11Device1), reinterpret_cast<void**>(&device1));
+
+            if(SUCCEEDED(hResult))
+            {
+                hResult = context->QueryInterface(__uuidof(ID3D11DeviceContext1), reinterpret_cast<void**>(&deviceContext1));
+
+                if(SUCCEEDED(hResult))
+                {
+                    m_D3DDevice = device1;
+                    m_D3DDeviceContext = deviceContext1;
+
+                    //----------------------------------------------------
+                    // Fetch the DXGI Factory/Device/Adapter to create the SwapChain
+                    //----------------------------------------------------
+
+                    IDXGIFactory2* dxgiFactory = nullptr;
+                    IDXGIDevice* dxgiDevice = nullptr;
+
+                    hResult = m_D3DDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice));
+
+                    if(SUCCEEDED(hResult))
+                    {
+                        IDXGIAdapter* dxgiAdapter = nullptr;
+                        hResult = dxgiDevice->GetAdapter(&dxgiAdapter);
+
+                        if(SUCCEEDED(hResult))
+                        {
+                            hResult = dxgiAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&dxgiFactory));
+
+                            if(FAILED(hResult))
+                            {
+                                OcularLogger->error("Failed to retrieve DXGIFactory2 with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                                result = false;
+                            }
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to retrieve DXGIAdapter with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                            result = false;
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to retrieve IDXGIDevice with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                        result = false;
+                    }
+
+                    if(dxgiFactory)
+                    {
+                        //------------------------------------------------
+                        // Create the various descriptors
+                        //------------------------------------------------
+
+                        DXGI_SWAP_CHAIN_DESC1 swapChainDescr = createSwapChainDescription(window);
+                        Core::WindowDescriptor windowDescr = window->getDescriptor();
+
+                        DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
+                        ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
+
+                        fullScreenDescr.RefreshRate.Numerator   = 60;
+                        fullScreenDescr.RefreshRate.Denominator = 1;
+                        fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                        fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                        if((windowDescr.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
+                           (windowDescr.displayMode == Core::WindowDisplayMode::WindowedBorderless))
+                        {
+                            fullScreenDescr.Windowed = TRUE;
+                        }
+                        else
+                        {
+                            fullScreenDescr.Windowed = FALSE;
+                        }
+
+                        //------------------------------------------------
+                        // Create the SwapChain
+                        //------------------------------------------------
+
+                        hResult = dxgiFactory->CreateSwapChainForHwnd(
+                            m_D3DDevice,
+                            window->getHWND(),
+                            &swapChainDescr,
+                            &fullScreenDescr,
+                            NULL,
+                            &m_D3DSwapChain);
+
+                        if(FAILED(hResult))
+                        {
+                            OcularLogger->error("Failed to create D3D 11.2 SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                            result = false;
+                        }
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to retrieve D3D 11.2 DeviceContext interface with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                    result = false;
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to retrieve D3D 11.2 Device interface with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                result = false;
+            }
+#endif
+
+            return result;
+        }
+
+        bool D3D11GraphicsDriver::fetchDeviceAndSwapChain2(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window)
+        {
+            bool result = true;
+
+#if defined(OCULAR_D3D_USE_11_2)
+            // Fetch the 11.2 objects
+            // https://blogs.msdn.microsoft.com/chuckw/2014/02/05/anatomy-of-direct3d-11-create-device/
+
+            ID3D11Device2* device2 = nullptr;
+            ID3D11DeviceContext2* deviceContext2 = nullptr;
+                
+            HRESULT hResult = device->QueryInterface(__uuidof(ID3D11Device2), reinterpret_cast<void**>(&device2));
+
+            if(SUCCEEDED(hResult))
+            {
+                hResult = context->QueryInterface(__uuidof(ID3D11DeviceContext2), reinterpret_cast<void**>(&deviceContext2));
+
+                if(SUCCEEDED(hResult))
+                {
+                    m_D3DDevice = device2;
+                    m_D3DDeviceContext = deviceContext2;
+
+                    //----------------------------------------------------
+                    // Fetch the DXGI Factory/Device/Adapter to create the SwapChain
+                    //----------------------------------------------------
+
+                    IDXGIFactory2* dxgiFactory = nullptr;
+                    IDXGIDevice* dxgiDevice = nullptr;
+
+                    hResult = m_D3DDevice->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice));
+
+                    if(SUCCEEDED(hResult))
+                    {
+                        IDXGIAdapter* dxgiAdapter = nullptr;
+                        hResult = dxgiDevice->GetAdapter(&dxgiAdapter);
+
+                        if(SUCCEEDED(hResult))
+                        {
+                            hResult = dxgiAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&dxgiFactory));
+
+                            if(FAILED(hResult))
+                            {
+                                OcularLogger->error("Failed to retrieve DXGIFactory2 with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                                result = false;
+                            }
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to retrieve DXGIAdapter with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                            result = false;
+                        }
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to retrieve IDXGIDevice with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                        result = false;
+                    }
+
+                    if(dxgiFactory)
+                    {
+                        //------------------------------------------------
+                        // Create the various descriptors
+                        //------------------------------------------------
+
+                        DXGI_SWAP_CHAIN_DESC1 swapChainDescr = createSwapChainDescription(window);
+                        Core::WindowDescriptor windowDescr = window->getDescriptor();
+
+                        DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
+                        ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
+
+                        fullScreenDescr.RefreshRate.Numerator   = 60;
+                        fullScreenDescr.RefreshRate.Denominator = 1;
+                        fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                        fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                        if((windowDescr.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
+                           (windowDescr.displayMode == Core::WindowDisplayMode::WindowedBorderless))
+                        {
+                            fullScreenDescr.Windowed = TRUE;
+                        }
+                        else
+                        {
+                            fullScreenDescr.Windowed = FALSE;
+                        }
+
+                        //------------------------------------------------
+                        // Create the SwapChain
+                        //------------------------------------------------
+
+                        hResult = dxgiFactory->CreateSwapChainForHwnd(
+                            m_D3DDevice,
+                            window->getHWND(),
+                            &swapChainDescr,
+                            &fullScreenDescr,
+                            NULL,
+                            &m_D3DSwapChain);
+
+                        if(FAILED(hResult))
+                        {
+                            OcularLogger->error("Failed to create D3D 11.2 SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                            result = false;
+                        }
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to retrieve D3D 11.2 DeviceContext interface with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                    result = false;
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to retrieve D3D 11.2 Device interface with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain2"));
+                result = false;
+            }
+#endif
 
             return result;
         }

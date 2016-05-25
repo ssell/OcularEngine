@@ -18,9 +18,44 @@
 #ifndef __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
 #define __H__OCULAR_D3D11_GRAPHICS_DRIVER__H__
 
+#define OCULAR_D3D_11_0 100
+#define OCULAR_D3D_11_1 200
+#define OCULAR_D3D_11_2 300
+
+#if OCULAR_D3D_11_VERSION > 200
+#define OCULAR_D3D_USE_11_2
+#elif OCULAR_D3D11_VERSION > 100
+#define OCULAR_D3D_USE_11_1
+#else
+#define OCULAR_D3D_USE_11_0
+#endif
+
+//------------------------------------------------------------------------------------------
+
 #include "Graphics/GraphicsDriver.hpp"
 #include "Events/AEventListener.hpp"
+
+#if defined(OCULAR_D3D_USE_11_0)
 #include <d3d11.h>
+#elif defined(OCULAR_D3D_USE_11_1)
+#include <d3d11_1.h>
+#elif defined(OCULAR_D3D_USE_11_2)
+#include <d3d11_2.h>
+#endif
+
+#if defined(OCULAR_D3D_USE_11_0)
+using OD3D11Device = ID3D11Device;
+using OD3D11DeviceContext = ID3D11DeviceContext;
+using OD3DSwapChain = IDXGISwapChain;
+#elif defined(OCULAR_D3D_USE_11_1)
+using OD3D11Device = ID3D11Device1;
+using OD3D11DeviceContext = ID3D11DeviceContext1;
+using OD3DSwapChain = IDXGISwapChain1;
+#elif defined(OCULAR_D3D_USE_11_2)
+using OD3D11Device = ID3D11Device2;
+using OD3D11DeviceContext = ID3D11DeviceContext2;
+using OD3DSwapChain = IDXGISwapChain1;
+#endif
 
 //------------------------------------------------------------------------------------------
 
@@ -88,9 +123,9 @@ namespace Ocular
             //------------------------------------------------------------
             // D3D Specific Methods
 
-            ID3D11Device* getD3DDevice() const;
-            ID3D11DeviceContext* getD3DDeviceContext() const;
-            IDXGISwapChain* getD3DSwapChain() const;
+            OD3D11Device* getD3DDevice() const;
+            OD3D11DeviceContext* getD3DDeviceContext() const;
+            OD3DSwapChain* getD3DSwapChain() const;
 
             static bool ConvertTextureDescriptor(TextureDescriptor const& source, D3D11_TEXTURE2D_DESC& dest);
             static bool ConvertTextureDescriptor(D3D11_TEXTURE2D_DESC const& source, TextureDescriptor& dest);
@@ -102,7 +137,15 @@ namespace Ocular
 
             bool validateWindow(std::shared_ptr<Core::AWindow> window, HWND& hwnd) const;
             bool createDeviceAndSwapChain(Core::WindowWin32 const* window, HWND const hwnd);
+            
+#if defined(OCULAR_D3D_USE_11_0)
             DXGI_SWAP_CHAIN_DESC createSwapChainDescription(Core::WindowWin32 const* window) const;
+#else
+            DXGI_SWAP_CHAIN_DESC1 createSwapChainDescription(Core::WindowWin32 const* window) const;
+#endif
+
+            bool fetchDeviceAndSwapChain1(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window);
+            bool fetchDeviceAndSwapChain2(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window);
 
             static bool ValidateTextureDescriptor(TextureDescriptor const& descriptor);
 
@@ -110,9 +153,9 @@ namespace Ocular
 
         private:
 
-            ID3D11Device* m_D3DDevice;
-            ID3D11DeviceContext* m_D3DDeviceContext;
-            IDXGISwapChain* m_D3DSwapChain;
+            OD3D11Device* m_D3DDevice;
+            OD3D11DeviceContext* m_D3DDeviceContext;
+            OD3DSwapChain* m_D3DSwapChain;
         };
     }
     /**
