@@ -31,11 +31,11 @@ TEST(BoundsSphere, SetCenter)
     const Vector3f expectA(0.0f, 0.0f, 0.0f);
     const Vector3f expectB(1.0f, 1.0f, 1.0f);
 
-    EXPECT_TRUE(sphere.getCenter() == expectA);
+    EXPECT_TRUE(sphere.getCenter().xyz() == expectA);
 
     sphere.setCenter(expectB);
 
-    EXPECT_TRUE(sphere.getCenter() == expectB);
+    EXPECT_TRUE(sphere.getCenter().xyz() == expectB);
 }
 
 TEST(BoundsSphere, SetRadius)
@@ -59,16 +59,16 @@ TEST(BoundsSphere, SetRadius)
 
 TEST(BoundsSphere, Construct)
 {
-    const std::list<Point3f> points =
+    const std::list<Point4f> points =
     {
-        Point3f(-2.0f, 0.0f, 0.0f),
-        Point3f(0.0f, 0.0f, 0.0f),
-        Point3f(1.0f, 0.0f, 0.0f)
+        Point4f(-2.0f, 0.0f, 0.0f, 1.0f),
+        Point4f(0.0f, 0.0f, 0.0f, 1.0f),
+        Point4f(1.0f, 0.0f, 0.0f, 1.0f)
     };
 
     const BoundsSphere sphere(points);
 
-    const Point3f expectedCenter(-0.5f, 0.0f, 0.0f);
+    const Point4f expectedCenter(-0.5f, 0.0f, 0.0f, 1.0f);
     const float expectedRadius = 1.5f;
 
     EXPECT_TRUE(sphere.getCenter() == expectedCenter);
@@ -94,9 +94,9 @@ TEST(BoundsSphere, ExpandRadius)
 TEST(BoundsSphere, ExpandToPoint)
 {
     BoundsSphere sphere(Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-    const Point3f point(2.0f, 0.0f, 0.0f);
+    const Point4f point(2.0f, 0.0f, 0.0f, 1.0f);
 
-    const Point3f expectedCenter(0.5f, 0.0f, 0.0f);
+    const Point4f expectedCenter(0.5f, 0.0f, 0.0f, 1.0f);
     const float   expectedRadius = 1.5f;
 
     sphere.expandToContain(point);

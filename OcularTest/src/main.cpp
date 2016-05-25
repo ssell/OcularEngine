@@ -17,9 +17,6 @@
 #include "OcularEngine.hpp"
 #include "D3D11GraphicsDriver.hpp"
 #include "D3D11DynamicRegistration.hpp"
-#include "Utilities/StringUtils.hpp"
-
-#include "Scene/Renderables/MeshRenderable.hpp"
 
 using namespace Ocular::Core;
 using namespace Ocular::Utils;
@@ -58,63 +55,48 @@ bool openWindow()
 
 void setupCamera()
 {
+    // Check if a Camera already exists (potentially loaded in with a Scene)
     Camera* camera = OcularCameras->getMainCamera();
 
-    if(camera)
+    if(camera == nullptr)
     {
-        camera->setPosition(0.5f, 0.5f, 5.0f);
+        // Calling `new Camera` will create the camera, register it with the global 
+        // Camera Manager (OcularCameras), and set it as the Main camera if it is the first.
+
+        camera = new Camera();
+
+        camera->setPosition(0.0f, 0.0f, 2.0f);
         camera->addRoutine("FreeFlyController");
-        camera->addRoutine("InputLogger");
     }
-}
-
-void setupVisual()
-{
-    SceneObject* object = OcularScene->createObject("Test Object");
-
-    if(object)
-    {
-        MeshRenderable* renderable = (MeshRenderable*)object->setRenderable("Mesh");
-
-        if(renderable)
-        {
-            const uint64_t start = OcularClock->getEpochMS();
-            renderable->setMesh("Meshes/cube_normals");
-            const uint64_t end = OcularClock->getEpochMS();
-
-            renderable->setMaterial("Materials/Flat");
-
-            OcularLogger->info("Mesh loaded in ", (end - start), "ms");
-        }
-    }
-
-    object->setScale(Vector3f(1.0f, 1.0f, 1.0f));
-}
-
-void setupScene()
-{
-    OcularScene->createScene("TestScene");
-    
-    setupCamera();
-    setupVisual();
 }
 
 int main(int argc, char** argv)
 {
-    OcularEngine.initialize(new D3D11GraphicsDriver());
+    /**
+     * Basic steps to start running:
+     *
+     * 1. Initialize the Engine
+     * 2. Open a Window
+     * 3. Set Resource Directory (optional)
+     * 4. Create / Load a Scene
+     * 5. Setup Camera
+     * 6. Run
+     */
 
-    File inFile("../../../projects/vs2013/OcularTest/Resources/Scenes/TestScene.oscene");
-    File outFile("../../../projects/vs2013/OcularTest/Resources/Scenes/TestSceneOut.oscene");
+    if(OcularEngine.initialize(new D3D11GraphicsDriver()))
+    {
+        if(openWindow())
+        {
+            OcularResources->setSourceDirectory("C:\\Projects\\OcularEngine\\Resources");
+            OcularResources->forceSourceRefresh();
 
+            OcularScene->loadScene(File("C:\\Projects\\OcularEngine\\Resources\\test.oscene"));
 
-    OcularScene->loadScene(inFile);
-    OcularScene->saveScene(outFile);
+            setupCamera();
 
-    //if(openWindow())
-    //{
-    //    setupScene();
-    //    while(OcularEngine.run());
-    //}
+            while(OcularEngine.run());
+        }
 
-    OcularEngine.shutdown();
+        OcularEngine.shutdown();
+    }
 }

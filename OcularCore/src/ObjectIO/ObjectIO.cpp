@@ -88,32 +88,38 @@ namespace Ocular
 
                     if(variable)
                     {
-                        if(variable->isPointer)
+                        if(variable->isExposed)
                         {
-                            // If the variable is a pointer, we only add it to the node chain
-                            // if it can be cast to another ObjectIO. If it can, then we add
-                            // it as a new child and let it's onSave build itself.
-
-                            ObjectIO* buildableChild = (ObjectIO*)(variable->data);
-
-                            if(buildableChild)
+                            if(variable->isPointer)
                             {
-                                // Add a new node for this child, and envoke it's onSave so it can build itself
-                                buildableChild->onSave(node->addChild(variable->name, variable->type, ""));
+                                // If the variable is a pointer, we only add it to the node chain
+                                // if it can be cast to another ObjectIO. If it can, then we add
+                                // it as a new child and let it's onSave build itself.
+
+                                ObjectIO* buildableChild = void_cast<ObjectIO*>(variable->data);
+
+                                if(buildableChild)
+                                {
+                                    // Add a new node for this child, and envoke it's onSave so it can build itself
+                                    buildableChild->onSave(node->addChild(variable->name, variable->type, ""));
+                                }
                             }
-                        }
-                        else if(variable->isExposed)
-                        {
-                            ObjectIO* io = (ObjectIO*)(variable->data);
-
-                            if(io)
+                            else
                             {
-                                io->onSave(node->addChild(variable->name, variable->type, ""));
+                                ObjectIO* io = void_cast<ObjectIO*>(variable->data);
+
+                                if(io)
+                                {
+                                    io->onSave(node->addChild(variable->name, variable->type, ""));
+                                }
                             }
                         }
                         else
                         {
-                            node->addChild(variable->name, variable->type, OcularString->toString(variable->type, variable->data));
+                            if(!variable->isPointer)
+                            {
+                                node->addChild(variable->name, variable->type, OcularString->toString(variable->type, variable->data));
+                            }
                         }
                     }
                 }

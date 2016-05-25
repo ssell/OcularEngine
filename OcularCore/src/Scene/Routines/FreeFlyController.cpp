@@ -288,8 +288,8 @@ namespace Ocular
 
                 if(m_PreventRoll)
                 {
-                    m_Euler.x += -dX;
-                    m_Euler.y += -dY;
+                    m_Euler.x += -dY;
+                    m_Euler.y += -dX;
 
                     m_Parent->setRotation(Math::Quaternion(m_Euler));
                 }

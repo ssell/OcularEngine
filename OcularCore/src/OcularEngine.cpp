@@ -48,7 +48,7 @@ namespace Ocular
         m_SceneManager    = std::make_shared<Core::SceneManager>();
         m_CameraManager   = std::make_shared<Core::CameraManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
-        m_Profiler        = std::make_shared<Core::Profiler>();
+        m_Profiler        = nullptr;// std::make_shared<Core::Profiler>();
         m_GraphicsDriver  = nullptr;
 
         m_IsRunning = false;
