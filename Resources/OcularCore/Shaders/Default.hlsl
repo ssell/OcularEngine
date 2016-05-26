@@ -63,6 +63,6 @@ VSOutput VSMain(VSInput input)
 
 float4 PSMain(VSOutput input) : SV_Target
 {
-	float4 color = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
+    float4 color = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
     return color;
 }

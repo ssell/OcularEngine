@@ -412,13 +412,13 @@ namespace Ocular
 
             if(group.indexTexture >= 0)
             {
-                OBJVector2 const* vec = &(m_CurrState->getTextureData()->at(group.indexSpatial));
+                OBJVector2 const* vec = &(m_CurrState->getTextureData()->at(group.indexTexture));
                 vert.uv0 = { vec->x, vec->y, 0.0f, 1.0f };
             }
 
             if(group.indexNormal >= 0)
             {
-                OBJVector4 const* vec = &(m_CurrState->getSpatialData()->at(group.indexSpatial));
+                OBJVector3 const* vec = &(m_CurrState->getNormalData()->at(group.indexNormal));
                 vert.normal = { vec->x, vec->y, vec->z, 1.0f };
             }
 
