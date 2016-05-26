@@ -37,7 +37,7 @@ bool openWindow()
     descriptor.colorBits     = 8;
     descriptor.depthBits     = 8;
     descriptor.stencilBits   = 8;
-    descriptor.displayMode   = WindowDisplayMode::WindowedBordered;
+    descriptor.displayMode   = WindowDisplayMode::FullscreenBordered;
     descriptor.exclusiveMode = false;
 
     if(OcularEngine.WindowManager()->openWindow(descriptor))

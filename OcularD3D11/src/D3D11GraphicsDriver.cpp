@@ -1087,20 +1087,20 @@ namespace Ocular
 #else
         DXGI_SWAP_CHAIN_DESC1 D3D11GraphicsDriver::createSwapChainDescription(Core::WindowWin32 const* window) const
         {
-            Core::WindowDescriptor windowDesc = window->getDescriptor();
+            Core::WindowDescriptor windowDescr = window->getDescriptor();
 
             DXGI_SWAP_CHAIN_DESC1 result;
             ZeroMemory(&result, sizeof(result));
 
-            result.Width              = windowDesc.width;
-            result.Height             = windowDesc.height;
+            result.Width              = 0;                            // Value of 0 uses the width of the output window
+            result.Height             = 0;                            // Value of 0 uses the height of the output window
             result.Format             = DXGI_FORMAT_R8G8B8A8_UNORM;
             result.Stereo             = FALSE;
             result.SampleDesc.Count   = 1;
             result.SampleDesc.Quality = 0;
             result.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-            result.BufferCount        = 1;
-            result.Scaling            = DXGI_SCALING_NONE;
+            result.BufferCount        = 2;
+            result.Scaling            = DXGI_SCALING_ASPECT_RATIO_STRETCH;
             result.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
             result.AlphaMode          = DXGI_ALPHA_MODE_UNSPECIFIED;
             result.Flags              = 0;
@@ -1176,35 +1176,37 @@ namespace Ocular
                         DXGI_SWAP_CHAIN_DESC1 swapChainDescr = createSwapChainDescription(window);
                         Core::WindowDescriptor windowDescr = window->getDescriptor();
 
-                        DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
-                        ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
-
-                        fullScreenDescr.RefreshRate.Numerator   = 60;
-                        fullScreenDescr.RefreshRate.Denominator = 1;
-                        fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-                        fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
-
                         if((windowDescr.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
                            (windowDescr.displayMode == Core::WindowDisplayMode::WindowedBorderless))
                         {
-                            fullScreenDescr.Windowed = TRUE;
+                            hResult = dxgiFactory->CreateSwapChainForHwnd(
+                                m_D3DDevice,
+                                window->getHWND(),
+                                &swapChainDescr,
+                                nullptr,
+                                nullptr,
+                                &m_D3DSwapChain);
                         }
-                        else
+                         else
                         {
-                            fullScreenDescr.Windowed = FALSE;
+                            DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
+                            ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
+
+                            fullScreenDescr.RefreshRate.Numerator   = 60;
+                            fullScreenDescr.RefreshRate.Denominator = 1;
+                            fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                            fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+                            fullScreenDescr.Windowed                = FALSE;
+                            
+
+                            hResult = dxgiFactory->CreateSwapChainForHwnd(
+                                m_D3DDevice,
+                                window->getHWND(),
+                                &swapChainDescr,
+                                &fullScreenDescr,
+                                nullptr,
+                                &m_D3DSwapChain);
                         }
-
-                        //------------------------------------------------
-                        // Create the SwapChain
-                        //------------------------------------------------
-
-                        hResult = dxgiFactory->CreateSwapChainForHwnd(
-                            m_D3DDevice,
-                            window->getHWND(),
-                            &swapChainDescr,
-                            &fullScreenDescr,
-                            NULL,
-                            &m_D3DSwapChain);
 
                         if(FAILED(hResult))
                         {
@@ -1296,35 +1298,37 @@ namespace Ocular
                         DXGI_SWAP_CHAIN_DESC1 swapChainDescr = createSwapChainDescription(window);
                         Core::WindowDescriptor windowDescr = window->getDescriptor();
 
-                        DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
-                        ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
-
-                        fullScreenDescr.RefreshRate.Numerator   = 60;
-                        fullScreenDescr.RefreshRate.Denominator = 1;
-                        fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-                        fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
-
                         if((windowDescr.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
                            (windowDescr.displayMode == Core::WindowDisplayMode::WindowedBorderless))
                         {
-                            fullScreenDescr.Windowed = TRUE;
+                            hResult = dxgiFactory->CreateSwapChainForHwnd(
+                                m_D3DDevice,
+                                window->getHWND(),
+                                &swapChainDescr,
+                                nullptr,
+                                nullptr,
+                                &m_D3DSwapChain);
                         }
-                        else
+                         else
                         {
-                            fullScreenDescr.Windowed = FALSE;
+                            DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDescr;
+                            ZeroMemory(&fullScreenDescr, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
+
+                            fullScreenDescr.RefreshRate.Numerator   = 60;
+                            fullScreenDescr.RefreshRate.Denominator = 1;
+                            fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                            fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+                            fullScreenDescr.Windowed                = FALSE;
+                            
+
+                            hResult = dxgiFactory->CreateSwapChainForHwnd(
+                                m_D3DDevice,
+                                window->getHWND(),
+                                &swapChainDescr,
+                                &fullScreenDescr,
+                                nullptr,
+                                &m_D3DSwapChain);
                         }
-
-                        //------------------------------------------------
-                        // Create the SwapChain
-                        //------------------------------------------------
-
-                        hResult = dxgiFactory->CreateSwapChainForHwnd(
-                            m_D3DDevice,
-                            window->getHWND(),
-                            &swapChainDescr,
-                            &fullScreenDescr,
-                            NULL,
-                            &m_D3DSwapChain);
 
                         if(FAILED(hResult))
                         {

@@ -221,3 +221,4 @@ OcularEditor/projects/vs2013/Resources/testnew.oscene
 *.omat
 *.db
 *.dll
+*.opendb
