@@ -30,11 +30,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         RenderFrame::RenderFrame(QWidget *parent)
-            : QFrame(parent),
-              m_Input(new InputTranslator(this))
+            : QFrame(parent)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setFrameStyle(QFrame::Panel | QFrame::Plain);
+            setFocusPolicy(Qt::StrongFocus);                         // Critical! Without it, the QFrame will never receive keyboard input events
             setLineWidth(1);
 
             //------------------------------------------------------------
@@ -54,7 +54,6 @@ namespace Ocular
             //------------------------------------------------------------
 
             setStyleSheet(GeneralStyles::frameStyle);
-            installEventFilter(m_Input);
         }
 
         RenderFrame::~RenderFrame()
@@ -69,6 +68,16 @@ namespace Ocular
         QSize RenderFrame::sizeHint() const
         {
             return QSize(700, 700);
+        }
+
+        void RenderFrame::keyPressEvent(QKeyEvent* event)
+        {
+            InputTranslator::TranslateKeyPress(event);
+        }
+
+        void RenderFrame::keyReleaseEvent(QKeyEvent* event)
+        {
+            InputTranslator::TranslateKeyRelease(event);
         }
 
         void RenderFrame::wheelEvent(QWheelEvent* event)

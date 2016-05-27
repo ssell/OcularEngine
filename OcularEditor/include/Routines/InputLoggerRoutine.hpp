@@ -14,56 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef __H__OCULAR_EDITOR_INPUT_TRANSLATOR__H__
-#define __H__OCULAR_EDITOR_INPUT_TRANSLATOR__H__
+#pragma once
+#ifndef __H__OCULAR_EDITOR_ROUTINE_INPUT_LOGGER__H__
+#define __H__OCULAR_EDITOR_ROUTINE_INPUT_LOGGER__H__
 
-#include "Input/Keys.hpp"
+#include "Scene/ARoutine.hpp"
 
 //------------------------------------------------------------------------------------------
 
-class QEvent;
-
-/**
- * \addtogroup Ocular
- * @{
- */
 namespace Ocular
 {
-    /**
-     * \addtogroup Editor
-     * @{
-     */
     namespace Editor
     {
-        /**
-         * \class InputTranslator
-         * \brief Translates QT input events into Ocular input events
-         */
-        class InputTranslator
+        class InputLogger : public Core::ARoutine
         {
         public:
-    
-            static bool TranslateKeyPress(QEvent* event);
-            static bool TranslateKeyRelease(QEvent* event);
-            static bool TranslateMousePress(QEvent* event);
-            static bool TranslateMouseRelease(QEvent* event);
-            static bool TranslateMouseMove(QEvent* event);
+
+            InputLogger();
+            virtual ~InputLogger();
+
+            virtual bool onEvent(std::shared_ptr<Ocular::Core::AEvent> event);
 
         protected:
-
-            static Core::KeyboardKeys ConvertKey(int32_t key);
-            static Core::MouseButtons ConvertButton(int32_t button);
 
         private:
         };
     }
-    /**
-     * @} End of Doxygen Groups
-     */
 }
-/**
- * @} End of Doxygen Groups
- */
 
 //------------------------------------------------------------------------------------------
 

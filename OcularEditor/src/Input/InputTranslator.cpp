@@ -29,62 +29,11 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        InputTranslator::InputTranslator(QObject* parent)
-            : QObject(parent)
-        {
-
-        }
-
-        InputTranslator::~InputTranslator()
-        {
-
-        }
-
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        //----------------------------------------------------------------------------------
-        // PROTECTED METHODS
-        //----------------------------------------------------------------------------------
-
-        bool InputTranslator::eventFilter(QObject* obj, QEvent* event)
-        {
-            bool result = false;
-
-            if(event)
-            {
-                if(event->type() == QEvent::KeyPress)
-                {
-                    result = processKeyPress(event);
-                }
-                else if(event->type() == QEvent::KeyRelease)
-                {
-                    result = processKeyRelease(event);
-                }
-                else if(event->type() == QEvent::MouseButtonPress)
-                {
-                    result = processMousePress(event);
-                }
-                else if(event->type() == QEvent::MouseButtonRelease)
-                {
-                    result = processMouseRelease(event);
-                }
-                else if(event->type() == QEvent::MouseMove)
-                {
-                    result = processMouseMove(event);
-                }
-                else
-                {
-                    result = QObject::eventFilter(obj, event);
-                }
-            }
-
-            // Return TRUE to consume the event (filter it)
-            return result;
-        }
-
-        bool InputTranslator::processKeyPress(QEvent* event)
+        bool InputTranslator::TranslateKeyPress(QEvent* event)
         {
             bool result = false;
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
@@ -92,7 +41,7 @@ namespace Ocular
             if(keyEvent)
             {
                 const int32_t key = keyEvent->key();
-                const Core::KeyboardKeys okey = convertKey(key);
+                const Core::KeyboardKeys okey = ConvertKey(key);
 
                 if(okey != Core::KeyboardKeys::Undefined)
                 {
@@ -103,7 +52,7 @@ namespace Ocular
             return result;
         }
 
-        bool InputTranslator::processKeyRelease(QEvent* event)
+        bool InputTranslator::TranslateKeyRelease(QEvent* event)
         {
             bool result = false;
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
@@ -111,7 +60,7 @@ namespace Ocular
             if(keyEvent)
             {
                 const int32_t key = keyEvent->key();
-                const Core::KeyboardKeys okey = convertKey(key);
+                const Core::KeyboardKeys okey = ConvertKey(key);
 
                 if(okey != Core::KeyboardKeys::Undefined)
                 {
@@ -122,7 +71,7 @@ namespace Ocular
             return result;
         }
 
-        bool InputTranslator::processMousePress(QEvent* event)
+        bool InputTranslator::TranslateMousePress(QEvent* event)
         {
             bool result = false;
             QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
@@ -130,7 +79,7 @@ namespace Ocular
             if(mouseEvent)
             {
                 const int32_t button = static_cast<int32_t>(mouseEvent->button());
-                Core::MouseButtons obutton = convertButton(button);
+                Core::MouseButtons obutton = ConvertButton(button);
 
                 if(obutton != Core::MouseButtons::Undefined)
                 {
@@ -141,7 +90,7 @@ namespace Ocular
             return result;
         }
 
-        bool InputTranslator::processMouseRelease(QEvent* event)
+        bool InputTranslator::TranslateMouseRelease(QEvent* event)
         {
             bool result = false;
             QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
@@ -149,7 +98,7 @@ namespace Ocular
             if(mouseEvent)
             {
                 const int32_t button = static_cast<int32_t>(mouseEvent->button());
-                Core::MouseButtons obutton = convertButton(button);
+                Core::MouseButtons obutton = ConvertButton(button);
 
                 if(obutton != Core::MouseButtons::Undefined)
                 {
@@ -160,7 +109,7 @@ namespace Ocular
             return result;
         }
 
-        bool InputTranslator::processMouseMove(QEvent* event)
+        bool InputTranslator::TranslateMouseMove(QEvent* event)
         {
             bool result = false;
             QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
@@ -173,7 +122,11 @@ namespace Ocular
             return result;
         }
 
-        Core::KeyboardKeys InputTranslator::convertKey(int32_t const key)
+        //----------------------------------------------------------------------------------
+        // PROTECTED METHODS
+        //----------------------------------------------------------------------------------
+
+        Core::KeyboardKeys InputTranslator::ConvertKey(int32_t const key)
         {
             // http://doc.qt.io/qt-5/qt.html#Key-enum
 
@@ -670,7 +623,7 @@ namespace Ocular
             return result;
         }
 
-        Core::MouseButtons InputTranslator::convertButton(int32_t const button)
+        Core::MouseButtons InputTranslator::ConvertButton(int32_t const button)
         {
             Core::MouseButtons result = Core::MouseButtons::Undefined;
 

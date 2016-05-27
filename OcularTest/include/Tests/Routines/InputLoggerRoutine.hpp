@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
+#pragma once
+#ifndef __H__OCULAR_TEST_ROUTINE_INPUT_LOGGER__H__
+#define __H__OCULAR_TEST_ROUTINE_INPUT_LOGGER__H__
+
 #include "Scene/ARoutine.hpp"
 
 //------------------------------------------------------------------------------------------
 
-class InputLoggerRoutine : public Ocular::Core::ARoutine
+class InputLoggerRoutine : public Core::ARoutine
 {
 public:
 
     InputLoggerRoutine();
     ~InputLoggerRoutine();
 
-    virtual bool onEvent(std::shared_ptr<Ocular::Core::AEvent> event);
+    virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
 protected:
 
 private:
 };
+
+//------------------------------------------------------------------------------------------
+
+#endif
