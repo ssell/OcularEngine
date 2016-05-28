@@ -340,8 +340,8 @@ namespace Ocular
         Quaternion Quaternion::CreateLookAtRotation(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up)
         {
             Quaternion result;
-
-            glm::mat4 lookAtMatrix = glm::lookAtRH(glm::vec3(from.x, from.y, from.z), glm::vec3(to.x, to.y, to.z), glm::vec3(up.x, up.y, up.z));
+            
+            glm::mat4 lookAtMatrix = glm::lookAt(glm::vec3(from.x, from.y, from.z), glm::vec3(to.x, to.y, to.z), glm::vec3(up.x, up.y, up.z));
             result = Quaternion(Quaternion_Internal(glm::quat(lookAtMatrix)));
 
             return result;

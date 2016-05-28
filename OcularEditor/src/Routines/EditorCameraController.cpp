@@ -21,6 +21,7 @@
 #include "Scene/SceneObject.hpp"
 #include "Events/Events/MouseScrollInputEvent.hpp"
 #include "Math/Bounds/Ray.hpp"
+#include "Math/MathUtils.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -33,7 +34,8 @@ namespace
         Default = 0,
         Drag,
         Look,
-        Pan
+        Pan,
+        Orbit
     };
 
     const float FocusProcessTime = 0.25f;       // Amount of time, in seconds, to process a camera focus move event
@@ -55,6 +57,7 @@ namespace Ocular
               m_LookSensitivity(0.001f),
               m_PanSensitivity(0.001f),
               m_ZoomSensitivity(0.001f),          // Scroll events typically generate deltas of 120, so default to treat as 0.12
+              m_OrbitSensitivity(0.01f),
               m_IsMovingFocus(false),
               m_FocusElapsed(0.0f)
         {
@@ -125,6 +128,7 @@ namespace Ocular
                     m_FocusEndPos   = ray.getPointAlong(offset);
                     m_IsMovingFocus = true;
                     m_FocusElapsed  = FocusProcessTime;
+                    m_OrbitPoint    = objCenter.xyz();
                 }
             }
         }
@@ -195,8 +199,16 @@ namespace Ocular
             {
                 if(OcularInput->isMouseButtonDown(Core::MouseButtons::Left))
                 {
-                    m_Mode = CameraMode::Drag;
-                    m_LastMousePos = OcularInput->getMousePosition();
+                    if(OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltLeft) || 
+                       OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltRight))
+                    {
+                        m_Mode = CameraMode::Orbit;
+                    }
+                    else
+                    {
+                        m_Mode = CameraMode::Drag;
+                        m_LastMousePos = OcularInput->getMousePosition();
+                    }
                 }
                 else if(OcularInput->isMouseButtonDown(Core::MouseButtons::Right))
                 {
@@ -242,7 +254,24 @@ namespace Ocular
                 break;
             }
 
+            case CameraMode::Orbit:
+            {
+                if(!OcularInput->isLeftMouseDown())
+                {
+                    m_Mode = CameraMode::Default;
+                }
+                else
+                {
+                    if(!OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltLeft) &&
+                       !OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltRight))
+                    {
+                        m_Mode = CameraMode::Drag;
+                    }
+                }
+            }
+
             default:
+                m_Mode = CameraMode::Default;
                 break;
             }
         }
@@ -277,6 +306,10 @@ namespace Ocular
                         handleMousePan();
                         break;
 
+                    case CameraMode::Orbit:
+                        handleMouseOrbit();
+                        break;
+
                     default:
                         break;
                     }
@@ -302,6 +335,20 @@ namespace Ocular
         void EditorCameraController::handleMousePan()
         {
             m_Parent->translate(m_DeltaVector * m_PanSensitivity);
+        }
+
+        void EditorCameraController::handleMouseOrbit()
+        {
+            const float radius = m_Parent->getPosition().distanceTo(m_OrbitPoint);
+
+            m_Parent->translate(m_DeltaVector * m_OrbitSensitivity);
+            m_Parent->lookAt(m_OrbitPoint);
+
+            const Math::Vector3f pointToEye = m_OrbitPoint - m_Parent->getPosition();
+
+            //m_Parent->setPosition(m_OrbitPoint + (pointToEye.getNormalized() * radius));
+
+            m_LookEuler = m_Parent->getTransform().getRotation();
         }
 
         //----------------------------------------------------------------------------------

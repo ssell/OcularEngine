@@ -37,6 +37,12 @@ namespace Ocular
         /**
          * \class EditorCameraController
          *
+         * Supports a variety of camera controls:
+         *
+         *     - Looking around via right-mouse button + mouse movement
+         *     - Panning via middle-mouse button + mouse movement
+         *     - Orbiting via alt + left-mouse button + mouse movement
+         *     - Zooming via scroll wheel
          */
         class EditorCameraController : public Core::ARoutine
         {
@@ -76,6 +82,7 @@ namespace Ocular
             void handleMousePan();
             void handleMouseDrag();
             void handleMouseLook();
+            void handleMouseOrbit();
 
         private:
 
@@ -84,6 +91,7 @@ namespace Ocular
             float m_PanSensitivity;
             float m_ZoomSensitivity;
             float m_LookSensitivity;
+            float m_OrbitSensitivity;
 
             Math::Vector2i m_LastMousePos;
             Math::Vector3f m_DeltaVector;
@@ -97,6 +105,8 @@ namespace Ocular
 
             Math::Vector3f m_FocusStartPos;    ///< The position that the focus move started at
             Math::Vector3f m_FocusEndPos;      ///< The position that the focus move will end at
+
+            Math::Vector3f m_OrbitPoint;       ///< Point in space to orbit the camera around
         };
     }
     /**

@@ -300,6 +300,11 @@ namespace Ocular
             /**
              *
              */
+            void lookAt(Math::Vector3f const& point);
+
+            /**
+             *
+             */
             Math::Transform const& getTransform() const;
 
             /**

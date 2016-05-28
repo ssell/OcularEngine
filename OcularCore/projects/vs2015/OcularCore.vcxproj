@@ -410,6 +410,7 @@
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />
     <ClInclude Include="..\..\include\Math\MathInternal.hpp" />
+    <ClInclude Include="..\..\include\Math\MathUtils.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix3x3.hpp" />
     <ClInclude Include="..\..\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\include\Math\MatrixStack.hpp" />

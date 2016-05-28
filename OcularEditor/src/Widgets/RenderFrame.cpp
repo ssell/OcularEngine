@@ -80,6 +80,21 @@ namespace Ocular
             InputTranslator::TranslateKeyRelease(event);
         }
 
+        void RenderFrame::mouseMoveEvent(QMouseEvent* event)
+        {
+            InputTranslator::TranslateMouseMove(event);
+        }
+
+        void RenderFrame::mousePressEvent(QMouseEvent* event)
+        {
+            InputTranslator::TranslateMousePress(event);
+        }
+
+        void RenderFrame::mouseReleaseEvent(QMouseEvent* event)
+        {
+            InputTranslator::TranslateMouseRelease(event);
+        }
+
         void RenderFrame::wheelEvent(QWheelEvent* event)
         {
             if(event)
