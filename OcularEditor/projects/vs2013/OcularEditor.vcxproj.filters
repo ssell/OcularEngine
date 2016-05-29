@@ -96,7 +96,7 @@
     <Filter Include="Source Files\Widgets\Properties\Renderables">
       <UniqueIdentifier>{ff27e6d5-b168-4ef9-8784-8a1c885c0edb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Input\Events">
+    <Filter Include="Source Files\Events">
       <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -165,7 +165,7 @@
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
-      <Filter>Source Files\Input\Events</Filter>
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
       <Filter>Source Files\Widgets</Filter>
@@ -371,6 +371,9 @@
     <ClCompile Include="..\..\src\Routines\InputLoggerRoutine.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -528,6 +531,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp">
       <Filter>Header Files\Routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

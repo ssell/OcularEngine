@@ -18,6 +18,9 @@
 #include "D3D11GraphicsDriver.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
+#include "Events/SceneObjectSelectedEvent.hpp"
+#include "Events/SceneObjectFocusedEvent.hpp"
+
 #include "Widgets/MainStatusBar.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
@@ -40,8 +43,13 @@ namespace Ocular
         }
 
         Editor::Editor()
+            : AEventListener(),
+              m_MainWindow(nullptr),
+              m_EditorCamera(nullptr),
+              m_SelectedObject(nullptr),
+              m_FocusedObject(nullptr)
         {
-
+            
         }
 
         Editor::~Editor()
@@ -66,6 +74,8 @@ namespace Ocular
 
             if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
             {
+                OcularEvents->registerListener(this, Core::Priority::Medium);
+
                 m_MainWindow = new MainWindow();
                 m_MainWindow->show();
                 m_MainWindow->showMaximized();
@@ -115,18 +125,44 @@ namespace Ocular
             return result;
         }
 
+        bool Editor::onEvent(std::shared_ptr<Core::AEvent> event)
+        {
+            if(event->isType<SceneObjectSelectedEvent>())
+            {
+                SceneObjectSelectedEvent* cast = dynamic_cast<SceneObjectSelectedEvent*>(event.get());
+                m_SelectedObject = cast->object;
+            }
+            else if(event->isType<SceneObjectFocusedEvent>())
+            {
+                SceneObjectFocusedEvent* cast = dynamic_cast<SceneObjectFocusedEvent*>(event.get());
+                m_FocusedObject = cast->object;
+            }
+
+            return true;
+        }
+
         //----------------------------------------------------------------------------------
         // Primary Getters
         //----------------------------------------------------------------------------------
 
-        MainWindow* Editor::getMainWindow()
+        MainWindow* Editor::getMainWindow() const
         {
             return m_MainWindow;
         }
 
-        Core::Camera* Editor::getEditorCamera()
+        Core::Camera* Editor::getEditorCamera() const
         {
             return m_EditorCamera;
+        }
+
+        Core::SceneObject* Editor::getSelectedObject() const
+        {
+            return m_SelectedObject;
+        }
+
+        Core::SceneObject* Editor::getFocusedObject() const
+        {
+            return m_FocusedObject;
         }
         
         //----------------------------------------------------------------------------------

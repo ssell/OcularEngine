@@ -19,11 +19,12 @@
 
 #include "Scene/RoutineRegistrar.hpp"
 #include "Scene/SceneObject.hpp"
+
 #include "Events/Events/MouseScrollInputEvent.hpp"
+#include "Events/SceneObjectFocusedEvent.hpp"
+
 #include "Math/Bounds/Ray.hpp"
 #include "Math/MathUtils.hpp"
-
-#include "OcularEngine.hpp"
 
 OCULAR_REGISTER_ROUTINE(Ocular::Editor::EditorCameraController, "EditorCameraController")
 
@@ -87,6 +88,8 @@ namespace Ocular
                 updateFocusMove(delta);
                 updateCameraMode();
                 handleMouseMovement();
+
+                
             }
         }
 
@@ -94,17 +97,11 @@ namespace Ocular
         {
             if(event->isType<Core::MouseScrollInputEvent>())
             {
-                Core::MouseScrollInputEvent* scrollEvent = dynamic_cast<Core::MouseScrollInputEvent*>(event.get());
-
-                if(m_Parent)
-                {
-                    // Use -delta so that scrolling 'forward' moves the camera forward
-                    const float scrollDelta = static_cast<float>(-scrollEvent->delta) * m_ZoomSensitivity;
-                    const Math::Vector3f movement = Math::Vector3f(0.0f, 0.0f, scrollDelta);
-
-                    m_Parent->translate(movement);
-                    m_OrbitDistance += scrollDelta;
-                }
+                handleEventMouseScroll(dynamic_cast<Core::MouseScrollInputEvent*>(event.get()));
+            }
+            else if(event->isType<SceneObjectFocusedEvent>())
+            {
+                handleEventObjectFocused(dynamic_cast<SceneObjectFocusedEvent*>(event.get()));
             }
 
             return true;
@@ -113,29 +110,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Controller Specific Methods
         //----------------------------------------------------------------------------------
-
-        void EditorCameraController::focus(Core::SceneObject const* object)
-        {
-            if(object)
-            {
-                if(m_Parent)
-                {
-                    const Math::Matrix4x4 objMatrix = object->getModelMatrix(false);
-
-                    const Math::Vector4f objCenter = objMatrix * Math::Vector4f(object->boundsAABB.getCenter());
-                    const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
-
-                    const float offset = std::max(1.0f, object->boundsSphere.getRadius() * 5.0f);
-                    const Math::Ray ray = Math::Ray(Math::Vector3f(objCenter.x, objCenter.y, objCenter.z), forward);
-
-                    m_FocusStartPos = m_Parent->getTransform().getPosition();
-                    m_FocusEndPos   = ray.getPointAlong(offset);
-                    m_IsMovingFocus = true;
-                    m_FocusElapsed  = FocusProcessTime;
-                    m_OrbitDistance = std::fabsf(objCenter.xyz().distanceTo(m_FocusEndPos));
-                }
-            }
-        }
 
         void EditorCameraController::setLookSensitivity(float sensitivity)
         {
@@ -277,6 +251,47 @@ namespace Ocular
             default:
                 m_Mode = CameraMode::Default;
                 break;
+            }
+        }
+
+        void EditorCameraController::handleEventMouseScroll(Core::MouseScrollInputEvent* event)
+        {
+            if(event)
+            {
+                if(m_Parent)
+                {
+                    // Use -delta so that scrolling 'forward' moves the camera forward
+                    const float scrollDelta = static_cast<float>(-event->delta) * m_ZoomSensitivity;
+                    const Math::Vector3f movement = Math::Vector3f(0.0f, 0.0f, scrollDelta);
+
+                    m_Parent->translate(movement);
+                    m_OrbitDistance += scrollDelta;
+                }
+            }
+        }
+
+        void EditorCameraController::handleEventObjectFocused(SceneObjectFocusedEvent* event)
+        {
+            if(event)
+            {
+                auto object = event->object;
+
+                if(m_Parent && object)
+                {
+                    const Math::Matrix4x4 objMatrix = object->getModelMatrix(false);
+
+                    const Math::Vector4f objCenter = objMatrix * Math::Vector4f(object->boundsAABB.getCenter());
+                    const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
+
+                    const float offset = std::max(1.0f, object->boundsSphere.getRadius() * 5.0f);
+                    const Math::Ray ray = Math::Ray(Math::Vector3f(objCenter.x, objCenter.y, objCenter.z), forward);
+
+                    m_FocusStartPos = m_Parent->getTransform().getPosition();
+                    m_FocusEndPos   = ray.getPointAlong(offset);
+                    m_IsMovingFocus = true;
+                    m_FocusElapsed  = FocusProcessTime;
+                    m_OrbitDistance = std::fabsf(objCenter.xyz().distanceTo(m_FocusEndPos));
+                }
             }
         }
 

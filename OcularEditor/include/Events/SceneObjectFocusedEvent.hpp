@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_SELECTED__H__
-#define __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_SELECTED__H__
+#ifndef __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_FOCUSED__H__
+#define __H__OCULAR_EDITOR_EVENTS_SCENE_OBJECT_FOCUSED__H__
 
 #include "Events/AEvent.hpp"
 #include "Scene/SceneObject.hpp"
@@ -36,25 +36,25 @@ namespace Ocular
     namespace Editor
     {
         /** 
-         * \class SceneObjectSelectedEvent
+         * \class SceneObjectFocusedEvent
          * 
-         * Event generated when a SceneObject has selected.
-         * For example, when an object is single-clicked in the SceneTree widget.
+         * Event generated when a SceneObject has been focused on.
+         * For example, when an object is double-clicked in the SceneTree widget.
          *
-         * See also SceneObjectFocusedEvent
+         * See also SceneObjectSelectedEvent
          *
-         * String Descriptor: "SceneObjectSelectedEvent" <br/>
+         * String Descriptor: "SceneObjectFocusedEvent" <br/>
          * Event Priority: Medium 
          */
-        class SceneObjectSelectedEvent : public Core::AEvent
+        class SceneObjectFocusedEvent : public Core::AEvent
         {
         public:
-            
+
             /**
-             * \param[in] object Pointer to object that was selected. Set to NULL to indicate previous object was unselected.
+             * \param[in] object Pointer to object that was focused. Set to NULL to indicate previous object was unfocused.
              */
-            SceneObjectSelectedEvent(Core::SceneObject* object);
-            ~SceneObjectSelectedEvent();
+            SceneObjectFocusedEvent(Core::SceneObject* object);
+            ~SceneObjectFocusedEvent();
 
             Core::SceneObject* object;
 

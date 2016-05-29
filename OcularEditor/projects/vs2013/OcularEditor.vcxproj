@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp" />
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp" />
     <ClCompile Include="..\..\src\Input\InputTranslator.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -329,6 +330,7 @@
     <ClCompile Include="..\..\src\Widgets\ToolbarCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp" />
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp" />

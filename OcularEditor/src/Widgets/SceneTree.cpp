@@ -15,12 +15,14 @@
  */
 
 #include "stdafx.h"
+
 #include "Widgets/SceneTree.hpp"
 #include "Widgets/SceneTreeItem.hpp"
+
 #include "Events/Events/SceneObjectAddedEvent.hpp"
 #include "Events/Events/SceneObjectRemovedEvent.hpp"
 #include "Events/SceneObjectSelectedEvent.hpp"
-#include "Routines/EditorCameraController.hpp"
+#include "Events/SceneObjectFocusedEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -189,17 +191,7 @@ namespace Ocular
 
                     if(focusObject)
                     {
-                        Core::Camera* editorCamera = OcularEditor.getEditorCamera();
-
-                        if(editorCamera)
-                        {
-                            EditorCameraController* controller = dynamic_cast<EditorCameraController*>(editorCamera->getRoutine("EditorCameraController"));
-
-                            if(controller)
-                            {
-                                controller->focus(focusObject);
-                            }
-                        }
+                        OcularEvents->queueEvent(std::make_shared<SceneObjectFocusedEvent>(focusObject));
                     }
                 }
             }

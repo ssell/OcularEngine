@@ -28,12 +28,19 @@
  */
 namespace Ocular
 {
+    namespace Core
+    {
+        class MouseScrollInputEvent;
+    }
+
     /**
      * \addtogroup Core
      * @{
      */
     namespace Editor
     {
+        class SceneObjectFocusedEvent;
+
         /**
          * \class EditorCameraController
          *
@@ -43,6 +50,7 @@ namespace Ocular
          *     - Panning via middle-mouse button + mouse movement
          *     - Orbiting via alt + left-mouse button + mouse movement
          *     - Zooming via scroll wheel
+         *     - Focusing via SceneObjectFocusedEvent
          */
         class EditorCameraController : public Core::ARoutine
         {
@@ -61,8 +69,6 @@ namespace Ocular
             //------------------------------------------------------------
             // Controller Specific Methods
             //------------------------------------------------------------
-
-            void focus(Core::SceneObject const* object);
             
             void setLookSensitivity(float sensitivity);
             float getLookSensitivity() const;
@@ -77,6 +83,9 @@ namespace Ocular
 
             void updateFocusMove(float const delta);
             void updateCameraMode();
+
+            void handleEventMouseScroll(Core::MouseScrollInputEvent* event);
+            void handleEventObjectFocused(SceneObjectFocusedEvent* event);
 
             void handleMouseMovement();
             void handleMousePan();

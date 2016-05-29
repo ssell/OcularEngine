@@ -42,7 +42,7 @@ namespace Ocular
         /**
          *
          */
-        class Editor
+        class Editor : public Core::AEventListener
         {
         public:
 
@@ -64,12 +64,40 @@ namespace Ocular
             /**
              * \return Pointer to the main Qt window for the editor application.
              */
-            MainWindow* getMainWindow();
+            MainWindow* getMainWindow() const;
 
             /**
              * \return Pointer to the editor-specific camera used to view scenes.
              */
-            Core::Camera* getEditorCamera();
+            Core::Camera* getEditorCamera() const;
+
+            /**
+             * Returns a pointer to the currently selected SceneObject.
+             * This object is set via the handling of SceneObjectSelectedEvent.
+             *
+             * It should be noted that while it is common for getSelectedObject
+             * and getFocusedObject to return the SceneObject, there is no 
+             * guarantee that this is always the case. They can be two completely
+             * separate SceneObjects.
+             *
+             * \return Pointer to the currently selected SceneObject. Returns NULL if none currently selected.
+             */
+            Core::SceneObject* getSelectedObject() const;
+
+            /**
+             * Returns a pointer to the currently focused SceneObject.
+             * This object is set via the handling of SceneObjectFocusedEvent.
+             *
+             * It should be noted that while it is common for getSelectedObject
+             * and getFocusedObject to return the SceneObject, there is no 
+             * guarantee that this is always the case. They can be two completely
+             * separate SceneObjects.
+             *
+             * \return Pointer to the currently focused SceneObject. Returns NULL if none currently focused.
+             */
+            Core::SceneObject* getFocusedObject() const;
+
+            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
             //------------------------------------------------------------
             // Misc Methods
@@ -193,6 +221,9 @@ namespace Ocular
 
             MainWindow* m_MainWindow;
             Core::Camera* m_EditorCamera;
+
+            Core::SceneObject* m_SelectedObject;
+            Core::SceneObject* m_FocusedObject;
 
             Core::ComponentFactory<PropertyWidget> m_PropertyWidgetFactory;
             Core::ComponentFactory<PropertiesDisplayBox> m_CustomDisplayFactory;
