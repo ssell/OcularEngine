@@ -291,9 +291,8 @@ namespace Ocular
                                (details->getType() == m_ResourceLoaderManager.getResourceType(findFile->second.getExtension())))
                             {
                                 // The type of the requested Resource matches that of the type associated with the file
-                                m_ResourceLoaderManager.loadResource(resource, findFile->second, lowerPath);
 
-                                if(resource)
+                                if(m_ResourceLoaderManager.loadResource(resource, findFile->second, lowerPath) && resource)
                                 {
                                     resource->setMappingName(lowerPath);
                                     details->m_Resource = resource;
@@ -301,8 +300,13 @@ namespace Ocular
                                 }
                                 else
                                 {
+                                    if(resource)
+                                    {
+                                        delete resource;
+                                        resource = nullptr;
+                                    }
+
                                     OcularLogger->error("Failed to create resource at '", findFile->second.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceManager", "getResource"));
-                                    result = nullptr; // We return null on failure irregardless
                                 }
                             }
                             else

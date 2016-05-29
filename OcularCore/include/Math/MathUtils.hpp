@@ -63,14 +63,21 @@ namespace Ocular
          */
         static Vector3f PointOnSphere(Vector3f const& center, float const radius, float const angleX, float const angleY)
         {
+            // https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates
+
+            // Where, 
+            //         r = radius
+            //     theta = inclination = radX
+            //       phi = azimuth = radY
+
             const float radX = DegreesToRadians(angleX);
             const float radY = DegreesToRadians(angleY);
 
             Vector3f result = center;
 
-            result.x += cosf(radX) * sinf(radY) * radius;
-            result.y += sinf(radX) * sinf(radY) * radius;
-            result.z += cosf(radY) * radius;
+            result.x += radius * sinf(radX) * cosf(radY);
+            result.y += radius * sinf(radX) * sinf(radY);
+            result.z += radius * cosf(radX);
 
             return result;
         }

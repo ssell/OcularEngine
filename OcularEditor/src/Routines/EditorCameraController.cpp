@@ -57,9 +57,10 @@ namespace Ocular
               m_LookSensitivity(0.001f),
               m_PanSensitivity(0.001f),
               m_ZoomSensitivity(0.001f),          // Scroll events typically generate deltas of 120, so default to treat as 0.12
-              m_OrbitSensitivity(0.01f),
+              m_OrbitSensitivity(0.003f),
               m_IsMovingFocus(false),
-              m_FocusElapsed(0.0f)
+              m_FocusElapsed(0.0f),
+              m_OrbitDistance(0.0f)
         {
             OcularEvents->registerListener(this, Core::Priority::Medium);
         }
@@ -98,8 +99,11 @@ namespace Ocular
                 if(m_Parent)
                 {
                     // Use -delta so that scrolling 'forward' moves the camera forward
-                    Math::Vector3f movement = Math::Vector3f(0.0f, 0.0f, (static_cast<float>(-scrollEvent->delta) * m_ZoomSensitivity));
+                    const float scrollDelta = static_cast<float>(-scrollEvent->delta) * m_ZoomSensitivity;
+                    const Math::Vector3f movement = Math::Vector3f(0.0f, 0.0f, scrollDelta);
+
                     m_Parent->translate(movement);
+                    m_OrbitDistance += scrollDelta;
                 }
             }
 
@@ -128,7 +132,7 @@ namespace Ocular
                     m_FocusEndPos   = ray.getPointAlong(offset);
                     m_IsMovingFocus = true;
                     m_FocusElapsed  = FocusProcessTime;
-                    m_OrbitPoint    = objCenter.xyz();
+                    m_OrbitDistance = std::fabsf(objCenter.xyz().distanceTo(m_FocusEndPos));
                 }
             }
         }
@@ -339,16 +343,23 @@ namespace Ocular
 
         void EditorCameraController::handleMouseOrbit()
         {
-            const float radius = m_Parent->getPosition().distanceTo(m_OrbitPoint);
+            //------------------------------------------------------------
+            // Calculate the point we are orbiting around
+            // This is a point projected from our current position/forwards vector
 
-            m_Parent->translate(m_DeltaVector * m_OrbitSensitivity);
-            m_Parent->lookAt(m_OrbitPoint);
+            const Math::Ray preRay = Math::Ray(m_Parent->getPosition(), m_Parent->getTransform().getForwards().getNormalized());
+            const Math::Vector3f orbitPoint = preRay.getPointAlong(-m_OrbitDistance);
 
-            const Math::Vector3f pointToEye = m_OrbitPoint - m_Parent->getPosition();
+            //------------------------------------------------------------
+            // Rotate the camera
 
-            //m_Parent->setPosition(m_OrbitPoint + (pointToEye.getNormalized() * radius));
+            handleMouseLook();
 
-            m_LookEuler = m_Parent->getTransform().getRotation();
+            //------------------------------------------------------------
+            // Calculate our new position (post-rotate) in relation to the orbit point
+
+            const Math::Ray postRay = Math::Ray(orbitPoint, m_Parent->getTransform().getForwards().getNormalized());
+            m_Parent->setPosition(postRay.getPointAlong(m_OrbitDistance));
         }
 
         //----------------------------------------------------------------------------------

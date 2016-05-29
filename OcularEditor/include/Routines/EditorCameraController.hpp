@@ -106,7 +106,7 @@ namespace Ocular
             Math::Vector3f m_FocusStartPos;    ///< The position that the focus move started at
             Math::Vector3f m_FocusEndPos;      ///< The position that the focus move will end at
 
-            Math::Vector3f m_OrbitPoint;       ///< Point in space to orbit the camera around
+            float m_OrbitDistance;             ///< Distance to orbit the camera 
         };
     }
     /**
