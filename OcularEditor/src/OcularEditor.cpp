@@ -18,6 +18,7 @@
 #include "D3D11GraphicsDriver.hpp"
 #include "D3D11DynamicRegistration.hpp"
 
+#include "Widgets/MainStatusBar.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
 #include <regex>
@@ -53,6 +54,10 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        //----------------------------------------------------------------------------------
+        // Core Lifetime Methods
+        //----------------------------------------------------------------------------------
+
         bool Editor::initialize(int argc, char** argv)
         {
             bool result = false;
@@ -70,8 +75,21 @@ namespace Ocular
                     if(setupEditorCamera())
                     {
                         result = true;
+                        OcularLogger->info("Successfully initialized ", OCULAR_VERSION);
+                    }
+                    else
+                    {
+                        OcularLogger->error("Failed to initialize Ocular Editor: failed to setup Editor cameras");
                     }
                 }
+                else
+                {
+                    OcularLogger->error("Failed to initialize Ocular Editor: failed to initialize Ocular Graphics system");
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to initialize Ocular Editor: failed to initialize Ocular Engine");
             }
 
             return result;
@@ -98,7 +116,7 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------------------------
-        // Getters
+        // Primary Getters
         //----------------------------------------------------------------------------------
 
         MainWindow* Editor::getMainWindow()
@@ -110,6 +128,49 @@ namespace Ocular
         {
             return m_EditorCamera;
         }
+        
+        //----------------------------------------------------------------------------------
+        // Misc Methods
+        //----------------------------------------------------------------------------------
+
+        void Editor::setStatusNormal(std::string const& message)
+        {
+            auto statusBar = m_MainWindow->getMainStatusBar();
+
+            if(statusBar)
+            {
+                statusBar->addWidget(new QLabel(message.c_str()));
+            }
+        }
+
+        void Editor::setStatusPermanent(std::string const& message)
+        {
+            auto statusBar = m_MainWindow->getMainStatusBar();
+
+            if(statusBar)
+            {
+                statusBar->addPermanentWidget(new QLabel(message.c_str()));
+            }
+        }
+
+        void Editor::setStatusTemporary(std::string const& message, uint32_t const lifetime)
+        {
+            auto statusBar = m_MainWindow->getMainStatusBar();
+
+            if(statusBar)
+            {
+                statusBar->showMessage(message.c_str(), lifetime);
+            }
+        }
+
+        void Editor::setStatusNormalProgress(std::string const& message, uint32_t const progress)
+        {
+            throw std::exception("implement me");
+        }
+        
+        //----------------------------------------------------------------------------------
+        // Widget Factories
+        //----------------------------------------------------------------------------------
 
         PropertyWidget* Editor::createPropertyWidget(std::string const& displayName, std::string const& type)
         {
@@ -161,6 +222,10 @@ namespace Ocular
         {
             return m_RenderableDisplayFactory;
         }
+        
+        //----------------------------------------------------------------------------------
+        // Static Methods
+        //----------------------------------------------------------------------------------
 
         bool Editor::IsCommonName(std::string const& name)
         {

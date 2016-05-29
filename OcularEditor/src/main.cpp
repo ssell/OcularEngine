@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 {
     if(OcularEditor.initialize(argc, argv))
     {
-        OcularResources->setSourceDirectory("C:\\Projects\\OcularEngine\\Resources");
+        OcularResources->setSourceDirectory("C:\\OcularEngine\\Resources");
         OcularResources->forceSourceRefresh();
 
         while(OcularEditor.run());

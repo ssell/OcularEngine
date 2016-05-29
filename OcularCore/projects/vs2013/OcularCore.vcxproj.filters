@@ -1277,5 +1277,8 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp">
       <Filter>Header Files\Graphics\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Math\MathUtils.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

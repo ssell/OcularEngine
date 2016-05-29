@@ -106,7 +106,9 @@ namespace Ocular
         bool ResourceManager::forceLoadResource(std::string const& path)
         {
             bool result = false;
-            auto resourceIter = m_ResourceMap.find(path);
+            const std::string lowerPath = Utils::String::ToLower(path);
+
+            auto resourceIter = m_ResourceMap.find(lowerPath);
 
             if(resourceIter != m_ResourceMap.end())
             {
@@ -114,11 +116,11 @@ namespace Ocular
 
                 if((resource == nullptr) || (!resource->isInMemory()))
                 {
-                    auto findFile = m_FileMap.find(path);
+                    auto findFile = m_FileMap.find(lowerPath);
 
                     if(findFile != m_FileMap.end())
                     {
-                        m_ResourceLoaderManager.loadResource(resource, findFile->second);
+                        m_ResourceLoaderManager.loadResource(resource, findFile->second, lowerPath);
 
                         if((resource != nullptr) && (resource->isInMemory()))
                         {
@@ -154,7 +156,9 @@ namespace Ocular
         bool ResourceManager::forceUnloadResource(std::string const& path)
         {
             bool result = false;
-            auto resourceIter = m_ResourceMap.find(path);
+            const std::string lowerPath = Utils::String::ToLower(path);
+
+            auto resourceIter = m_ResourceMap.find(lowerPath);
 
             if(resourceIter != m_ResourceMap.end())
             {
@@ -180,13 +184,14 @@ namespace Ocular
         bool ResourceManager::addResource(std::string const& name, File const& file, Resource* resource, ResourceType type)
         {
             bool result = false;
+            const std::string lowerName = Utils::String::ToLower(name);
 
-            auto findResource = m_ResourceMap.find(name);
+            auto findResource = m_ResourceMap.find(lowerName);
 
             if(findResource == m_ResourceMap.end())
             {
-                m_ResourceMap[name] = std::make_shared<ResourceDetails>(resource, type);
-                m_FileMap[name] = file;
+                m_ResourceMap[lowerName] = std::make_shared<ResourceDetails>(resource, type);
+                m_FileMap[lowerName] = file;
 
                 result = true;
             }
@@ -202,11 +207,12 @@ namespace Ocular
         Resource* ResourceManager::getResource(std::string const& path)
         {
             Resource* result = nullptr;
+            const std::string lowerPath = Utils::String::ToLower(path);
             
             //------------------------------------------------------------
             // First check if the resource exists
 
-            auto findResource = m_ResourceMap.find(path);
+            auto findResource = m_ResourceMap.find(lowerPath);
 
             if(findResource != m_ResourceMap.end())
             {
@@ -216,8 +222,8 @@ namespace Ocular
 
                 if(details == nullptr)
                 {
-                    m_ResourceMap[path] = std::make_shared<ResourceDetails>(nullptr);
-                    details = m_ResourceMap[path];
+                    m_ResourceMap[lowerPath] = std::make_shared<ResourceDetails>(nullptr);
+                    details = m_ResourceMap[lowerPath];
                 }
 
                 result = findResource->second->getResource();
@@ -228,7 +234,7 @@ namespace Ocular
                 if((result == nullptr) || (!result->isInMemory()))
                 {
                     // Does not exist or is not in memory; Attempt to create and/or load.
-                    auto findFile = m_FileMap.find(path);
+                    auto findFile = m_FileMap.find(lowerPath);
 
                     if(findFile != m_FileMap.end())
                     {
@@ -246,7 +252,7 @@ namespace Ocular
                                (details->getType() == m_ResourceLoaderManager.getResourceType(findFile->second.getExtension())))
                             {
                                 // The type of the requested Resource matches that of the type associated with the file
-                                m_ResourceLoaderManager.loadResource(resource, findFile->second);
+                                m_ResourceLoaderManager.loadResource(resource, findFile->second, lowerPath);
 
                                 if((result == nullptr) || (!result->isInMemory()))
                                 {
@@ -255,7 +261,7 @@ namespace Ocular
                                 }
                                 else
                                 {
-                                    resource->setMappingName(path);
+                                    resource->setMappingName(lowerPath);
                                 }
                             }
                             else
@@ -263,7 +269,7 @@ namespace Ocular
                                 // The type of the requested Resource does not match that of the type associated with the file.
                                 // This is typically due to requesting a subresource in a MultiResource.
 
-                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, path);
+                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, lowerPath);
 
                                 if((result == nullptr) || (!result->isInMemory()))
                                 {
@@ -272,7 +278,7 @@ namespace Ocular
                                 }
                                 else
                                 {
-                                    resource->setMappingName(path);
+                                    resource->setMappingName(lowerPath);
                                 }
                             }
                         }
@@ -285,11 +291,11 @@ namespace Ocular
                                (details->getType() == m_ResourceLoaderManager.getResourceType(findFile->second.getExtension())))
                             {
                                 // The type of the requested Resource matches that of the type associated with the file
-                                m_ResourceLoaderManager.loadResource(resource, findFile->second);
+                                m_ResourceLoaderManager.loadResource(resource, findFile->second, lowerPath);
 
                                 if(resource)
                                 {
-                                    resource->setMappingName(path);
+                                    resource->setMappingName(lowerPath);
                                     details->m_Resource = resource;
                                     result = details->m_Resource;
                                 }
@@ -304,11 +310,11 @@ namespace Ocular
                                 // The type of the requested Resource does not match that of the type associated with the file.
                                 // This is typically due to requesting a subresource in a MultiResource.
 
-                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, path);
+                                m_ResourceLoaderManager.loadSubResource(resource, findFile->second, lowerPath);
 
                                 if(resource)
                                 {
-                                    resource->setMappingName(path);
+                                    resource->setMappingName(lowerPath);
                                     details->m_Resource = resource;
                                     result = details->m_Resource;
                                 }
@@ -348,7 +354,9 @@ namespace Ocular
         File ResourceManager::getResourceFile(std::string const& path) const
         {
             File result;
-            auto findFile = m_FileMap.find(path);
+            const std::string lowerPath = Utils::String::ToLower(path);
+
+            auto findFile = m_FileMap.find(lowerPath);
 
             if(findFile != m_FileMap.end())
             {
@@ -377,7 +385,9 @@ namespace Ocular
         bool ResourceManager::isInMemory(std::string const& path)
         {
             bool result = false;
-            auto resourceIter = m_ResourceMap.find(path);
+            const std::string lowerPath = Utils::String::ToLower(path);
+
+            auto resourceIter = m_ResourceMap.find(lowerPath);
 
             if(resourceIter != m_ResourceMap.end())
             {
@@ -395,7 +405,9 @@ namespace Ocular
         bool ResourceManager::doesExist(std::string const& path)
         {
             bool result = false;
-            auto resourceIter = m_ResourceMap.find(path);
+            const std::string lowerPath = Utils::String::ToLower(path);
+
+            auto resourceIter = m_ResourceMap.find(lowerPath);
 
             if(resourceIter != m_ResourceMap.end())
             {
@@ -411,7 +423,7 @@ namespace Ocular
             
             if((file.exists()) && (file.isFile()))
             {
-                m_ResourceLoaderManager.loadResource(result, file);
+                m_ResourceLoaderManager.loadResource(result, file, "");
             }
             else 
             {

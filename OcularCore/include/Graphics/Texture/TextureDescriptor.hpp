@@ -63,7 +63,7 @@ namespace Ocular
                   format(TextureFormat::R32G32B32A32Float), 
                   filter(TextureFilterMode::Point), 
                   gpuAccess(TextureAccess::ReadWrite), 
-                  cpuAccess(TextureAccess::ReadWrite)
+                  cpuAccess(TextureAccess::None)
             {
 
             }

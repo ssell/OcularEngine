@@ -70,7 +70,7 @@ namespace Ocular
              *
              * \return TRUE if the resource was successfully loaded.
              */
-            bool loadResource(Resource* &resource, File const& file);
+            bool loadResource(Resource* &resource, File const& file, std::string const& mappingName);
 
             /**
              * Loads the subresource contained within a MultiResource at the specified file.

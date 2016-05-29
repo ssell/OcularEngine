@@ -17,6 +17,8 @@
 #include "Resources/ResourceExplorer.hpp"
 #include "Resources/ResourceLoaderManager.hpp"
 
+#include "Utilities/StringUtils.hpp"
+
 #include <algorithm>
 
 //------------------------------------------------------------------------------------------
@@ -109,10 +111,12 @@ namespace Ocular
                         std::string relative = getRelativePathFromResourceRoot((*rootIter), (*fileIter));
                         std::replace(relative.begin(), relative.end(), '\\', '/');
 
+                        const std::string relativeLower = Utils::String::ToLower(relative);
+
                         // If the key is not already in-use, then add a new entry to the map
-                        if(fileMap.find(relative) == fileMap.end())
+                        if(fileMap.find(relativeLower) == fileMap.end())
                         {
-                            fileMap.insert(std::make_pair(relative, (*fileIter)));
+                            fileMap.insert(std::make_pair(relativeLower, (*fileIter)));
                         }
                     }
                 }

@@ -126,9 +126,9 @@ namespace Ocular
             ZeroMemory(&descr, sizeof(D3D11_SAMPLER_DESC));
 
             descr.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	        descr.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-	        descr.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-	        descr.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	        descr.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	        descr.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	        descr.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	        descr.MipLODBias = 0.0f;
 	        descr.MaxAnisotropy = 1;
 	        descr.ComparisonFunc = D3D11_COMPARISON_ALWAYS;

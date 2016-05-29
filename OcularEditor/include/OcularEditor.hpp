@@ -49,12 +49,18 @@ namespace Ocular
             static Editor& get();
             ~Editor();
 
+            //------------------------------------------------------------
+            // Application Lifetime Methods
+            //------------------------------------------------------------
+
             bool initialize(int argc, char** argv);
             void shutdown();
             bool run();
 
-            //------------------------------------------------------------------------------
-
+            //------------------------------------------------------------
+            // Primary Getters
+            //------------------------------------------------------------
+            
             /**
              * \return Pointer to the main Qt window for the editor application.
              */
@@ -64,6 +70,57 @@ namespace Ocular
              * \return Pointer to the editor-specific camera used to view scenes.
              */
             Core::Camera* getEditorCamera();
+
+            //------------------------------------------------------------
+            // Misc Methods
+            //------------------------------------------------------------
+            
+            /**
+             * Sets the status text displayed in the main window status bar.
+             *
+             * \note If more control is required over the output status message/format/widget,
+             *       the status bar may be retrieved via OcularEditor->getMainWindow()->getMainStatusBar()
+             *
+             * \param[in] message Text message to be displayed
+             */
+            void setStatusNormal(std::string const& message);
+
+            /**
+             * Sets a permanent status message that is not obstructed by any other messages.
+             * It is typically placed on the far-right side of the status bar.
+             *
+             * \note If more control is required over the output status message/format/widget,
+             *       the status bar may be retrieved via OcularEditor->getMainWindow()->getMainStatusBar()
+             *
+             * \param[in] message Text message to be displayed
+             */
+            void setStatusPermanent(std::string const& message);
+
+            /**
+             * Sets a temporary status message to be displayed for the specified amount of milliseconds.
+             *
+             * Typically used for tool-tip explanations, mouse-overs, etc.
+             *
+             * \note If more control is required over the output status message/format/widget,
+             *       the status bar may be retrieved via OcularEditor->getMainWindow()->getMainStatusBar()
+             *
+             * \param[in] message  Text message to be displayed
+             * \param[in] lifetime Duration of the message on range in milliseconds
+             */
+            void setStatusTemporary(std::string const& message, uint32_t lifetime);
+
+            /**
+             * Sets the status text displayed in the main window status bar, accompanied
+             * by a progress bar widget.
+             *
+             * \param[in] message  Text message to be displayed
+             * \param[in] progress Progress bar progress on range [0, 100]
+             */
+            void setStatusNormalProgress(std::string const& message, uint32_t progress);
+
+            //------------------------------------------------------------
+            // Widget Factories
+            //------------------------------------------------------------
 
             /**
              * Attempts to create a property widget for the specified type.
@@ -105,6 +162,10 @@ namespace Ocular
              *
              */
             Core::ComponentFactory<RenderableDisplay>& getRenderableDisplayFactory();
+
+            //------------------------------------------------------------
+            // Static Methods
+            //------------------------------------------------------------
 
             /**
              * Checks if the provided name is an object name belongs to either Object or SceneObject base members.

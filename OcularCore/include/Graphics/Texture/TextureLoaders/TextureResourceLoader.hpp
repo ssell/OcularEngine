@@ -55,7 +55,7 @@ namespace Ocular
             TextureResourceLoader(std::string const& extension);
             virtual ~TextureResourceLoader();
 
-            virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName) override;
 
         protected:
 

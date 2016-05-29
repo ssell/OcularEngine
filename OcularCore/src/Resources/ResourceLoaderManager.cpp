@@ -55,7 +55,7 @@ namespace Ocular
             }
         }
 
-        bool ResourceLoaderManager::loadResource(Resource* &resource, File const& file)
+        bool ResourceLoaderManager::loadResource(Resource* &resource, File const& file, std::string const& mappingName)
         {
             bool result = false;
 
@@ -68,7 +68,7 @@ namespace Ocular
 
                 if(loader)
                 {
-                    if(loader->loadResource(resource, file))
+                    if(loader->loadResource(resource, file, mappingName))
                     {
                         if(resource)
                         {

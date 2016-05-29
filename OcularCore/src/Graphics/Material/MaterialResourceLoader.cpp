@@ -55,7 +55,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool MaterialResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
+        bool MaterialResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             bool result = false;
 

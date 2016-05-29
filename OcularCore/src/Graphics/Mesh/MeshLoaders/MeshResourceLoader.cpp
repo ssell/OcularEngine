@@ -47,7 +47,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool MeshResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
+        bool MeshResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             bool result = false;
 

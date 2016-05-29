@@ -47,7 +47,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool TextureResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
+        bool TextureResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             bool result = false;
 
@@ -102,8 +102,6 @@ namespace Ocular
                 TextureDescriptor descr;
                 descr.width     = width;
                 descr.height    = height;
-                descr.cpuAccess = TextureAccess::ReadWrite;
-                descr.gpuAccess = TextureAccess::ReadWrite;
                 descr.filter    = TextureFilterMode::Point;
                 descr.format    = TextureFormat::R32G32B32A32Float;
                 descr.type      = TextureType::Texture2D;

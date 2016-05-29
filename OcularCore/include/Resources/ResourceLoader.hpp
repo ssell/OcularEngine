@@ -67,8 +67,9 @@ namespace Ocular
             /**
              * \param[out] resource
              * \param[in]  file
+             * \param[in]  mappingName
              */
-            virtual bool loadResource(Resource* &resource, File const& file);
+            virtual bool loadResource(Resource* &resource, File const& file, std::string const& mappingName);
 
             /**
              * \param[out] resource

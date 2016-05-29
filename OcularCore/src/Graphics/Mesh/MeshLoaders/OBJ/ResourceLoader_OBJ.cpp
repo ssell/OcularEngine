@@ -55,7 +55,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool ResourceLoader_OBJ::loadResource(Core::Resource* &resource, Core::File const& file)
+        bool ResourceLoader_OBJ::loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             // Requested to the load the entire OBJ as a MultiResource instance
 
@@ -70,7 +70,7 @@ namespace Ocular
                 {
                     resource = new Core::MultiResource();
                     resource->setSourceFile(file);
-                    resource->setMappingName(OcularResources->getResourceMappingName(file));
+                    resource->setMappingName(mappingName);
                 }
                 else if(resource->isInMemory())
                 {

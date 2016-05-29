@@ -76,7 +76,7 @@ namespace Ocular
              * \param[out] resource The MultiResource containing all subresource Meshes and Materials contained within the file.
              * \param[in]  file     The OBJ file that is to be represented by the MultiResource.
              */
-            virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName) override;
 
             /**
              * Loads a specific OBJ group as an individual Mesh resource.

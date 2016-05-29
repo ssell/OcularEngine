@@ -688,6 +688,11 @@ namespace Ocular
                     break;
                 }
             }
+            else
+            {
+                OcularLogger->error("Failed to validate texture descriptor", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ConvertTextureDescriptor"));
+                result = false;
+            }
 
             return result;
         }
@@ -1393,21 +1398,22 @@ namespace Ocular
              *
              * | Usage Flags | CPU Read | CPU Write | GPU Read | GPU Write |
              * | ----------- | -------- | --------- | -------- | --------- |
-             * | DEFAULT     | Y        | Y         | Y        | Y         |
-             * | IMMUTABLE   |          |           | Y        |           |
+             * | DEFAULT     |          |           | Y        | Y         |
              * | DYNAMIC     |          | Y         | Y        |           |
+             * | IMMUTABLE   |          |           | Y        |           |
+             * | STAGING     | Y        | Y         | Y        | Y         |
              */
 
-            static const std::string genericAccessMessage = "Only the following access combinations are supported: CPU Read/Write + GPU Read/Write, GPU Read, CPU Write + GPU Read";
+            static const std::string genericAccessMessage = "Only the following access combinations are supported: CPU Read/Write + GPU Read/Write, GPU Read/Write, CPU Write + GPU Read, GPU Read";
             
             switch(descriptor.cpuAccess)
             {
-            case TextureAccess::ReadOnly:
+            case TextureAccess::ReadOnly:        // No matches
                 OcularLogger->error("D3D11 does not support textures with CPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
 
-            case TextureAccess::WriteOnly:
+            case TextureAccess::WriteOnly:       // DYNAMIC 
                 if(descriptor.gpuAccess != TextureAccess::ReadOnly)
                 {
                     OcularLogger->error("D3D11 does not support textures with CPU write-only access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
@@ -1415,7 +1421,7 @@ namespace Ocular
                 }
                 break;
 
-            case TextureAccess::ReadWrite:
+            case TextureAccess::ReadWrite:       // STAGING
                 if(descriptor.gpuAccess != TextureAccess::ReadWrite)
                 {
                     OcularLogger->error("D3D11 does not support textures with CPU read-write access unless accompanied by GPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
@@ -1423,10 +1429,11 @@ namespace Ocular
                 }
                 break;
 
-            case TextureAccess::None:
-                if(descriptor.gpuAccess != TextureAccess::ReadOnly)
+            case TextureAccess::None:            // DEFAULT or IMMUTABLE
+                if((descriptor.gpuAccess != TextureAccess::ReadWrite) &&
+                   (descriptor.gpuAccess != TextureAccess::ReadOnly))
                 {
-                    OcularLogger->error("D3D11 does not support textures with no CPU access unless accompanied by GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with no CPU access unless accompanied by GPU read-write or GPU read-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;
@@ -1442,7 +1449,7 @@ namespace Ocular
 
             switch(descriptor.gpuAccess)
             {
-            case TextureAccess::ReadOnly:
+            case TextureAccess::ReadOnly:        // DYNAMIC or IMMUTABLE
                 if((descriptor.cpuAccess != TextureAccess::WriteOnly) && (descriptor.cpuAccess != TextureAccess::None))
                 {
                     OcularLogger->error("D3D11 does not support textures with GPU read-only access unless accompanied by CPU write-only or CPU no access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
@@ -1450,15 +1457,15 @@ namespace Ocular
                 }
                 break;
 
-            case TextureAccess::WriteOnly:
+            case TextureAccess::WriteOnly:       // No Matches
                 OcularLogger->error("D3D11 does not support textures with GPU write-only access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                 result = false;
                 break;
 
-            case TextureAccess::ReadWrite:
-                if(descriptor.cpuAccess != TextureAccess::ReadWrite) 
+            case TextureAccess::ReadWrite:       // DEFAULT or STAGING
+                if((descriptor.cpuAccess != TextureAccess::ReadWrite) && (descriptor.cpuAccess != TextureAccess::None)) 
                 {
-                    OcularLogger->error("D3D11 does not support textures with GPU read-write access unless accompanied by CPU read-write access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
+                    OcularLogger->error("D3D11 does not support textures with GPU read-write access unless accompanied by CPU read-write access or CPU no access. ", genericAccessMessage, OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "ValidateTextureDescriptor"));
                     result = false;
                 }
                 break;

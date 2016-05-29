@@ -67,7 +67,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool D3D11UncompiledShaderResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file)
+        bool D3D11UncompiledShaderResourceLoader::loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName)
         {
             D3D11UncompiledShaderResourceLoader* other = new D3D11UncompiledShaderResourceLoader();
 

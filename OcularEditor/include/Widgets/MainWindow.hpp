@@ -61,17 +61,17 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             *
+             * Returns a pointer to the primary menu bar.
              */
             MainMenuBar* getMainMenu();
 
             /**
-             *
+             * Returns a pointer to the primary status bar.
              */
             MainStatusBar* getMainStatusBar();
 
             /**
-             *
+             * Returns a pointer to the primary toolbar.
              */
             ToolbarCommon* getCommonToolbar();
 
@@ -88,7 +88,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             QWidget* m_MainWidget;
-
+            
             QVBoxLayout* m_LayoutMain;          ///< Layout for the entire window
 
             MainMenuBar*   m_MenuBar;

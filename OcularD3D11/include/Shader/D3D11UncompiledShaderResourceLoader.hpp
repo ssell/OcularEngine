@@ -80,7 +80,7 @@ namespace Ocular
             D3D11UncompiledShaderResourceLoader();
             virtual ~D3D11UncompiledShaderResourceLoader();
 
-            virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName) override;
 
         protected:
 

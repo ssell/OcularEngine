@@ -54,7 +54,7 @@ namespace Ocular
             MeshResourceLoader(std::string const& extension);
             virtual ~MeshResourceLoader();
 
-            virtual bool loadResource(Core::Resource* &resource, Core::File const& file) override;
+            virtual bool loadResource(Core::Resource* &resource, Core::File const& file, std::string const& mappingName) override;
 
         protected:
 
