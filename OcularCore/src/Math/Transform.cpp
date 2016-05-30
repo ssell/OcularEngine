@@ -193,7 +193,7 @@ namespace Ocular
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
         {
-            m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector);
+            m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector).getConjugate();
             refresh();
         }
         

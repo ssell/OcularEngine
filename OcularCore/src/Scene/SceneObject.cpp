@@ -323,7 +323,7 @@ namespace Ocular
 
         void SceneObject::lookAt(Math::Vector3f const& point)
         {
-            m_Transform.lookAt(point, m_Transform.getUp());
+            m_Transform.lookAt(point);
         }
 
         Math::Transform const& SceneObject::getTransform() const

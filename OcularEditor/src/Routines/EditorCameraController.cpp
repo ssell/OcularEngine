@@ -88,8 +88,6 @@ namespace Ocular
                 updateFocusMove(delta);
                 updateCameraMode();
                 handleMouseMovement();
-
-                
             }
         }
 

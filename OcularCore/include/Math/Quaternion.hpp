@@ -152,27 +152,27 @@ namespace Ocular
             float dot(Quaternion const& rhs);
 
             /**
-             *
+             * Inverts the current Quaternion
              */
             void inverse();
 
             /**
-             *
+             * \return The inverse of the current Quaternion (preserves the current Quaternion)
              */
             Quaternion getInverse() const;
 
             /**
-             *
+             * \return The conjugate of the current Quaternion
              */
             Quaternion getConjugate() const;
 
             /**
-             * 
+             * Normalizes the current Quaternion
              */
             void normalize();
 
             /**
-             *
+             * \return The normalized form of the current Quaternion (preserves the current Quaternion)
              */
             Quaternion getNormalized() const;
 
@@ -216,7 +216,13 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
+             * Creates a LookAt Quaternion rotation.
              *
+             * \note The result may need to be reversed depending on end use-case (see getConjugate)
+             *
+             * \param[in] from Point in space to be looking from (aka eye point)
+             * \param[in] to   Point in spaceto be looking towards
+             * \param[in] up   The up vector. In most cases, this is the World up vector (Matrix3f::Up())
              */
             static Quaternion CreateLookAtRotation(Vector3<float> const& from, Vector3<float> const& to, Vector3<float> const& up);
 
