@@ -24,6 +24,11 @@
 #include "Events/SceneObjectSelectedEvent.hpp"
 #include "Events/SceneObjectFocusedEvent.hpp"
 
+namespace
+{
+    const uint64_t RefreshRate = 200;       // Tree refresh rate in MS
+}
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -62,6 +67,19 @@ namespace Ocular
         QSize SceneTree::sizeHint() const
         {
             return QSize(275, 500);
+        }
+
+        void SceneTree::update()
+        {
+            for(int32_t i = 0; i < topLevelItemCount(); i++)
+            {
+                SceneTreeItem* item = dynamic_cast<SceneTreeItem*>(topLevelItem(i));
+
+                if(item)
+                {
+                    item->update();
+                }
+            }
         }
 
         SceneTreeItem* SceneTree::getItem(Core::SceneObject* object)

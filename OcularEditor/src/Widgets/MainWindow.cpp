@@ -68,9 +68,33 @@ namespace Ocular
 
             if(elapsedTime > 0.1f)
             {
-                m_ContentFrame->getPropertiesPanel()->update();
+                m_ContentFrame->update();
                 elapsedTime = 0.0f;
             }
+        }
+
+        //----------------------------------------------------------------------------------
+        // Getters
+        //----------------------------------------------------------------------------------
+
+        MainMenuBar* MainWindow::getMainMenu() const
+        {
+            return m_MenuBar;
+        }
+
+        MainStatusBar* MainWindow::getMainStatusBar() const
+        {
+            return m_StatusBar;
+        }
+
+        ToolbarCommon* MainWindow::getCommonToolbar() const
+        {
+            return m_ToolbarCommon;
+        }
+
+        ContentFrame* MainWindow::getContentFrame() const
+        {
+            return m_ContentFrame;
         }
 
         //----------------------------------------------------------------------------------
@@ -117,25 +141,6 @@ namespace Ocular
         {
             m_ContentFrame = new ContentFrame();
             m_LayoutMain->addWidget(m_ContentFrame, 1, (Qt::AlignHCenter | Qt::AlignTop));
-        }
-
-        //----------------------------------------------------------------------------------
-        // Getters
-        //----------------------------------------------------------------------------------
-
-        MainMenuBar* MainWindow::getMainMenu()
-        {
-            return m_MenuBar;
-        }
-
-        MainStatusBar* MainWindow::getMainStatusBar()
-        {
-            return m_StatusBar;
-        }
-
-        ToolbarCommon* MainWindow::getCommonToolbar()
-        {
-            return m_ToolbarCommon;
         }
     }
 }

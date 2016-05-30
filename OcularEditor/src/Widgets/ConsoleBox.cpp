@@ -56,6 +56,11 @@ namespace Ocular
             return QSize(275, 175);
         }
 
+        ConsoleText* ConsoleBox::getConsoleText() const
+        {
+            return m_ConsoleText;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

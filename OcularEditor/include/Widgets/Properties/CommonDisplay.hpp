@@ -38,6 +38,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class LineEdit;
+
         /**
          * \class CommonDisplay
          */
@@ -60,8 +62,8 @@ namespace Ocular
 
             //------------------------------------------------------------
 
-            QLabel*      m_LabelTransform;
-            QLineEdit*   m_LineName;
+            QLabel* m_LabelTransform;
+            LineEdit* m_LineName;
 
             PropertyWidget* m_PropertyPosition;
             PropertyWidget* m_PropertyRotation;

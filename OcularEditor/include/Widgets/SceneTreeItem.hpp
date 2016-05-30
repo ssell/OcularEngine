@@ -73,6 +73,8 @@ namespace Ocular
 
             //------------------------------------------------------------
 
+            void update(bool recursive = true);
+
             /**
              * \return The object that is represented by this item.
              */

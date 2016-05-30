@@ -63,17 +63,22 @@ namespace Ocular
             /**
              * Returns a pointer to the primary menu bar.
              */
-            MainMenuBar* getMainMenu();
+            MainMenuBar* getMainMenu() const;
 
             /**
              * Returns a pointer to the primary status bar.
              */
-            MainStatusBar* getMainStatusBar();
+            MainStatusBar* getMainStatusBar() const;
 
             /**
              * Returns a pointer to the primary toolbar.
              */
-            ToolbarCommon* getCommonToolbar();
+            ToolbarCommon* getCommonToolbar() const;
+
+            /**
+             * Returns a pointer to the ContentFrame which contains the PropertiesPanel,  ConsoleText, and SceneTree
+             */
+            ContentFrame* getContentFrame() const;
 
         protected:
 

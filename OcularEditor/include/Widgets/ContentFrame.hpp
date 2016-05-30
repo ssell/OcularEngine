@@ -52,7 +52,10 @@ namespace Ocular
 
             virtual QSize sizeHint() const override;
 
-            PropertiesPanel* getPropertiesPanel();
+            void update();
+
+            PropertiesPanel* getPropertiesPanel() const;
+            SceneFrame* getSceneFrame() const;
 
         protected:
 

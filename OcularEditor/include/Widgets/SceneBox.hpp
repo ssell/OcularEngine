@@ -49,6 +49,8 @@ namespace Ocular
 
             virtual QSize sizeHint() const override;
 
+            SceneTree* getSceneTree() const;
+
         protected:
 
         private:

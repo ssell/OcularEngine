@@ -17,6 +17,7 @@
 #include "stdafx.h"
 #include "Widgets/Properties/CommonDisplay.hpp"
 #include "Widgets/Properties/PropertiesDisplayTitleBar.hpp"
+#include "Widgets/Standard/LineEdit.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -64,7 +65,9 @@ namespace Ocular
                 Core::ExposedVariable variable;
 
                 object->getVariable("m_Name", variable);
+
                 m_LineName->setText(void_cast<std::string>(variable.data).c_str());
+                m_LineName->wasEdited();  // Reset edited flag
 
                 //--------------------------------------------------------
                 // Transform
@@ -99,6 +102,14 @@ namespace Ocular
             if(m_Object)
             {
                 bool refresh = false;
+
+                if(m_LineName)
+                {
+                    if(m_LineName->wasEdited())
+                    {
+                        m_Object->setName(m_LineName->text().toStdString());
+                    }
+                }
 
                 if(m_PropertyPosition)
                 {
@@ -137,7 +148,7 @@ namespace Ocular
 
         void CommonDisplay::buildName()
         {
-            m_LineName = new QLineEdit();
+            m_LineName = new LineEdit(LineType::String);
             m_LineName->setStyleSheet("QLineEdit { margin-left: 5px; margin-right: 5px; }");
 
             m_Layout->addWidget(m_LineName);

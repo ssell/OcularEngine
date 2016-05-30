@@ -53,6 +53,11 @@ namespace Ocular
             virtual QSize sizeHint() const override;
 
             /**
+             * Updates the SceneTree widget
+             */
+            void update();
+
+            /**
              * Retrieves the item representing the specified SceneObject.
              *
              * \param[in] object
@@ -103,6 +108,7 @@ namespace Ocular
             void populateAddObjectSubmenu(QMenu* submenu);
 
         private:
+
         };
     }
     /**

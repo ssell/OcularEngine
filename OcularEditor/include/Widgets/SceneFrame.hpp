@@ -38,6 +38,9 @@ namespace Ocular
         class SceneBox;
         class ConsoleBox;
 
+        class SceneTree;
+        class ConsoleText;
+
         /**
          * \class SceneFrame
          *
@@ -53,6 +56,11 @@ namespace Ocular
             ~SceneFrame();
 
             virtual QSize sizeHint() const override;
+
+            void update();
+
+            SceneTree* getSceneTree() const;
+            ConsoleText* getConsoleText() const;
 
         protected:
 

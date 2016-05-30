@@ -51,6 +51,17 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void SceneTreeItem::update(bool const recursive)
+        {
+            if(m_Object)
+            {
+                if(text(0).compare(m_Object->getName().c_str()) != 0)
+                {
+                    setText(0, QString(m_Object->getName().c_str()));
+                }
+            }
+        }
+
         Core::SceneObject* SceneTreeItem::getObject() const
         {
             return m_Object;

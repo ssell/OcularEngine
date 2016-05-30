@@ -18,6 +18,7 @@
 #include "Widgets/ContentFrame.hpp"
 #include "Widgets/RenderFrame.hpp"
 #include "Widgets/SceneFrame.hpp"
+#include "Widgets/SceneTree.hpp"
 #include "Widgets/DetailsFrame.hpp"
 #include "Widgets/PropertiesPanel.hpp"
 
@@ -73,9 +74,20 @@ namespace Ocular
             return QSize(99999, 99999);
         }
 
-        PropertiesPanel* ContentFrame::getPropertiesPanel()
+        void ContentFrame::update()
+        {
+            m_DetailsFrame->getPropertiesPanel()->update();
+            m_SceneFrame->getSceneTree()->update();
+        }
+
+        PropertiesPanel* ContentFrame::getPropertiesPanel() const
         {
             return m_DetailsFrame->getPropertiesPanel();
+        }
+
+        SceneFrame* ContentFrame::getSceneFrame() const
+        {
+            return m_SceneFrame;
         }
 
         //----------------------------------------------------------------------------------

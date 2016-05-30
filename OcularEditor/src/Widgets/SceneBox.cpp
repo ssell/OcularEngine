@@ -56,6 +56,11 @@ namespace Ocular
             return QSize(275, 500);
         }
 
+        SceneTree* SceneBox::getSceneTree() const
+        {
+            return m_SceneTree;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

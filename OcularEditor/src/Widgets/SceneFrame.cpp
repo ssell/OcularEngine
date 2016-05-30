@@ -18,7 +18,9 @@
 
 #include "Widgets/SceneFrame.hpp"
 #include "Widgets/SceneBox.hpp"
+#include "Widgets/SceneTree.hpp"
 #include "Widgets/ConsoleBox.hpp"
+#include "Widgets/ConsoleText.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -45,7 +47,7 @@ namespace Ocular
             m_Splitter->setOrientation(Qt::Vertical);
             m_Splitter->addWidget(m_SceneBox);
             m_Splitter->addWidget(m_ConsoleBox);
-            m_Splitter->setStretchFactor(0, 1);     // When window is resized, the scene tree will take the majority of the stretch difference
+            m_Splitter->setStretchFactor(0, 1);      // When window is resized, the scene tree will take the majority of the stretch difference
                                                      // leaving the console box relatively the same size
             m_Layout = new QVBoxLayout();
             m_Layout->addWidget(m_Splitter);
@@ -66,6 +68,16 @@ namespace Ocular
         QSize SceneFrame::sizeHint() const
         {
             return QSize(325, 700);
+        }
+
+        SceneTree* SceneFrame::getSceneTree() const
+        {
+            return m_SceneBox->getSceneTree();
+        }
+
+        ConsoleText* SceneFrame::getConsoleText() const
+        {
+            return m_ConsoleBox->getConsoleText();
         }
 
         //----------------------------------------------------------------------------------

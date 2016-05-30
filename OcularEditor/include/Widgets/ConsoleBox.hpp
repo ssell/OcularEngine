@@ -50,6 +50,8 @@ namespace Ocular
 
             virtual QSize sizeHint() const override;
 
+            ConsoleText* getConsoleText() const;
+
         protected:
 
         private:
