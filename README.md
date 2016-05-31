@@ -1,4 +1,4 @@
 OcularEngine
 ============
 
-Ocular Rendering Engine
+### Under active development and not yet ready for use.
