@@ -260,6 +260,12 @@ namespace Ocular
             void addObject(SceneObject* object, SceneObject* parent = nullptr);
 
             /**
+             * Updates the UUID of a SceneObject.
+             * \note For internal engine use only
+             */
+            void updateUUID(UUID const& uuid);
+
+            /**
              *
              */
             void unloadScene();

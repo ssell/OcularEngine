@@ -87,6 +87,8 @@ namespace Ocular
 
             virtual void mousePressEvent(QMouseEvent* event) override;
             virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
+            virtual void dropEvent(QDropEvent* event) override;
+
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
             bool isObjectTracked(Core::SceneObject* object);

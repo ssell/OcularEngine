@@ -356,6 +356,28 @@ namespace Ocular
             }
         }
 
+        void SceneManager::updateUUID(UUID const& oldUUID)
+        {
+            // Check if the SceneObject tracked with the old UUID 
+            // has had it's UUID changed (typically due to SceneObject::onLoad).
+
+            // If it has, remove the old entry and add a new one
+            // with the updated UUID.
+
+            auto findObject = m_Objects.find(oldUUID.toString());
+
+            if(findObject != m_Objects.end())
+            {
+                const UUID currentUUID = (*findObject).second->getUUID();
+
+                if(oldUUID != currentUUID)
+                {
+                    m_Objects.insert(std::make_pair(currentUUID.toString(), (*findObject).second));
+                    m_Objects.erase(findObject);
+                }
+            }
+        }
+
         void SceneManager::unloadScene()
         {
             //------------------------------------------------------------

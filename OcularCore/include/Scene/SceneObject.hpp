@@ -322,9 +322,30 @@ namespace Ocular
              * If the new parent is not null, then the cascading states of the parent
              * (active, forced visible, static/dynamic, etc.) are applied to this object.
              *
+             * May also specify whether or not to preserve the absolute world position.
+             *
+             * By default, the world position is maintained. This means that the local position
+             * is modified such that, upon being added to the new parent, the world position 
+             * remains the same. 
+             *
+             * Alternatively (by setting the maintainWorldPos parameter to FALSE), the local
+             * position will remain the same but the absolute world position will be different.
+             *
+             * For example:
+             *
+             * We have a parentless SceneObject positioned at (0, 5, 0).
+             * We assign it a parent at position (5, 0, 0).
+             *
+             * If maintainWorldPos is TRUE, then the SceneObject's absolute world position will
+             * remain as (0, 5, 0), while its new local position to the parent is (-5, 5, 0)
+             *
+             * If maintainWorld is FALSE, then the SceneObject's local position to the parent 
+             * will remain as (0, 5, 0), while it's new world position will be (5, 5, 0).
+             *
              * \param[in] parent New parent of this object. Pass NULL if no parent is desired.
+             * \param[in] maintainWorldPos
              */
-            void setParent(SceneObject* parent);
+            void setParent(SceneObject* parent, bool maintainWorldPos = true);
 
             /**
              * \return Parent of this SceneObject (NULL if no parent)
@@ -351,9 +372,30 @@ namespace Ocular
              * The object's parent will change, and it's state will be modified
              * to reflect it's new parent (active, forced visible, static/dynamic, etc.).
              *
+             * May also specify whether or not to preserve the absolute world position.
+             *
+             * By default, the world position is maintained. This means that the local position
+             * is modified such that, upon being added to the new parent, the world position 
+             * remains the same. 
+             *
+             * Alternatively (by setting the maintainWorldPos parameter to FALSE), the local
+             * position will remain the same but the absolute world position will be different.
+             *
+             * For example:
+             *
+             * We have a parentless SceneObject positioned at (0, 5, 0).
+             * We assign it a parent at position (5, 0, 0).
+             *
+             * If maintainWorldPos is TRUE, then the SceneObject's absolute world position will
+             * remain as (0, 5, 0), while its new local position to the parent is (-5, 5, 0)
+             *
+             * If maintainWorld is FALSE, then the SceneObject's local position to the parent 
+             * will remain as (0, 5, 0), while it's new world position will be (5, 5, 0).
+             *
              * \param[in] child
+             * \param[in] maintainWorldPos
              */
-            void addChild(SceneObject* child);
+            void addChild(SceneObject* child, bool maintainWorldPos = true);
 
             /**
              * \param[in] name Name to search for.

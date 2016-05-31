@@ -359,16 +359,22 @@ namespace Ocular
         // Child Object Methods
         //----------------------------------------------------------------
 
-        void SceneObject::setParent(SceneObject* parent)
+        void SceneObject::setParent(SceneObject* parent, bool maintainWorldPos)
         {
             if(parent != m_Parent)
             {
                 if(parent)
                 {
-                    parent->addChild(this);
+                    parent->addChild(this, maintainWorldPos);
                 }
                 else
                 {
+                    if(maintainWorldPos)
+                    {
+                        // Will be a top-level object. Just set position to our old world position.
+                        setPosition(getPosition(false));
+                    }
+
                     SceneObject* oldParent = m_Parent;
 
                     if(oldParent)
@@ -393,10 +399,17 @@ namespace Ocular
             return child;
         }
 
-        void SceneObject::addChild(SceneObject* child)
+        void SceneObject::addChild(SceneObject* child, bool maintainWorldPos)
         {
             if(child)
             {
+                if(maintainWorldPos)
+                {
+                    // Set the child's new local position so that it is the same as it's old world position
+                    const Math::Vector3f oldWorldPos = child->getPosition(false);
+                    child->setPosition(oldWorldPos - getPosition(false));
+                }
+
                 SceneObject* oldParent = child->getParent();
 
                 if(oldParent)
@@ -742,7 +755,24 @@ namespace Ocular
 
         void SceneObject::onLoad(BuilderNode const* node)
         {
+            const UUID old = m_UUID;
+
             Object::onLoad(node);
+
+            if(old != m_UUID)
+            {
+                /*
+                 * Work around.
+                 * 
+                 * When we load a SceneObject, the SceneObject has already added itself to
+                 * the SceneManager under a generated UUID before this method is even called.
+                 * But in this method (or rather in the super call), our UUID may be changed.
+                 * 
+                 * We need to alert the SceneManager of this UUID change.
+                 */
+
+                OcularScene->updateUUID(old);
+            }
 
             if(node)
             {

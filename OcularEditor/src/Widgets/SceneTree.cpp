@@ -48,6 +48,10 @@ namespace Ocular
             setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);
             setContextMenuPolicy(Qt::CustomContextMenu);
 
+            setDragEnabled(true);
+            setDropIndicatorShown(true);
+            setDragDropMode(QAbstractItemView::DragDropMode::InternalMove);
+
             setHeaderHidden(true);
             setColumnCount(2);           // First column is object name; Second is object UUID
             setColumnHidden(1, true);
@@ -213,6 +217,40 @@ namespace Ocular
                     }
                 }
             }
+        }
+
+        void SceneTree::dropEvent(QDropEvent* event)
+        {
+            if(event)
+            {
+                //--------------------------------------------------------
+                // Retrieve the SceneObject that was dropped on
+
+                Core::SceneObject* newParent = nullptr;
+                SceneTreeItem* parentItem = dynamic_cast<SceneTreeItem*>(itemAt(event->pos()));
+                
+                if(parentItem)
+                {
+                    newParent = parentItem->getObject();
+                }
+
+                //--------------------------------------------------------
+                // Update the parent of the dragged SceneObjects
+
+                auto draggedItems = selectedItems();
+
+                for(auto draggedItem : draggedItems)
+                {
+                    SceneTreeItem* item = dynamic_cast<SceneTreeItem*>(draggedItem);
+
+                    if(item)
+                    {
+                        item->getObject()->setParent(newParent);
+                    }
+                }
+            }
+
+            QTreeWidget::dropEvent(event); // Call super at end or else it will clear the selected items list before we can use it
         }
 
         bool SceneTree::onEvent(std::shared_ptr<Core::AEvent> event)
