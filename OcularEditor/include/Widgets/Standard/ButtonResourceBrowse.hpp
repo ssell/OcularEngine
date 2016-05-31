@@ -69,7 +69,7 @@ namespace Ocular
 
         protected:
             
-        private slots :
+        private slots:
 
             void onButtonClick();
 

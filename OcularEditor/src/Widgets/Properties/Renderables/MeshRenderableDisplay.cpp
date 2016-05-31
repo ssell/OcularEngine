@@ -20,6 +20,7 @@
 #include "Widgets/Properties/Renderables/MeshRenderableDisplayMaterial.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplayRegistrar.hpp"
 #include "Widgets/Properties/Types/ResourceProperty.hpp"
+#include "Widgets/Properties/SelectResourceDialog.hpp"
 
 #include "Scene/Renderables/MeshRenderable.hpp"
 
@@ -37,14 +38,23 @@ namespace Ocular
 
         MeshRenderableDisplay::MeshRenderableDisplay(QWidget* parent)
             : RenderableDisplay("MeshRenderable", parent),
-              m_MeshProperty(nullptr)
+              m_MeshProperty(nullptr),
+              m_ButtonAddMaterial(nullptr),
+              m_ButtonRemoveMaterial(nullptr),
+              m_FrameAddRemove(nullptr),
+              m_LayoutAddRemove(nullptr)
         {
 
         }
 
         MeshRenderableDisplay::~MeshRenderableDisplay()
         {
+            removeProperties();
 
+            delete m_ButtonAddMaterial;
+            delete m_ButtonRemoveMaterial;
+            delete m_LayoutAddRemove;
+            delete m_FrameAddRemove;
         }
 
         //----------------------------------------------------------------------------------
@@ -122,28 +132,75 @@ namespace Ocular
         {
             buildMeshProperty();
             buildMaterialProperties();
+            buildMaterialAddRemove();
         }
 
         void MeshRenderableDisplay::removeProperties()
         {
-            if(m_MeshProperty)
-            {
-                m_Layout->removeWidget(m_MeshProperty);
-                delete m_MeshProperty;
-                m_MeshProperty = nullptr;
-            }
+            //------------------------------------------------------------
+            // Delete the Mesh property
+
+            delete m_MeshProperty;
+            m_MeshProperty = nullptr;
+            
+            //------------------------------------------------------------
+            // Delete the Material properties
 
             for(auto material : m_MaterialProperties)
             {
-                if(material)
-                {
-                    m_Layout->removeWidget(material);
-                    delete material;
-                    material = nullptr;
-                }
+                delete material;
             }
 
             m_MaterialProperties.clear();
+            
+            //------------------------------------------------------------
+            // Remove but do not delete the add/remove buttons
+
+            if(m_FrameAddRemove)
+            {
+                m_Layout->removeWidget(m_FrameAddRemove);
+                m_FrameAddRemove->setVisible(false);
+            }
+        }
+
+        //----------------------------------------------------------------------------------
+        // PRIVATE SLOTS
+        //----------------------------------------------------------------------------------
+
+        void MeshRenderableDisplay::onButtonAddMaterialClick()
+        {
+            SelectResourceDialog dialog(Core::ResourceType::Material);
+
+            if(dialog.exec())
+            {
+                Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(m_Renderable);
+
+                if(renderable)
+                {
+                    renderable->addMaterial(OcularResources->getResource<Graphics::Material>(dialog.getSelectedName()));
+ 
+                    removeProperties();
+                    buildProperties();
+                }
+            }
+        }
+
+        void MeshRenderableDisplay::onButtonRemoveMaterialClick()
+        {
+            Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(m_Renderable);
+
+            if(renderable)
+            {
+                renderable->removeMaterial(renderable->getNumMaterials() - 1);
+            }
+
+            auto back = m_MaterialProperties.back();
+            delete back;
+
+            m_MaterialProperties.pop_back();
+
+            removeProperties();
+            buildProperties();
         }
 
         //----------------------------------------------------------------------------------
@@ -192,9 +249,9 @@ namespace Ocular
 
                 if(mesh)
                 {
-                    const uint32_t numSubmeshes = mesh->getNumSubMeshes();
+                    const uint32_t numMax = std::max(mesh->getNumSubMeshes(), renderable->getNumMaterials());
 
-                    for(uint32_t i = 0; i < numSubmeshes; i++)
+                    for(uint32_t i = 0; i < numMax; i++)
                     {
                         MeshRenderableDisplayMaterial* materialProperty = new MeshRenderableDisplayMaterial(i);
                         m_Layout->addWidget(materialProperty);
@@ -209,6 +266,45 @@ namespace Ocular
                         m_MaterialProperties.push_back(materialProperty);
                     }
                 }
+            }
+        }
+
+        void MeshRenderableDisplay::buildMaterialAddRemove()
+        {
+            if(m_FrameAddRemove == nullptr)
+            {
+                m_FrameAddRemove = new QFrame();
+                m_LayoutAddRemove = new QHBoxLayout();
+
+                m_ButtonRemoveMaterial = new QPushButton("Remove Material");
+                m_ButtonRemoveMaterial->setMaximumWidth(150);
+                m_ButtonRemoveMaterial->setMinimumHeight(20);
+                m_ButtonRemoveMaterial->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+                m_ButtonAddMaterial = new QPushButton("AddMaterial");
+                m_ButtonAddMaterial->setMaximumWidth(150);
+                m_ButtonAddMaterial->setMinimumHeight(20);
+                m_ButtonAddMaterial->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+                
+                connect(m_ButtonRemoveMaterial, SIGNAL(clicked()), this, SLOT(onButtonRemoveMaterialClick()));
+                connect(m_ButtonAddMaterial, SIGNAL(clicked()), this, SLOT(onButtonAddMaterialClick()));
+
+                m_LayoutAddRemove->addWidget(m_ButtonRemoveMaterial);
+                m_LayoutAddRemove->addWidget(m_ButtonAddMaterial);
+
+                m_FrameAddRemove->setLayout(m_LayoutAddRemove);
+            }
+            
+            m_Layout->addWidget(m_FrameAddRemove);
+            m_FrameAddRemove->setVisible(true);
+
+            if(m_MaterialProperties.size())
+            {
+                m_ButtonRemoveMaterial->setVisible(true);
+            }
+            else
+            {
+                m_ButtonRemoveMaterial->setVisible(false);
             }
         }
     }

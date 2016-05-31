@@ -149,6 +149,10 @@ namespace Ocular
 
             /**
              * Removes the Material at the specified index.
+             *
+             * This completely deletes the Material from the Renderable.
+             * You may use setMaterial to set it NULL instead if that is more desireable.
+             *
              * \param[in] index
              */
             void removeMaterial(uint32_t index);

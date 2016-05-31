@@ -371,6 +371,15 @@
     <ClCompile Include="..\..\src\Routines\InputLoggerRoutine.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MeshRenderableDisplay.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_MeshRenderableDisplay.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -523,12 +532,10 @@
     <ClInclude Include="..\..\include\Widgets\Properties\Renderables\RenderableDisplayRegistrar.hpp">
       <Filter>Header Files\Widgets\Properties\Renderables</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp">
-      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp">
       <Filter>Header Files\Routines</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -572,6 +579,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Standard\ButtonResourceBrowse.hpp">
       <Filter>Header Files\Widgets\Standard</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp">
+      <Filter>Header Files\Widgets\Properties\Renderables</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

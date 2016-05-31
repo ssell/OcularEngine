@@ -47,7 +47,9 @@ namespace Ocular
         {
             if(resource)
             {
-                auto find = m_SubResources.find(name);
+                const std::string lowerName = Utils::String::ToLower(name);
+
+                auto find = m_SubResources.find(lowerName);
 
                 if(find != m_SubResources.end())
                 {
@@ -57,12 +59,12 @@ namespace Ocular
                     m_SubResources.erase(find);
                 }
 
-                resource->setName(name);
-                resource->setMappingName(m_MappingName + "/" + name);
+                resource->setName(lowerName);
+                resource->setMappingName(m_MappingName + "/" + lowerName);
                 resource->setIsInMemory(true);
                 resource->setSourceFile(m_SourceFile);
 
-                m_SubResources[name] = resource;
+                m_SubResources[lowerName] = resource;
             }
             else
             {
@@ -73,7 +75,9 @@ namespace Ocular
         Resource* MultiResource::getSubResource(std::string const& name)
         {
             Resource* result = nullptr;
-            auto find = m_SubResources.find(name);
+
+            const std::string lowerName = Utils::String::ToLower(name);
+            auto find = m_SubResources.find(lowerName);
 
             if(find != m_SubResources.end())
             {

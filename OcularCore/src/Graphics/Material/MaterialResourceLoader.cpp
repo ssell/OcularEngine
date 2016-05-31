@@ -94,7 +94,7 @@ namespace Ocular
                         // Create and load the Material
                         //------------------------------------------------
 
-                        Material* material = new Material();
+                        Material* material = OcularGraphics->createMaterial();
                         material->setSourceFile(file);
                         material->onLoad(&builderNode);
 

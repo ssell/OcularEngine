@@ -255,7 +255,7 @@ namespace Ocular
         {
             if(index < static_cast<uint32_t>(m_Materials.size()))
             {
-                m_Materials[index] = nullptr;
+                m_Materials.erase(m_Materials.begin() + index);
             }
         }
 

@@ -35,6 +35,7 @@ namespace Ocular
     namespace Editor
     {
         class MeshRenderableDisplayMaterial;
+        class ButtonResourceBrowse;
         class ResourceProperty;
 
         /**
@@ -42,6 +43,8 @@ namespace Ocular
          */
         class MeshRenderableDisplay : public RenderableDisplay
         {
+            Q_OBJECT
+
         public:
 
             MeshRenderableDisplay(QWidget* parent = nullptr);
@@ -55,15 +58,28 @@ namespace Ocular
 
             virtual void buildProperties() override;
             virtual void removeProperties() override;
+            
+        private slots:
+        
+            void onButtonAddMaterialClick();
+            void onButtonRemoveMaterialClick();
 
         private:
 
             void buildMeshProperty();
             void buildMaterialProperties();
+            void buildMaterialAddRemove();
+
+            //------------------------------------------------------------
 
             ResourceProperty* m_MeshProperty;
             std::vector<MeshRenderableDisplayMaterial*> m_MaterialProperties;
 
+            QFrame* m_FrameAddRemove;
+            QHBoxLayout* m_LayoutAddRemove;
+
+            QPushButton* m_ButtonAddMaterial;
+            QPushButton* m_ButtonRemoveMaterial;
         };
     }
     /**

@@ -182,16 +182,13 @@ namespace Ocular
 
                     for(auto textureNode : textureNodes)
                     {
-                        TextureSamplerInfo info;
+                        // Call setTexture instead of adding directly to the m_Textures container so
+                        // that any API-specific implementations (aka D3D11Material) may work properly.
 
-                        info.texture         = OcularResources->getResource<Texture>(textureNode->getValue());
-                        info.samplerName     = textureNode->getName();
-                        info.samplerRegister = static_cast<uint32_t>(m_Textures.size());
-
-                        if(info.texture)
-                        {
-                            m_Textures.emplace_back(info);
-                        }
+                        setTexture(
+                            static_cast<uint32_t>(m_Textures.size()), 
+                            textureNode->getName(), 
+                            OcularResources->getResource<Texture>(textureNode->getValue()));
                     }
                 }
 

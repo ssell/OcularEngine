@@ -184,7 +184,7 @@ namespace Ocular
                             std::vector<std::string> tokens;
                             Utils::String::Split(line, ' ', tokens);
 
-                            if(Utils::String::IsEqual(tokens[0], "usemtl"))
+                            if((Utils::String::IsEqual(tokens[0], "usemtl")) && (!Utils::String::IsEqual(tokens[1], "default")))
                             {
                                 OcularResources->addResource((mappingName + "/" + tokens[1]), file, nullptr, Core::ResourceType::Material);
                             }
