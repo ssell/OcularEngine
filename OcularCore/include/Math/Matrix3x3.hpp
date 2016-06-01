@@ -89,7 +89,7 @@ namespace Ocular
              * Creates a new 3x3 column-major matrix.
              * \param[in] values 9-element float array of values in column-major order ({x0, x1, x2, ..., z2, z3})
              */
-            Matrix3x3(float* values);
+            Matrix3x3(float const* values);
 
             /**
              *

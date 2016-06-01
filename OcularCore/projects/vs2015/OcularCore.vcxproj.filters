@@ -426,9 +426,6 @@
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp">
-      <Filter>Source Files\Math\Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
@@ -955,9 +952,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeStructs.hpp">
       <Filter>Header Files\Math\Geometry\HalfEdge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Math\Geometry\Vertex.hpp">
-      <Filter>Header Files\Math\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Math\Geometry\HalfEdge\HalfEdgeMesh.hpp">
       <Filter>Header Files\Math\Geometry\HalfEdge</Filter>

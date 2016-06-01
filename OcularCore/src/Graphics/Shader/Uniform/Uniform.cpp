@@ -29,45 +29,42 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Uniform::Uniform()
-            : m_Size(0), m_Data(nullptr), m_Register(0)
+            : m_Size(0),
+              m_Register(0)
         {
-            
+            m_Data.fill(0.0f);
         }
 
         Uniform::~Uniform()
         {
-            clearData();
+
         }
 
         Uniform::Uniform(Uniform const& other)
         {
             m_Name     = other.getName();
-            m_Size     = other.getSize();
+            m_Size     = Math::Clamp<uint32_t>(other.getSize(), 0, Uniform::MaxDataSize);
             m_Register = other.getRegister();
-            m_Data     = nullptr;
 
-            float* otherData = other.getData();
+            float const* otherData = other.getData();
 
             if(otherData)
             {
-                m_Data = new float[m_Size];
-                memcpy(m_Data, otherData, sizeof(float) * m_Size);
+                memcpy(&m_Data[0], otherData, sizeof(float) * m_Size);
             }
         }
 
         void Uniform::operator=(Uniform const& other)
         {
             m_Name     = other.getName();
-            m_Size     = other.getSize();
+            m_Size     = Math::Clamp<uint32_t>(other.getSize(), 0, Uniform::MaxDataSize);
             m_Register = other.getRegister();
-            m_Data     = nullptr;
 
-            float* otherData = other.getData();
+            float const* otherData = other.getData();
 
             if(otherData)
             {
-                m_Data = new float[m_Size];
-                memcpy(m_Data, otherData, sizeof(float) * m_Size);
+                memcpy(&m_Data[0], otherData, sizeof(float) * m_Size);
             }
         }
 
@@ -81,19 +78,13 @@ namespace Ocular
 
         void Uniform::setData(float const data)
         {
-            clearData();
-
             m_Size = 1;
-            m_Data = new float[1];
             m_Data[0] = data;
         }
 
         void Uniform::setData(Math::Vector4f const& data)
         {
-            clearData();
-
             m_Size = 4;
-            m_Data = new float[4];
             
             for(int i = 0; i < 4; i++)
             {
@@ -103,10 +94,7 @@ namespace Ocular
 
         void Uniform::setData(Math::Matrix3x3 const& data)
         {
-            clearData();
-
             m_Size = 9;
-            m_Data = new float[9];
             
             for(int i = 0; i < 9; i++)
             {
@@ -116,10 +104,7 @@ namespace Ocular
 
         void Uniform::setData(Math::Matrix4x4 const& data)
         {
-            clearData();
-
             m_Size = 16;
-            m_Data = new float[16];
             
             for(int i = 0; i < 16; i++)
             {
@@ -131,14 +116,13 @@ namespace Ocular
         {
             bool result = false;
 
-            clearData();
+            const uint32_t clampedCount = Math::Clamp<uint32_t>(count, 0, Uniform::MaxDataSize);
 
             if(data)
             {
-                if((count == 1) || (count == 4) || (count == 12) || (count == 16))
+                if((clampedCount == 1) || (clampedCount == 4) || (clampedCount == 12) || (clampedCount == 16))
                 {
                     m_Size = count;
-                    m_Data = new float[m_Size];
 
                     for(uint8_t i = 0; i < m_Size; i++)
                     {
@@ -167,28 +151,21 @@ namespace Ocular
         {
             float result = 0.0f;
 
-            if(m_Data)
+            if(index < m_Size)
             {
-                if(index < m_Size)
-                {
-                    result = m_Data[index];
-                }
-                else
-                {
-                    OcularLogger->warning("Attempting to access out-of-bounds index ", index, OCULAR_INTERNAL_LOG("Uniform", "getElement"));
-                }
+                result = m_Data[index];
             }
             else
             {
-                OcularLogger->warning("Attempting to access Uniform data without properly initializing Uniform (element data is NULL)", OCULAR_INTERNAL_LOG("Uniform", "getElement"));
+                OcularLogger->warning("Attempting to access out-of-bounds index ", index, OCULAR_INTERNAL_LOG("Uniform", "getElement"));
             }
 
             return result;
         }
 
-        float* Uniform::getData() const
+        float const* Uniform::getData() const
         {
-            return m_Data;
+            return &m_Data[0];
         }
 
         //----------------------------------------------------------------
@@ -222,17 +199,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
-        void Uniform::clearData()
-        {
-            m_Size = 0;
-
-            if(m_Data)
-            {
-                delete[] m_Data;
-                m_Data = nullptr;
-            }
-        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

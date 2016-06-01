@@ -27,18 +27,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         Polygon2D::Polygon2D(std::vector<Point2f> const& points)
+            : m_CenterCalculated(false),
+              m_SignedAreaCalculated(false),
+              m_SignedArea(0.0f)
         {
-            m_CenterCalculated = false;
-            m_SignedAreaCalculated = false;
 
             m_Points.assign(points.begin(), points.end());
         }
 
         Polygon2D::Polygon2D(Point2f const* points, uint32_t numPoints)
+            : m_CenterCalculated(false),
+              m_SignedAreaCalculated(false),
+              m_SignedArea(0.0f)
         {
-            m_CenterCalculated = false;
-            m_SignedAreaCalculated = false;
-
             m_Points.reserve(numPoints);
 
             if(points)

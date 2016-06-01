@@ -39,12 +39,12 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             PerlinNoise::PerlinNoise()
-                : ANoise()
+                : ANoise(),
+                  m_Octaves(6),
+                  m_Persistence(0.5f),
+                  m_Scale(0.01f),
+                  m_Seed(0)
             {
-                m_Octaves = 6;
-                m_Persistence = 0.5f;
-                m_Scale = 0.01f;
-
                 m_PRNG = Random::CreatePRNG(Random::MersenneTwister);
             }
 

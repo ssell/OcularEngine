@@ -104,7 +104,7 @@ namespace Ocular
              * Creates a new 4x4 column-major matrix.
              * \param[in] values 16-element float array of values in column-major order ({x0, x1, x2, x3, ..., w0, w1, w2, w3})
              */
-            Matrix4x4(float* values);
+            Matrix4x4(float const* values);
 
             /**
              *

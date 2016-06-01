@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_RANDOM_TINY_MERSENNE_TWISTER__H__
 
 #include "ARandom.hpp"
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -59,16 +60,16 @@ namespace Ocular
                 virtual void seed(int64_t seed);
                 virtual uint32_t next();
 
-                int64_t m_Mat1;
-                int64_t m_Mat2;
-                int64_t m_TMat;
-
             protected:
 
                 void nextState();
                 uint64_t temper();
 
-                int64_t m_Status[4];
+                int64_t m_Mat1;
+                int64_t m_Mat2;
+                int64_t m_TMat;
+
+                std::array<int64_t, 4> m_Status;
 
             private:
             };

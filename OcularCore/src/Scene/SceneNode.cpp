@@ -27,13 +27,15 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         SceneNode::SceneNode()
+            : parent(nullptr),
+              type(SceneNodeType::Internal)
         {
             parent = nullptr;
         }
 
         SceneNode::~SceneNode()
         {
-            parent = nullptr;
+
         }
 
         //----------------------------------------------------------------------------------

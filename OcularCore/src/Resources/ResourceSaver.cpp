@@ -67,7 +67,7 @@ namespace Ocular
         {
             bool result = false;
 
-            std::ofstream outStream(file.getFullPath(), std::ios_base::out || std::ios_base::binary);
+            std::ofstream outStream(file.getFullPath(), std::ios_base::out | std::ios_base::binary);
 
             if(outStream.is_open())
             {

@@ -34,6 +34,8 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         ResourceManager::ResourceManager()
+            : m_PriorityBehaviour(ResourcePriorityBehaviour::LeastFrequentlyUsed),
+              m_MemoryLimit(0)
         {
 
         }

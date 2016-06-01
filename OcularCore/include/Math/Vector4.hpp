@@ -45,7 +45,7 @@ namespace Ocular
         {
         public:
 
-            Vector4(T* values)
+            Vector4(T const* values)
             {
                 x = values[0];
                 y = values[1];

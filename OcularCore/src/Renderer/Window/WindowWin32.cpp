@@ -73,15 +73,21 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         WindowWin32::WindowWin32(WindowDescriptor const& descriptor)
-            : AWindow(descriptor), m_HINSTANCE(nullptr), m_HWND(nullptr)
+            : AWindow(descriptor), 
+              m_HINSTANCE(nullptr), 
+              m_HWND(nullptr)
         {
-
+            ZeroMemory(&m_RawDevices[0], sizeof(RAWINPUTDEVICE));
+            ZeroMemory(&m_RawDevices[1], sizeof(RAWINPUTDEVICE));
         }
 
         WindowWin32::WindowWin32(WindowDescriptor const& descriptor, void* windowID)
-            : AWindow(descriptor), m_HINSTANCE(nullptr), m_HWND((HWND)(windowID))
+            : AWindow(descriptor), 
+              m_HINSTANCE(nullptr), 
+              m_HWND((HWND)(windowID))
         {
-
+            ZeroMemory(&m_RawDevices[0], sizeof(RAWINPUTDEVICE));
+            ZeroMemory(&m_RawDevices[1], sizeof(RAWINPUTDEVICE));
         }
 
         WindowWin32::~WindowWin32() 
@@ -419,7 +425,7 @@ namespace Ocular
             m_RawDevices[0].usUsagePage = 0x01;
             m_RawDevices[0].usUsage     = 0x06;
             m_RawDevices[0].dwFlags     = 0;// RIDEV_NOLEGACY;   // Add HID keyboard and ignore legacy keyboard messages
-            m_RawDevices[0].hwndTarget  = m_HWND;           // Target only this window. We do not care about messages that are out of focus.
+            m_RawDevices[0].hwndTarget  = m_HWND;                // Target only this window. We do not care about messages that are out of focus.
 
             // Register for mouse messages
 

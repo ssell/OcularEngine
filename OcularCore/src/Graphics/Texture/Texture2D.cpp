@@ -67,7 +67,7 @@ namespace Ocular
         {
             Core::Color result(0.0f, 0.0f, 0.0f, 1.0f);
 
-            if((x >= 0) && (x < m_Descriptor.width) && (y >= 0) && (y < m_Descriptor.height))
+            if((x < m_Descriptor.width) && (y < m_Descriptor.height))
             {
                 result = TEXTURE_INDEX(x, y);
             }
@@ -79,7 +79,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((x >= 0) && (x < m_Descriptor.width) && (y >= 0) && (y < m_Descriptor.height))
+            if((x < m_Descriptor.width) && (y < m_Descriptor.height))
             {
                 TEXTURE_INDEX(x, y) = color;
                 result = true;
@@ -93,7 +93,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Descriptor.width) && (startY >= 0) && (startY < m_Descriptor.height))
+            if((startX < m_Descriptor.width) && (startY < m_Descriptor.height))
             {
                 uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to get
                 uint32_t workingHeight = height;
@@ -126,7 +126,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if((startX >= 0) && (startX < m_Descriptor.width) && (startY >= 0) && (startY < m_Descriptor.height))
+            if((startX < m_Descriptor.width) && (startY < m_Descriptor.height))
             {
                 uint32_t workingWidth  = width;     // The width and height of the subsection of the texture to set
                 uint32_t workingHeight = height;

@@ -21,6 +21,8 @@
 #include "Math/Matrix4x4.hpp"
 #include "Math/Vector4.hpp"
 
+#include <array>
+
 //------------------------------------------------------------------------------------------
 
 /**
@@ -41,6 +43,9 @@ namespace Ocular
         class Uniform
         {
         public:
+
+            /// Maximum size of the m_Data array
+            static const uint32_t MaxDataSize = 16;
             
             Uniform();
             ~Uniform();
@@ -102,9 +107,11 @@ namespace Ocular
             float getElement(uint32_t index) const;
             
             /**
-             * \return A pointer to all data. May be NULL if data elements were never set or there was an error during creation.
+             * \return A pointer to the internal data. Guaranteed to be (MaxDataSize * sizeof(float)) in size, though
+             *         only part of the data array may actually be in use (see getSize()). Unused portions may be
+             *         anything as the array is only cleared to zero once during creation.
              */
-            float* getData() const;
+            float const* getData() const;
 
             //------------------------------------------------------------
             // Name Methods
@@ -138,13 +145,11 @@ namespace Ocular
 
         protected:
 
-            void clearData();
-
             std::string m_Name;
             uint32_t m_Register;
 
             uint32_t m_Size;
-            float* m_Data;
+            std::array<float, Uniform::MaxDataSize> m_Data;
 
         private:
         };

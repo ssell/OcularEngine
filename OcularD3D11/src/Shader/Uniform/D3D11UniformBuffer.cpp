@@ -260,7 +260,7 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < m_Uniforms.size(); i++)
                 {
-                    float* data = m_Uniforms[i].getData();
+                    float const* data = m_Uniforms[i].getData();
 
                     if(data)
                     {

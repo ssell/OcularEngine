@@ -242,7 +242,6 @@
     <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
-    <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\src\Math\MathInternal.cpp" />
     <ClCompile Include="..\..\src\Math\Matrix3x3.cpp" />
     <ClCompile Include="..\..\src\Math\Matrix4x4.cpp" />
@@ -405,7 +404,6 @@
     <ClInclude Include="..\..\include\Math\Geometry\LineSegment2D.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\Plane.hpp" />
     <ClInclude Include="..\..\include\Math\Geometry\Polygon2D.hpp" />
-    <ClInclude Include="..\..\include\Math\Geometry\Vertex.hpp" />
     <ClInclude Include="..\..\include\Math\Interpolation.hpp" />
     <ClInclude Include="..\..\include\Math\MathCommon.hpp" />
     <ClInclude Include="..\..\include\Math\Equality.hpp" />

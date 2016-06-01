@@ -692,7 +692,7 @@ namespace Ocular
             {
                 if(uniform->getSize() == 4)
                 {
-                    float* data = uniform->getData();
+                    float const* data = uniform->getData();
 
                     if(data)
                     {
@@ -736,7 +736,7 @@ namespace Ocular
             {
                 if(uniform->getSize() == 12)
                 {
-                    float* data = uniform->getData();
+                    float const* data = uniform->getData();
 
                     if(data)
                     {
@@ -776,7 +776,7 @@ namespace Ocular
             {
                 if(uniform->getSize() == 16)
                 {
-                    float* data = uniform->getData();
+                    float const* data = uniform->getData();
 
                     if(data)
                     {

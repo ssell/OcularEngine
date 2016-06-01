@@ -22,6 +22,7 @@
 #include "Math/Random/ARandom.hpp"
 
 #include <memory>
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -155,10 +156,10 @@ namespace Ocular
                 float    m_Persistence;
                 float    m_Scale;
 
-                uint32_t m_Permutations[514];
-                float    m_Gradient1[514];
-                float    m_Gradient2[514][2];
-                float    m_Gradient3[514][3];
+                std::array<uint32_t, 514>             m_Permutations;
+                std::array<float, 514>                m_Gradient1;
+                std::array<std::array<float, 2>, 514> m_Gradient2;
+                std::array<std::array<float, 3>, 514> m_Gradient3[514][3];
 
                 int64_t  m_Seed;
 

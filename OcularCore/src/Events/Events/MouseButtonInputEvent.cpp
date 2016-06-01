@@ -27,13 +27,17 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MouseButtonInputEvent::MouseButtonInputEvent(MouseButtons const button, KeyState const state)
-            : AEvent("MouseButtonInputEvent", Priority::Medium), button(button), state(state)
+            : AEvent("MouseButtonInputEvent", Priority::Medium), 
+              button(button), 
+              state(state)
         {
 
         }
 
         MouseButtonInputEvent::MouseButtonInputEvent()
-            : AEvent("MouseButtonInputEvent", Priority::Medium)
+            : AEvent("MouseButtonInputEvent", Priority::Medium), 
+              button(MouseButtons::Undefined),
+              state(KeyState::Undefined)
         {
 
         }

@@ -27,13 +27,17 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         KeyboardInputEvent::KeyboardInputEvent(KeyboardKeys const key, KeyState const state)
-            : AEvent("KeyboardInputEvent", Priority::Medium), key(key), state(state)
+            : AEvent("KeyboardInputEvent", Priority::Medium), 
+              key(key), 
+              state(state)
         {
 
         }
 
         KeyboardInputEvent::KeyboardInputEvent()
-            : AEvent("KeyboardInputEvent", Priority::Medium)
+            : AEvent("KeyboardInputEvent", Priority::Medium),
+              key(KeyboardKeys::Undefined), 
+              state(KeyState::Undefined)
         {
 
         }

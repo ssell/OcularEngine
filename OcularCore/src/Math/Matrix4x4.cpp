@@ -108,7 +108,7 @@ namespace Ocular
             m_Internal = new Matrix4x4_Internal(glm::mat4x4(matrix.getInternal()->matrix));
         }
 
-        Matrix4x4::Matrix4x4(float* values)
+        Matrix4x4::Matrix4x4(float const* values)
         {
             m_Internal = new Matrix4x4_Internal();
 

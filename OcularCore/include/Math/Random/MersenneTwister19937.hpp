@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_RANDOM_MERSENNE_TWISTER__H__
 
 #include "ARandom.hpp"
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ namespace Ocular
 
             protected:
 
-                uint32_t m_State[624];
+                std::array<uint32_t, 624> m_State;
                 uint32_t m_I;
 
             private:

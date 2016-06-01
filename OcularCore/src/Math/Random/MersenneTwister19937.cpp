@@ -16,11 +16,14 @@
 
 #include "Math/Random/MersenneTwister19937.hpp"
 
-static const uint32_t N          = 624;
-static const uint32_t M          = 397;
-static const uint32_t MATRIX_A   = 0x9908b0dfUL;
-static const uint32_t UPPER_MASK = 0x80000000UL;
-static const uint32_t LOWER_MASK = 0x7fffffffUL;
+namespace
+{
+    const uint32_t N          = 624;
+    const uint32_t M          = 397;
+    const uint32_t MATRIX_A   = 0x9908b0dfUL;
+    const uint32_t UPPER_MASK = 0x80000000UL;
+    const uint32_t LOWER_MASK = 0x7fffffffUL;
+}
 
 //------------------------------------------------------------------------------------------
 
@@ -35,9 +38,10 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             MersenneTwister19937::MersenneTwister19937()
-                : ARandom()
+                : ARandom(),
+                  m_I(N + 1)
             {
-                m_I = N + 1;
+                m_State.fill(0);
             }
 
             MersenneTwister19937::~MersenneTwister19937()

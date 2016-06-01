@@ -19,6 +19,7 @@
 #define __H__OCULAR_MATH_RANDOM_CMWC__H__
 
 #include "ARandom.hpp"
+#include <array>
 
 //------------------------------------------------------------------------------------------
 
@@ -62,7 +63,8 @@ namespace Ocular
 
                 uint32_t  m_SeedCast;
                 uint32_t  m_C;
-                uint32_t* m_Q;
+                
+                std::array<uint32_t, 4096> m_Q;
             };
         }
         /**

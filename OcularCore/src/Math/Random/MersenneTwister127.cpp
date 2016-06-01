@@ -35,11 +35,12 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             MersenneTwister127::MersenneTwister127()
-                : ARandom()
+                : ARandom(),
+                  m_Mat1(static_cast<int64_t>(4194639680)),
+                  m_Mat2(static_cast<int64_t>(4291887092)),
+                  m_TMat(static_cast<int64_t>(6399667842752446396))
             {
-                m_Mat1 = static_cast<int64_t>(4194639680);
-                m_Mat2 = static_cast<int64_t>(4291887092);
-                m_TMat = static_cast<int64_t>(6399667842752446396);
+                m_Status.fill(0);
             }
 
             MersenneTwister127::~MersenneTwister127()

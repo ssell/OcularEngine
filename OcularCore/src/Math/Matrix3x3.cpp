@@ -99,7 +99,7 @@ namespace Ocular
                             x2, y2, z2));
         }
 
-        Matrix3x3::Matrix3x3(float* values)
+        Matrix3x3::Matrix3x3(float const* values)
         {
             m_Internal = new Matrix3x3_Internal();
 

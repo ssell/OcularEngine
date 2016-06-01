@@ -90,10 +90,10 @@ namespace Ocular
                 m_UniformBufferPerFrame = nullptr;
             }
 
-            if(m_UniformBufferPerFrame)
+            if(m_UniformBufferPerObject)
             {
-                delete m_UniformBufferPerFrame;
-                m_UniformBufferPerFrame = nullptr;
+                delete m_UniformBufferPerObject;
+                m_UniformBufferPerObject = nullptr;
             }
         }
 
@@ -248,10 +248,10 @@ namespace Ocular
             std::vector<SceneObject*> objects;
             Camera* camera = OcularCameras->getActiveCamera();
 
-            OcularGraphics->clearBuffers(camera->getClearColor());
-
             if(camera)
             {
+                OcularGraphics->clearBuffers(camera->getClearColor());
+
                 Math::Frustum frustum = camera->getFrustum();
 
                 if(m_StaticSceneTree)
