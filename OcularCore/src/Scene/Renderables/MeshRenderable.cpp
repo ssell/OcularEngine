@@ -39,6 +39,8 @@ namespace Ocular
         {
             m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
             exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
+            
+            m_Materials.push_back(dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material)));
         }
 
         MeshRenderable::~MeshRenderable()

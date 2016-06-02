@@ -56,39 +56,37 @@ namespace Ocular
 
         protected:
 
-            void createActions();
-            void createMenus();
+            void createFileMenu();
+            void createSceneMenu();
+            void createHelpMenu();
 
         private slots:
 
-            void fileNewProject();
-            void fileOpenProject();
-            void fileCloseProject();
-            void fileNewScene();
-            void fileOpenScene();
-            void fileSaveScene();
-            void fileSaveSceneAs();
-            void fileCloseScene();
-            void fileExit();
-            void helpAbout();
+            void onFileNewProject();
+            void onFileOpenProject();
+            void onFileCloseProject();
+            void onFileNewScene();
+            void onFileOpenScene();
+            void onFileSaveScene();
+            void onFileSaveSceneAs();
+            void onFileCloseScene();
+            void onFileExit();
+
+            void onSceneAddObject();
+            void onSceneAddMesh();
+
+            void onHelpAbout();
+
+
 
         private:
 
             QMenu* m_MenuFile;
-            QAction* m_MenuActionFileNewProject;
-            QAction* m_MenuActionFileOpenProject;
-            QAction* m_MenuActionFileCloseProject;
-            QAction* m_MenuActionFileNewScene;
-            QAction* m_MenuActionFileOpenScene;
-            QAction* m_MenuActionFileSaveScene;
-            QAction* m_MenuActionFileSaveSceneAs;
-            QAction* m_MenuActionFileCloseScene;
-            QAction* m_MenuActionFileExit;
-
-            QMenu* m_MenuEdit;
-
+            QMenu* m_MenuScene;
+            QMenu* m_MenuSceneMesh;
             QMenu* m_MenuHelp;
-            QAction* m_MenuActionHelpAbout;
+
+            std::vector<QAction*> m_MenuActions;   ///< Container of all menu actions. Kept for end-of-life cleanup.
 
             std::string m_LastScenePath;
         };

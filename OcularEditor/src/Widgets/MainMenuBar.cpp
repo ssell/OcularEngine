@@ -15,10 +15,26 @@
  */
 
 #include "stdafx.h"
+
 #include "Widgets/MainMenuBar.hpp"
 #include "Widgets/MainWindow.hpp"
 
+#include "Scene/Renderables/MeshRenderable.hpp"
+
 //------------------------------------------------------------------------------------------
+
+namespace
+{
+    const char* NameCubeMesh   = "Cube";
+    const char* NameSphereMesh = "Sphere";
+    const char* NameTorusMesh  = "Torus";
+    const char* NamePlaneMesh  = "Plane";
+
+    // The strings below will eventually be moved into config files
+
+    const std::string PathCoreMaterials = "OcularCore/Materials/";
+    const std::string PathCoreMeshes = "OcularCore/Meshes/";
+}
 
 namespace Ocular
 {
@@ -31,18 +47,28 @@ namespace Ocular
         MainMenuBar::MainMenuBar(MainWindow* parent)
             : QMenuBar(parent),
               m_MenuFile(nullptr),
-              m_MenuEdit(nullptr),
+              m_MenuScene(nullptr),
               m_MenuHelp(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            createActions();
-            createMenus();
+            createFileMenu();
+            createSceneMenu();
+            createHelpMenu();
         }
 
         MainMenuBar::~MainMenuBar()
         {
+            for(auto iter = m_MenuActions.begin(); iter != m_MenuActions.end(); ++iter)
+            {
+                delete (*iter);
+            }
 
+            m_MenuActions.clear();
+
+            delete m_MenuFile;
+            delete m_MenuScene;
+            delete m_MenuHelp;
         }
 
         //----------------------------------------------------------------------------------
@@ -59,108 +85,132 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void MainMenuBar::createActions()
+        void MainMenuBar::createFileMenu()
         {
-            // Must be called before createMenus
+            m_MenuFile = addMenu(tr("&File"));
+
+            m_MenuActions.push_back(new QAction(tr("New Project"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileNewProject()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Open Project"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileOpenProject()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Close Project"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileCloseProject()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuFile->addSeparator();
+
+            m_MenuActions.push_back(new QAction(tr("New Scene"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileNewScene()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Open Scene"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileOpenScene()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Save Scene"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileSaveScene()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Save Scene As..."), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileSaveSceneAs()));
+            m_MenuFile->addAction(m_MenuActions.back());
+
+            m_MenuActions.push_back(new QAction(tr("Close Scene"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileCloseScene()));
+            m_MenuFile->addAction(m_MenuActions.back());
             
-            //------------------------------------------------------------
-            // File Menu Actions
+            m_MenuFile->addSeparator();
 
-            m_MenuActionFileNewProject = new QAction(tr("New Project"), this);
-            connect(m_MenuActionFileNewProject, SIGNAL(triggered()), this, SLOT(fileNewProject()));
-
-            m_MenuActionFileOpenProject = new QAction(tr("Open Project"), this);
-            connect(m_MenuActionFileOpenProject, SIGNAL(triggered()), this, SLOT(fileOpenProject()));
-
-            m_MenuActionFileCloseProject = new QAction(tr("Close Project"), this);
-            connect(m_MenuActionFileCloseProject, SIGNAL(triggered()), this, SLOT(fileCloseProject()));
-
-            m_MenuActionFileNewScene = new QAction(tr("New Scene"), this);
-            connect(m_MenuActionFileNewScene, SIGNAL(triggered()), this, SLOT(fileNewScene()));
-
-            m_MenuActionFileOpenScene = new QAction(tr("Open Scene"), this);
-            connect(m_MenuActionFileOpenScene, SIGNAL(triggered()), this, SLOT(fileOpenScene()));
-
-            m_MenuActionFileSaveScene = new QAction(tr("Save Scene"), this);
-            connect(m_MenuActionFileSaveScene, SIGNAL(triggered()), this, SLOT(fileSaveScene()));
-
-            m_MenuActionFileSaveSceneAs = new QAction(tr("Save Scene As..."), this);
-            connect(m_MenuActionFileSaveSceneAs, SIGNAL(triggered()), this, SLOT(fileSaveSceneAs()));
-
-            m_MenuActionFileCloseScene = new QAction(tr("Close Scene"), this);
-            connect(m_MenuActionFileCloseScene, SIGNAL(triggered()), this, SLOT(fileCloseScene()));
-
-            m_MenuActionFileExit = new QAction(tr("Exit"), this);
-            connect(m_MenuActionFileExit, SIGNAL(triggered()), this, SLOT(fileExit()));
-
-            //------------------------------------------------------------
-            // Edit Menu Actions
-
-            //------------------------------------------------------------
-            // Help Menu Actions
-
-            m_MenuActionHelpAbout = new QAction(tr("About Ocular Editor"), this);
-            connect(m_MenuActionHelpAbout, SIGNAL(triggered()), this, SLOT(helpAbout()));
-
+            m_MenuActions.push_back(new QAction(tr("Exit"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onFileExit()));
+            m_MenuFile->addAction(m_MenuActions.back());
         }
 
-        void MainMenuBar::createMenus()
+        void MainMenuBar::createSceneMenu()
         {
-            // Must be called after createActions
+            m_MenuScene = addMenu(tr("&Scene"));
+            
+            m_MenuActions.push_back(new QAction(tr("Add SceneObject"), this));
+            m_MenuScene->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddObject()));
+
+            //------------------------------------------------------------
+            // Mesh Submenu
+
+            m_MenuSceneMesh = m_MenuScene->addMenu(tr("Add Mesh"));
+            
+            m_MenuActions.push_back(new QAction(tr(NameCubeMesh), this));
+            m_MenuSceneMesh->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddMesh()));
+
+            m_MenuActions.push_back(new QAction(tr(NameSphereMesh), this));
+            m_MenuSceneMesh->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddMesh()));
+            
+            m_MenuActions.push_back(new QAction(tr(NameTorusMesh), this));
+            m_MenuSceneMesh->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddMesh()));
+            
+            m_MenuActions.push_back(new QAction(tr(NamePlaneMesh), this));
+            m_MenuSceneMesh->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddMesh()));
             
             //------------------------------------------------------------
-            // File Menu
+            // Handlers for Custom SceneObjects
 
-            m_MenuFile = addMenu(tr("&FILE"));
-            m_MenuFile->addAction(m_MenuActionFileNewProject);
-            m_MenuFile->addAction(m_MenuActionFileOpenProject);
-            m_MenuFile->addAction(m_MenuActionFileCloseProject);
-            m_MenuFile->addSeparator();
-            m_MenuFile->addAction(m_MenuActionFileNewScene);
-            m_MenuFile->addAction(m_MenuActionFileOpenScene);
-            m_MenuFile->addAction(m_MenuActionFileSaveScene);
-            m_MenuFile->addAction(m_MenuActionFileSaveSceneAs);
-            m_MenuFile->addAction(m_MenuActionFileCloseScene);
-            m_MenuFile->addSeparator();
-            m_MenuFile->addAction(m_MenuActionFileExit);
+            auto objectTypes = OcularScene->getSceneObjectFactory().getRegisteredKeys();
             
-            //------------------------------------------------------------
-            // Edit Menu
+            for(auto objectType : objectTypes)
+            { 
+                if(!Utils::String::IsEqual(objectType, "SceneObject"))
+                {
+                    const std::string label = "Add " + objectType;
 
-            m_MenuEdit = addMenu(tr("&EDIT"));
-            
-            //------------------------------------------------------------
-            // Help Menu
+                    m_MenuActions.push_back(new QAction(tr(label.c_str()), this));
+                    m_MenuScene->addAction(m_MenuActions.back());
+                    connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddObject()));
+                }
+            }
+        }
 
-            m_MenuHelp = addMenu(tr("&HELP"));
-            m_MenuHelp->addAction(m_MenuActionHelpAbout);
+        void MainMenuBar::createHelpMenu()
+        {
+            m_MenuHelp = addMenu(tr("&Help"));
+
+            m_MenuActions.push_back(new QAction(tr("About Ocular Editor"), this));
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onHelpAbout()));
+            m_MenuHelp->addAction(m_MenuActions.back());
         }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
 
-        void MainMenuBar::fileNewProject()
+        void MainMenuBar::onFileNewProject()
         {
 
         }
 
-        void MainMenuBar::fileOpenProject()
+        void MainMenuBar::onFileOpenProject()
         {
 
         }
 
-        void MainMenuBar::fileCloseProject()
+        void MainMenuBar::onFileCloseProject()
         {
 
         }
 
-        void MainMenuBar::fileNewScene()
+        void MainMenuBar::onFileNewScene()
         {
             OcularScene->createScene("New Scene");
         }
 
-        void MainMenuBar::fileOpenScene()
+        void MainMenuBar::onFileOpenScene()
         {
             const std::string searchPath = (m_LastScenePath.size() ? m_LastScenePath : OcularResources->getSourceDirectory());
             const std::string path = QFileDialog::getOpenFileName(this, tr("Open Scene"), searchPath.c_str(), tr("Ocular Scene Files (*.oscene)")).toStdString();
@@ -176,7 +226,7 @@ namespace Ocular
             }
         }
 
-        void MainMenuBar::fileSaveScene()
+        void MainMenuBar::onFileSaveScene()
         {
             if(m_LastScenePath.size())
             {
@@ -184,11 +234,11 @@ namespace Ocular
             }
             else
             {
-                fileSaveSceneAs();
+                onFileSaveSceneAs();
             }
         }
 
-        void MainMenuBar::fileSaveSceneAs()
+        void MainMenuBar::onFileSaveSceneAs()
         {
             const std::string searchPath = (m_LastScenePath.size() ? m_LastScenePath : OcularResources->getSourceDirectory());
             const std::string path = QFileDialog::getSaveFileName(this, tr("Save Scene"), searchPath.c_str(), tr("Ocular Scene Files (*.oscene)")).toStdString();
@@ -201,17 +251,66 @@ namespace Ocular
             }
         }
 
-        void MainMenuBar::fileCloseScene()
+        void MainMenuBar::onFileCloseScene()
         {
 
         }
 
-        void MainMenuBar::fileExit()
+        void MainMenuBar::onFileExit()
         {
 
         }
 
-        void MainMenuBar::helpAbout()
+        void MainMenuBar::onSceneAddObject()
+        {
+            QAction* action = dynamic_cast<QAction*>(sender());
+
+            if(action)
+            {
+                const std::string text = action->text().toStdString().substr(4);  // Cut off the "Add "
+
+                OcularScene->createObjectOfType(text, text);
+            }
+        }
+
+        void MainMenuBar::onSceneAddMesh()
+        {
+            QAction* action = dynamic_cast<QAction*>(sender());
+
+            if(action)
+            {
+                const std::string text = action->text().toStdString();
+
+                Core::SceneObject* object = new Core::SceneObject(text);
+                object->setRenderable("MeshRenderable");
+
+                Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(object->getRenderable());
+
+                if(renderable)
+                {
+                    renderable->setMaterial(PathCoreMaterials + "Default");
+
+                    if(Utils::String::IsEqual(text, NameCubeMesh))
+                    {
+                        renderable->setMesh(PathCoreMeshes + "Cube/Cube");    // Our default models are stored as OBJs. So Cube is the file name, while the second Cube is the Mesh
+                    }
+                    else if(Utils::String::IsEqual(text, NameSphereMesh))
+                    {
+                        renderable->setMesh(PathCoreMeshes + "Sphere/Sphere");
+                    }
+                    else if(Utils::String::IsEqual(text, NameTorusMesh))
+                    {
+                        renderable->setMesh(PathCoreMeshes + "Torus/Torus");
+                    }
+                    else if(Utils::String::IsEqual(text, NamePlaneMesh))
+                    {
+                        renderable->setMesh(PathCoreMeshes + "Plane/Plane");
+                    }
+                }
+            }
+        }
+
+        void MainMenuBar::onHelpAbout()
         {
 
         }

@@ -26,6 +26,8 @@ int main(int argc, char** argv)
         OcularResources->setSourceDirectory("C:\\Projects\\OcularEngine\\Resources");
         OcularResources->forceSourceRefresh();
 
+        OcularScene->createScene("New Scene");
+
         while(OcularEditor.run());
 
         OcularEditor.shutdown();
