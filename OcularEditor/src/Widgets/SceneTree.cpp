@@ -24,9 +24,16 @@
 #include "Events/SceneObjectSelectedEvent.hpp"
 #include "Events/SceneObjectFocusedEvent.hpp"
 
+#include "Scene/Renderables/MeshRenderable.hpp"
+
 namespace
 {
     const uint64_t RefreshRate = 200;       // Tree refresh rate in MS
+
+    // The strings below will eventually be moved into config files
+
+    const std::string PathCoreMaterials = "OcularCore/Materials/";
+    const std::string PathCoreMeshes = "OcularCore/Meshes/";
 }
 
 //------------------------------------------------------------------------------------------
@@ -93,7 +100,7 @@ namespace Ocular
             if(object)
             {
                 // The second (hidden) column for our items is the UUID string, so search for items matching that data
-                auto items = findItems(QString(object->getUUID().toString().c_str()), Qt::MatchFlag::MatchExactly, 1);
+                auto items = findItems(QString(object->getUUID().toString().c_str()), Qt::MatchFlag::MatchExactly | Qt::MatchFlag::MatchRecursive, 1);
 
                 if(items.size() > 0)
                 {
@@ -109,7 +116,7 @@ namespace Ocular
             SceneTreeItem* result = nullptr;
 
             // The second (hidden) column for our items is the UUID string, so search for items matching that data
-            auto items = findItems(QString(uuid.toString().c_str()), Qt::MatchFlag::MatchExactly, 1);
+            auto items = findItems(QString(uuid.toString().c_str()), Qt::MatchFlag::MatchExactly | Qt::MatchFlag::MatchRecursive, 1);
 
             if(items.size() > 0)
             {
@@ -132,6 +139,7 @@ namespace Ocular
                     if(parentItem)
                     {
                         SceneTreeItem* item = new SceneTreeItem(parentItem, object);
+                        parentItem->setExpanded(true);
                     }
                     else
                     {
@@ -414,6 +422,7 @@ namespace Ocular
                 if(sceneTreeItem)
                 {
                     OcularScene->destroyObject(sceneTreeItem->getUUID());
+                    OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
                 }
             }
         }
@@ -426,7 +435,7 @@ namespace Ocular
             if(numSelected == 0)
             {
                 // We are creating a new, top-level object 
-                OcularScene->createObjectOfType(type, type);
+                createObject(type, nullptr);
             }
             else if(numSelected)
             {
@@ -438,11 +447,9 @@ namespace Ocular
                     if(sceneTreeItem)
                     {
                         Core::SceneObject* object = sceneTreeItem->getObject();
+                        createObject(type, object);
 
-                        if(object)
-                        {
-                            OcularScene->createObjectOfType(type, type, object);
-                        }
+                        sceneTreeItem->setExpanded(true);  // Ensure the item is expanded so we can see the new object
                     }
                 }
             }
@@ -457,7 +464,35 @@ namespace Ocular
             {
                 submenu->addAction(objectType.c_str())->setDisabled(disable);
             }
+
+            submenu->addSeparator();
+            
+            submenu->addAction("Cube")->setDisabled(disable);
+            submenu->addAction("Sphere")->setDisabled(disable);
+            submenu->addAction("Torus")->setDisabled(disable);
+            submenu->addAction("Plane")->setDisabled(disable);
         }
 
+        void SceneTree::createObject(std::string const& type, Core::SceneObject* parent)
+        {
+            Core::SceneObject* object = OcularScene->createObjectOfType(type, type, parent);
+
+            if(object == nullptr)
+            {
+                // Failed to create a custom SceneObject of the type.
+                // Check if we were requested to create a Mesh instead.
+
+                Core::SceneObject* object = new Core::SceneObject(type, parent);
+                object->setRenderable("MeshRenderable");
+
+                Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(object->getRenderable());
+
+                if(renderable)
+                {
+                    renderable->setMaterial(PathCoreMaterials + "Default");
+                    renderable->setMesh(PathCoreMeshes + type + "/" + type);
+                }
+            }
+        }
     }
 }

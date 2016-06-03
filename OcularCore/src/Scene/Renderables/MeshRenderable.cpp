@@ -121,7 +121,7 @@ namespace Ocular
                         if(materialNode)
                         {
                             const std::string mappingName = materialNode->getValue();
-                            m_Materials.push_back(OcularResources->getResource<Graphics::Material>(mappingName));
+                            setMaterial(mappingName, i, true);
                         }
                     }
                 }

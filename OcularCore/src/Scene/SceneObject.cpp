@@ -35,7 +35,7 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        SceneObject::SceneObject(std::string const& name, std::string const& type, SceneObject* parent)
+        SceneObject::SceneObject(std::string const& name, SceneObject* parent, std::string const& type)
             : Object(name, type),
               m_IsStatic(false),
               m_IsActive(true),
@@ -401,7 +401,7 @@ namespace Ocular
 
         void SceneObject::addChild(SceneObject* child, bool maintainWorldPos)
         {
-            if(child)
+            if(child && (child->m_Parent != this))
             {
                 if(maintainWorldPos)
                 {

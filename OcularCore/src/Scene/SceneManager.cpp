@@ -499,7 +499,18 @@ namespace Ocular
             if(object)
             {
                 //--------------------------------------------------------
-                // 1. Remove the object from the Scene
+                // 1. Destroy any child objects
+                //--------------------------------------------------------
+
+                auto children = object->getAllChildren();
+
+                for(auto child = children.begin(); child != children.end(); ++child)
+                {
+                    destroyObject((*child)->getUUID());
+                }
+
+                //--------------------------------------------------------
+                // 2. Remove the object from the Scene
                 //--------------------------------------------------------
 
                 if(m_Scene)
@@ -513,18 +524,7 @@ namespace Ocular
                 }
 
                 //--------------------------------------------------------
-                // 3. Destroy any child objects
-                //--------------------------------------------------------
-
-                auto children = object->getAllChildren();
-
-                for(auto child = children.begin(); child != children.end(); ++child)
-                {
-                    destroyObject((*child)->getUUID());
-                }
-
-                //--------------------------------------------------------
-                // 4. Inform about the removal
+                // 3. Inform about the removal
                 //--------------------------------------------------------
 
                 // We do this now so that our children generate removal events
@@ -533,7 +533,7 @@ namespace Ocular
                 OcularEvents->queueEvent(std::make_shared<SceneObjectRemovedEvent>(object->getUUID()));
 
                 //--------------------------------------------------------
-                // 5. Delete the object
+                // 4. Delete the object
                 //--------------------------------------------------------
 
                 delete object;

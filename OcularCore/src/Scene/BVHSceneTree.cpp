@@ -163,13 +163,32 @@ namespace Ocular
                             parentParent->right = survivingChild;
                         }
 
+                        survivingChild->parent = parentParent;
+
                         delete leaf;
                         delete parent;
 
                         leaf = nullptr;
                         parent = nullptr;
 
-                        parentParent->morton = (parentParent->left->morton + parentParent->right->morton) / 2;
+                        uint64_t morton = 0;
+
+                        if(parentParent->left)
+                        {
+                            morton = parentParent->left->morton;
+
+                            if(parentParent->right)
+                            {
+                                morton += parentParent->right->morton;
+                                morton /= 2;
+                            }
+                        }
+                        else if(parentParent->right)
+                        {
+                            morton = parentParent->right->morton;
+                        }
+
+                        parentParent->morton = morton;
                         fitNodeBounds(parentParent);
                     }
 
@@ -182,6 +201,16 @@ namespace Ocular
                     {
                         m_AllObjects.erase(findObject);
                         m_IsDirty = true;
+                    }
+
+                    // Make sure the object isn't being queued for addition to the tree
+                    for(auto iter = m_NewObjects.begin(); iter != m_NewObjects.end(); ++iter)
+                    {
+                        if((*iter) == object)
+                        {
+                            m_NewObjects.erase(iter);
+                            break;
+                        }
                     }
 
                     result = true;

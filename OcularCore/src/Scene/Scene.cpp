@@ -171,21 +171,19 @@ namespace Ocular
                 {
                     parent->removeChild(object);
                 }
-                else
+
+                //--------------------------------------------------------
+                // Remove the object from the SceneTrees
+
+                if(object->isStatic())
                 {
-                    //----------------------------------------------------
-                    // Remove the object from the SceneTrees
+                    result = m_StaticSceneTree->removeObject(object);
+                }
 
-                    if(object->isStatic())
-                    {
-                        result = m_StaticSceneTree->removeObject(object);
-                    }
-
-                    if(!object->isStatic() || !result)
-                    {
-                        // Object is dynamic or was not found in the static tree to remove...
-                        m_DynamicSceneTree->removeObject(object);
-                    }
+                if(!object->isStatic() || !result)
+                {
+                    // Object is dynamic or was not found in the static tree to remove...
+                    m_DynamicSceneTree->removeObject(object);
                 }
 
                 //--------------------------------------------------------
@@ -375,20 +373,20 @@ namespace Ocular
             if(object && verifySceneTrees())
             {
                 /**
-                    * A change in object parentage can have an effect on the SceneTrees.
-                    * 
-                    * If the old parent is null, then the object used to be a top-level
-                    * object and thus the appropriate SceneTree will need to be updated.
-                    * As far as the tree is concerned, the object was removed as they
-                    * only deal with top-level parents.
-                    *
-                    * The the new parent is null, then the appropriate SceneTree will
-                    * need to add the object as a new top-level parent.
-                    *
-                    * If neither the old parent or the new parent are null, then the
-                    * SceneTrees do not need to do anything as they do not interact
-                    * while child objects.
-                    */
+                 * A change in object parentage can have an effect on the SceneTrees.
+                 * 
+                 * If the old parent is null, then the object used to be a top-level
+                 * object and thus the appropriate SceneTree will need to be updated.
+                 * As far as the tree is concerned, the object was removed as they
+                 * only deal with top-level parents.
+                 *
+                 * The the new parent is null, then the appropriate SceneTree will
+                 * need to add the object as a new top-level parent.
+                 *
+                 * If neither the old parent or the new parent are null, then the
+                 * SceneTrees do not need to do anything as they do not interact
+                 * while child objects.
+                 */
 
                 if(oldParent == nullptr)
                 {

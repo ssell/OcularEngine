@@ -93,6 +93,8 @@ namespace Ocular
 
             bool isObjectTracked(Core::SceneObject* object);
 
+            void createObject(std::string const& type, Core::SceneObject* parent);
+
         private slots:
 
             void onShowContextMenu(QPoint const& pos);
