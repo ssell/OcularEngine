@@ -15,6 +15,8 @@
  */
 
 #include "Resources/Resource.hpp"
+#include "Resources/ResourceMetadata.hpp"
+
 #include "Utilities/StringRegistrar.hpp"
 #include "Utilities/VoidCast.hpp"
 
@@ -65,7 +67,8 @@ namespace Ocular
               m_Name(source.getName()),
               m_IsInMemory(false),
               m_SizeInMemory(0),
-              m_Type(ResourceType::Undefined)
+              m_Type(ResourceType::Undefined),
+              m_Metadata(nullptr)
         {
 
         }
@@ -75,14 +78,15 @@ namespace Ocular
               m_Name(""),
               m_IsInMemory(false),
               m_SizeInMemory(0),
-              m_Type(ResourceType::Undefined)
+              m_Type(ResourceType::Undefined),
+              m_Metadata(nullptr)
         {
 
         }
 
         Resource::~Resource()
         {
-        
+            delete m_Metadata;
         }
 
         //----------------------------------------------------------------------------------
@@ -152,6 +156,17 @@ namespace Ocular
         void Resource::setMappingName(std::string const& name)
         {
             m_MappingName = name;
+        }
+
+        ResourceMetadata const* Resource::getMetadata() const
+        {
+            return m_Metadata;
+        }
+
+        void Resource::setMetadata(ResourceMetadata* metadata)
+        {
+            delete m_Metadata;
+            m_Metadata = metadata;
         }
 
         //----------------------------------------------------------------------------------

@@ -38,6 +38,8 @@ namespace Ocular
      */
     namespace Core
     {
+        class ResourceMetadata;
+
         /**
          * \class Resource
          */
@@ -128,9 +130,25 @@ namespace Ocular
              */
             void setMappingName(std::string const& name);
 
+            /**
+             * \return Optional metadata that was set for this Resource. Returns NULL if no metadata set.
+             */
+            ResourceMetadata const* getMetadata() const;
+
+            /** 
+             * Sets the optional metadata for this Resource.
+             * 
+             * The Resource assumes ownership of the metadata and will delete it either at the end of
+             * it's lifetime, or during subsequent calls to this methods.
+             *
+             * \param[in] metadata
+             */
+            void setMetadata(ResourceMetadata* metadata);
+
         protected:
 
             ResourceType m_Type;
+            ResourceMetadata* m_Metadata;
 
             File m_SourceFile;
             bool m_IsInMemory;
