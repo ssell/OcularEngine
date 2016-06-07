@@ -15,6 +15,7 @@
  */
 
 #include "Graphics/Mesh/MeshLoaders/OBJ/ResourceLoader_OBJ.hpp"
+#include "Graphics/Mesh/MeshLoaders/OBJ/OBJMeshMetadata.hpp"
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Material/Material.hpp"
 #include "Resources/MultiResource.hpp"
@@ -162,6 +163,8 @@ namespace Ocular
 
                 if(mappingName.size() > 0)
                 {
+                    OcularResources->addResource(mappingName, file, nullptr, Core::ResourceType::Multi);
+
                     std::string line;
 
                     while(std::getline(instream, line))
@@ -232,6 +235,8 @@ namespace Ocular
                 if(group && !OcularString->IsEqual(group->name, "default", true))
                 {
                     Mesh* mesh = new Mesh();
+                    mesh->setName(group->name);
+
                     createMesh(mesh, group);
 
                     multiResource->addSubResource(mesh, group->name);
@@ -241,6 +246,9 @@ namespace Ocular
 
         void ResourceLoader_OBJ::createMesh(Mesh* mesh, OBJGroup const* group)
         {
+            OBJMeshMetadata* metadata = new OBJMeshMetadata();
+            mesh->setMetadata(metadata);
+
             Math::Vector3f min = Math::Vector3f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
             Math::Vector3f max = Math::Vector3f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 
@@ -349,6 +357,8 @@ namespace Ocular
 
                 mesh->addSubMesh(submesh);
                 mesh->setMinMaxPoints(min, max);
+
+                metadata->setSubmeshMaterialPair(i, vertexBuffers.at(i).first);
             }
         }
 

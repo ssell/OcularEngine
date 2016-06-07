@@ -74,6 +74,7 @@ namespace Ocular
 
             void onSceneAddObject();
             void onSceneAddMesh();
+            void onSceneImportObject();
 
             void onHelpAbout();
 

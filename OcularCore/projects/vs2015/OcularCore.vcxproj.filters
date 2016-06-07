@@ -696,6 +696,15 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\SubMesh.cpp">
       <Filter>Source Files\Graphics\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Config.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Resources\ResourceMetadata.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJMeshMetadata.cpp">
+      <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1273,6 +1282,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Math\MathUtils.hpp">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\Config.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJMeshMetadata.hpp">
+      <Filter>Header Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources\ResourceMetadata.hpp">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -158,7 +158,7 @@ namespace Ocular
             m_MappingName = name;
         }
 
-        ResourceMetadata const* Resource::getMetadata() const
+        ResourceMetadata* Resource::getMetadata() const
         {
             return m_Metadata;
         }

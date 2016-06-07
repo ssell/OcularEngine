@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_RESOURCE_METADATA__H__
-#define __H__OCULAR_CORE_RESOURCE_METADATA__H__
+#ifndef __H__OCULAR_EDITOR_SCENE_OBJECT_IMPORTER__H__
+#define __H__OCULAR_EDITOR_SCENE_OBJECT_IMPORTER__H__
 
 #include <string>
 
@@ -29,34 +29,23 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Core
+     * \addtogroup Editor
      * @{
      */
-    namespace Core
+    namespace Editor
     {
-        /**
-         * \class ResourceMetadata
-         *
-         * ResourceMetadata represents optional data/information regarding a specific Resource.
-         * The data stored in an instance of ResourceMetadata is completely dependent on the 
-         * Resource type, source file type, and the specific implementation of ResourceMetadata used.
-         */
-        class ResourceMetadata
+        class SceneObjectImporter
         {
         public:
 
-            ResourceMetadata(std::string const& type);
-            ~ResourceMetadata();
-
-            virtual void ointernal();
-
-            std::string const& getType() const;
+            static bool Import(std::string const& file);
 
         protected:
 
         private:
 
-            std::string m_Type;
+            static bool ImportOPRE(Core::File const& file);
+            static bool ImportOBJ(Core::File const& file);
         };
     }
     /**
@@ -70,4 +59,3 @@ namespace Ocular
 //------------------------------------------------------------------------------------------
 
 #endif
-

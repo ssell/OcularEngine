@@ -96,7 +96,7 @@
     <Filter Include="Source Files\Widgets\Properties\Renderables">
       <UniqueIdentifier>{ff27e6d5-b168-4ef9-8784-8a1c885c0edb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Input\Events">
+    <Filter Include="Source Files\Events">
       <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -165,7 +165,7 @@
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp">
-      <Filter>Source Files\Input\Events</Filter>
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp">
       <Filter>Source Files\Widgets</Filter>
@@ -371,14 +371,17 @@
     <ClCompile Include="..\..\src\Routines\InputLoggerRoutine.cpp">
       <Filter>Source Files\Routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MeshRenderableDisplay.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_MeshRenderableDisplay.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SceneObjectImporter.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,7 +538,9 @@
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp">
       <Filter>Header Files\Routines</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp" />
+    <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -582,6 +587,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\Properties\Renderables\MeshRenderableDisplay.hpp">
       <Filter>Header Files\Widgets\Properties\Renderables</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\SceneObjectImporter.hpp">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

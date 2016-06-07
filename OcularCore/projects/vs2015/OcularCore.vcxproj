@@ -164,7 +164,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>objparser_mmap_msvc140;pugixml.lib;libboost_filesystem-vc140-mt-1_60.lib;libboost_iostreams-vc140-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
+      <AdditionalDependencies>objparser_mmap_msvc140.lib;pugixml.lib;libboost_filesystem-vc140-mt-1_60.lib;libboost_iostreams-vc140-mt-1_60.lib;libpng16.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\libs\msvc140\x64\$(Configuration)\</AdditionalLibraryDirectories>
@@ -197,6 +197,7 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshEmpty.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\MeshResourceLoader.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJMeshMetadata.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.cpp" />
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.cpp" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\..\src\Resources\ResourceLoaderManager.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceManager.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceMemoryDetails.cpp" />
+    <ClCompile Include="..\..\src\Resources\ResourceMetadata.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaver.cpp" />
     <ClCompile Include="..\..\src\Resources\ResourceSaverManager.cpp" />
     <ClCompile Include="..\..\src\Scene\ARenderable.cpp" />
@@ -308,6 +310,7 @@
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Config.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
@@ -344,6 +347,7 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\MeshResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJImporter.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\OBJMeshMetadata.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\OBJ\ResourceLoader_OBJ.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\MeshResourceLoader_PLY.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\MeshLoaders\PLY\PLYElementParser.hpp" />
@@ -462,6 +466,7 @@
     <ClInclude Include="..\..\include\Resources\ResourceLoaderRegistrar.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceManager.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceMemoryDetails.hpp" />
+    <ClInclude Include="..\..\include\Resources\ResourceMetadata.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourcePriorityBehaviour.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Resources\ResourceSaverManager.hpp" />
@@ -495,6 +500,7 @@
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\Config.hpp" />
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />
     <ClInclude Include="..\..\include\Utilities\StringComposer.hpp" />

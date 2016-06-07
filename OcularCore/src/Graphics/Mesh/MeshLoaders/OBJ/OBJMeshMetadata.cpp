@@ -27,7 +27,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         OBJMeshMetadata::OBJMeshMetadata()
-            : ResourceMetadata("OBJMeshMetadata")
+            : Core::ResourceMetadata("OBJMeshMetadata")
         {
 
         }
@@ -53,7 +53,7 @@ namespace Ocular
 
             if(find != m_SubmeshMaterialPairs.end())
             {
-                result = (*find).first;
+                result = (*find).second;
             }
 
             return result;

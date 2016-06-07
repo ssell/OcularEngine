@@ -40,8 +40,11 @@ namespace Ocular
          *
          * Metadata used when importing entire OBJ files as SceneObjects.
          * Maintains a map of which Materials are paired with which Submeshes.
+         *
+         * The stored Material names are just that, the Material names. They are
+         * not full-fledged Resource mapping names.
          */
-        class OBJMeshMetadata : public ResourceMetadata
+        class OBJMeshMetadata : public Core::ResourceMetadata
         {
         public:
 

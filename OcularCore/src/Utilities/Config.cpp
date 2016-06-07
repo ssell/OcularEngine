@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-#include "Resources/ResourceMetadata.hpp"
+#include "Utilities/Config.hpp"
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Utils
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceMetadata::ResourceMetadata(std::string const& type)
-            : m_Type(type)
+        Config::Config()
         {
 
         }
 
-        ResourceMetadata::~ResourceMetadata()
+        Config::~Config()
         {
 
         }
@@ -41,19 +41,54 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void ResourceMetadata::ointernal()
+        bool Config::read(Core::File const& file)
         {
-            // Interntionally left empty
+            bool result = false;
+
+            return result;
         }
 
-        std::string const& ResourceMetadata::getType() const
+        std::string Config::get(std::string const& option)
         {
-            return m_Type;
+            std::string result;
+            auto find = m_ConfigOptions.find(option);
+
+            if(find != m_ConfigOptions.end())
+            {
+                result = (*find).second;
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool Config::isValidFile(Core::File const& file)
+        {
+            bool result = true;
+
+            if(!file.exists())
+            {
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': file does not exist", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                result = false;
+            }
+
+            if(!file.canRead())
+            {
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': improper read permissions", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                result = false;
+            }
+
+            if(!Utils::String::IsEqual(file.getExtension(), ".oconf"))
+            {
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': invalid file extension (expected '.oconf')", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                result = false;
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

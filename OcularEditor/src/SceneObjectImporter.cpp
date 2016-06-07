@@ -14,41 +14,40 @@
  * limitations under the License.
  */
 
-#include "Resources/ResourceMetadata.hpp"
+#include "stdafx.h"
+#include "SceneObjectImporter.hpp"
+
+#include "Graphics/Mesh/MeshLoaders/OBJ/OBJImporter.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Core
+    namespace Editor
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        ResourceMetadata::ResourceMetadata(std::string const& type)
-            : m_Type(type)
-        {
-
-        }
-
-        ResourceMetadata::~ResourceMetadata()
-        {
-
-        }
-
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void ResourceMetadata::ointernal()
+        bool SceneObjectImporter::Import(std::string const& filePath)
         {
-            // Interntionally left empty
-        }
+            bool result = false;
+            const Core::File file = Core::File(filePath);
 
-        std::string const& ResourceMetadata::getType() const
-        {
-            return m_Type;
+            if(Utils::String::IsEqual(file.getExtension(), ".opre", true))
+            {
+                result = ImportOPRE(file);
+            }
+            else if(Utils::String::IsEqual(file.getExtension(), ".obj", true))
+            {
+                result = ImportOBJ(file);
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------
@@ -58,5 +57,29 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        bool SceneObjectImporter::ImportOPRE(Core::File const& file)
+        {
+            bool result = false;
+
+            return result;
+        }
+
+        bool SceneObjectImporter::ImportOBJ(Core::File const& file)
+        {
+            bool result = false;
+            const std::string mappingName = OcularResources->getResourceMappingName(file);
+
+            if(mappingName.size())
+            {
+                result = (Graphics::OBJImporter::Import(mappingName) != nullptr);
+            }
+            else
+            {
+                OcularLogger->error("Failed to find associated Resource mapping name for '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("SceneObjectImporter", "ImportOBJ"));
+            }
+            
+            return result;
+        }
     }
 }

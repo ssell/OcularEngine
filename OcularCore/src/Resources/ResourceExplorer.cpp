@@ -123,6 +123,11 @@ namespace Ocular
             }
         }
 
+        std::string ResourceExplorer::getRelativePath(File const& file)
+        {
+            return getRelativePathFromResourceRoot(Directory(m_DirectoryName), file);
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

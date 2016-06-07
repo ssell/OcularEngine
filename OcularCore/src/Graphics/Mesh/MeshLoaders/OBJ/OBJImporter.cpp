@@ -15,6 +15,8 @@
  */
 
 #include "Graphics/Mesh/MeshLoaders/OBJ/OBJImporter.hpp"
+#include "Graphics/Mesh/MeshLoaders/OBJ/OBJMeshMetadata.hpp"
+
 #include "Resources/MultiResource.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
 
@@ -64,17 +66,37 @@ namespace Ocular
 
                         if(mesh)
                         {
-                            Core::SceneObject* child = OcularScene->createObject("", result);
+                            Core::SceneObject* child = OcularScene->createObject(mesh->getName(), result);
                             Core::MeshRenderable* renderable = child->setRenderable<Core::MeshRenderable>();
 
                             if(renderable)
                             {
                                 renderable->setMesh(mesh);
-                                //renderable->setMaterial(material);
+
+                                // For each submesh, set the appropriate matching material
+
+                                OBJMeshMetadata* metadata = dynamic_cast<OBJMeshMetadata*>(mesh->getMetadata());
+
+                                if(metadata)
+                                {
+                                    for(uint32_t i = 0; i < mesh->getNumSubMeshes(); i++)
+                                    {
+                                        const std::string mappingName = resource->getMappingName() + "/" + metadata->getSubmeshMaterialPair(i);
+                                        renderable->setMaterial(mappingName, i, true);
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                else
+                {
+                    OcularLogger->error("Failed to create empty SceneObject", OCULAR_INTERNAL_LOG("OBJImporter", "Import"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to find matching Resource at path '", path, "'", OCULAR_INTERNAL_LOG("OBJImporter", "Import"));
             }
 
             return result;

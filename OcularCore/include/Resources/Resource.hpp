@@ -133,7 +133,7 @@ namespace Ocular
             /**
              * \return Optional metadata that was set for this Resource. Returns NULL if no metadata set.
              */
-            ResourceMetadata const* getMetadata() const;
+            ResourceMetadata* getMetadata() const;
 
             /** 
              * Sets the optional metadata for this Resource.

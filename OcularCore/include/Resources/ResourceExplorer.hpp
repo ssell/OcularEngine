@@ -94,6 +94,11 @@ namespace Ocular
              */
             void populateFileMap(std::unordered_map<std::string, File>& fileMap, ResourceLoaderManager* loader);
 
+            /**
+             * Retrieves the relative path, if it exists, of the file from the Resource directory.
+             */
+            std::string getRelativePath(File const& file);
+
         protected:
 
             /**

@@ -197,6 +197,13 @@ namespace Ocular
 
                 result = true;
             }
+            else if(!findResource->second)
+            {
+                findResource->second = std::make_shared<ResourceDetails>(nullptr);
+
+                findResource->second->m_Resource = resource;
+                findResource->second->m_Type = type;
+            }
 
             return result;
         }
@@ -376,12 +383,27 @@ namespace Ocular
         {
             std::string result;
             
+            const auto resourceType = m_ResourceLoaderManager.getResourceType(file.getExtension());
+
             for(auto filePair : m_FileMap)
             {
+                const std::string mappingName = filePair.first;
+
                 if(Utils::String::IsEqual(filePair.second.getFullPath(), file.getFullPath()))
                 {
-                    result = filePair.first;
-                    break;
+                    result = mappingName;
+
+                    // The source files match, but make sure we are not looking at a subresource of a MultiResource
+                    auto findResource = m_ResourceMap.find(mappingName);
+
+                    if(findResource != m_ResourceMap.end())
+                    {
+                        if(findResource->second && (findResource->second->getType() == resourceType))
+                        {
+                            // Perfect match. Break out.
+                            break;
+                        }
+                    }      
                 }
             }
 
