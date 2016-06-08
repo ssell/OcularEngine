@@ -43,8 +43,13 @@ namespace Ocular
               m_ForcedVisible(false),
               m_Persists(false),
               m_Renderable(nullptr),
-              m_Parent(parent)
+              m_Parent(nullptr)
         {
+            if(parent)
+            {
+                setParent(parent);
+            }
+
             OcularScene->addObject(this, parent);
 
             OCULAR_EXPOSE(m_IsStatic);

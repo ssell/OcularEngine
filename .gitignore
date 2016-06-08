@@ -223,3 +223,6 @@ OcularEditor/projects/vs2013/Resources/testnew.oscene
 *.dll
 *.opendb
 *.max
+*.tga
+Resources/OBJTest/crytek-sponza/screenshot.jpg
+*.any

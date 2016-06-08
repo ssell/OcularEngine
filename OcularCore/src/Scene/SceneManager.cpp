@@ -50,31 +50,7 @@ namespace Ocular
 
         SceneObject* SceneManager::createObject(std::string const& name, SceneObject* parent)
         {
-            SceneObject* newObject = new SceneObject(name);  // The constructor calls addObject which will do the rest...
-
-            if(m_Scene)
-            {
-                /**
-                 * Do we need to add it to the scene?
-                 *
-                 * As a brand-new object it will not have any renderables or routines.
-                 * So our only concern is if it does not have a parent. 
-                 * 
-                 * If there is no parent, then it is a 'top-level' object and will
-                 * need to be known to the SceneTrees.
-                 */
-
-                if(parent)
-                {
-                    parent->addChild(newObject);
-                }
-                else
-                {
-                    m_Scene->addObject(newObject);
-                }
-            }
-
-            return newObject;
+            return new SceneObject(name, parent);
         }
 
         SceneObject* SceneManager::createObjectOfType(std::string const& type, std::string const& name, SceneObject* parent)
