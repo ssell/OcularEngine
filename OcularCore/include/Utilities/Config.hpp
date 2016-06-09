@@ -50,12 +50,19 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             * Attempts to read the specified configuration file.
              *
-             * \param[in] file 
-             * \return Returns TRUE if successfully read configuration file.
              */
-            bool read(Core::File const& file);
+            bool read();
+
+            /**
+             *
+             */
+            bool write();
+
+            /**
+             *
+             */
+            void setFile(Core::File const& file);
 
             /**
              * Retrieves the value of the specified option.
@@ -69,13 +76,20 @@ namespace Ocular
              * \param[in] option String option name
              * \return String option value
              */
-            std::string get(std::string const& option); 
+            std::string get(std::string const& option) const; 
+
+            /**
+             *
+             */
+            void set(std::string const& option, std::string const& value);
                                             
         protected:
 
             bool isValidFile(Core::File const& file);
 
         private:
+
+            Core::File m_File;
 
             std::unordered_map<std::string, std::string> m_ConfigOptions;     ///< Key: option name; Value: option value
         };

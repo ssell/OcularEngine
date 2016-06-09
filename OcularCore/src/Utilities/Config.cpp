@@ -17,6 +17,8 @@
 #include "Utilities/Config.hpp"
 #include "OcularEngine.hpp"
 
+#include "pugixml/pugixml.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -41,14 +43,83 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        bool Config::read(Core::File const& file)
+        bool Config::read()
         {
             bool result = false;
+
+            if(isValidFile(m_File))
+            {
+                m_ConfigOptions.clear();
+
+                pugi::xml_document document;
+                pugi::xml_parse_result parseResult = document.load_file(m_File.getFullPath().c_str());
+
+                if(parseResult)
+                {
+                    pugi::xml_node rootNode = document.child("OcularConfig");
+
+                    for(auto child : rootNode.children())
+                    {
+                        m_ConfigOptions[child.name()] = child.text().as_string();
+                    }
+
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->error("Failed to parse Config file at '", m_File.getFullPath(), "' with error: ", parseResult.description(), OCULAR_INTERNAL_LOG("Config", "read"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Config file at '", m_File.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("Config", "read"));
+            }
 
             return result;
         }
 
-        std::string Config::get(std::string const& option)
+        bool Config::write()
+        {
+            bool result = false;
+
+            if(isValidFile(m_File))
+            {
+                pugi::xml_document document;
+                pugi::xml_node rootNode = document.append_child("OcularConfig");
+
+                for(auto keyValue : m_ConfigOptions)
+                {
+                    pugi::xml_node child = rootNode.append_child(keyValue.first.c_str());
+
+                    if(child)
+                    {
+                        child.append_child(pugi::xml_node_type::node_pcdata).set_value(keyValue.second.c_str());
+                    }
+                }
+
+                if(document.save_file(m_File.getFullPath().c_str(), "    "))
+                {
+                    result = true;
+                }
+                else
+                {
+                    OcularLogger->error("Failed to write to config file at '", m_File.getFullPath(), "'", OCULAR_INTERNAL_LOG("Config", "write"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Config file at '", m_File.getFullPath(), "' is invalid", OCULAR_INTERNAL_LOG("Config", "write"));
+            }
+
+            return result;
+        }
+
+        void Config::setFile(Core::File const& file)
+        {
+            m_File = file;
+        }
+
+        std::string Config::get(std::string const& option) const
         {
             std::string result;
             auto find = m_ConfigOptions.find(option);
@@ -59,6 +130,11 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void Config::set(std::string const& option, std::string const& value)
+        {
+            m_ConfigOptions[option] = value;
         }
 
         //----------------------------------------------------------------------------------
