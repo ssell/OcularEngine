@@ -85,6 +85,11 @@ namespace Ocular
             return m_Name;
         }
 
+        uint32_t ARenderable::getRenderPriority() const
+        {
+            return static_cast<uint32_t>(RenderPriority::Opaque);
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

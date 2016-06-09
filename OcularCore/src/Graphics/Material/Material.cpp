@@ -39,7 +39,8 @@ namespace Ocular
               m_FragmentShader(nullptr),
               m_PreTessellationShader(nullptr),
               m_PostTessellationShader(nullptr),
-              m_PrimitiveStyle(PrimitiveStyle::TriangleList)
+              m_PrimitiveStyle(PrimitiveStyle::TriangleList),
+              m_RenderPriority(static_cast<uint32_t>(Core::RenderPriority::Opaque))
         {
             m_Type = Core::ResourceType::Material;
             m_UniformBuffer = OcularGraphics->createUniformBuffer(UniformBufferType::PerMaterial);
@@ -816,6 +817,16 @@ namespace Ocular
             return m_PrimitiveStyle;
         }
 
+        void Material::setRenderPriority(uint32_t const priority)
+        {
+            m_RenderPriority = priority;
+        }
+
+        uint32_t Material::getRenderPriority() const
+        {
+            return m_RenderPriority;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -823,6 +834,7 @@ namespace Ocular
         void Material::exposeProperties()
         {
             OCULAR_EXPOSE(m_PrimitiveStyle);
+            OCULAR_EXPOSE(m_RenderPriority);
         }
 
         void Material::setDefaults()

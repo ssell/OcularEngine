@@ -48,6 +48,7 @@ namespace Ocular
         class ISceneTree;
         class SceneObject;
         class ARoutine;
+        class Renderer;
 
         /**
          * \class Scene
@@ -144,6 +145,10 @@ namespace Ocular
 
             SceneTreeType const& getDynamicTreeType() const;
 
+            void setRendererType(std::string const& string);
+
+            std::string const& getRendererType() const;
+
         protected:
 
             Scene();
@@ -152,8 +157,6 @@ namespace Ocular
 
             void updateRoutines();
             void sortRoutines();
-
-            void renderObject(SceneObject* object);
 
             //------------------------------------------------------------
             // Object State Change Methods
@@ -192,6 +195,9 @@ namespace Ocular
             bool verifySceneTrees() const;
 
             //------------------------------------------------------------------------------
+
+            Renderer* m_Renderer;
+            std::string m_RendererType;
 
             Graphics::UniformBuffer* m_UniformBufferPerFrame;
             Graphics::UniformBuffer* m_UniformBufferPerObject;

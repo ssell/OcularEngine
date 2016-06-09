@@ -20,6 +20,8 @@
 
 #include "Graphics/Shader/Uniform/UniformBuffer.hpp"
 #include "Graphics/RenderState/RasterState.hpp"
+#include "Renderer/RenderPriority.hpp"
+
 #include "Resources/Resource.hpp"
 #include "ObjectIO/ObjectIO.hpp"
 #include "Math/Matrix4x4.hpp"
@@ -334,6 +336,20 @@ namespace Ocular
              */
             PrimitiveStyle getPrimitiveStyle() const;
 
+            /**
+             * Sets the priority of the material in the render queue.
+             * 
+             * See Graphics::RenderPriority for pre-set priority values.
+             *
+             * \param[in] priority
+             */
+            void setRenderPriority(uint32_t priority);
+
+            /**
+             * \return The render priority assigned to this Material
+             */
+            uint32_t getRenderPriority() const;
+
         protected:
 
             void exposeProperties();
@@ -358,6 +374,8 @@ namespace Ocular
 
             std::vector<TextureSamplerInfo> m_Textures;
             UniformBuffer* m_UniformBuffer;
+
+            uint32_t m_RenderPriority;
 
         private:
         };

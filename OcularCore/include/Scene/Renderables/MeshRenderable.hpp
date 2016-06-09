@@ -83,6 +83,11 @@ namespace Ocular
 
             virtual void updateBounds() override;
 
+            /**
+             * \return The highest render priority of all Materials in the MeshRenderable
+             */
+            virtual uint32_t getRenderPriority() const override;
+
             //------------------------------------------------------------
             // Mesh Methods
             //------------------------------------------------------------

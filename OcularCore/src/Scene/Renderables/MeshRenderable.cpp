@@ -172,6 +172,18 @@ namespace Ocular
             }
         }
 
+        uint32_t MeshRenderable::getRenderPriority() const
+        {
+            uint32_t result = 0;
+
+            for(auto material : m_Materials)
+            {
+                result = std::max(result, material->getRenderPriority());
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // Mesh Methods
         //----------------------------------------------------------------------------------

@@ -25,6 +25,11 @@
 
 //------------------------------------------------------------------------------------------
 
+namespace
+{
+    const std::string DefaultRendererType = "ForwardRenderer";
+}
+
 bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene);
 void ParseSceneTreeType(pugi::xml_node& root, Ocular::Core::SceneTreeType& staticType, Ocular::Core::SceneTreeType& dynamicType);
 bool ParseSceneTree(pugi::xml_node& root);
@@ -145,14 +150,18 @@ bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene)
 
     if(headerNode)
     {
-        pugi::xml_node typeNode = headerNode.child("SceneTreeType");
+        //----------------------------------------------------------------
+        // SceneTree Type
+        //----------------------------------------------------------------
 
-        if(typeNode)
+        pugi::xml_node sceneTreeTypeNode = headerNode.child("SceneTreeType");
+
+        if(sceneTreeTypeNode)
         {
             Ocular::Core::SceneTreeType staticType;
             Ocular::Core::SceneTreeType dynamicType;
 
-            ParseSceneTreeType(typeNode, staticType, dynamicType);
+            ParseSceneTreeType(sceneTreeTypeNode, staticType, dynamicType);
 
             scene->setStaticTreeType(staticType);
             scene->setDynamicTreeType(dynamicType);
@@ -162,6 +171,21 @@ bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene)
         //     The <SceneTreeType> node is optional, so it's absence 
         //     does not necessarily indicate an error 
         // }
+        
+        //----------------------------------------------------------------
+        // Renderer Type
+        //----------------------------------------------------------------
+
+        pugi::xml_node rendererTypeNode = headerNode.child("RendererType");
+
+        if(rendererTypeNode)
+        {
+            scene->setRendererType(rendererTypeNode.text().as_string());
+        }
+        else
+        {
+            scene->setRendererType(DefaultRendererType);
+        }
 
         result = true;
     }

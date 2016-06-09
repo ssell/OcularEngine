@@ -53,13 +53,18 @@ namespace Ocular
                         // Header
                         //------------------------------------------------
 
-                        pugi::xml_node headerRoot  = root.append_child("SceneHeader");
-                        pugi::xml_node typeRoot    = headerRoot.append_child("SceneTreeType");
-                        pugi::xml_node staticNode  = typeRoot.append_child("Static");
-                        pugi::xml_node dynamicNode = typeRoot.append_child("Dynamic");
+                        pugi::xml_node headerRoot   = root.append_child("SceneHeader");
+
+                        pugi::xml_node sceneTreeTypeRoot    = headerRoot.append_child("SceneTreeType");
+                        pugi::xml_node staticSceneTreeNode  = sceneTreeTypeRoot.append_child("Static");
+                        pugi::xml_node dynamicSceneTreeNode = sceneTreeTypeRoot.append_child("Dynamic");
+
+                        staticSceneTreeNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getStaticTreeType())).c_str());
+                        dynamicSceneTreeNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getDynamicTreeType())).c_str());
                         
-                        staticNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getStaticTreeType())).c_str());
-                        dynamicNode.append_child(pugi::xml_node_type::node_pcdata).set_value(OcularString->toString<uint32_t>(static_cast<uint32_t>(scene->getDynamicTreeType())).c_str());
+                        pugi::xml_node rendererTypeNode = headerRoot.append_child("RendererType");
+
+                        rendererTypeNode.append_child(pugi::xml_node_type::node_pcdata).set_value(scene->getRendererType().c_str());
 
                         //------------------------------------------------
                         // SceneTree

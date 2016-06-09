@@ -15,8 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_RENDERER_RENDER_CONTEXT__H__
-#define __H__OCULAR_RENDERER_RENDER_CONTEXT__H__
+#ifndef __H__OCULAR_CORE_RENDERER_REGISTRAR__H__
+#define __H__OCULAR_CORE_RENDERER_REGISTRAR__H__
+
+#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,26 +34,25 @@ namespace Ocular
      */
     namespace Core
     {
-        class Window;
-
-        /**
-         * \class RenderContext
-         */
-        class RenderContext 
+        template<class T>
+        class RendererRegistrar
         {
         public:
 
-            RenderContext();
-            virtual ~RenderContext();
+            RendererRegistrar(std::string const& name)
+            {
+                if(!OcularScene->getRendererFactory().registerComponent<T>(name))
+                {
+                    OcularLogger->error("Failed to register Renderer with name '", name, "' as the name is already in use", OCULAR_INTERNAL_LOG("RendererRegistrar", "RendererRegistrar"));
+                }
+            }
 
-            virtual void swapBuffers() = 0;
-            virtual void clearBuffers(float r, float g, float b, float a) = 0;
+            ~RendererRegistrar()
+            {
 
-            Window* getParentWindow() const;
+            }
 
         protected:
-
-            Window* m_pParentWindow;
 
         private:
         };
@@ -63,6 +64,8 @@ namespace Ocular
 /**
  * @} End of Doxygen Groups
  */
+
+#define OCULAR_REGISTER_RENDERER(x,y) Ocular::Core::RendererRegistrar<x> OCULAR_INTERNAL_RendererRegistrar(y);
 
 //------------------------------------------------------------------------------------------
 

@@ -32,7 +32,7 @@ OCULAR_REGISTER_RESOURCE_SAVER(Ocular::Graphics::MaterialResourceSaver)
 // May need to move this segment around so it is triggered as a modified file...
 // Yea, I know...
 
-__declspec(dllexport) void getRidOfLNK4221(){}  
+//__declspec(dllexport) void getRidOfLNK4221(){}  
 
 //------------------------------------------------------------------------------------------
 

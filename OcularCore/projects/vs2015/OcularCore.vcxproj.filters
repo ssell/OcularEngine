@@ -705,13 +705,16 @@
     <ClCompile Include="..\..\src\Graphics\Mesh\MeshLoaders\OBJ\OBJMeshMetadata.cpp">
       <Filter>Source Files\Graphics\Mesh\MeshLoaders\OBJ</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\ForwardRenderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\Renderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Renderer\RenderContext.hpp">
-      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp">
       <Filter>Header Files\Renderer\Window</Filter>
@@ -1291,6 +1294,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Resources\ResourceMetadata.hpp">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Renderer\RenderPriority.hpp">
+      <Filter>Header Files\Scene\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\ForwardRenderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\Renderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\RenderPriority.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\RendererRegistrar.hpp">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

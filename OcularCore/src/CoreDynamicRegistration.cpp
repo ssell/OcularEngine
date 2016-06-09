@@ -32,6 +32,8 @@
 #include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
 
+#include "Renderer/ForwardRenderer.hpp"
+
 #include "Math/Vector2.hpp"
 #include "Math/Vector3.hpp"
 #include "Math/Vector4.hpp"
@@ -62,6 +64,9 @@ namespace Ocular
         Core::FreeFlyController FreeFlyController;
         Core::MeshRenderable MeshRenderable;
         
+        Core::ForwardRenderer* renderer = new Core::ForwardRenderer();
+        delete renderer;
+
         Math::Vector2f::OCULAR_INTERNAL_Force = true;
         Math::Vector3f::OCULAR_INTERNAL_Force = true;
         Math::Vector4f::OCULAR_INTERNAL_Force = true;

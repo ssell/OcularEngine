@@ -98,6 +98,11 @@ namespace Ocular
              */
             std::string const& getName() const;
 
+            /**
+             * \return The render priority of the Renderable.
+             */
+            virtual uint32_t getRenderPriority() const;
+
         protected:
 
             SceneObject* m_Parent;

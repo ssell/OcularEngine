@@ -216,6 +216,7 @@ namespace Ocular
             m_Scene = new Scene();
             m_Scene->setStaticTreeType(staticType);
             m_Scene->setDynamicTreeType(dynamicType);
+            m_Scene->setRendererType("ForwardRenderer");
             m_Scene->initialize();
 
             loadPersistentObjects();
@@ -276,6 +277,11 @@ namespace Ocular
         ComponentFactory<SceneObject>& SceneManager::getSceneObjectFactory()
         {
             return m_SceneObjectFactory;
+        }
+
+        ComponentFactory<Renderer>& SceneManager::getRendererFactory()
+        {
+            return m_RendererFactory;
         }
 
         //----------------------------------------------------------------------------------

@@ -21,6 +21,7 @@
 #include "Scene.hpp"
 #include "SceneObject.hpp"
 #include "SceneTreeType.hpp"
+#include "Renderer/Renderer.hpp"
 #include "ComponentFactory.hpp"
 #include "FileIO/File.hpp"
 
@@ -249,6 +250,11 @@ namespace Ocular
              */
             ComponentFactory<SceneObject>& getSceneObjectFactory();
 
+            /**
+             *
+             */
+            ComponentFactory<Renderer>& getRendererFactory();
+
         protected:
 
             void loadPersistentObjects();
@@ -329,6 +335,7 @@ namespace Ocular
             ComponentFactory<ARoutine>    m_RoutineFactory;
             ComponentFactory<ARenderable> m_RenderableFactory;
             ComponentFactory<SceneObject> m_SceneObjectFactory;
+            ComponentFactory<Renderer>    m_RendererFactory;
         };
     }
     /**

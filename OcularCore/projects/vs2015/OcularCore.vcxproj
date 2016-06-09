@@ -275,6 +275,8 @@
     <ClCompile Include="..\..\src\Performance\Profiler.cpp" />
     <ClCompile Include="..\..\src\Performance\ProfilerNode.cpp" />
     <ClCompile Include="..\..\src\Performance\ProfilerScope.cpp" />
+    <ClCompile Include="..\..\src\Renderer\ForwardRenderer.cpp" />
+    <ClCompile Include="..\..\src\Renderer\Renderer.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\Window.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\src\Renderer\Window\WindowWin32.cpp" />
@@ -360,6 +362,7 @@
     <ClInclude Include="..\..\include\Graphics\Mesh\SubMesh.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\Vertex.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\VertexBuffer.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Renderer\RenderPriority.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\BlendState.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp" />
@@ -450,7 +453,10 @@
     <ClInclude Include="..\..\include\Performance\ProfilerScope.hpp" />
     <ClInclude Include="..\..\include\Performance\ProfilerNode.hpp" />
     <ClInclude Include="..\..\include\Priority.hpp" />
-    <ClInclude Include="..\..\include\Renderer\RenderContext.hpp" />
+    <ClInclude Include="..\..\include\Renderer\ForwardRenderer.hpp" />
+    <ClInclude Include="..\..\include\Renderer\Renderer.hpp" />
+    <ClInclude Include="..\..\include\Renderer\RendererRegistrar.hpp" />
+    <ClInclude Include="..\..\include\Renderer\RenderPriority.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\Window.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowDescriptor.hpp" />
     <ClInclude Include="..\..\include\Renderer\Window\WindowDisplay.hpp" />

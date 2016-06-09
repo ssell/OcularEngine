@@ -26,6 +26,7 @@
 
 #include "Scene/BVHSceneTree.hpp"
 #include "Graphics/Shader/Uniform/UniformBuffer.hpp"
+#include "Renderer/Renderer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -39,18 +40,21 @@ namespace Ocular
 
         Scene::Scene()
             : m_UniformBufferPerFrame(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerFrame)),
-              m_UniformBufferPerObject(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject)),
               m_RoutinesAreDirty(false),
               m_StaticTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
               m_DynamicTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
               m_StaticSceneTree(nullptr),
-              m_DynamicSceneTree(nullptr)
+              m_DynamicSceneTree(nullptr),
+              m_Renderer(nullptr)
         {
 
         }
 
         Scene::~Scene()
         {
+            delete m_Renderer;
+            m_Renderer = nullptr;
+
             //------------------------------------------------------------
             // Tell the routines the scene is ending
 
@@ -88,12 +92,6 @@ namespace Ocular
             {
                 delete m_UniformBufferPerFrame;
                 m_UniformBufferPerFrame = nullptr;
-            }
-
-            if(m_UniformBufferPerObject)
-            {
-                delete m_UniformBufferPerObject;
-                m_UniformBufferPerObject = nullptr;
             }
         }
 
@@ -231,50 +229,62 @@ namespace Ocular
 
         void Scene::render()
         {
-            /**
-             * Very basic and naive rendering.
-             *
-             * Will be replaced by a dedicated renderer class that will 
-             * perform full material sorting, etc.
-             */
-
             //if(m_UniformBufferPerFrame)
             //{
                 //m_UniformBufferPerFrame->bind();
             //}
 
-            std::vector<SceneObject*> objects;
-            Camera* camera = OcularCameras->getActiveCamera();
-
-            if(camera)
+            if(m_Renderer)
             {
-                OcularGraphics->clearBuffers(camera->getClearColor());
+                auto cameras = OcularCameras->getCameras();
 
-                Math::Frustum frustum = camera->getFrustum();
-
-                if(m_StaticSceneTree)
+                if(cameras.size())
                 {
-                    m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
-                }
+                    for(auto camera : cameras)
+                    {
+                        //------------------------------------------------
+                        // Perform simple Frustum Culling on the SceneObjects
+                        //------------------------------------------------
 
-                if(m_DynamicSceneTree)
-                {
-                    m_DynamicSceneTree->getAllVisibleObjects(frustum, objects);
-                }
+                        OcularCameras->setActiveCamera(camera);
+                        const Math::Frustum frustum = camera->getFrustum();
 
-                //--------------------------------------------------------
-                // Sort Objects ...
+                        std::vector<SceneObject*> objects;
 
-                //--------------------------------------------------------
-                // Render Objects
+                        if(m_StaticSceneTree)
+                        {
+                            m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
+                        }
 
-                for(uint32_t i = 0; i < objects.size(); i++)
-                {
-                    renderObject(objects[i]);
+                        if(m_DynamicSceneTree)
+                        {
+                            m_DynamicSceneTree->getAllVisibleObjects(frustum, objects);
+                        }
+
+                        //------------------------------------------------
+                        // Remove any SceneObjects that can't be rendered
+                        //------------------------------------------------
+
+                        for(auto iter = objects.begin(); iter != objects.end(); )
+                        {
+                            if((*iter)->getRenderable() == nullptr)
+                            {
+                                iter = objects.erase(iter);
+                            }
+                            else
+                            {
+                                ++iter;
+                            }
+                        }
+                        
+                        //------------------------------------------------
+                        // Render the remaining SceneObjects
+                        //------------------------------------------------
+
+                        m_Renderer->render(objects);
+                    }
                 }
             }
-
-            OcularGraphics->swapBuffers();
         }
 
         //----------------------------------------------------------------------------------
@@ -299,6 +309,19 @@ namespace Ocular
         SceneTreeType const& Scene::getDynamicTreeType() const
         {
             return m_DynamicTreeType;
+        }
+
+        void Scene::setRendererType(std::string const& type)
+        {
+            delete m_Renderer;
+
+            m_RendererType = type;
+            m_Renderer = OcularScene->getRendererFactory().createComponent(type);
+        }
+
+        std::string const& Scene::getRendererType() const
+        {
+            return m_RendererType;
         }
 
         //----------------------------------------------------------------------------------
@@ -445,38 +468,6 @@ namespace Ocular
                         m_Routines.erase(iter);
                         break;
                     }
-                }
-            }
-        }
-
-        void Scene::renderObject(SceneObject* object)
-        {
-            if(object)
-            {
-                if(m_UniformBufferPerObject)
-                {
-                    m_UniformBufferPerObject->setFixedData(object->getUniformData());
-                    m_UniformBufferPerObject->bind();
-                }
-
-                ARenderable* renderable = object->getRenderable();
-
-                if(renderable)
-                {
-                    OcularGraphics->renderBounds(object, Math::BoundsType::AABB);
-
-                    if(renderable->preRender())
-                    {
-                        renderable->render();
-                        renderable->postRender();
-                    }
-                }
-
-                const std::vector<SceneObject*> children = object->getAllChildren();
-
-                for(auto iter = children.begin(); iter != children.end(); ++iter)
-                {
-                    renderObject((*iter));
                 }
             }
         }
