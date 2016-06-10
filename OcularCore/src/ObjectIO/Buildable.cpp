@@ -37,7 +37,7 @@ namespace Ocular
 
         }
 
-        void Buildable::onSave(BuilderNode* node)
+        void Buildable::onSave(BuilderNode* node) const
         {
             
         }

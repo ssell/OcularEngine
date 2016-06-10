@@ -78,7 +78,11 @@ namespace Ocular
 
         void Object::setUUID(std::string const& uuid)
         {
+            const UUID oldUUID = m_UUID;
+
             m_UUID.set(uuid);
+
+            OcularScene->updateUUID(oldUUID);
         }
     
         UUID const& Object::getUUID() const

@@ -45,11 +45,6 @@ namespace Ocular
               m_Renderable(nullptr),
               m_Parent(nullptr)
         {
-            if(parent)
-            {
-                setParent(parent);
-            }
-
             OcularScene->addObject(this, parent);
 
             OCULAR_EXPOSE(m_IsStatic);
@@ -839,7 +834,7 @@ namespace Ocular
             }
         }
 
-        void SceneObject::onSave(BuilderNode* node)
+        void SceneObject::onSave(BuilderNode* node) const
         {
             if(!m_Persists)
             {

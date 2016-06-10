@@ -247,7 +247,7 @@ namespace Ocular
             }
         }
 
-        void Material::onSave(Core::BuilderNode* node)
+        void Material::onSave(Core::BuilderNode* node) const
         {
             ObjectIO::onSave(node);
 

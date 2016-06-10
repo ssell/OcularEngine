@@ -627,7 +627,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             virtual void onLoad(BuilderNode const* node) override;
-            virtual void onSave(BuilderNode* node) override;
+            virtual void onSave(BuilderNode* node) const override;
 
             //------------------------------------------------------------
             // Bounds Related

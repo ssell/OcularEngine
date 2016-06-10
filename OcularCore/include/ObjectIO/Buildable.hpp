@@ -73,7 +73,7 @@ namespace Ocular
              *
              * \param[in] node Node to place variable information in
              */
-            virtual void onSave(BuilderNode* node);
+            virtual void onSave(BuilderNode* node) const;
 
         protected:
 

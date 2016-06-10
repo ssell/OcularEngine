@@ -68,7 +68,34 @@ namespace Ocular
 
         SceneObject* SceneManager::duplicateObject(SceneObject const* object)
         {
-            return nullptr;
+            // Simply use BuilderNodes: mock save to a builder chain and then
+            // create a new object and 'load' that object from the chain.
+
+            SceneObject* result = nullptr;
+
+            if(object)
+            {
+                //--------------------------------------------------------
+                // Copy the target object to a BuilderNode chain
+                //--------------------------------------------------------
+
+                BuilderNode builderNode(nullptr, "", "", "");
+                object->onSave(&builderNode);
+                
+                //--------------------------------------------------------
+                // Build the new object from the BuilderNode chain
+                //--------------------------------------------------------
+
+                result = new SceneObject();
+
+                const UUID oldUUID = result->getUUID();    // Preserve the current UUID as onLoad will overwrite it with the target object's
+
+                result->onLoad(&builderNode);              // Build the object
+                result->setUUID(oldUUID.toString());       // Restore the UUID
+                result->setParent(object->getParent());    // Set to same parent
+            }
+
+            return result;
         }
 
         void SceneManager::destroyObject(SceneObject* object)
@@ -193,6 +220,39 @@ namespace Ocular
                     if(object->getParent() == nullptr)
                     {
                         objects.push_back(object);
+                    }
+                }
+            }
+        }
+
+        void SceneManager::updateUUID(UUID const& oldUUID)
+        {
+            // Check if the SceneObject tracked with the old UUID 
+            // has had it's UUID changed (typically due to SceneObject::onLoad).
+
+            // If it has, remove the old entry and add a new one
+            // with the updated UUID.
+
+            auto findObject = m_Objects.find(oldUUID.toString());
+
+            if(findObject != m_Objects.end())
+            {
+                const UUID currentUUID = (*findObject).second->getUUID();
+
+                if(oldUUID != currentUUID)
+                {
+                    if(m_Objects.find(currentUUID.toString()) == m_Objects.end())
+                    {
+                        m_Objects.insert(std::make_pair(currentUUID.toString(), (*findObject).second));
+                        m_Objects.erase(findObject);
+                    }
+                    else
+                    {
+                        // The new UUID is already in use (potentially caused by a duplicate call or malformed setUUID).
+                        // To avoid any complications, generate a new UUID for the object.
+
+                        UUID newUUID;
+                        findObject->second->setUUID(newUUID.toString());
                     }
                 }
             }
@@ -323,39 +383,15 @@ namespace Ocular
 
                     if(m_Scene)
                     {
+                        m_Scene->addObject(object);
+
                         if(parent)
                         {
                             parent->addChild(object);
                         }
-                        else
-                        {
-                            m_Scene->addObject(object);
-                        }
                     }
 
                     OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));
-                }
-            }
-        }
-
-        void SceneManager::updateUUID(UUID const& oldUUID)
-        {
-            // Check if the SceneObject tracked with the old UUID 
-            // has had it's UUID changed (typically due to SceneObject::onLoad).
-
-            // If it has, remove the old entry and add a new one
-            // with the updated UUID.
-
-            auto findObject = m_Objects.find(oldUUID.toString());
-
-            if(findObject != m_Objects.end())
-            {
-                const UUID currentUUID = (*findObject).second->getUUID();
-
-                if(oldUUID != currentUUID)
-                {
-                    m_Objects.insert(std::make_pair(currentUUID.toString(), (*findObject).second));
-                    m_Objects.erase(findObject);
                 }
             }
         }

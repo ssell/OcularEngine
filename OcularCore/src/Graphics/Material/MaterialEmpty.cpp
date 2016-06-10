@@ -63,7 +63,7 @@ namespace Ocular
             ObjectIO::onLoad(node);
         }
 
-        void MaterialEmpty::onSave(Core::BuilderNode* node)
+        void MaterialEmpty::onSave(Core::BuilderNode* node) const
         {
             ObjectIO::onSave(node);
         }

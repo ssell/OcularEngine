@@ -79,7 +79,7 @@ namespace Ocular
             virtual void render() override;
 
             virtual void onLoad(BuilderNode const* node) override;
-            virtual void onSave(BuilderNode* node) override;
+            virtual void onSave(BuilderNode* node) const override;
 
             virtual void updateBounds() override;
 

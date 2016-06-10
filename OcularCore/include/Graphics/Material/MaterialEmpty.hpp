@@ -51,7 +51,7 @@ namespace Ocular
             virtual void unload() override;
 
             virtual void onLoad(Core::BuilderNode const* node) override;
-            virtual void onSave(Core::BuilderNode* node) override;
+            virtual void onSave(Core::BuilderNode* node) const override;
 
         protected:
 

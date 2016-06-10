@@ -78,7 +78,7 @@ namespace Ocular
             }
         }
 
-        void ObjectIO::onSave(BuilderNode* node)
+        void ObjectIO::onSave(BuilderNode* node) const
         {
             if(node)
             {

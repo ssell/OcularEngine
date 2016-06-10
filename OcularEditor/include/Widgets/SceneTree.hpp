@@ -95,6 +95,8 @@ namespace Ocular
 
             void createObject(std::string const& type, Core::SceneObject* parent);
 
+            uint32_t getItemDepth(QTreeWidgetItem* item) const;
+
         private slots:
 
             void onShowContextMenu(QPoint const& pos);

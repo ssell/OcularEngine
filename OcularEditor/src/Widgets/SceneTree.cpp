@@ -302,6 +302,45 @@ namespace Ocular
             return result;
         }
 
+        void SceneTree::createObject(std::string const& type, Core::SceneObject* parent)
+        {
+            Core::SceneObject* object = OcularScene->createObjectOfType(type, type, parent);
+
+            if(object == nullptr)
+            {
+                // Failed to create a custom SceneObject of the type.
+                // Check if we were requested to create a Mesh instead.
+
+                Core::SceneObject* object = new Core::SceneObject(type, parent);
+                object->setRenderable("MeshRenderable");
+
+                Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(object->getRenderable());
+
+                if(renderable)
+                {
+                    renderable->setMaterial(PathCoreMaterials + "Default");
+                    renderable->setMesh(PathCoreMeshes + type + "/" + type);
+                }
+            }
+        }
+
+        uint32_t SceneTree::getItemDepth(QTreeWidgetItem* item) const
+        {
+            // Calculates the depth of a given tree item.
+            // Depth of 0 indicates its a top-level item (no parent).
+
+            uint32_t result = 0;
+            QTreeWidgetItem* searchItem = item;
+
+            while(searchItem)
+            {
+                searchItem = searchItem->parent();
+                result++;
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
@@ -402,7 +441,56 @@ namespace Ocular
 
         void SceneTree::handleContextMenuActionDuplicate()
         {
-        
+            auto selectedItems = this->selectedItems();
+            const uint32_t numSelected = static_cast<uint32_t>(selectedItems.size());
+
+            if(numSelected)
+            {
+                /*
+                 * We duplicate in two passes: 
+                 *
+                 *     1. Determine the top-level selected items. We only want to duplicate those.
+                 *     2. Duplicate the SceneObjects associated with the top-level items.
+                 */
+
+                //--------------------------------------------------------
+                // Pass 1
+                //--------------------------------------------------------
+                
+                // Create a helper container to make life easier
+                std::vector<std::pair<SceneTreeItem*, uint32_t>> items;
+                items.reserve(selectedItems.size());
+
+                uint32_t lowestDepth = std::numeric_limits<uint32_t>::max();
+
+                for(auto item : selectedItems)
+                {
+                    SceneTreeItem* itemCast = dynamic_cast<SceneTreeItem*>(item);
+
+                    if(item)
+                    {
+                        const uint32_t depth = getItemDepth(item);
+                        items.push_back(std::make_pair(itemCast, depth));
+
+                        if(depth < lowestDepth)
+                        {
+                            lowestDepth = depth;           // Keep track of the lowest depth (top-level)
+                        }
+                    }
+                }
+
+                //--------------------------------------------------------
+                // Pass 2
+                //--------------------------------------------------------
+
+                for(auto itemPair : items)
+                {
+                    if(itemPair.second == lowestDepth)     // If one of our top-level items, duplicate
+                    {
+                        OcularScene->duplicateObject(itemPair.first->getObject());
+                    }
+                }
+            }
         }
 
         void SceneTree::handleContextMenuActionRename()
@@ -471,28 +559,6 @@ namespace Ocular
             submenu->addAction("Sphere")->setDisabled(disable);
             submenu->addAction("Torus")->setDisabled(disable);
             submenu->addAction("Plane")->setDisabled(disable);
-        }
-
-        void SceneTree::createObject(std::string const& type, Core::SceneObject* parent)
-        {
-            Core::SceneObject* object = OcularScene->createObjectOfType(type, type, parent);
-
-            if(object == nullptr)
-            {
-                // Failed to create a custom SceneObject of the type.
-                // Check if we were requested to create a Mesh instead.
-
-                Core::SceneObject* object = new Core::SceneObject(type, parent);
-                object->setRenderable("MeshRenderable");
-
-                Core::MeshRenderable* renderable = dynamic_cast<Core::MeshRenderable*>(object->getRenderable());
-
-                if(renderable)
-                {
-                    renderable->setMaterial(PathCoreMaterials + "Default");
-                    renderable->setMesh(PathCoreMeshes + type + "/" + type);
-                }
-            }
         }
     }
 }

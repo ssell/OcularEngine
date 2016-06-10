@@ -111,8 +111,8 @@ namespace Ocular
             SceneObject* createObjectOfType(std::string const& type, std::string const& name = "Unnamed", SceneObject* parent = nullptr);
 
             /**
-             * Creates and adds a new SceneObject to the active scene that is an
-             * exact duplicate of the provided object.
+             * Creates and adds a new SceneObject to the active scene that is an exact duplicate of the provided object.
+             * The new SceneObject is added as a child to the parent of the specified SceneObject (they are siblings).
              *
              * \param[in] object Object instance to duplicate.
              * \return Pointer to the new object. This object is managed by the manager and should NOT be deallocated by the caller.
@@ -191,6 +191,12 @@ namespace Ocular
              */
             void findTopObjects(std::vector<SceneObject*>& object) const;
 
+            /**
+             * Updates the UUID of a SceneObject.
+             * \note Typically for internal engine use only
+             */
+            void updateUUID(UUID const& uuid);
+
             //------------------------------------------------------------------------------
             // Scene Methods
 
@@ -264,12 +270,6 @@ namespace Ocular
              * \param[in] object
              */
             void addObject(SceneObject* object, SceneObject* parent = nullptr);
-
-            /**
-             * Updates the UUID of a SceneObject.
-             * \note For internal engine use only
-             */
-            void updateUUID(UUID const& uuid);
 
             /**
              *

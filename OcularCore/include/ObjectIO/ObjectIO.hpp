@@ -39,8 +39,8 @@ namespace Ocular
         {
         public:
 
-            virtual void onLoad(BuilderNode const* node);
-            virtual void onSave(BuilderNode* node);
+            virtual void onLoad(BuilderNode const* node) override;
+            virtual void onSave(BuilderNode* node) const override;
 
         protected:
 

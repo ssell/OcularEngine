@@ -128,7 +128,7 @@ namespace Ocular
             }
         }
 
-        void MeshRenderable::onSave(BuilderNode* node)
+        void MeshRenderable::onSave(BuilderNode* node) const
         {
             Object::onSave(node);
 

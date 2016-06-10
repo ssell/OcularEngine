@@ -75,8 +75,8 @@ namespace Ocular
             // Inherited Methods
             //------------------------------------------------------------
 
-            virtual void onLoad(Core::BuilderNode const* node);
-            virtual void onSave(Core::BuilderNode* node);
+            virtual void onLoad(Core::BuilderNode const* node) override;
+            virtual void onSave(Core::BuilderNode* node) const override;
 
             //------------------------------------------------------------
             // Texture Methods
