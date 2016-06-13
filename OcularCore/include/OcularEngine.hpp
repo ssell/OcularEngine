@@ -26,6 +26,7 @@
 #include "Renderer/Window/WindowManager.hpp"
 #include "Utilities/HashGenerator.hpp"
 #include "Utilities/StringUtils.hpp"
+#include "Utilities/Config.hpp"
 #include "Resources/ResourceManager.hpp"
 #include "Performance/Profiler.hpp"
 #include "Scene/SceneManager.hpp"
@@ -125,6 +126,11 @@ namespace Ocular
          * \return Reference to the primary String Utilities
          */
         std::shared_ptr<Utils::String> StringUtils() const;
+        
+        /**
+         * \return Reference to the primary Configuration handler
+         */
+        std::shared_ptr<Utils::String> Config() const;
 
         /**
          * \return Reference to the primary ResourceManager
@@ -177,6 +183,7 @@ namespace Ocular
 
         void setupLogger();
         void setupEvents();
+        void setupConfig();
 
         void shutdownWindowManager();
         
@@ -192,6 +199,7 @@ namespace Ocular
         std::shared_ptr<Core::WindowManager>      m_WindowManager;
         std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
         std::shared_ptr<Utils::String>            m_StringUtils;
+        std::shared_ptr<Utils::Config>            m_Config;
         std::shared_ptr<Core::Profiler>           m_Profiler;
         std::shared_ptr<Graphics::GraphicsDriver> m_GraphicsDriver;
 
@@ -214,6 +222,7 @@ namespace Ocular
 #define OcularProfiler  OcularEngine.Profiler()
 #define OcularGraphics  OcularEngine.GraphicsDriver()
 #define OcularString    OcularEngine.StringUtils()
+#define OcularConfig    OcularEngine.Config()
 
 /// Convenience macro for filling out warning, error, and fatal logs
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"

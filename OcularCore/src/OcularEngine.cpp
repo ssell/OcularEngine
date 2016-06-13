@@ -42,6 +42,7 @@ namespace Ocular
         m_Clock           = std::make_shared<Core::Clock>();
         m_HashGenerator   = std::make_shared<Utils::HashGenerator>();
         m_StringUtils     = std::make_shared<Utils::String>();
+        m_Config          = std::make_shared<Utils::Config>();
         m_EventManager    = std::make_shared<Core::EventManager>();
         m_InputHandler    = std::make_shared<Core::InputHandler>();
         m_ResourceManager = std::make_shared<Core::ResourceManager>();
@@ -230,6 +231,11 @@ namespace Ocular
     {
         m_Logger->registerListener(new Core::ConsoleLoggerListener());
         m_Logger->registerListener(new Core::VSConsoleLoggerListener());
+    }
+
+    void Engine::setupConfig()
+    {
+        m_Config->setFile(Core::File("engine.oconf"));
     }
 
     void Engine::setupEvents()

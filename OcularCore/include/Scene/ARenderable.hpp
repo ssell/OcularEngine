@@ -29,6 +29,11 @@
  */
 namespace Ocular
 {
+    namespace Graphics
+    {
+        class Material;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -65,6 +70,16 @@ namespace Ocular
              * Performs any necessary rendering calls such as GraphicsDriver::renderMesh.
              */
             virtual void render();
+
+            /**
+             * Renders the renderable with the specified Material. 
+             *
+             * Use this version of the render method when doing operations such as post-processing
+             * when all objects need to be rendered using the same effect.
+             *
+             * \param[in] material
+             */
+            virtual void render(Graphics::Material* material);
 
             /**
              * Performs any post-render cleanup or state resetting.

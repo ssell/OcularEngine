@@ -134,6 +134,98 @@ namespace Ocular
             return result;
         }
 
+        void D3D11Texture::refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor)
+        {
+            // Create a separate staging texture to read from
+            ID3D11Texture2D* stagingTexture = createStagingTexture();
+
+            if(stagingTexture)
+            {
+                // Retrieve the device context
+                D3D11GraphicsDriver* driver = dynamic_cast<D3D11GraphicsDriver*>(OcularGraphics.get());
+
+                if(driver)
+                {
+                    auto context = driver->getD3DDeviceContext();
+
+                    if(context)
+                    {
+                        D3D11_MAPPED_SUBRESOURCE mappedResource;
+                        const uint32_t subresourceIndex = D3D11CalcSubresource(0, 0, 0);
+
+                        // Copy the contents of our 2D texture to the staging texture
+                        context->CopyResource(stagingTexture, m_D3DTexture);
+
+                        // Map the contents of the staging texture to a subresource
+                        context->Map(stagingTexture, subresourceIndex, D3D11_MAP_READ, 0, &mappedResource);
+
+                        // Copy the contents of the subresource to our CPU-side pixel container
+                        // In D3D11, the data stored in the mappedResource.pData pointer is aligned to 16 bytes
+
+                        pixels.clear();
+                        pixels.resize(descriptor.width * descriptor.height);
+
+                        uint8_t* buffer = new uint8_t[descriptor.width * descriptor.height * 4];
+                        memset(buffer, 0, descriptor.width * descriptor.height * 4);
+
+                        uint8_t* source = static_cast<uint8_t*>(mappedResource.pData);
+                        uint8_t* dest = &buffer[0];
+
+                        const uint32_t rowPitch = descriptor.width << 2;
+
+                        if(source)
+                        {
+                            for(uint32_t i = 0; i < descriptor.height; i++)
+                            {
+                                memcpy(dest, source, descriptor.width * 4);
+        
+                                source += rowPitch;
+                                dest += rowPitch;
+                            }
+                        }
+
+                        context->Unmap(stagingTexture, subresourceIndex);
+                    }
+                    else
+                    {
+                        OcularLogger->error("Invalid device context", OCULAR_INTERNAL_LOG("D3D11Texture2D", "refresh"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Invalid graphics driver", OCULAR_INTERNAL_LOG("D3D11Texture2D", "refresh"));
+                }
+
+                stagingTexture->Release();
+                stagingTexture = nullptr;
+            }
+            else
+            {
+                OcularLogger->error("Invalid staging texture", OCULAR_INTERNAL_LOG("D3D11Texture2D", "refresh"));
+            }
+        }
+
+        ID3D11Texture2D* D3D11Texture::createStagingTexture()
+        {
+            ID3D11Texture2D* result = nullptr;
+
+            D3D11_TEXTURE2D_DESC descr;
+            m_D3DTexture->GetDesc(&descr);
+
+            descr.BindFlags = 0;
+            descr.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+            descr.Usage = D3D11_USAGE_STAGING;
+
+            HRESULT hResult = m_D3DDevice->CreateTexture2D(&descr, nullptr, &result);
+
+            if(FAILED(hResult))
+            {
+                OcularLogger->error("Failed to create staging texture with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture2D", "createStagingTexture"));
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

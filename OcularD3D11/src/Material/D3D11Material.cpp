@@ -62,6 +62,8 @@ namespace Ocular
             bindStateChanges();
             bindShaders();
             bindTextures();
+
+            m_UniformBuffer->bind();
         }
 
         void D3D11Material::unbind()

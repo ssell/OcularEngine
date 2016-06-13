@@ -15,10 +15,11 @@
  */
 
 #pragma once
-#ifndef __OCULAR_D3D11_TEXTURE__H__
-#define __OCULAR_D3D11_TEXTURE__H__
+#ifndef __H__OCULAR_UTILITIES_COLOR_PICKER__H__
+#define __H__OCULAR_UTILITIES_COLOR_PICKER__H__
 
-#include <d3d11.h>
+#include <cstdint>
+#include <vector>
 
 //------------------------------------------------------------------------------------------
 
@@ -28,42 +29,37 @@
  */
 namespace Ocular
 {
-    /**
-     * \addtogroup Graphics
-     * @{
-     */
+    namespace Core
+    {
+        class SceneObject;
+        class Camera;
+    }
+
     namespace Graphics
     {
+        class Material;
+    }
+
+    /**
+     * \addtogroup Utils
+     * @{
+     */
+    namespace Utils
+    {
         /**
-         * \class D3D11Texture
-         *
-         * Collection of common objects between all D3D11 texture classes.
+         * \class ColorPicker
          */
-        class D3D11Texture
+        class ColorPicker
         {
         public:
 
-            D3D11Texture(ID3D11Device* device);
-            virtual ~D3D11Texture();
-
-            ID3D11Texture2D* getD3DTexture2D();
-            ID3D11ShaderResourceView* getD3DShaderResource();
-
+            static Core::SceneObject* Pick(Core::Camera* camera, uint32_t x, uint32_t y);
+                                            
         protected:
 
-            virtual bool createD3DTexture2D(TextureDescriptor const& descriptor);
-            virtual bool createD3DShaderResource(TextureDescriptor const& descriptor);
-
-            void refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor);
-            ID3D11Texture2D* createStagingTexture();
-
-            //------------------------------------------------------------
-
-            ID3D11Device* m_D3DDevice;
-            ID3D11Texture2D* m_D3DTexture;
-            ID3D11ShaderResourceView* m_D3DShaderResourceView;
-            DXGI_FORMAT m_D3DFormat;
-
+            static Graphics::Material* GetMaterial();
+            static void RenderObjects(std::vector<Core::SceneObject*> const& objects, Graphics::Material* material);
+            static uint32_t GetPickedIndex(Core::Camera* camera, uint32_t x, uint32_t y);
         private:
         };
     }
@@ -77,4 +73,4 @@ namespace Ocular
 
 //------------------------------------------------------------------------------------------
 
-#endif 
+#endif

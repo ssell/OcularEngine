@@ -258,6 +258,14 @@ namespace Ocular
             }
         }
 
+        void SceneManager::getVisibleSceneObjects(std::vector<SceneObject*>& objects, Math::Frustum const& frustum)
+        {
+            if(m_Scene)
+            {
+                m_Scene->getVisibleSceneObjects(objects, frustum);
+            }
+        }
+
         void SceneManager::createScene(std::string const& name, SceneTreeType const staticType, SceneTreeType const dynamicType)
         {
             /**

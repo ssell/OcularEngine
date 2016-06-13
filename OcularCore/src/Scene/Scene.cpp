@@ -291,6 +291,19 @@ namespace Ocular
         // Getters / Setters
         //----------------------------------------------------------------------------------
 
+        void Scene::getVisibleSceneObjects(std::vector<SceneObject*>& objects, Math::Frustum const& frustum)
+        {
+            if(m_StaticSceneTree)
+            {
+                m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
+            }
+
+            if(m_DynamicSceneTree)
+            {
+                m_DynamicSceneTree->getAllVisibleObjects(frustum, objects);
+            }
+        }
+
         void Scene::setStaticTreeType(SceneTreeType const type)
         {
             m_StaticTreeType = type;

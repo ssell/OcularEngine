@@ -65,6 +65,11 @@ namespace Ocular
 
         }
 
+        void ARenderable::render(Graphics::Material* material)
+        {
+
+        }
+
         void ARenderable::postRender()
         {
 

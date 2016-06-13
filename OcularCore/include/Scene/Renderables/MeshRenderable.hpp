@@ -77,6 +77,7 @@ namespace Ocular
 
             virtual bool preRender() override;
             virtual void render() override;
+            virtual void render(Graphics::Material* material) override;
 
             virtual void onLoad(BuilderNode const* node) override;
             virtual void onSave(BuilderNode* node) const override;

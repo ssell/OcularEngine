@@ -16,7 +16,7 @@
 
 #pragma once
 #ifndef __H__OCULAR_UTILITIES_CONFIG__H__
-#define __H__OCULAR_UTILITIES_ENDIAN_OPERATIONS__H__
+#define __H__OCULAR_UTILITIES_CONFIG__H__
 
 #include "FileIO/File.hpp"
 
@@ -50,28 +50,28 @@ namespace Ocular
             //------------------------------------------------------------
 
             /**
-             *
+             * Reads the set configuration file and populates the options map with it's contents.
              */
             bool read();
 
             /**
-             *
+             * Overwrites the set configuration file with the current contents of the options map.
              */
             bool write();
 
             /**
+             * Sets the configuration (.oconf) file to read from/write to.
              *
+             * \param[in] file
              */
             void setFile(Core::File const& file);
 
             /**
-             * Retrieves the value of the specified option.
-             * If the option is not present, returns an empty string.
+             * Retrieves the value of the specified option. If the option is not present, returns an empty string.
              *
              * The validity of an option may be checked via hasOption.
              *
-             * The returned value may be converted to a non-string type 
-             * via OcularString->fromString
+             * The returned value may be converted to a non-string type via OcularString->fromString
              *
              * \param[in] option String option name
              * \return String option value
@@ -79,7 +79,10 @@ namespace Ocular
             std::string get(std::string const& option) const; 
 
             /**
+             * Sets the value of the specified option.
              *
+             * \param[in] option
+             * \param[in] value
              */
             void set(std::string const& option, std::string const& value);
                                             
@@ -104,4 +107,4 @@ namespace Ocular
 
 //------------------------------------------------------------------------------------------
 
-#endif#pragma once
+#endif

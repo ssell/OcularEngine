@@ -312,6 +312,7 @@
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
+    <ClCompile Include="..\..\src\Utilities\ColorPicker.cpp" />
     <ClCompile Include="..\..\src\Utilities\Config.cpp" />
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
@@ -506,6 +507,7 @@
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />
     <ClInclude Include="..\..\include\Utilities\BitOps.hpp" />
+    <ClInclude Include="..\..\include\Utilities\ColorPicker.hpp" />
     <ClInclude Include="..\..\include\Utilities\Config.hpp" />
     <ClInclude Include="..\..\include\Utilities\EndianOps.hpp" />
     <ClInclude Include="..\..\include\Utilities\HashGenerator.hpp" />

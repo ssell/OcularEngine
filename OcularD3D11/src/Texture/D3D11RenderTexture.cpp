@@ -113,9 +113,8 @@ namespace Ocular
 
         void D3D11RenderTexture::refresh()
         {
-            RenderTexture::refresh();
-
-            /// \todo Refresh CPU data with RTV
+            D3D11Texture::refresh(m_Pixels, m_Descriptor);
+            m_IsInMemory = true;
         }
 
         //----------------------------------------------------------------------------------

@@ -19,6 +19,7 @@
 #define __H__OCULAR_CORE_SCENE__H__
 
 #include "SceneTreeType.hpp"
+#include "Math/Geometry/Frustum.hpp"
 
 #include <vector>
 #include <list>
@@ -132,21 +133,45 @@ namespace Ocular
             //------------------------------------------------------------------------------
 
             /**
+             * Returns a collection of all SceneObjects visible to the specified view frustum (see Camera::getFrustum).
+             *
+             * The returned collection is a flat list meaning all visible SceneObjects are returned, not just
+             * top-level parents. Thus there is no need to check child visibility, as visible children will also be
+             * stored in the returned collection.
+             *
+             * \param[out] objects All visible SceneObjects
+             * \param[in]  frustum View frustum to perform frustum-culling against
+             */
+            void getVisibleSceneObjects(std::vector<SceneObject*>& objects, Math::Frustum const& frustum);
+
+            /**
              * \param[in] type
              */
             void setStaticTreeType(SceneTreeType type);
 
+            /**
+             *
+             */
             SceneTreeType const& getStaticTreeType() const;
 
             /**
              * \param[in] type
              */
             void setDynamicTreeType(SceneTreeType type);
-
+            
+            /**
+             *
+             */
             SceneTreeType const& getDynamicTreeType() const;
-
+            
+            /**
+             *
+             */
             void setRendererType(std::string const& string);
-
+            
+            /**
+             *
+             */
             std::string const& getRendererType() const;
 
         protected:

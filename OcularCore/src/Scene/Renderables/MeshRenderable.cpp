@@ -96,6 +96,21 @@ namespace Ocular
             }
         }
 
+        void MeshRenderable::render(Graphics::Material* material)
+        {
+            if(m_Mesh && material)
+            {
+                material->bind();
+
+                const uint32_t submeshCount = m_Mesh->getNumSubMeshes();
+
+                for(uint32_t i = 0; i < submeshCount; i++)
+                {
+                    OcularGraphics->renderMesh(m_Mesh, i);
+                }
+            }
+        }
+
         void MeshRenderable::onLoad(BuilderNode const* node)
         {
             Object::onLoad(node);

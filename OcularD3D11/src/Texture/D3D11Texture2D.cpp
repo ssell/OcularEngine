@@ -99,9 +99,8 @@ namespace Ocular
 
         void D3D11Texture2D::refresh()
         {
-            Texture2D::refresh();
-
-            /// \todo Refresh CPU data with Texture2D
+            D3D11Texture::refresh(m_Pixels, m_Descriptor);
+            m_IsInMemory = true;
         }
 
         //----------------------------------------------------------------------------------

@@ -711,6 +711,9 @@
     <ClCompile Include="..\..\src\Renderer\Renderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\ColorPicker.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1309,6 +1312,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\RendererRegistrar.hpp">
       <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\ColorPicker.hpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

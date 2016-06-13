@@ -24,6 +24,7 @@
 #include "Renderer/Renderer.hpp"
 #include "ComponentFactory.hpp"
 #include "FileIO/File.hpp"
+#include "Math/Geometry/Frustum.hpp"
 
 #include <unordered_map>
 
@@ -196,6 +197,18 @@ namespace Ocular
              * \note Typically for internal engine use only
              */
             void updateUUID(UUID const& uuid);
+
+            /**
+             * Returns a collection of all SceneObjects visible to the specified view frustum (see Camera::getFrustum).
+             *
+             * The returned collection is a flat list meaning all visible SceneObjects are returned, not just
+             * top-level parents. Thus there is no need to check child visibility, as visible children will also be
+             * stored in the returned collection.
+             *
+             * \param[out] objects All visible SceneObjects
+             * \param[in]  frustum View frustum to perform frustum-culling against
+             */
+            void getVisibleSceneObjects(std::vector<SceneObject*>& objects, Math::Frustum const& frustum);
 
             //------------------------------------------------------------------------------
             // Scene Methods

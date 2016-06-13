@@ -20,6 +20,9 @@
 
 #include "Events/SceneObjectSelectedEvent.hpp"
 #include "Events/SceneObjectFocusedEvent.hpp"
+#include "Events/Events/MouseButtonInputEvent.hpp"
+
+#include "Utilities/ColorPicker.hpp"
 
 #include "Widgets/MainStatusBar.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
@@ -74,7 +77,7 @@ namespace Ocular
 
             if(OcularEngine.initialize(new Ocular::Graphics::D3D11GraphicsDriver()))
             {
-                OcularEvents->registerListener(this, Core::Priority::Medium);
+                OcularEvents->registerListener(this, Core::Priority::Low);
 
                 m_MainWindow = new MainWindow();
                 m_MainWindow->show();
@@ -136,6 +139,19 @@ namespace Ocular
             {
                 SceneObjectFocusedEvent* cast = dynamic_cast<SceneObjectFocusedEvent*>(event.get());
                 m_FocusedObject = cast->object;
+            }
+            else if(event->isType<Core::MouseButtonInputEvent>())
+            {
+                Core::MouseButtonInputEvent* cast = dynamic_cast<Core::MouseButtonInputEvent*>(event.get());
+
+                if((cast->button == Core::MouseButtons::Left) &&
+                   (cast->state == Core::KeyState::Released))
+                {
+                    auto rtv = m_EditorCamera->getRenderTexture();
+                    rtv->refresh();
+
+                    OcularResources->saveResource(rtv, Core::File("test.png"));
+                }
             }
 
             return true;
