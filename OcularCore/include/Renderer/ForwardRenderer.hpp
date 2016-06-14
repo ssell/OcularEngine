@@ -41,7 +41,8 @@ namespace Ocular
             ForwardRenderer();
             virtual ~ForwardRenderer();
 
-            virtual void render(std::vector<SceneObject*>& objects);
+            virtual void render(std::vector<SceneObject*>& objects) override;
+            virtual void render(std::vector<SceneObject*>& objects, Graphics::Material* material) override;
 
         protected:
 

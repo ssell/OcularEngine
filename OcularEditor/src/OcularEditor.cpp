@@ -25,6 +25,10 @@
 #include "Utilities/ColorPicker.hpp"
 
 #include "Widgets/MainStatusBar.hpp"
+#include "Widgets/MainWindow.hpp"
+#include "Widgets/ContentFrame.hpp"
+#include "Widgets/SceneFrame.hpp"
+#include "Widgets/SceneTree.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
 #include <regex>
@@ -147,10 +151,18 @@ namespace Ocular
                 if((cast->button == Core::MouseButtons::Left) &&
                    (cast->state == Core::KeyState::Released))
                 {
-                    auto rtv = m_EditorCamera->getRenderTexture();
-                    rtv->refresh();
+                    auto viewport = m_EditorCamera->getViewport();
+                    auto mousePos = OcularInput->getMousePosition();
 
-                    OcularResources->saveResource(rtv, Core::File("test.png"));
+                    const uint32_t mouseX = static_cast<uint32_t>(mousePos.x);
+                    const uint32_t mouseY = static_cast<uint32_t>(viewport->getHeight()) - static_cast<uint32_t>(mousePos.y);
+
+                    auto pickedObject = Utils::ColorPicker::Pick(m_EditorCamera, mouseX, mouseY);
+                    
+                    if(pickedObject)
+                    {
+                        m_MainWindow->getContentFrame()->getSceneFrame()->getSceneTree()->selectObject(pickedObject->getUUID());
+                    }
                 }
             }
 

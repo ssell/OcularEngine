@@ -31,6 +31,7 @@ namespace Ocular
     namespace Graphics
     {
         class UniformBuffer;
+        class Material;
     }
 
     /**
@@ -52,6 +53,7 @@ namespace Ocular
             ~Renderer();
 
             virtual void render(std::vector<SceneObject*>& objects) = 0;
+            virtual void render(std::vector<SceneObject*>& objects, Graphics::Material* material) = 0;
 
         protected:
 

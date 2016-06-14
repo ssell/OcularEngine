@@ -54,8 +54,12 @@ namespace Ocular
             virtual bool createD3DTexture2D(TextureDescriptor const& descriptor);
             virtual bool createD3DShaderResource(TextureDescriptor const& descriptor);
 
+            /**
+             * Performs a GPU to CPU download of the texture data.
+             * Texture data is retrieved from m_D3DTexture and stored in pixels.
+             */
             void refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor);
-            ID3D11Texture2D* createStagingTexture();
+
 
             //------------------------------------------------------------
 
@@ -65,6 +69,31 @@ namespace Ocular
             DXGI_FORMAT m_D3DFormat;
 
         private:
+
+            /**
+             * Creates the temporary staging texture used when copying GPU texture data.
+             */
+            ID3D11Texture2D* createStagingTexture();
+
+            /**
+             * Copies data from the source data (mapped resource) to a destination buffer (typically uint8_t temporary buffer)
+             */
+            void copyData(void const* source, void* dest, uint32_t const sourceWidth, uint32_t const destWidth, uint32_t const height);
+
+            /**
+             * Copies 4-byte size pixel data (some variant of R8G8B8A8 or similar) from temporary source buffer to pixels container.
+             */
+            void copyToPixels4(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor);
+
+            /**
+             * Copies 8-byte size pixel data (some variant of R16G16B16A16 or similar) from temporary source buffer to pixels container.
+             */
+            void copyToPixels8(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor);
+
+            /**
+             * Copies 16-byte size pixel data (some variant of R32G32B32A32 or similar) from temporary source buffer to pixels container.
+             */
+            void copyToPixels16(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor);
         };
     }
     /**

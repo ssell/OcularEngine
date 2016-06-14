@@ -777,78 +777,102 @@ namespace Ocular
             {
             case DXGI_FORMAT_R32G32B32A32_FLOAT:
                 dest.format = TextureFormat::R32G32B32A32Float;
+                dest.pixelSize = 16;
                 break;
 
             case DXGI_FORMAT_R32G32B32A32_UINT:
                 dest.format = TextureFormat::R32G32B32A32Unsigned;
+                dest.pixelSize = 16;
                 break;
 
             case DXGI_FORMAT_R32G32B32A32_SINT:
                 dest.format = TextureFormat::R32G32B32A32Signed;
+                dest.pixelSize = 16;
                 break;
 
             case DXGI_FORMAT_R32G32B32_FLOAT:
                 dest.format = TextureFormat::R32G32B32Float;
+                dest.pixelSize = 12;
                 break;
 
             case DXGI_FORMAT_R32G32B32_UINT:
                 dest.format = TextureFormat::R32G32B32Unsigned;
+                dest.pixelSize = 12;
                 break;
 
             case DXGI_FORMAT_R32G32B32_SINT:
                 dest.format = TextureFormat::R32G32B32Signed;
+                dest.pixelSize = 12;
                 break;
 
             case DXGI_FORMAT_R32G32_FLOAT:
                 dest.format = TextureFormat::R32G32Float;
+                dest.pixelSize = 8;
                 break;
 
             case DXGI_FORMAT_R32G32_UINT:
                 dest.format = TextureFormat::R32G32Unsigned;
+                dest.pixelSize = 8;
                 break;
 
             case DXGI_FORMAT_R32G32_SINT:
                 dest.format = TextureFormat::R32G32Signed;
+                dest.pixelSize = 8;
                 break;
 
             case DXGI_FORMAT_R32_FLOAT:
                 dest.format = TextureFormat::R32Float;
+                dest.pixelSize = 4;
                 break;
 
             case DXGI_FORMAT_R32_UINT:
                 dest.format = TextureFormat::R32Unsigned;
+                dest.pixelSize = 4;
                 break;
 
             case DXGI_FORMAT_R32_SINT:
                 dest.format = TextureFormat::R32Signed;
+                dest.pixelSize = 4;
                 break;
 
             case DXGI_FORMAT_R8G8B8A8_UINT:
                 dest.format = TextureFormat::R8G8B8A8Unsigned;
+                dest.pixelSize = 4;
                 break;
 
             case DXGI_FORMAT_R8G8B8A8_SINT:
                 dest.format = TextureFormat::R8G8B8A8Signed;
+                dest.pixelSize = 4;
+                break;
+
+            case DXGI_FORMAT_R8G8B8A8_UNORM:
+                dest.format = TextureFormat::R8G8B8A8Unsigned;
+                dest.pixelSize = 4;
                 break;
 
             case DXGI_FORMAT_R8G8_UINT:
                 dest.format = TextureFormat::R8G8Unsigned;
+                dest.pixelSize = 2;
                 break;
 
             case DXGI_FORMAT_R8G8_SINT:
                 dest.format = TextureFormat::R8G8Signed;
+                dest.pixelSize = 2;
                 break;
 
             case DXGI_FORMAT_R8_UINT:
                 dest.format = TextureFormat::R8Unsigned;
+                dest.pixelSize = 1;
                 break;
 
             case DXGI_FORMAT_R8_SINT:
                 dest.format = TextureFormat::R8Signed;
+                dest.pixelSize = 1;
                 break;
 
             case DXGI_FORMAT_D24_UNORM_S8_UINT:
                 dest.format = TextureFormat::Depth;
+                dest.pixelSize = 1;
                 break;
 
             default:

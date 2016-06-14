@@ -53,15 +53,9 @@ namespace Ocular
                 if(visibleObjects.size())
                 {    
                     OcularCameras->setActiveCamera(camera);
-
-                    const Core::Color oldClear = camera->getClearColor();
-                    camera->setClearColor(Core::Color::White());
-
-                    OcularGraphics->clearBuffers();
+                    OcularGraphics->clearBuffers(Core::Color::White());
 
                     RenderObjects(visibleObjects, material);
-
-                    camera->setClearColor(oldClear);
                 }
                 
                 //--------------------------------------------------------
@@ -75,7 +69,7 @@ namespace Ocular
                     result = visibleObjects[pickedIndex];
                 }
 
-                OcularResources->saveResource(camera->getRenderTexture(), Core::File("pick.png"));
+                //OcularResources->saveResource(camera->getRenderTexture(), Core::File("pick.png"));
             }
 
             return result;
@@ -92,9 +86,15 @@ namespace Ocular
 
         void ColorPicker::RenderObjects(std::vector<Core::SceneObject*> const& objects, Graphics::Material* material)
         {
+            auto objectUniformBuffer = OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject);
+
             float r = 0.0f;
             float g = 0.0f;
             float b = 0.0f;
+
+            //------------------------------------------------------------
+            // Render each Object
+            //------------------------------------------------------------
 
             for(auto object : objects)
             {
@@ -104,14 +104,28 @@ namespace Ocular
                 {
                     if(renderable->preRender())
                     {
-                        material->setUniform("Color", 0, Math::Vector4f((r / 255.0f), (g / 255.0f), 1.0f, 1.0f));
+                        //------------------------------------------------
+                        // Bind the per object uniforms (model matrix, etc.)
+
+                        objectUniformBuffer->setFixedData(object->getUniformData());
+                        objectUniformBuffer->bind();
+
+                        //------------------------------------------------
+                        // Set the unique object color
+
+                        material->setUniform("Color", 0, Math::Vector4f((r / 255.0f), (g / 255.0f), (b / 255.0f), 1.0f));
+                        
+                        //------------------------------------------------
+                        // Render the object with the color picking material
 
                         renderable->render(material);
                         renderable->postRender();
                     }
                 }
-
-                // Increment after every object, even if we dont render it 
+                
+                //--------------------------------------------------------
+                // Update the render color after every object (even if that object isn't rendered)
+                //--------------------------------------------------------
 
                 r += 1.0f;
 
@@ -133,6 +147,12 @@ namespace Ocular
                     break;
                 }
             }
+            
+            //------------------------------------------------------------
+            // Clean Up
+            //------------------------------------------------------------
+
+            delete objectUniformBuffer;
         }
 
         uint32_t ColorPicker::GetPickedIndex(Core::Camera* camera, uint32_t const x, uint32_t const y)
@@ -147,8 +167,8 @@ namespace Ocular
                 Core::Color color = rtv->getPixel(x, y);
                 
                 const uint32_t r = static_cast<uint32_t>(color.r * 255.0f);
-                const uint32_t g = static_cast<uint32_t>(color.r * 255.0f);
-                const uint32_t b = static_cast<uint32_t>(color.r * 255.0f);
+                const uint32_t g = static_cast<uint32_t>(color.g * 255.0f);
+                const uint32_t b = static_cast<uint32_t>(color.b * 255.0f);
 
                 // The colors were assigned in an incremental fashion.
                 // So we can easily calculate which object was picked based on the color
@@ -156,8 +176,10 @@ namespace Ocular
 
                 if((r != 255) && (g != 255) && (b != 255))
                 {
-                    result = (static_cast<uint32_t>(color.b * 65025.0f) + static_cast<uint32_t>(color.g * 255.0f) + static_cast<uint32_t>(color.r));
+                    result = (static_cast<uint32_t>(color.b * 65025.0f) + static_cast<uint32_t>(color.g * 255.0f) + r);
                 }
+
+                OcularLogger->info("Picked (", x, ", ", y, ") @ ", result, " (", color.r, "/", r,", ", color.g, "/", g,", ", color.b, "/", b,")");
             }
 
             return result;

@@ -83,6 +83,13 @@ namespace Ocular
              */
             void removeObject(Core::UUID const& uuid);
 
+            /**
+             * Selects the specified SceneObject in the tree.
+             *
+             * \param[in] object SceneObject to select. If NULL, selection is cleared.
+             */
+            void selectObject(Core::UUID const& uuid);
+
         protected:
 
             virtual void mousePressEvent(QMouseEvent* event) override;

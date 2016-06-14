@@ -50,7 +50,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         void ForwardRenderer::render(std::vector<SceneObject*>& objects)
         {
             OcularGraphics->clearBuffers(OcularCameras->getActiveCamera()->getClearColor());
@@ -68,6 +68,31 @@ namespace Ocular
                         bindUniforms(object);
 
                         renderable->render();
+                        renderable->postRender();
+                    }
+                }
+            }
+
+            OcularGraphics->swapBuffers();
+        }
+
+        void ForwardRenderer::render(std::vector<SceneObject*>& objects, Graphics::Material* material)
+        {
+            OcularGraphics->clearBuffers(OcularCameras->getActiveCamera()->getClearColor());
+
+            sort(objects);
+
+            for(auto object : objects)
+            {
+                auto renderable = object->getRenderable();
+
+                if(renderable)
+                {
+                    if(renderable->preRender())
+                    {
+                        bindUniforms(object);
+
+                        renderable->render(material);
                         renderable->postRender();
                     }
                 }

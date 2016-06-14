@@ -20,6 +20,11 @@
 
 //------------------------------------------------------------------------------------------
 
+namespace
+{
+    const float OneOver255 = 0.00392156862f;
+}
+
 namespace Ocular
 {
     namespace Graphics
@@ -136,6 +141,8 @@ namespace Ocular
 
         void D3D11Texture::refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor)
         {
+            // Downloads texture data from the GPU to the specified CPU pixels container
+            
             // Create a separate staging texture to read from
             ID3D11Texture2D* stagingTexture = createStagingTexture();
 
@@ -151,40 +158,58 @@ namespace Ocular
                     if(context)
                     {
                         D3D11_MAPPED_SUBRESOURCE mappedResource;
+                        ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
                         const uint32_t subresourceIndex = D3D11CalcSubresource(0, 0, 0);
 
-                        // Copy the contents of our 2D texture to the staging texture
+                        // Copy the contents of our texture to the staging texture
                         context->CopyResource(stagingTexture, m_D3DTexture);
 
                         // Map the contents of the staging texture to a subresource
-                        context->Map(stagingTexture, subresourceIndex, D3D11_MAP_READ, 0, &mappedResource);
+                        const HRESULT hResult = context->Map(stagingTexture, subresourceIndex, D3D11_MAP_READ, 0, &mappedResource);
 
-                        // Copy the contents of the subresource to our CPU-side pixel container
-                        // In D3D11, the data stored in the mappedResource.pData pointer is aligned to 16 bytes
-
-                        pixels.clear();
-                        pixels.resize(descriptor.width * descriptor.height);
-
-                        uint8_t* buffer = new uint8_t[descriptor.width * descriptor.height * 4];
-                        memset(buffer, 0, descriptor.width * descriptor.height * 4);
-
-                        uint8_t* source = static_cast<uint8_t*>(mappedResource.pData);
-                        uint8_t* dest = &buffer[0];
-
-                        const uint32_t rowPitch = descriptor.width << 2;
-
-                        if(source)
+                        if(SUCCEEDED(hResult))
                         {
-                            for(uint32_t i = 0; i < descriptor.height; i++)
-                            {
-                                memcpy(dest, source, descriptor.width * 4);
-        
-                                source += rowPitch;
-                                dest += rowPitch;
-                            }
-                        }
+                            pixels.clear();
+                            pixels.resize(descriptor.width * descriptor.height);
 
-                        context->Unmap(stagingTexture, subresourceIndex);
+                            uint8_t* buffer = new uint8_t[descriptor.width * descriptor.height * descriptor.pixelSize];
+                            memset(buffer, 0, descriptor.width * descriptor.height * descriptor.pixelSize);
+
+                            copyData(
+                                mappedResource.pData, 
+                                buffer, 
+                                mappedResource.RowPitch, 
+                                descriptor.width * descriptor.pixelSize,
+                                descriptor.height);
+
+                            context->Unmap(stagingTexture, subresourceIndex);
+
+                            switch(descriptor.pixelSize)
+                            {
+                            case 4:
+                                copyToPixels4(buffer, pixels, descriptor);
+                                break;
+
+                            case 8:
+                                copyToPixels8(buffer, pixels, descriptor);
+                                break;
+
+                            case 16:
+                                copyToPixels16(buffer, pixels, descriptor);
+                                break;
+
+                            default:
+                                OcularLogger->error("Invalid pixel size of ", descriptor.pixelSize, " for memory copy (expected 4, 8, or 16)", OCULAR_INTERNAL_LOG("D3D11Texture", "refresh"));
+                                break;
+                            }
+
+                            delete [] buffer;
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to map resource with error: ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture", "refresh"));
+                        }
                     }
                     else
                     {
@@ -205,6 +230,10 @@ namespace Ocular
             }
         }
 
+        //----------------------------------------------------------------------------------
+        // PRIVATE METHODS
+        //----------------------------------------------------------------------------------
+
         ID3D11Texture2D* D3D11Texture::createStagingTexture()
         {
             ID3D11Texture2D* result = nullptr;
@@ -220,15 +249,58 @@ namespace Ocular
 
             if(FAILED(hResult))
             {
-                OcularLogger->error("Failed to create staging texture with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture2D", "createStagingTexture"));
+                OcularLogger->error("Failed to create staging texture with error: ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11Texture", "createStagingTexture"));
             }
 
             return result;
         }
 
-        //----------------------------------------------------------------------------------
-        // PRIVATE METHODS
-        //----------------------------------------------------------------------------------
+        void D3D11Texture::copyData(void const* source, void* dest, uint32_t const sourceWidth, uint32_t const destWidth, uint32_t const height)
+        {
+            if(sourceWidth == destWidth)
+            {
+                memcpy(dest, source, sourceWidth * height);
+            }
+            else
+            {
+                // Widths are different due to added padding on the source buffer.
+                // Must copy row-by-row to account for this.
+
+                uint8_t const* sourcePtr = static_cast<uint8_t const*>(source);
+                uint8_t* destPtr = static_cast<uint8_t*>(dest);
+
+                for(uint32_t row = 0; row < height; row++)
+                {
+                    memcpy(destPtr, sourcePtr, destWidth);
+
+                    sourcePtr += sourceWidth;
+                    destPtr += destWidth;
+                }
+            }
+        }
+
+        void D3D11Texture::copyToPixels4(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor)
+        {
+            uint32_t j = 0;
+
+            for(uint32_t i = 0; i < dest.size(); i++)
+            {
+                dest[i].r = static_cast<float>(source[j++] * OneOver255);
+                dest[i].g = static_cast<float>(source[j++] * OneOver255);
+                dest[i].b = static_cast<float>(source[j++] * OneOver255);
+                dest[i].a = static_cast<float>(source[j++] * OneOver255);
+            }
+        }
+
+        void D3D11Texture::copyToPixels8(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor)
+        {
+
+        }
+
+        void D3D11Texture::copyToPixels16(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor)
+        {
+
+        }
 
     }
 }

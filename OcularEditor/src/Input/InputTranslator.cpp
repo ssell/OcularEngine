@@ -85,6 +85,8 @@ namespace Ocular
                 {
                     OcularInput->triggerMouseButtonDown(obutton);
                 }
+
+                OcularInput->setMousePosition(Math::Vector2i(static_cast<int32_t>(mouseEvent->x()), static_cast<int32_t>(mouseEvent->y())));
             }
 
             return result;
@@ -104,6 +106,8 @@ namespace Ocular
                 {
                     OcularInput->triggerMouseButtonUp(obutton);
                 }
+
+                OcularInput->setMousePosition(Math::Vector2i(static_cast<int32_t>(mouseEvent->x()), static_cast<int32_t>(mouseEvent->y())));
             }
 
             return result;

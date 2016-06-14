@@ -164,6 +164,24 @@ namespace Ocular
             }
         }
 
+        void SceneTree::selectObject(Core::UUID const& uuid)
+        {
+            auto item = getItem(uuid);
+            auto selectItems = selectedItems();
+
+            for(auto selected : selectItems)
+            {
+                selected->setSelected(false);
+            }
+
+            if(item)
+            {
+                item->setSelected(true);
+            }
+
+            OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(OcularScene->findObject(uuid)));
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
