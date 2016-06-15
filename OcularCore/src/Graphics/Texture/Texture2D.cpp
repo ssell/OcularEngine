@@ -164,6 +164,7 @@ namespace Ocular
             if(width > 0)
             {
                 m_Descriptor.width = width;
+                m_Pixels.resize(m_Descriptor.width * m_Descriptor.height);
             }
         }
 
@@ -177,6 +178,7 @@ namespace Ocular
             if(height > 0)
             {
                 m_Descriptor.height = height;
+                m_Pixels.resize(m_Descriptor.width * m_Descriptor.height);
             }
         }
 

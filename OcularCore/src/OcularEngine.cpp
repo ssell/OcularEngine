@@ -49,6 +49,7 @@ namespace Ocular
         m_SceneManager    = std::make_shared<Core::SceneManager>();
         m_CameraManager   = std::make_shared<Core::CameraManager>();
         m_WindowManager   = std::make_shared<Core::WindowManager>();
+        m_ThreadManager   = std::make_shared<Core::ThreadManager>();
         m_Profiler        = nullptr;// std::make_shared<Core::Profiler>();
         m_GraphicsDriver  = nullptr;
 
@@ -142,6 +143,11 @@ namespace Ocular
     std::shared_ptr<Core::WindowManager> Engine::WindowManager() const
     {
         return m_WindowManager;
+    }
+
+    std::shared_ptr<Core::ThreadManager> Engine::ThreadManager() const
+    {
+        return m_ThreadManager;
     }
 
     std::shared_ptr<Utils::HashGenerator> Engine::HashGenerator() const

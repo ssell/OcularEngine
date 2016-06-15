@@ -32,6 +32,7 @@
 #include "Scene/SceneManager.hpp"
 #include "Scene/Camera/CameraManager.hpp"
 #include "Graphics/GraphicsDriver.hpp"
+#include "Threads/ThreadManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -116,6 +117,11 @@ namespace Ocular
          * \return Reference to the primary WindowManager
          */
         std::shared_ptr<Core::WindowManager> WindowManager() const;
+
+        /**
+         * \return Reference to the primary ThreadManager
+         */
+        std::shared_ptr<Core::ThreadManager> ThreadManager() const;
         
         /**
          * \return Reference to the primary Hash Generator
@@ -197,6 +203,7 @@ namespace Ocular
         std::shared_ptr<Core::SceneManager>       m_SceneManager;
         std::shared_ptr<Core::CameraManager>      m_CameraManager;
         std::shared_ptr<Core::WindowManager>      m_WindowManager;
+        std::shared_ptr<Core::ThreadManager>      m_ThreadManager;
         std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
         std::shared_ptr<Utils::String>            m_StringUtils;
         std::shared_ptr<Utils::Config>            m_Config;
@@ -219,6 +226,7 @@ namespace Ocular
 #define OcularInput     OcularEngine.Input()
 #define OcularResources OcularEngine.ResourceManager()
 #define OcularWindows   OcularEngine.WindowManager()
+#define OcularThreads   OcularEngine.ThreadManager()
 #define OcularProfiler  OcularEngine.Profiler()
 #define OcularGraphics  OcularEngine.GraphicsDriver()
 #define OcularString    OcularEngine.StringUtils()

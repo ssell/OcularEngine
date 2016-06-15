@@ -172,11 +172,13 @@ namespace Ocular
         template<typename T>
         static T RoundUpDecimal(T value, int const precision)
         {
-            value *= std::pow(10, precision);
-            value = std::ceil(value);
-            value /= std::pow(10, precision);
+            double result = static_cast<double>(value);
 
-            return value;
+            result *= std::pow(10, precision);
+            result  = std::ceil(result);
+            result /= std::pow(10, precision);
+
+            return static_cast<T>(result);
         }
 
         /**
@@ -197,11 +199,13 @@ namespace Ocular
         template<typename T>
         static T RoundUpPowTen(T value, int const precision)
         {
-            value /= std::pow(10, precision);
-            value  = std::ceil(value);
-            value *= std::pow(10, precision);
+            double result = static_cast<double>(value);
 
-            return value;
+            result /= std::pow(10, precision);
+            result  = std::ceil(result);
+            result *= std::pow(10, precision);
+
+            return static_cast<T>(result);
         }
 
         /**
@@ -219,11 +223,13 @@ namespace Ocular
         template<typename T>
         static T RoundDownDecimal(T value, int const precision)
         {
-            value *= std::pow(10, precision);
-            value = std::floor(value);
-            value /= std::pow(10, precision);
+            double result = static_cast<double>(value);
 
-            return value;
+            result *= std::pow(10, precision);
+            result = std::floor(result);
+            result /= std::pow(10, precision);
+
+            return static_cast<T>(result);
         }
 
         /**
@@ -244,11 +250,13 @@ namespace Ocular
         template<typename T>
         static T RoundDownPowTen(T value, int const precision)
         {
-            value /= std::pow(10, precision);
-            value = std::floor(value);
-            value *= std::pow(10, precision);
+            double result = static_cast<double>(value);
 
-            return value;
+            result /= std::pow(10, precision);
+            result = std::floor(value);
+            result *= std::pow(10, precision);
+
+            return static_cast<T>(result);
         }
 
         /**
@@ -268,20 +276,24 @@ namespace Ocular
         template<typename T>
         static T RoundDecimal(T value, int const precision)
         {
-            T up = RoundUpDecimal(value, precision);
-            T down = RoundDownDecimal(value, precision);
+            T result = value;
 
-            T upDiff   = static_cast<T>(std::abs(static_cast<double>(value) - static_cast<double>(up)));
-            T downDiff = static_cast<T>(std::abs(static_cast<double>(value) - static_cast<double>(down)));
+            const double up = RoundUpDecimal(value, precision);
+            const double down = RoundDownDecimal(value, precision);
+
+            const double upDiff   = std::abs(static_cast<double>(value) - static_cast<double>(up));
+            const double downDiff = std::abs(static_cast<double>(value) - static_cast<double>(down));
 
             if(upDiff < downDiff)
             {
-                return up;
+                result = static_cast<T>(up);
             }
             else
             {
-                return down;
+                result = static_cast<T>(down);
             }
+
+            return result;
         }
 
         /**

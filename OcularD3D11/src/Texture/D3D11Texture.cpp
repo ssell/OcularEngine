@@ -141,6 +141,8 @@ namespace Ocular
 
         void D3D11Texture::refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor)
         {
+            const auto start = OcularClock->getElapsedMS();
+
             // Downloads texture data from the GPU to the specified CPU pixels container
             
             // Create a separate staging texture to read from
@@ -228,6 +230,10 @@ namespace Ocular
             {
                 OcularLogger->error("Invalid staging texture", OCULAR_INTERNAL_LOG("D3D11Texture2D", "refresh"));
             }
+
+            const auto stop = OcularClock->getElapsedMS();
+
+            OcularLogger->info("Refresh in ", (stop - start), "ms");
         }
 
         //----------------------------------------------------------------------------------
@@ -294,12 +300,20 @@ namespace Ocular
 
         void D3D11Texture::copyToPixels8(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor)
         {
+            uint32_t j = 0;
 
+            for(uint32_t i = 0; i < dest.size(); i++)
+            {
+                dest[i].r = static_cast<float>(source[j += 2] * OneOver255);
+                dest[i].g = static_cast<float>(source[j += 2] * OneOver255);
+                dest[i].b = static_cast<float>(source[j += 2] * OneOver255);
+                dest[i].a = static_cast<float>(source[j += 2] * OneOver255);
+            }
         }
 
         void D3D11Texture::copyToPixels16(uint8_t const* source, std::vector<Core::Color>& dest, Graphics::TextureDescriptor const& descriptor)
         {
-
+            memcpy(&dest[0], source, descriptor.width * descriptor.height * descriptor.pixelSize);
         }
 
     }

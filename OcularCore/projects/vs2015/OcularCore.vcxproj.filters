@@ -271,6 +271,12 @@
     <Filter Include="Source Files\Graphics\Mesh\MeshLoaders\OBJ">
       <UniqueIdentifier>{f6020bc9-2ca5-43b2-b3ee-3314ec527b3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Threads">
+      <UniqueIdentifier>{d4da251d-8e3a-476a-88ba-a274ba11f6e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads">
+      <UniqueIdentifier>{ff81d320-b158-48c9-871c-8d4ccdad819d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -713,6 +719,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\ColorPicker.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Threads\ThreadManager.cpp">
+      <Filter>Source Files\Threads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1315,6 +1324,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utilities\ColorPicker.hpp">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Threads\ThreadManager.hpp">
+      <Filter>Header Files\Threads</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -166,9 +166,9 @@ namespace Ocular
 
                 Core::Color color = rtv->getPixel(x, y);
                 
-                const uint32_t r = static_cast<uint32_t>(color.r * 255.0f);
-                const uint32_t g = static_cast<uint32_t>(color.g * 255.0f);
-                const uint32_t b = static_cast<uint32_t>(color.b * 255.0f);
+                const uint32_t r = static_cast<uint32_t>(Math::RoundDecimal<float>((color.r * 255.0f), 0));
+                const uint32_t g = static_cast<uint32_t>(Math::RoundDecimal<float>((color.g * 255.0f), 0));
+                const uint32_t b = static_cast<uint32_t>(Math::RoundDecimal<float>((color.b * 255.0f), 0));
 
                 // The colors were assigned in an incremental fashion.
                 // So we can easily calculate which object was picked based on the color
@@ -178,8 +178,6 @@ namespace Ocular
                 {
                     result = (static_cast<uint32_t>(color.b * 65025.0f) + static_cast<uint32_t>(color.g * 255.0f) + r);
                 }
-
-                OcularLogger->info("Picked (", x, ", ", y, ") @ ", result, " (", color.r, "/", r,", ", color.g, "/", g,", ", color.b, "/", b,")");
             }
 
             return result;

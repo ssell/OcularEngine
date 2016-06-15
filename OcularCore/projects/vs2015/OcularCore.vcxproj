@@ -309,6 +309,7 @@
     <ClCompile Include="..\..\src\Scene\SceneSaver\SceneObjectSaver.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneSaver\SceneSaver.cpp" />
     <ClCompile Include="..\..\src\SystemInfo.cpp" />
+    <ClCompile Include="..\..\src\Threads\ThreadManager.cpp" />
     <ClCompile Include="..\..\src\Time\Clock.cpp" />
     <ClCompile Include="..\..\src\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Time\Timer.cpp" />
@@ -503,6 +504,7 @@
     <ClInclude Include="..\..\include\Scene\SceneSaver\SceneSaver.hpp" />
     <ClInclude Include="..\..\include\Scene\SceneTreeType.hpp" />
     <ClInclude Include="..\..\include\SystemInfo.hpp" />
+    <ClInclude Include="..\..\include\Threads\ThreadManager.hpp" />
     <ClInclude Include="..\..\include\Time\Clock.hpp" />
     <ClInclude Include="..\..\include\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\Time\Timer.hpp" />

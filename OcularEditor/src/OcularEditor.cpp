@@ -155,7 +155,7 @@ namespace Ocular
                     auto mousePos = OcularInput->getMousePosition();
 
                     const uint32_t mouseX = static_cast<uint32_t>(mousePos.x);
-                    const uint32_t mouseY = static_cast<uint32_t>(viewport->getHeight()) - static_cast<uint32_t>(mousePos.y);
+                    const uint32_t mouseY = static_cast<uint32_t>(mousePos.y);
 
                     auto pickedObject = Utils::ColorPicker::Pick(m_EditorCamera, mouseX, mouseY);
                     
