@@ -99,6 +99,12 @@
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{d29d3936-800d-42fe-97e5-ed8ff5a31711}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{7b8e451e-3908-4781-ae15-f94c47a5dd8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer">
+      <UniqueIdentifier>{b62f5d23-d176-42f1-a246-adb32a14a000}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -383,6 +389,9 @@
     <ClCompile Include="..\..\src\SceneObjectImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\EditorForwardRenderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -540,6 +549,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer\EditorForwardRenderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

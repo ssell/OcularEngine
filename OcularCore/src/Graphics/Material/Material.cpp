@@ -39,7 +39,6 @@ namespace Ocular
               m_FragmentShader(nullptr),
               m_PreTessellationShader(nullptr),
               m_PostTessellationShader(nullptr),
-              m_PrimitiveStyle(PrimitiveStyle::TriangleList),
               m_RenderPriority(static_cast<uint32_t>(Core::RenderPriority::Opaque))
         {
             m_Type = Core::ResourceType::Material;
@@ -51,9 +50,10 @@ namespace Ocular
             if(renderState)
             {
                 m_StoredRasterState = renderState->getRasterState();
+                m_StoredRasterState.primitiveStyle = PrimitiveStyle::TriangleList;
+                m_StoredRasterState.fillMode = FillMode::Solid;
             }
 
-            exposeProperties();
             setDefaults();
         }
 
@@ -115,6 +115,7 @@ namespace Ocular
                         if(program)
                         {
                             m_VertexShader = program->getVertexShader();
+                            m_VertexShader->setMappingName(vertexNode->getValue());
                         }
                     }
 
@@ -127,6 +128,7 @@ namespace Ocular
                         if(program)
                         {
                             m_GeometryShader = program->getGeometryShader();
+                            m_GeometryShader->setMappingName(vertexNode->getValue());
                         }
                     }
 
@@ -139,6 +141,7 @@ namespace Ocular
                         if(program)
                         {
                             m_FragmentShader = program->getFragmentShader();
+                            m_FragmentShader->setMappingName(vertexNode->getValue());
                         }
                     }
 
@@ -151,6 +154,7 @@ namespace Ocular
                         if(program)
                         {
                             m_PreTessellationShader = program->getPreTessellationShader();
+                            m_PreTessellationShader->setMappingName(vertexNode->getValue());
                         }
                     }
 
@@ -163,6 +167,7 @@ namespace Ocular
                         if(program)
                         {
                             m_PostTessellationShader = program->getPostTessellationShader();
+                            m_PostTessellationShader->setMappingName(vertexNode->getValue());
                         }
                     }
                 }
@@ -244,6 +249,38 @@ namespace Ocular
                     }
                 }
 
+                //--------------------------------------------------------
+                // Render State
+                //--------------------------------------------------------
+
+                const Core::BuilderNode* renderStateNode = node->getChild("RenderState");
+
+                if(renderStateNode)
+                {
+                    const Core::BuilderNode* primitiveStyleNode = renderStateNode->getChild("PrimitiveStyle");
+
+                    if(primitiveStyleNode)
+                    {
+                        m_StoredRasterState.primitiveStyle = static_cast<PrimitiveStyle>(OcularString->fromString<uint32_t>(primitiveStyleNode->getValue()));
+
+                        if(m_StoredRasterState.primitiveStyle > PrimitiveStyle::Undefined)
+                        {
+                            m_StoredRasterState.primitiveStyle = PrimitiveStyle::TriangleList;
+                        }
+                    }
+
+                    const Core::BuilderNode* fillModeNode = node->getChild("FillMode");
+
+                    if(fillModeNode)
+                    {
+                        m_StoredRasterState.fillMode = static_cast<FillMode>(OcularString->fromString<uint32_t>(fillModeNode->getValue()));
+
+                        if(m_StoredRasterState.fillMode > FillMode::Undefined)
+                        {
+                            m_StoredRasterState.fillMode = FillMode::Solid;
+                        }
+                    }
+                }
             }
         }
 
@@ -364,6 +401,12 @@ namespace Ocular
                         }
                     }
                 }
+
+                //--------------------------------------------------------
+                // Render State
+                //--------------------------------------------------------
+
+
             }
         }
 
@@ -809,12 +852,22 @@ namespace Ocular
 
         void Material::setPrimitiveStyle(PrimitiveStyle const style)
         {
-            m_PrimitiveStyle = style;
+            m_StoredRasterState.primitiveStyle = style;
         }
 
         PrimitiveStyle Material::getPrimitiveStyle() const
         {
-            return m_PrimitiveStyle;
+            return m_StoredRasterState.primitiveStyle;
+        }
+
+        void Material::setFillMode(FillMode const mode)
+        {
+            m_StoredRasterState.fillMode = mode;
+        }
+
+        FillMode Material::getFillMode() const
+        {
+            return m_StoredRasterState.fillMode;
         }
 
         void Material::setRenderPriority(uint32_t const priority)
@@ -830,12 +883,6 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
-        void Material::exposeProperties()
-        {
-            OCULAR_EXPOSE(m_PrimitiveStyle);
-            OCULAR_EXPOSE(m_RenderPriority);
-        }
 
         void Material::setDefaults()
         {
@@ -913,13 +960,23 @@ namespace Ocular
 
             if(renderState)
             {
+                bool modified = false;
                 RasterState currState = renderState->getRasterState();
 
-                if(currState.primitiveStyle != m_PrimitiveStyle)
+                if(m_StoredRasterState.primitiveStyle != currState.primitiveStyle)
                 {
-                    m_StoredRasterState = currState;
-                    currState.primitiveStyle = m_PrimitiveStyle;
+                    currState.primitiveStyle = m_StoredRasterState.primitiveStyle;
+                    modified = true;
+                }
 
+                if(m_StoredRasterState.fillMode != currState.fillMode)
+                {
+                    currState.fillMode = m_StoredRasterState.fillMode;
+                    modified = true;
+                }
+
+                if(modified)
+                {
                     renderState->setRasterState(currState);
                     renderState->bind();
                 }
@@ -928,16 +985,7 @@ namespace Ocular
 
         void Material::unbindStateChanges()
         {
-            RenderState* renderState = OcularGraphics->getRenderState();
 
-            if(renderState)
-            {
-                if(m_StoredRasterState.primitiveStyle != m_PrimitiveStyle)
-                {
-                    renderState->setRasterState(m_StoredRasterState);
-                    renderState->bind();
-                }
-            }
         }
 
         //----------------------------------------------------------------------------------

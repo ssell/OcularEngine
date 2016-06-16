@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-/**
- * A basic, generic flat shader. Simply renders the geometry in a single color.
- */
+ #include "OcularCommon.hlsl"
 
-#include "OcularLighting.hlsl"
+//------------------------------------------------------------------------------------------
+// Globals
+//------------------------------------------------------------------------------------------
 
 cbuffer cbPerMaterial : register(b3)
 {
-    float4 _MaterialColor;
+    float4 _Color;
 };
 
 struct VSOutput
@@ -36,16 +36,25 @@ struct PSOutput
     float4 color : SV_Target;
 };
 
+//------------------------------------------------------------------------------------------
+// Vertex Shader
+//------------------------------------------------------------------------------------------
+
 VSOutput VSMain(VSInput input)
 {
     matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
 
     VSOutput output;
+
     output.position = mul(input.position, mvpMatrix);
-    output.color    = input.color * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
+    output.color    = _Color;
 
     return output;
 }
+
+//------------------------------------------------------------------------------------------
+// Pixel Shader
+//------------------------------------------------------------------------------------------
 
 float4 PSMain(VSOutput input) : SV_Target
 {

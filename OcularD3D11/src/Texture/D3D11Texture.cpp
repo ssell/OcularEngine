@@ -141,8 +141,6 @@ namespace Ocular
 
         void D3D11Texture::refresh(std::vector<Core::Color>& pixels, Graphics::TextureDescriptor const& descriptor)
         {
-            const auto start = OcularClock->getElapsedMS();
-
             // Downloads texture data from the GPU to the specified CPU pixels container
             
             // Create a separate staging texture to read from
@@ -230,10 +228,6 @@ namespace Ocular
             {
                 OcularLogger->error("Invalid staging texture", OCULAR_INTERNAL_LOG("D3D11Texture2D", "refresh"));
             }
-
-            const auto stop = OcularClock->getElapsedMS();
-
-            OcularLogger->info("Refresh in ", (stop - start), "ms");
         }
 
         //----------------------------------------------------------------------------------

@@ -550,6 +550,7 @@ namespace Ocular
                 {
                     if((node->type == SceneNodeType::Leaf) && (node->object))
                     {
+                        node->object->setVisible(true);
                         objects.emplace_back(node->object);
                     }
                     else
@@ -557,6 +558,10 @@ namespace Ocular
                         findVisible(node->left, frustum, objects);
                         findVisible(node->right, frustum, objects);
                     }
+                }
+                else if((node->type == SceneNodeType::Leaf) && (node->object))
+                {
+                    node->object->setVisible(false);
                 }
             }
         }

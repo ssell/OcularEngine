@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_RENDERER__H__
-#define __H__OCULAR_CORE_RENDERER__H__
+#ifndef __H__OCULAR_EDITOR_FORWARD_RENDERER__H__
+#define __H__OCULAR_EDITOR_FORWARD_RENDERER__H__
 
-#include <vector>
+#include "Renderer/Renderer.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,50 +28,34 @@
  */
 namespace Ocular
 {
-    namespace Graphics
-    {
-        class UniformBuffer;
-        class Material;
-    }
-
     /**
-     * \addtogroup Core
+     * \addtogroup Editor
      * @{
      */
-    namespace Core
+    namespace Editor
     {
-        class SceneObject;
-
-        /**
-         * \class Renderer
+        /** 
+         * \class ForwardRenderer
+         *
+         * Standard forward renderer with minor adjustments specifically for Editor rendering.
          */
-        class Renderer
+        class ForwardRenderer : public Core::Renderer
         {
         public:
 
-            Renderer();
-            ~Renderer();
+            ForwardRenderer();
+            virtual ~ForwardRenderer();
 
-            virtual void render(std::vector<SceneObject*>& objects) = 0;
-            virtual void render(std::vector<SceneObject*>& objects, Graphics::Material* material) = 0;
+            virtual void render(std::vector<Core::SceneObject*>& objects) override;
+            virtual void render(std::vector<Core::SceneObject*>& objects, Graphics::Material* material) override;
 
         protected:
 
-            /**
-             * Sorts the objects in the container according to their position to the active camera and their render priority value.
-             */
-            void sort(std::vector<SceneObject*>& objects);
-
-            /**
-             *
-             */
-            void bindUniforms(SceneObject* object);
-
-            //------------------------------------------------------------
-
-            Graphics::UniformBuffer* m_UniformBufferPerObject;
+            void buildSelectedMaterial();
 
         private:
+
+            Graphics::Material* m_SelectedMaterial;     // Material used when rendering the selected object
         };
     }
     /**

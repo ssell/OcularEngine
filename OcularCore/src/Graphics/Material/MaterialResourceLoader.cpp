@@ -137,10 +137,11 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 {
     if(builderNode)
     {
-        pugi::xml_node shadersXMLNode  = xmlNode.child("ShaderProgram");
-        pugi::xml_node texturesXMLNode = xmlNode.child("Textures");
-        pugi::xml_node uniformsXMLNode = xmlNode.child("Uniforms");
-        
+        pugi::xml_node shadersXMLNode     = xmlNode.child("ShaderProgram");
+        pugi::xml_node texturesXMLNode    = xmlNode.child("Textures");
+        pugi::xml_node uniformsXMLNode    = xmlNode.child("Uniforms");
+        pugi::xml_node renderStateXMLNode = xmlNode.child("RenderState");
+
         if(shadersXMLNode)
         {
             Ocular::Core::BuilderNode* shadersBuilderNode = builderNode->addChild("ShaderProgram", "", "");
@@ -176,6 +177,19 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
                 if(Ocular::Utils::String::IsEqual(child.name(), "var"))
                 {
                     ParseVarNode(uniformsBuilderNode, child);
+                }
+            }
+        }
+
+        if(renderStateXMLNode)
+        {
+            Ocular::Core::BuilderNode* renderStateBuilderNode = builderNode->addChild("RenderState", "", "");
+
+            for(auto child : renderStateXMLNode.children())
+            {
+                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
+                {
+                    ParseVarNode(renderStateBuilderNode, child);
                 }
             }
         }

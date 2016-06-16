@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef __H__CORE_OCULAR_FORWARD_RENDERER__H__
-#define __H__CORE_OCULAR_FORWARD_RENDERER__H__
+#ifndef __H__OCULAR_CORE_FORWARD_RENDERER__H__
+#define __H__OCULAR_CORE_OCULAR_FORWARD_RENDERER__H__
 
 #include "Renderer.hpp"
 
@@ -34,6 +34,14 @@ namespace Ocular
      */
     namespace Core
     {
+        /**
+         * \class ForwardRenderer
+         *
+         * Basic forward renderer.
+         *
+         * Each object is sorted based off of render priority and proximity to the active camera.
+         * They are then rendered individually, one-at-a-time.
+         */
         class ForwardRenderer : public Renderer
         {
         public:

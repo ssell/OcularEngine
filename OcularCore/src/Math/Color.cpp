@@ -194,6 +194,12 @@ namespace Ocular
             return result;
         }
 
+        Color const& Color::GreenHighlight()
+        {
+            static const Color result(0.14509f, 0.76078f, 0.24313f, 1.0f); 
+            return result;
+        }
+
         Color const& Color::Magenta()
         {
             static const Color result(1.0f, 0.0f, 1.0f); 

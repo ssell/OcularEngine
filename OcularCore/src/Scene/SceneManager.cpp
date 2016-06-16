@@ -284,7 +284,7 @@ namespace Ocular
             m_Scene = new Scene();
             m_Scene->setStaticTreeType(staticType);
             m_Scene->setDynamicTreeType(dynamicType);
-            m_Scene->setRendererType("ForwardRenderer");
+            m_Scene->setRendererType("EditorForwardRenderer");
             m_Scene->initialize();
 
             loadPersistentObjects();
@@ -304,6 +304,7 @@ namespace Ocular
             if(SceneLoader::Load(m_Scene, file))
             {
                 result = true;
+                m_Scene->setRendererType("EditorForwardRenderer");
             }
             else
             {

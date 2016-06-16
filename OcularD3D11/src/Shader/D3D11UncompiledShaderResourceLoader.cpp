@@ -100,6 +100,8 @@ namespace Ocular
                         compilePostTessellationShader(file, lpcwstrPath, program);
 
                         resource = program;
+                        resource->setMappingName(mappingName);
+
                         result = true;
                     }
                     else

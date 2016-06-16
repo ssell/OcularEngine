@@ -337,6 +337,17 @@ namespace Ocular
             PrimitiveStyle getPrimitiveStyle() const;
 
             /**
+             * Sets the fill mode that the material should render as.
+             * \param[in] fill
+             */
+            void setFillMode(FillMode mode);
+
+            /**
+             * \return Fill mode used by this material
+             */
+            FillMode getFillMode() const;
+
+            /**
              * Sets the priority of the material in the render queue.
              * 
              * See Graphics::RenderPriority for pre-set priority values.
@@ -352,7 +363,6 @@ namespace Ocular
 
         protected:
 
-            void exposeProperties();
             void setDefaults();
 
             void bindShaders();
@@ -369,7 +379,6 @@ namespace Ocular
             PreTessellationShader*  m_PreTessellationShader;
             PostTessellationShader* m_PostTessellationShader;
 
-            PrimitiveStyle m_PrimitiveStyle;
             RasterState m_StoredRasterState;
 
             std::vector<TextureSamplerInfo> m_Textures;

@@ -272,6 +272,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\Renderer\EditorForwardRenderer.cpp" />
     <ClCompile Include="..\..\src\Routines\EditorCameraController.cpp" />
     <ClCompile Include="..\..\src\Routines\InputLoggerRoutine.cpp" />
     <ClCompile Include="..\..\src\SceneObjectImporter.cpp" />
@@ -342,6 +343,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp" />
     <CustomBuild Include="..\..\include\SceneObjectImporter.hpp" />
+    <ClInclude Include="..\..\include\Renderer\EditorForwardRenderer.hpp" />
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp" />

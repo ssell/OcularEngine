@@ -22,6 +22,8 @@
 #include "SceneObjectImporter.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
 
+#include "Events/SceneObjectSelectedEvent.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace
@@ -217,6 +219,7 @@ namespace Ocular
 
         void MainMenuBar::onFileNewScene()
         {
+            OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
             OcularScene->createScene("New Scene");
         }
 
@@ -229,6 +232,8 @@ namespace Ocular
 
             if(openFile.exists() && openFile.canRead() && Utils::String::IsEqual(openFile.getExtension(), ".oscene"))
             {
+                OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
+
                 if(OcularScene->loadScene(openFile))
                 {
                     m_LastScenePath = path;

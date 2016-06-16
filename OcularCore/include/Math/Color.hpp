@@ -113,6 +113,11 @@ namespace Ocular
             static Color const& Green();
 
             /**
+             * RGBA: (0.14509f, 0.76078f, 0.24313f, 1.0f)
+             */
+            static Color const& GreenHighlight();
+
+            /**
              * RGBA: (1.0f, 0.0f, 1.0f, 1.0f)
              */
             static Color const& Magenta();
