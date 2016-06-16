@@ -25,7 +25,9 @@
 
 #include "objparser/OBJParser.hpp"
 
-#include <fstream>
+#include <boost/iostreams/stream.hpp>
+#include <boost/iostreams/device/mapped_file.hpp>
+
 #include <utility>
 
 OCULAR_REGISTER_RESOURCE_LOADER(Ocular::Graphics::ResourceLoader_OBJ)
@@ -154,10 +156,11 @@ namespace Ocular
                 return result;
             }
 
-            std::fstream instream(file.getFullPath(), std::fstream::in);
+            boost::iostreams::mapped_file_source source(file.getFullPath());
+            boost::iostreams::stream<boost::iostreams::mapped_file_source> inputFile(source);
 
-            if(instream.is_open())
-            {
+            if(inputFile.is_open())
+            {                
                 std::map<std::string, bool> nameMap;
                 const std::string mappingName = OcularResources->getResourceMappingName(file);
 
@@ -165,9 +168,7 @@ namespace Ocular
                 {
                     OcularResources->addResource(mappingName, file, nullptr, Core::ResourceType::Multi);
 
-                    std::string line;
-
-                    while(std::getline(instream, line))
+                    for(std::string line; std::getline(inputFile, line); )
                     {
                         if(line[0] == 'g')
                         {
@@ -201,7 +202,7 @@ namespace Ocular
                     OcularLogger->error("Failed to find matching Resource mapping name for file '", file.getFullPath(), "'", OCULAR_INTERNAL_LOG("ResourceLoader_OBJ", "exploreResource"));
                 }
 
-                instream.close();
+                inputFile.close();
             }
             else
             {
