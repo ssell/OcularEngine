@@ -105,6 +105,18 @@
     <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{b62f5d23-d176-42f1-a246-adb32a14a000}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gizmos">
+      <UniqueIdentifier>{eb01a238-3a60-4455-bb96-3db9b74182c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gizmos\Axis">
+      <UniqueIdentifier>{41eca95a-6f56-4837-90ae-03a57e32711a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gizmos">
+      <UniqueIdentifier>{7f555673-8fab-4381-86c5-24b3d69e9583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gizmos\Axis">
+      <UniqueIdentifier>{df54cced-664e-403b-bd69-16cb29af05bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -392,6 +404,18 @@
     <ClCompile Include="..\..\src\Renderer\EditorForwardRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmo.cpp">
+      <Filter>Source Files\Gizmos\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisComponentGizmo.cpp">
+      <Filter>Source Files\Gizmos\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmoRenderable.cpp">
+      <Filter>Source Files\Gizmos\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmoRoutine.cpp">
+      <Filter>Source Files\Gizmos\Axis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -552,6 +576,21 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Renderer\EditorForwardRenderer.hpp">
       <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmo.hpp">
+      <Filter>Header Files\Gizmos\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisComponentGizmo.hpp">
+      <Filter>Header Files\Gizmos\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmoRenderable.hpp">
+      <Filter>Header Files\Gizmos\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmoRoutine.hpp">
+      <Filter>Header Files\Gizmos\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Axis\Axis.hpp">
+      <Filter>Header Files\Gizmos\Axis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

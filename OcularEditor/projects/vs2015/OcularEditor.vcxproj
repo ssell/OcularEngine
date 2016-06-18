@@ -157,6 +157,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Events\SceneObjectFocusedEvent.cpp" />
     <ClCompile Include="..\..\src\Events\SceneObjectSelectedEvent.cpp" />
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisComponentGizmo.cpp" />
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmo.cpp" />
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmoRenderable.cpp" />
+    <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmoRoutine.cpp" />
     <ClCompile Include="..\..\src\Input\InputTranslator.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\OcularEditor.cpp" />
@@ -343,6 +347,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Events\SceneObjectFocusedEvent.hpp" />
     <CustomBuild Include="..\..\include\SceneObjectImporter.hpp" />
+    <ClInclude Include="..\..\include\Gizmos\Axis\Axis.hpp" />
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisComponentGizmo.hpp" />
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmo.hpp" />
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmoRenderable.hpp" />
+    <ClInclude Include="..\..\include\Gizmos\Axis\AxisGizmoRoutine.hpp" />
     <ClInclude Include="..\..\include\Renderer\EditorForwardRenderer.hpp" />
     <ClInclude Include="..\..\include\Routines\InputLoggerRoutine.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp" />

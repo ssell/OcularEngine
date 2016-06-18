@@ -1,0 +1,73 @@
+/**
+ * Copyright 2014-2016 Steven T Sell (ssell@vertexfragment.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#pragma once
+#ifndef __H__OCULAR_EDITOR_GIZMO_AXIS__H__
+#define __H__OCULAR_EDITOR_GIZMO_AXIS__H__
+
+#include "Scene/SceneObject.hpp"
+#include "Events/AEventListener.hpp"
+
+//------------------------------------------------------------------------------------------
+
+/**
+ * \addtogroup Ocular
+ * @{
+ */
+namespace Ocular
+{
+    /**
+     * \addtogroup Editor
+     * @{
+     */
+    namespace Editor
+    {
+        /**
+         * \class AxisGizmo
+         *
+         * SceneObject that represents the local axis of the object it is attached to.
+         *
+         * It is used to both visualize the object axis and to provide a means to perform
+         * a translation action from within the render frame.
+         *
+         * Composed of this parent object and three children objects (of type AxisComponentGizmo)
+         * which represent each individual axis.
+         */
+        class AxisGizmo : public Core::SceneObject
+        {
+        public:
+
+            AxisGizmo(Core::SceneObject* parent = nullptr);
+            virtual ~AxisGizmo();
+
+        protected:
+
+            void initializeChildren();
+
+        private:
+        };
+    }
+    /**
+     * @} End of Doxygen Groups
+     */
+}
+/**
+ * @} End of Doxygen Groups
+ */
+
+//------------------------------------------------------------------------------------------
+
+#endif
