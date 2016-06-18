@@ -15,6 +15,8 @@
  */
 
 #include "Graphics/Material/MaterialMissing.hpp"
+#include "Graphics/Shader/ShaderProgram.hpp"
+
 #include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -32,6 +34,16 @@ namespace Ocular
         {
             setName("Missing");
             setMappingName("Missing");
+
+            auto shaders = OcularResources->getResource<ShaderProgram>("OcularCore/Shaders/Flat");
+
+            if(shaders)
+            {
+                m_VertexShader   = shaders->getVertexShader();
+                m_FragmentShader = shaders->getFragmentShader();
+
+                setUniform("Color", 0, Core::Color::Pink());
+            }
         }
 
         MaterialMissing::~MaterialMissing()

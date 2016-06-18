@@ -47,7 +47,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if(isValidFile(m_File))
+            if(isValidReadFile(m_File))
             {
                 m_ConfigOptions.clear();
 
@@ -82,7 +82,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if(isValidFile(m_File))
+            if(isValidWriteFile(m_File))
             {
                 pugi::xml_document document;
                 pugi::xml_node rootNode = document.append_child("OcularConfig");
@@ -141,25 +141,38 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool Config::isValidFile(Core::File const& file)
+        bool Config::isValidReadFile(Core::File const& file) const
         {
             bool result = true;
 
             if(!file.exists())
             {
-                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': file does not exist", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': file does not exist", OCULAR_INTERNAL_LOG("Config", "isValidReadFile"));
                 result = false;
             }
 
             if(!file.canRead())
             {
-                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': improper read permissions", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': improper read permissions", OCULAR_INTERNAL_LOG("Config", "isValidReadFile"));
                 result = false;
             }
 
             if(!Utils::String::IsEqual(file.getExtension(), ".oconf"))
             {
-                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': invalid file extension (expected '.oconf')", OCULAR_INTERNAL_LOG("Config", "isValidFile"));
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': invalid file extension (expected '.oconf')", OCULAR_INTERNAL_LOG("Config", "isValidReadFile"));
+                result = false;
+            }
+
+            return result;
+        }
+
+        bool Config::isValidWriteFile(Core::File const& file) const
+        {
+            bool result = true;
+
+            if(!Utils::String::IsEqual(file.getExtension(), ".oconf"))
+            {
+                OcularLogger->error("Failed to validate config file '", file.getFullPath(), "': invalid file extension (expected '.oconf')", OCULAR_INTERNAL_LOG("Config", "isValidWriteFile"));
                 result = false;
             }
 

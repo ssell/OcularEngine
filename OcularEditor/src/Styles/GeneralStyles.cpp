@@ -37,7 +37,7 @@ namespace Ocular
         // (62, 62, 64) : Light Hover
 
         // (37, 194, 62) : Green Selection
-        // (156, 56, 60) : Error Red
+        // (196, 56, 60) : Error Red
 
         const QString GeneralStyles::windowStyle =
 
@@ -293,14 +293,14 @@ namespace Ocular
             "{"
             "    selection-background-color: rgb(37, 194, 62);"
             "    background-color: rgb(45, 45, 48);"
-            "    border: 1px solid rgb(156, 56, 60);"
+            "    border: 1px solid rgb(196, 56, 60);"
             "    border-radius: 2px;"
             "    padding: 1px;"
             "}"
             "QLineEdit:focus"
             "{"
             "    background-color: rgb(45, 45, 48);"
-            "    border: 1px solid rgb(156, 56, 60);"
+            "    border: 1px solid rgb(196, 56, 60);"
             "    border-radius: 2px;"
             "    padding: 1px;"
             "}";

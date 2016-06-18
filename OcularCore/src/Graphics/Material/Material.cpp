@@ -206,12 +206,12 @@ namespace Ocular
 
                 if(uniformsNode)
                 {
-                    std::vector<Core::BuilderNode*> uniformNodes;
-                    uniformsNode->findChildrenByName(uniformNodes, "Uniform");
+                    std::vector<Core::BuilderNode*> uniformChildren;
+                    uniformsNode->getAllChildren(uniformChildren);
 
                     uint32_t index = 0;
 
-                    for(auto uniformNode : uniformNodes)
+                    for(auto uniformNode : uniformChildren)
                     {
                         Uniform uniform;
 

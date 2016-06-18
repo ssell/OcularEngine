@@ -88,13 +88,13 @@ namespace Ocular
 
         setupLogger();
         setupEvents();
-        
+        setupConfig();
+
         Core::SystemInfo::initialize();
 
         m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
 
         m_ResourceManager->initialize();
-
         m_CameraManager->initialize();  // Calls OcularGraphics
 
         m_IsRunning = true;
@@ -158,6 +158,11 @@ namespace Ocular
     std::shared_ptr<Utils::String> Engine::StringUtils() const
     {
         return m_StringUtils;
+    }
+
+    std::shared_ptr<Utils::Config> Engine::Config() const
+    {
+        return m_Config;
     }
 
     std::shared_ptr<Core::ResourceManager> Engine::ResourceManager() const
@@ -239,14 +244,32 @@ namespace Ocular
         m_Logger->registerListener(new Core::VSConsoleLoggerListener());
     }
 
-    void Engine::setupConfig()
-    {
-        m_Config->setFile(Core::File("engine.oconf"));
-    }
-
     void Engine::setupEvents()
     {
         m_EventManager->registerListener(this, Core::Priority::Medium);
+    }
+
+    void Engine::setupConfig()
+    {
+        m_Config->setFile(Core::File("engine.oconf"));
+        
+        if(!m_Config->read())
+        {
+            createDefaultConfig();
+            OcularLogger->warning("Unable to read configuration file 'engine.oconf'. Creating and using a default version", OCULAR_INTERNAL_LOG("Engine", "setupConfig"));
+        }
+    }
+
+    void Engine::createDefaultConfig()
+    {
+        m_Config->set("ResourceDirectory", "Resources");
+        m_Config->set("ResolutionX", "1920");
+        m_Config->set("ResolutionY", "1080");
+
+        if(!m_Config->write())
+        {
+            OcularLogger->error("Failed to save default configuration file", OCULAR_INTERNAL_LOG("Engine", "createDefaultConfig"));
+        }
     }
 
     void Engine::shutdownWindowManager()

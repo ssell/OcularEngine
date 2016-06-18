@@ -39,6 +39,24 @@ namespace Ocular
     {
         /**
          * \class Config
+         *
+         * Simple configuration utility.
+         *
+         * Configuration options can be retrieved or set via the get and set methods:
+         *
+         *    std::string resolutionX = config->get("ResolutionX");
+         *    config->set("ResolutionY", 600);
+         *
+         * All options are returned and set as strings. These strings can be converted
+         * to other types via the Ocular::Utils::String helper class (see OcularString).
+         *
+         * There can be any number of configuration files in use, but the engine itself
+         * uses only one. This file is expected to be at 'engine.oconf' in the same 
+         * directory as the executable being run.
+         *
+         * If this configuration file is missing, it should generally be re-generated 
+         * automatically by the engine during initialization. If it fails to be created,
+         * then one can be downloaded from: ...
          */
         class Config
         {
@@ -87,8 +105,9 @@ namespace Ocular
             void set(std::string const& option, std::string const& value);
                                             
         protected:
-
-            bool isValidFile(Core::File const& file);
+            
+            bool isValidReadFile(Core::File const& file) const;
+            bool isValidWriteFile(Core::File const& file) const;
 
         private:
 

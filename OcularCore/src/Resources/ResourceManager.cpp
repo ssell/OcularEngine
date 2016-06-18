@@ -51,6 +51,17 @@ namespace Ocular
 
         void ResourceManager::initialize()
         {
+            std::string sourceDirectory = OcularConfig->get("ResourceDirectory");
+
+            if(sourceDirectory.empty())
+            {
+                OcularConfig->set("ResourceDirectory", "Resources");
+            }
+            else
+            {
+                m_ResourceExplorer.setResourceDirectoryName(sourceDirectory);
+            }
+
             forceSourceRefresh();
             m_ResourceDefaults.initialize();
         }

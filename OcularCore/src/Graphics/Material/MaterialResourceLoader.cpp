@@ -170,7 +170,7 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 
         if(uniformsXMLNode)
         {
-            Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild("Textures", "", "");
+            Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild("Uniforms", "", "");
 
             for(auto child : uniformsXMLNode.children())
             {

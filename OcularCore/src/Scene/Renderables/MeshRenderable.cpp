@@ -88,10 +88,9 @@ namespace Ocular
                         if(material)
                         {
                             material->bind();
+                            OcularGraphics->renderMesh(m_Mesh, i);
                         }
                     }
-
-                    OcularGraphics->renderMesh(m_Mesh, i);
                 }
             }
         }
@@ -248,34 +247,23 @@ namespace Ocular
             return result;
         }
 
-        bool MeshRenderable::setMaterial(std::string const& name, uint32_t const index, bool resize)
+        bool MeshRenderable::setMaterial(std::string const& name, uint32_t const index, bool const resize)
         {
             bool result = false;
 
-            if(index < static_cast<uint32_t>(m_Materials.size()))
+            if(validateMaterialIndex(index, resize))
             {
-                m_Materials[index] = OcularResources->getResource<Graphics::Material>(name);
-                result = true;
-            }
-            else if(resize)
-            {
-                m_Materials.resize((index + 1), nullptr);
-                m_Materials[index] = OcularResources->getResource<Graphics::Material>(name);
+                m_Materials[index] = findMaterial(name);
                 result = true;
             }
 
             return result;
         }
 
-        void MeshRenderable::setMaterial(Graphics::Material* material, uint32_t const index, bool resize)
+        void MeshRenderable::setMaterial(Graphics::Material* material, uint32_t const index, bool const resize)
         {
-            if(index < static_cast<uint32_t>(m_Materials.size()))
+            if(validateMaterialIndex(index, resize))
             {
-                m_Materials[index] = material;
-            }
-            else if(resize)
-            {
-                m_Materials.resize((index + 1), nullptr);
                 m_Materials[index] = material;
             }
         }
@@ -308,6 +296,37 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        bool MeshRenderable::validateMaterialIndex(uint32_t const index, bool const resize)
+        {
+            bool result = false;
+
+            if(index < static_cast<uint32_t>(m_Materials.size()))
+            {
+                result = true;
+            }
+            else if(resize)
+            {
+                m_Materials.resize((index + 1), nullptr);
+                result = true;
+            }
+
+            return result;
+        }
+
+        Graphics::Material* MeshRenderable::findMaterial(std::string const& name)
+        {
+            auto result = OcularResources->getResource<Graphics::Material>(name);
+
+            if(result == nullptr)
+            {
+                // Material was not found. Use the default missing material instead
+                result = dynamic_cast<Graphics::Material*>(OcularResources->getMissingResource(ResourceType::Material));
+                OcularLogger->warning("Unable to find Material '", name, "'; Using default 'Missing' Material", OCULAR_INTERNAL_LOG("MeshRenderable", "findMaterial"));
+            }
+
+            return result;
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

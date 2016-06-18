@@ -77,6 +77,19 @@ namespace Ocular
 
         void ResourceDefaults::initialize()
         {
+            delete m_TextureEmpty;
+            delete m_TextureMissing;
+            delete m_MeshEmpty;
+            delete m_MeshMissing;
+            delete m_MaterialEmpty;
+            delete m_MaterialMissing;
+            delete m_ShaderEmpty;
+            delete m_ShaderMissing;
+            delete m_ShaderProgramEmpty;
+            delete m_ShaderProgramMissing;
+            delete m_DataEmpty;
+            delete m_DataMissing;
+
             initializeTextureDefaults();
             initializeMeshDefaults();
             initializeMaterialDefaults();
@@ -177,7 +190,16 @@ namespace Ocular
         void ResourceDefaults::initializeMaterialDefaults()
         {
             m_MaterialEmpty = new Graphics::MaterialEmpty();
-            m_MaterialMissing = new Graphics::MaterialMissing();
+
+            const std::string missingPath = OcularConfig->get("ResourceDirectory") + "/OcularCore/Materials/Missing.omat";
+            m_MaterialMissing = OcularResources->loadUnmanagedFile(File(missingPath));
+
+            if(m_MaterialMissing == nullptr)
+            {
+                // The 'Missing' material is missing ...
+                m_MaterialMissing = new Graphics::MaterialMissing();
+                OcularLogger->warning("Missing material is missing (ironic)", OCULAR_INTERNAL_LOG("ResourceDefaults", "initializeMaterialDefaults"));
+            }
         }
 
         void ResourceDefaults::initializeShaderDefaults()

@@ -136,7 +136,7 @@ namespace Ocular
         /**
          * \return Reference to the primary Configuration handler
          */
-        std::shared_ptr<Utils::String> Config() const;
+        std::shared_ptr<Utils::Config> Config() const;
 
         /**
          * \return Reference to the primary ResourceManager
@@ -190,6 +190,7 @@ namespace Ocular
         void setupLogger();
         void setupEvents();
         void setupConfig();
+        void createDefaultConfig();
 
         void shutdownWindowManager();
         
