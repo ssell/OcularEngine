@@ -56,6 +56,16 @@ namespace Ocular
             // Nothing to do without an active graphics API
         }
 
+        void GraphicsDriver::clearDepthBuffer(float const value)
+        {
+            // Nothing to do without an active graphics API
+        }
+
+        void GraphicsDriver::clearStencilBuffer(uint32_t const value)
+        {
+            // Nothing to do without an active graphics API
+        }
+
         void GraphicsDriver::swapBuffers()
         {
             // Nothing to do without an active graphics API

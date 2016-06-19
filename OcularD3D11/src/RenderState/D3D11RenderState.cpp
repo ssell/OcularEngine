@@ -100,7 +100,7 @@ namespace Ocular
             const float blendFactor[4] = { m_BlendState.blendFactor.x, m_BlendState.blendFactor.y, m_BlendState.blendFactor.z, m_BlendState.blendFactor.w };
 
             m_D3DDeviceContext->RSSetState(m_D3DRasterizerState);
-            m_D3DDeviceContext->OMSetDepthStencilState(m_D3DDepthStencilState, 1);
+            m_D3DDeviceContext->OMSetDepthStencilState(m_D3DDepthStencilState, m_DepthStencilState.stencilReferenceValue);
             m_D3DDeviceContext->OMSetBlendState(m_D3DBlendState, blendFactor, 0xffffffff);
             m_D3DDeviceContext->IASetPrimitiveTopology(m_D3DPrimitiveTopology);
         }
@@ -157,7 +157,7 @@ namespace Ocular
         bool D3D11RenderState::createD3DDepthStencilState()
         {
             bool result = true;
-
+            
             const D3D11_DEPTH_STENCIL_DESC descr = createDepthStencilStateDescr();
             const HRESULT hResult = m_D3DDevice->CreateDepthStencilState(&descr, &m_D3DDepthStencilState);
 
@@ -282,7 +282,7 @@ namespace Ocular
             //------------------------------------------------------------------------------
             // Enable Scissor Testing
 
-            if(m_DepthStencilState.enableScissorTesting)
+            if(m_DepthStencilState.enableStencilTesting)
             {
                 result.ScissorEnable = TRUE;
             }
@@ -319,17 +319,20 @@ namespace Ocular
             result.DepthEnable                  = m_DepthStencilState.enableDepthTesting;
             result.DepthWriteMask               = D3D11_DEPTH_WRITE_MASK_ALL;
             result.DepthFunc                    = D3D11_COMPARISON_LESS;
-            result.StencilEnable                = m_DepthStencilState.enableScissorTesting;
-            result.StencilReadMask              = 0xFF;
-            result.StencilWriteMask             = 0xFF;
-            result.FrontFace.StencilFailOp      = D3D11_STENCIL_OP_KEEP;
-            result.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
-            result.FrontFace.StencilPassOp      = D3D11_STENCIL_OP_KEEP;
-            result.FrontFace.StencilFunc        = D3D11_COMPARISON_ALWAYS;
-            result.BackFace.StencilFailOp       = D3D11_STENCIL_OP_KEEP;
-            result.BackFace.StencilDepthFailOp  = D3D11_STENCIL_OP_DECR;
-            result.BackFace.StencilPassOp       = D3D11_STENCIL_OP_KEEP;
-            result.BackFace.StencilFunc         = D3D11_COMPARISON_ALWAYS;
+
+            result.StencilEnable                = m_DepthStencilState.enableStencilTesting;
+            result.StencilReadMask              = m_DepthStencilState.stencilReadMask;
+            result.StencilWriteMask             = m_DepthStencilState.stencilWriteMask;
+
+            result.FrontFace.StencilFailOp      = convertStencilOperation(m_DepthStencilState.frontFace.stencilFailOp);
+            result.FrontFace.StencilDepthFailOp = convertStencilOperation(m_DepthStencilState.frontFace.stencilPassDepthFailOp);
+            result.FrontFace.StencilPassOp      = convertStencilOperation(m_DepthStencilState.frontFace.stencilPassOp);
+            result.FrontFace.StencilFunc        = convertDepthStencilComparison(m_DepthStencilState.frontFace.comparisonFunction);
+
+            result.BackFace.StencilFailOp       = convertStencilOperation(m_DepthStencilState.backFace.stencilFailOp);
+            result.BackFace.StencilDepthFailOp  = convertStencilOperation(m_DepthStencilState.backFace.stencilPassDepthFailOp);
+            result.BackFace.StencilPassOp       = convertStencilOperation(m_DepthStencilState.backFace.stencilPassOp);
+            result.BackFace.StencilFunc         = convertDepthStencilComparison(m_DepthStencilState.backFace.comparisonFunction);
 
             return result;
         }
@@ -441,7 +444,7 @@ namespace Ocular
             case BlendType::OneMinusAlphaBlendFactor:
             default:
                 result = D3D11_BLEND_ZERO;
-                OcularLogger->warning("Unknown or Invalid blend type ", static_cast<uint32_t>(type), " specified for D3D11. Defaulting to D3D11_BLEND_ZERO", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
+                OcularLogger->warning("Unknown or invalid blend type ", static_cast<uint32_t>(type), " specified. Defaulting to D3D11_BLEND_ZERO", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
                 break;
             }
 
@@ -476,7 +479,103 @@ namespace Ocular
 
             default:
                 result = D3D11_BLEND_OP_ADD;
-                OcularLogger->warning("Unknown or Invalid blend equation ", static_cast<uint32_t>(equation), " specified for D3D11. Default to D3D11_BLEND_OP_ADD", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
+                OcularLogger->warning("Unknown or invalid blend equation ", static_cast<uint32_t>(equation), " specified. Defaulting to D3D11_BLEND_OP_ADD", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertBlendType"));
+                break;
+            }
+
+            return result;
+        }
+
+        D3D11_STENCIL_OP D3D11RenderState::convertStencilOperation(StencilOperation const operation) const
+        {
+            D3D11_STENCIL_OP result;
+
+            switch(operation)
+            {
+            case StencilOperation::Keep:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_KEEP;
+                break;
+
+            case StencilOperation::Replace:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_REPLACE;
+                break;
+
+            case StencilOperation::Zero:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_ZERO;
+                break;
+
+            case StencilOperation::Invert:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_INVERT;
+                break;
+
+            case StencilOperation::IncreaseClamp:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_INCR_SAT;
+                break;
+
+            case StencilOperation::DecreaseClamp:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_DECR_SAT;
+                break;
+
+            case StencilOperation::IncreaseWrap:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_INCR;
+                break;
+
+            case StencilOperation::DecreaseWrap:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_DECR;
+                break;
+
+            case StencilOperation::Undefined:    // Intentional fall through
+            default:
+                result = D3D11_STENCIL_OP::D3D11_STENCIL_OP_KEEP;
+                OcularLogger->warning("Unknown or invalid stencil operation ", static_cast<uint32_t>(operation), " specified. Defaulting to D3D11_STENCIL_OP_KEEP", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertStencilOperation"));
+                break;
+            }
+
+            return result;
+        }
+
+        D3D11_COMPARISON_FUNC D3D11RenderState::convertDepthStencilComparison(DepthStencilComparison const comparison) const
+        {
+            D3D11_COMPARISON_FUNC result;
+
+            switch(comparison)
+            {
+            case DepthStencilComparison::AlwaysPass:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+                break;
+
+            case DepthStencilComparison::NeverPass:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NEVER;
+                break;
+
+            case DepthStencilComparison::Equal:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_EQUAL;
+                break;
+
+            case DepthStencilComparison::NotEqual:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NOT_EQUAL;
+                break;
+
+            case DepthStencilComparison::Less:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+                break;
+
+            case DepthStencilComparison::LessEqual:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+                break;
+
+            case DepthStencilComparison::Greater:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+                break;
+
+            case DepthStencilComparison::GreaterEqual:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER_EQUAL;
+                break;
+
+            case DepthStencilComparison::Undefined:    // Intentional fall through
+            default:
+                result = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+                OcularLogger->warning("Unknown or invalid depth/stencil comparison ", static_cast<uint32_t>(comparison), " specified. Defaulting to D3D11_COMPARISON_ALWAYS", OCULAR_INTERNAL_LOG("D3D11RenderState", "convertDepthStencilComparison"));
                 break;
             }
 

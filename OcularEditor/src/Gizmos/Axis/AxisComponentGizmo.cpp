@@ -33,7 +33,10 @@ namespace Ocular
             : Core::SceneObject("AxisComponentGizmo", parent, "AxisComponentGizmo"),
               axis(axis)
         {
-            setRenderable(new AxisGizmoRenderable());
+            AxisGizmoRenderable* renderable = new AxisGizmoRenderable();
+
+            setRenderable(renderable);
+            renderable->initialize();
         }
 
         AxisComponentGizmo::~AxisComponentGizmo()

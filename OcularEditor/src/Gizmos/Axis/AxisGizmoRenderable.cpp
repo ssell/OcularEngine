@@ -68,11 +68,7 @@ namespace Ocular
 
             if(renderState)
             {
-                auto depthState = renderState->getDepthStencilState();
-
-                depthState.enableDepthTesting = false;
-
-                renderState->setDepthStencilState(depthState);
+                renderState->setDepthStencilState(Graphics::DepthStencilState());
                 renderState->bind();
             }
 
@@ -96,11 +92,7 @@ namespace Ocular
 
             if(renderState)
             {
-                auto depthState = renderState->getDepthStencilState();
-
-                depthState.enableDepthTesting = true;
-
-                renderState->setDepthStencilState(depthState);
+                renderState->setDepthStencilState(Graphics::DepthStencilState());
                 renderState->bind();
             }
         }
@@ -173,9 +165,9 @@ namespace Ocular
         bool AxisGizmoRenderable::initializeMesh()
         {
             bool result = true;
-            m_Mesh = OcularResources->getResource<Graphics::Mesh>("OcularCore/Meshes/AxisGizmoArrow");
+            m_Mesh = OcularResources->getResource<Graphics::Mesh>("OcularCore/Meshes/AxisGizmoArrow/AxisGizmoArrow");
 
-            if(m_Mesh = nullptr)
+            if(!m_Mesh)
             {
                 OcularLogger->error("Failed to retrieve AxisGizmoArrow mesh", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMesh"));
                 result = false;

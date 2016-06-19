@@ -20,6 +20,9 @@
 #include "Gizmos/Axis/AxisGizmoRoutine.hpp"
 #include "Gizmos/Axis/AxisComponentGizmo.hpp"
 
+#include "Scene/SceneObjectRegistrar.hpp"
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Editor::AxisGizmo, "AxisGizmo");
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -38,6 +41,9 @@ namespace Ocular
             auto axisX = new AxisComponentGizmo(this, Axis::X);
             auto axisY = new AxisComponentGizmo(this, Axis::Y);
             auto axisZ = new AxisComponentGizmo(this, Axis::Z);
+
+            axisY->rotate(90.0f, Math::Vector3f(0.0f, 0.0f, 1.0f));
+            axisZ->rotate(270.0f, Math::Vector3f(0.0f, 1.0f, 0.0f));
         }
 
         AxisGizmo::~AxisGizmo()

@@ -66,9 +66,27 @@ namespace Ocular
             virtual bool initialize();
 
             /**
-             * Clears the back buffers.
+             * Clears the backbuffer RTV, and currently bound depth/stencil buffers.
+             *
+             * The backbuffer is cleared to the specified color value.
+             * The depth buffer is cleared to 1.0.
+             * The stencil buffer is cleared to 0.
+             *
+             * \param[in] clearColor
              */
             virtual void clearBuffers(Core::Color const& clearColor = Core::Color::DefaultClearGray());
+
+            /**
+             * Clears the active depth buffer to the specified value.
+             * \param[in] value
+             */
+            virtual void clearDepthBuffer(float value = 1.0f);
+
+            /**
+             * Clears the active stencil buffer to the specified value.
+             * \param[in] value
+             */
+            virtual void clearStencilBuffer(uint32_t value = 0);
 
             /**
              * Swaps the back and front buffers.

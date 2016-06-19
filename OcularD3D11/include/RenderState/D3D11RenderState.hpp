@@ -66,6 +66,8 @@ namespace Ocular
 
             D3D11_BLEND convertBlendType(BlendType type) const;
             D3D11_BLEND_OP convertBlendEquation(BlendEquation equation) const;
+            D3D11_STENCIL_OP convertStencilOperation(StencilOperation operation) const;
+            D3D11_COMPARISON_FUNC convertDepthStencilComparison(DepthStencilComparison comparison) const;
 
             //------------------------------------------------------------
 

@@ -15,6 +15,7 @@
  */
 
 #include "stdafx.hpp"
+
 #include "D3D11GraphicsDriver.hpp"
 #include "Renderer/Window/WindowWin32.hpp"
 #include "Math/Color.hpp"
@@ -142,7 +143,6 @@ namespace Ocular
                         dsvDescriptor.gpuAccess = TextureAccess::ReadWrite;
                         dsvDescriptor.filter = TextureFilterMode::Point;
 
-
                         D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtvDescriptor, m_D3DDevice, m_D3DSwapChain);
                         D3D11DepthTexture* depthTexture = new D3D11DepthTexture(dsvDescriptor, m_D3DDevice);
 
@@ -203,7 +203,53 @@ namespace Ocular
 
                     if(currentDSV)
                     {
-                        m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                        m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+                        currentDSV->Release();
+                    }
+                }
+            }
+        }
+
+        void D3D11GraphicsDriver::clearDepthBuffer(float const value)
+        {
+            GraphicsDriver::clearDepthBuffer(value);
+
+            if(m_D3DDeviceContext)
+            {
+                auto mainWindow = OcularWindows->getMainWindow();
+
+                if(mainWindow)
+                {
+                    ID3D11DepthStencilView* currentDSV = nullptr;
+                    
+                    m_D3DDeviceContext->OMGetRenderTargets(1, nullptr, &currentDSV);
+
+                    if(currentDSV)
+                    {
+                        m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_DEPTH, value, 0);
+                        currentDSV->Release();
+                    }
+                }
+            }
+        }
+
+        void D3D11GraphicsDriver::clearStencilBuffer(uint32_t const value)
+        {
+            GraphicsDriver::clearDepthBuffer(value);
+
+            if(m_D3DDeviceContext)
+            {
+                auto mainWindow = OcularWindows->getMainWindow();
+
+                if(mainWindow)
+                {
+                    ID3D11DepthStencilView* currentDSV = nullptr;
+                    
+                    m_D3DDeviceContext->OMGetRenderTargets(1, nullptr, &currentDSV);
+
+                    if(currentDSV)
+                    {
+                        m_D3DDeviceContext->ClearDepthStencilView(currentDSV, D3D11_CLEAR_STENCIL, 1.0f, value);
                         currentDSV->Release();
                     }
                 }

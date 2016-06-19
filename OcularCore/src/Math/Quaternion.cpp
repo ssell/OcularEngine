@@ -349,6 +349,7 @@ namespace Ocular
 
         Quaternion Quaternion::Rotate(Quaternion const& source, float angle, Vector3<float> const& axis)
         {
+            angle = Math::DegreesToRadians(angle);
             return Quaternion(Quaternion_Internal(glm::rotate(source.getInternal()->quat, angle, glm::vec3(axis.x, axis.y, axis.z))));
         }
 

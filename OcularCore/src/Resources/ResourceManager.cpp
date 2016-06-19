@@ -98,6 +98,8 @@ namespace Ocular
             //----------------------------------------
             // Populate the resource map
 
+            m_ResourceMap.clear();   // \todo Is this enough to safely remove all Resources?
+
             for(auto fileIter = m_FileMap.begin(); fileIter != m_FileMap.end(); ++fileIter)
             {
                 auto findResource = m_ResourceMap.find(fileIter->first);
@@ -246,7 +248,7 @@ namespace Ocular
                     details = m_ResourceMap[lowerPath];
                 }
 
-                result = findResource->second->getResource();
+                result = details->getResource();
 
                 //--------------------------------------------------------
                 // Check if the resource has already been created and if its in memory
