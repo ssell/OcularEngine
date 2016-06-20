@@ -47,11 +47,6 @@ namespace Ocular
             m_BlendState.blendEquation      = BlendEquation::Add;
             m_BlendState.alphaBlendEquation = BlendEquation::Add;
             m_BlendState.blendFactor        = Math::Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-            m_DepthStencilState.enableStencilTesting = true;
-            m_DepthStencilState.frontFace.stencilPassOp = StencilOperation::IncreaseClamp;
-            m_DepthStencilState.backFace.comparisonFunction = DepthStencilComparison::NeverPass;
-            m_DepthStencilState.stencilReferenceValue = 0;
         }
 
         RenderState::~RenderState()

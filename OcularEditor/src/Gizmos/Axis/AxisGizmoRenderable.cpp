@@ -68,7 +68,13 @@ namespace Ocular
 
             if(renderState)
             {
-                renderState->setDepthStencilState(Graphics::DepthStencilState());
+                Graphics::DepthStencilState state;
+
+                state.enableStencilTesting = true;
+                state.frontFace.comparisonFunction = Graphics::DepthStencilComparison::AlwaysPass;
+                state.frontFace.stencilPassOp = Graphics::StencilOperation::Replace;
+
+                renderState->setDepthStencilState(state);
                 renderState->bind();
             }
 
@@ -80,6 +86,15 @@ namespace Ocular
             if(m_Material && m_Mesh)
             {
                 m_Material->bind();
+                OcularGraphics->renderMesh(m_Mesh, 0);
+            }
+        }
+
+        void AxisGizmoRenderable::render(Graphics::Material* material)
+        {
+            if(material && m_Mesh)
+            {
+                material->bind();
                 OcularGraphics->renderMesh(m_Mesh, 0);
             }
         }
@@ -115,7 +130,7 @@ namespace Ocular
                 {
                     m_Material->setVertexShader(flatShaders->getVertexShader());
                     m_Material->setFragmentShader(flatShaders->getFragmentShader());
-                    m_Material->setRenderPriority(static_cast<uint32_t>(Core::RenderPriority::Overlay) - 1);    // Render as last non-overlay object
+                    m_Material->setRenderPriority(1);    // Render as last non-overlay object
 
                     AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
 

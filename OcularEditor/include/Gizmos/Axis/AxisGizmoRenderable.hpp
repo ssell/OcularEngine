@@ -57,6 +57,7 @@ namespace Ocular
 
             virtual bool preRender() override;
             virtual void render() override;
+            virtual void render(Graphics::Material* material);
             virtual void postRender() override;
 
         protected:

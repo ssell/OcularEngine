@@ -189,26 +189,30 @@ namespace Ocular
 
         void D3D11Material::unbindTextures()
         {
-           if(m_D3DDeviceContext)
+
+            if(m_D3DDeviceContext)
             {
                 const uint32_t size = static_cast<uint32_t>(m_Textures.size());
 
-                if(m_VertexShader)
+                if(size)
                 {
-                    m_D3DDeviceContext->VSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
+                    if(m_VertexShader)
+                    {
+                        m_D3DDeviceContext->VSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
+                    }
+
+                    if(m_GeometryShader)
+                    {
+                        m_D3DDeviceContext->GSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
+                    }
+
+                    if(m_FragmentShader)
+                    {
+                        m_D3DDeviceContext->PSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
+                    }
                 }
 
-                if(m_GeometryShader)
-                {
-                    m_D3DDeviceContext->GSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
-                }
-
-                if(m_FragmentShader)
-                {
-                    m_D3DDeviceContext->PSSetShaderResources(0, size, &m_NullShaderResourceViews[0]);
-                }
-
-                m_D3DDeviceContext->PSSetSamplers(0, 1, nullptr);
+                m_D3DDeviceContext->PSSetSamplers(0, 0, nullptr);
             }
             else
             {
