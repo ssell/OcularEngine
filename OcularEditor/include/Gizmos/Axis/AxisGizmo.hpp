@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_EDITOR_GIZMO_AXIS__H__
 #define __H__OCULAR_EDITOR_GIZMO_AXIS__H__
 
-#include "Scene/SceneObject.hpp"
+#include "Gizmos/Gizmo.hpp"
 #include "Events/AEventListener.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -46,16 +46,24 @@ namespace Ocular
          * Composed of this parent object and three children objects (of type AxisComponentGizmo)
          * which represent each individual axis.
          */
-        class AxisGizmo : public Core::SceneObject
+        class AxisGizmo : public Gizmo
         {
         public:
 
             AxisGizmo(Core::SceneObject* parent = nullptr);
             virtual ~AxisGizmo();
 
+            virtual void setSelected(bool selected) override;
+
+            void clearDepthBuffer();
+
         protected:
 
-            void initializeChildren();
+            Gizmo* m_AxisX;
+            Gizmo* m_AxisY;
+            Gizmo* m_AxisZ;
+
+            uint32_t m_ClearCount;
 
         private:
         };

@@ -115,7 +115,11 @@ namespace Ocular
                         if(program)
                         {
                             m_VertexShader = program->getVertexShader();
-                            m_VertexShader->setMappingName(vertexNode->getValue());
+                            
+                            if(m_VertexShader)
+                            {
+                                m_VertexShader->setMappingName(vertexNode->getValue());
+                            }
                         }
                     }
 
@@ -128,7 +132,11 @@ namespace Ocular
                         if(program)
                         {
                             m_GeometryShader = program->getGeometryShader();
-                            m_GeometryShader->setMappingName(vertexNode->getValue());
+                            
+                            if(m_GeometryShader)
+                            {
+                                m_GeometryShader->setMappingName(vertexNode->getValue());
+                            }
                         }
                     }
 
@@ -141,7 +149,11 @@ namespace Ocular
                         if(program)
                         {
                             m_FragmentShader = program->getFragmentShader();
-                            m_FragmentShader->setMappingName(vertexNode->getValue());
+                            
+                            if(m_FragmentShader)
+                            {
+                                m_FragmentShader->setMappingName(vertexNode->getValue());
+                            }
                         }
                     }
 
@@ -154,7 +166,11 @@ namespace Ocular
                         if(program)
                         {
                             m_PreTessellationShader = program->getPreTessellationShader();
-                            m_PreTessellationShader->setMappingName(vertexNode->getValue());
+                            
+                            if(m_PreTessellationShader)
+                            {
+                                m_PreTessellationShader->setMappingName(vertexNode->getValue());
+                            }
                         }
                     }
 
@@ -167,7 +183,11 @@ namespace Ocular
                         if(program)
                         {
                             m_PostTessellationShader = program->getPostTessellationShader();
-                            m_PostTessellationShader->setMappingName(vertexNode->getValue());
+                            
+                            if(m_PostTessellationShader)
+                            {
+                                m_PostTessellationShader->setMappingName(vertexNode->getValue());
+                            }
                         }
                     }
                 }

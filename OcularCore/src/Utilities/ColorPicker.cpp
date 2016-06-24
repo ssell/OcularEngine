@@ -84,7 +84,7 @@ namespace Ocular
             return OcularResources->getResource<Graphics::Material>("OcularCore/Materials/ColorPicking");
         }
 
-        void ColorPicker::RenderObjects(std::vector<Core::SceneObject*> const& objects, Graphics::Material* material)
+        void ColorPicker::RenderObjects(std::vector<Core::SceneObject*>& objects, Graphics::Material* material)
         {
             auto objectUniformBuffer = OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject);
 
@@ -95,6 +95,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Render each Object
             //------------------------------------------------------------
+
+            Sort(objects);
 
             for(auto object : objects)
             {
@@ -153,6 +155,59 @@ namespace Ocular
             //------------------------------------------------------------
 
             delete objectUniformBuffer;
+        }
+
+        void ColorPicker::Sort(std::vector<Core::SceneObject*>& objects)
+        {
+            // Modified version of Renderer::sort
+
+            for(auto iter = objects.begin(); iter != objects.end(); )
+            {
+                if((*iter)->getRenderable() == nullptr)
+                {
+                    iter = objects.erase(iter);
+                }
+                else
+                {
+                    ++iter;
+                }
+            }
+
+            Core::Camera* camera = OcularCameras->getActiveCamera();
+
+            if(camera)
+            {
+                const Math::Vector3f cameraPos = camera->getPosition(false);
+
+                std::sort(objects.begin(), objects.end(), [&cameraPos] (Core::SceneObject* first, Core::SceneObject* second)->bool
+                {
+                    // std::sort returns TRUE if the first argument is before the second argument
+                    bool result = true;
+
+                    const uint32_t firstPriority = first->getRenderable()->getRenderPriority();
+                    const uint32_t secondPriority = second->getRenderable()->getRenderPriority();
+
+                    if(firstPriority == secondPriority)
+                    {
+                        const Math::Vector3f firstPos = first->getPosition(false);
+                        const Math::Vector3f secondPos = second->getPosition(false);
+
+                        const Math::Vector3f firstToCamera = (firstPos - cameraPos);
+                        const Math::Vector3f secondToCamera = (secondPos - cameraPos);
+
+                        const float firstDistance = firstToCamera.dot(firstToCamera);    // Get squared distance to camera
+                        const float secondDistance = secondToCamera.dot(secondToCamera);
+                        
+                        result = (firstDistance < secondDistance);
+                    }
+                    else
+                    {
+                        result = (firstPriority < secondPriority);
+                    }
+
+                    return result;
+                });
+            }
         }
 
         uint32_t ColorPicker::GetPickedIndex(Core::Camera* camera, uint32_t const x, uint32_t const y)

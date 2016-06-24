@@ -58,8 +58,10 @@ namespace Ocular
         protected:
 
             static Graphics::Material* GetMaterial();
-            static void RenderObjects(std::vector<Core::SceneObject*> const& objects, Graphics::Material* material);
+            static void RenderObjects(std::vector<Core::SceneObject*>& objects, Graphics::Material* material);
+            static void Sort(std::vector<Core::SceneObject*>& objects);
             static uint32_t GetPickedIndex(Core::Camera* camera, uint32_t x, uint32_t y);
+
         private:
         };
     }

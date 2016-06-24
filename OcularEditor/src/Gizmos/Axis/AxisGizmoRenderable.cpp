@@ -18,6 +18,7 @@
 
 #include "Gizmos/Axis/AxisGizmoRenderable.hpp"
 #include "Gizmos/Axis/AxisComponentGizmo.hpp"
+#include "Gizmos/Axis/AxisGizmo.hpp"
 
 #include "Graphics/Shader/ShaderProgram.hpp"
 #include "Renderer/RenderPriority.hpp"
@@ -34,8 +35,10 @@ namespace Ocular
 
         AxisGizmoRenderable::AxisGizmoRenderable()
             : Core::ARenderable("AxisGizmoRenderable", "AxisGizmoRenderable"),
-              m_Material(nullptr),
-              m_Mesh(nullptr)
+              m_MaterialNormal(nullptr),
+              m_MaterialSelected(nullptr),
+              m_Mesh(nullptr),
+              m_IsSelected(false)
         {
             
         }
@@ -45,7 +48,8 @@ namespace Ocular
             // We delete the material as we manually created it
             // But we did not create the Mesh, so leave it for the ResourceManager to clean up
 
-            delete m_Material;
+            delete m_MaterialNormal;
+            delete m_MaterialSelected;
         }
 
         //----------------------------------------------------------------------------------
@@ -54,28 +58,40 @@ namespace Ocular
 
         bool AxisGizmoRenderable::initialize()
         {
-            delete m_Material;
-            m_Material = nullptr;
+            bool result = false;
 
-            return initializeMaterial() && initializeMesh();
+            delete m_MaterialNormal;
+            m_MaterialNormal = nullptr;
+
+            delete m_MaterialSelected;
+            m_MaterialSelected = nullptr;
+
+            if(initializeMaterials())
+            {
+                if(initializeMesh())
+                {
+                    result = true;
+                }
+            }
+
+            return result;
         }
 
         bool AxisGizmoRenderable::preRender()
         {
-            // Temporarily disable depth testing so the axis arrow is drawn on top of all other objects
+            // If the first component of this gizmo to be rendered, clear the depth-buffer.
+            // This is an easy way to ensure we are drawn ontop of the rest of the scene.
 
-            auto renderState = OcularGraphics->getRenderState();
+            AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
 
-            if(renderState)
+            if(parent)
             {
-                Graphics::DepthStencilState state;
+                AxisGizmo* parentParent = dynamic_cast<AxisGizmo*>(parent->getParent());
 
-                state.enableStencilTesting = true;
-                state.frontFace.comparisonFunction = Graphics::DepthStencilComparison::AlwaysPass;
-                state.frontFace.stencilPassOp = Graphics::StencilOperation::Replace;
-
-                renderState->setDepthStencilState(state);
-                renderState->bind();
+                if(parentParent)
+                {
+                    parentParent->clearDepthBuffer();
+                }
             }
 
             return true;
@@ -83,9 +99,17 @@ namespace Ocular
 
         void AxisGizmoRenderable::render()
         {
-            if(m_Material && m_Mesh)
+            if(m_Mesh)
             {
-                m_Material->bind();
+                if(m_MaterialNormal && !m_IsSelected)
+                {
+                    m_MaterialNormal->bind();
+                }
+                else if(m_MaterialSelected && m_IsSelected)
+                {
+                    m_MaterialSelected->bind();
+                }
+
                 OcularGraphics->renderMesh(m_Mesh, 0);
             }
         }
@@ -99,24 +123,33 @@ namespace Ocular
             }
         }
 
-        void AxisGizmoRenderable::postRender()
+        uint32_t AxisGizmoRenderable::getRenderPriority() const
         {
-            // Re-enable depth testing
+            uint32_t result = static_cast<uint32_t>(Core::RenderPriority::Opaque);
 
-            auto renderState = OcularGraphics->getRenderState();
-
-            if(renderState)
+            if(m_MaterialNormal)
             {
-                renderState->setDepthStencilState(Graphics::DepthStencilState());
-                renderState->bind();
+                result = m_MaterialNormal->getRenderPriority();
             }
+
+            return result;
+        }
+
+        void AxisGizmoRenderable::setSelected(bool const selected)
+        {
+            m_IsSelected = selected;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        bool AxisGizmoRenderable::initializeMaterial()
+        bool AxisGizmoRenderable::initializeMaterials()
+        {
+            return (initializeMaterialNormal() && initializeMaterialSelected());
+        }
+
+        bool AxisGizmoRenderable::initializeMaterialNormal()
         {
             bool result = false;
 
@@ -124,13 +157,13 @@ namespace Ocular
 
             if(flatShaders)
             {
-                m_Material = OcularGraphics->createMaterial();
+                m_MaterialNormal = OcularGraphics->createMaterial();
 
-                if(m_Material)
+                if(m_MaterialNormal)
                 {
-                    m_Material->setVertexShader(flatShaders->getVertexShader());
-                    m_Material->setFragmentShader(flatShaders->getFragmentShader());
-                    m_Material->setRenderPriority(1);    // Render as last non-overlay object
+                    m_MaterialNormal->setVertexShader(flatShaders->getVertexShader());
+                    m_MaterialNormal->setFragmentShader(flatShaders->getFragmentShader());
+                    m_MaterialNormal->setRenderPriority(static_cast<uint32_t>(Core::RenderPriority::Overlay) - 1);    // Render as last non-overlay object
 
                     AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
 
@@ -156,22 +189,63 @@ namespace Ocular
                             break;
                         }
 
-                        m_Material->setUniform("Color", 0, color);
+                        m_MaterialNormal->setUniform("Color", 0, color);
                         result = true;
                     }
                     else
                     {
-                        OcularLogger->error("Invalid parent type (expected AxisComponentGizmo)", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterial"));
+                        OcularLogger->error("Invalid parent type (expected AxisComponentGizmo)", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
                     }
                 }
                 else
                 {
-                    OcularLogger->error("Failed to create a new Material", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterial"));
+                    OcularLogger->error("Failed to create a new Material", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
                 }
             }
             else
             {
-                OcularLogger->error("Failed to retrieve Flat shaders", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterial"));
+                OcularLogger->error("Failed to retrieve Flat shaders", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
+            }
+
+            return result;
+        }
+
+        bool AxisGizmoRenderable::initializeMaterialSelected()
+        {
+            bool result = false;
+
+            auto flatShaders = OcularResources->getResource<Graphics::ShaderProgram>("OcularCore/Shaders/Flat");
+
+            if(flatShaders)
+            {
+                m_MaterialSelected = OcularGraphics->createMaterial();
+
+                if(m_MaterialSelected)
+                {
+                    m_MaterialSelected->setVertexShader(flatShaders->getVertexShader());
+                    m_MaterialSelected->setFragmentShader(flatShaders->getFragmentShader());
+                    m_MaterialSelected->setRenderPriority(static_cast<uint32_t>(Core::RenderPriority::Overlay) - 1);    // Render as last non-overlay object
+
+                    AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
+
+                    if(parent)
+                    {
+                        m_MaterialSelected->setUniform("Color", 0, Core::Color::Yellow());
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Invalid parent type (expected AxisComponentGizmo)", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Failed to create a new Material", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
+                }
+            }
+            else
+            {
+                OcularLogger->error("Failed to retrieve Flat shaders", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMaterialNormal"));
             }
 
             return result;

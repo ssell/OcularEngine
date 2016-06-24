@@ -115,7 +115,7 @@ namespace Ocular
             DepthStencilState()
                 : enableDepthTesting(true),
                   enableStencilTesting(false),
-                  stencilReferenceValue(1),
+                  stencilReferenceValue(0),
                   stencilReadMask(0xFF),
                   stencilWriteMask(0xFF)
             {

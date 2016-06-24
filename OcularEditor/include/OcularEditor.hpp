@@ -39,6 +39,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class AxisGizmo;
+
         /**
          *
          */
@@ -70,6 +72,20 @@ namespace Ocular
              * \return Pointer to the editor-specific camera used to view scenes.
              */
             Core::Camera* getEditorCamera() const;
+
+            /**
+             * Sets the currently selected SceneObject.
+             *
+             * The selected object will be highlighted in the SceneTree widget, it's properties
+             * displayed in the Property widget, and visually selected in the RenderFrame.
+             *
+             * The active mode transformation gizmo will also be attached to it.
+             *
+             * Invoking this method will cause a SceneObjectSelectedEvent to be generated.
+             *
+             * \param[in] object Object to be selected; If NULL is passed, the current object is deselected.
+             */
+            void setSelectedObject(Core::SceneObject* object, bool ignoreNormalObject = false, bool ignoreGizmoObject = false);
 
             /**
              * Returns a pointer to the currently selected SceneObject.
@@ -214,6 +230,7 @@ namespace Ocular
             void operator=(Editor const&) = delete;
 
             bool setupEditorCamera();
+            void setupGizmos();
 
             //------------------------------------------------------------------------------
 
@@ -228,6 +245,8 @@ namespace Ocular
             Core::ComponentFactory<PropertyWidget> m_PropertyWidgetFactory;
             Core::ComponentFactory<PropertiesDisplayBox> m_CustomDisplayFactory;
             Core::ComponentFactory<RenderableDisplay> m_RenderableDisplayFactory;
+
+            AxisGizmo* m_GizmoTranslate;
         };
     }
     /**

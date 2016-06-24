@@ -393,11 +393,11 @@ namespace Ocular
                     if(m_Scene)
                     {
                         m_Scene->addObject(object);
+                    }
 
-                        if(parent)
-                        {
-                            parent->addChild(object);
-                        }
+                    if(parent)
+                    {
+                        parent->addChild(object);
                     }
 
                     OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));

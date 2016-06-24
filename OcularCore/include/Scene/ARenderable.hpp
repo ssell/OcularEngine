@@ -114,7 +114,17 @@ namespace Ocular
             std::string const& getName() const;
 
             /**
-             * \return The render priority of the Renderable.
+             * Virtual method that should be overridden by child implementations.
+             *
+             * Implementation is left up to the user as Renderables do not have a pre-set 
+             * number of Materials (where RenderPriority is defined) or a Material heirarchy.
+             *
+             * Some Renderable implementations may have a single Material, some may have multiple.
+             *
+             * Some may wish to use the priority of the first Material, others an average priority
+             * of all Materials attached to the Renderable.
+             *
+             * \return The render priority of the Renderable. By default, returns 2000 (Opaque priority).
              */
             virtual uint32_t getRenderPriority() const;
 

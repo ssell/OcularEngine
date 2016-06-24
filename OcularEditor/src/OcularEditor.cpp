@@ -31,6 +31,8 @@
 #include "Widgets/SceneTree.hpp"
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
+#include "Gizmos/Axis/AxisGizmo.hpp"
+
 #include <regex>
 
 //------------------------------------------------------------------------------------------
@@ -93,6 +95,8 @@ namespace Ocular
 
                     if(setupEditorCamera())
                     {
+                        setupGizmos();
+
                         result = true;
                         OcularLogger->info("Successfully initialized ", OCULAR_VERSION);
                     }
@@ -150,22 +154,32 @@ namespace Ocular
             {
                 Core::MouseButtonInputEvent* cast = dynamic_cast<Core::MouseButtonInputEvent*>(event.get());
 
-                if((cast->button == Core::MouseButtons::Left) &&
-                   (cast->state == Core::KeyState::Released))
+                if(cast->button == Core::MouseButtons::Left)
                 {
-                    auto viewport = m_EditorCamera->getViewport();
-                    auto mousePos = OcularInput->getMousePosition();
-
-                    const uint32_t mouseX = static_cast<uint32_t>(mousePos.x);
-                    const uint32_t mouseY = static_cast<uint32_t>(mousePos.y);
-
-                    auto pickedObject = Utils::ColorPicker::Pick(m_EditorCamera, mouseX, mouseY);
-                    
-                    if(pickedObject)
+                    // Check if alt key is down (we assume a rotation around target if it is down)
+                    if(!OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltLeft))
                     {
-                        m_MainWindow->getContentFrame()->getSceneFrame()->getSceneTree()->selectObject(pickedObject->getUUID());
+                        auto viewport = m_EditorCamera->getViewport();
+                        auto mousePos = OcularInput->getMousePosition();
+
+                        const uint32_t mouseX = static_cast<uint32_t>(mousePos.x);
+                        const uint32_t mouseY = static_cast<uint32_t>(mousePos.y);
+
+                        auto pickedObject = Utils::ColorPicker::Pick(m_EditorCamera, mouseX, mouseY);
+
+                        if(cast->state == Core::KeyState::Released)
+                        {
+                            // On mouse up, we only care about picking normal (non-gizmo) objects
+                            setSelectedObject(pickedObject, false, true);
+                        }
+                        else
+                        {
+                            // On mouse down, we only care about picking gizmo objects
+                            setSelectedObject(pickedObject, true, false);
+                        }
                     }
                 }
+                   
             }
 
             return true;
@@ -183,6 +197,61 @@ namespace Ocular
         Core::Camera* Editor::getEditorCamera() const
         {
             return m_EditorCamera;
+        }
+
+        void Editor::setSelectedObject(Core::SceneObject* object, bool ignoreNormalObject, bool ignoreGizmoObject)
+        {
+            std::shared_ptr<Core::AEvent> event = nullptr;
+
+            m_GizmoTranslate->setSelected(false);
+
+            if(object)
+            {
+                m_GizmoTranslate->setActive(true);
+
+                Gizmo* gizmo = dynamic_cast<Gizmo*>(object);
+
+                if(gizmo)
+                {
+                    // If the selected object was a gizmo (or part of a gizmo), we can not 
+                    // set it as the selected object for obvious reasons.
+
+                    // Instead we notify the gizmo that it has been selected (so that it can
+                    // handle dragging, etc.) and maintain the current selected object.
+
+                    if(!ignoreGizmoObject)
+                    {
+                        gizmo->setSelected(true);
+                    }
+                }
+                else
+                {
+                    if(!ignoreNormalObject)
+                    {
+                        m_SelectedObject = object;
+
+                        m_MainWindow->getContentFrame()->getSceneFrame()->getSceneTree()->selectObject(m_SelectedObject);
+                        m_SelectedObject->addChild(m_GizmoTranslate, false);
+
+                        event = std::make_shared<SceneObjectSelectedEvent>(m_SelectedObject);
+                    }
+                }
+            }
+            else
+            {
+                // Deselect
+
+                m_GizmoTranslate->setActive(false);
+
+                m_MainWindow->getContentFrame()->getSceneFrame()->getSceneTree()->selectObject(nullptr);
+
+                event = std::make_shared<SceneObjectSelectedEvent>(nullptr);
+            }
+
+            if(event)
+            {
+                OcularEvents->queueEvent(event);
+            }
         }
 
         Core::SceneObject* Editor::getSelectedObject() const
@@ -367,6 +436,13 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void Editor::setupGizmos()
+        {
+            m_GizmoTranslate = new AxisGizmo();
+            m_GizmoTranslate->setName("OCULAR_INTERNAL_EDITOR_GIZMO_TRANSLATE");
+            m_GizmoTranslate->setActive(false);
         }
     }
 }

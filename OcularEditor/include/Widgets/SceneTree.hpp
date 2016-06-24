@@ -88,6 +88,13 @@ namespace Ocular
              *
              * \param[in] object SceneObject to select. If NULL, selection is cleared.
              */
+            void selectObject(Core::SceneObject* object);
+
+            /**
+             * Selects the specified SceneObject in the tree.
+             *
+             * \param[in] uuid
+             */
             void selectObject(Core::UUID const& uuid);
 
         protected:

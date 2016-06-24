@@ -15,13 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_GIZMO_AXIS_COMPONENT__H__
-#define __H__OCULAR_EDITOR_GIZMO_AXIS_COMPONENT__H__
+#ifndef __H__OCULAR_EDITOR_GIZMO__H__
+#define __H__OCULAR_EDITOR_GIZMO__H__
 
-#include "Gizmos/Gizmo.hpp"
-#include "Events/AEventListener.hpp"
-
-#include "Axis.hpp"
+#include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,23 +35,23 @@ namespace Ocular
     namespace Editor
     {
         /**
-         * \class AxisComponentGizmo
+         * \class Gizmo
          *
-         * Custom SceneObject representing a single local axis of an object.
+         * Base class for an editor gizmo. 
          */
-        class AxisComponentGizmo : public Gizmo, Core::AEventListener
+        class Gizmo : public Core::SceneObject
         {
         public:
 
-            AxisComponentGizmo(Core::SceneObject* parent, Axis axis);
-            virtual ~AxisComponentGizmo();
+            Gizmo(std::string const& name, Core::SceneObject* parent, std::string const& type);
+            virtual ~Gizmo();
 
-            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
-            virtual void setSelected(bool selected) override;
-
-            Axis axis;
+            virtual void setSelected(bool selected);
+            bool isSelected() const;
 
         protected:
+
+            bool m_IsSelected;    ///< Set to TRUE if this Gizmo has been selected. Note that a Gizmo can not be set as _the_ selected object.
 
         private:
         };
@@ -70,3 +67,4 @@ namespace Ocular
 //------------------------------------------------------------------------------------------
 
 #endif
+#pragma once

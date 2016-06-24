@@ -168,7 +168,7 @@ namespace Ocular
 
         protected:
 
-            void setParent(SceneObject* object);
+            virtual void setParent(SceneObject* object);
             void setName(std::string const& name);
 
             Priority m_Priority;      ///< Priority level of this Routine in the Routine Queue.

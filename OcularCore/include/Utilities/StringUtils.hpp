@@ -82,6 +82,15 @@ namespace Ocular
             static bool IsEqual(std::string const& strA, std::string const& strB, bool ignoreCase = false);
 
             /**
+             * \param[in] source
+             * \param[in] find
+             * \param[in] ignoreCase
+             *
+             * \return TRUE if the source string contains the find string.
+             */
+            static bool Contains(std::string const& source, std::string const& find, bool ignoreCase = false);
+
+            /**
              * Converts a Win32 specific system error DWORD into a human readable string.
              *
              * \param[in] error The DWORD error message

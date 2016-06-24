@@ -34,6 +34,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class AxisComponentGizmo;
+
         /**
          * \class AxisGizmoRoutine
          *
@@ -52,6 +54,13 @@ namespace Ocular
             virtual void onUpdate(float delta) override;
 
         protected:
+
+            virtual void setParent(Core::SceneObject* object) override;
+
+            //------------------------------------------------------------
+
+            AxisComponentGizmo* m_ParentCast;
+            Math::Vector2i m_LastMousePos;
 
         private:
         };

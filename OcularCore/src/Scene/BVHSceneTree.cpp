@@ -548,7 +548,9 @@ namespace Ocular
             {
                 if(frustum.contains(node->bounds))
                 {
-                    if((node->type == SceneNodeType::Leaf) && (node->object))
+                    if((node->type == SceneNodeType::Leaf) && 
+                       (node->object) &&
+                       (node->object->isActive()))
                     {
                         node->object->setVisible(true);
                         objects.emplace_back(node->object);

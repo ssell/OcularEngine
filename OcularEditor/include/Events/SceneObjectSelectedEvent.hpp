@@ -38,8 +38,11 @@ namespace Ocular
         /** 
          * \class SceneObjectSelectedEvent
          * 
-         * Event generated when a SceneObject has selected.
+         * Event generated when a SceneObject has been selected.
          * For example, when an object is single-clicked in the SceneTree widget.
+         *
+         * This event should be used to notify of a selection, not to trigger a selection.
+         * To set the  selected object, use Ocular::Editor::setSelectedObject
          *
          * See also SceneObjectFocusedEvent
          *

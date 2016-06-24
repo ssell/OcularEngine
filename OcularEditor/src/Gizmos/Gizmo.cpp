@@ -15,10 +15,7 @@
  */
 
 #include "stdafx.h"
-
-#include "Gizmos/Axis/AxisGizmo.hpp"
-#include "Gizmos/Axis/AxisGizmoRoutine.hpp"
-#include "Gizmos/Axis/AxisComponentGizmo.hpp"
+#include "Gizmos/Gizmo.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,31 +27,14 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        AxisGizmo::AxisGizmo(Core::SceneObject* parent)
-            : Gizmo("OCULAR_INTERNAL_AxisGizmo", parent, "AxisGizmo"),
-              m_ClearCount(0)
+        Gizmo::Gizmo(std::string const& name, Core::SceneObject* parent, std::string const& type)
+            : Core::SceneObject(name, parent, type),
+              m_IsSelected(false)
         {
-            addRoutine(new AxisGizmoRoutine());
-            
-            m_AxisX = new AxisComponentGizmo(this, Axis::X);
-            m_AxisY = new AxisComponentGizmo(this, Axis::Y);
-            m_AxisZ = new AxisComponentGizmo(this, Axis::Z);
-            
-            m_AxisX->setName("OCULAR_INTERNAL_EDITOR_AxisX_Component");
-            m_AxisY->setName("OCULAR_INTERNAL_EDITOR_AxisY_Component");
-            m_AxisZ->setName("OCULAR_INTERNAL_EDITOR_AxisZ_Component");
 
-            m_AxisY->rotate(90.0f, Math::Vector3f(0.0f, 0.0f, 1.0f));
-            m_AxisZ->rotate(270.0f, Math::Vector3f(0.0f, 1.0f, 0.0f));
-
-            setPersistent(true);
-
-            m_AxisX->setPersistent(true);
-            m_AxisY->setPersistent(true);
-            m_AxisZ->setPersistent(true);
         }
 
-        AxisGizmo::~AxisGizmo()
+        Gizmo::~Gizmo()
         {
 
         }
@@ -63,30 +43,16 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void AxisGizmo::setSelected(bool const selected)
+        void Gizmo::setSelected(bool const selected)
         {
-            Gizmo::setSelected(selected);
-
-            if(!selected)
-            {
-                m_AxisX->setSelected(false);
-                m_AxisY->setSelected(false);
-                m_AxisZ->setSelected(false);
-            }
+            m_IsSelected = selected;
         }
 
-        void AxisGizmo::clearDepthBuffer()
+        bool Gizmo::isSelected() const
         {
-            // Clears the depth buffer once every three calls (one call per axis component)
-
-            if(m_ClearCount == 0)
-            {
-                OcularGraphics->clearDepthBuffer();
-            }
-
-            m_ClearCount = (m_ClearCount + 1) % 3;
+            return m_IsSelected;
         }
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

@@ -334,6 +334,25 @@ namespace Ocular
             result.BackFace.StencilPassOp       = convertStencilOperation(m_DepthStencilState.backFace.stencilPassOp);
             result.BackFace.StencilFunc         = convertDepthStencilComparison(m_DepthStencilState.backFace.comparisonFunction);
 
+            
+            /*result.DepthEnable = true;
+            result.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            result.DepthFunc = D3D11_COMPARISON_LESS;
+
+            result.StencilEnable = true;
+            result.StencilReadMask = 0xFF;
+            result.StencilWriteMask = 0xFF;
+        
+            result.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+            result.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+            result.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR;
+            result.FrontFace.StencilFunc = D3D11_COMPARISON_LESS;
+        
+            result.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+            result.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+            result.BackFace.StencilPassOp = D3D11_STENCIL_OP_INCR;
+            result.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;*/
+            
             return result;
         }
 

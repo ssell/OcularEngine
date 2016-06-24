@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Gizmos/Axis/AxisGizmoRoutine.hpp"
+#include "Gizmos/Axis/AxisComponentGizmo.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ namespace Ocular
         AxisGizmoRoutine::AxisGizmoRoutine()
             : Core::ARoutine("AxisGizmoRoutine", "AxisGizmoRoutine")
         {
-
+            m_ParentCast = dynamic_cast<AxisComponentGizmo*>(m_Parent);
         }
 
         AxisGizmoRoutine::~AxisGizmoRoutine()
@@ -42,13 +43,32 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void AxisGizmoRoutine::onUpdate(float const delta)
+        {
+            if(m_ParentCast && m_ParentCast->isSelected())
+            {
+                if(OcularInput->isMouseButtonDown(Core::MouseButtons::Left))
+                {
+                    // The parent gizmo is selected, and the left mouse button is being held down.
+                    
+                }
+                else
+                {
+                    m_ParentCast->setSelected(false);
+                }
+            }
+
+            m_LastMousePos = OcularInput->getMousePosition();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
-        void AxisGizmoRoutine::onUpdate(float const delta)
+        void AxisGizmoRoutine::setParent(Core::SceneObject* parent)
         {
-
+            ARoutine::setParent(parent);
+            m_ParentCast = dynamic_cast<AxisComponentGizmo*>(parent);
         }
 
         //----------------------------------------------------------------------------------

@@ -416,6 +416,9 @@
     <ClCompile Include="..\..\src\Gizmos\Axis\AxisGizmoRoutine.cpp">
       <Filter>Source Files\Gizmos\Axis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Gizmos\Gizmo.cpp">
+      <Filter>Source Files\Gizmos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -591,6 +594,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Gizmos\Axis\Axis.hpp">
       <Filter>Header Files\Gizmos\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Gizmos\Gizmo.hpp">
+      <Filter>Header Files\Gizmos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -128,30 +128,37 @@ namespace Ocular
 
         void SceneTree::addObject(Core::SceneObject* object)
         {
-            if(!isObjectTracked(object))
+            if(object)
             {
-                Core::SceneObject* parent = object->getParent();
-
-                if(parent)
+                if(!Utils::String::Contains(object->getName(), "OCULAR_INTERNAL_EDITOR", true))
                 {
-                    SceneTreeItem* parentItem = getItem(parent);
+                    if(!isObjectTracked(object))
+                    {
+                        Core::SceneObject* parent = object->getParent();
 
-                    if(parentItem)
-                    {
-                        SceneTreeItem* item = new SceneTreeItem(parentItem, object);
-                        parentItem->setExpanded(true);
+                        if(parent)
+                        {
+                            SceneTreeItem* parentItem = getItem(parent);
+
+                            if(parentItem)
+                            {
+                                SceneTreeItem* item = new SceneTreeItem(parentItem, object);
+                                parentItem->setExpanded(true);
+                            }
+                            else
+                            {
+                                SceneTreeItem* item = new SceneTreeItem(this, object);
+                                OcularLogger->warning("Unexpected SceneTreeItem ancestry", OCULAR_INTERNAL_LOG("Editor::SceneTree", "addObject"));
+                            }
+                        }
+                        else
+                        {
+                            SceneTreeItem* item = new SceneTreeItem(this, object);
+                        }
                     }
-                    else
-                    {
-                        SceneTreeItem* item = new SceneTreeItem(this, object);
-                        OcularLogger->warning("Unexpected SceneTreeItem ancestry", OCULAR_INTERNAL_LOG("Editor::SceneTree", "addObject"));
-                    }
-                }
-                else
-                {
-                    SceneTreeItem* item = new SceneTreeItem(this, object);
                 }
             }
+            
         }
 
         void SceneTree::removeObject(Core::UUID const& uuid)
@@ -161,6 +168,22 @@ namespace Ocular
             if(item)
             {
                 delete item;
+            }
+        }
+
+        void SceneTree::selectObject(Core::SceneObject* object)
+        {
+            auto item = getItem(object);
+            auto selectItems = selectedItems();
+
+            for(auto selected : selectItems)
+            {
+                selected->setSelected(false);
+            }
+
+            if(item)
+            {
+                item->setSelected(true);
             }
         }
 
@@ -178,8 +201,6 @@ namespace Ocular
             {
                 item->setSelected(true);
             }
-
-            OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(OcularScene->findObject(uuid)));
         }
 
         //----------------------------------------------------------------------------------
@@ -205,7 +226,7 @@ namespace Ocular
 
                     if(focusObject)
                     {
-                        OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(focusObject));
+                        OcularEditor.setSelectedObject(focusObject); 
                     }
                 }
                 else
@@ -215,7 +236,7 @@ namespace Ocular
                     const QModelIndex index;
                     selectionModel()->setCurrentIndex(index, QItemSelectionModel::Select);
 
-                    OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
+                    OcularEditor.setSelectedObject(nullptr); 
                 }
             }
         }

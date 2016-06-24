@@ -18,6 +18,7 @@
 
 #include "Gizmos/Axis/AxisComponentGizmo.hpp"
 #include "Gizmos/Axis/AxisGizmoRenderable.hpp"
+#include "Gizmos/Axis/AxisGizmoRoutine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,13 +31,15 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         AxisComponentGizmo::AxisComponentGizmo(Core::SceneObject* parent, Axis const axis)
-            : Core::SceneObject("AxisComponentGizmo", parent, "AxisComponentGizmo"),
+            : Gizmo("AxisComponentGizmo", parent, "AxisComponentGizmo"),
               axis(axis)
         {
             AxisGizmoRenderable* renderable = new AxisGizmoRenderable();
-
             setRenderable(renderable);
             renderable->initialize();
+
+            AxisGizmoRoutine* routine = new AxisGizmoRoutine();
+            addRoutine(routine);
         }
 
         AxisComponentGizmo::~AxisComponentGizmo()
@@ -53,6 +56,18 @@ namespace Ocular
             bool result = true;
 
             return result;
+        }
+
+        void AxisComponentGizmo::setSelected(bool const selected)
+        {
+            Gizmo::setSelected(true);
+            
+            AxisGizmoRenderable* renderable = dynamic_cast<AxisGizmoRenderable*>(getRenderable());
+
+            if(renderable)
+            {
+                renderable->setSelected(selected);
+            }
         }
 
         //----------------------------------------------------------------------------------

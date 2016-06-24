@@ -57,18 +57,31 @@ namespace Ocular
 
             virtual bool preRender() override;
             virtual void render() override;
-            virtual void render(Graphics::Material* material);
-            virtual void postRender() override;
+            virtual void render(Graphics::Material* material) override;
+
+            virtual uint32_t getRenderPriority() const override;
+
+            void setSelected(bool selected);
 
         protected:
 
-            bool initializeMaterial();
+            bool initializeMaterials();
+            bool initializeMaterialNormal();
+            bool initializeMaterialSelected();
+
             bool initializeMesh();
 
             //------------------------------------------------------------
 
-            Graphics::Material* m_Material;
+            Graphics::Material* m_MaterialNormal;                ///< Material when rendering the component when not selected. Will use axis color.
+            Graphics::Material* m_MaterialSelected;              ///< Material when rendering the component when it is selected.
+
             Graphics::Mesh* m_Mesh;
+
+            Graphics::DepthStencilState m_DSSPreRender;
+            Graphics::DepthStencilState m_DSSPostRender;
+
+            bool m_IsSelected;
 
         private:
         };

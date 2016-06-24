@@ -94,7 +94,7 @@ namespace Ocular
                     {
                         bindUniforms(selectedObject);
 
-                        renderable->render(m_SelectedMaterial);
+                        //renderable->render(m_SelectedMaterial);
                         renderable->postRender();
                     }
                 }

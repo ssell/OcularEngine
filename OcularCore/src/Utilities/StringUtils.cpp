@@ -91,6 +91,25 @@ namespace Ocular
             return result;
         }
 
+        bool String::Contains(std::string const& source, std::string const& find, bool const ignoreCase)
+        {
+            bool result = false;
+
+            if(ignoreCase)
+            {
+                result = (source.find(find) != std::string::npos);
+            }
+            else
+            {
+                const std::string lowerSource = ToLower(source);
+                const std::string lowerFind = ToLower(find);
+                
+                result = (lowerSource.find(lowerFind) != std::string::npos);
+            }
+
+            return result;
+        }
+
         std::string String::FormatWindowsError(unsigned long error)
         {
             std::string errorMessage = "UNKNOWN ERROR";
