@@ -95,6 +95,7 @@ namespace Ocular
 
                     if(setupEditorCamera())
                     {
+                        setupAxis();
                         setupGizmos();
 
                         result = true;
@@ -171,6 +172,12 @@ namespace Ocular
                         {
                             // On mouse up, we only care about picking normal (non-gizmo) objects
                             setSelectedObject(pickedObject, false, true);
+
+                            auto ray = m_EditorCamera->getPickRay(mousePos);
+
+                            OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
+
+                            OcularLogger->info("Ray @ (", ray.getOrigin().x, ", ", ray.getOrigin().y, ", ", ray.getOrigin().z, ") to (", ray.getDirection().x, ", ", ray.getDirection().y, ", ", ray.getDirection().z, ")");
                         }
                         else
                         {
@@ -179,7 +186,6 @@ namespace Ocular
                         }
                     }
                 }
-                   
             }
 
             return true;
@@ -436,6 +442,15 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void Editor::setupAxis()
+        {
+            const float length = 10000.0f;
+            
+            OcularGraphics->drawDebugLine(Math::Vector3f(0.0f, 0.0f, 0.0f), Math::Vector3f(length, 0.0f, 0.0f), Core::Color::Red(), 0);
+            OcularGraphics->drawDebugLine(Math::Vector3f(0.0f, 0.0f, 0.0f), Math::Vector3f(0.0f, length, 0.0f), Core::Color::Green(), 0);
+            OcularGraphics->drawDebugLine(Math::Vector3f(0.0f, 0.0f, 0.0f), Math::Vector3f(0.0f, 0.0f, length), Core::Color::Blue(), 0);
         }
 
         void Editor::setupGizmos()

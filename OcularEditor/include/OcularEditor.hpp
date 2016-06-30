@@ -230,6 +230,7 @@ namespace Ocular
             void operator=(Editor const&) = delete;
 
             bool setupEditorCamera();
+            void setupAxis();
             void setupGizmos();
 
             //------------------------------------------------------------------------------

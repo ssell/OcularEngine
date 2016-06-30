@@ -193,6 +193,20 @@ namespace Ocular
         {
             return new VertexBuffer;
         }
+        
+        //----------------------------------------------------------------------------------
+        // Debug Methods
+        //----------------------------------------------------------------------------------
+
+        void GraphicsDriver::drawDebugLine(Math::Vector3f const& start, Math::Vector3f const& stop, Core::Color const& color, uint64_t const lifetime)
+        {
+            m_Debug.addLine(start, stop, color, lifetime);
+        }
+
+        void GraphicsDriver::renderDebug()
+        {
+            m_Debug.render();
+        }
 
         //----------------------------------------------------------------------------------
         // Temp Methods (to be moved to dedicated Renderer class in future)

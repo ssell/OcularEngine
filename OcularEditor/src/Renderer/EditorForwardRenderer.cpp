@@ -50,6 +50,8 @@ namespace Ocular
         
         void ForwardRenderer::render(std::vector<Core::SceneObject*>& objects)
         {
+            static bool once = true;
+
             OcularGraphics->clearBuffers(OcularCameras->getActiveCamera()->getClearColor());
 
             sort(objects);
@@ -57,6 +59,9 @@ namespace Ocular
             //------------------------------------------------------------
             // Render all objects
             //------------------------------------------------------------
+
+            bindUniforms(nullptr);
+            OcularGraphics->renderDebug();    // Draw any debug shapes first
 
             auto selectedObject = OcularEditor.getSelectedObject();
 
@@ -108,6 +113,9 @@ namespace Ocular
         void ForwardRenderer::render(std::vector<Core::SceneObject*>& objects, Graphics::Material* material)
         {
             OcularGraphics->clearBuffers(OcularCameras->getActiveCamera()->getClearColor());
+
+            bindUniforms(nullptr);
+            OcularGraphics->renderDebug();    // Draw any debug shapes first
 
             sort(objects);
 

@@ -107,15 +107,23 @@ namespace Ocular
 
         void Renderer::bindUniforms(SceneObject* object)
         {
-            if(m_UniformBufferPerObject)
-            {
-                m_UniformBufferPerObject->setFixedData(object->getUniformData());
-                m_UniformBufferPerObject->bind();
-            }
-            else
+            if(!m_UniformBufferPerObject)
             {
                 m_UniformBufferPerObject = OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerObject);
             }
+
+            if(object)
+            {
+                m_UniformBufferPerObject->setFixedData(object->getUniformData());
+            }
+            else
+            {
+                // If NULL, use a default uniform buffer (identity model matrix, etc.)
+                Graphics::UniformPerObject uniformBuffer;
+                m_UniformBufferPerObject->setFixedData(uniformBuffer); 
+            }
+            
+            m_UniformBufferPerObject->bind();
         }
 
         //----------------------------------------------------------------------------------

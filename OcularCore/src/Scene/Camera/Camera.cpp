@@ -266,9 +266,85 @@ namespace Ocular
             m_ClearColor = color;
         }
 
-        Core::Color const& Camera::getClearColor() const
+        Color const& Camera::getClearColor() const
         {
             return m_ClearColor;
+        }
+
+        Math::Vector3f Camera::screenToWorld(Math::Vector2i const& screenPos)
+        {
+            // https://www.mvps.org/directx/articles/rayproj.htm
+
+            Math::Vector3f result;
+
+            const float normX = std::tanf(m_PerspectiveProj.fieldOfView * 0.5f) * ((static_cast<float>(screenPos.x) / (m_Viewport->getWidth() * 0.5f)) - 1.0f) / m_PerspectiveProj.aspectRatio;
+            const float normY = std::tanf(m_PerspectiveProj.fieldOfView * 0.5f) * (1.0f - static_cast<float>(screenPos.y) / (m_Viewport->getHeight() * 0.5f));
+
+            const Math::Matrix4x4 inverseViewMatrix = getViewMatrix().getInverse();
+
+            result.x = normX * m_PerspectiveProj.nearClip;
+            result.y = normY * m_PerspectiveProj.nearClip;
+            result.z = m_PerspectiveProj.nearClip;
+
+            result = result * inverseViewMatrix;
+
+            return result;
+        }
+
+        Math::Vector2i Camera::worldToScreen(Math::Vector3f const& worldPos)
+        {
+            Math::Vector2i result;
+            
+            const Math::Matrix4x4 viewProjMatrix = getProjectionMatrix() * m_Transform.getModelMatrix();
+            const Math::Vector3f projSpacePoint = worldPos * viewProjMatrix;
+
+            result.x = static_cast<int32_t>(Math::RoundDecimal(((projSpacePoint.x + 1.0f) * 0.5f), 0) * m_Viewport->getWidth());
+            result.y = static_cast<int32_t>(Math::RoundDecimal(((1.0f - projSpacePoint.y) * 0.5f), 0) * m_Viewport->getHeight());
+
+            return result;
+        }
+
+        Math::Ray Camera::getPickRay(Math::Vector2i const& screenPos)
+        {
+            // https://www.mvps.org/directx/articles/rayproj.htm
+            // http://www.toymaker.info/Games/html/picking.html
+
+            Math::Ray result;
+            
+            //------------------------------------------------------------
+
+            const float x = static_cast<float>(screenPos.x);
+            const float y = static_cast<float>(screenPos.y);
+            
+            Math::Vector3f vector;
+
+            vector.x = (((x * 2.0f) / m_Viewport->getWidth()) - 1.0f) / m_ProjMatrix[0];
+            vector.y = -(((y * 2.0f) / m_Viewport->getHeight()) - 1.0f) / m_ProjMatrix[5];
+            vector.z = 1.0f;
+            
+            //------------------------------------------------------------
+
+            Math::Matrix4x4 inverseViewMatrix = getModelMatrix(false);
+
+            Math::Vector3f rayDirection;
+            Math::Vector3f rayOrigin;
+
+            rayDirection.x = (vector.x * inverseViewMatrix[0]) + (vector.y * inverseViewMatrix[4]) + (vector.z * inverseViewMatrix[8]);
+            rayDirection.y = (vector.x * inverseViewMatrix[1]) + (vector.y * inverseViewMatrix[5]) + (vector.z * inverseViewMatrix[9]);
+            rayDirection.z = -((vector.x * inverseViewMatrix[2]) + (vector.y * inverseViewMatrix[6]) + (vector.z * inverseViewMatrix[10]));
+
+            //rayDirection.x = (vector.x * inverseViewMatrix[0]) + (vector.y * inverseViewMatrix[1]) + (vector.z * inverseViewMatrix[2]);
+            //rayDirection.y = (vector.x * inverseViewMatrix[4]) + (vector.y * inverseViewMatrix[5]) + (vector.z * inverseViewMatrix[6]);
+            //rayDirection.z = -((vector.x * inverseViewMatrix[8]) + (vector.y * inverseViewMatrix[9]) + (vector.z * inverseViewMatrix[10]));
+            
+            rayOrigin = getPosition(false);
+            
+            //------------------------------------------------------------
+
+            result.setDirection(rayDirection);
+            result.setOrigin(rayOrigin);
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

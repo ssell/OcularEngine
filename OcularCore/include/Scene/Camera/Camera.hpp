@@ -28,6 +28,7 @@
 #include "Events/AEventListener.hpp"
 
 #include "Math/Geometry/Frustum.hpp"
+#include "Math/Bounds/Ray.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -240,7 +241,30 @@ namespace Ocular
             /**
              *
              */
-            Core::Color const& getClearColor() const;
+            Color const& getClearColor() const;
+            
+            /**
+             * Converts a given screen coordinate to a world-space position.
+             *
+             * \param[in] x
+             * \param[in] y
+             */
+            Math::Vector3f screenToWorld(Math::Vector2i const& screenPos);
+
+            /**
+             * Converts a given world space position to a screen-space coordinate.
+             *
+             * \param[in] pos
+             */
+            Math::Vector2i worldToScreen(Math::Vector3f const& worldPos);
+
+            /**
+             * Returns a ray projected from the camera at the given screen coordinates.
+             *
+             * \param[in] x
+             * \param[in] y
+             */
+            Math::Ray getPickRay(Math::Vector2i const& screenPos);
 
             /**
              * Handles WindowResizeEvent instances.

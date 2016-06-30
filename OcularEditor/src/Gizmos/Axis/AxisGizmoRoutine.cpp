@@ -18,6 +18,9 @@
 #include "Gizmos/Axis/AxisGizmoRoutine.hpp"
 #include "Gizmos/Axis/AxisComponentGizmo.hpp"
 
+#include "Math/Bounds/Ray.hpp"
+#include "Math/Geometry/Plane.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -49,8 +52,29 @@ namespace Ocular
             {
                 if(OcularInput->isMouseButtonDown(Core::MouseButtons::Left))
                 {
-                    // The parent gizmo is selected, and the left mouse button is being held down.
-                    
+                    auto mainCamera = OcularCameras->getMainCamera();
+
+                    if(mainCamera)
+                    {
+                        const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
+                        const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
+
+                        const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
+                        const Math::Plane plane(planeOrigin, planeNormal);
+
+                        Math::Vector3f intersectionPoint;
+                        float distance = 0.0f;
+
+                        if(plane.intersects(cameraRay, intersectionPoint, distance))
+                        {
+                            auto attachedParent = m_Parent->getParent()->getParent();
+
+                            auto position = attachedParent->getPosition(false);
+                            position.x = intersectionPoint.x;
+                            
+                            attachedParent->setPosition(position);
+                        }
+                    }
                 }
                 else
                 {

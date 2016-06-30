@@ -235,7 +235,7 @@ namespace Ocular
 
         void D3D11GraphicsDriver::clearStencilBuffer(uint32_t const value)
         {
-            GraphicsDriver::clearDepthBuffer(value);
+            GraphicsDriver::clearStencilBuffer(value);
 
             if(m_D3DDeviceContext)
             {

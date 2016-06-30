@@ -33,6 +33,8 @@
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Viewport.hpp"
 
+#include "Graphics/Debug/DebugGraphics.hpp"
+
 #include "Scene/SceneObject.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -259,6 +261,25 @@ namespace Ocular
              *         NULL if buffer creation failed.
              */
             virtual VertexBuffer* createVertexBuffer() const;
+            
+            //------------------------------------------------------------------------------
+            // Debug Draw Methods
+            //------------------------------------------------------------------------------
+
+            /**
+             * Draws a line on all viewports that lasts for the specified length of time.
+             *
+             * \param[in] start    Line starting point in world coordinates
+             * \param[in] stop     Line stopping point in world coordinates
+             * \param[in] color    Line color
+             * \param[in] lifetime Length of time (in milliseconds) the line should be drawn. Lifetime of 0 indicates the line will persist forever.
+             */
+            virtual void drawDebugLine(Math::Vector3f const& start, Math::Vector3f const& stop, Core::Color const& color, uint64_t lifetime = 30000);
+
+            /**
+             * Renders all debug shapes.
+             */
+            virtual void renderDebug();
 
             //------------------------------------------------------------------------------
             // Temp Methods (to be moved to dedicated Renderer class in future)
@@ -283,6 +304,8 @@ namespace Ocular
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type);
 
         protected:
+
+            Debug m_Debug;
 
             RenderState* m_RenderState;
 

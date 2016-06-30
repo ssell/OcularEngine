@@ -277,6 +277,12 @@
     <Filter Include="Source Files\Threads">
       <UniqueIdentifier>{ff81d320-b158-48c9-871c-8d4ccdad819d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Debug">
+      <UniqueIdentifier>{5084e036-511a-4547-9660-12e3e1fb8b22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Debug">
+      <UniqueIdentifier>{1b9947bf-3f51-4c0f-9ba7-94243a4d76df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -567,9 +573,6 @@
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp">
       <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
-      <Filter>Source Files\Scene\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Scene\ARenderable.cpp">
       <Filter>Source Files\Scene\Renderable</Filter>
     </ClCompile>
@@ -722,6 +725,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Threads\ThreadManager.cpp">
       <Filter>Source Files\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Debug\DebugGraphics.cpp">
+      <Filter>Source Files\Graphics\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1327,6 +1336,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Threads\ThreadManager.hpp">
       <Filter>Header Files\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Debug\DebugGraphics.hpp">
+      <Filter>Header Files\Graphics\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
