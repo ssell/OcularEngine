@@ -57,6 +57,10 @@ namespace Ocular
 
             virtual void setParent(Core::SceneObject* object) override;
 
+            void updatePositionAxisX();
+            void updatePositionAxisY();
+            void updatePositionAxisZ();
+
             //------------------------------------------------------------
 
             AxisComponentGizmo* m_ParentCast;

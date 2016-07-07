@@ -52,28 +52,22 @@ namespace Ocular
             {
                 if(OcularInput->isMouseButtonDown(Core::MouseButtons::Left))
                 {
-                    auto mainCamera = OcularCameras->getMainCamera();
-
-                    if(mainCamera)
+                    switch(m_ParentCast->axis)
                     {
-                        const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
-                        const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
+                    case Axis::X:
+                        updatePositionAxisX();
+                        break;
 
-                        const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
-                        const Math::Plane plane(planeOrigin, planeNormal);
+                    case Axis::Y:
+                        updatePositionAxisY();
+                        break;
 
-                        Math::Vector3f intersectionPoint;
-                        float distance = 0.0f;
+                    case Axis::Z:
+                        updatePositionAxisZ();
+                        break;
 
-                        if(plane.intersects(cameraRay, intersectionPoint, distance))
-                        {
-                            auto attachedParent = m_Parent->getParent()->getParent();
-
-                            auto position = attachedParent->getPosition(false);
-                            position.x = intersectionPoint.x;
-                            
-                            attachedParent->setPosition(position);
-                        }
+                    default:
+                        break;
                     }
                 }
                 else
@@ -93,6 +87,87 @@ namespace Ocular
         {
             ARoutine::setParent(parent);
             m_ParentCast = dynamic_cast<AxisComponentGizmo*>(parent);
+        }
+
+        void AxisGizmoRoutine::updatePositionAxisX()
+        {
+            auto mainCamera = OcularCameras->getMainCamera();
+
+            if(mainCamera)
+            {
+                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
+                const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
+
+                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
+                const Math::Plane plane(planeOrigin, planeNormal);
+
+                Math::Vector3f intersectionPoint;
+                float distance = 0.0f;
+
+                if(plane.intersects(cameraRay, intersectionPoint, distance))
+                {
+                    auto attachedParent = m_Parent->getParent()->getParent();
+
+                    auto position = attachedParent->getPosition(false);
+                    position.x = intersectionPoint.x;
+                            
+                    attachedParent->setPosition(position);
+                }
+            }
+        }
+
+        void AxisGizmoRoutine::updatePositionAxisY()
+        {
+            auto mainCamera = OcularCameras->getMainCamera();
+
+            if(mainCamera)
+            {
+                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
+                const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
+
+                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
+                const Math::Plane plane(planeOrigin, planeNormal);
+
+                Math::Vector3f intersectionPoint;
+                float distance = 0.0f;
+
+                if(plane.intersects(cameraRay, intersectionPoint, distance))
+                {
+                    auto attachedParent = m_Parent->getParent()->getParent();
+
+                    auto position = attachedParent->getPosition(false);
+                    position.y = intersectionPoint.y;
+                            
+                    attachedParent->setPosition(position);
+                }
+            }
+        }
+
+        void AxisGizmoRoutine::updatePositionAxisZ()
+        {
+            auto mainCamera = OcularCameras->getMainCamera();
+
+            if(mainCamera)
+            {
+                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
+                const Math::Vector3f planeNormal = m_Parent->getTransform().getUp();
+
+                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
+                const Math::Plane plane(planeOrigin, planeNormal);
+
+                Math::Vector3f intersectionPoint;
+                float distance = 0.0f;
+
+                if(plane.intersects(cameraRay, intersectionPoint, distance))
+                {
+                    auto attachedParent = m_Parent->getParent()->getParent();
+
+                    auto position = attachedParent->getPosition(false);
+                    position.z = intersectionPoint.z;
+                            
+                    attachedParent->setPosition(position);
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------

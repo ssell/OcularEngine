@@ -60,7 +60,7 @@ namespace Ocular
 
         void AxisComponentGizmo::setSelected(bool const selected)
         {
-            Gizmo::setSelected(true);
+            Gizmo::setSelected(selected);
             
             AxisGizmoRenderable* renderable = dynamic_cast<AxisGizmoRenderable*>(getRenderable());
 

@@ -254,11 +254,11 @@ namespace Ocular
         bool AxisGizmoRenderable::initializeMesh()
         {
             bool result = true;
-            m_Mesh = OcularResources->getResource<Graphics::Mesh>("OcularCore/Meshes/AxisGizmoArrow/AxisGizmoArrow");
+            m_Mesh = OcularResources->getResource<Graphics::Mesh>("OcularCore/Meshes/GizmoComponentTranslate/Gizmo");
 
             if(!m_Mesh)
             {
-                OcularLogger->error("Failed to retrieve AxisGizmoArrow mesh", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMesh"));
+                OcularLogger->error("Failed to retrieve GizmoComponentTranslate mesh", OCULAR_INTERNAL_LOG("AxisGizmoRenderable", "initializeMesh"));
                 result = false;
             }
 

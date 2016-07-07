@@ -173,11 +173,8 @@ namespace Ocular
                             // On mouse up, we only care about picking normal (non-gizmo) objects
                             setSelectedObject(pickedObject, false, true);
 
-                            auto ray = m_EditorCamera->getPickRay(mousePos);
-
-                            OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
-
-                            OcularLogger->info("Ray @ (", ray.getOrigin().x, ", ", ray.getOrigin().y, ", ", ray.getOrigin().z, ") to (", ray.getDirection().x, ", ", ray.getDirection().y, ", ", ray.getDirection().z, ")");
+                            //auto ray = m_EditorCamera->getPickRay(mousePos);
+                            //OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
                         }
                         else
                         {
@@ -248,6 +245,7 @@ namespace Ocular
                 // Deselect
 
                 m_GizmoTranslate->setActive(false);
+                m_GizmoTranslate->setParent(nullptr, false);
 
                 m_MainWindow->getContentFrame()->getSceneFrame()->getSceneTree()->selectObject(nullptr);
 

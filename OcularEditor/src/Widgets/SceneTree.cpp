@@ -541,6 +541,8 @@ namespace Ocular
         {
             auto selectedItems = this->selectedItems();
             const uint32_t numSelected = static_cast<uint32_t>(selectedItems.size());
+            
+            OcularEditor.setSelectedObject(nullptr);
 
             for(auto item : selectedItems)
             {
