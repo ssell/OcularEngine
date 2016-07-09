@@ -60,6 +60,19 @@ namespace Ocular
                     setText(0, QString(m_Object->getName().c_str()));
                 }
             }
+
+            if(recursive)
+            {
+                for(int32_t i = 0; i < childCount(); i++)
+                {
+                    SceneTreeItem* childItem = dynamic_cast<SceneTreeItem*>(child(i));
+
+                    if(childItem)
+                    {
+                        childItem->update(true);
+                    }
+                }
+            }
         }
 
         Core::SceneObject* SceneTreeItem::getObject() const
