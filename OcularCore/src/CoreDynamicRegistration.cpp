@@ -32,6 +32,10 @@
 #include "Scene/Routines/FreeFlyController.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
 
+#include "Scene/Light/PointLight.hpp"
+#include "Scene/Light/SpotLight.hpp"
+#include "Scene/Light/DirectionalLight.hpp"
+
 #include "Renderer/ForwardRenderer.hpp"
 
 #include "Math/Vector2.hpp"
@@ -70,6 +74,15 @@ namespace Ocular
         Math::Vector2f::OCULAR_INTERNAL_Force = true;
         Math::Vector3f::OCULAR_INTERNAL_Force = true;
         Math::Vector4f::OCULAR_INTERNAL_Force = true;
+
+        Core::PointLight* pointLight = new Core::PointLight();
+        OcularScene->destroyObject(pointLight);
+
+        Core::SpotLight* spotLight = new Core::SpotLight();
+        OcularScene->destroyObject(spotLight);
+
+        Core::DirectionalLight* directionalLight = new Core::DirectionalLight();
+        OcularScene->destroyObject(directionalLight);
     }
 
     CoreDynamicRegistration::~CoreDynamicRegistration()

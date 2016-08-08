@@ -22,14 +22,14 @@
 
 //------------------------------------------------------------------------------------------
 
-class InputLoggerRoutine : public Core::ARoutine
+class InputLoggerRoutine : public Ocular::Core::ARoutine
 {
 public:
 
     InputLoggerRoutine();
     ~InputLoggerRoutine();
 
-    virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
+    virtual bool onEvent(std::shared_ptr<Ocular::Core::AEvent> event) override;
 
 protected:
 

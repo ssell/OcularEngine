@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-#include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Scene/Light/PointLight.hpp"
+#include "Scene/SceneObjectRegistrar.hpp"
+
+#include "OcularEngine.hpp"
+
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::PointLight, "Point Light");
 
 //------------------------------------------------------------------------------------------
 
@@ -25,34 +30,38 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent(SceneObject* object)
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(object)
-        {
-            if(object)
-            {
-                uuid = object->getUUID();
-            }
-        }
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent()
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(nullptr)
-        {
-
-        }
-
-        SceneObjectAddedEvent::~SceneObjectAddedEvent()
-        {
         
+        PointLight::PointLight(std::string const& name, SceneObject* parent)
+            : LightSource(name, parent, "Point Light")
+        {
+            exposeProperties();
+        }
+
+        PointLight::PointLight()
+            : LightSource("Point Light", nullptr, "Point Light")
+        {
+            exposeProperties();
+        }
+
+        PointLight::~PointLight()
+        {
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+        
+        void PointLight::exposeProperties()
+        {
+            exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, true, &m_Color);
+            exposeVariable("Intensity", Utils::TypeName<float>::name, false, true, &m_Intensity);
+            exposeVariable("Range", Utils::TypeName<float>::name, false, true, &m_Range);
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

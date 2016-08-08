@@ -15,18 +15,17 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EVENTS_SCENE_OBJECT_ADDED_EVENT__H__
-#define __H__OCULAR_EVENTS_SCENE_OBJECT_ADDED_EVENT__H__
+#ifndef __H__OCULAR_CORE_LIGHT_SPOT__H__
+#define __H__OCULAR_CORE_LIGHT_SPOT__H__
 
-#include "Events/AEvent.hpp"
-#include "Scene/SceneObject.hpp"
+#include "LightSource.hpp"
 
 //------------------------------------------------------------------------------------------
 
 /**
-* \addtogroup Ocular
-* @{
-*/
+ * \addtogroup Ocular
+ * @{
+ */
 namespace Ocular
 {
     /**
@@ -36,26 +35,20 @@ namespace Ocular
     namespace Core
     {
         /**
-         * \class SceneObjectAddedEvent
-         *
-         * Event notifying that a SceneObject has been added to the active Scene.
-         *
-         * String Descriptor: "SceneObjectAddedEvent" <br/>
-         * Event Priority: Medium 
+         * \class SpotLight
          */
-        class SceneObjectAddedEvent : public AEvent 
+        class SpotLight : public LightSource
         {
         public:
 
-            SceneObjectAddedEvent(SceneObject* object);
-            SceneObjectAddedEvent();
+            SpotLight(std::string const& name, SceneObject* parent = nullptr);
+            SpotLight();
 
-            virtual ~SceneObjectAddedEvent();
-
-            SceneObject* object;
-            Core::UUID uuid;
+            virtual ~SpotLight();
 
         protected:
+
+            void exposeProperties();
 
         private:
         };
@@ -65,9 +58,9 @@ namespace Ocular
      */
 }
 /**
-* @} End of Doxygen Groups
-*/
+ * @} End of Doxygen Groups
+ */
 
 //------------------------------------------------------------------------------------------
 
-#endif
+#endif 

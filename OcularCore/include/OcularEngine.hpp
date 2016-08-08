@@ -31,6 +31,7 @@
 #include "Performance/Profiler.hpp"
 #include "Scene/SceneManager.hpp"
 #include "Scene/Camera/CameraManager.hpp"
+#include "Scene/Light/LightManager.hpp"
 #include "Graphics/GraphicsDriver.hpp"
 #include "Threads/ThreadManager.hpp"
 
@@ -154,6 +155,11 @@ namespace Ocular
         std::shared_ptr<Core::CameraManager> CameraManager() const;
 
         /**
+         * \return Reference to the primary LightManager
+         */
+        std::shared_ptr<Core::LightManager> LightManager() const;
+
+        /**
          * \return Reference to the primary Profiler
          */
         std::shared_ptr<Core::Profiler> Profiler() const;
@@ -203,6 +209,7 @@ namespace Ocular
         std::shared_ptr<Core::ResourceManager>    m_ResourceManager;
         std::shared_ptr<Core::SceneManager>       m_SceneManager;
         std::shared_ptr<Core::CameraManager>      m_CameraManager;
+        std::shared_ptr<Core::LightManager>       m_LightManager;
         std::shared_ptr<Core::WindowManager>      m_WindowManager;
         std::shared_ptr<Core::ThreadManager>      m_ThreadManager;
         std::shared_ptr<Utils::HashGenerator>     m_HashGenerator;
@@ -223,6 +230,7 @@ namespace Ocular
 #define OcularClock     OcularEngine.Clock()
 #define OcularScene     OcularEngine.SceneManager()
 #define OcularCameras   OcularEngine.CameraManager()
+#define OcularLights    OcularEngine.LightManager()
 #define OcularEvents    OcularEngine.EventManager()
 #define OcularInput     OcularEngine.Input()
 #define OcularResources OcularEngine.ResourceManager()
@@ -237,6 +245,6 @@ namespace Ocular
 #define OCULAR_INTERNAL_LOG(a,b) " [", a, "::", b, " @ ", __LINE__, "]"
 // Example usage:
 // OcularLogger->error("Some error message", OCULAR_INTERNAL_LOG("ClassWithError", "MethodWithError"));
-// Outputs: OCULAR ERROR
+// Outputs: "Some error message [ClassWithError::MethodWithError @ 220]"
 
 #endif

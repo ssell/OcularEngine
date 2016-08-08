@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Scene/Light/LightManager.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -25,34 +25,76 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent(SceneObject* object)
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(object)
-        {
-            if(object)
-            {
-                uuid = object->getUUID();
-            }
-        }
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent()
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(nullptr)
-        {
-
-        }
-
-        SceneObjectAddedEvent::~SceneObjectAddedEvent()
-        {
         
+        LightManager::LightManager()
+        {
+
+        }
+
+        LightManager::~LightManager()
+        {
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+        
+        void LightManager::updateLights(bool const cullVisible)
+        {
+            std::vector<LightSource*> visibleLights;
+
+            getVisibleLights(visibleLights, cullVisible);
+        }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+        
+        void LightManager::registerLightSource(LightSource* light)
+        {
+            if(light)
+            {
+                const std::string uuidStr = light->getUUID().toString();
+                auto find = m_Lights.find(uuidStr);
+
+                if(find == m_Lights.end())
+                {
+                    m_Lights.insert(std::make_pair(uuidStr, light));
+                }
+            }
+        }
+
+        void LightManager::unregisterLightSource(LightSource* light)
+        {
+            if(light)
+            {
+                const std::string uuidStr = light->getUUID().toString();
+                auto find = m_Lights.find(uuidStr);
+
+                if(find == m_Lights.end())
+                {
+                    m_Lights.erase(find);
+                }
+            }
+        }
+
+        void LightManager::getVisibleLights(std::vector<LightSource*>& visibleLights, bool cull)
+        {
+            visibleLights.reserve(m_Lights.size());
+
+            if(cull)
+            {
+
+            }
+            else
+            {
+                for(auto pair : m_Lights)
+                {
+                    visibleLights.emplace_back(pair.second);
+                }
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

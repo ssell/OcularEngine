@@ -399,7 +399,7 @@ namespace Ocular
                     {
                         parent->addChild(object);
                     }
-
+                    
                     OcularEvents->queueEvent(std::make_shared<SceneObjectAddedEvent>(object));
                 }
             }

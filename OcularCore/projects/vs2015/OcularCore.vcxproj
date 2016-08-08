@@ -299,6 +299,11 @@
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\DirectionalLight.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\LightManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\LightSource.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\PointLight.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\SpotLight.cpp" />
     <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
     <ClCompile Include="..\..\src\Scene\Scene.cpp" />
@@ -490,6 +495,11 @@
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\DirectionalLight.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\LightSource.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\LightManager.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\PointLight.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\SpotLight.hpp" />
     <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp" />
     <ClInclude Include="..\..\include\Scene\RoutineRegistrar.hpp" />

@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-#include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Scene/Light/DirectionalLight.hpp"
+#include "Scene/SceneObjectRegistrar.hpp"
+
+#include "OcularEngine.hpp"
+
+
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::DirectionalLight, "Directional Light");
 
 //------------------------------------------------------------------------------------------
 
@@ -25,34 +31,37 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent(SceneObject* object)
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(object)
-        {
-            if(object)
-            {
-                uuid = object->getUUID();
-            }
-        }
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent()
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(nullptr)
-        {
-
-        }
-
-        SceneObjectAddedEvent::~SceneObjectAddedEvent()
-        {
         
+        DirectionalLight::DirectionalLight(std::string const& name, SceneObject* parent)
+            : LightSource(name, parent, "Directional Light")
+        {
+            exposeProperties();
+        }
+
+        DirectionalLight::DirectionalLight()
+            : LightSource("Directional Light", nullptr, "Directional Light")
+        {
+            exposeProperties();
+        }
+
+        DirectionalLight::~DirectionalLight()
+        {
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+        
+        void DirectionalLight::exposeProperties()
+        {
+            exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, true, &m_Color);
+            exposeVariable("Intensity", Utils::TypeName<float>::name, false, true, &m_Intensity);
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

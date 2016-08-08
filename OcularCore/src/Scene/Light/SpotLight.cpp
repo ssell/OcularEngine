@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-#include "Events/Events/SceneObjectAddedEvent.hpp"
+#include "Scene/Light/SpotLight.hpp"
+#include "Scene/SceneObjectRegistrar.hpp"
+
+#include "OcularEngine.hpp"
+
+OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::SpotLight, "Spot Light");
 
 //------------------------------------------------------------------------------------------
 
@@ -25,34 +30,39 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent(SceneObject* object)
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(object)
-        {
-            if(object)
-            {
-                uuid = object->getUUID();
-            }
-        }
-
-        SceneObjectAddedEvent::SceneObjectAddedEvent()
-            : AEvent("SceneObjectAddedEvent", Priority::Medium), object(nullptr)
-        {
-
-        }
-
-        SceneObjectAddedEvent::~SceneObjectAddedEvent()
-        {
         
+        SpotLight::SpotLight(std::string const& name, SceneObject* parent)
+            : LightSource(name, parent, "Spot Light")
+        {
+            exposeProperties();
+        }
+
+        SpotLight::SpotLight()
+            : LightSource("Spot Light", nullptr, "Spot Light")
+        {
+            exposeProperties();
+        }
+
+        SpotLight::~SpotLight()
+        {
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+        
+        void SpotLight::exposeProperties()
+        {
+            exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, true, &m_Color);
+            exposeVariable("Intensity", Utils::TypeName<float>::name, false, true, &m_Intensity);
+            exposeVariable("Range", Utils::TypeName<float>::name, false, true, &m_Range);
+            exposeVariable("Angle", Utils::TypeName<float>::name, false, true, &m_Angle);
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
