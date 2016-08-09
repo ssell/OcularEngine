@@ -114,10 +114,11 @@ namespace Ocular
             virtual FragmentShader* createFragmentShader() const override;
             virtual PreTessellationShader* createPreTessellationShader() const override;
             virtual PostTessellationShader* createPostTessellationShader() const override;
-            virtual UniformBuffer* createUniformBuffer(UniformBufferType type) const override;
 
+            virtual UniformBuffer* createUniformBuffer(UniformBufferType type) const override;
             virtual IndexBuffer* createIndexBuffer() const override;
             virtual VertexBuffer* createVertexBuffer() const override;
+            virtual GPUBuffer* createGPUBuffer(GPUBufferDescriptor const& descriptor) const override;
             
             virtual bool renderMesh(Mesh* mesh, uint32_t submesh = 0) override;
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type) override;

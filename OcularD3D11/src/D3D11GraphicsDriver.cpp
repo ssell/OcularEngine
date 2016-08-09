@@ -464,14 +464,14 @@ namespace Ocular
             return new D3D11PostTessellationShader(m_D3DDeviceContext);
         }
 
+        //----------------------------------------------------------------------------------
+        // Buffers
+        //----------------------------------------------------------------------------------
+
         UniformBuffer* D3D11GraphicsDriver::createUniformBuffer(UniformBufferType const type) const
         {
             return new D3D11UniformBuffer(type, m_D3DDevice, m_D3DDeviceContext);
         }
-
-        //----------------------------------------------------------------------------------
-        // Meshes
-        //----------------------------------------------------------------------------------
 
         IndexBuffer* D3D11GraphicsDriver::createIndexBuffer() const
         {
@@ -481,6 +481,13 @@ namespace Ocular
         VertexBuffer* D3D11GraphicsDriver::createVertexBuffer() const
         {
             return new D3D11VertexBuffer(m_D3DDevice, m_D3DDeviceContext);
+        }
+
+        GPUBuffer* D3D11GraphicsDriver::createGPUBuffer(GPUBufferDescriptor const& descriptor) const
+        {
+            GPUBuffer* result = nullptr;
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

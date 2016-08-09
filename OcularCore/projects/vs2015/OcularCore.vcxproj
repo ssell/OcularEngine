@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
+    <ClCompile Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.cpp" />
     <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp" />
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
     <ClCompile Include="..\..\src\Events\EventManager.cpp" />
@@ -376,6 +377,7 @@
     <ClInclude Include="..\..\include\Graphics\RenderState\DepthStencilState.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\RasterState.hpp" />
     <ClInclude Include="..\..\include\Graphics\RenderState\RenderState.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\FragmentShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\GeometryShader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Shader\PostTessellationShader.hpp" />

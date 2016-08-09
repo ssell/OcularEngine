@@ -289,6 +289,12 @@
     <Filter Include="Source Files\Scene\Light">
       <UniqueIdentifier>{0173ca28-24a2-4d6b-96e0-0a7704b4b069}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Shader\Buffer">
+      <UniqueIdentifier>{da11122b-ee48-4223-a484-4e2b61720234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shader\Buffer">
+      <UniqueIdentifier>{87b9c302-d46d-437a-8bd8-c8f3dc225eee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -752,6 +758,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Scene\Light\LightSource.cpp">
       <Filter>Source Files\Scene\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.cpp">
+      <Filter>Source Files\Graphics\Shader\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1375,6 +1384,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\Light\LightSource.hpp">
       <Filter>Header Files\Scene\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.hpp">
+      <Filter>Header Files\Graphics\Shader\Buffer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@
 #include "Graphics/Shader/FragmentShader.hpp"
 #include "Graphics/Shader/PreTessellationShader.hpp"
 #include "Graphics/Shader/PostTessellationShader.hpp"
+#include "Graphics/Shader/Buffer/GPUBuffer.hpp"
 
 #include "Graphics/RenderState/RenderState.hpp"
 
@@ -261,6 +262,19 @@ namespace Ocular
              *         NULL if buffer creation failed.
              */
             virtual VertexBuffer* createVertexBuffer() const;
+            
+            //------------------------------------------------------------------------------
+            // Buffers
+
+            /**
+             * Creates a new API-specific GPU Buffer. The type of underlying buffer depends
+             * on the parameters specified in the descriptor.
+             *
+             * \param[in] descriptor
+             * \return Returns the new GPU Buffer. If the provided descriptor does not describe
+             *         a valid buffer, then NULL is returned.
+             */
+            virtual GPUBuffer* createGPUBuffer(GPUBufferDescriptor const& descriptor) const;
             
             //------------------------------------------------------------------------------
             // Debug Draw Methods

@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Render State">
       <UniqueIdentifier>{65008a61-73b4-45c1-ae5e-611838479671}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shader\Buffer">
+      <UniqueIdentifier>{c830ede2-cc37-455e-96ed-5c3a9a0a1e60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Buffer">
+      <UniqueIdentifier>{108ff3ed-34fd-4ec6-93e8-2710aea5f822}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.hpp">
@@ -108,6 +114,9 @@
     <ClInclude Include="..\..\include\D3D11DynamicRegistration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Shader\Buffer\D3D11StructuredBuffer.hpp">
+      <Filter>Header Files\Shader\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp">
@@ -163,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\RenderState\D3D11RenderState.cpp">
       <Filter>Source Files\Render State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\Buffer\D3D11StructuredBuffer.cpp">
+      <Filter>Source Files\Shader\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

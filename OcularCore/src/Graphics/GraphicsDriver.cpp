@@ -193,6 +193,11 @@ namespace Ocular
         {
             return new VertexBuffer;
         }
+
+        GPUBuffer* GraphicsDriver::createGPUBuffer(GPUBufferDescriptor const& descriptor) const
+        {
+            return new GPUBuffer(descriptor);
+        }
         
         //----------------------------------------------------------------------------------
         // Debug Methods
