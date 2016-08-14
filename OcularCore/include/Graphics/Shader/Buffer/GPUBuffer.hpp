@@ -40,8 +40,9 @@ namespace Ocular
         enum class GPUBufferAccess
         {
             None  = 0,
-            Read  = 1,
-            Write = 2
+            Read,
+            Write,
+            ReadWrite
         };
 
         /**

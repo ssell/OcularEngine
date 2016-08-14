@@ -31,6 +31,7 @@
 #include "Shader/D3D11PreTessellationShader.hpp"
 #include "Shader/D3D11PostTessellationShader.hpp"
 #include "Shader/Uniform/D3D11UniformBuffer.hpp"
+#include "Shader/Buffer/D3D11StructuredBuffer.hpp"
 
 #include "RenderState/D3D11RenderState.hpp"
 
@@ -486,6 +487,11 @@ namespace Ocular
         GPUBuffer* D3D11GraphicsDriver::createGPUBuffer(GPUBufferDescriptor const& descriptor) const
         {
             GPUBuffer* result = nullptr;
+
+            if((descriptor.gpuAccess) == GPUBufferAccess::Read && (descriptor.elementSize != 0))
+            {
+                result = new D3D11StructuredBuffer(descriptor);
+            }
 
             return result;
         }

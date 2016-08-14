@@ -67,7 +67,21 @@ namespace Ocular
             virtual bool read(void* destination, uint32_t start, uint32_t size) override;
             virtual bool write(void const* source, uint32_t start, uint32_t size) override;
 
+            ID3D11Buffer* getD3DBuffer();
+            ID3D11ShaderResourceView* getD3DShaderResource();
+
         protected:
+
+            bool getDevices();
+            void releaseResources();
+
+            //------------------------------------------------------------
+
+            ID3D11Device* m_D3DDevice;
+            ID3D11DeviceContext* m_D3DDeviceContext;
+
+            ID3D11Buffer* m_D3DBuffer;
+            ID3D11ShaderResourceView* m_D3DSRV;
 
         private:
         };
