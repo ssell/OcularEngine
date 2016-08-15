@@ -154,18 +154,22 @@ namespace Ocular
                     }
                 }
 
-                //--------------------------------------------------------
-                // Create the 
+                HRESULT hResult = S_FALSE;
 
-                D3D11_SUBRESOURCE_DATA data;
+                if(source)
+                {
+                    D3D11_SUBRESOURCE_DATA data;
 
-                data.pSysMem = source;
-                data.SysMemPitch = 0;
-                data.SysMemSlicePitch = 0;
-                
-                //--------------------------------------------------------
+                    data.pSysMem = source;
+                    data.SysMemPitch = 0;
+                    data.SysMemSlicePitch = 0;
 
-                HRESULT hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &data, &m_D3DBuffer);
+                    hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &data, &m_D3DBuffer);
+                }
+                else
+                {
+                    hResult = m_D3DDevice->CreateBuffer(&bufferDescr, nullptr, &m_D3DBuffer);
+                }
 
                 if(SUCCEEDED(hResult))
                 {
@@ -280,7 +284,10 @@ namespace Ocular
                         D3D11_MAPPED_SUBRESOURCE mapped;
                         ZeroMemory(&mapped, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-                        const HRESULT hResult = m_D3DDeviceContext->Map(m_D3DBuffer, 0, D3D11_MAP_WRITE, 0, &mapped);
+                        // With the use of D3D11_MAP_WRITE_DISCARD can we only map the entire buffer?
+                        // Would a call to UpdateSubresource be more appropriate?
+
+                        const HRESULT hResult = m_D3DDeviceContext->Map(m_D3DBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
 
                         if(SUCCEEDED(hResult))
                         {

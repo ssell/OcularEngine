@@ -762,6 +762,9 @@
     <ClCompile Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.cpp">
       <Filter>Source Files\Graphics\Shader\Buffer</Filter>
     </ClCompile>
+    <ClCompile Include="GPULight.cpp">
+      <Filter>Source Files\Scene\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1387,6 +1390,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.hpp">
       <Filter>Header Files\Graphics\Shader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Light\GPULight.hpp">
+      <Filter>Header Files\Scene\Light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

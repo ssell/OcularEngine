@@ -326,6 +326,7 @@
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
+    <ClCompile Include="GPULight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Common.hpp" />
@@ -498,6 +499,7 @@
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\DirectionalLight.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\GPULight.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\LightSource.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\LightManager.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\PointLight.hpp" />

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+#include "Scene/Light/GPULight.hpp"
 #include "Scene/Light/LightSource.hpp"
-#include "OcularEngine.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -26,79 +26,37 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-        
-        LightSource::LightSource(std::string const& name, SceneObject* parent, std::string const& type)
-            : SceneObject(name, parent, type),
-              m_Intensity(1.0f),
-              m_Range(10.0f),
-              m_Angle(0.0f),
-              m_Color(Color::White()),
-              m_LightType(0.0f)
-        {
-            OcularLights->registerLightSource(this);
-        }
 
-        LightSource::~LightSource()
+        GPULight::GPULight()
+            : parameters(Math::Vector4f(0.0f, 0.0f, 0.0f, 0.0f))
         {
-            OcularLights->unregisterLightSource(this);
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
-        void LightSource::setColor(Core::Color const& color)
-        {
-            m_Color = color;
-        }
 
-        Color LightSource::getColor() const
+        void GPULight::operator()(LightSource const* light)
         {
-            return m_Color;
-        }
-
-        void LightSource::setIntensity(float const intensity)
-        {
-            m_Intensity = intensity;
-        }
-
-        float LightSource::getIntensity() const
-        {
-            return m_Intensity;
-        }
-
-        void LightSource::setRange(float const range)
-        {
-            m_Range = range;
-        }
-
-        float LightSource::getRange() const
-        {
-            return m_Range;
-        }
-
-        void LightSource::setAngle(float const angle)
-        {
-            m_Angle = Math::DegreesToRadians(angle);
-        }
-
-        float LightSource::getAngle() const
-        {
-            return Math::RadiansToDegrees(m_Angle);
-        }
-
-        float LightSource::getLightType() const
-        {
-            return m_LightType;
+            if(light)
+            {
+                position     = light->getPosition(false);
+                direction    = light->getTransform().getForwards();
+                color        = light->getColor();
+                parameters.x = light->getIntensity();
+                parameters.y = light->getRange();
+                parameters.z = light->getAngle();
+                parameters.w = light->getLightType();
+            }
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-        
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
-
     }
 }

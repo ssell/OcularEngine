@@ -19,6 +19,8 @@
 #define __H__OCULAR_CORE_LIGHT_MANAGER__H__
 
 #include "Scene/Light/LightSource.hpp"
+#include "Scene/Light/GPULight.hpp"
+#include "Math/Geometry/Frustum.hpp"
 
 #include <vector>
 #include <unordered_map>
@@ -31,6 +33,11 @@
  */
 namespace Ocular
 {
+    namespace Graphics
+    {
+        class GPUBuffer;
+    }
+
     /**
      * \addtogroup Core
      * @{
@@ -51,14 +58,31 @@ namespace Ocular
 
             void updateLights(bool cullVisible = true);
 
+            static const uint32_t LightBufferSlot;    // The GPUBuffer slot used by the LightManager to pass light data
+
         protected:
 
             void registerLightSource(LightSource* light);
             void unregisterLightSource(LightSource* light);
 
             void getVisibleLights(std::vector<LightSource*>& visibleLights, bool cull);
+            bool isLightVisible(LightSource const* light, Math::Frustum const& frustum) const;
+            bool isPointLightVisible(LightSource const* light, Math::Frustum const& frustum) const;
+            bool isSpotlightVisible(LightSource const* light, Math::Frustum const& frustum) const;
+            bool isDirectionalLightVisible(LightSource const* light, Math::Frustum const& frustum) const;
+
+            void buildGPUBuffer(uint32_t visibleCount);
+            void fillGPUBuffer(std::vector<LightSource*> const& visibleLights);
+
+            //------------------------------------------------------------
 
             std::unordered_map<std::string, LightSource*> m_Lights;   // Key is UUID string
+            std::vector<GPULight> m_GPULights;
+
+            Graphics::GPUBuffer* m_GPUBuffer;  // Buffer to store light data for GPU use
+            uint32_t m_BufferLightCapacity;    // Maximum number of lights the current GPU buffer can store
+
+            uint32_t m_PrevNumVisible;
 
         private:
         };

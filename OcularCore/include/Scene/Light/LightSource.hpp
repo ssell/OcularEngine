@@ -90,6 +90,11 @@ namespace Ocular
              */
             float getAngle() const;
 
+            /**
+             * \return 0 = none; 1 = point; 2 = spot; 3 = directional
+             */
+            float getLightType() const;
+
         protected:
 
             LightSource(std::string const& name, SceneObject* parent, std::string const& type);   // Protected as there should be no stand-alone light sources. Must be point, spot, etc.
@@ -101,6 +106,7 @@ namespace Ocular
             float m_Intensity;
             float m_Range;
             float m_Angle;             // Angle is stored internally as radians
+            float m_LightType;
 
         private:
         };
@@ -115,5 +121,4 @@ namespace Ocular
 
 //------------------------------------------------------------------------------------------
 
-#endif #pragma once
-#pragma once
+#endif

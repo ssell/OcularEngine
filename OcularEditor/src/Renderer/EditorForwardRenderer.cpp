@@ -56,6 +56,8 @@ namespace Ocular
 
             sort(objects);
 
+            OcularLights->updateLights(true);
+
             //------------------------------------------------------------
             // Render all objects
             //------------------------------------------------------------

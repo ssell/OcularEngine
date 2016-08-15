@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_LIGHT_DIRECTIONAL__H__
-#define __H__OCULAR_CORE_LIGHT_DIRECTIONAL__H__
+#ifndef __H__OCULAR_CORE_GPU_LIGHT__H__
+#define __H__OCULAR_CORE_GPU_LIGHT__H__
 
-#include "LightSource.hpp"
+#include "Math/Vector4.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -34,23 +34,23 @@ namespace Ocular
      */
     namespace Core
     {
+        class LightSource;
+
         /**
-         * \class DirectionalLight
+         * \struct GPULight
+         * \brief Structure of generic light data passed to the GPU.
+         * \note Must be 16 byte aligned to avoid buffer creation issues and/or performance penalties.
          */
-        class DirectionalLight : public LightSource
+        struct GPULight
         {
-        public:
+            GPULight();
 
-            DirectionalLight(std::string const& name, SceneObject* parent = nullptr);
-            DirectionalLight();
+            void operator()(LightSource const* light);
 
-            virtual ~DirectionalLight();
-
-        protected:
-
-            void exposeProperties();
-
-        private:
+            Math::Vector4f position;
+            Math::Vector4f direction;
+            Math::Vector4f color;
+            Math::Vector4f parameters;  ///< .x = intensity; .y = range; .z = angle (spotlight); .w = type (1 = point, 2 = spot, 3 = directional (0 indicates unused light))
         };
     }
     /**

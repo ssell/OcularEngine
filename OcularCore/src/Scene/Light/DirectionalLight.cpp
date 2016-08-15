@@ -35,12 +35,14 @@ namespace Ocular
         DirectionalLight::DirectionalLight(std::string const& name, SceneObject* parent)
             : LightSource(name, parent, "Directional Light")
         {
+            m_LightType = 3.0f;
             exposeProperties();
         }
 
         DirectionalLight::DirectionalLight()
             : LightSource("Directional Light", nullptr, "Directional Light")
         {
+            m_LightType = 3.0f;
             exposeProperties();
         }
 

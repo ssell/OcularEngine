@@ -34,12 +34,14 @@ namespace Ocular
         SpotLight::SpotLight(std::string const& name, SceneObject* parent)
             : LightSource(name, parent, "Spot Light")
         {
+            m_LightType = 2.0f;
             exposeProperties();
         }
 
         SpotLight::SpotLight()
             : LightSource("Spot Light", nullptr, "Spot Light")
         {
+            m_LightType = 2.0f;
             exposeProperties();
         }
 
