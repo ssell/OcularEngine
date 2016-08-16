@@ -64,6 +64,26 @@ namespace Ocular
             m_PrevNumVisible = static_cast<uint32_t>(visibleLights.size());
         }
 
+        void LightManager::setAmbientLightColor(Color const& color)
+        {
+            m_GPUAmbientLight.color = color;
+        }
+
+        Color LightManager::getAmbientLightColor() const
+        {
+            return m_GPUAmbientLight.color;
+        }
+
+        void LightManager::setAmbientLightIntensity(float const intensity)
+        {
+            m_GPUAmbientLight.parameters.x = intensity;
+        }
+
+        float LightManager::getAmbientLightIntensity() const
+        {
+            return m_GPUAmbientLight.parameters.x;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -221,9 +241,16 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Populate the source buffer
 
+                // Index 0 is always the ambient light properties
+
+                m_GPULights[0] = m_GPUAmbientLight;
+
+                // Fill the dynamic lights
+
                 for(uint32_t i = 0; i < visibleLights.size(); i++)
                 {
-                    m_GPULights[i](visibleLights[i]);
+                    // Offset m_GPULights index by 1 to account for ambient at index 0
+                    m_GPULights[(i + 1)](visibleLights[i]);
                 }
                 
                 //--------------------------------------------------------

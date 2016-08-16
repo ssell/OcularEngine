@@ -58,6 +58,12 @@ namespace Ocular
 
             void updateLights(bool cullVisible = true);
 
+            void setAmbientLightColor(Color const& color);
+            Color getAmbientLightColor() const;
+
+            void setAmbientLightIntensity(float intensity);
+            float getAmbientLightIntensity() const;
+
             static const uint32_t LightBufferSlot;    // The GPUBuffer slot used by the LightManager to pass light data
 
         protected:
@@ -81,8 +87,9 @@ namespace Ocular
 
             Graphics::GPUBuffer* m_GPUBuffer;  // Buffer to store light data for GPU use
             uint32_t m_BufferLightCapacity;    // Maximum number of lights the current GPU buffer can store
+            uint32_t m_PrevNumVisible;         // Number of visible lights at last update (used to determine if we need to clear GPU buffer)
 
-            uint32_t m_PrevNumVisible;
+            GPULight m_GPUAmbientLight;
 
         private:
         };

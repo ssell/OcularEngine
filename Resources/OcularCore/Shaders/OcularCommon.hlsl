@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#ifndef __HLSL_OCULAR_COMMON_HLSL__
+#define __HLSL_OCULAR_COMMON_HLSL__
+
 //------------------------------------------------------------------------------------------
 // Default Constant Buffers
 //------------------------------------------------------------------------------------------
@@ -57,3 +60,16 @@ struct VSInput
     float4 uv2      : TEXCOORD2;            ///< 
     float4 uv3      : TEXCOORD3;            ///< 
 };
+
+//------------------------------------------------------------------------------------------
+// Default Definitions
+//------------------------------------------------------------------------------------------
+
+static const float PI = 3.14159265f;
+static const float PI_UNDER_ONE = 0.31830989f;
+static const float PI_TWO = 6.28318531f;
+static const float PI_TWO_UNDER_ONE = 0.15915494f;
+
+//------------------------------------------------------------------------------------------
+
+#endif

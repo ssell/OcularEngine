@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
- #include "OcularCommon.hlsl"
-
-//------------------------------------------------------------------------------------------
-
-struct GPULight
-{
-    float4 position;
-    float4 direction;
-    float4 color;
-    float4 parameters;    // .x = intensity; .y = range; .z = angle; .w = type (1 = point, 2 = spot, 3 = directional)
-};
-
-StructuredBuffer<GPULight> LightBuffer : register(t8);
+ #include "OcularLighting.hlsl"
 
 //------------------------------------------------------------------------------------------
 // Globals
@@ -36,6 +24,7 @@ struct VSOutput
 {
     float4 position : SV_Position;
     float4 color    : COLOR0;
+    float4 normal   : NORMAL0;
     float4 uv0      : TEXCOORD0;
 };
 
@@ -53,8 +42,10 @@ VSOutput VSMain(VSInput input)
     matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
 
     VSOutput output;
+
     output.position = mul(input.position, mvpMatrix);
-    output.color    = input.color;// * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
+    output.normal   = mul(input.normal, mvpMatrix);
+    output.color    = input.color;
     output.uv0      = input.uv0;
 
     return output;
@@ -64,8 +55,42 @@ VSOutput VSMain(VSInput input)
 // Pixel Shader
 //------------------------------------------------------------------------------------------
 
-float4 PSMain(VSOutput input) : SV_Target
+PSOutput PSMain(VSOutput input)
 {
-    float4 color = LightBuffer[0].color;
-    return color;
+    PSOutput output;
+    output.color = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    //--------------------------------------------------------------------
+    // Calculate lighting
+    //--------------------------------------------------------------------
+
+    const float4 toView = normalize(_EyePosition - input.position);
+    const float4 ambient = _LightBuffer[0].color * _LightBuffer[0].parameters.x;
+
+    float4 radiance = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    // Prepare for loop
+
+    uint lightsCount = 0;
+    uint lightsSize = 0;
+
+    _LightBuffer.GetDimensions(lightsCount, lightsSize);
+
+    // Loop over each dynamic light 
+
+    [loop]
+    for(uint i = 1; i < lightsCount; i++)
+    {
+        const float4 toLight = normalize(_LightBuffer[i].position - input.position);
+        const float4 brdf    = phongBRDF(input.normal, toLight, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
+        const float4 light   = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
+
+        radiance += brdf * light * ccosAngle(input.normal, toLight);
+    }
+
+    output.color = ambient + radiance;
+
+    //--------------------------------------------------------------------
+
+    return output;
 }

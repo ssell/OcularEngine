@@ -51,7 +51,7 @@ VSOutput VSMain(VSInput input)
 
     VSOutput output;
     output.position = mul(input.position, mvpMatrix);
-    output.color    = input.color;// * calcLightingIntensitySimpleCos(input.normal, float4(0.0, 1000.0, 0.0, 1.0)) * 0.75f;
+    output.color    = input.color;
     output.uv0      = input.uv0;
 
     return output;
