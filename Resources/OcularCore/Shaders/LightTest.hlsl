@@ -25,7 +25,7 @@ struct VSOutput
     float4 position : SV_Position;
     float4 color    : COLOR0;
     float4 normal   : NORMAL0;
-    float4 uv0      : TEXCOORD0;
+    float4 worldPos : TEXCOORD0;
 };
 
 struct PSOutput
@@ -43,10 +43,10 @@ VSOutput VSMain(VSInput input)
 
     VSOutput output;
 
-    output.position = mul(input.position, mvpMatrix);
-    output.normal   = mul(input.normal, mvpMatrix);
+    output.worldPos = mul(input.position, _ModelMatrix);
+    output.position = mul(output.worldPos, _ViewProjMatrix);
+    output.normal   = mul(input.normal, _ModelMatrix);
     output.color    = input.color;
-    output.uv0      = input.uv0;
 
     return output;
 }
@@ -64,7 +64,7 @@ PSOutput PSMain(VSOutput input)
     // Calculate lighting
     //--------------------------------------------------------------------
 
-    const float4 toView = normalize(_EyePosition - input.position);
+    const float4 toView = normalize(_EyePosition - input.worldPos);
     const float4 ambient = _LightBuffer[0].color * _LightBuffer[0].parameters.x;
 
     float4 radiance = float4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -81,11 +81,11 @@ PSOutput PSMain(VSOutput input)
     [loop]
     for(uint i = 1; i < lightsCount; i++)
     {
-        const float4 toLight = normalize(_LightBuffer[i].position - input.position);
+        const float4 toLight = normalize(_LightBuffer[i].position - input.worldPos);
         const float4 brdf    = phongBRDF(input.normal, toLight, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
         const float4 light   = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
 
-        radiance += brdf * light * ccosAngle(input.normal, toLight);
+        radiance += brdf * light * ccosAngle(input.normal, toLight);//brdf * light;// * ccosAngle(input.normal, toLight);
     }
 
     output.color = ambient + radiance;
