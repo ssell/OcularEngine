@@ -308,12 +308,14 @@ namespace Ocular
 
                 if(objectEvent)
                 {
-                    // Confirm object still exists (may have been deleted since the event was generated)
-                    Core::SceneObject* object = OcularScene->findObject(objectEvent->uuid);
+                    Core::SceneObject* object = objectEvent->object;
 
                     if(object)
                     {
-                        addObject(object);
+                        if(OcularScene->findObject(object->getUUID()))
+                        {
+                            addObject(object);
+                        }
                     }
                 }
             }

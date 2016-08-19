@@ -46,6 +46,8 @@ namespace Ocular
 
             ~LightSource();
 
+            virtual void onLoad(BuilderNode const* node) override;
+
             /**
              * Sets the light source's color.
              * \param[in] color

@@ -47,6 +47,18 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        void LightSource::onLoad(BuilderNode const* node)
+        {
+            const UUID old = m_UUID;
+
+            SceneObject::onLoad(node);
+
+            if(old != m_UUID)
+            {
+                OcularLights->updateUUID(old);
+            }
+        }
+
         void LightSource::setColor(Core::Color const& color)
         {
             m_Color = color;

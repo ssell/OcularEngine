@@ -109,10 +109,25 @@ namespace Ocular
                 const std::string uuidStr = light->getUUID().toString();
                 auto find = m_Lights.find(uuidStr);
 
-                if(find == m_Lights.end())
+                if(find != m_Lights.end())
                 {
                     m_Lights.erase(find);
                 }
+            }
+        }
+
+        void LightManager::updateUUID(UUID const& uuid)
+        {
+            const std::string uuidStr = uuid.toString();
+            auto find = m_Lights.find(uuidStr);
+
+            if(find != m_Lights.end())
+            {
+                auto object = find->second;
+
+                m_Lights.erase(find);
+
+                m_Lights.insert(std::make_pair(object->getUUID().toString(), object));
             }
         }
 

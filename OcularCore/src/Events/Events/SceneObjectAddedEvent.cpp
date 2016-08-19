@@ -31,7 +31,7 @@ namespace Ocular
         {
             if(object)
             {
-                uuid = object->getUUID();
+                uuid.set(object->getUUID().toString());
             }
         }
 

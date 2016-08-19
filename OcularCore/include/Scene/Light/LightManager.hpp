@@ -70,6 +70,7 @@ namespace Ocular
 
             void registerLightSource(LightSource* light);
             void unregisterLightSource(LightSource* light);
+            void updateUUID(UUID const& uuid);
 
             void getVisibleLights(std::vector<LightSource*>& visibleLights, bool cull);
             bool isLightVisible(LightSource const* light, Math::Frustum const& frustum) const;

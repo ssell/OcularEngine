@@ -213,7 +213,10 @@ namespace Ocular
 
 const Ocular::Utils::ToStringRegistrar<float> OCULAR_INTERNAL_FloatToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<float>(raw));
+    std::stringstream sstream;
+    sstream << void_cast<float>(raw);
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<float> OCULAR_INTERNAL_FloatFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -245,7 +248,10 @@ const Ocular::Utils::FromStringRegistrar<float> OCULAR_INTERNAL_FloatFromStringR
 
 const Ocular::Utils::ToStringRegistrar<double> OCULAR_INTERNAL_DoubleToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<double>(raw));
+    std::stringstream sstream;
+    sstream << void_cast<double>(raw);
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<double> OCULAR_INTERNAL_DoubleFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA

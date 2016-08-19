@@ -109,6 +109,7 @@ namespace Ocular
         UUID::~UUID()
         {
             delete m_Internal;
+            m_Internal = nullptr;
         }
 
         //----------------------------------------------------------------------------------
