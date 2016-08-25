@@ -63,6 +63,7 @@ namespace Ocular
             exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, false, &m_Color);
             exposeVariable("Intensity", Utils::TypeName<float>::name, false, false, &m_Intensity);
             exposeVariable("Range", Utils::TypeName<float>::name, false, false, &m_Range);
+            exposeVariable("Falloff Exponent", Utils::TypeName<float>::name, false, false, &m_FalloffExponent);
         }
 
         //----------------------------------------------------------------------------------

@@ -47,7 +47,7 @@ namespace Ocular
                 parameters.x = light->getIntensity();
                 parameters.y = light->getRange();
                 parameters.z = light->getAngle();
-                parameters.w = light->getLightType();
+                parameters.w = light->getFalloffExponent();
             }
         }
 

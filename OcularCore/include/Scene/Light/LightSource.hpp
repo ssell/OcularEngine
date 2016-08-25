@@ -93,6 +93,24 @@ namespace Ocular
             float getAngle() const;
 
             /**
+             * Sets the falloff exponent for the light source. 
+             *
+             * Smaller exponents result in sharper light sources that maintain
+             * their brightness longer, while larger values create light sources
+             * the dim and lose their intensity faster.
+             *
+             * Used by point and spot lights.
+             *
+             * \param[in] exponent Falloff exponent (default 2.0f).
+             */
+            void setFalloffExponent(float falloff);
+
+            /**
+             * \return The falloff exponent of the light source.
+             */
+            float getFalloffExponent() const;
+
+            /**
              * \return 0 = none; 1 = point; 2 = spot; 3 = directional
              */
             float getLightType() const;
@@ -109,6 +127,7 @@ namespace Ocular
             float m_Range;
             float m_Angle;             // Angle is stored internally as radians
             float m_LightType;
+            float m_FalloffExponent;
 
         private:
         };

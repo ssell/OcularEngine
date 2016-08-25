@@ -250,7 +250,7 @@ namespace Ocular
 
                 if(m_PrevNumVisible > currNumVisible)
                 {
-                    std::fill((m_GPULights.begin() + currNumVisible), (m_GPULights.end() + m_PrevNumVisible), GPULight());
+                    std::fill((m_GPULights.begin() + currNumVisible), (m_GPULights.begin() + m_PrevNumVisible), GPULight());
                 }
                 
                 //--------------------------------------------------------

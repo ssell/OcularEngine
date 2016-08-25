@@ -592,17 +592,26 @@ namespace Ocular
             std::vector<std::string> objectTypes = OcularScene->getSceneObjectFactory().getRegisteredKeys();
             const bool disable = !OcularScene->isSceneActive();
 
+            QMenu* meshSubmenu = submenu->addMenu("Add Mesh");
+            
+            meshSubmenu->addAction("Cube")->setDisabled(disable);
+            meshSubmenu->addAction("Sphere")->setDisabled(disable);
+            meshSubmenu->addAction("Torus")->setDisabled(disable);
+            meshSubmenu->addAction("Plane")->setDisabled(disable);
+
+            QMenu* lightSubmenu = submenu->addMenu("Add Light");
+            
+            lightSubmenu->addAction("Point Light")->setDisabled(disable);
+            lightSubmenu->addAction("Spot Light")->setDisabled(disable);
+            lightSubmenu->addAction("Directional Light")->setDisabled(disable);
+
             for(auto objectType : objectTypes)
             {
-                submenu->addAction(objectType.c_str())->setDisabled(disable);
+                if(!Utils::String::Contains(objectType, " Light"))
+                {
+                    submenu->addAction(objectType.c_str())->setDisabled(disable);
+                }
             }
-
-            submenu->addSeparator();
-            
-            submenu->addAction("Cube")->setDisabled(disable);
-            submenu->addAction("Sphere")->setDisabled(disable);
-            submenu->addAction("Torus")->setDisabled(disable);
-            submenu->addAction("Plane")->setDisabled(disable);
         }
     }
 }

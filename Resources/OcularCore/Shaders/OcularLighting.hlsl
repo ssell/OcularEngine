@@ -26,7 +26,7 @@ struct GPULight
     float4 position;
     float4 direction;
     float4 color;
-    float4 parameters;    // .x = intensity; .y = range; .z = angle; .w = type (1 = point, 2 = spot, 3 = directional)
+    float4 parameters;    // .x = intensity; .y = range; .z = angle; .w = falloff exponent
 };
 
 StructuredBuffer<GPULight> _LightBuffer : register(t8);
@@ -47,6 +47,21 @@ float4 calcLambertianDiffuse(in float4 color)
 float4 calcReflectionVector(in float4 normal, in float4 toLight)
 {
 	return normalize(2.0f * dot(normal, toLight) * normal - toLight);
+}
+
+float calcAttenuation(in float4 toLight, in float falloffExponent, in float range)
+{
+    const float dist = length(toLight);
+	const float attenuation = 1.0f / pow(dist, falloffExponent);
+
+	float rangeMod = 1.0f;
+
+	if(dist > range)
+	{
+		rangeMod = 0.0f;
+	}
+
+	return (attenuation * rangeMod);
 }
 
 /**

@@ -74,6 +74,7 @@ namespace Ocular
 
             void onSceneAddObject();
             void onSceneAddMesh();
+            void onSceneAddLight();
             void onSceneImportObject();
 
             void onHelpAbout();
@@ -85,6 +86,7 @@ namespace Ocular
             QMenu* m_MenuFile;
             QMenu* m_MenuScene;
             QMenu* m_MenuSceneMesh;
+            QMenu* m_MenuSceneLight;
             QMenu* m_MenuHelp;
 
             std::vector<QAction*> m_MenuActions;   ///< Container of all menu actions. Kept for end-of-life cleanup.

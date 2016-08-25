@@ -33,10 +33,14 @@ namespace
     const char* NameTorusMesh  = "Torus";
     const char* NamePlaneMesh  = "Plane";
 
+    const char* NameLightPoint       = "Point Light";
+    const char* NameLightSpot        = "Spot Light";
+    const char* NameLightDirectional = "Directional Light";
+
     // The strings below will eventually be moved into config files
 
     const std::string PathCoreMaterials = "OcularCore/Materials/";
-    const std::string PathCoreMeshes = "OcularCore/Meshes/";
+    const std::string PathCoreMeshes    = "OcularCore/Meshes/";
 }
 
 namespace Ocular
@@ -161,6 +165,23 @@ namespace Ocular
             m_MenuActions.push_back(new QAction(tr(NamePlaneMesh), this));
             m_MenuSceneMesh->addAction(m_MenuActions.back());
             connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddMesh()));
+
+            //------------------------------------------------------------
+            // Light Submenu
+
+            m_MenuSceneLight = m_MenuScene->addMenu(tr("Add Light"));
+
+            m_MenuActions.push_back(new QAction(tr(NameLightPoint), this));
+            m_MenuSceneLight->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddLight()));
+
+            m_MenuActions.push_back(new QAction(tr(NameLightSpot), this));
+            m_MenuSceneLight->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddLight()));
+
+            m_MenuActions.push_back(new QAction(tr(NameLightDirectional), this));
+            m_MenuSceneLight->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneAddLight()));
             
             //------------------------------------------------------------
             // Handlers for Custom SceneObjects
@@ -169,7 +190,7 @@ namespace Ocular
             
             for(auto objectType : objectTypes)
             { 
-                if(!Utils::String::IsEqual(objectType, "SceneObject"))
+                if(!Utils::String::IsEqual(objectType, "SceneObject") && !Utils::String::Contains(objectType, " Light"))
                 {
                     const std::string label = "Add " + objectType;
 
@@ -322,6 +343,17 @@ namespace Ocular
                         renderable->setMesh(PathCoreMeshes + "Plane/Plane");
                     }
                 }
+            }
+        }
+
+        void MainMenuBar::onSceneAddLight()
+        {
+            QAction* action = dynamic_cast<QAction*>(sender());
+
+            if(action)
+            {
+                const std::string text = action->text().toStdString();
+                Core::SceneObject* object = OcularScene->createObjectOfType(text, text);
             }
         }
 

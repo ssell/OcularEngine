@@ -32,6 +32,7 @@ namespace Ocular
               m_Intensity(1.0f),
               m_Range(10.0f),
               m_Angle(0.0f),
+              m_FalloffExponent(2.0f),
               m_Color(Color::White()),
               m_LightType(0.0f)
         {
@@ -97,6 +98,16 @@ namespace Ocular
         float LightSource::getAngle() const
         {
             return Math::RadiansToDegrees(m_Angle);
+        }
+
+        void LightSource::setFalloffExponent(float const falloff)
+        {
+            m_FalloffExponent = fmaxf(0.0f, falloff);
+        }
+
+        float LightSource::getFalloffExponent() const
+        {
+            return m_FalloffExponent;
         }
 
         float LightSource::getLightType() const
