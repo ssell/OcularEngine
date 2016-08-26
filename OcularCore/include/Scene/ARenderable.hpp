@@ -94,6 +94,38 @@ namespace Ocular
              */
             virtual void postRender();
 
+            /** 
+             * Special debug mode pre-render call.
+             *
+             * This method is typically invoked in special debug scenarios and/or inside
+             * of editor preview windows.
+             *
+             * By default, it calls the standard pre-render method.
+             *
+             * \return If return FALSE, rendering will be cancelled.
+             */
+            virtual bool preRenderDebug();
+
+            /** 
+             * Special debug mode render call.
+             *
+             * This method is typically invoked in special debug scenarios and/or inside
+             * of editor preview windows.
+             *
+             * By default, it calls the standard render method.
+             */
+            virtual void renderDebug();
+
+            /** 
+             * Special debug mode post-render call.
+             *
+             * This method is typically invoked in special debug scenarios and/or inside
+             * of editor preview windows.
+             *
+             * By default, it calls the standard post-render method.
+             */
+            virtual void postRenderDebug();
+
             /**
              *
              */

@@ -208,6 +208,11 @@ namespace Ocular
             m_Debug.addLine(start, stop, color, lifetime);
         }
 
+        void GraphicsDriver::drawDebugCircle(Math::Vector3f const& center, float radius, Math::Vector3f const& normal, Core::Color const& color, uint32_t const segments, uint64_t const lifetime)
+        {
+            m_Debug.addCircle(center, radius, normal, color, segments, lifetime);
+        }
+
         void GraphicsDriver::renderDebug()
         {
             m_Debug.render();

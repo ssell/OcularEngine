@@ -741,9 +741,6 @@
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp">
       <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Debug\DebugGraphics.cpp">
-      <Filter>Source Files\Graphics\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Scene\Light\LightManager.cpp">
       <Filter>Source Files\Scene\Light</Filter>
     </ClCompile>
@@ -763,6 +760,12 @@
       <Filter>Source Files\Graphics\Shader\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="GPULight.cpp">
+      <Filter>Source Files\Scene\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\DebugGraphics\DebugGraphics.cpp">
+      <Filter>Source Files\Graphics\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Light\PointLightRenderable.cpp">
       <Filter>Source Files\Scene\Light</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1370,9 +1373,6 @@
     <ClInclude Include="..\..\include\Threads\ThreadManager.hpp">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Graphics\Debug\DebugGraphics.hpp">
-      <Filter>Header Files\Graphics\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Scene\Light\LightManager.hpp">
       <Filter>Header Files\Scene\Light</Filter>
     </ClInclude>
@@ -1392,6 +1392,12 @@
       <Filter>Header Files\Graphics\Shader\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\Light\GPULight.hpp">
+      <Filter>Header Files\Scene\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\DebugGraphics\DebugGraphics.hpp">
+      <Filter>Header Files\Graphics\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Light\PointLightRenderable.hpp">
       <Filter>Header Files\Scene\Light</Filter>
     </ClInclude>
   </ItemGroup>

@@ -44,7 +44,7 @@ namespace Ocular
         static const double EPSILON_DOUBLE = 0.0001;
         static const float  EPSILON_FLOAT  = 0.0001f;
 
-        static const float RAY_LINE_LENGTH = 1000000000000.0f;  ///< When operations require a ray to be converted to a line, this is the length of the line used.
+        static const float RAY_LINE_LENGTH = 1000000000000.0f;    ///< When operations require a ray to be converted to a line, this is the length of the line used.
 
         static const float NORMAL_RANGE      = 1000000000000.0f;  ///< Assumed maximum range in a scene. Used for value normalization when calculation morton codes.
         static const float HALF_NORMAL_RANGE =  500000000000.0f;

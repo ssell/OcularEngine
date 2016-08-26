@@ -57,28 +57,36 @@ namespace Ocular
 
             if(m_D3DDevice)
             {
-                if(m_D3DIndexBuffer)
+                if(m_Indices.size())
                 {
-                    // Rebuilding the buffer? Release the old one
-                    m_D3DIndexBuffer->Release();
-                    m_D3DIndexBuffer = nullptr;
+                    if(m_D3DIndexBuffer)
+                    {
+                        // Rebuilding the buffer? Release the old one
+                        m_D3DIndexBuffer->Release();
+                        m_D3DIndexBuffer = nullptr;
+                    }
+
+                    D3D11_BUFFER_DESC bufferDescr;
+                    ZeroMemory(&bufferDescr, sizeof(D3D11_BUFFER_DESC));
+                    bufferDescr.Usage = D3D11_USAGE_DEFAULT;
+                    bufferDescr.ByteWidth = static_cast<uint32_t>(sizeof(uint32_t) * m_Indices.size());
+                    bufferDescr.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+                    D3D11_SUBRESOURCE_DATA bufferData;
+                    ZeroMemory(&bufferData, sizeof(D3D11_SUBRESOURCE_DATA));
+                    bufferData.pSysMem = &m_Indices[0];
+
+                    const HRESULT hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &bufferData, &m_D3DIndexBuffer);
+
+                    if(hResult != S_OK)
+                    {
+                        OcularLogger->error("Failed to create D3D11 Index Buffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "build"));
+                        result = false;
+                    }
                 }
-
-                D3D11_BUFFER_DESC bufferDescr;
-                ZeroMemory(&bufferDescr, sizeof(D3D11_BUFFER_DESC));
-                bufferDescr.Usage     = D3D11_USAGE_DEFAULT;
-                bufferDescr.ByteWidth = static_cast<uint32_t>(sizeof(uint32_t) * m_Indices.size());
-                bufferDescr.BindFlags = D3D11_BIND_INDEX_BUFFER;
-                
-                D3D11_SUBRESOURCE_DATA bufferData;
-                ZeroMemory(&bufferData, sizeof(D3D11_SUBRESOURCE_DATA));
-                bufferData.pSysMem = &m_Indices[0];
-
-                const HRESULT hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &bufferData, &m_D3DIndexBuffer);
-
-                if(hResult != S_OK)
+                else
                 {
-                    OcularLogger->error("Failed to create D3D11 Index Buffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "build"));
+                    OcularLogger->error("Index Buffer must have at least one index", OCULAR_INTERNAL_LOG("D3D11IndexBuffer", "build"));
                     result = false;
                 }
             }

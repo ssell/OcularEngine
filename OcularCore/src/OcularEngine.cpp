@@ -95,7 +95,6 @@ namespace Ocular
 
         m_GraphicsDriver = std::shared_ptr<Graphics::GraphicsDriver>(driver);
 
-        m_ResourceManager->initialize();
         m_CameraManager->initialize();  // Calls OcularGraphics
 
         m_IsRunning = true;

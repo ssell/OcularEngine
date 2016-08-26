@@ -46,7 +46,14 @@ namespace Ocular
             ForwardRenderer();
             virtual ~ForwardRenderer();
 
+            /**
+             * Invokes the debug version of the render methods.
+             */
             virtual void render(std::vector<Core::SceneObject*>& objects) override;
+
+            /**
+             * Invokes the debug version of the render methods.
+             */
             virtual void render(std::vector<Core::SceneObject*>& objects, Graphics::Material* material) override;
 
         protected:

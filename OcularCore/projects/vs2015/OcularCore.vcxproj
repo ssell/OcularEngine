@@ -187,7 +187,7 @@
     <ClCompile Include="..\..\src\Events\Events\WindowResizeEvent.cpp" />
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
-    <ClCompile Include="..\..\src\Graphics\Debug\DebugGraphics.cpp" />
+    <ClCompile Include="..\..\src\Graphics\DebugGraphics\DebugGraphics.cpp" />
     <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp" />
@@ -304,6 +304,7 @@
     <ClCompile Include="..\..\src\Scene\Light\LightManager.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\LightSource.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\PointLight.cpp" />
+    <ClCompile Include="..\..\src\Scene\Light\PointLightRenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\SpotLight.cpp" />
     <ClCompile Include="..\..\src\Scene\Renderables\MeshRenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\Routines\FreeFlyController.cpp" />
@@ -347,7 +348,7 @@
     <ClInclude Include="..\..\include\Exceptions\FileReadWriteException.hpp" />
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
-    <ClInclude Include="..\..\include\Graphics\Debug\DebugGraphics.hpp" />
+    <ClInclude Include="..\..\include\Graphics\DebugGraphics\DebugGraphics.hpp" />
     <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />
@@ -503,6 +504,7 @@
     <ClInclude Include="..\..\include\Scene\Light\LightSource.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\LightManager.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\PointLight.hpp" />
+    <ClInclude Include="..\..\include\Scene\Light\PointLightRenderable.hpp" />
     <ClInclude Include="..\..\include\Scene\Light\SpotLight.hpp" />
     <ClInclude Include="..\..\include\Scene\RenderableRegistrar.hpp" />
     <ClInclude Include="..\..\include\Scene\Renderables\MeshRenderable.hpp" />

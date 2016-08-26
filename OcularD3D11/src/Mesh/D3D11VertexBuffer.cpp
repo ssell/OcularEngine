@@ -55,28 +55,36 @@ namespace Ocular
 
             if(m_D3DDevice)
             {
-                if(m_D3DVertexBuffer)
+                if(m_Vertices.size())
                 {
-                    // Rebuilding the buffer? Release the old one
-                    m_D3DVertexBuffer->Release();
-                    m_D3DVertexBuffer = nullptr;
+                    if(m_D3DVertexBuffer)
+                    {
+                        // Rebuilding the buffer? Release the old one
+                        m_D3DVertexBuffer->Release();
+                        m_D3DVertexBuffer = nullptr;
+                    }
+
+                    D3D11_BUFFER_DESC bufferDescr;
+                    ZeroMemory(&bufferDescr, sizeof(D3D11_BUFFER_DESC));
+                    bufferDescr.Usage = D3D11_USAGE_DEFAULT;
+                    bufferDescr.ByteWidth = static_cast<uint32_t>(sizeof(Vertex) * m_Vertices.size());
+                    bufferDescr.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+                    D3D11_SUBRESOURCE_DATA bufferData;
+                    ZeroMemory(&bufferData, sizeof(D3D11_SUBRESOURCE_DATA));
+                    bufferData.pSysMem = &m_Vertices[0];
+
+                    const HRESULT hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &bufferData, &m_D3DVertexBuffer);
+
+                    if(hResult != S_OK)
+                    {
+                        OcularLogger->error("Failed to create D3D11 Vertex Buffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
+                        result = false;
+                    }
                 }
-
-                D3D11_BUFFER_DESC bufferDescr;
-                ZeroMemory(&bufferDescr, sizeof(D3D11_BUFFER_DESC));
-                bufferDescr.Usage = D3D11_USAGE_DEFAULT;
-                bufferDescr.ByteWidth = static_cast<uint32_t>(sizeof(Vertex) * m_Vertices.size());
-                bufferDescr.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-                
-                D3D11_SUBRESOURCE_DATA bufferData;
-                ZeroMemory(&bufferData, sizeof(D3D11_SUBRESOURCE_DATA));
-                bufferData.pSysMem = &m_Vertices[0];
-
-                const HRESULT hResult = m_D3DDevice->CreateBuffer(&bufferDescr, &bufferData, &m_D3DVertexBuffer);
-
-                if(hResult != S_OK)
+                else
                 {
-                    OcularLogger->error("Failed to create D3D11 Vertex Buffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
+                    OcularLogger->error("Vertex Buffer must have at least one vertex", OCULAR_INTERNAL_LOG("D3D11VertexBuffer", "build"));
                     result = false;
                 }
             }

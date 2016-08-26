@@ -75,6 +75,21 @@ namespace Ocular
 
         }
 
+        bool ARenderable::preRenderDebug()
+        {
+            return preRender();
+        }
+
+        void ARenderable::renderDebug()
+        {
+            render();
+        }
+
+        void ARenderable::postRenderDebug()
+        {
+            postRender();
+        }
+
         void ARenderable::updateBounds()
         {
 

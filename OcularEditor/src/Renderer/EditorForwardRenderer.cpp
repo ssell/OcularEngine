@@ -73,12 +73,12 @@ namespace Ocular
 
                 if(renderable)
                 {
-                    if(renderable->preRender())
+                    if(renderable->preRenderDebug())
                     {
                         bindUniforms(object);
 
-                        renderable->render();
-                        renderable->postRender();
+                        renderable->renderDebug();
+                        renderable->postRenderDebug();
                     }
                 }
             }

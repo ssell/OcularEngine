@@ -34,7 +34,7 @@
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Viewport.hpp"
 
-#include "Graphics/Debug/DebugGraphics.hpp"
+#include "Graphics/DebugGraphics/DebugGraphics.hpp"
 
 #include "Scene/SceneObject.hpp"
 
@@ -289,6 +289,18 @@ namespace Ocular
              * \param[in] lifetime Length of time (in milliseconds) the line should be drawn. Lifetime of 0 indicates the line will persist forever.
              */
             virtual void drawDebugLine(Math::Vector3f const& start, Math::Vector3f const& stop, Core::Color const& color, uint64_t lifetime = 30000);
+
+            /**
+             * Draws a 3D circle on all viewports that lasts for the specified length of time.
+             *
+             * \param[in] center   Center of the circle in world coordinates.
+             * \param[in] radius   Radius of the circle in units.
+             * \param[in] normal   Normal of the circle's surface.
+             * \param[in] color    Color of the circle.
+             * \param[in] segments Number of individual segments that comprise the circle. Minimum of 3.
+             * \param[in] lifetime Length of time (in milliseconds) the line should be drawn. Lifetime of 0 indicates the line will persist forever.
+             */
+            virtual void drawDebugCircle(Math::Vector3f const& center, float radius, Math::Vector3f const& normal, Core::Color const& color, uint32_t segments = 64, uint64_t lifetime = 30000);
 
             /**
              * Renders all debug shapes.
