@@ -15,6 +15,7 @@
  */
 
 #include "Scene/Light/PointLight.hpp"
+#include "Scene/Light/PointLightRenderable.hpp"
 #include "Scene/SceneObjectRegistrar.hpp"
 
 #include "OcularEngine.hpp"
@@ -36,6 +37,8 @@ namespace Ocular
         {
             m_LightType = 1.0f;
             exposeProperties();
+            
+            setRenderable(new PointLightRenderable());
         }
 
         PointLight::PointLight()
@@ -43,6 +46,8 @@ namespace Ocular
         {
             m_LightType = 1.0f;
             exposeProperties();
+
+            setRenderable(new PointLightRenderable());
         }
 
         PointLight::~PointLight()

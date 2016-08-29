@@ -15,10 +15,13 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_CORE_LIGHT_POINT__H__
-#define __H__OCULAR_CORE_LIGHT_POINT__H__
+#ifndef __H__OCULAR_CORE_RENDERABLE_POINT_LIGHT__H__
+#define __H__OCULAR_CORE_RENDERABLE_POINT_LIGHT__H__
 
 #include "Scene/ARenderable.hpp"
+
+#include "Math/Quaternion.hpp"
+#include "Math/Vector3.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,18 +31,18 @@
  */
 namespace Ocular
 {
+    namespace Graphics
+    {
+        class Material;
+        class Mesh;
+    }
+
     /**
      * \addtogroup Core
      * @{
      */
     namespace Core
     {
-        namespace Graphics
-        {
-            class Material;
-            class Mesh;
-        }
-
         /**
          * \class PointLightRenderable
          *
@@ -64,12 +67,16 @@ namespace Ocular
 
             bool buildExtentsMaterial();
             bool buildExtentsMesh();
-            bool buildExtentsIndexBuffer();
 
             // Graphics objects used to render the optional light extents rings
 
-            Graphics::Material* m_ExtentsMaterial;
-            Graphics::Mesh* m_ExtentsMesh;
+            static Graphics::Material* m_ExtentsMaterial;
+            static Graphics::Mesh* m_ExtentsMesh;
+
+            static uint32_t m_InternalReference;
+
+            Math::Quaternion m_StoredRotation;
+            Math::Vector3f m_StoredScale;
 
         private:
         };

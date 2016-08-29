@@ -76,7 +76,7 @@ float ccosAngle(in float4 vecA, in float4 vecB)
  * Implementation of the Phong BRDF.
  *
  * Is reflection-vector-based instead of half-vector-based. 
- * A more realistic, half-vector implementation is the blinnPhoneBRDF function.
+ * A more realistic, half-vector implementation is the blinnPhongBRDF function.
  *
  * \param[in] normal    The macroscopic surface normal. (n)
  * \param[in] toLight   Normalized direction vector pointing to the light source. (l)

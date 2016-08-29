@@ -602,6 +602,7 @@ namespace Ocular
                 {
                     removeRenderable();
                     m_Renderable = renderable;
+                    m_Renderable->m_Parent = this;
                 }
                 else
                 {

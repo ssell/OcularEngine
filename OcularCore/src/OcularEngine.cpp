@@ -81,10 +81,6 @@ namespace Ocular
 
     bool Engine::initialize(Graphics::GraphicsDriver* driver)
     {
-        {
-            CoreDynamicRegistration coreDynamicRegistration;
-        }
-
         // This method, and entire class, is really messy and needs cleaning up
 
         setupLogger();
@@ -98,6 +94,10 @@ namespace Ocular
         m_CameraManager->initialize();  // Calls OcularGraphics
 
         m_IsRunning = true;
+
+        {
+            CoreDynamicRegistration coreDynamicRegistration;
+        }
 
         return true;
     }
