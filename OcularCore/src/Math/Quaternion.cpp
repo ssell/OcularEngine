@@ -37,14 +37,26 @@ namespace Ocular
 
             if(raw)
             {
-                Quaternion* quat = void_cast<Quaternion*>(raw);
-
-                if(quat)
+                if(!isPointer)
                 {
+                    Quaternion quat = void_cast<Quaternion>(raw);
+                    
                     std::stringstream sstream;
-                    sstream << quat->x() << " " << quat->y() << " " << quat->z() << " " << quat->w();
-
+                    sstream << quat.x() << " " << quat.y() << " " << quat.z() << " " << quat.w();
+                    
                     result = sstream.str();
+                }
+                else
+                {
+                    Quaternion* quat = void_cast<Quaternion*>(raw);
+
+                    if(quat)
+                    {
+                        std::stringstream sstream;
+                        sstream << quat->x() << " " << quat->y() << " " << quat->z() << " " << quat->w();
+
+                        result = sstream.str();
+                    }
                 }
             }
 

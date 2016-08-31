@@ -36,18 +36,34 @@ namespace Ocular
 
             if(raw)
             {
-                Matrix3x3* matrix = void_cast<Matrix3x3*>(raw);
-
-                if(matrix)
+                if(!isPointer)
                 {
+                    Matrix3x3 matrix = void_cast<Matrix3x3>(raw);
+
                     std::stringstream sstream;
 
                     for(uint32_t i = 0; i < 9; i++)
                     {
-                        sstream << matrix->getElement(i) << " ";
+                        sstream << matrix.getElement(i) << " ";
                     }
 
                     result = sstream.str();
+                }
+                else
+                {
+                    Matrix3x3* matrix = void_cast<Matrix3x3*>(raw);
+
+                    if(matrix)
+                    {
+                        std::stringstream sstream;
+
+                        for(uint32_t i = 0; i < 9; i++)
+                        {
+                            sstream << matrix->getElement(i) << " ";
+                        }
+
+                        result = sstream.str();
+                    }
                 }
             }
 

@@ -32,11 +32,19 @@ namespace Ocular
 
             if(raw)
             {
-                Directory* file = void_cast<Directory*>(raw);
-
-                if(file)
+                if(!isPointer)
                 {
-                    result = file->getFullPath();
+                    Directory file = void_cast<Directory>(raw);
+                    result = file.getFullPath();
+                }
+                else
+                {
+                    Directory* file = void_cast<Directory*>(raw);
+
+                    if(file)
+                    {
+                        result = file->getFullPath();
+                    }
                 }
             }
 

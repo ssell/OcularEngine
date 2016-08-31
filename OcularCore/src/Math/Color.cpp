@@ -30,14 +30,26 @@ namespace Ocular
 
             if(raw)
             {
-                Color* color = void_cast<Color*>(raw);
-                
-                if(color)
+                if(!isPointer)
                 {
+                    Color color = void_cast<Color>(raw);
+                    
                     std::stringstream sstream;
-                    sstream << color->x << " " << color->y << " " << color->z << " " << color->w;
-
+                    sstream << color.x << " " << color.y << " " << color.z << " " << color.w;
+                    
                     result = sstream.str();
+                }
+                else
+                {
+                    Color* color = void_cast<Color*>(raw);
+
+                    if(color)
+                    {
+                        std::stringstream sstream;
+                        sstream << color->x << " " << color->y << " " << color->z << " " << color->w;
+
+                        result = sstream.str();
+                    }
                 }
             }
 

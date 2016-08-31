@@ -30,14 +30,26 @@ namespace Ocular
 
             if(raw)
             {
-                Vector3f* vector = void_cast<Vector3f*>(raw);
-                
-                if(vector)
+                if(!isPointer)
                 {
+                    Vector3f vector = void_cast<Vector3f>(raw);
+
                     std::stringstream sstream;
-                    sstream << vector->x << " " << vector->y << " " << vector->z;
+                    sstream << vector.x << " " << vector.y << " " << vector.z;
 
                     result = sstream.str();
+                }
+                else
+                {
+                    Vector3f* vector = void_cast<Vector3f*>(raw);
+
+                    if(vector)
+                    {
+                        std::stringstream sstream;
+                        sstream << vector->x << " " << vector->y << " " << vector->z;
+
+                        result = sstream.str();
+                    }
                 }
             }
 
