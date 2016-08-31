@@ -153,11 +153,12 @@ namespace Ocular
              *
              * See also the bool return variant of this method.
              *
-             * \param[in] data Object to convert to a string
+             * \param[in] data      Object to convert to a string
+             * \param[in] isPointer TRUE if data is a pointer
              * \return String representation of the object, or an empty string if no conversion was available.
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, std::string>::type toString(T const& data) const
+            typename std::enable_if<!std::is_pointer<T>::value, std::string>::type toString(T const& data, bool isPointer = false) const
             {
                 std::string result;
 
@@ -166,7 +167,7 @@ namespace Ocular
 
                 if(find != m_ToFunctions.end())
                 {
-                    result = find->second(void_cast<T>(data));
+                    result = find->second(void_cast<T>(data), isPointer);
                 }
 
                 return result;
@@ -179,13 +180,14 @@ namespace Ocular
              * registered (via registerToString). If no matching function has been registered, then
              * FALSE is returned.
              *
-             * \param[in]  data Object to convert to a string
+             * \param[in]  data     Object to convert to a string
+             * \param[in]  isPointer TRUE if data is a pointer
              * \param[out] str
              *
              * \return Returns TRUE if a matching 'ToString' function was found, else FALSE.
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, bool>::type toString(T const& data, std::string& str) const
+            typename std::enable_if<!std::is_pointer<T>::value, bool>::type toString(T const& data, std::string& str, bool isPointer = false) const
             {
                 bool result = false;
 
@@ -194,7 +196,7 @@ namespace Ocular
 
                 if(find != m_ToFunctions.end())
                 {
-                    str = find->second(void_cast<T>(data));
+                    str = find->second(void_cast<T>(data), isPointer);
                     result = true;
                 }
 
@@ -208,12 +210,13 @@ namespace Ocular
              * registered (via registerToString) for the provided type. If no matching function has
              * been registered, then an empty string is returned.
              *
-             * \param[in] type String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
-             * \param[in] data Data to be converted to string
+             * \param[in] type      String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
+             * \param[in] data      Data to be converted to string
+             * \param[in] isPointer TRUE if data is a pointer
              * 
              * \return String representation of the object, or an empty string if no conversion was available.
              */
-            std::string toString(std::string const& type, void* data) const
+            std::string toString(std::string const& type, void* data, bool isPointer = false) const
             {
                 std::string result;
 
@@ -223,7 +226,7 @@ namespace Ocular
 
                     if(find != m_ToFunctions.end())
                     {
-                        result = find->second(data);
+                        result = find->second(data, isPointer);
                     }
                 }
 
@@ -237,13 +240,14 @@ namespace Ocular
              * registered (via registerToString). If no matching function has been registered, then
              * FALSE is returned.
              *
-             * \param[in]  type String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
-             * \param[in]  data Data to be converted to string
+             * \param[in]  type      String representation of the data type. See OCULAR_TYPE macro and/or Utils::TypeName template. Case-sensitive.
+             * \param[in]  data      Data to be converted to string
+             * \param[in]  isPointer TRUE if data is a pointer
              * \param[out] str
              *
              * \return Returns TRUE if a matching 'ToString' function was found, else returns FALSE.
              */
-            bool toString(std::string const& type, void* data, std::string& str) const
+            bool toString(std::string const& type, void* data, std::string& str, bool isPointer = false) const
             {
                 bool result = false;
 
@@ -253,7 +257,7 @@ namespace Ocular
 
                     if(find != m_ToFunctions.end())
                     {
-                        str = find->second(data);
+                        str = find->second(data, isPointer);
                         result = true;
                     }
                 }
@@ -357,7 +361,7 @@ namespace Ocular
              * For more information, see the OCULAR_REGISTER_TO_STRING helper macro defined in 'Utilities/StringRegistrar.hpp'
              */
             template<typename T>
-            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerToString(std::function<std::string(void*)> func)
+            typename std::enable_if<!std::is_pointer<T>::value, void>::type registerToString(std::function<std::string(void*, bool)> func)
             {
                 const std::string tStr = TypeName<T>::name;
                 auto find = m_ToFunctions.find(tStr);
@@ -389,7 +393,7 @@ namespace Ocular
 
         private:
 
-            std::unordered_map<std::string, std::function<std::string(void*)>> m_ToFunctions;
+            std::unordered_map<std::string, std::function<std::string(void*, bool)>> m_ToFunctions;
             std::unordered_map<std::string, std::function<void(std::string const&, void*)>> m_FromFunctions;
         };
     }

@@ -65,10 +65,10 @@ namespace Ocular
         
         void PointLight::exposeProperties()
         {
-            exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, false, &m_Color);
-            exposeVariable("Intensity", Utils::TypeName<float>::name, false, false, &m_Intensity);
-            exposeVariable("Range", Utils::TypeName<float>::name, false, false, &m_Range);
-            exposeVariable("Falloff Exponent", Utils::TypeName<float>::name, false, false, &m_FalloffExponent);
+            OCULAR_EXPOSE(m_Color);
+            OCULAR_EXPOSE(m_Intensity);
+            OCULAR_EXPOSE(m_Range);
+            OCULAR_EXPOSE(m_FalloffExponent);
         }
 
         //----------------------------------------------------------------------------------

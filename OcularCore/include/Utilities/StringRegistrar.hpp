@@ -39,7 +39,7 @@ namespace Ocular
         {
         public:
 
-            ToStringRegistrar(std::function<std::string(void*)> func)
+            ToStringRegistrar(std::function<std::string(void*, bool)> func)
             {
                 OcularString->registerToString<T>(func);
             }
@@ -99,7 +99,7 @@ namespace Ocular
  *
  *     OCULAR_REGISTER_TO_STRING(float, OCULAR_TO_STRING_LAMBDA { ... });
  */
-#define OCULAR_TO_STRING_LAMBDA [](void* raw)->std::string
+#define OCULAR_TO_STRING_LAMBDA [](void* raw, bool isPointer)->std::string
 
 /**
  * Helper macro to make registering FromString lambda functions easier.

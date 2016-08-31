@@ -213,8 +213,20 @@ namespace Ocular
 
 const Ocular::Utils::ToStringRegistrar<float> OCULAR_INTERNAL_FloatToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    float value = 0.0f;
+
+    if(!isPointer)
+    {
+        value = void_cast<float>(raw);
+    }
+    else
+    {
+        float* ptr = void_cast<float*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<float>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -248,8 +260,20 @@ const Ocular::Utils::FromStringRegistrar<float> OCULAR_INTERNAL_FloatFromStringR
 
 const Ocular::Utils::ToStringRegistrar<double> OCULAR_INTERNAL_DoubleToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    double value = 0.0;
+
+    if(!isPointer)
+    {
+        value = void_cast<double>(raw);
+    }
+    else
+    {
+        double* ptr = void_cast<double*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<double>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -283,8 +307,20 @@ const Ocular::Utils::FromStringRegistrar<double> OCULAR_INTERNAL_DoubleFromStrin
 
 const Ocular::Utils::ToStringRegistrar<int8_t> OCULAR_INTERNAL_Int8ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    int8_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<int8_t>(raw);
+    }
+    else
+    {
+        int8_t* ptr = void_cast<int8_t*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<int8_t>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -310,8 +346,20 @@ const Ocular::Utils::FromStringRegistrar<int8_t> OCULAR_INTERNAL_Int8FromStringR
 
 const Ocular::Utils::ToStringRegistrar<uint8_t> OCULAR_INTERNAL_UInt8ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    uint8_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<uint8_t>(raw);
+    }
+    else
+    {
+        uint8_t* ptr = void_cast<uint8_t*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<uint8_t>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -337,8 +385,20 @@ const Ocular::Utils::FromStringRegistrar<uint8_t> OCULAR_INTERNAL_UInt8FromStrin
 
 const Ocular::Utils::ToStringRegistrar<int16_t> OCULAR_INTERNAL_Int16ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    int16_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<int16_t>(raw);
+    }
+    else
+    {
+        int16_t* ptr = void_cast<int16_t*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<int16_t>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -364,8 +424,20 @@ const Ocular::Utils::FromStringRegistrar<int16_t> OCULAR_INTERNAL_Int16FromStrin
 
 const Ocular::Utils::ToStringRegistrar<uint16_t> OCULAR_INTERNAL_UInt16ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
+    uint16_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<uint16_t>(raw);
+    }
+    else
+    {
+        uint16_t* ptr = void_cast<uint16_t*>(raw);
+        value = *ptr;
+    }
+
     std::stringstream sstream;
-    sstream << void_cast<uint16_t>(raw);
+    sstream << value;
 
     return sstream.str();
 });
@@ -391,7 +463,22 @@ const Ocular::Utils::FromStringRegistrar<uint16_t> OCULAR_INTERNAL_UInt16FromStr
 
 const Ocular::Utils::ToStringRegistrar<int32_t> OCULAR_INTERNAL_Int32ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<int32_t>(raw));
+    int32_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<int32_t>(raw);
+    }
+    else
+    {
+        int32_t* ptr = void_cast<int32_t*>(raw);
+        value = *ptr;
+    }
+
+    std::stringstream sstream;
+    sstream << value;
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<int32_t> OCULAR_INTERNAL_Int32FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -423,7 +510,22 @@ const Ocular::Utils::FromStringRegistrar<int32_t> OCULAR_INTERNAL_Int32FromStrin
 
 const Ocular::Utils::ToStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<uint32_t>(raw));
+    uint32_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<uint32_t>(raw);
+    }
+    else
+    {
+        uint32_t* ptr = void_cast<uint32_t*>(raw);
+        value = *ptr;
+    }
+
+    std::stringstream sstream;
+    sstream << value;
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -455,7 +557,22 @@ const Ocular::Utils::FromStringRegistrar<uint32_t> OCULAR_INTERNAL_UInt32FromStr
 
 const Ocular::Utils::ToStringRegistrar<int64_t> OCULAR_INTERNAL_Int64ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<int64_t>(raw));
+    int64_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<int64_t>(raw);
+    }
+    else
+    {
+        int64_t* ptr = void_cast<int64_t*>(raw);
+        value = *ptr;
+    }
+
+    std::stringstream sstream;
+    sstream << value;
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<int64_t> OCULAR_INTERNAL_Int64FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -487,7 +604,22 @@ const Ocular::Utils::FromStringRegistrar<int64_t> OCULAR_INTERNAL_Int64FromStrin
 
 const Ocular::Utils::ToStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64ToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return std::to_string(void_cast<uint64_t>(raw));
+    uint64_t value = 0;
+
+    if(!isPointer)
+    {
+        value = void_cast<uint64_t>(raw);
+    }
+    else
+    {
+        uint64_t* ptr = void_cast<uint64_t*>(raw);
+        value = *ptr;
+    }
+
+    std::stringstream sstream;
+    sstream << value;
+
+    return sstream.str();
 });
 
 const Ocular::Utils::FromStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64FromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -519,8 +651,19 @@ const Ocular::Utils::FromStringRegistrar<uint64_t> OCULAR_INTERNAL_UInt64FromStr
 
 const Ocular::Utils::ToStringRegistrar<bool> OCULAR_INTERNAL_BoolToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    bool cast = *static_cast<bool*>(raw);
-    return (cast ? "true" : "false");
+    bool value = false;
+
+    if(!isPointer)
+    {
+        value = void_cast<bool>(raw);
+    }
+    else
+    {
+        bool* ptr = void_cast<bool*>(raw);
+        value = *ptr;
+    }
+
+    return (value ? "true" : "false");
 });
 
 const Ocular::Utils::FromStringRegistrar<bool> OCULAR_INTERNAL_BoolFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA
@@ -547,7 +690,19 @@ const Ocular::Utils::FromStringRegistrar<bool> OCULAR_INTERNAL_BoolFromStringReg
 
 const Ocular::Utils::ToStringRegistrar<std::string> OCULAR_INTERNAL_StringToStringRegister(OCULAR_TO_STRING_LAMBDA
 {
-    return void_cast<std::string>(raw);
+    std::string result;
+
+    if(!isPointer)
+    {
+        result = void_cast<std::string>(raw);
+    }
+    else
+    {
+        std::string* ptr = void_cast<std::string*>(raw);
+        result = *ptr;
+    }
+
+    return result;
 });
 
 const Ocular::Utils::FromStringRegistrar<std::string> OCULAR_INTERNAL_StringFromStringRegistrar(OCULAR_FROM_STRING_LAMBDA

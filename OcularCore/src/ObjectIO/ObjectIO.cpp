@@ -118,7 +118,7 @@ namespace Ocular
                         {
                             if(!variable->isPointer)
                             {
-                                node->addChild(variable->name, variable->type, OcularString->toString(variable->type, variable->data));
+                                node->addChild(variable->name, variable->type, OcularString->toString(variable->type, variable->data, true));
                             }
                         }
                     }
