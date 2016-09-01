@@ -826,9 +826,16 @@ namespace Ocular
                     if(childNode)
                     {
                         SceneObject* child = OcularScene->createObjectOfType(childNode->getType(), "", this);
-                        addChild(child);
 
-                        child->onLoad(childNode);
+                        if(child)
+                        {
+                            addChild(child);
+                            child->onLoad(childNode);
+                        }
+                        else
+                        {
+                            OcularLogger->error("Failed to create child object of type '", childNode->getType(), "'", OCULAR_INTERNAL_LOG("SceneObject", "onLoad"));
+                        }
                     }
                 }
             }

@@ -240,6 +240,8 @@ namespace Ocular
 
         void MainMenuBar::onFileNewScene()
         {
+            m_LastScenePath.clear();
+
             OcularEvents->queueEvent(std::make_shared<SceneObjectSelectedEvent>(nullptr));
             OcularScene->createScene("New Scene");
         }
@@ -264,6 +266,8 @@ namespace Ocular
 
         void MainMenuBar::onFileSaveScene()
         {
+            OcularEditor.setSelectedObject(nullptr);
+
             if(m_LastScenePath.size())
             {
                 OcularScene->saveScene(Core::File(m_LastScenePath));
@@ -276,14 +280,19 @@ namespace Ocular
 
         void MainMenuBar::onFileSaveSceneAs()
         {
+            OcularEditor.setSelectedObject(nullptr);
+
             const std::string searchPath = (m_LastScenePath.size() ? m_LastScenePath : OcularResources->getSourceDirectory());
             const std::string path = QFileDialog::getSaveFileName(this, tr("Save Scene"), searchPath.c_str(), tr("Ocular Scene Files (*.oscene)")).toStdString();
 
-            Core::File saveFile(path);
-
-            if(OcularScene->saveScene(saveFile))
+            if(path.size())
             {
-                m_LastScenePath = path;
+                Core::File saveFile(path);
+
+                if(OcularScene->saveScene(saveFile))
+                {
+                    m_LastScenePath = path;
+                }
             }
         }
 
