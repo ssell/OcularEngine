@@ -40,6 +40,9 @@ cbuffer cbPerCamera : register(b1)
 cbuffer cbPerObject : register(b2)
 {
     matrix _ModelMatrix;                    ///< The Model Matrix of the Object that owns the current geometry
+    matrix _ModelViewMatrix;                ///< Model * View Matrix
+    matrix _ModelViewProjMatrix;            ///< Model * View * Projection Matrix
+    matrix _NormalMatrix;                   ///< The inverse-transpose of the Model-View Matrix
 };
 
 // Any additional Constant Buffers (b3 and on) are shader/material dependent and are free to use

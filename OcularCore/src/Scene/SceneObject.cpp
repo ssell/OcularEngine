@@ -234,9 +234,14 @@ namespace Ocular
             return m_Persists;
         }
 
-        Graphics::UniformPerObject const& SceneObject::getUniformData()
+        Graphics::UniformPerObject const& SceneObject::getUniformData(Math::Matrix4x4 const& viewMatrix, Math::Matrix4x4 const& projMatrix)
         {
             getModelMatrix(m_UniformData.modelMatrix);
+
+            m_UniformData.modelViewMatrix     = viewMatrix * m_UniformData.modelMatrix;
+            m_UniformData.modelViewProjMatrix = projMatrix * m_UniformData.modelViewMatrix;
+            m_UniformData.normalMatrix        = m_UniformData.modelMatrix.getInverse().getTranspose();
+
             return m_UniformData;
         }
 

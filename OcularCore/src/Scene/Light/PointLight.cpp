@@ -68,7 +68,7 @@ namespace Ocular
             OCULAR_EXPOSE(m_Color);
             OCULAR_EXPOSE(m_Intensity);
             OCULAR_EXPOSE(m_Range);
-            OCULAR_EXPOSE(m_FalloffExponent);
+            OCULAR_EXPOSE(m_Attenuation);
         }
 
         //----------------------------------------------------------------------------------

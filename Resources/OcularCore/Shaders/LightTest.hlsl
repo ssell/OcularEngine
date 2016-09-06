@@ -39,13 +39,11 @@ struct PSOutput
 
 VSOutput VSMain(VSInput input)
 {
-    matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
-
     VSOutput output;
 
     output.worldPos = mul(input.position, _ModelMatrix);
-    output.position = mul(output.worldPos, _ViewProjMatrix);
-    output.normal   = mul(input.normal, _ModelMatrix);
+    output.position = mul(input.position, _ModelViewProjMatrix);
+    output.normal   = normalize(mul(input.normal, _NormalMatrix));
     output.color    = input.color;
 
     return output;
@@ -69,28 +67,22 @@ PSOutput PSMain(VSOutput input)
 
     float4 radiance = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Prepare for loop
-
-    uint lightsCount = 0;
-    uint lightsSize = 0;
-
-    _LightBuffer.GetDimensions(lightsCount, lightsSize);
-
     // Loop over each dynamic light 
+    // In the ambient light (index 0) we store the number of lights in the type slot (includes ambient light in count)
 
     [loop]
-    for(uint i = 1; i < lightsCount; i++)
+    for(uint i = 1; i < _LightBuffer[0].parameters.z; i++)
     {
         const float4 toLight     = _LightBuffer[i].position - input.worldPos;
         const float4 brdf        = phongBRDF(input.normal, toLight, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
         const float4 light       = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
-        const float  attenuation = calcAttenuation(toLight, _LightBuffer[i].parameters.w, _LightBuffer[i].parameters.y);
+        const float  attenuation = calcAttenuation(toLight, _LightBuffer[i].attenuation);
 
-        radiance += brdf * light * ccosAngle(input.normal, normalize(toLight)) * attenuation;
+        radiance += light * brdf * attenuation * ccosAngle(input.normal, normalize(toLight));
     }
 
     output.color = ambient + radiance;
-
+    
     //--------------------------------------------------------------------
 
     return output;

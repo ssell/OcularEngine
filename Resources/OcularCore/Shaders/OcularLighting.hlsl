@@ -26,7 +26,8 @@ struct GPULight
     float4 position;
     float4 direction;
     float4 color;
-    float4 parameters;    // .x = intensity; .y = range; .z = angle; .w = falloff exponent
+    float4 attenuation;   // .x = constant; .y = linear; .z = quadratic; .w = range
+    float4 parameters;    // .x = intensity; .y = angle; .z = light type
 };
 
 StructuredBuffer<GPULight> _LightBuffer : register(t8);
@@ -49,19 +50,30 @@ float4 calcReflectionVector(in float4 normal, in float4 toLight)
 	return normalize(2.0f * dot(normal, toLight) * normal - toLight);
 }
 
-float calcAttenuation(in float4 toLight, in float falloffExponent, in float range)
+/**
+ * Calculates the attenuation term using the standard Constant-Linear-Quadratic model.
+ *
+ * \param[in] toLight     Unnormalized vector pointing from the surface to the light source.
+ * \param[in] attenuation .x = constant term; .y = linear term; .z = quadratic term; .w = range.
+ */
+float calcAttenuation(in float4 toLight, in float4 attenuation)
 {
     const float dist = length(toLight);
-	const float attenuation = 1.0f / pow(dist, falloffExponent);
 
-	float rangeMod = 1.0f;
+    float result = 0.0f;
 
-	if(dist > range)
-	{
-		rangeMod = 0.0f;
-	}
+    if(dist < attenuation.w)
+    {
+    	const float constant  = attenuation.x;
+	    const float linearr   = attenuation.y * dist;
+	    const float quadratic = attenuation.z * dist * dist;
 
-	return (attenuation * rangeMod);
+	    const float denom = constant + linearr + quadratic;
+
+	    result = 1.0f / denom;
+    }
+
+	return result;
 }
 
 /**

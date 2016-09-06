@@ -63,6 +63,9 @@ namespace Ocular
 
             if(camera)
             {
+                m_CurrViewMatrix = camera->getViewMatrix();
+                m_CurrProjMatrix = camera->getProjectionMatrix();
+
                 const Math::Vector3f cameraPos = camera->getPosition(false);             // Use world position
 
                 std::sort(objects.begin(), objects.end(), [&cameraPos] (SceneObject* first, SceneObject* second)->bool
@@ -114,7 +117,7 @@ namespace Ocular
 
             if(object)
             {
-                m_UniformBufferPerObject->setFixedData(object->getUniformData());
+                m_UniformBufferPerObject->setFixedData(object->getUniformData(m_CurrViewMatrix, m_CurrProjMatrix));
             }
             else
             {

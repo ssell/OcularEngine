@@ -50,7 +50,8 @@ namespace Ocular
             Math::Vector4f position;
             Math::Vector4f direction;
             Math::Vector4f color;
-            Math::Vector4f parameters;  ///< .x = intensity; .y = range; .z = angle (spotlight); .w = falloff exponent
+            Math::Vector4f attenuation; ///< .x = constant; .y = linear; .z = quadratic; .w = range
+            Math::Vector4f parameters;  ///< .x = intensity; .y = angle (spotlight); .z = type; .w = unused
         };
     }
     /**

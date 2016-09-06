@@ -18,6 +18,7 @@
 #ifndef __H__OCULAR_CORE_RENDERER__H__
 #define __H__OCULAR_CORE_RENDERER__H__
 
+#include "Math/Matrix4x4.hpp"
 #include <vector>
 
 //------------------------------------------------------------------------------------------
@@ -70,6 +71,9 @@ namespace Ocular
             //------------------------------------------------------------
 
             Graphics::UniformBuffer* m_UniformBufferPerObject;
+
+            Math::Matrix4x4 m_CurrViewMatrix;
+            Math::Matrix4x4 m_CurrProjMatrix;
 
         private:
         };

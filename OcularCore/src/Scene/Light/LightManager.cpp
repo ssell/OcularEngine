@@ -36,6 +36,9 @@ namespace Ocular
               m_BufferLightCapacity(128),
               m_PrevNumVisible(0)
         {
+            m_GPUAmbientLight.color = Math::Vector4f(0.8f, 0.8f, 1.0f, 1.0f);
+            m_GPUAmbientLight.parameters.x = 0.1f;
+
             m_GPULights.resize(m_BufferLightCapacity);
         }
 
@@ -241,7 +244,7 @@ namespace Ocular
 
         void LightManager::fillGPUBuffer(std::vector<LightSource*> const& visibleLights)
         {
-            if(m_GPUBuffer && visibleLights.size())
+            if(m_GPUBuffer)
             {
                 const uint32_t currNumVisible = static_cast<uint32_t>(visibleLights.size());
 
@@ -258,6 +261,7 @@ namespace Ocular
 
                 // Index 0 is always the ambient light properties
 
+                m_GPUAmbientLight.parameters.z = static_cast<float>(visibleLights.size() + 1);  // Instead of type, we pass number of lights
                 m_GPULights[0] = m_GPUAmbientLight;
 
                 // Fill the dynamic lights

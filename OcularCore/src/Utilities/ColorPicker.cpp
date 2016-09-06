@@ -92,6 +92,17 @@ namespace Ocular
             float g = 0.0f;
             float b = 0.0f;
 
+            Core::Camera* camera = OcularCameras->getActiveCamera();
+
+            Math::Matrix4x4 currViewMatrix;
+            Math::Matrix4x4 currProjMatrix;
+
+            if(camera)
+            {
+                currViewMatrix = camera->getViewMatrix();
+                currProjMatrix = camera->getProjectionMatrix();
+            }
+
             //------------------------------------------------------------
             // Render each Object
             //------------------------------------------------------------
@@ -109,7 +120,7 @@ namespace Ocular
                         //------------------------------------------------
                         // Bind the per object uniforms (model matrix, etc.)
 
-                        objectUniformBuffer->setFixedData(object->getUniformData());
+                        objectUniformBuffer->setFixedData(object->getUniformData(currViewMatrix, currProjMatrix));
                         objectUniformBuffer->bind();
 
                         //------------------------------------------------

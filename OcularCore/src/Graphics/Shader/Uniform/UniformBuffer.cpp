@@ -104,12 +104,30 @@ namespace Ocular
         void UniformBuffer::setFixedData(UniformPerObject const& data)
         {
             Uniform modelMatrixUniform;
+            Uniform modelViewMatrixUniform;
+            Uniform modelViewProjMatrixUniform;
+            Uniform normalMatrixUniform;
 
             modelMatrixUniform.setData(data.modelMatrix);
             modelMatrixUniform.setName("ModelMatrix");
             modelMatrixUniform.setRegister(0);
 
+            modelViewMatrixUniform.setData(data.modelViewMatrix);
+            modelViewMatrixUniform.setName("ModelViewMatrix");
+            modelViewMatrixUniform.setRegister(4);
+
+            modelViewProjMatrixUniform.setData(data.modelViewProjMatrix);
+            modelViewProjMatrixUniform.setName("ModelViewProjMatrix");
+            modelViewProjMatrixUniform.setRegister(8);
+
+            normalMatrixUniform.setData(data.normalMatrix);
+            normalMatrixUniform.setName("NormalMatrix");
+            normalMatrixUniform.setRegister(12);
+            
             setUniform(modelMatrixUniform);
+            setUniform(modelViewMatrixUniform);
+            setUniform(modelViewProjMatrixUniform);
+            setUniform(normalMatrixUniform);
         }
 
         void UniformBuffer::setUniform(Uniform const& uniform)

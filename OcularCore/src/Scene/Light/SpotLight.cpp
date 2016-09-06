@@ -60,10 +60,7 @@ namespace Ocular
         
         void SpotLight::exposeProperties()
         {
-            exposeVariable("Color", Utils::TypeName<Core::Color>::name, false, true, &m_Color);
-            exposeVariable("Intensity", Utils::TypeName<float>::name, false, true, &m_Intensity);
-            exposeVariable("Range", Utils::TypeName<float>::name, false, true, &m_Range);
-            exposeVariable("Angle", Utils::TypeName<float>::name, false, true, &m_Angle);
+
         }
 
         //----------------------------------------------------------------------------------

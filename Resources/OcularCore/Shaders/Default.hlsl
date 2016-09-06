@@ -47,10 +47,9 @@ SamplerState Sampler
 
 VSOutput VSMain(VSInput input)
 {
-    matrix mvpMatrix = mul(_ModelMatrix, _ViewProjMatrix);
-
     VSOutput output;
-    output.position = mul(input.position, mvpMatrix);
+    
+    output.position = mul(input.position, _ModelViewProjMatrix);
     output.color    = input.color;
     output.uv0      = input.uv0;
 

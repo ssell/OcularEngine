@@ -41,13 +41,14 @@ namespace Ocular
         {
             if(light)
             {
-                position     = light->getPosition(false);
-                direction    = light->getTransform().getForwards();
-                color        = light->getColor();
-                parameters.x = light->getIntensity();
-                parameters.y = light->getRange();
-                parameters.z = light->getAngle();
-                parameters.w = light->getFalloffExponent();
+                position      = light->getPosition(false);
+                direction     = light->getTransform().getForwards();
+                color         = light->getColor();
+                attenuation   = light->getAttenuation();
+                attenuation.w = light->getRange();
+                parameters.x  = light->getIntensity();
+                parameters.y  = light->getAngle();
+                parameters.z  = light->getLightType();
             }
         }
 

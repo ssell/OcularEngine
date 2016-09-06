@@ -41,8 +41,11 @@ namespace Ocular
         struct UniformPerObject
         {
             Math::Matrix4x4 modelMatrix;
+            Math::Matrix4x4 modelViewMatrix;      //< Model * View matrix
+            Math::Matrix4x4 modelViewProjMatrix;  //< Model * View * Projection matrix
+            Math::Matrix4x4 normalMatrix;         //< Inverse-Transpose of the Model-View matrix
 
-            static uint32_t Size() { return 64; }
+            static uint32_t Size() { return 256; }
         };
     }
     /**

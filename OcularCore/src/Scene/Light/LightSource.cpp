@@ -31,8 +31,8 @@ namespace Ocular
             : SceneObject(name, parent, type),
               m_Intensity(1.0f),
               m_Range(10.0f),
+              m_Attenuation(Math::Vector3f(1.0f, 0.0f, 0.01f)),
               m_Angle(0.0f),
-              m_FalloffExponent(2.0f),
               m_Color(Color::White()),
               m_LightType(0.0f)
         {
@@ -100,14 +100,14 @@ namespace Ocular
             return Math::RadiansToDegrees(m_Angle);
         }
 
-        void LightSource::setFalloffExponent(float const falloff)
+        void LightSource::setAttenuation(Math::Vector3f const& attenuation)
         {
-            m_FalloffExponent = fmaxf(0.0f, falloff);
+            m_Attenuation = attenuation;
         }
 
-        float LightSource::getFalloffExponent() const
+        Math::Vector3f LightSource::getAttenuation() const
         {
-            return m_FalloffExponent;
+            return m_Attenuation;
         }
 
         float LightSource::getLightType() const

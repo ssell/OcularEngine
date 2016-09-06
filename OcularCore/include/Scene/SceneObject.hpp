@@ -216,7 +216,7 @@ namespace Ocular
             /**
              *
              */
-            Graphics::UniformPerObject const& getUniformData();
+            Graphics::UniformPerObject const& getUniformData(Math::Matrix4x4 const& viewMatrix, Math::Matrix4x4 const& projMatrix);
 
             //------------------------------------------------------------
             // Movement and Rotation Methods
