@@ -236,7 +236,8 @@ namespace Ocular
 
         Graphics::UniformPerObject const& SceneObject::getUniformData(Math::Matrix4x4 const& viewMatrix, Math::Matrix4x4 const& projMatrix)
         {
-            getModelMatrix(m_UniformData.modelMatrix);
+            m_UniformData.modelMatrix = getModelMatrix(false);
+            //getModelMatrix(m_UniformData.modelMatrix);
 
             m_UniformData.modelViewMatrix     = viewMatrix * m_UniformData.modelMatrix;
             m_UniformData.modelViewProjMatrix = projMatrix * m_UniformData.modelViewMatrix;
@@ -354,7 +355,7 @@ namespace Ocular
                     parentMatrix = m_Parent->getModelMatrix(false);
                 }
 
-                result = localMatrix * parentMatrix;
+                result = parentMatrix * localMatrix;
             }
 
             return result;

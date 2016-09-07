@@ -310,7 +310,7 @@ namespace Ocular
             /**
              *
              */
-            Math::Matrix4x4 getModelMatrix(bool local = true) const;
+            virtual Math::Matrix4x4 getModelMatrix(bool local = true) const;
 
             //------------------------------------------------------------
             // Child Object Methods

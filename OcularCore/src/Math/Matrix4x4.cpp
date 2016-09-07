@@ -167,15 +167,11 @@ namespace Ocular
 
         Matrix4x4::Matrix4x4(Vector3<float> const& position, Quaternion const& rotation, Vector3<float> const& scale)
         {
-            m_Internal = new Matrix4x4_Internal(glm::mat4x4(glm::mat3_cast(rotation.getInternal()->quat)));
+            const glm::mat4x4 matScale = glm::scale(glm::mat4(), glm::vec3(scale.x, scale.y, scale.z));
+            const glm::mat4x4 matRotate = glm::mat4x4(glm::mat3_cast(rotation.getInternal()->quat));
+            const glm::mat4x4 matTranslate = glm::translate(glm::mat4(), glm::vec3(position.x, position.y, position.z));
 
-            m_Internal->matrix[3][0] = position[0];
-            m_Internal->matrix[3][1] = position[1];
-            m_Internal->matrix[3][2] = position[2];
-
-            const Matrix4x4 scaleMatrix = CreateScaleMatrix(scale);
-
-            (*this) *= scaleMatrix;
+            m_Internal = new Matrix4x4_Internal(matTranslate * matRotate * matScale);
         }
 
         Matrix4x4::Matrix4x4(Matrix4x4_Internal const& data)

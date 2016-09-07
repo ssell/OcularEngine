@@ -31,7 +31,7 @@ namespace Ocular
             : Core::SceneObject(name, parent, type),
               m_IsSelected(false)
         {
-
+            
         }
 
         Gizmo::~Gizmo()

@@ -75,7 +75,7 @@ namespace Ocular
 
                             if(object->getVariable(name, variable))
                             {
-                                PropertyWidget* widget = OcularEditor.createPropertyWidget(variable.name, variable.type);
+                                PropertyWidget* widget = OcularEditor.createPropertyWidget(OcularEditor.FormatName(variable.name), variable.type);
 
                                 if(widget)
                                 {

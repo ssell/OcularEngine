@@ -23,6 +23,11 @@
 #include "Graphics/Shader/ShaderProgram.hpp"
 #include "Renderer/RenderPriority.hpp"
 
+namespace
+{
+    static uint32_t RenderPriority = static_cast<uint32_t>(Ocular::Core::RenderPriority::Overlay) - 1;
+}
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -125,14 +130,7 @@ namespace Ocular
 
         uint32_t AxisGizmoRenderable::getRenderPriority() const
         {
-            uint32_t result = static_cast<uint32_t>(Core::RenderPriority::Opaque);
-
-            if(m_MaterialNormal)
-            {
-                result = m_MaterialNormal->getRenderPriority();
-            }
-
-            return result;
+            return RenderPriority;
         }
 
         void AxisGizmoRenderable::setSelected(bool const selected)
@@ -163,7 +161,7 @@ namespace Ocular
                 {
                     m_MaterialNormal->setVertexShader(flatShaders->getVertexShader());
                     m_MaterialNormal->setFragmentShader(flatShaders->getFragmentShader());
-                    m_MaterialNormal->setRenderPriority(static_cast<uint32_t>(Core::RenderPriority::Overlay) - 1);    // Render as last non-overlay object
+                    m_MaterialNormal->setRenderPriority(RenderPriority);
 
                     AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
 
@@ -224,7 +222,7 @@ namespace Ocular
                 {
                     m_MaterialSelected->setVertexShader(flatShaders->getVertexShader());
                     m_MaterialSelected->setFragmentShader(flatShaders->getFragmentShader());
-                    m_MaterialSelected->setRenderPriority(static_cast<uint32_t>(Core::RenderPriority::Overlay) - 1);    // Render as last non-overlay object
+                    m_MaterialSelected->setRenderPriority(RenderPriority);
 
                     AxisComponentGizmo* parent = dynamic_cast<AxisComponentGizmo*>(m_Parent);
 

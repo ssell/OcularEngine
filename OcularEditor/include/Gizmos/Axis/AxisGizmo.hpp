@@ -54,6 +54,7 @@ namespace Ocular
             virtual ~AxisGizmo();
 
             virtual void setSelected(bool selected) override;
+            virtual Math::Matrix4x4 getModelMatrix(bool local = true) const override;
 
             void clearDepthBuffer();
 

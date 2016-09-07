@@ -75,6 +75,21 @@ namespace Ocular
             }
         }
 
+        Math::Matrix4x4 AxisGizmo::getModelMatrix(bool const local) const
+        {
+            Math::Matrix4x4 result = SceneObject::getModelMatrix(local);
+
+            if(m_Parent)
+            {
+                Math::Transform transform = m_Parent->getTransform();
+                transform.setScale(Math::Vector3f(1.0f, 1.0f, 1.0f));
+
+                result = transform.getModelMatrix();
+            }
+
+            return result;
+        }
+
         void AxisGizmo::clearDepthBuffer()
         {
             // Clears the depth buffer once every three calls (one call per axis component)
