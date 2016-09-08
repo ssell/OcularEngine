@@ -419,6 +419,15 @@
     <ClCompile Include="..\..\src\Gizmos\Gizmo.cpp">
       <Filter>Source Files\Gizmos</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ScenePropertiesDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ScenePropertiesDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\ScenePropertiesDialog.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -647,6 +656,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\SceneObjectImporter.hpp">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\ScenePropertiesDialog.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

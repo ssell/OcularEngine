@@ -18,6 +18,7 @@
 
 #include "Widgets/MainMenuBar.hpp"
 #include "Widgets/MainWindow.hpp"
+#include "Widgets/ScenePropertiesDialog.hpp"
 
 #include "SceneObjectImporter.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
@@ -208,6 +209,15 @@ namespace Ocular
             m_MenuActions.push_back(new QAction(tr("Import SceneObject"), this));
             m_MenuScene->addAction(m_MenuActions.back());
             connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneImportObject()));
+
+            //------------------------------------------------------------
+            // Properties
+
+            m_MenuScene->addSeparator();
+
+            m_MenuActions.push_back(new QAction(tr("Scene Properties..."), this));
+            m_MenuScene->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneProperties()));
         }
 
         void MainMenuBar::createHelpMenu()
@@ -370,6 +380,17 @@ namespace Ocular
         {
             const std::string filePath = QFileDialog::getOpenFileName(this, tr("Select SceneObject"), OcularResources->getSourceDirectory().c_str(), "SceneObjects (*.opre *.obj)").toStdString();
             SceneObjectImporter::Import(filePath);
+        }
+
+        void MainMenuBar::onSceneProperties()
+        {
+            ScenePropertiesDialog dialog;
+
+            if(dialog.exec())
+            {
+                int doSomething = 0;
+                doSomething++;
+            }
         }
 
         void MainMenuBar::onHelpAbout()
