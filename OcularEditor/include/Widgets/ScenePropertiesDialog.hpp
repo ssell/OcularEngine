@@ -34,6 +34,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class PropertyWidget;
+
         /**
          * \class ScenePropertiesDialog
          * \brief Dialog that displays various scene-based properties (Main Menu -> Scene -> Scene Properties)
@@ -50,7 +52,13 @@ namespace Ocular
         protected:
 
             void buildWidgets();
+            void buildScrollArea();
             void buildActionButtons();
+
+            void buildProperties();
+            void buildLightProperties();
+            void buildSceneTreeProperties();
+            void buildRendererProperties();
 
         private slots:
 
@@ -61,10 +69,41 @@ namespace Ocular
         private:
 
             QVBoxLayout* m_MainLayout;
+            QVBoxLayout* m_ScrollLayout;
+            QHBoxLayout* m_ActionButtonLayout;
 
             QPushButton* m_ButtonOK;
             QPushButton* m_ButtonCancel;
             QPushButton* m_ButtonApply;
+
+            QScrollArea* m_ScrollArea;
+
+            //------------------------------------------------------------
+            // Properties
+            //------------------------------------------------------------
+            
+            //------------------------------------------------------------
+            // SceneTree
+
+            QLabel* m_SceneTreePropertiesLabel;
+            PropertyWidget* m_SceneTreeStaticProperty;
+            PropertyWidget* m_SceneTreeDynamicProperty;
+            
+            //------------------------------------------------------------
+            // Renderer
+
+            QLabel* m_RendererPropertiesLabel;
+            PropertyWidget* m_RendererTypeProperty;
+            
+            //------------------------------------------------------------
+            // Light
+
+            QLabel* m_LightPropertiesLabel;
+            PropertyWidget* m_AmbientColorProperty;
+            PropertyWidget* m_AmbientIntensityProperty;
+
+            float m_AmbientIntensity;
+            Core::Color m_AmbientColor;
         };
     }
     /**

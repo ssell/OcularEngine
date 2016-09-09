@@ -71,7 +71,7 @@ namespace Ocular
         {
             m_LabelTitle = new QLabel();
             m_LabelTitle->setStyleSheet("QLabel { background-color: transparent; }");
-
+            
             m_TreeResource = new QTreeWidget();
             m_TreeResource->setHeaderHidden(true);
 

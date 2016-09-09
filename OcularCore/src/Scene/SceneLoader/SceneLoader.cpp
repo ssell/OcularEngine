@@ -18,6 +18,7 @@
 #include "Scene/SceneLoader/SceneObjectLoader.hpp"
 #include "Scene/SceneLoader/SceneLoadInternal.hpp"
 #include "Utilities/StringUtils.hpp"
+#include "Math/Color.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -185,6 +186,28 @@ bool ParseSceneHeader(pugi::xml_node& root, Ocular::Core::Scene* scene)
         else
         {
             scene->setRendererType(DefaultRendererType);
+        }
+
+        //----------------------------------------------------------------
+        // Lighting
+        //----------------------------------------------------------------
+
+        pugi::xml_node lightingRootNode = headerNode.child("Lighting");
+
+        if(lightingRootNode)
+        {
+            pugi::xml_node ambientIntensityNode = lightingRootNode.child("AmbientIntensity");
+            pugi::xml_node ambientColorNode = lightingRootNode.child("AmbientColor");
+
+            if(ambientIntensityNode)
+            {
+                OcularLights->setAmbientLightIntensity(OcularString->fromString<float>(ambientIntensityNode.text().as_string()));
+            }
+            
+            if(ambientColorNode)
+            {
+                OcularLights->setAmbientLightColor(OcularString->fromString<Ocular::Core::Color>(ambientColorNode.text().as_string()));
+            }
         }
 
         result = true;

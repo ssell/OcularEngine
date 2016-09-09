@@ -38,6 +38,8 @@ namespace Ocular
             
             m_LayoutRight->addWidget(m_ColorPreview);
             m_LayoutRight->addWidget(m_ButtonColor);
+
+            connect(m_ButtonColor, SIGNAL(clicked()), this, SLOT(onColorPicked()));
         }
 
         ColorProperty::~ColorProperty()
@@ -80,5 +82,10 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
+
+        void ColorProperty::onColorPicked()
+        {
+            updateProperties();
+        }
     }
 }

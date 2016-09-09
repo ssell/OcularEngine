@@ -428,6 +428,12 @@
     <ClCompile Include="..\..\src\Widgets\ScenePropertiesDialog.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_ColorProperty.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_ColorProperty.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -533,9 +539,6 @@
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\StringProperty.hpp">
-      <Filter>Header Files\Widgets\Properties\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\Arithmetic\FloatProperty.hpp">
@@ -659,6 +662,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\ScenePropertiesDialog.hpp">
       <Filter>Header Files\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

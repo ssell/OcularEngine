@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/Standard/ButtonColorPicker.hpp"
+#include "Widgets/Properties/Types/ColorProperty.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -32,8 +33,9 @@ namespace Ocular
               m_WasEdited(false)
         {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-
+            
             setText("...");
+
             connect(this, SIGNAL(clicked()), this, SLOT(onButtonClick()));
         }
 

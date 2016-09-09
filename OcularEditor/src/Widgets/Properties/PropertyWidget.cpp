@@ -100,7 +100,7 @@ namespace Ocular
             
             m_FrameLeftSide = new QFrame();
             m_FrameLeftSide->setLayout(m_LayoutLeft);
-            m_FrameLeftSide->setFixedWidth(100);
+            m_FrameLeftSide->setFixedWidth(115);
         }
 
         void PropertyWidget::createRightSide()

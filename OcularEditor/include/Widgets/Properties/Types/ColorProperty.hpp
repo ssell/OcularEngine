@@ -44,6 +44,8 @@ namespace Ocular
          */
         class ColorProperty : public PropertyWidget
         {
+            Q_OBJECT
+
         public:
 
             ColorProperty(QWidget* parent = nullptr);
@@ -52,6 +54,10 @@ namespace Ocular
             virtual bool updateProperties() override;
 
         protected:
+
+        private slots:
+
+            void onColorPicked();
 
         private:
 
