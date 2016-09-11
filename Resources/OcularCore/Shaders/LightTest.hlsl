@@ -74,14 +74,15 @@ PSOutput PSMain(VSOutput input)
     for(uint i = 1; i < _LightBuffer[0].parameters.z; i++)
     {
         const float4 toLight     = _LightBuffer[i].position - input.worldPos;
-        const float4 brdf        = phongBRDF(input.normal, toLight, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
+        const float4 toLightNorm = normalize(toLight);
+        const float4 brdf        = phongBRDF(input.normal, toLightNorm, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
         const float4 light       = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
         const float  attenuation = calcAttenuation(toLight, _LightBuffer[i].attenuation);
 
-        radiance += light * brdf * attenuation * ccosAngle(input.normal, normalize(toLight));
+        radiance += light * attenuation;
     }
 
-    output.color = ambient + radiance;
+    output.color = radiance;
     
     //--------------------------------------------------------------------
 

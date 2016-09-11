@@ -108,6 +108,31 @@ float4 phongBRDF(in float4 normal, in float4 toLight, in float4 toView, in float
 	return (colorDiff + colorSpecular);
 }
 
+float4 calcRadiancePhong(in float4 pixWorldPos, in float4 normal)
+{
+	const float4 toView = normalize(_EyePosition - pixWorldPos);
+    const float4 ambient = _LightBuffer[0].color * _LightBuffer[0].parameters.x;
+
+    float4 radiance = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    // Loop over each dynamic light 
+    // In the ambient light (index 0) we store the number of lights in the type slot (includes ambient light in count)
+
+    [loop]
+    for(uint i = 1; i < _LightBuffer[0].parameters.z; i++)
+    {
+        const float4 toLight     = _LightBuffer[i].position - pixWorldPos;
+        const float4 toLightNorm = normalize(toLight);
+        const float4 brdf        = phongBRDF(normal, toLightNorm, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
+        const float4 light       = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
+        const float  attenuation = calcAttenuation(toLight, _LightBuffer[i].attenuation);
+
+        radiance += light * brdf * attenuation * ccosAngle(normal, toLightNorm);
+    }
+
+    return (ambient + radiance);
+}
+
 //------------------------------------------------------------------------------------------
 
 #endif

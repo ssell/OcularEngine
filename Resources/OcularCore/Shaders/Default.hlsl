@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- #include "OcularLighting.hlsl"
+#include "OcularLighting.hlsl"
 
 //------------------------------------------------------------------------------------------
 // Globals
@@ -24,7 +24,9 @@ struct VSOutput
 {
     float4 position : SV_Position;
     float4 color    : COLOR0;
+    float4 normal   : NORMAL0;
     float4 uv0      : TEXCOORD0;
+    float4 worldPos : TEXCOORD4;
 };
 
 struct PSOutput
@@ -49,7 +51,9 @@ VSOutput VSMain(VSInput input)
 {
     VSOutput output;
     
+    output.worldPos = mul(input.position, _ModelMatrix);
     output.position = mul(input.position, _ModelViewProjMatrix);
+    output.normal   = normalize(mul(input.normal, _NormalMatrix));
     output.color    = input.color;
     output.uv0      = input.uv0;
 
@@ -60,8 +64,14 @@ VSOutput VSMain(VSInput input)
 // Pixel Shader
 //------------------------------------------------------------------------------------------
 
-float4 PSMain(VSOutput input) : SV_Target
+PSOutput PSMain(VSOutput input) : SV_Target
 {
-    float4 color = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
-    return color;
+    PSOutput output;
+
+    const float4 texColor = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
+    const float4 light = calcRadiancePhong(input.worldPos, input.normal);
+
+    output.color = (texColor * light);
+
+    return output;
 }
