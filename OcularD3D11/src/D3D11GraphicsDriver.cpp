@@ -507,14 +507,18 @@ namespace Ocular
             if(mesh)
             {
                 auto submesh = mesh->getSubMesh(submeshIndex);
-
+                
                 if(submesh && submesh->bind())
                 {
                     auto indexBuffer = submesh->getIndexBuffer();
 
                     if(indexBuffer)
                     {
-                        m_D3DDeviceContext->DrawIndexed(indexBuffer->getNumIndices(), 0, 0);
+                        const uint32_t numIndices = indexBuffer->getNumIndices();
+
+                        m_D3DDeviceContext->DrawIndexed(numIndices, 0, 0);
+                        addDrawCall(numIndices);
+
                         result = true;
                     }
                 }

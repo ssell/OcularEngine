@@ -768,6 +768,9 @@
     <ClCompile Include="..\..\src\Scene\Light\PointLightRenderable.cpp">
       <Filter>Source Files\Scene\Light</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\FrameStats.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1399,6 +1402,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\Light\PointLightRenderable.hpp">
       <Filter>Header Files\Scene\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\FrameStats.hpp">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -90,6 +90,8 @@ namespace Ocular
             void setupToolbars();
             void setupContent();
 
+            void setFrameStatsMessage();
+
             //------------------------------------------------------------
 
             QWidget* m_MainWidget;

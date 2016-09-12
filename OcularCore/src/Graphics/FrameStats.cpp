@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
-#include "stdafx.h"
-#include "Widgets/MainStatusBar.hpp"
+#include "Graphics/FrameStats.hpp"
 
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
 {
-    namespace Editor
+    namespace Graphics
     {
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
-
-        MainStatusBar::MainStatusBar(QWidget *parent)
-            : QStatusBar(parent),
-              m_PermanentMessageLabel(new QLabel())
+        
+        FrameStats::FrameStats()
+            : frameNumber(0),
+              triangleCount(0),
+              lineCount(0),
+              pointCount(0),
+              drawCalls(0)
         {
-            m_PermanentMessageLabel->setStyleSheet("QLabel { color: rgb(91, 91, 91); background-color: rgba(0, 0, 0, 0); }");
-            addPermanentWidget(m_PermanentMessageLabel);
+
         }
 
-        MainStatusBar::~MainStatusBar()
+        FrameStats::~FrameStats()
         {
 
         }
@@ -43,16 +44,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-
-        void MainStatusBar::setPermanentMessage(std::string const& message)
+        
+        void FrameStats::clear()
         {
-            m_PermanentMessageLabel->setText(message.c_str());
+            triangleCount = 0;
+            lineCount     = 0;
+            pointCount    = 0;
+            drawCalls     = 0;
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
+        
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

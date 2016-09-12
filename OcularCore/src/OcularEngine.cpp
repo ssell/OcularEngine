@@ -231,6 +231,8 @@ namespace Ocular
 
     void Engine::render()
     {
+        m_GraphicsDriver->clearFrameStats();
+
         if((m_SceneManager) && (m_GraphicsDriver))
         {
             std::vector<Core::Camera*> cameras = m_CameraManager->getCameras();

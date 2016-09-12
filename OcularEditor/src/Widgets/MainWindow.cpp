@@ -23,6 +23,8 @@
 #include "Widgets/ContentFrame.hpp"
 #include "Widgets/PropertiesPanel.hpp"
 
+#include "Utilities/StringComposer.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -69,6 +71,8 @@ namespace Ocular
             if(elapsedTime > 0.1f)
             {
                 m_ContentFrame->update();
+                setFrameStatsMessage();
+
                 elapsedTime = 0.0f;
             }
         }
@@ -141,6 +145,46 @@ namespace Ocular
         {
             m_ContentFrame = new ContentFrame();
             m_LayoutMain->addWidget(m_ContentFrame, 1, (Qt::AlignHCenter | Qt::AlignTop));
+        }
+        
+        std::string formatNumberStringui(uint32_t const value, uint32_t const totalSize)
+        {
+            std::string result = OcularEngine.StringUtils()->toString<uint32_t>(value);
+            result.resize(totalSize, ' ');  // Artificial display limit of 9,999,999,999 for this temp solution
+
+            return result;
+        }
+
+        std::string formatNumberStringf(float const value, uint32_t const totalSize)
+        {
+            std::string result = OcularEngine.StringUtils()->toString<float>(value);
+            result.resize(totalSize, ' '); 
+
+            return result;
+        }
+
+        void MainWindow::setFrameStatsMessage()
+        {
+            /**
+             * Frame statistics message in the formats of:
+             *
+             *    FPS (#) MS (#) Draws (#) Tris (#)
+             */
+
+            const Graphics::FrameStats stats = OcularGraphics->getLastFrameStats();
+
+            const float frameTime = OcularEngine.Clock()->getDelta();
+            const uint32_t fps = static_cast<uint32_t>(1.0f / frameTime);   // Really lazy, inaccurate FPS...
+
+            const std::string message = OCULAR_STRING_COMPOSER(
+                "FPS: ", formatNumberStringui(fps, 10), 
+                " RT: ", formatNumberStringf(frameTime, 10), 
+                " #D: ", formatNumberStringui(stats.drawCalls, 10),
+                " #T: ", formatNumberStringui(stats.triangleCount, 10),
+                " #L: ", formatNumberStringui(stats.lineCount, 10),
+                " #P: ", formatNumberStringui(stats.pointCount, 10), "");
+
+            OcularEditor.setStatusPermanent(message.c_str());
         }
     }
 }

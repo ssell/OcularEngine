@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MAIN_STATUS_BAR__H__
-#define __H__OCULAR_EDITOR_MAIN_STATUS_BAR__H__
+#ifndef __H__OCULAR_GRAPHICS_FRAME_STATS__H__
+#define __H__OCULAR_GRAPHICS_FRAME_STATS__H__
 
-#include <QtWidgets/qstatusbar.h>
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 
@@ -29,32 +29,28 @@
 namespace Ocular
 {
     /**
-     * \addtogroup Editor
+     * \addtogroup Graphics
      * @{
      */
-    namespace Editor
+    namespace Graphics
     {
-        class MainMenuBar;
-
-        /**
-         * \class MainStatusBar
-         * \brief Main status bar for the Ocular Editor application
-         */
-        class MainStatusBar : public QStatusBar
+        struct FrameStats
         {
-        public:
+            FrameStats();
+            ~FrameStats();
 
-            MainStatusBar(QWidget* parent = nullptr);
-            ~MainStatusBar();
+            /**
+             * Clears all frame statistics to 0 except for frame number.
+             */
+            void clear();
 
-            void setPermanentMessage(std::string const& message);
+            //------------------------------------------------------------
 
-        protected:
-
-            QLabel* m_PermanentMessageLabel;
-
-        private:
-
+            uint32_t frameNumber;
+            uint32_t triangleCount;
+            uint32_t lineCount;
+            uint32_t pointCount;
+            uint32_t drawCalls;
         };
     }
     /**

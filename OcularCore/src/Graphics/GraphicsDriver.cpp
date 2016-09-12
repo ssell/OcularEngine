@@ -233,8 +233,58 @@ namespace Ocular
         }
 
         //----------------------------------------------------------------------------------
+        // Frame Info
+        //----------------------------------------------------------------------------------
+
+        void GraphicsDriver::clearFrameStats()
+        {
+            m_LastFrameStats = m_CurrFrameStats;
+
+            m_CurrFrameStats.clear();
+            m_CurrFrameStats.frameNumber++;
+        }
+
+        FrameStats GraphicsDriver::getLastFrameStats() const
+        {
+            return m_LastFrameStats;
+        }
+
+        //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void GraphicsDriver::addDrawCall(uint32_t const numIndices)
+        {
+            m_CurrFrameStats.drawCalls++;
+
+            const PrimitiveStyle primitiveStyle = m_RenderState->getRasterState().primitiveStyle;
+
+            switch(primitiveStyle)
+            {
+            case PrimitiveStyle::PointList:
+                m_CurrFrameStats.pointCount += numIndices;
+                break;
+
+            case PrimitiveStyle::LineList:
+                m_CurrFrameStats.lineCount += (numIndices / 2);
+                break;
+
+            case PrimitiveStyle::LineStrip:
+                m_CurrFrameStats.lineCount += (numIndices - 1);
+                break;
+
+            case PrimitiveStyle::TriangleList:
+                m_CurrFrameStats.triangleCount += (numIndices / 3);
+                break;
+
+            case PrimitiveStyle::TriangleStrip:
+                m_CurrFrameStats.triangleCount += (numIndices - 2);
+                break;
+
+            default:
+                break;
+            }
+        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

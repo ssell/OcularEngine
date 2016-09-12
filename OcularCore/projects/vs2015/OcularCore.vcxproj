@@ -188,6 +188,7 @@
     <ClCompile Include="..\..\src\FileIO\Directory.cpp" />
     <ClCompile Include="..\..\src\FileIO\File.cpp" />
     <ClCompile Include="..\..\src\Graphics\DebugGraphics\DebugGraphics.cpp" />
+    <ClCompile Include="..\..\src\Graphics\FrameStats.cpp" />
     <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp" />
@@ -349,6 +350,7 @@
     <ClInclude Include="..\..\include\FileIO\Directory.hpp" />
     <ClInclude Include="..\..\include\FileIO\File.hpp" />
     <ClInclude Include="..\..\include\Graphics\DebugGraphics\DebugGraphics.hpp" />
+    <ClInclude Include="..\..\include\Graphics\FrameStats.hpp" />
     <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />

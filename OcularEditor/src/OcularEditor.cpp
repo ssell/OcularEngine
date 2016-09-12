@@ -288,7 +288,7 @@ namespace Ocular
 
             if(statusBar)
             {
-                statusBar->addPermanentWidget(new QLabel(message.c_str()));
+                statusBar->setPermanentMessage(message.c_str());
             }
         }
 

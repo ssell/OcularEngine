@@ -34,6 +34,7 @@
 #include "Graphics/Mesh/Mesh.hpp"
 #include "Graphics/Viewport.hpp"
 
+#include "Graphics/FrameStats.hpp"
 #include "Graphics/DebugGraphics/DebugGraphics.hpp"
 
 #include "Scene/SceneObject.hpp"
@@ -307,10 +308,6 @@ namespace Ocular
              */
             virtual void renderDebug();
 
-            //------------------------------------------------------------------------------
-            // Temp Methods (to be moved to dedicated Renderer class in future)
-            //------------------------------------------------------------------------------
-
             /**
              * Renders the specified mesh and it's vertex and index buffers.
              *
@@ -329,7 +326,31 @@ namespace Ocular
              */
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type);
 
+            //------------------------------------------------------------------------------
+            // Frame Info
+            //------------------------------------------------------------------------------
+
+            /**
+             * Called at the beginning of a new frame to clear the frame statistics.
+             */
+            void clearFrameStats();
+
+            /**
+             * Returns the statistics from the last rendered frame.
+             */
+            FrameStats getLastFrameStats() const;
+
         protected:
+
+            /**
+             * Updates the current frame stats with a new draw call.
+             */
+            void addDrawCall(uint32_t numIndices);
+
+            //------------------------------------------------------------
+
+            FrameStats m_LastFrameStats;
+            FrameStats m_CurrFrameStats;
 
             Debug m_Debug;
 
