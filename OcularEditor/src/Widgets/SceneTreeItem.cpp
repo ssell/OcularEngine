@@ -20,6 +20,12 @@
 
 //------------------------------------------------------------------------------------------
 
+namespace
+{
+    const char* activeText = "color: rgb(255, 255, 255);";
+    const char* inactiveText = "color: rgb(0, 0, 0);";
+}
+
 namespace Ocular
 {
     namespace Editor
@@ -55,6 +61,22 @@ namespace Ocular
         {
             if(m_Object)
             {
+                //--------------------------------------------------------
+                // Update active indicator
+                //--------------------------------------------------------
+
+                // Inactive object is represented by italics text since I have not found a reliable way yet to change the color.
+                // There is no setStyleSheet for an item and setForeground did not work...
+
+                QFont font = this->font(0);
+                font.setItalic(!m_Object->isActive());
+
+                setFont(0, font);
+
+                //--------------------------------------------------------
+                // Update name
+                //--------------------------------------------------------
+
                 if(text(0).compare(m_Object->getName().c_str()) != 0)
                 {
                     setText(0, QString(m_Object->getName().c_str()));

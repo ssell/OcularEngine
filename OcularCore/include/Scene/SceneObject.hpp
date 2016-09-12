@@ -128,10 +128,17 @@ namespace Ocular
             Math::Transform& getTransform();
 
             /**
-             * Sets whether this object is active or not. An inactive object 
-             * will not have it's render or update methods called.
+             * Sets whether this object is active or not. 
+             * An inactive object will not have it's render or update methods called.
              *
-             * \note The active state propagates to child SceneObjects.
+             * The active state propagates to child SceneObjects.
+             *
+             * If attempting to set active, and the parent is currently inactive,
+             * the state will not be changed. 
+             *
+             * Children may not be set active while the parent is inactive, 
+             * but they can be set inactive while the parent is active.
+             *
              * \param[in] active (default TRUE)
              */
             void setActive(bool active);

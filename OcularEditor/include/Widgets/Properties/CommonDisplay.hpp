@@ -19,6 +19,7 @@
 #define __H__OCULAR_EDITOR_COMMON_DISPLAY__H__
 
 #include "PropertiesDisplayBox.hpp"
+#include "Widgets/Standard/CheckBox.hpp"
 
 #include <QtWidgets/qframe.h>
 #include <QtWidgets/qlabel.h>
@@ -62,8 +63,16 @@ namespace Ocular
 
             //------------------------------------------------------------
 
+            // Name / IsActive
+
+            QHBoxLayout* m_NameActiveLayout;
+
             QLabel* m_LabelTransform;
             LineEdit* m_LineName;
+
+            CheckBox* m_ActiveCheckBox;
+
+            // Trnasform
 
             PropertyWidget* m_PropertyPosition;
             PropertyWidget* m_PropertyRotation;

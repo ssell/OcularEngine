@@ -234,6 +234,7 @@ namespace Ocular
             "}"
             "QMenu::separator"
             "{" 
+            "    height: 1px;"
             "    border-color: rgb(197, 197, 197);" 
             "}"
             
@@ -253,7 +254,22 @@ namespace Ocular
             "QComboBox::drop-down"
             "{"
             "    border: 0px solid rgb(27, 27, 28);"
+            "}"
+
+            //------------------------------------------------------------
+            // QCheckBox
+            //------------------------------------------------------------
+
+            "QCheckBox"
+            "{"
+            "    background-color: rgba(0, 0, 0, 0);"
+            "}"
+            "QCheckBox::indicator"
+            "{"
+            "    selection-color: rgb(66,166,66);"
+            "    selection-background-color: (45, 45, 48);"
             "}";
+
 
         //----------------------------------------------------------------------------------
         // Frame Styles

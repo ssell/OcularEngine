@@ -46,7 +46,7 @@ namespace Ocular
               m_Parent(nullptr)
         {
             OcularScene->addObject(this, parent);
-
+            
             OCULAR_EXPOSE(m_IsStatic);
             OCULAR_EXPOSE(m_ForcedVisible);
             OCULAR_EXPOSE(m_Transform);
@@ -150,6 +150,17 @@ namespace Ocular
         {
             if(m_IsActive != active)
             {
+                if(m_Parent)
+                {
+                    // Enforcing a strict cascading of activeness.
+                    // If the parent is inactive, can not set a child as active.
+
+                    if(active && !m_Parent->isActive())
+                    {
+                        return;
+                    }
+                }
+
                 m_IsActive = active;
                 OcularScene->objectActiveChanged(this);
 

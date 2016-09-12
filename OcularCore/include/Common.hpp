@@ -28,7 +28,9 @@
 #define OCULAR_V0_2 "Ocular Engine v0.2"
 #define OCULAR_V0_3 "Ocular Engine v0.3"
 #define OCULAR_V0_4 "Ocular Engine v0.4"
-#define OCULAR_VERSION OCULAR_V0_4
+#define OCULAR_V0_5 "Ocular Engine v0.5"
+#define OCULAR_V0_6 "Ocular Engine v0.6"
+#define OCULAR_VERSION OCULAR_V0_6
 
 //----------------------------------------------------
 // Operating Systems

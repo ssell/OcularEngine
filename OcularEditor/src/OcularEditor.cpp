@@ -370,8 +370,9 @@ namespace Ocular
         {
             bool result = false;
 
-            static std::string CommonNames[7] =
+            static std::string CommonNames[8] =
             {
+                "m_IsActive",
                 "m_Name",
                 "m_Position",
                 "m_Rotation",

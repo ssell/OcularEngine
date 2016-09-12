@@ -35,7 +35,8 @@ namespace Ocular
               m_LineName(nullptr),
               m_PropertyPosition(nullptr),
               m_PropertyRotation(nullptr),
-              m_PropertyScale(nullptr)
+              m_PropertyScale(nullptr),
+              m_ActiveCheckBox(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -58,6 +59,13 @@ namespace Ocular
         {
             if(object)
             {
+                //--------------------------------------------------------
+                // Active
+                //--------------------------------------------------------
+
+                m_ActiveCheckBox->setChecked(object->isActive());
+                m_ActiveCheckBox->wasEdited();
+
                 //--------------------------------------------------------
                 // Name
                 //--------------------------------------------------------
@@ -102,6 +110,18 @@ namespace Ocular
             if(m_Object)
             {
                 bool refresh = false;
+
+                if(m_ActiveCheckBox)
+                {
+                    if(m_ActiveCheckBox->wasEdited())
+                    {
+                        m_Object->setActive(m_ActiveCheckBox->isChecked());
+                    }
+                    else
+                    {
+                        m_ActiveCheckBox->setChecked(m_Object->isActive());
+                    }
+                }
 
                 if(m_LineName)
                 {
@@ -148,10 +168,20 @@ namespace Ocular
 
         void CommonDisplay::buildName()
         {
-            m_LineName = new LineEdit(LineType::String);
-            m_LineName->setStyleSheet("QLineEdit { margin-left: 5px; margin-right: 5px; }");
+            m_NameActiveLayout = new QHBoxLayout();
 
-            m_Layout->addWidget(m_LineName);
+            m_ActiveCheckBox = new CheckBox();
+            m_ActiveCheckBox->resize(QSize(20, 20));
+            m_ActiveCheckBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            m_ActiveCheckBox->setStyleSheet("QCheckBox { margin-left: 5px; margin-right: -5px;}");
+
+            m_LineName = new LineEdit(LineType::String);
+            m_LineName->setStyleSheet("QLineEdit { margin-left: 0px; margin-right: 5px; }");
+
+            m_NameActiveLayout->addWidget(m_ActiveCheckBox);
+            m_NameActiveLayout->addWidget(m_LineName);
+
+            m_Layout->addLayout(m_NameActiveLayout);
         }
 
         void CommonDisplay::buildTransform()
