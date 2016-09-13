@@ -301,6 +301,7 @@
     <ClCompile Include="..\..\src\Scene\BVHSceneTree.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="..\..\src\Scene\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\src\Scene\Camera\CameraRenderable.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\DirectionalLight.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\LightManager.cpp" />
     <ClCompile Include="..\..\src\Scene\Light\LightSource.cpp" />
@@ -497,6 +498,7 @@
     <ClInclude Include="..\..\include\Scene\BVHSceneNode.hpp" />
     <ClInclude Include="..\..\include\Scene\Camera\Camera.hpp" />
     <ClInclude Include="..\..\include\Scene\Camera\CameraManager.hpp" />
+    <ClInclude Include="..\..\include\Scene\Camera\CameraRenderable.hpp" />
     <ClInclude Include="..\..\include\Scene\ISceneTree.hpp" />
     <ClInclude Include="..\..\include\Scene\ARoutine.hpp" />
     <ClInclude Include="..\..\include\Scene\BVHSceneTree.hpp" />

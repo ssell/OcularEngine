@@ -52,6 +52,14 @@ namespace Ocular
         {
             static bool once = true;
 
+            Core::Camera* editorCamera = OcularEditor.getEditorCamera();
+
+            if(OcularCameras->getActiveCamera() != editorCamera)
+            {
+                // Only render the editor camera
+                return;
+            }
+
             OcularGraphics->clearBuffers(OcularCameras->getActiveCamera()->getClearColor());
 
             sort(objects);
@@ -69,6 +77,12 @@ namespace Ocular
 
             for(auto object : objects)
             {
+                if(object == editorCamera)
+                {
+                    // Don't render the editor camera
+                    continue;
+                }
+
                 auto renderable = object->getRenderable();
 
                 if(renderable)

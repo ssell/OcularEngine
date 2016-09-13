@@ -15,6 +15,8 @@
  */
 
 #include "Scene/Camera/Camera.hpp"
+#include "Scene/Camera/CameraRenderable.hpp"
+
 #include "Scene/SceneObjectRegistrar.hpp"
 #include "Events/Events/WindowResizeEvent.hpp"
 #include "Renderer/Window/Window.hpp"
@@ -386,6 +388,16 @@ namespace Ocular
 
             setViewport(0.0f, 0.0f, width, height);
             setProjectionPerspective(m_PerspectiveProj.fieldOfView, m_PerspectiveProj.aspectRatio, m_PerspectiveProj.nearClip, m_PerspectiveProj.farClip);
+
+            //------------------------------------------------------------
+            // Add renderable
+
+            auto renderable = setRenderable<CameraRenderable>();
+
+            if(renderable)
+            {
+                renderable->initialize();
+            }
         }
 
         void Camera::exposeVariables()

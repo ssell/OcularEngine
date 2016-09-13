@@ -771,6 +771,9 @@
     <ClCompile Include="..\..\src\Graphics\FrameStats.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scene\Camera\CameraRenderable.cpp">
+      <Filter>Source Files\Scene\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">
@@ -1405,6 +1408,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\FrameStats.hpp">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Scene\Camera\CameraRenderable.hpp">
+      <Filter>Header Files\Scene\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -155,6 +155,8 @@ namespace Ocular
                 m_ExtentsMaterial->setUniform("Color", 0, Core::Color::Yellow());
                 m_ExtentsMaterial->setFillMode(Graphics::FillMode::Wireframe);
                 m_ExtentsMaterial->setPrimitiveStyle(Graphics::PrimitiveStyle::LineStrip);
+
+                result = true;
             }
 
             return result;
