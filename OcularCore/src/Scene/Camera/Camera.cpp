@@ -29,7 +29,7 @@ OCULAR_REGISTER_SCENEOBJECT(Ocular::Core::Camera, "Camera");
 
 static const float DefaultFOV    = 60.0f;
 static const float DefaultNear   = 0.01f;
-static const float DefaultFar    = 10000.0f;
+static const float DefaultFar    = 1000.0f;
 static const float DefaultWidth  = 1024.0f;
 static const float DefaultHeight = 768.0f;
 
@@ -40,6 +40,26 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
+
+        PerspectiveProjection::PerspectiveProjection()
+            : fieldOfView(DefaultFOV),
+              aspectRatio(DefaultWidth / DefaultHeight),
+              nearClip(DefaultNear),
+              farClip(DefaultFar)
+        {
+
+        }
+
+        OrthographicProjection::OrthographicProjection()
+            :  xMin(0.0f),
+               xMax(0.0f),
+               yMin(0.0f),
+               yMax(0.0f),
+               nearClip(DefaultNear),
+               farClip(DefaultFar)
+        {
+        
+        }
 
         Camera::Camera(std::string const& name, SceneObject* parent)
             : SceneObject(name, parent, "Camera"),
@@ -138,7 +158,12 @@ namespace Ocular
             m_OrthographicProj.farClip  = farClip;
 
             m_ProjMatrix = Math::Matrix4x4::CreateOrthographicMatrix(xMin, xMax, yMin, yMax, nearClip, farClip);
-            m_Frustum.setProjectionOrthographic(xMin, xMax, yMin, yMax, nearClip, farClip);
+            m_Frustum.setProjectionMatrix(m_ProjMatrix);
+        }
+
+        void Camera::setProjectionOrthographic(OrthographicProjection const& projection)
+        {
+            setProjectionOrthographic(projection.xMin, projection.xMax, projection.yMin, projection.yMax, projection.nearClip, projection.farClip);
         }
 
         void Camera::setProjectionPerspective(float const fov, float const aspectRatio, float const nearClip, float const farClip)
@@ -151,7 +176,12 @@ namespace Ocular
             m_PerspectiveProj.farClip     = farClip;
 
             m_ProjMatrix = Math::Matrix4x4::CreatePerspectiveMatrix(fov, aspectRatio, nearClip, farClip);
-            m_Frustum.setProjectionPerspective(fov, aspectRatio, nearClip, farClip);
+            m_Frustum.setProjectionMatrix(m_ProjMatrix);
+        }
+
+        void Camera::setProjectionPerspective(PerspectiveProjection const& projection)
+        {
+            setProjectionPerspective(projection.fieldOfView, projection.aspectRatio, projection.nearClip, projection.farClip);
         }
 
         void Camera::setProjectionMatrix(Math::Matrix4x4 const& matrix)
@@ -173,8 +203,15 @@ namespace Ocular
             return m_ProjMatrix;
         }
 
-        Math::Frustum const& Camera::getFrustum() const
+        Math::Frustum const& Camera::getFrustum(bool const updateFrustum) 
         {
+            if(updateFrustum)
+            {
+                m_Frustum.setViewMatrix(m_ViewMatrix);
+                m_Frustum.setProjectionMatrix(m_ProjMatrix);
+                m_Frustum.rebuild();
+            }
+
             return m_Frustum;
         }
 

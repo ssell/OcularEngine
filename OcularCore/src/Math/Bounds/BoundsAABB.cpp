@@ -241,30 +241,46 @@ namespace Ocular
 
         bool BoundsAABB::intersects(Plane const& plane, IntersectionType* result) const
         {
-            // Source: Real-Time Rendering, 3rd Ed. Page 756
-          
-            bool intersects = true;
-            IntersectionType tempResult = IntersectionType::Intersects;
+            // Source: http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/
 
-            const Vector3f& planeNormal  = plane.getNormal();
+            const Math::Vector3f n = plane.getNormal();
 
-            const float extent = (m_Extents.x * fabsf(planeNormal.x)) + (m_Extents.y * fabsf(planeNormal.y)) + (m_Extents.z * fabsf(planeNormal.z));
-            const float signedDistance = m_Center.dot(planeNormal);// + (plane.getPoint().dot(plane.getPoint()));
+            Math::Vector3f positive = m_MinPoint;
+            Math::Vector3f negative = m_MaxPoint;
 
-            if((signedDistance - extent) > 0.0f)
+            if(n.x >= 0.0f)
             {
-                intersects = false;
-                tempResult = IntersectionType::Outside;
-            }
-            else if((signedDistance + extent) < 0.0f)
-            {
-                intersects = false;
-                tempResult = IntersectionType::Inside;
+                positive.x = m_MaxPoint.x;
+                negative.x = m_MinPoint.x;
             }
 
-            if(result)
+            if(n.y >= 0.0f)
             {
-                (*result) = tempResult;
+                positive.y = m_MaxPoint.y;
+                negative.y = m_MinPoint.y;
+            }
+
+            if(n.z >= 0.0f)
+            {
+                positive.z = m_MaxPoint.z;
+                negative.z = m_MinPoint.z;
+            }
+
+            bool intersects = false;
+
+            if(plane.getSignedDistance(positive) > 0.0f)
+            {
+                *result = IntersectionType::Outside;
+            }
+            else if(plane.getSignedDistance(negative) > 0.0f)
+            {
+                *result = IntersectionType::Intersects;
+                intersects = true;
+            }
+            else
+            {
+                *result = IntersectionType::Inside;
+                intersects = true;
             }
 
             return intersects;

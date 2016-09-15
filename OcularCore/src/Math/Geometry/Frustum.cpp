@@ -31,7 +31,11 @@ namespace Ocular
                 
         Frustum::Frustum()
             : m_FieldOfView(0.0f),
-              m_AspectRatio(0.0f)
+              m_AspectRatio(0.0f),
+              m_MinX(0.0f),
+              m_MaxX(0.0f),
+              m_MinY(0.0f),
+              m_MaxY(0.0f)
         {
         
         }
@@ -45,110 +49,100 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
+        void Frustum::rebuild()
+        {
+            // Rebuilds the clipping planes as well as the near and far corners.
+
+            const Math::Matrix4x4 viewProjMatrix = m_ProjMatrix * m_ViewMatrix;
+            const Math::Matrix4x4 invViewProjMatrix = viewProjMatrix.getInverse();
+
+            //------------------------------------------------------------
+            // Set corners in NDC-space
+
+            Math::Vector4f nearLowerLeft  = Math::Vector4f(-1.0f, -1.0f, 0.0f, 1.0f);
+            Math::Vector4f nearLowerRight = Math::Vector4f( 1.0f, -1.0f, 0.0f, 1.0f);
+            Math::Vector4f nearUpperRight = Math::Vector4f( 1.0f,  1.0f, 0.0f, 1.0f);
+            Math::Vector4f nearUpperLeft  = Math::Vector4f(-1.0f,  1.0f, 0.0f, 1.0f);
+
+            Math::Vector4f farLowerLeft   = Math::Vector4f(-1.0f, -1.0f, 1.0f, 1.0f);
+            Math::Vector4f farLowerRight  = Math::Vector4f( 1.0f, -1.0f, 1.0f, 1.0f);
+            Math::Vector4f farUpperRight  = Math::Vector4f( 1.0f,  1.0f, 1.0f, 1.0f);
+            Math::Vector4f farUpperLeft   = Math::Vector4f(-1.0f,  1.0f, 1.0f, 1.0f);
+            
+            //------------------------------------------------------------
+            // Mutiply by inverse view-projection matrix
+
+            nearLowerLeft  = invViewProjMatrix * nearLowerLeft;
+            nearLowerRight = invViewProjMatrix * nearLowerRight;
+            nearUpperRight = invViewProjMatrix * nearUpperRight;
+            nearUpperLeft  = invViewProjMatrix * nearUpperLeft;
+
+            farLowerLeft   = invViewProjMatrix * farLowerLeft;
+            farLowerRight  = invViewProjMatrix * farLowerRight;
+            farUpperRight  = invViewProjMatrix * farUpperRight;
+            farUpperLeft   = invViewProjMatrix * farUpperLeft;
+            
+            //------------------------------------------------------------
+            // Divide by w term
+
+            nearLowerLeft  /= nearLowerLeft.w;
+            nearLowerRight /= nearLowerRight.w;
+            nearUpperRight /= nearUpperRight.w;
+            nearUpperLeft  /= nearUpperLeft.w;
+            
+            farLowerLeft   /= farLowerLeft.w;
+            farLowerRight  /= farLowerRight.w;
+            farUpperRight  /= farUpperRight.w;
+            farUpperLeft   /= farUpperLeft.w;
+
+            //------------------------------------------------------------
+            // Set world-space corners
+
+            m_NearCorners[0] = nearLowerLeft.xyz();
+            m_NearCorners[1] = nearLowerRight.xyz();
+            m_NearCorners[2] = nearUpperRight.xyz();
+            m_NearCorners[3] = nearUpperLeft.xyz();
+
+            m_FarCorners[0]  = farLowerLeft.xyz();
+            m_FarCorners[1]  = farLowerRight.xyz();
+            m_FarCorners[2]  = farUpperRight.xyz();
+            m_FarCorners[3]  = farUpperLeft.xyz();
+
+            //------------------------------------------------------------
+            // Build bounding planes
+
+            m_LeftPlane   = Plane(m_NearCorners[0], m_NearCorners[3], m_FarCorners[3]);
+            m_TopPlane    = Plane(m_NearCorners[3], m_NearCorners[2], m_FarCorners[2]);
+            m_RightPlane  = Plane(m_NearCorners[1], m_FarCorners[1],  m_FarCorners[2]);
+            m_BottomPlane = Plane(m_NearCorners[0], m_FarCorners[0],  m_FarCorners[1]);
+            m_NearPlane   = Plane(m_NearCorners[0], m_NearCorners[1], m_NearCorners[2]);
+            m_FarPlane    = Plane(m_FarCorners[0],  m_FarCorners[3],  m_FarCorners[2]);
+        }
+
         //----------------------------------------------------------------------------------
         // View and Projection matrix setting
         //----------------------------------------------------------------------------------
 
-        void Frustum::setForward(Vector3f const& forwardVector)
+        void Frustum::setViewMatrix(Math::Matrix4x4 const& viewMatrix)
         {
-            m_Forward = forwardVector;
-            m_Right = m_Forward.cross(m_Up);
+            m_ViewMatrix = viewMatrix;
+            m_Origin = m_ViewMatrix.getCol(3).xyz();
         }
 
-        void Frustum::setUp(Vector3f const& upVector)
+        void Frustum::setProjectionMatrix(Math::Matrix4x4 const& projMatrix)
         {
-            m_Up = upVector.getNormalized();
-            m_Right = m_Forward.cross(m_Up);
-        }
-        
-        void Frustum::setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector)
-        {
-            m_Origin  = position;
-            m_Forward = forwardVector;
-            m_Up      = upVector;
-            m_Right   = m_Forward.cross(m_Up);
+            m_ProjMatrix = projMatrix;
         }
 
-        void Frustum::setProjectionOrthographic(float const xMin, float const xMax, float const yMin, float const yMax, float const nearClip, float const farClip)
+        Math::Matrix4x4 Frustum::getViewMatrix() const
         {
-            m_MinX = xMin;
-            m_MaxX = xMax;
-            m_MinY = yMin;
-            m_MaxY = yMax;
-
-            m_NearClip = nearClip;
-            m_FarClip  = farClip;
+            return m_ViewMatrix;
         }
 
-        void Frustum::setProjectionPerspective(float const fov, float const aspectRatio, float const nearClip, float const farClip)
+        Math::Matrix4x4 Frustum::getProjectionMatrix() const
         {
-            // Source: http://www.songho.ca/opengl/gl_transform.html#projection
-
-            m_FieldOfView = fov;
-            m_AspectRatio = aspectRatio;
-
-            const float tangent = tan(DegreesToRadians<float>(fov * 0.5f));
-            const float height  = nearClip * tangent;
-            const float width   = height * aspectRatio;
-
-            m_MinX = -width;
-            m_MaxX =  width;
-            m_MinY = -height;
-            m_MaxY =  height;
-
-            m_NearClip = nearClip;
-            m_FarClip  = farClip;
+            return m_ProjMatrix;
         }
-
-        /*
-        void Frustum::setViewProjection(Matrix4x4 const& viewProjection)
-        {
-            m_LeftPlane.setPoint(m_Origin);
-            m_LeftPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[0][0], viewProjection[3][1] + viewProjection[0][1], viewProjection[3][2] + viewProjection[0][2]));
-            m_LeftPlane.normalize();
-
-            m_RightPlane.setPoint(m_Origin);
-            m_RightPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[0][0], viewProjection[3][1] - viewProjection[0][1], viewProjection[3][2] - viewProjection[0][2]));
-            m_RightPlane.normalize();
-
-            m_BottomPlane.setPoint(m_Origin);
-            m_BottomPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[1][0], viewProjection[3][1] + viewProjection[1][1], viewProjection[3][2] + viewProjection[1][2]));
-            m_BottomPlane.normalize();
-
-            m_TopPlane.setPoint(m_Origin);
-            m_TopPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[1][0], viewProjection[3][1] - viewProjection[1][1], viewProjection[3][2] - viewProjection[1][2]));
-            m_TopPlane.normalize();
-
-            m_NearPlane.setPoint(m_Origin);
-            m_NearPlane.setNormal(Vector3f(viewProjection[3][0] + viewProjection[2][0], viewProjection[3][1] + viewProjection[2][1], viewProjection[3][2] + viewProjection[2][2]));
-            m_NearPlane.normalize();
-
-            m_FarPlane.setPoint(m_Origin);
-            m_FarPlane.setNormal(Vector3f(viewProjection[3][0] - viewProjection[2][0], viewProjection[3][1] - viewProjection[2][1], viewProjection[3][2] - viewProjection[2][2]));
-            m_FarPlane.normalize();
-
-            //------------------------------------------------------------------------------
-            // Transform unit cube by inverse viewProj matrix to turn it into a frustum.
-
-            const Matrix4x4 inverseMatrix = viewProjection.getInverse();
-            
-            m_NearCorners[0] = Vector3f(-1.0f, -1.0f, -1.0f);
-            m_NearCorners[1] = Vector3f( 1.0f, -1.0f, -1.0f);
-            m_NearCorners[2] = Vector3f( 1.0f,  1.0f, -1.0f);
-            m_NearCorners[3] = Vector3f(-1.0f,  1.0f, -1.0f);
-            
-            m_FarCorners[0] = Vector3f(-1.0f, -1.0f, 1.0f);
-            m_FarCorners[1] = Vector3f( 1.0f, -1.0f, 1.0f);
-            m_FarCorners[2] = Vector3f( 1.0f,  1.0f, 1.0f);
-            m_FarCorners[3] = Vector3f(-1.0f,  1.0f, 1.0f);
-
-            for(int i = 0; i < 4; i++)
-            {
-                m_NearCorners[i] = inverseMatrix.transform(m_NearCorners[i]);
-                m_FarCorners[i]  = inverseMatrix.transform(m_FarCorners[i]);
-            }
-        }
-        */
 
         //----------------------------------------------------------------
         // Misc Getters
@@ -157,21 +151,6 @@ namespace Ocular
         Vector3f const& Frustum::getOrigin() const
         {
             return m_Origin;
-        }
-
-        Vector3f const& Frustum::getForward() const
-        {
-            return m_Forward;
-        }
-
-        Vector3f const& Frustum::getUp() const
-        {
-            return m_Up;
-        }
-
-        Vector3f const& Frustum::getRight() const
-        {
-            return m_Right;
         }
 
         std::array<Vector3f, 4> const& Frustum::getNearClipCorners() const
@@ -251,34 +230,34 @@ namespace Ocular
             // Otherwise, if it is inside/intersects all planes then return true.
 
             IntersectionType type;
-            bool result = true;
+            bool result = false;
 
-            if(!m_NearPlane.intersects(bounds, &type))
+            if(m_NearPlane.intersects(bounds, &type))
             {
                 result = (type == IntersectionType::Inside);
             }
 
-            if((result) && (!m_LeftPlane.intersects(bounds, &type)))
+            if((result) && (m_LeftPlane.intersects(bounds, &type)))
             {
                 result = (type == IntersectionType::Inside);
             }
 
-            if((result) && (!m_RightPlane.intersects(bounds, &type)))
+            if((result) && (m_RightPlane.intersects(bounds, &type)))
             {
                 result = (type == IntersectionType::Inside);
             }
 
-            if((result) && (!m_BottomPlane.intersects(bounds, &type)))
+            if((result) && (m_BottomPlane.intersects(bounds, &type)))
             {
                 result = (type == IntersectionType::Inside);
             }
 
-            if((result) && (!m_TopPlane.intersects(bounds, &type)))
+            if((result) && (m_TopPlane.intersects(bounds, &type)))
             {
                 result = (type == IntersectionType::Inside);
             }
 
-            if((result) && (!m_FarPlane.intersects(bounds, &type)))
+            if((result) && (m_FarPlane.intersects(bounds, &type)))
             {
                 result = (type == IntersectionType::Inside);
             }
@@ -369,79 +348,6 @@ namespace Ocular
         Plane const& Frustum::getFarPlane() const
         {
             return m_FarPlane;
-        }
-
-        void Frustum::rebuild()
-        {
-            // Source: http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
-
-            /**
-             * We can construct a plane from either a single point and normal, or from three points on the plane.
-             * We use both of these methods when extracting all six planes from the frustum.
-             *
-             * For the near and far planes we calculate their centers and use the frustum's direction as the normal.
-             *
-             * The near clip center is found by projecting along the frustum direction from origin for a length equal to the nearClip distance.
-             * It's normal is opposite of the frustum direction.
-             *
-             * The far clip center is found by projecting along the frustum direction from origin for a length equal to the farClip distance.
-             * It's normal is the frustum direction.
-             *
-             * The remaining four planes (left, right, top, and bottom) will be constructed from three points that will define the planes.
-             * For all four planes, we can use a combination of the following five points:
-             *
-             *     - Frustum origin
-             *     - Near plane top-left corner point
-             *     - Near plane top-right corner point
-             *     - Near plane bottom-left corner point
-             *     - Near plane bottom-right corner point
-             *
-             * Conveniently, the frustum origin lies on all four of the planes. The rest of the planes are composed as follows:
-             *
-             *     Left:   (origin, near bottom left, near top left)
-             *     Right:  (origin, near bottom right, near top right)
-             *     Top:    (origin, near top right, near top left)
-             *     Bottom: (origin, near bottom right, near top left)
-             */
-
-            //------------------------------------------------------------
-            // Find the individual points for the planes
-
-            const float nearHalfWidth  = (m_MaxX - m_MinX) * 0.5f;
-            const float nearHalfHeight = (m_MaxY - m_MinY) * 0.5f;
-
-            const Vector3f nearCenter = m_Origin + (m_Forward * m_NearClip);
-            const Vector3f farCenter  = m_Origin + (m_Forward * m_FarClip);
-            
-            const Vector3f nearTopDiff   = (m_Up * nearHalfHeight);
-            const Vector3f nearRightDiff = (m_Right * nearHalfWidth);
-            
-            //------------------------------------------------------------
-            // Find the near corner points
-
-            m_NearCorners[0] = (nearCenter - nearTopDiff) - nearRightDiff;
-            m_NearCorners[1] = (nearCenter - nearTopDiff) + nearRightDiff;
-            m_NearCorners[2] = (nearCenter + nearTopDiff) + nearRightDiff;
-            m_NearCorners[3] = (nearCenter + nearTopDiff) - nearRightDiff;
-
-            //------------------------------------------------------------
-            // Construct the planes from the discovered points
-
-            m_NearPlane   = Plane(m_Origin + (m_Forward * m_NearClip), -m_Forward);
-            m_FarPlane    = Plane(m_Origin + (m_Forward * m_FarClip),   m_Forward);
-            
-            m_LeftPlane   = Plane(m_Origin, m_NearCorners[3], m_NearCorners[0]);
-            m_RightPlane  = Plane(m_Origin, m_NearCorners[1], m_NearCorners[2]);
-            m_TopPlane    = Plane(m_Origin, m_NearCorners[2], m_NearCorners[3]);
-            m_BottomPlane = Plane(m_Origin, m_NearCorners[0], m_NearCorners[1]);
-
-            //------------------------------------------------------------
-            // Find the far corner points
-
-            m_FarCorners[0] = Plane::GetIntersectionPoint(m_FarPlane, m_LeftPlane,  m_BottomPlane);
-            m_FarCorners[1] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_BottomPlane);
-            m_FarCorners[2] = Plane::GetIntersectionPoint(m_FarPlane, m_RightPlane, m_TopPlane);
-            m_FarCorners[3] = Plane::GetIntersectionPoint(m_FarPlane, m_LeftPlane,  m_TopPlane);
         }
 
         float Frustum::getFieldOfView() const

@@ -58,7 +58,7 @@ namespace Ocular
             float nearClip;
             float farClip;
 
-            PerspectiveProjection() : fieldOfView(0.0f), aspectRatio(0.0f), nearClip(0.0f), farClip(0.0f) { }
+            PerspectiveProjection();
         };
 
         struct OrthographicProjection
@@ -70,7 +70,7 @@ namespace Ocular
             float nearClip;
             float farClip;
 
-            OrthographicProjection() : xMin(0.0f), xMax(0.0f), yMin(0.0f), yMax(0.0f), nearClip(0.0f), farClip(0.0f) { }
+            OrthographicProjection();
         };
 
         /**
@@ -136,6 +136,8 @@ namespace Ocular
              * \param[in] farClip
              */
             void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
+
+            void setProjectionOrthographic(OrthographicProjection const& projection);
             
             /**
              * Creates a new perspective projection matrix and sets it as the projection matrix.
@@ -146,6 +148,8 @@ namespace Ocular
              * \param[in] farClip
              */
             void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
+
+            void setProjectionPerspective(PerspectiveProjection const& projection);
             
             /**
              * Sets a custom projection matrix.
@@ -168,9 +172,10 @@ namespace Ocular
             Math::Matrix4x4 const& getProjectionMatrix() const;
             
             /**
+             * \param[in] updateFrustum If true, updates the frustum with the latest view/proj matrices.
              * \return The camera's frustum
              */
-            Math::Frustum const& getFrustum() const;
+            Math::Frustum const& getFrustum(bool updateFrustum = true);
             
             /**
              * Sets the camera's priority level
@@ -306,6 +311,7 @@ namespace Ocular
 
             bool m_IsFixedViewport;
             bool m_IsFixedProjection;
+            bool m_IsFrustumDirty;
 
         private:
         };

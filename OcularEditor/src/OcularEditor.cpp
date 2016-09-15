@@ -433,6 +433,10 @@ namespace Ocular
             
             if(m_EditorCamera)
             {
+                Core::PerspectiveProjection projection = m_EditorCamera->getPerspectiveProjection();
+                projection.farClip = 10000.0f;
+
+                m_EditorCamera->setProjectionPerspective(projection);
                 m_EditorCamera->setPersistent(true);
                 m_EditorCamera->setPosition(0.0f, 0.2f, 0.5f);
                 m_EditorCamera->addRoutine("EditorCameraController");

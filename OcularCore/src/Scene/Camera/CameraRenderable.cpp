@@ -126,7 +126,8 @@ namespace Ocular
                 //------------------------------------------------------------
                 // Get the corners that comprise the frustum
 
-                const Math::Frustum frustum = parent->getFrustum();
+                Math::Frustum frustum = parent->getFrustum();
+                frustum.rebuild();
 
                 auto nearCorners = frustum.getNearClipCorners();
                 auto farCorners = frustum.getFarClipCorners();

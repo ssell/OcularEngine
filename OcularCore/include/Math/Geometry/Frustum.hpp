@@ -71,55 +71,20 @@ namespace Ocular
             void rebuild();
 
             /**
-             * \param[in] forwardVector
+             * Sets the view matrix that helps define this frustum.
              * \note Must call rebuild to update the frustum.
              */
-            void setForward(Vector3f const& forwardVector);
+            void setViewMatrix(Math::Matrix4x4 const& viewMatrix);
 
             /**
-             * \param[in] upVector
+             * Sets the projection matrix that helps define this frustum.
              * \note Must call rebuild to update the frustum.
              */
-            void setUp(Vector3f const& upVector);
+            void setProjectionMatrix(Math::Matrix4x4 const& projMatrix);
 
-            /**
-             * Sets the position and rotation that defines the view matrix of this frustum.
-             *
-             * \param[in] position
-             * \param[in] forwardVector
-             * \param[in] upVector
-             *
-             * \note Must call rebuild to update the frustum.
-             */
-            void setView(Vector3f const& position, Vector3f const& forwardVector, Vector3f const& upVector);
+            Math::Matrix4x4 getViewMatrix() const;
 
-            /**
-             * Sets the properties of an orthographic projection that defines the
-             * projection matrix of this frustum.
-             * 
-             * \param[in] xMin     Left-side of near clip plane
-             * \param[in] xMax     Right-side of near clip plane
-             * \param[in] yMin     Bottom-side of near clip plane
-             * \param[in] yMax     Top-side of near clip plane
-             * \param[in] nearClip Distance from point-of-view to near clip plane.
-             * \param[in] farClip  Distance from point-of-view to far clip plane.
-             *
-             * \note Must call rebuild to update the frustum.
-             */
-            void setProjectionOrthographic(float xMin, float xMax, float yMin, float yMax, float nearClip, float farClip);
-
-            /**
-             * Sets the properties of an perspective projection that defines the
-             * projection matrix of this frustum.
-             * 
-             * \param[in] fov         Specifies the field of view angle, in degrees, in the y direction.
-             * \param[in] aspectRatio Specifies the aspect ratio that determines the field of view in the x direction. The aspect ratio is the ratio of width to height.
-             * \param[in] nearClip    Distance from point-of-view to near clip plane.
-             * \param[in] farClip     Distance from point-of-view to far clip plane.
-             *
-             * \note Must call rebuild to update the frustum.
-             */
-            void setProjectionPerspective(float fov, float aspectRatio, float nearClip, float farClip);
+            Math::Matrix4x4 getProjectionMatrix() const;
 
             //------------------------------------------------------------
             // Misc Getters
@@ -129,21 +94,6 @@ namespace Ocular
              * \return The point this frustum originates from.
              */
             Vector3f const& getOrigin() const;
-
-            /**
-             * \return The direction this frustum is facing.
-             */
-            Vector3f const& getForward() const;
-
-            /**
-             * \return The up direction
-             */
-            Vector3f const& getUp() const;
-
-            /**
-             * \return The right direction
-             */
-            Vector3f const& getRight() const;
 
             /**
              * Returns the four corners the comprise the finite portion of the near clip plane.
@@ -259,17 +209,32 @@ namespace Ocular
              */
             float getAspectRatio() const;
 
+            /**
+             * \return The minimum x value. Used only with orthographic projections.
+             */
             float getXMin() const;
-
+            
+            /**
+             * \return The maximum x value. Used only with orthographic projections.
+             */
             float getXMax() const;
-
+            
+            /**
+             * \return The minimum y value. Used only with orthographic projections.
+             */
             float getYMin() const;
-
+            
+            /**
+             * \return The maximum y value. Used only with orthographic projections.
+             */
             float getYMax() const;
 
         protected:
 
         private:
+
+            Math::Matrix4x4 m_ViewMatrix;
+            Math::Matrix4x4 m_ProjMatrix;
 
             float m_MinX;
             float m_MaxX;
@@ -284,9 +249,6 @@ namespace Ocular
             float m_AspectRatio;
 
             Vector3f m_Origin;
-            Vector3f m_Forward;
-            Vector3f m_Right;
-            Vector3f m_Up;
 
             std::array<Vector3f, 4> m_NearCorners;  ///< Corners of the finite near clip plane ordered counter-clockwise from bottom left
             std::array<Vector3f, 4> m_FarCorners;   ///< Corners of the finite far clip plane ordered counter-clockwise from bottom left
