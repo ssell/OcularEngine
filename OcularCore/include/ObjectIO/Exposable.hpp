@@ -144,6 +144,12 @@ namespace Ocular
                 return result;
             }
 
+            /**
+             * Optional method that should be called after modifying an exposed variable.
+             * This allows the implementation a chance to react to the modification if necessary.
+             */
+            virtual void onVariableModified(std::string const& varName);
+
         protected:
 
             /**

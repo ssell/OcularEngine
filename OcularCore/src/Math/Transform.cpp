@@ -65,9 +65,23 @@ namespace Ocular
         // Getters and Setters
         //----------------------------------------------------------------
 
+        uint32_t Transform::getDirtyFlags(bool const clearFlags)
+        {
+            const uint32_t result = m_DirtyFlags;
+
+            if(clearFlags)
+            {
+                m_DirtyFlags = 0;
+            }
+
+            return result;
+        }
+
         void Transform::setPosition(Vector3f const& position)
         {
             m_Position = position;
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Position);
+
             refresh();
         }
 
@@ -76,6 +90,8 @@ namespace Ocular
             m_Position.x = x;
             m_Position.y = y;
             m_Position.z = z;
+
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Position);
             
             refresh();
         }
@@ -88,6 +104,8 @@ namespace Ocular
         void Transform::setRotation(Quaternion const& rotation)
         {
             m_Rotation = rotation;
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Rotation);
+
             refresh();
         }
 
@@ -99,6 +117,8 @@ namespace Ocular
         void Transform::setScale(Vector3f const& scale)
         {
             m_Scale = scale;
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Scale);
+
             refresh();
         }
 
@@ -157,6 +177,7 @@ namespace Ocular
                 m_Position += translation;
             }
             
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Position);
             refresh();
         }
 
@@ -205,6 +226,22 @@ namespace Ocular
         {
             ObjectIO::onLoad(node);
             refresh();
+        }
+
+        void Transform::onVariableModified(std::string const& varName)
+        {
+            if(Utils::String::IsEqual(varName, "m_Position"))
+            {
+                m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Position);
+            }
+            else if(Utils::String::IsEqual(varName, "m_Rotation"))
+            {
+                m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Rotation);
+            }
+            else if(Utils::String::IsEqual(varName, "m_Scale"))
+            {
+                m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Scale);
+            }
         }
 
         //----------------------------------------------------------------------------------

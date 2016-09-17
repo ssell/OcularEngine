@@ -82,7 +82,7 @@ namespace Ocular
             virtual void onLoad(BuilderNode const* node) override;
             virtual void onSave(BuilderNode* node) const override;
 
-            virtual void updateBounds() override;
+            virtual void buildBounds(Math::BoundsSphere* sphere, Math::BoundsAABB* aabb, Math::BoundsOBB* obb, Math::Matrix4x4 const& matrix = Math::Matrix4x4()) override;
 
             /**
              * \return The highest render priority of all Materials in the MeshRenderable

@@ -119,7 +119,7 @@ namespace Ocular
 
                 if(updated)
                 {
-                    m_Renderable->updateBounds();
+                    m_Object->forceBoundsRebuild();
                 }
             }
         }

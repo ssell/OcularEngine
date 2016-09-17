@@ -141,6 +141,21 @@ namespace Ocular
         // General Misc Methods
         //----------------------------------------------------------------
 
+        void SceneObject::onVariableModified(std::string const& varName)
+        {
+            // Note that we react to m_Rotation and m_Scale even those these
+            // are technically exposed in our m_Transform. 
+
+            if(Utils::String::IsEqual(varName, "m_Rotation"))
+            {
+
+            }
+            else if(Utils::String::IsEqual(varName, "m_Scale"))
+            {
+
+            }
+        }
+
         Math::Transform& SceneObject::getTransform()
         {
             return m_Transform;
@@ -925,6 +940,59 @@ namespace Ocular
             }
         }
 
+        //----------------------------------------------------------------
+        // Bounds Related
+        //----------------------------------------------------------------
+
+        void SceneObject::forceBoundsRebuild()
+        {
+            if(m_Renderable)
+            {
+                m_Renderable->buildBounds(&m_BoundsSphereLocal, &m_BoundsAABBLocal, &m_BoundsOBBLocal);
+            }
+
+            updateBounds(m_Transform.getDirtyFlags());
+        }
+
+        Math::BoundsSphere SceneObject::getBoundsSphere(bool const local)
+        {
+            Math::BoundsSphere result = m_BoundsSphereLocal;
+
+            if(!local)
+            {
+                updateBounds(m_Transform.getDirtyFlags());
+                result = m_BoundsSphereWorld;
+            }
+
+            return result;
+        }
+
+        Math::BoundsAABB SceneObject::getBoundsAABB(bool const local)
+        {
+            Math::BoundsAABB result = m_BoundsAABBLocal;
+
+            if(!local)
+            {
+                updateBounds(m_Transform.getDirtyFlags());
+                result = m_BoundsAABBWorld;
+            }
+
+            return result;
+        }
+
+        Math::BoundsOBB SceneObject::getBoundsOBB(bool const local)
+        {
+            Math::BoundsOBB result = m_BoundsOBBLocal;
+
+            if(!local)
+            {
+                updateBounds(m_Transform.getDirtyFlags());
+                result = m_BoundsOBBWorld;
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -939,6 +1007,39 @@ namespace Ocular
             }
 
             matrix = parentMatrix * m_Transform.getModelMatrix();
+        }
+
+        void SceneObject::updateBounds(uint32_t const dirtyFlags)
+        {
+            if(dirtyFlags)
+            {
+                const Math::Matrix4x4 modelMatrix = getModelMatrix(false);
+
+                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Position))
+                {
+                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
+                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
+                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
+                }
+
+                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation))
+                {
+                    if(m_Renderable)
+                    {
+                        m_Renderable->buildBounds(nullptr, &m_BoundsAABBWorld, nullptr, modelMatrix);
+                    }
+                }
+
+                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
+                {
+                    const Math::Vector3f scale = getScale();
+                    const float maxScale = fmaxf(fmaxf(scale.x, scale.y), scale.z);
+
+                    m_BoundsSphereWorld.setRadius(m_BoundsSphereLocal.getRadius() * maxScale);
+                    m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * scale);
+                    m_BoundsOBBWorld.setExtents(m_BoundsOBBLocal.getExtents() * scale);
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------

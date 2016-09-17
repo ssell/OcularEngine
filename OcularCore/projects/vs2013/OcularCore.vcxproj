@@ -242,7 +242,6 @@
     <ClCompile Include="..\..\src\Math\Geometry\Frustum.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp" />
     <ClCompile Include="..\..\src\Math\Geometry\Polygon2D.cpp" />
-    <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\src\Math\MathInternal.cpp" />
     <ClCompile Include="..\..\src\Math\Matrix3x3.cpp" />
     <ClCompile Include="..\..\src\Math\Matrix4x4.cpp" />

@@ -66,8 +66,8 @@ namespace Ocular
              * \return Future associated with the task. May be used to block until task completion
              *         or to retrieve any function return values.
              */
-            template<typename F, typename ... Args>
-            inline auto spawnAsync(F&& function, Args&& ... args)
+            /*template<typename F, typename ... Args>
+            inline auto spawnAsync(F&& function, Args&& ... args) -> std::async<F, Args>
             {
                 auto result = std::async(std::forward<F>(function), std::forward<Args>(args) ...);
 
@@ -79,7 +79,7 @@ namespace Ocular
                 }
 
                 return result;
-            }
+            }*/
 
             /**
              * Spawns a truly asynchronous task.
@@ -90,11 +90,11 @@ namespace Ocular
              * \return Future associated with the task. May be used to block until task completion
              *         or to retrieve any function return values.
              */
-            template<typename F, typename ... Args>
-            inline auto spawnAsyncNow(F&& function, Args&& ... args)
+            /*template<typename F, typename ... Args>
+            inline auto spawnAsyncNow(F&& function, Args&& ... args) -> std::async<F, Args>
             {
                 return std::async(std::launch::async, std::forward<F>(function), std::forward<Args>(args) ...);
-            }
+            }*/
 
             /**
              * Waits for all of the provided futures to finish. The futures must be of the same type.
@@ -103,7 +103,7 @@ namespace Ocular
              *
              * \param[in] futures
              */
-            template<typename T, typename ... F>
+            /*template<typename T, typename ... F>
             inline void waitForAsyncs(F&& ... futures)
             {
                 std::vector<std::future<T>*> futuresContainer = { futures ... };
@@ -112,7 +112,7 @@ namespace Ocular
                 {
                     (*iter)->wait();
                 }
-            }
+            }*/
 
         protected:
 

@@ -46,6 +46,14 @@ namespace Ocular
         {
         public:
 
+            enum class DirtyFlags
+            {
+                None     = 0,
+                Position = 1,
+                Rotation = 2,
+                Scale    = 4
+            };
+
             Transform();
             Transform(Vector3f const& position, Quaternion const& rotation, Vector3f const& scale);
 
@@ -60,6 +68,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Getters and Setters
             //------------------------------------------------------------
+
+            uint32_t getDirtyFlags(bool clearFlags = true);
 
             /**
              *
@@ -180,6 +190,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             virtual void onLoad(Core::BuilderNode const* node) override;
+            virtual void onVariableModified(std::string const& varName) override;
 
         protected:
 
@@ -189,7 +200,9 @@ namespace Ocular
             Quaternion m_Rotation;
             Vector3f   m_Scale;
 
-            Matrix4x4 m_ModelMatrix;
+            Matrix4x4  m_ModelMatrix;
+
+            uint32_t   m_DirtyFlags;
         };
     }
     /**

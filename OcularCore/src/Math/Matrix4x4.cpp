@@ -287,6 +287,14 @@ namespace Ocular
             return Vector4<float>(vec.x, vec.y, vec.z, vec.w);
         }
 
+        Vector3<float> operator*(Matrix4x4 const& lhs, Vector3<float> const& rhs)
+        {
+            glm::vec4 vec(rhs.x, rhs.y, rhs.z, 1.0f);
+            vec = lhs.getInternal()->matrix * vec;
+
+            return Vector3<float>(vec.x, vec.y, vec.z);
+        }
+
         //----------------------------------------------------------------
         // GETTERS / SETTERS
         //----------------------------------------------------------------
@@ -445,6 +453,21 @@ namespace Ocular
         Matrix4x4 Matrix4x4::getTranspose() const
         {
             return Matrix4x4(Matrix4x4_Internal(glm::transpose(m_Internal->matrix)));
+        }
+
+        bool Matrix4x4::isIdentity() const
+        {
+            bool result = false;
+
+            if( IsOne(m_Internal->matrix[0][0]) && IsZero(m_Internal->matrix[1][0]) && IsZero(m_Internal->matrix[2][0]) && IsZero(m_Internal->matrix[3][0]) &&
+               IsZero(m_Internal->matrix[0][0]) &&  IsOne(m_Internal->matrix[1][0]) && IsZero(m_Internal->matrix[2][0]) && IsZero(m_Internal->matrix[3][0]) &&
+               IsZero(m_Internal->matrix[0][0]) && IsZero(m_Internal->matrix[1][0]) &&  IsOne(m_Internal->matrix[2][0]) && IsZero(m_Internal->matrix[3][0]) &&
+               IsZero(m_Internal->matrix[0][0]) && IsZero(m_Internal->matrix[1][0]) && IsZero(m_Internal->matrix[2][0]) &&  IsOne(m_Internal->matrix[3][0]))
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------

@@ -55,6 +55,11 @@ namespace Ocular
             return result;
         }
 
+        void Exposable::onVariableModified(std::string const& varName)
+        {
+            // Do nothing
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

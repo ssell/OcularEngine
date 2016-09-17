@@ -293,6 +293,11 @@ namespace Ocular
              */
             Matrix4x4 getTranspose() const;
 
+            /**
+             * \return TRUE if the matrix is an identity matrix.
+             */
+            bool isIdentity() const;
+
             //------------------------------------------------------------------------------
             // STATIC OPERATIONS
             //------------------------------------------------------------------------------
@@ -364,6 +369,7 @@ namespace Ocular
         Matrix4x4 operator*(Matrix4x4 const& lhs, float rhs);
         
         Vector4<float> operator*(Matrix4x4 const& lhs, Vector4<float> const& rhs);
+        Vector3<float> operator*(Matrix4x4 const& lhs, Vector3<float> const& rhs);
     }
     /**
      * @} End of Doxygen Groups

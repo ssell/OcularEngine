@@ -19,8 +19,10 @@
 #define __H__OCULAR_MATH_BOUNDS_AABB__H__
 
 #include "Math/Bounds/Bounds.hpp"
-#include "Math/Vector3.hpp"
 #include "Graphics/Mesh/Vertex.hpp"
+
+#include "Math/Matrix4x4.hpp"
+#include "Math/Vector3.hpp"
 
 #include <list>
 #include <vector>
@@ -66,12 +68,12 @@ namespace Ocular
              * Creates a new AABB from a list of spatial points.
              * \param[in] points
              */
-            BoundsAABB(std::list<Point3f> const& points);
+            BoundsAABB(std::list<Point3f> const& points, Math::Matrix4x4 const& matrix = Math::Matrix4x4());
 
             /**
              * 
              */
-            BoundsAABB(std::vector<Graphics::Vertex> const& vertices);
+            BoundsAABB(std::vector<Graphics::Vertex> const& vertices, Math::Matrix4x4 const& matrix = Math::Matrix4x4());
 
             /**
              * Creates a new AABB with the specified parameters.
@@ -90,12 +92,12 @@ namespace Ocular
              *
              * \param[in] points
              */
-            void construct(std::list<Point3f> const& points);
+            void construct(std::list<Point3f> const& points, Math::Matrix4x4 const& matrix = Math::Matrix4x4());
 
             /**
              *
              */
-            void construct(std::vector<Graphics::Vertex> const& vertices);
+            void construct(std::vector<Graphics::Vertex> const& vertices, Math::Matrix4x4 const& matrix = Math::Matrix4x4());
 
             /**
              * Sets the center point of the bounding box.

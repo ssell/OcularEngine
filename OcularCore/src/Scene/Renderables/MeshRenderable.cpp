@@ -172,16 +172,78 @@ namespace Ocular
             }
         }
 
-        void MeshRenderable::updateBounds()
+        void MeshRenderable::buildBounds(Math::BoundsSphere* sphere, Math::BoundsAABB* aabb, Math::BoundsOBB* obb, Math::Matrix4x4 const& matrix)
         {
-            if(m_Parent && m_Mesh)
+            if(m_Mesh)
             {
-                auto vertexBuffer = m_Mesh->getVertexBuffer();
+                //--------------------------------------------------------
+                // Get all vertex buffers
 
-                if(vertexBuffer)
+                const uint32_t numVBs = m_Mesh->getNumSubMeshes();
+
+                if(numVBs)
                 {
-                    m_Parent->boundsAABB = Math::BoundsAABB(vertexBuffer->getVertices());
-                    m_Parent->boundsSphere = Math::BoundsSphere(vertexBuffer->getVertices());
+                    std::vector<Graphics::VertexBuffer*> vbs(numVBs, nullptr);
+
+                    for(uint32_t i = 0; i < numVBs; ++i)
+                    {
+                        vbs[i] = m_Mesh->getVertexBuffer(i);
+                    }
+
+                    //----------------------------------------------------
+                    // Build sphere bounds
+
+                    if(sphere)
+                    {
+                        // Build individual bound for each vb
+
+                        std::vector<Math::BoundsSphere> bounds(numVBs);
+
+                        for(uint32_t i = 0; i < numVBs; ++i)
+                        {
+                            bounds[i].construct(vbs[i]->getVertices(), matrix);
+                        }
+
+                        // Combine bounds
+
+                        sphere->setCenter(bounds[0].getCenter());
+                        sphere->setRadius(bounds[0].getRadius());
+
+                        for(uint32_t i = 1; i < numVBs; ++i)
+                        {
+                            sphere->expandToContain(bounds[i]);
+                        }
+                    }
+
+                    //----------------------------------------------------
+                    // Build aabb
+
+                    if(aabb)
+                    {
+                        // Build individaul bound for each vb
+
+                        std::vector<Math::BoundsAABB> bounds(numVBs);
+
+                        for(uint32_t i = 0; i < numVBs; ++i)
+                        {
+                            bounds[i].construct(vbs[i]->getVertices(), matrix);
+                        }
+
+                        // Combine bounds
+
+                        aabb->setCenter(bounds[0].getCenter());
+                        aabb->setExtents(bounds[0].getExtents());
+
+                        for(uint32_t i = 1; i < numVBs; ++i)
+                        {
+                            aabb->expandToContain(bounds[i]);
+                        }
+                    }
+
+                    //----------------------------------------------------
+                    // Build obb
+
+                    // not yet available ...
                 }
             }
         }
@@ -209,7 +271,11 @@ namespace Ocular
 
             if(m_Mesh)
             {
-                updateBounds();
+                if(m_Parent)
+                {
+                    m_Parent->forceBoundsRebuild();
+                }
+
                 result = true;
             }
 
@@ -219,7 +285,11 @@ namespace Ocular
         void MeshRenderable::setMesh(Graphics::Mesh* mesh)
         {
             m_Mesh = mesh;
-            updateBounds();
+
+            if(m_Parent)
+            {
+                m_Parent->forceBoundsRebuild();
+            }
         }
 
         Graphics::Mesh* MeshRenderable::getMesh() const

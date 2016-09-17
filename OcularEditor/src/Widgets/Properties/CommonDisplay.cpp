@@ -135,6 +135,7 @@ namespace Ocular
                 {
                     if(m_PropertyPosition->updateProperties())
                     {
+                        m_Object->getTransform().onVariableModified("m_Position");
                         refresh = true;
                     }
                 }
@@ -143,6 +144,7 @@ namespace Ocular
                 {
                     if(m_PropertyRotation->updateProperties())
                     {
+                        m_Object->getTransform().onVariableModified("m_Rotation");
                         refresh = true;
                     }
                 }
@@ -151,6 +153,7 @@ namespace Ocular
                 {
                     if(m_PropertyScale->updateProperties())
                     {
+                        m_Object->getTransform().onVariableModified("m_Scale");
                         refresh = true;
                     }
                 }
@@ -158,6 +161,7 @@ namespace Ocular
                 if(refresh)
                 {
                     m_Object->getTransform().refresh();
+                    m_Object->onVariableModified("m_Transform");
                 }
             }
         }

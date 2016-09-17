@@ -30,16 +30,16 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        BoundsAABB::BoundsAABB(std::list<Point3f> const& points)
+        BoundsAABB::BoundsAABB(std::list<Point3f> const& points, Math::Matrix4x4 const& matrix)
             : Bounds(BoundsType::AABB)
         {
-            construct(points);
+            construct(points, matrix);
         }
 
-        BoundsAABB::BoundsAABB(std::vector<Graphics::Vertex> const& vertices)
+        BoundsAABB::BoundsAABB(std::vector<Graphics::Vertex> const& vertices, Math::Matrix4x4 const& matrix)
             : Bounds(BoundsType::AABB)
         {
-            construct(vertices);
+            construct(vertices, matrix);
         }
 
         BoundsAABB::BoundsAABB(Vector3f const& center, Vector3f const& extents)
@@ -66,7 +66,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        void BoundsAABB::construct(std::list<Point3f> const& points)
+        void BoundsAABB::construct(std::list<Point3f> const& points, Math::Matrix4x4 const& matrix)
         {
             float minX = FLT_MAX;
             float minY = FLT_MAX;
@@ -76,15 +76,33 @@ namespace Ocular
             float maxY = FLT_MIN;
             float maxZ = FLT_MIN;
 
-            for(auto point : points)
+            if(matrix.isIdentity())
             {
-                minX = fminf(minX, point.x);
-                minY = fminf(minY, point.y);
-                minZ = fminf(minZ, point.z);
+                for(auto point : points)
+                {
+                    minX = fminf(minX, point.x);
+                    minY = fminf(minY, point.y);
+                    minZ = fminf(minZ, point.z);
 
-                maxX = fmaxf(maxX, point.x);
-                maxY = fmaxf(maxY, point.y);
-                maxZ = fmaxf(maxZ, point.z);
+                    maxX = fmaxf(maxX, point.x);
+                    maxY = fmaxf(maxY, point.y);
+                    maxZ = fmaxf(maxZ, point.z);
+                }
+            }
+            else
+            {
+                for(auto point : points)
+                {
+                    const Math::Point3f transformed = matrix * point;
+
+                    minX = fminf(minX, transformed.x);
+                    minY = fminf(minY, transformed.y);
+                    minZ = fminf(minZ, transformed.z);
+
+                    maxX = fmaxf(maxX, transformed.x);
+                    maxY = fmaxf(maxY, transformed.y);
+                    maxZ = fmaxf(maxZ, transformed.z);
+                }
             }
 
             m_MinPoint = Vector3f(minX, minY, minZ);
@@ -93,7 +111,7 @@ namespace Ocular
             m_Extents  = m_MaxPoint - m_Center;
         }
 
-        void BoundsAABB::construct(std::vector<Graphics::Vertex> const& vertices)
+        void BoundsAABB::construct(std::vector<Graphics::Vertex> const& vertices, Math::Matrix4x4 const& matrix)
         {
             float minX = FLT_MAX;
             float minY = FLT_MAX;
@@ -103,15 +121,33 @@ namespace Ocular
             float maxY = FLT_MIN;
             float maxZ = FLT_MIN;
 
-            for(auto vertex : vertices)
+            if(matrix.isIdentity())
             {
-                minX = fminf(minX, vertex.position.x);
-                minY = fminf(minY, vertex.position.y);
-                minZ = fminf(minZ, vertex.position.z);
+                for(auto vertex : vertices)
+                {
+                    minX = fminf(minX, vertex.position.x);
+                    minY = fminf(minY, vertex.position.y);
+                    minZ = fminf(minZ, vertex.position.z);
 
-                maxX = fmaxf(maxX, vertex.position.x);
-                maxY = fmaxf(maxY, vertex.position.y);
-                maxZ = fmaxf(maxZ, vertex.position.z);
+                    maxX = fmaxf(maxX, vertex.position.x);
+                    maxY = fmaxf(maxY, vertex.position.y);
+                    maxZ = fmaxf(maxZ, vertex.position.z);
+                }
+            }
+            else
+            {
+                for(auto vertex : vertices)
+                {
+                    const Math::Vector4f transformed = matrix * vertex.position;
+
+                    minX = fminf(minX, transformed.x);
+                    minY = fminf(minY, transformed.y);
+                    minZ = fminf(minZ, transformed.z);
+
+                    maxX = fmaxf(maxX, transformed.x);
+                    maxY = fmaxf(maxY, transformed.y);
+                    maxZ = fmaxf(maxZ, transformed.z);
+                }
             }
 
             m_MinPoint = Vector3f(minX, minY, minZ);

@@ -90,7 +90,7 @@ namespace Ocular
             postRender();
         }
 
-        void ARenderable::updateBounds()
+        void ARenderable::buildBounds(Math::BoundsSphere* sphere, Math::BoundsAABB* aabb, Math::BoundsOBB* obb, Math::Matrix4x4 const& matrix)
         {
 
         }

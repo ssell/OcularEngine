@@ -20,6 +20,7 @@
 
 #include "Resources/ResourceMetadata.hpp"
 #include <unordered_map>
+#include <cstdint>
 
 //------------------------------------------------------------------------------------------
 

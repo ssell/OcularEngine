@@ -19,6 +19,11 @@
 #define __H__OCULAR_CORE_SCENE_ARENDERABLE__H__
 
 #include "Object.hpp"
+
+#include "Math/Bounds/BoundsSphere.hpp"
+#include "Math/Bounds/BoundsAABB.hpp"
+#include "Math/Bounds/BoundsOBB.hpp"
+
 #include <string>
 
 //------------------------------------------------------------------------------------------
@@ -129,7 +134,7 @@ namespace Ocular
             /**
              *
              */
-            virtual void updateBounds();
+            virtual void buildBounds(Math::BoundsSphere* sphere, Math::BoundsAABB* aabb, Math::BoundsOBB* obb, Math::Matrix4x4 const& matrix = Math::Matrix4x4());
 
             //------------------------------------------------------------
             // Getters and Setters

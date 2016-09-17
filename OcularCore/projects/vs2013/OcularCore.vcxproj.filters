@@ -426,9 +426,6 @@
     <ClCompile Include="..\..\src\Math\Geometry\ConvexHull2D.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Math\Geometry\Vertex.cpp">
-      <Filter>Source Files\Math\Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Math\Geometry\Plane.cpp">
       <Filter>Source Files\Math\Geometry</Filter>
     </ClCompile>

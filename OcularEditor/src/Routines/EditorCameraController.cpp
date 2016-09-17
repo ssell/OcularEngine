@@ -278,10 +278,10 @@ namespace Ocular
                 {
                     const Math::Matrix4x4 objMatrix = object->getModelMatrix(false);
 
-                    const Math::Vector4f objCenter = objMatrix * Math::Vector4f(object->boundsAABB.getCenter());
+                    const Math::Vector4f objCenter = objMatrix * Math::Vector4f(object->getBoundsSphere(false).getCenter());
                     const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
 
-                    const float offset = std::max(1.0f, object->boundsSphere.getRadius() * 5.0f);
+                    const float offset = std::max(1.0f, object->getBoundsSphere(false).getRadius() * 5.0f);
                     const Math::Ray ray = Math::Ray(Math::Vector3f(objCenter.x, objCenter.y, objCenter.z), forward);
 
                     m_FocusStartPos = m_Parent->getTransform().getPosition();

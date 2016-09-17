@@ -403,7 +403,7 @@ namespace Ocular
         {
             if(object)
             {
-                const uint64_t morton = Math::MortonCode::calculate(object->boundsAABB.getCenter());
+                const uint64_t morton = Math::MortonCode::calculate(object->getBoundsAABB(false).getCenter());
 
                 BVHSceneNode* newLeafNode = new BVHSceneNode();
                 newLeafNode->morton = morton;
@@ -697,7 +697,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                const Math::Vector3f center = object->boundsAABB.getCenter();
+                const Math::Vector3f center = object->getBoundsAABB(false).getCenter();
 
                 minValue = fminf(minValue, fminf(center.x, fminf(center.y, center.z)));
                 maxValue = fmaxf(maxValue, fmaxf(center.x, fmaxf(center.y, center.z)));
@@ -718,7 +718,7 @@ namespace Ocular
 
             for(auto const object : m_AllObjects)
             {
-                Math::Vector3f transformedCenter = (object->boundsAABB.getCenter() + offsetValue) * scaleValue;
+                Math::Vector3f transformedCenter = (object->getBoundsAABB(false).getCenter() + offsetValue) * scaleValue;
                 uint64_t mortonCode = Math::MortonCode::calculate(transformedCenter);
 
                 pairs.push_back(std::make_pair(mortonCode, object));
@@ -832,7 +832,7 @@ namespace Ocular
             {
                 if(node->type == SceneNodeType::Leaf)
                 {
-                    node->bounds = node->object->boundsAABB;
+                    node->bounds = node->object->getBoundsAABB(false);
                 }
                 else if(node->type == SceneNodeType::Internal)
                 {
