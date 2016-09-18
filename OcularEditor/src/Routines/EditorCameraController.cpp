@@ -276,19 +276,17 @@ namespace Ocular
 
                 if(m_Parent && object)
                 {
-                    const Math::Matrix4x4 objMatrix = object->getModelMatrix(false);
-
-                    const Math::Vector4f objCenter = objMatrix * Math::Vector4f(object->getBoundsSphere(false).getCenter());
+                    const Math::BoundsSphere bounds = object->getBoundsSphere(false);
                     const Math::Vector3f forward = m_Parent->getTransform().getForwards().getNormalized();
 
-                    const float offset = std::max(1.0f, object->getBoundsSphere(false).getRadius() * 5.0f);
-                    const Math::Ray ray = Math::Ray(Math::Vector3f(objCenter.x, objCenter.y, objCenter.z), forward);
+                    const float offset  = std::max(1.0f, bounds.getRadius() * 5.0f);
+                    const Math::Ray ray = Math::Ray(bounds.getCenter(), forward);
 
                     m_FocusStartPos = m_Parent->getTransform().getPosition();
                     m_FocusEndPos   = ray.getPointAlong(offset);
                     m_IsMovingFocus = true;
                     m_FocusElapsed  = FocusProcessTime;
-                    m_OrbitDistance = std::fabsf(objCenter.xyz().distanceTo(m_FocusEndPos));
+                    m_OrbitDistance = std::fabsf(bounds.getCenter().distanceTo(m_FocusEndPos));
                 }
             }
         }

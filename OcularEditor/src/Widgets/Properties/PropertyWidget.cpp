@@ -73,6 +73,11 @@ namespace Ocular
             return m_DisplayName;
         }
 
+        std::string const& PropertyWidget::getVariableName() const
+        {
+            return m_Variable.name;
+        }
+
         void PropertyWidget::addWidgetLeftSide(QWidget* widget)
         {
             m_LayoutLeft->addWidget(widget);

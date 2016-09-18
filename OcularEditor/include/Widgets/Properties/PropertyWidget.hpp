@@ -84,6 +84,11 @@ namespace Ocular
              * Retrieves the text of the label on the left-side of the widget.
              */
             std::string const& getDisplayName() const;
+
+            /**
+             * Retrieves the name of the exposed variable.
+             */
+            std::string const& getVariableName() const;
             
             /**
              * Adds a new widget to the left-side layout.

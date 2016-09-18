@@ -253,7 +253,7 @@ namespace Ocular
 
                         if(m_StaticSceneTree)
                         {
-                            m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
+                            //m_StaticSceneTree->getAllVisibleObjects(frustum, objects);
                         }
 
                         if(m_DynamicSceneTree)
@@ -345,7 +345,7 @@ namespace Ocular
         {
             if(verifySceneTrees())
             {
-                m_StaticSceneTree->restructure();
+                //m_StaticSceneTree->restructure();
                 m_DynamicSceneTree->restructure();
             }
         }
@@ -481,6 +481,24 @@ namespace Ocular
                         m_Routines.erase(iter);
                         break;
                     }
+                }
+            }
+        }
+        
+        void Scene::triggerObjectDirty(UUID const& uuid, bool const staticObject)
+        {
+            if(staticObject)
+            {
+                if(m_StaticSceneTree)
+                {
+                    m_StaticSceneTree->setDirty(uuid);
+                }
+            }
+            else
+            {
+                if(m_DynamicSceneTree)
+                {
+                    m_DynamicSceneTree->setDirty(uuid);
                 }
             }
         }

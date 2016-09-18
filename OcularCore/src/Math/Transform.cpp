@@ -32,7 +32,8 @@ namespace Ocular
         Transform::Transform(Vector3f const& position, Quaternion const& rotation, Vector3f const& scale)
             : m_Position(position), 
               m_Rotation(rotation), 
-              m_Scale(scale)
+              m_Scale(scale),
+              m_DirtyFlags(0)
         {
             OCULAR_EXPOSE(m_Position);
             OCULAR_EXPOSE(m_Rotation);
@@ -40,7 +41,8 @@ namespace Ocular
         }
 
         Transform::Transform()
-            : m_Scale(Vector3f(1.0f, 1.0f, 1.0f))
+            : m_Scale(Vector3f(1.0f, 1.0f, 1.0f)),
+              m_DirtyFlags(0)
         {
             OCULAR_EXPOSE(m_Position);
             OCULAR_EXPOSE(m_Rotation);

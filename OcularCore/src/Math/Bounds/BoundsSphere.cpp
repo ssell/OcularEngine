@@ -506,14 +506,40 @@ namespace Ocular
             const float distance = plane.getSignedDistance(center3);
             const float absDistance = fabsf(distance);
 
-            if(absDistance <= m_Radius)
+            if(distance < 0.0f)
             {
-                tempResult = IntersectionType::Intersects;
+                // Bounds center is inside the plane.
+                // Test if it is fully inside or if it intersects.
+
+                if(absDistance > m_Radius)
+                {
+                    // Radius does not extend to the plane edge
+                    tempResult = IntersectionType::Inside;
+                }
+                else
+                {
+                    // The radius intersects the plane
+                    tempResult = IntersectionType::Intersects;
+                }
+
                 intersects = true;
             }
-            else if(distance > 0.0f)
+            else
             {
-                tempResult = IntersectionType::Outside;
+                // Bounds center is outside the plane. 
+                // Test if it is fully outside or if it intersects.
+
+                if(absDistance > m_Radius)
+                {
+                    // Radius does not extend to the plane edge
+                    tempResult = IntersectionType::Outside;
+                }
+                else
+                {
+                    // The radius intersects the plane
+                    tempResult = IntersectionType::Intersects;
+                    intersects = true;
+                }
             }
             
             if(result)

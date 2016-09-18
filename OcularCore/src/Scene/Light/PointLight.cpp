@@ -59,6 +59,16 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        void PointLight::onVariableModified(std::string const& varName)
+        {
+            LightSource::onVariableModified(varName);
+
+            if(Utils::String::IsEqual(varName, "m_Range"))
+            {
+                updateBounds(1);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -69,6 +79,22 @@ namespace Ocular
             OCULAR_EXPOSE(m_Intensity);
             OCULAR_EXPOSE(m_Range);
             OCULAR_EXPOSE(m_Attenuation);
+        }
+
+        void PointLight::updateBounds(uint32_t const dirtyFlags)
+        {
+            if(dirtyFlags)
+            {
+                const Math::Vector3f position = getPosition(false);
+
+                m_BoundsSphereWorld.setCenter(position);
+                m_BoundsSphereWorld.setRadius(m_Range);
+
+                m_BoundsAABBWorld.setCenter(position);
+                m_BoundsAABBWorld.setExtents(Math::Vector3f(m_Range, m_Range, m_Range));
+
+                OcularScene->triggerObjectDirty(m_UUID, isStatic());
+            }
         }
 
         //----------------------------------------------------------------------------------

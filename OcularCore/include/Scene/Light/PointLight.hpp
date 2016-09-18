@@ -46,9 +46,13 @@ namespace Ocular
 
             virtual ~PointLight();
 
+            virtual void onVariableModified(std::string const& varName) override;
+
         protected:
 
             void exposeProperties();
+
+            virtual void updateBounds(uint32_t dirtyFlags) override;
 
         private:
         };

@@ -98,7 +98,10 @@ namespace Ocular
                 {
                     if(prop)
                     {
-                        prop->updateProperties();
+                        if(prop->updateProperties())
+                        {
+                            m_Object->onVariableModified(prop->getVariableName());
+                        }
                     }
                 }
             }

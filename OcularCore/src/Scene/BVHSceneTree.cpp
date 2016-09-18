@@ -47,7 +47,7 @@ namespace Ocular
 
         void BVHSceneTree::restructure()
         {
-            OCULAR_PROFILE()
+            OCULAR_PROFILE() 
 
             if(m_IsDirty)
             {
@@ -309,6 +309,11 @@ namespace Ocular
             objects.reserve(m_AllObjects.size());
 
             findIntersections(m_Root, bounds, objects);
+        }
+
+        void BVHSceneTree::setDirty(UUID const& uuid)
+        {
+            m_IsDirty = true;
         }
 
         SceneTreeType BVHSceneTree::getType() const

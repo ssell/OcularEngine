@@ -210,6 +210,17 @@ namespace Ocular
              */
             void getVisibleSceneObjects(std::vector<SceneObject*>& objects, Math::Frustum const& frustum);
 
+            /**
+             * Should be called when an object is dirty - the position/rotation/scale or any other
+             * variable that could effect the scene tree hierarchy - has been modified.
+             *
+             * Typically called automatically by the base SceneObject implementation.
+             *
+             * \param[in] uuid
+             * \param[in] staticObject TRUE if the object is static; else FALSE.
+             */
+            void triggerObjectDirty(UUID const& uuid, bool staticObject);
+
             //------------------------------------------------------------------------------
             // Scene Methods
 

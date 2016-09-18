@@ -304,18 +304,29 @@ namespace Ocular
 
             bool intersects = false;
 
-            if(plane.getSignedDistance(positive) > 0.0f)
+            if(plane.getSignedDistance(negative) > 0.0f)
             {
-                *result = IntersectionType::Outside;
+                if(result)
+                {
+                    *result = IntersectionType::Outside;
+                }
             }
-            else if(plane.getSignedDistance(negative) > 0.0f)
+            else if(plane.getSignedDistance(positive) > 0.0f)
             {
-                *result = IntersectionType::Intersects;
+                if(result)
+                {
+                    *result = IntersectionType::Intersects;
+                }
+
                 intersects = true;
             }
             else
             {
-                *result = IntersectionType::Inside;
+                if(result)
+                {
+                    *result = IntersectionType::Inside;
+                }
+
                 intersects = true;
             }
 

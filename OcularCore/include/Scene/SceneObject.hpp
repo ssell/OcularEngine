@@ -679,18 +679,24 @@ namespace Ocular
         protected:
 
             void getModelMatrix(Math::Matrix4x4& matrix);
-            void updateBounds(uint32_t dirtyFlags);
+            virtual void updateBounds(uint32_t dirtyFlags);
 
             //------------------------------------------------------------
 
             SceneObject* m_Parent;
             uint32_t m_Layer;          ///< The render layer this object is part of.
 
-            //------------------------------------------------------------
             // Physical Characteristics
 
             Graphics::UniformPerObject m_UniformData;
             Math::Transform m_Transform;
+
+			Math::BoundsSphere m_BoundsSphereLocal;
+			Math::BoundsAABB   m_BoundsAABBLocal;
+			Math::BoundsOBB    m_BoundsOBBLocal;
+            Math::BoundsSphere m_BoundsSphereWorld;
+            Math::BoundsAABB   m_BoundsAABBWorld;
+            Math::BoundsOBB    m_BoundsOBBWorld;
 
         private:
 
@@ -703,13 +709,6 @@ namespace Ocular
             bool m_IsVisible;          ///< If visible, an object's Renderables will be invoked. Default: false.
             bool m_ForcedVisible;      ///< If true, the object will be forced visible and the Renderable will always be invoked irregardless of any frustum, cull, etc. tests. Default: false.
             bool m_Persists;           ///< If true, this object (and children) will persist inbetween scenes. When a new scene is created, it will automatically be added to it.
-
-			Math::BoundsSphere m_BoundsSphereLocal;
-			Math::BoundsAABB   m_BoundsAABBLocal;
-			Math::BoundsOBB    m_BoundsOBBLocal;
-            Math::BoundsSphere m_BoundsSphereWorld;
-            Math::BoundsAABB   m_BoundsAABBWorld;
-            Math::BoundsOBB    m_BoundsOBBWorld;
 
             std::vector<ARoutine*> m_Routines;
             ARenderable* m_Renderable;

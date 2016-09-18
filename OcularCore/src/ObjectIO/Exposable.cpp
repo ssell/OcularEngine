@@ -67,10 +67,10 @@ namespace Ocular
         void Exposable::exposeVariable(std::string const& name, std::string const& type, bool isPointer, bool isExposed, void* data)
         {
             auto find = m_ExposedVariables.find(name);
-
+            
             if(find == m_ExposedVariables.end())
             {
-                m_ExposedVariables[name] = ExposedVariable(name, type, data, isPointer, isExposed);
+                m_ExposedVariables.insert(std::make_pair(name, ExposedVariable(name, type, data, isPointer, isExposed)));
             }
         }
 

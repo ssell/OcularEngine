@@ -29,7 +29,10 @@ namespace Ocular
         //----------------------------------------------------------------------------------
     
         Object::Object(std::string name, std::string className)
-            : m_Name(name), m_Class(className), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
+            : m_Name(name), 
+              m_Class(className), 
+              m_UUID(), 
+              m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
             OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_Class);
@@ -37,7 +40,10 @@ namespace Ocular
         }
 
         Object::Object(std::string name)
-            : m_Name(name), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
+            : m_Name(name), 
+              m_Class("Object"), 
+              m_UUID(), 
+              m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
             OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_Class);
@@ -45,7 +51,10 @@ namespace Ocular
         }
     
         Object::Object()
-            : m_Name("Name"), m_Class("Object"), m_UUID(), m_CreationTime(OcularEngine.Clock()->getElapsedMS())
+            : m_Name("Name"), 
+              m_Class("Object"), 
+              m_UUID(), 
+              m_CreationTime(OcularEngine.Clock()->getElapsedMS())
         {
             OCULAR_EXPOSE(m_Name);
             OCULAR_EXPOSE(m_Class);

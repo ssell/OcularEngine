@@ -171,6 +171,11 @@ namespace Ocular
              */
             virtual SceneTreeType getType() const = 0;
 
+            /**
+             * Indicates that the tree is dirty, and that the object with the given UUID was explicitly changed.
+             */
+            virtual void setDirty(UUID const& uuid) = 0;
+
         protected:
 
             std::vector<SceneObject*> m_NewObjects;    ///< Newly added objects that are waiting to be added to the tree.

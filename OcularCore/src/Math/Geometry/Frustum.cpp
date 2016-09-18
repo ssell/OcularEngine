@@ -188,40 +188,16 @@ namespace Ocular
             // If the bounds is outside of a single plane, then we return false.
             // Otherwise, if it is inside/intersects all planes then return true.
 
-            IntersectionType type;
-            bool result = true;
+            // Plane::intersects returns TRUE if intersects or inside.
+            // We make no distinction between the two and only care that
+            // it is not entirely outside of the frustum.
 
-            if(!m_NearPlane.intersects(bounds, &type))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_LeftPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_RightPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_BottomPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_TopPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_FarPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            return result;
+            return (m_NearPlane.intersects(bounds) &&
+                    m_FarPlane.intersects(bounds) &&
+                    m_LeftPlane.intersects(bounds) &&
+                    m_RightPlane.intersects(bounds) &&
+                    m_TopPlane.intersects(bounds) &&
+                    m_BottomPlane.intersects(bounds));
         }
 
         bool Frustum::contains(BoundsAABB const& bounds) const
@@ -229,40 +205,16 @@ namespace Ocular
             // If the bounds is outside of a single plane, then we return false.
             // Otherwise, if it is inside/intersects all planes then return true.
 
-            IntersectionType type;
-            bool result = false;
+            // Plane::intersects returns TRUE if intersects or inside.
+            // We make no distinction between the two and only care that
+            // it is not entirely outside of the frustum.
 
-            if(m_NearPlane.intersects(bounds, &type))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (m_LeftPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (m_RightPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (m_BottomPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (m_TopPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (m_FarPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            return result;
+            return (m_NearPlane.intersects(bounds) &&
+                    m_FarPlane.intersects(bounds) &&
+                    m_LeftPlane.intersects(bounds) &&
+                    m_RightPlane.intersects(bounds) &&
+                    m_TopPlane.intersects(bounds) &&
+                    m_BottomPlane.intersects(bounds));
         }
 
         bool Frustum::contains(BoundsOBB const& bounds) const
@@ -270,40 +222,16 @@ namespace Ocular
             // If the bounds is outside of a single plane, then we return false.
             // Otherwise, if it is inside/intersects all planes then return true.
 
-            IntersectionType type;
-            bool result = true;
+            // Plane::intersects returns TRUE if intersects or inside.
+            // We make no distinction between the two and only care that
+            // it is not entirely outside of the frustum.
 
-            if(!m_NearPlane.intersects(bounds, &type))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_LeftPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_RightPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_BottomPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_TopPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            if((result) && (!m_FarPlane.intersects(bounds, &type)))
-            {
-                result = (type == IntersectionType::Inside);
-            }
-
-            return result;
+            return (m_NearPlane.intersects(bounds) &&
+                    m_FarPlane.intersects(bounds) &&
+                    m_LeftPlane.intersects(bounds) &&
+                    m_RightPlane.intersects(bounds) &&
+                    m_TopPlane.intersects(bounds) &&
+                    m_BottomPlane.intersects(bounds));
         }
 
         //----------------------------------------------------------------

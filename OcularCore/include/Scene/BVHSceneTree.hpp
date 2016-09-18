@@ -100,6 +100,7 @@ namespace Ocular
             virtual void getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const override;
             virtual void getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const override;
             virtual void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const override;
+            virtual void setDirty(UUID const& uuid) override;
 
             virtual SceneTreeType getType() const override;
 

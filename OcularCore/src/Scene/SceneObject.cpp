@@ -143,16 +143,9 @@ namespace Ocular
 
         void SceneObject::onVariableModified(std::string const& varName)
         {
-            // Note that we react to m_Rotation and m_Scale even those these
-            // are technically exposed in our m_Transform. 
-
-            if(Utils::String::IsEqual(varName, "m_Rotation"))
+            if(Utils::String::IsEqual(varName, "m_Transform"))
             {
-
-            }
-            else if(Utils::String::IsEqual(varName, "m_Scale"))
-            {
-
+                updateBounds(m_Transform.getDirtyFlags());
             }
         }
 
@@ -279,11 +272,13 @@ namespace Ocular
         void SceneObject::setPosition(float const x, float const y, float const z)
         {
             m_Transform.setPosition(x, y, z);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::setPosition(Math::Vector3f const& position)
         {
             m_Transform.setPosition(position);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         Math::Vector3f SceneObject::getPosition(bool const local) const
@@ -306,26 +301,31 @@ namespace Ocular
         void SceneObject::translate(Math::Vector3f const& translation, bool local)
         {
             m_Transform.translate(translation, local);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::rotate(float const angle, Math::Vector3f const& axis)
         {
             m_Transform.rotate(angle, axis);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::rotate(Math::Quaternion const& rotation)
         {
             m_Transform.rotate(rotation);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::resetRotation()
         {
             m_Transform.setRotation(Math::Quaternion());
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::setRotation(Math::Quaternion const& rotation)
         {
             m_Transform.setRotation(rotation);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         Math::Quaternion const& SceneObject::getRotation() const
@@ -336,11 +336,13 @@ namespace Ocular
         void SceneObject::setScale(Math::Vector3f const& scale)
         {
             m_Transform.setScale(scale);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         void SceneObject::setScale(float const xScale, float const yScale, float const zScale)
         {
             m_Transform.setScale(Math::Vector3f(xScale, yScale, zScale));
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         Math::Vector3f const& SceneObject::getScale() const
@@ -351,11 +353,16 @@ namespace Ocular
         void SceneObject::setTransform(Math::Transform const& transform)
         {
             m_Transform = transform;
+
+            updateBounds(static_cast<uint32_t>(Math::Transform::DirtyFlags::Position) | 
+                         static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation) | 
+                         static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale));
         }
 
         void SceneObject::lookAt(Math::Vector3f const& point)
         {
             m_Transform.lookAt(point);
+            updateBounds(m_Transform.getDirtyFlags());
         }
 
         Math::Transform const& SceneObject::getTransform() const
@@ -951,7 +958,9 @@ namespace Ocular
                 m_Renderable->buildBounds(&m_BoundsSphereLocal, &m_BoundsAABBLocal, &m_BoundsOBBLocal);
             }
 
-            updateBounds(m_Transform.getDirtyFlags());
+            updateBounds(static_cast<uint32_t>(Math::Transform::DirtyFlags::Position) | 
+                         static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation) | 
+                         static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale));
         }
 
         Math::BoundsSphere SceneObject::getBoundsSphere(bool const local)
@@ -1036,8 +1045,15 @@ namespace Ocular
                     const float maxScale = fmaxf(fmaxf(scale.x, scale.y), scale.z);
 
                     m_BoundsSphereWorld.setRadius(m_BoundsSphereLocal.getRadius() * maxScale);
-                    m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * scale);
+                    m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * maxScale);
                     m_BoundsOBBWorld.setExtents(m_BoundsOBBLocal.getExtents() * scale);
+                }
+
+                OcularScene->triggerObjectDirty(m_UUID, m_IsStatic);
+
+                for(auto child : m_Children)
+                {
+                    child->updateBounds(dirtyFlags);
                 }
             }
         }

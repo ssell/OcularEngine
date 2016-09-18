@@ -266,6 +266,14 @@ namespace Ocular
             }
         }
 
+        void SceneManager::triggerObjectDirty(UUID const& uuid, bool const staticObject)
+        {
+            if(m_Scene)
+            {
+                m_Scene->triggerObjectDirty(uuid, staticObject);
+            }
+        }
+
         void SceneManager::createScene(std::string const& name, SceneTreeType const staticType, SceneTreeType const dynamicType)
         {
             /**

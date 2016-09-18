@@ -19,6 +19,8 @@
 #define __H__OCULAR_CORE_SCENE__H__
 
 #include "SceneTreeType.hpp"
+#include "UUID.hpp"
+
 #include "Math/Geometry/Frustum.hpp"
 
 #include <vector>
@@ -214,6 +216,8 @@ namespace Ocular
              * \param[in] routine
              */
             void routineRemoved(ARoutine* routine);
+
+            void triggerObjectDirty(UUID const& uuid, bool staticObject);
 
         private:
 
