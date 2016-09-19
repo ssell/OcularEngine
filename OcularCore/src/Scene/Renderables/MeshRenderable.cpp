@@ -116,13 +116,7 @@ namespace Ocular
 
             if(node)
             {
-                const BuilderNode* meshNode = node->getChild("m_Mesh");
                 const BuilderNode* materialsNode = node->getChild("Materials");
-
-                if(meshNode)
-                {
-                    setMesh(meshNode->getValue());
-                }
 
                 if(materialsNode)
                 {

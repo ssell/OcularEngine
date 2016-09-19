@@ -345,9 +345,19 @@ namespace Ocular
             updateBounds(m_Transform.getDirtyFlags());
         }
 
-        Math::Vector3f const& SceneObject::getScale() const
+        Math::Vector3f const& SceneObject::getScale(bool const local) const
         {
-            return m_Transform.getScale();
+            Math::Vector3f result = m_Transform.getScale();
+
+            if(!local)
+            {
+                if(m_Parent)
+                {
+                    result *= m_Parent->getScale(local);
+                }
+            }
+            
+            return result;
         }
 
         void SceneObject::setTransform(Math::Transform const& transform)
@@ -1022,14 +1032,7 @@ namespace Ocular
         {
             if(dirtyFlags)
             {
-                const Math::Matrix4x4 modelMatrix = getModelMatrix(false);
-
-                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Position))
-                {
-                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
-                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
-                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
-                }
+                const Math::Matrix4x4 modelMatrix = getModelMatrix(false); m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
 
                 if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation))
                 {
@@ -1041,12 +1044,26 @@ namespace Ocular
 
                 if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
                 {
+                    // If scale is dirty we must adjust both the size and position of the bounds.
+                    // Note that position is only affected if its a cascading scale change (ie coming
+                    // from the parent), but we perform the adjustment everytime for simplicity.
+
                     const Math::Vector3f scale = getScale();
                     const float maxScale = fmaxf(fmaxf(scale.x, scale.y), scale.z);
-
+                    
+                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
                     m_BoundsSphereWorld.setRadius(m_BoundsSphereLocal.getRadius() * maxScale);
+
+                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
                     m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * maxScale);
+
+                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
                     m_BoundsOBBWorld.setExtents(m_BoundsOBBLocal.getExtents() * scale);
+                }
+                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Position))
+                {
+                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
+                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
                 }
 
                 OcularScene->triggerObjectDirty(m_UUID, m_IsStatic);

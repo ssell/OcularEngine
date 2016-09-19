@@ -46,26 +46,29 @@ namespace Ocular
 
                         if(child)
                         {
-                            if(variable->isPointer)
+                            if(variable->isExposed)
                             {
-                                // If the variable is a pointer, we only handle loading it
-                                // if it can be cast to another ObjectIO.
-
-                                ObjectIO** buildableVar = (ObjectIO**)(variable->data);
-
-                                if(*buildableVar)
+                                if(variable->isPointer)
                                 {
-                                    // Pass off the current child node and let it load itself
-                                    (*buildableVar)->onLoad(child);
+                                    // If the variable is a pointer, we only handle loading it
+                                    // if it can be cast to another ObjectIO.
+
+                                    ObjectIO** buildableVar = (ObjectIO**)(variable->data);
+
+                                    if(*buildableVar)
+                                    {
+                                        // Pass off the current child node and let it load itself
+                                        (*buildableVar)->onLoad(child);
+                                    }
                                 }
-                            }
-                            else if(variable->isExposed)
-                            {
-                                ObjectIO* io = (ObjectIO*)(variable->data);
-
-                                if(io)
+                                else
                                 {
-                                    io->onLoad(child);
+                                    ObjectIO* io = (ObjectIO*)(variable->data);
+
+                                    if(io)
+                                    {
+                                        io->onLoad(child);
+                                    }
                                 }
                             }
                             else
