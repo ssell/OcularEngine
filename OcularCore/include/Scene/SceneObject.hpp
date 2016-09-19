@@ -306,7 +306,7 @@ namespace Ocular
             /**
              *
              */
-            Math::Vector3f const& getScale(bool local = true) const;
+            Math::Vector3f getScale(bool local = true) const;
 
             /**
              *

@@ -42,7 +42,7 @@ namespace Ocular
             if(light)
             {
                 position      = light->getPosition(false);
-                direction     = light->getTransform().getForwards();
+                direction     = -light->getTransform().getForwards().getNormalized();   // We want the direction to the light source
                 color         = light->getColor();
                 attenuation   = light->getAttenuation();
                 attenuation.w = light->getRange();

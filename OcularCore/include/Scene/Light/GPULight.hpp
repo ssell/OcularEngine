@@ -47,11 +47,11 @@ namespace Ocular
 
             void operator()(LightSource const* light);
 
-            Math::Vector4f position;
-            Math::Vector4f direction;
+            Math::Vector4f position;    ///< Position of the light source in world space. Used by point and spot lights.
+            Math::Vector4f direction;   ///< Direction to the light source. Used by directional and spot lights.
             Math::Vector4f color;
             Math::Vector4f attenuation; ///< .x = constant; .y = linear; .z = quadratic; .w = range
-            Math::Vector4f parameters;  ///< .x = intensity; .y = angle (spotlight); .z = type; .w = unused
+            Math::Vector4f parameters;  ///< .x = intensity; .y = angle (spotlight); .z = type (1 = point, 2 = spot, 3 = directional); .w = unused
         };
     }
     /**

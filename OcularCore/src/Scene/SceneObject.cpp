@@ -345,7 +345,7 @@ namespace Ocular
             updateBounds(m_Transform.getDirtyFlags());
         }
 
-        Math::Vector3f const& SceneObject::getScale(bool const local) const
+        Math::Vector3f SceneObject::getScale(bool const local) const
         {
             Math::Vector3f result = m_Transform.getScale();
 

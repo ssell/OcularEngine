@@ -61,7 +61,8 @@ namespace Ocular
         
         void DirectionalLight::exposeProperties()
         {
-
+            OCULAR_EXPOSE(m_Color);
+            OCULAR_EXPOSE(m_Intensity);
         }
 
         //----------------------------------------------------------------------------------

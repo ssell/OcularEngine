@@ -58,22 +58,28 @@ float4 calcReflectionVector(in float4 normal, in float4 toLight)
  */
 float calcAttenuation(in float4 toLight, in float4 attenuation)
 {
+	/**
+	 * The attenuation term is calculated as:
+	 *
+	 *                                 1.0f
+	 *     ------------------------------------------------------------------
+	 *     constant + (linear * distance) + (quadratic * distance * distance)
+	 *
+	 * Where:
+	 *
+	 *     attenuation.x = constant term
+	 *     attenuation.y = linear term
+	 *     attenuation.z = quadratic term
+	 *
+	 * We also multiply by a range modifier. If distance to light source is greater
+	 * than the light's range (attenuation.w), then the range modifier is 0.0. Otherwise,
+	 * the range modifier is 1.0.
+	 */
+
     const float dist = length(toLight);
+    const float rangeMod = step(dist, attenuation.w);
 
-    float result = 0.0f;
-
-    if(dist < attenuation.w)
-    {
-    	const float constant  = attenuation.x;
-	    const float linearr   = attenuation.y * dist;
-	    const float quadratic = attenuation.z * dist * dist;
-
-	    const float denom = constant + linearr + quadratic;
-
-	    result = 1.0f / denom;
-    }
-
-	return result;
+    return rangeMod * (1.0f / mad(attenuation.z, (dist * dist), mad(attenuation.y, dist, attenuation.x)));
 }
 
 /**
@@ -108,6 +114,23 @@ float4 phongBRDF(in float4 normal, in float4 toLight, in float4 toView, in float
 	return (colorDiff + colorSpecular);
 }
 
+void getLightNormAttenuation(in GPULight light, in float4 pixWorldPos, out float4 lightNorm, out float attenuation)
+{
+	if(light.parameters.z < 2.0f)
+    {
+        // Point Light 
+        float4 toLight = light.position - pixWorldPos;
+        lightNorm = normalize(toLight);
+        attenuation = calcAttenuation(toLight, light.attenuation);
+    }
+    else
+    {
+        // Directional Light
+        lightNorm = light.direction;
+        attenuation = 1.0f;
+    }
+}
+
 float4 calcRadiancePhong(in float4 pixWorldPos, in float4 normal)
 {
 	const float4 toView = normalize(_EyePosition - pixWorldPos);
@@ -119,13 +142,15 @@ float4 calcRadiancePhong(in float4 pixWorldPos, in float4 normal)
     // In the ambient light (index 0) we store the number of lights in the type slot (includes ambient light in count)
 
     [loop]
-    for(uint i = 1; i < _LightBuffer[0].parameters.z; i++)
+    for(uint i = 1; i < (uint)(_LightBuffer[0].parameters.z); i++)
     {
-        const float4 toLight     = _LightBuffer[i].position - pixWorldPos;
-        const float4 toLightNorm = normalize(toLight);
-        const float4 brdf        = phongBRDF(normal, toLightNorm, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
-        const float4 light       = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
-        const float  attenuation = calcAttenuation(toLight, _LightBuffer[i].attenuation);
+        float4 toLightNorm = 0.0f;
+        float  attenuation = 1.0f;
+
+        getLightNormAttenuation(_LightBuffer[i], pixWorldPos, toLightNorm, attenuation);
+
+        const float4 brdf  = phongBRDF(normal, toLightNorm, toView, float4(1.0f, 1.0f, 1.0f, 1.0f), float4(0.1f, 0.1, 0.1, 1.0f), 4.0f);
+        const float4 light = _LightBuffer[i].color * _LightBuffer[i].parameters.x;
 
         radiance += light * brdf * attenuation * ccosAngle(normal, toLightNorm);
     }
