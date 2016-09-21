@@ -68,6 +68,26 @@ namespace Ocular
             return result;
         }
 
+        void StringProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value)
+            {
+                std::string valueCast = void_cast<std::string>(value);
+
+                if(m_Variable.data)
+                {
+                    std::string* valuePtr = void_cast<std::string*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_LineValue->setText(valueCast.c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

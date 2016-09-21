@@ -23,7 +23,7 @@
 struct VSOutput
 {
     float4 position : SV_Position;
-    float4 uv0      : TEXCOORD0;
+    float4 normal   : NORMAL0;
 };
 
 struct PSOutput
@@ -42,7 +42,7 @@ VSOutput VSMain(VSInput input)
     VSOutput output;
 
     output.position = mul(input.position, mvpMatrix);
-    output.uv0 = input.uv0;
+    output.normal   = normalize(mul(float4(input.normal.rgb, 0.0f), _NormalMatrix));
 
     return output;
 }
@@ -55,7 +55,7 @@ PSOutput PSMain(VSOutput input)
 {
     PSOutput output;
 
-    output.color = float4(input.uv0.rg, 0.0f, 1.0f);
+    output.color = (input.normal + 1.0f) * 0.5f;
 
     return output;
 }

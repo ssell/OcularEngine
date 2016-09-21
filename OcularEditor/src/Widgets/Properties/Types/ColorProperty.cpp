@@ -75,6 +75,26 @@ namespace Ocular
             return result;
         }
 
+        void ColorProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(Core::Color)))
+            {
+                Core::Color valueCast = void_cast<Core::Color>(value);
+
+                if(m_Variable.data)
+                {
+                    Core::Color* valuePtr = void_cast<Core::Color*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_ColorPreview->setColor(valueCast);
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

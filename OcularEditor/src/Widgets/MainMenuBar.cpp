@@ -218,6 +218,8 @@ namespace Ocular
             m_MenuActions.push_back(new QAction(tr("Scene Properties..."), this));
             m_MenuScene->addAction(m_MenuActions.back());
             connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneProperties()));
+
+            m_DialogSceneProperties = new ScenePropertiesDialog(this);  // Make member variable so we can non-modal ::show
         }
 
         void MainMenuBar::createHelpMenu()
@@ -384,12 +386,9 @@ namespace Ocular
 
         void MainMenuBar::onSceneProperties()
         {
-            ScenePropertiesDialog dialog;
-
-            if(dialog.exec())
+            if(m_DialogSceneProperties)
             {
-                int doSomething = 0;
-                doSomething++;
+                m_DialogSceneProperties->show();
             }
         }
 

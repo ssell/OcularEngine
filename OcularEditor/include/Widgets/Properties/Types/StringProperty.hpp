@@ -49,6 +49,12 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            /**
+             * \param[in] value Expected as a std::string
+             * \param[in] size  Unused in this implementation
+             */
+            virtual void setValue(void* value, uint32_t size = 0);
+
         protected:
 
         private:

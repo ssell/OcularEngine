@@ -57,6 +57,11 @@ namespace Ocular
             return false;
         }
 
+        void PropertyWidget::setValue(void* value, uint32_t const size)
+        {
+
+        }
+
         void PropertyWidget::setVariable(Core::ExposedVariable& variable)
         {
             m_Variable = variable;

@@ -68,6 +68,26 @@ namespace Ocular
             return result;
         }
 
+        void FloatProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(float)))
+            {
+                float valueCast = void_cast<float>(value);
+
+                if(m_Variable.data)
+                {
+                    float* valuePtr = void_cast<float*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_EditValue->setText(OcularString->toString<float>(valueCast).c_str());
+            }
+        }
+
         LineEdit* FloatProperty::getLineEdit()
         {
             return m_EditValue;

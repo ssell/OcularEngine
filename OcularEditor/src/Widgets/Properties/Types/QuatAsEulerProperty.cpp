@@ -114,6 +114,32 @@ namespace Ocular
             return result;
         }
 
+        void QuatAsEulerProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(Math::Quaternion)))
+            {
+                Math::Quaternion valueCast = void_cast<Math::Quaternion>(value);
+                Math::Euler euler(valueCast);
+
+                if(m_Variable.data)
+                {
+                    Math::Quaternion* quatPtr = void_cast<Math::Quaternion*>(m_Variable.data);
+
+                    if(quatPtr)
+                    {
+                        (*quatPtr).w() = valueCast.w();
+                        (*quatPtr).x() = valueCast.x();
+                        (*quatPtr).y() = valueCast.y();
+                        (*quatPtr).z() = valueCast.z();
+                    }
+                }
+
+                m_EditX->setText(OcularString->toString<float>(euler.getPitch()).c_str());
+                m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
+                m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

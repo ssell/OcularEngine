@@ -115,6 +115,32 @@ namespace Ocular
             return result;
         }
 
+        void Vector4Property::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(Math::Vector4f)))
+            {
+                Math::Vector4f valueCast = void_cast<Math::Vector4f>(value);
+
+                if(m_Variable.data)
+                {
+                    Math::Vector4f* valuePtr = void_cast<Math::Vector4f*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr).x = valueCast.x;
+                        (*valuePtr).y = valueCast.y;
+                        (*valuePtr).z = valueCast.z;
+                        (*valuePtr).w = valueCast.w;
+                    }
+                }
+                
+                m_EditX->setText(OcularString->toString<float>(valueCast.x).c_str());
+                m_EditY->setText(OcularString->toString<float>(valueCast.y).c_str());
+                m_EditZ->setText(OcularString->toString<float>(valueCast.z).c_str());
+                m_EditW->setText(OcularString->toString<float>(valueCast.w).c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

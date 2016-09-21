@@ -49,6 +49,11 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            /**
+             * \param[in] value Expected as a Math::Vector3f
+             */
+            virtual void setValue(void* value, uint32_t size) override;
+
         protected:
 
         private:

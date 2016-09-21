@@ -53,9 +53,10 @@ namespace Ocular
             virtual bool updateProperties() override;
 
             /**
-             * See QFileDialog::setNameFilter
+             * \param[in] value Expects a std::string with the file path.
+             * \param[in] size  Unused in this implementation
              */
-            void setNameFilter(std::string const& filter);
+            virtual void setValue(void* value, uint32_t size = 0) override;
 
         protected:
 

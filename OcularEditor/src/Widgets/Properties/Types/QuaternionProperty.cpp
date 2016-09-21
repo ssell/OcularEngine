@@ -115,6 +115,29 @@ namespace Ocular
             return result;
         }
 
+        void QuaternionProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(Math::Euler)))
+            {
+                Math::Quaternion valueCast = void_cast<Math::Quaternion>(value);
+
+                if(m_Variable.data)
+                {
+                    Math::Quaternion* valuePtr = void_cast<Math::Quaternion*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_EditW->setText(OcularString->toString<float>(valueCast.w()).c_str());
+                m_EditX->setText(OcularString->toString<float>(valueCast.x()).c_str());
+                m_EditY->setText(OcularString->toString<float>(valueCast.y()).c_str());
+                m_EditZ->setText(OcularString->toString<float>(valueCast.z()).c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

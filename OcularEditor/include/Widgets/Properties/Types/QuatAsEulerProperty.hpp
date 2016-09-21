@@ -52,6 +52,11 @@ namespace Ocular
 
             virtual bool updateProperties() override;
 
+            /**
+             * \param[in] value Expected to be a Math::Quaternion
+             */
+            virtual void setValue(void* value, uint32_t size);
+
         protected:
 
         private:

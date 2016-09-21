@@ -49,6 +49,8 @@ namespace Ocular
             ScenePropertiesDialog(QWidget* parent = nullptr);
             virtual ~ScenePropertiesDialog();
 
+            virtual void showEvent(QShowEvent* event) override;
+
         protected:
 
             void buildWidgets();
@@ -59,6 +61,8 @@ namespace Ocular
             void buildLightProperties();
             void buildSceneTreeProperties();
             void buildRendererProperties();
+
+            void restorePropertyStates();
 
         private slots:
 

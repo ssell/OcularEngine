@@ -48,6 +48,7 @@ namespace Ocular
             virtual ~EulerProperty();
 
             virtual bool updateProperties() override;
+            virtual void setValue(void* value, uint32_t size) override;
 
         protected:
 

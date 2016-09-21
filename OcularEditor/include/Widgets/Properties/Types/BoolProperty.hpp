@@ -48,6 +48,7 @@ namespace Ocular
             virtual ~BoolProperty();
 
             virtual bool updateProperties() override;
+            virtual void setValue(void* value, uint32_t size) override;
 
         protected:
 

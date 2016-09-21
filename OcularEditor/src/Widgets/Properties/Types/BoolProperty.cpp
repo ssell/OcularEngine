@@ -68,6 +68,26 @@ namespace Ocular
             return result;
         }
 
+        void BoolProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(bool)))
+            {
+                bool valueCast = void_cast<bool>(value);
+
+                if(m_Variable.data)
+                {
+                    bool* valuePtr = void_cast<bool*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_CheckValue->setText(OcularString->toString<bool>(valueCast).c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

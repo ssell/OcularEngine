@@ -18,6 +18,8 @@
 #ifndef __H__OCULAR_EDITOR_PROPERTY_WIDGET__H__
 #define __H__OCULAR_EDITOR_PROPERTY_WIDGET__H__
 
+#include <cstdint>
+
 #include <QtWidgets/qframe.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
@@ -64,6 +66,11 @@ namespace Ocular
              * \return Should return TRUE if a property was modified by the user; otherwise return FALSE.
              */
             virtual bool updateProperties();
+
+            /**
+             * Sets the value of the variable and/or widget.
+             */
+            virtual void setValue(void* value, uint32_t size);
 
             /**
              * Sets the variable whose data should be displayed and made available to

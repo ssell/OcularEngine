@@ -51,6 +51,13 @@ namespace Ocular
             virtual ~DirectoryProperty();
 
             virtual bool updateProperties() override;
+
+            /**
+             * \param[in] value Expects a std::string with the directory path.
+             * \param[in] size  Unused in this implementation
+             */
+            virtual void setValue(void* value, uint32_t size = 0) override;
+
         protected:
 
         private:

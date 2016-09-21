@@ -48,6 +48,7 @@ namespace Ocular
             virtual ~FloatProperty();
 
             virtual bool updateProperties() override;
+            virtual void setValue(void* value, uint32_t size) override;
 
             LineEdit* getLineEdit();
 

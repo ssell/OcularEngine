@@ -101,6 +101,28 @@ namespace Ocular
             return result;
         }
 
+        void EulerProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(Math::Euler)))
+            {
+                Math::Euler valueCast = void_cast<Math::Euler>(value);
+
+                if(m_Variable.data)
+                {
+                    Math::Euler* valuePtr = void_cast<Math::Euler*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_EditX->setText(OcularString->toString<float>(valueCast.getPitch()).c_str());
+                m_EditY->setText(OcularString->toString<float>(valueCast.getYaw()).c_str());
+                m_EditZ->setText(OcularString->toString<float>(valueCast.getRoll()).c_str());
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

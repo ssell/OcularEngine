@@ -90,6 +90,8 @@ namespace Ocular
             QMenu* m_MenuSceneLight;
             QMenu* m_MenuHelp;
 
+            QDialog* m_DialogSceneProperties;
+
             std::vector<QAction*> m_MenuActions;   ///< Container of all menu actions. Kept for end-of-life cleanup.
 
             std::string m_LastScenePath;

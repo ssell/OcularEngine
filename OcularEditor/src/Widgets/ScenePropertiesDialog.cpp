@@ -55,6 +55,13 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
+        void ScenePropertiesDialog::showEvent(QShowEvent* event)
+        {
+            QWidget::showEvent(event);
+
+            restorePropertyStates();
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -164,6 +171,25 @@ namespace Ocular
             m_ScrollLayout->addWidget(m_RendererTypeProperty);
         }
 
+        void ScenePropertiesDialog::restorePropertyStates()
+        {
+            //------------------------------------------------------------
+            // Light Properties
+
+            m_AmbientColorProperty->setValue(void_cast<Core::Color>(OcularLights->getAmbientLightColor()), sizeof(Core::Color));
+            m_AmbientIntensityProperty->setValue(void_cast<float>(OcularLights->getAmbientLightIntensity()), sizeof(float));
+            
+            //------------------------------------------------------------
+            // SceneTree Properties
+
+            // ...
+
+            //------------------------------------------------------------
+            // Renderer Properties
+
+            // ...
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------
@@ -171,12 +197,12 @@ namespace Ocular
         void ScenePropertiesDialog::onOK()
         {
             onApply();
-            accept();
+            hide();
         }
 
         void ScenePropertiesDialog::onCancel()
         {
-            accept();
+            hide();
         }
 
         void ScenePropertiesDialog::onApply()
