@@ -79,7 +79,7 @@ namespace Ocular
 
         void LightManager::setAmbientLightIntensity(float const intensity)
         {
-            m_GPUAmbientLight.parameters.x = intensity;
+            m_GPUAmbientLight.parameters.x = Math::Clamp(intensity);
         }
 
         float LightManager::getAmbientLightIntensity() const

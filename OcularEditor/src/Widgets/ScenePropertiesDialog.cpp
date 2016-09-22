@@ -214,6 +214,9 @@ namespace Ocular
 
             OcularLights->setAmbientLightColor(m_AmbientColor);
             OcularLights->setAmbientLightIntensity(m_AmbientIntensity);
+
+            m_AmbientIntensity = Math::Clamp(m_AmbientIntensity);
+            m_AmbientIntensityProperty->setValue(void_cast<float>(m_AmbientIntensity), sizeof(float));
         }
     }
 }
