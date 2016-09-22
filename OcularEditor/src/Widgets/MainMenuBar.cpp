@@ -19,6 +19,7 @@
 #include "Widgets/MainMenuBar.hpp"
 #include "Widgets/MainWindow.hpp"
 #include "Widgets/ScenePropertiesDialog.hpp"
+#include "Widgets/MaterialEditorDialog.hpp"
 
 #include "SceneObjectImporter.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
@@ -56,12 +57,16 @@ namespace Ocular
             : QMenuBar(parent),
               m_MenuFile(nullptr),
               m_MenuScene(nullptr),
+              m_MenuSceneMesh(nullptr),
+              m_MenuSceneLight(nullptr),
+              m_MenuTools(nullptr),
               m_MenuHelp(nullptr)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             createFileMenu();
             createSceneMenu();
+            createToolsMenu();
             createHelpMenu();
         }
 
@@ -76,6 +81,7 @@ namespace Ocular
 
             delete m_MenuFile;
             delete m_MenuScene;
+            delete m_MenuTools;
             delete m_MenuHelp;
         }
 
@@ -220,6 +226,17 @@ namespace Ocular
             connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onSceneProperties()));
 
             m_DialogSceneProperties = new ScenePropertiesDialog(this);  // Make member variable so we can non-modal ::show
+        }
+
+        void MainMenuBar::createToolsMenu()
+        {
+            m_MenuTools = addMenu(tr("&Tools"));
+
+            m_MenuActions.push_back(new QAction(tr("Material Editor"), this));
+            m_MenuTools->addAction(m_MenuActions.back());
+            connect(m_MenuActions.back(), SIGNAL(triggered()), this, SLOT(onToolsMaterialEditor()));
+
+            m_DialogMaterialEditor = new MaterialEditorDialog(this);
         }
 
         void MainMenuBar::createHelpMenu()
@@ -389,6 +406,14 @@ namespace Ocular
             if(m_DialogSceneProperties)
             {
                 m_DialogSceneProperties->show();
+            }
+        }
+
+        void MainMenuBar::onToolsMaterialEditor()
+        {
+            if(m_DialogMaterialEditor)
+            {
+                m_DialogMaterialEditor->show();
             }
         }
 

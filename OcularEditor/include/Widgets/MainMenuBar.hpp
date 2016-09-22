@@ -58,6 +58,7 @@ namespace Ocular
 
             void createFileMenu();
             void createSceneMenu();
+            void createToolsMenu();
             void createHelpMenu();
 
         private slots:
@@ -78,9 +79,9 @@ namespace Ocular
             void onSceneImportObject();
             void onSceneProperties();
 
+            void onToolsMaterialEditor();
+
             void onHelpAbout();
-
-
 
         private:
 
@@ -88,9 +89,11 @@ namespace Ocular
             QMenu* m_MenuScene;
             QMenu* m_MenuSceneMesh;
             QMenu* m_MenuSceneLight;
+            QMenu* m_MenuTools;
             QMenu* m_MenuHelp;
 
             QDialog* m_DialogSceneProperties;
+            QDialog* m_DialogMaterialEditor;
 
             std::vector<QAction*> m_MenuActions;   ///< Container of all menu actions. Kept for end-of-life cleanup.
 
