@@ -15,6 +15,7 @@
  */
 
 #include "stdafx.h"
+
 #include "Widgets/SceneTreeItem.hpp"
 #include "Widgets/SceneTree.hpp"
 

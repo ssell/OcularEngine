@@ -15,7 +15,9 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/MaterialEditorDialog.hpp"
+
+#include "Widgets/MaterialEditor/MaterialEditorDialog.hpp"
+#include "Widgets/MaterialEditor/MaterialTree.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -49,7 +51,10 @@ namespace Ocular
         
         void MaterialEditorDialog::showEvent(QShowEvent* event)
         {
-
+            if(m_MaterialTree)
+            {
+                m_MaterialTree->refresh();
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -60,27 +65,73 @@ namespace Ocular
         {
             m_MainLayout = new QHBoxLayout();
 
-            buildMaterialTree();
-            buildPropertyPanel();
-            buildActionButtons();
+            buildLeftSide();
+            buildRightSide();
 
             setLayout(m_MainLayout);
         }
 
-        void MaterialEditorDialog::buildMaterialTree()
+        void MaterialEditorDialog::buildLeftSide()
         {
-            m_MaterialTreeFrame = new QFrame();
-            m_MainLayout->addWidget(m_MaterialTreeFrame);
+            // Takes up left third of the dialog.
+            // Consists of a frame, frame layout, and tree widget added to frame layout.
+            
+            //------------------------------------------------------------
+            // Left-Side Frame
+            //------------------------------------------------------------
+            
+            m_MaterialTreeLayout = new QVBoxLayout();
+
+            m_LeftFrame = new QFrame();
+            m_LeftFrame->setLayout(m_MaterialTreeLayout);
+
+            QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+            sizePolicy.setHorizontalStretch(1);
+            m_LeftFrame->setSizePolicy(sizePolicy);
+
+            m_MainLayout->addWidget(m_LeftFrame);
+
+            //------------------------------------------------------------
+            // "Materials" GroupBox
+            //------------------------------------------------------------
+
+            m_MaterialGroupLayout = new QVBoxLayout();
+            m_MaterialGroupLayout->setContentsMargins(1, 25, 1, 5);
+
+            m_MaterialGroupBox = new QGroupBox("Materials");
+            m_MaterialGroupBox->setLayout(m_MaterialGroupLayout);
+
+            m_MaterialTreeLayout->addWidget(m_MaterialGroupBox);
+
+            //------------------------------------------------------------
+            // Material Tree Widget
+            //------------------------------------------------------------
+
+            m_MaterialTree = new MaterialTree();
+            m_MaterialGroupLayout->addWidget(m_MaterialTree);
+        }
+
+        void MaterialEditorDialog::buildRightSide()
+        {
+            m_RightLayout = new QVBoxLayout();
+            
+            m_RightFrame = new QFrame();
+            m_RightFrame->setLayout(m_RightLayout);
+
+            QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+            sizePolicy.setHorizontalStretch(2);
+            m_RightFrame->setSizePolicy(sizePolicy);
+
+            m_MainLayout->addWidget(m_RightFrame);
+
+            buildPropertyPanel();
+            buildActionButtons();
         }
 
         void MaterialEditorDialog::buildPropertyPanel()
         {
-            m_PropertyPanelLayout = new QVBoxLayout();
-            
-            m_PropertyPanelFrame = new QFrame();
-            m_PropertyPanelLayout->addWidget(m_PropertyPanelFrame);
-
-            m_MainLayout->addLayout(m_PropertyPanelLayout);
+            m_PropertyGroupBox = new QGroupBox("Properties");
+            m_RightLayout->addWidget(m_PropertyGroupBox);
         }
 
         void MaterialEditorDialog::buildActionButtons()
@@ -89,19 +140,23 @@ namespace Ocular
             m_ActionButtonFrame = new QFrame();
 
             m_ButtonOK = new QPushButton("OK");
+            m_ButtonOK->setFixedSize(QSize(50, 30));
             connect(m_ButtonOK, SIGNAL(clicked()), this, SLOT(onOK()));
             m_ActionButtonLayout->addWidget(m_ButtonOK);
 
             m_ButtonCancel = new QPushButton("Cancel");
+            m_ButtonCancel->setFixedSize(QSize(50, 30));
             connect(m_ButtonCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
             m_ActionButtonLayout->addWidget(m_ButtonCancel);
             
             m_ButtonApply = new QPushButton("Apply");
+            m_ButtonApply->setFixedSize(QSize(50, 30));
             connect(m_ButtonApply, SIGNAL(clicked()), this, SLOT(onApply()));
             m_ActionButtonLayout->addWidget(m_ButtonApply);
 
+            m_ActionButtonFrame->setFixedHeight(50);
             m_ActionButtonFrame->setLayout(m_ActionButtonLayout);
-            m_PropertyPanelLayout->addWidget(m_ActionButtonFrame);
+            m_RightLayout->addWidget(m_ActionButtonFrame);
         }
 
         //----------------------------------------------------------------------------------

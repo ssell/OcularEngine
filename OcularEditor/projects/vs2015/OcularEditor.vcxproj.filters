@@ -117,6 +117,12 @@
     <Filter Include="Source Files\Gizmos\Axis">
       <UniqueIdentifier>{df54cced-664e-403b-bd69-16cb29af05bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets\MaterialEditor">
+      <UniqueIdentifier>{6aeb87f5-3034-43c4-800d-9d205e8686a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets\MaterialEditor">
+      <UniqueIdentifier>{250225e0-3da2-4b9c-b65b-6707233b7c57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -434,14 +440,26 @@
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_ColorProperty.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Widgets\MaterialEditorDialog.cpp">
-      <Filter>Source Files\Widgets</Filter>
+    <ClCompile Include="..\..\src\Widgets\MaterialEditor\MaterialEditorDialog.cpp">
+      <Filter>Source Files\Widgets\MaterialEditor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MaterialEditorDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_MaterialEditorDialog.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MaterialEditor\MaterialTree.cpp">
+      <Filter>Source Files\Widgets\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_MaterialTree.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_MaterialTree.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MaterialEditor\MaterialTreeItem.cpp">
+      <Filter>Source Files\Widgets\MaterialEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -619,6 +637,9 @@
     <ClInclude Include="..\..\include\Gizmos\Gizmo.hpp">
       <Filter>Header Files\Gizmos</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\MaterialEditor\MaterialTreeItem.hpp">
+      <Filter>Header Files\Widgets\MaterialEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\include\Widgets\MainWindow.hpp">
@@ -675,8 +696,11 @@
     <CustomBuild Include="..\..\include\Widgets\Properties\Types\ColorProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\..\include\Widgets\MaterialEditorDialog.hpp">
-      <Filter>Header Files\Widgets</Filter>
+    <CustomBuild Include="..\..\include\Widgets\MaterialEditor\MaterialEditorDialog.hpp">
+      <Filter>Header Files\Widgets\MaterialEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\MaterialEditor\MaterialTree.hpp">
+      <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

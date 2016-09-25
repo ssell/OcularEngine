@@ -34,6 +34,8 @@ namespace Ocular
      */
     namespace Editor
     {
+        class MaterialTree;
+
         /**
          * \class MaterialEditorDialog
          * \brief Dialog to view and editor Material resource objects.
@@ -52,7 +54,8 @@ namespace Ocular
         protected:
 
             void buildWidgets();
-            void buildMaterialTree();
+            void buildLeftSide();
+            void buildRightSide();
             void buildPropertyPanel();
             void buildActionButtons();
 
@@ -65,16 +68,23 @@ namespace Ocular
         private:
 
             QHBoxLayout* m_MainLayout;              ///< Layout for the entire dialog 
-            QVBoxLayout* m_PropertyPanelLayout;     ///< Layout for the right-side of the dialog (property panel)
+            QVBoxLayout* m_RightLayout;             ///< Layout for the right-side of the dialog (property panel/action buttons)
             QHBoxLayout* m_ActionButtonLayout;      ///< Layout for the action buttons on lower-right side
+            QVBoxLayout* m_MaterialTreeLayout;
+            QVBoxLayout* m_MaterialGroupLayout;
 
             QPushButton* m_ButtonOK;
             QPushButton* m_ButtonCancel;
             QPushButton* m_ButtonApply;
 
-            QFrame* m_MaterialTreeFrame;
-            QFrame* m_PropertyPanelFrame;
+            QFrame* m_LeftFrame;
+            QFrame* m_RightFrame;
             QFrame* m_ActionButtonFrame;
+            
+            QGroupBox* m_MaterialGroupBox;
+            QGroupBox* m_PropertyGroupBox;
+
+            MaterialTree* m_MaterialTree;
 
         };
     }

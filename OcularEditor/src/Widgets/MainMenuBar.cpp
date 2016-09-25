@@ -19,7 +19,7 @@
 #include "Widgets/MainMenuBar.hpp"
 #include "Widgets/MainWindow.hpp"
 #include "Widgets/ScenePropertiesDialog.hpp"
-#include "Widgets/MaterialEditorDialog.hpp"
+#include "Widgets/MaterialEditor/MaterialEditorDialog.hpp"
 
 #include "SceneObjectImporter.hpp"
 #include "Scene/Renderables/MeshRenderable.hpp"
