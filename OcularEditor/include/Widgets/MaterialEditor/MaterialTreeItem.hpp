@@ -42,6 +42,15 @@ namespace Ocular
     {
         class MaterialTree;
 
+        struct MaterialTreeItemDescriptor
+        {
+            std::string name;
+            std::string path;
+            std::string mapping;
+
+            bool isMaterial;
+        };
+
         /**
          * \class MaterialTreeItem
          * \brief 
@@ -50,36 +59,24 @@ namespace Ocular
         {
         public:
 
-            /**
-             * Constructor for a top-level tree item.
-             *
-             * \param[in] parent       Parent tree to add this item to
-             * \param[in] materialPath Material resource path
-             */
-            MaterialTreeItem(MaterialTree* parent, std::string const& materialPath);
+            MaterialTreeItem(MaterialTree* parent, MaterialTreeItemDescriptor const& descriptor);
+            MaterialTreeItem(MaterialTreeItem* parent, MaterialTreeItemDescriptor const& descriptor);
+
             virtual ~MaterialTreeItem();
 
             //------------------------------------------------------------
 
-            /**
-             * \return The Material that is represented by this item.
-             */
-            Graphics::Material const* getMaterial() const;
-
-            /**
-             *
-             */
-            std::string const& getMaterialPath() const;
+            MaterialTreeItemDescriptor const& getDescriptor() const;
+            
+            bool isMaterial() const;
 
         protected:
 
             void buildItem();
-            std::string getLocalName();
 
             //------------------------------------------------------------
 
-            Graphics::Material* m_Material;
-            std::string m_MaterialPath;
+            MaterialTreeItemDescriptor m_Descriptor;
 
         private:
         };

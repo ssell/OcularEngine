@@ -29,55 +29,55 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        MaterialTreeItem::MaterialTreeItem(MaterialTree* parent, std::string const& materialPath)
+        MaterialTreeItem::MaterialTreeItem(MaterialTree* parent, MaterialTreeItemDescriptor const& descriptor)
             : QTreeWidgetItem(parent),
-              m_MaterialPath(materialPath)
+              m_Descriptor(descriptor)
+        {
+            buildItem();
+        }
+
+        MaterialTreeItem::MaterialTreeItem(MaterialTreeItem* parent, MaterialTreeItemDescriptor const& descriptor)
+            : QTreeWidgetItem(parent),
+            m_Descriptor(descriptor)
         {
             buildItem();
         }
 
         MaterialTreeItem::~MaterialTreeItem()
         {
-            m_Material = nullptr;
+
         }
 
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
         
-        Graphics::Material const* MaterialTreeItem::getMaterial() const
+        MaterialTreeItemDescriptor const& MaterialTreeItem::getDescriptor() const
         {
-            return m_Material;
+            return m_Descriptor;
         }
 
-        std::string const& MaterialTreeItem::getMaterialPath() const
+        bool MaterialTreeItem::isMaterial() const
         {
-            return m_MaterialPath;
+            return m_Descriptor.isMaterial;
         }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
 
         void MaterialTreeItem::buildItem()
         {
-            setText(0, QString(getLocalName().c_str()));
-            setText(0, QString(m_MaterialPath.c_str()));
-        }
-        
-        std::string MaterialTreeItem::getLocalName()
-        {
-            // Resource path names are separated by '/'
-            // The local name is simply the text following the last '/'
+            setText(0, QString(m_Descriptor.name.c_str()));
 
-            std::string result = m_MaterialPath;
-            const size_t pos = result.find_last_of('/');
-
-            if(pos != std::string::npos)
+            if(m_Descriptor.isMaterial)
             {
-                result = m_MaterialPath.substr(pos + 1);
+                setText(1, QString(m_Descriptor.mapping.c_str()));
             }
-
-            return result;
+            else
+            {
+                setText(1, QString(m_Descriptor.path.c_str()));
+            }
         }
 
         //----------------------------------------------------------------------------------
