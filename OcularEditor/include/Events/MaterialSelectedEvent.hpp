@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MATERIAL_TREE__H__
-#define __H__OCULAR_EDITOR_MATERIAL_TREE__H__
+#ifndef __H__OCULAR_EDITOR_EVENTS_MATERIAL_SELECTED__H__
+#define __H__OCULAR_EDITOR_EVENTS_MATERIAL_SELECTED__H__
 
-#include <QtWidgets/qtreewidget.h>
-#include <unordered_map>
+#include "Events/AEvent.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +34,29 @@ namespace Ocular
      */
     namespace Editor
     {
-        class MaterialTreeItem;
-
-        /**
-         * \class MaterialTree
-         * \brief 
+        /** 
+         * \class MaterialSelectedEvent
+         * 
+         * Event generated when a Material has been selected in the MaterialEditor tree widget.
+         *
+         * String Descriptor: "MaterialSelectedEvent" <br/>
+         * Event Priority: Medium 
          */
-        class MaterialTree : public QTreeWidget
+        class MaterialSelectedEvent : public Core::AEvent
         {
-            Q_OBJECT
-
         public:
-
-            MaterialTree(QWidget* parent = nullptr);
-            ~MaterialTree();
-
+            
             /**
-             * Refreshes the list of materials.
+             * \param[in] object Pointer to object that was selected. Set to NULL to indicate previous object was unselected.
              */
-            void refresh();
+            MaterialSelectedEvent(std::string const& mappingName);
+            ~MaterialSelectedEvent();
+
+            std::string mappingName;
 
         protected:
 
-            virtual void mousePressEvent(QMouseEvent* event) override;
-
-            void populateTree();
-            void splitMapping(std::string const& mapping, std::string& path, std::string& name);
-            MaterialTreeItem* createParent(std::string const& parentPath);
-
-        private slots:
-
         private:
-
-            std::unordered_map<std::string, MaterialTreeItem*> m_ItemMap;    ///< Convenience mapping of paths and items. Key is the full path of the item.
-
         };
     }
     /**

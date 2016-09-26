@@ -35,6 +35,7 @@ namespace Ocular
     namespace Editor
     {
         class MaterialTree;
+        class MaterialPropertiesPanel;
 
         /**
          * \class MaterialEditorDialog
@@ -72,6 +73,7 @@ namespace Ocular
             QHBoxLayout* m_ActionButtonLayout;      ///< Layout for the action buttons on lower-right side
             QVBoxLayout* m_MaterialTreeLayout;
             QVBoxLayout* m_MaterialGroupLayout;
+            QVBoxLayout* m_PropertyGroupLayout;
 
             QPushButton* m_ButtonOK;
             QPushButton* m_ButtonCancel;
@@ -85,7 +87,7 @@ namespace Ocular
             QGroupBox* m_PropertyGroupBox;
 
             MaterialTree* m_MaterialTree;
-
+            MaterialPropertiesPanel* m_MaterialProperties;
         };
     }
     /**

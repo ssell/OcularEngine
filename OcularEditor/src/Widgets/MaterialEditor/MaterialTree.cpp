@@ -19,6 +19,8 @@
 #include "Widgets/MaterialEditor/MaterialTree.hpp"
 #include "Widgets/MaterialEditor/MaterialTreeItem.hpp"
 
+#include "Events/MaterialSelectedEvent.hpp"
+
 //------------------------------------------------------------------------------------------
 
 namespace Ocular
@@ -60,6 +62,33 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
+
+        void MaterialTree::mousePressEvent(QMouseEvent* event)
+        {
+            QTreeWidget::mousePressEvent(event);
+
+            if(event)
+            {
+                MaterialTreeItem* item = dynamic_cast<MaterialTreeItem*>(itemAt(event->pos()));
+
+                if(item)
+                {
+                    MaterialTreeItemDescriptor descriptor = item->getDescriptor();
+
+                    if(descriptor.isMaterial)
+                    {
+                        OcularEvents->queueEvent(std::make_shared<MaterialSelectedEvent>(descriptor.mapping));
+                    }
+                }
+                else
+                {
+                    clearSelection();
+
+                    const QModelIndex index;
+                    selectionModel()->setCurrentIndex(index, QItemSelectionModel::Select);
+                }
+            }
+        }
         
         void MaterialTree::populateTree()
         {

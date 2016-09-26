@@ -15,11 +15,11 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MATERIAL_TREE__H__
-#define __H__OCULAR_EDITOR_MATERIAL_TREE__H__
+#ifndef __H__OCULAR_EDITOR_MATERIAL_PROPERTIES_DISPLAY_BOX__H__
+#define __H__OCULAR_EDITOR_MATERIAL_PROPERTIES_DISPLAY_BOX__H__
 
-#include <QtWidgets/qtreewidget.h>
-#include <unordered_map>
+#include "Widgets/Properties/PropertiesDisplayBox.hpp"
+#include "Graphics/Material/Material.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +35,25 @@ namespace Ocular
      */
     namespace Editor
     {
-        class MaterialTreeItem;
-
         /**
-         * \class MaterialTree
-         * \brief 
+         * \class MaterialPropertiesDisplayBox
          */
-        class MaterialTree : public QTreeWidget
+        class MaterialPropertiesDisplayBox : public PropertiesDisplayBox
         {
-            Q_OBJECT
-
         public:
 
-            MaterialTree(QWidget* parent = nullptr);
-            ~MaterialTree();
+            MaterialPropertiesDisplayBox(std::string const& displayName, QWidget* parent);
+            ~MaterialPropertiesDisplayBox();
 
-            /**
-             * Refreshes the list of materials.
-             */
-            void refresh();
+            //------------------------------------------------------------
 
+            virtual void setObject(Core::SceneObject* object) override;
+            virtual void setMaterial(Graphics::Material* material) = 0;
+
+            virtual void updateProperties() override;
         protected:
 
-            virtual void mousePressEvent(QMouseEvent* event) override;
-
-            void populateTree();
-            void splitMapping(std::string const& mapping, std::string& path, std::string& name);
-            MaterialTreeItem* createParent(std::string const& parentPath);
-
-        private slots:
-
         private:
-
-            std::unordered_map<std::string, MaterialTreeItem*> m_ItemMap;    ///< Convenience mapping of paths and items. Key is the full path of the item.
-
         };
     }
     /**
@@ -81,4 +66,4 @@ namespace Ocular
 
 //------------------------------------------------------------------------------------------
 
-#endif
+#endif#pragma once

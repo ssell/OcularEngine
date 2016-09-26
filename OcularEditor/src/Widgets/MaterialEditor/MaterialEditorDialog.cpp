@@ -18,6 +18,7 @@
 
 #include "Widgets/MaterialEditor/MaterialEditorDialog.hpp"
 #include "Widgets/MaterialEditor/MaterialTree.hpp"
+#include "Widgets/MaterialEditor/MaterialPropertiesPanel.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -30,7 +31,9 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         MaterialEditorDialog::MaterialEditorDialog(QWidget* parent)
-            : QDialog(parent)
+            : QDialog(parent),
+              m_MaterialTree(nullptr),
+              m_MaterialProperties(nullptr)
         {
             setWindowTitle("Material Editor");
             setStyleSheet(GeneralStyles::windowStyle);
@@ -130,7 +133,16 @@ namespace Ocular
 
         void MaterialEditorDialog::buildPropertyPanel()
         {
+            m_PropertyGroupLayout = new QVBoxLayout();
+            m_PropertyGroupLayout->setAlignment(Qt::AlignTop);
+            m_PropertyGroupLayout->setContentsMargins(0, 16, 0, 5);
+
             m_PropertyGroupBox = new QGroupBox("Properties");
+            m_PropertyGroupBox->setLayout(m_PropertyGroupLayout);
+
+            m_MaterialProperties = new MaterialPropertiesPanel();
+            m_PropertyGroupLayout->addWidget(m_MaterialProperties);
+
             m_RightLayout->addWidget(m_PropertyGroupBox);
         }
 

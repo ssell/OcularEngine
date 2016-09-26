@@ -106,9 +106,7 @@ namespace Ocular
             virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
             bool isObjectTracked(Core::SceneObject* object);
-
             void createObject(std::string const& type, Core::SceneObject* parent);
-
             uint32_t getItemDepth(QTreeWidgetItem* item) const;
 
         private slots:

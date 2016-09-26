@@ -15,8 +15,7 @@
  */
 
 #include "stdafx.h"
-#include "Widgets/Properties/PropertiesDisplayBox.hpp"
-#include "Widgets/Properties/PropertiesDisplayTitleBar.hpp"
+#include "Widgets/MaterialEditor/UniformsDisplayBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -28,20 +27,13 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
 
-        PropertiesDisplayBox::PropertiesDisplayBox(std::string const& displayName, bool const canMinimize, bool const canClose, QWidget* parent)
-            : QFrame(parent),
-              m_Object(nullptr)
+        UniformsDisplayBox::UniformsDisplayBox(QWidget* parent)
+            : MaterialPropertiesDisplayBox("Uniforms", parent)
         {
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-            setStyleSheet("QGroupBox{ border: 0px solid black; }");
 
-            buildLayout();
-            buildTitleBar(displayName, canMinimize, canClose);
-
-            setTitle(displayName);
         }
 
-        PropertiesDisplayBox::~PropertiesDisplayBox()
+        UniformsDisplayBox::~UniformsDisplayBox()
         {
 
         }
@@ -50,34 +42,19 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        QSize PropertiesDisplayBox::sizeHint() const
+        void UniformsDisplayBox::setMaterial(Graphics::Material* material)
         {
-            return QSize(275, 50);
+
         }
 
-        void PropertiesDisplayBox::setTitle(std::string const& title)
+        void UniformsDisplayBox::updateProperties()
         {
-            m_TitleBar->setTitle(title);
+
         }
 
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
-
-        void PropertiesDisplayBox::buildLayout()
-        {
-            m_Layout = new QVBoxLayout();
-            m_Layout->setAlignment(Qt::AlignTop);
-            m_Layout->setContentsMargins(0, 5, 0, 5);
-
-            setLayout(m_Layout);
-        }
-
-        void PropertiesDisplayBox::buildTitleBar(std::string const& displayName, bool canMinimize, bool canClose)
-        {
-            m_TitleBar = new PropertiesDisplayTitleBar(displayName, canMinimize, canClose);
-            m_Layout->addWidget(m_TitleBar);
-        }
 
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS

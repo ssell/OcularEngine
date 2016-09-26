@@ -15,11 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MATERIAL_TREE__H__
-#define __H__OCULAR_EDITOR_MATERIAL_TREE__H__
+#ifndef __H__OCULAR_EDITOR_MATERIAL_TEXTURES_DISPLAY_BOX__H__
+#define __H__OCULAR_EDITOR_MATERIAL_TEXTURES_DISPLAY_BOX__H__
 
-#include <QtWidgets/qtreewidget.h>
-#include <unordered_map>
+#include "MaterialPropertiesDisplayBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +34,24 @@ namespace Ocular
      */
     namespace Editor
     {
-        class MaterialTreeItem;
-
         /**
-         * \class MaterialTree
-         * \brief 
+         * \class TexturesDisplayBox
          */
-        class MaterialTree : public QTreeWidget
+        class TexturesDisplayBox : public MaterialPropertiesDisplayBox
         {
-            Q_OBJECT
-
         public:
 
-            MaterialTree(QWidget* parent = nullptr);
-            ~MaterialTree();
+            TexturesDisplayBox(QWidget* parent = nullptr);
+            ~TexturesDisplayBox();
 
-            /**
-             * Refreshes the list of materials.
-             */
-            void refresh();
+            //------------------------------------------------------------
+
+            virtual void setMaterial(Graphics::Material* material) override;
+            virtual void updateProperties() override;
 
         protected:
 
-            virtual void mousePressEvent(QMouseEvent* event) override;
-
-            void populateTree();
-            void splitMapping(std::string const& mapping, std::string& path, std::string& name);
-            MaterialTreeItem* createParent(std::string const& parentPath);
-
-        private slots:
-
         private:
-
-            std::unordered_map<std::string, MaterialTreeItem*> m_ItemMap;    ///< Convenience mapping of paths and items. Key is the full path of the item.
-
         };
     }
     /**

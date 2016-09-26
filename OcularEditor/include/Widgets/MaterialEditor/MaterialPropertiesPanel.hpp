@@ -15,11 +15,13 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_MATERIAL_TREE__H__
-#define __H__OCULAR_EDITOR_MATERIAL_TREE__H__
+#ifndef __H__OCULAR_EDITOR_MATERIAL_PROPERTIES_PANEL__H__
+#define __H__OCULAR_EDITOR_MATERIAL_PROPERTIES_PANEL__H__
 
-#include <QtWidgets/qtreewidget.h>
-#include <unordered_map>
+#include <QtWidgets/qframe.h>
+
+#include "Graphics/Material/Material.hpp"
+#include "Events/AEventListener.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -35,40 +37,45 @@ namespace Ocular
      */
     namespace Editor
     {
-        class MaterialTreeItem;
+        class PropertyWidget;
+        class MaterialPropertiesDisplayBox;
 
         /**
-         * \class MaterialTree
-         * \brief 
+         * \class MaterialPropertiesPanel
          */
-        class MaterialTree : public QTreeWidget
-        {
+        class MaterialPropertiesPanel : public QFrame, public Ocular::Core::AEventListener
+        { 
             Q_OBJECT
 
         public:
 
-            MaterialTree(QWidget* parent = nullptr);
-            ~MaterialTree();
+            MaterialPropertiesPanel(QWidget* parent = nullptr);
+            ~MaterialPropertiesPanel();
 
-            /**
-             * Refreshes the list of materials.
-             */
-            void refresh();
+            void setMaterial(std::string const& mapping);
 
         protected:
 
-            virtual void mousePressEvent(QMouseEvent* event) override;
+            virtual bool onEvent(std::shared_ptr<Core::AEvent> event) override;
 
-            void populateTree();
-            void splitMapping(std::string const& mapping, std::string& path, std::string& name);
-            MaterialTreeItem* createParent(std::string const& parentPath);
+            void buildBaseWidgets();
+            void updateProperties();
 
         private slots:
 
         private:
 
-            std::unordered_map<std::string, MaterialTreeItem*> m_ItemMap;    ///< Convenience mapping of paths and items. Key is the full path of the item.
+            Graphics::Material* m_Material;
+            std::string m_MaterialMapping;
 
+            QVBoxLayout* m_LayoutMain;
+
+            PropertyWidget* m_PropertyMapping;
+            PropertyWidget* m_PropertyFile;
+
+            MaterialPropertiesDisplayBox* m_PropertyBoxUniforms;
+            MaterialPropertiesDisplayBox* m_PropertyBoxTextures;
+            MaterialPropertiesDisplayBox* m_PropertyBoxRenderStates;
         };
     }
     /**
