@@ -17,6 +17,7 @@
 #include "stdafx.h"
 
 #include "Widgets/MaterialEditor/MaterialPropertiesPanel.hpp"
+#include "Widgets/MaterialEditor/ShadersDisplayBox.hpp"
 #include "Widgets/MaterialEditor/UniformsDisplayBox.hpp"
 #include "Widgets/MaterialEditor/TexturesDisplayBox.hpp"
 #include "Widgets/MaterialEditor/RenderStatesDisplayBox.hpp"
@@ -53,6 +54,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
+
+        QSize MaterialPropertiesPanel::sizeHint() const
+        {
+            return QSize(475, 475);
+        }
 
         void MaterialPropertiesPanel::setMaterial(std::string const& mapping)
         {
@@ -103,10 +109,12 @@ namespace Ocular
 
             //------------------------------------------------------------
 
+            m_PropertyBoxShaders      = new ShadersDisplayBox();
             m_PropertyBoxUniforms     = new UniformsDisplayBox();
             m_PropertyBoxTextures     = new TexturesDisplayBox();
             m_PropertyBoxRenderStates = new RenderStatesDisplayBox();
-
+            
+            m_LayoutMain->addWidget(m_PropertyBoxShaders);
             m_LayoutMain->addWidget(m_PropertyBoxUniforms);
             m_LayoutMain->addWidget(m_PropertyBoxTextures);
             m_LayoutMain->addWidget(m_PropertyBoxRenderStates);
@@ -128,6 +136,11 @@ namespace Ocular
             m_PropertyFile->setValue(void_cast<std::string>(sourceFile.getFullPath()), 0);
 
             //------------------------------------------------------------
+
+            if(m_PropertyBoxShaders)
+            {
+                m_PropertyBoxShaders->setMaterial(m_Material);
+            }
 
             if(m_PropertyBoxUniforms)
             {

@@ -43,6 +43,7 @@ namespace Ocular
         Uniform::Uniform(Uniform const& other)
         {
             m_Name     = other.getName();
+            m_Type     = other.getType();
             m_Size     = Math::Clamp<uint32_t>(other.getSize(), 0, Uniform::MaxDataSize);
             m_Register = other.getRegister();
 
@@ -57,6 +58,7 @@ namespace Ocular
         void Uniform::operator=(Uniform const& other)
         {
             m_Name     = other.getName();
+            m_Type     = other.getType();
             m_Size     = Math::Clamp<uint32_t>(other.getSize(), 0, Uniform::MaxDataSize);
             m_Register = other.getRegister();
 
@@ -180,6 +182,20 @@ namespace Ocular
         std::string const& Uniform::getName() const
         {
             return m_Name;
+        }
+
+        //----------------------------------------------------------------
+        // Type Methods
+        //----------------------------------------------------------------
+
+        void Uniform::setType(std::string const& type)
+        {
+            m_Type = type;
+        }
+
+        std::string const& Uniform::getType() const
+        {
+            return m_Type;
         }
 
         //----------------------------------------------------------------

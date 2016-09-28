@@ -111,6 +111,11 @@ namespace Ocular
             Uniform const* getUniform(uint32_t registerIndex) const;
 
             /**
+             * 
+             */
+            std::vector<Uniform> const* getUniforms() const;
+
+            /**
              * \return Returns the number of individual uniforms in this UniformBuffer
              */
             uint32_t getNumUniforms() const;

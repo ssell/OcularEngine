@@ -485,6 +485,15 @@
     <ClCompile Include="..\..\src\Events\MaterialSelectedEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_UniformsDisplayBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_UniformsDisplayBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Widgets\MaterialEditor\ShadersDisplayBox.cpp">
+      <Filter>Source Files\Widgets\MaterialEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdafx.h">
@@ -664,9 +673,6 @@
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\MaterialTreeItem.hpp">
       <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\MaterialEditor\UniformsDisplayBox.hpp">
-      <Filter>Header Files\Widgets\MaterialEditor</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\TexturesDisplayBox.hpp">
       <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </ClInclude>
@@ -678,6 +684,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Events\MaterialSelectedEvent.hpp">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widgets\MaterialEditor\ShadersDisplayBox.hpp">
+      <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -742,6 +751,9 @@
       <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\MaterialEditor\MaterialPropertiesPanel.hpp">
+      <Filter>Header Files\Widgets\MaterialEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\MaterialEditor\UniformsDisplayBox.hpp">
       <Filter>Header Files\Widgets\MaterialEditor</Filter>
     </CustomBuild>
   </ItemGroup>

@@ -141,7 +141,16 @@ namespace Ocular
             m_PropertyGroupBox->setLayout(m_PropertyGroupLayout);
 
             m_MaterialProperties = new MaterialPropertiesPanel();
-            m_PropertyGroupLayout->addWidget(m_MaterialProperties);
+
+            QScrollArea* scroll = new QScrollArea();
+            scroll->setStyleSheet("QScrollArea{ background-color: rgba(0,0,0,0); border: 0px solid black; }");
+            scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	        scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            scroll->setWidget(m_MaterialProperties);
+            scroll->setWidgetResizable(true);
+            scroll->setLayout(new QVBoxLayout());
+
+            m_PropertyGroupLayout->addWidget(scroll);
 
             m_RightLayout->addWidget(m_PropertyGroupBox);
         }

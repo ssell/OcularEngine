@@ -235,22 +235,29 @@ namespace Ocular
                     {
                         Uniform uniform;
 
-                        if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<float>::name))
+                        const std::string type = uniformNode->getType();
+
+                        if(Utils::String::IsEqual(type, Utils::TypeName<float>::name))
                         {
                             float data = OcularString->fromString<float>(uniformNode->getValue());
                             uniform.setData(data);
                         }
-                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Vector4f>::name))
+                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
                         {
                             Math::Vector4f data = OcularString->fromString<Math::Vector4f>(uniformNode->getValue());
                             uniform.setData(data);
                         }
-                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Matrix3x3>::name))
+                        else if(Utils::String::IsEqual(type, Utils::TypeName<Core::Color>::name))
+                        {
+                            Core::Color data = OcularString->fromString<Core::Color>(uniformNode->getValue());
+                            uniform.setData(data);
+                        }
+                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))
                         {
                             Math::Matrix3x3 data = OcularString->fromString<Math::Matrix3x3>(uniformNode->getValue());
                             uniform.setData(data);
                         }
-                        else if(Utils::String::IsEqual(uniformNode->getType(), Utils::TypeName<Math::Matrix4x4>::name))
+                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Matrix4x4>::name))
                         {
                             Math::Matrix4x4 data = OcularString->fromString<Math::Matrix4x4>(uniformNode->getValue());
                             uniform.setData(data);
@@ -261,6 +268,7 @@ namespace Ocular
                         }
 
                         uniform.setName(uniformNode->getName());
+                        uniform.setType(type);
                         uniform.setRegister(index);
 
                         m_UniformBuffer->setUniform(uniform);
@@ -511,6 +519,16 @@ namespace Ocular
             {
                 OcularLogger->warning("Specified Texture register index of ", index, " exceeds maximum register index of ", (OcularGraphics->getMaxBoundTextures() - 1), OCULAR_INTERNAL_LOG("Material", "removeTexture"));
             }
+        }
+
+        uint32_t Material::getNumTextures() const
+        {
+            return static_cast<uint32_t>(m_Textures.size());
+        }
+
+        std::vector<TextureSamplerInfo> const* Material::getTextures() const
+        {
+            return &m_Textures;
         }
 
         //----------------------------------------------------------------------------------

@@ -242,6 +242,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Debug\moc_UniformsDisplayBox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\QtGenerated\Release\moc_ButtonColorPicker.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -318,6 +322,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\QtGenerated\Release\moc_UniformsDisplayBox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\Renderer\EditorForwardRenderer.cpp" />
     <ClCompile Include="..\..\src\Routines\EditorCameraController.cpp" />
     <ClCompile Include="..\..\src\Routines\InputLoggerRoutine.cpp" />
@@ -338,6 +346,7 @@
     <ClCompile Include="..\..\src\Widgets\MaterialEditor\MaterialTree.cpp" />
     <ClCompile Include="..\..\src\Widgets\MaterialEditor\MaterialTreeItem.cpp" />
     <ClCompile Include="..\..\src\Widgets\MaterialEditor\RenderStatesDisplayBox.cpp" />
+    <ClCompile Include="..\..\src\Widgets\MaterialEditor\ShadersDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\MaterialEditor\TexturesDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\MaterialEditor\UniformsDisplayBox.cpp" />
     <ClCompile Include="..\..\src\Widgets\PropertiesBox.cpp" />
@@ -464,8 +473,26 @@
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\MaterialPropertiesDisplayBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\MaterialTreeItem.hpp" />
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\RenderStatesDisplayBox.hpp" />
+    <ClInclude Include="..\..\include\Widgets\MaterialEditor\ShadersDisplayBox.hpp" />
     <ClInclude Include="..\..\include\Widgets\MaterialEditor\TexturesDisplayBox.hpp" />
-    <ClInclude Include="..\..\include\Widgets\MaterialEditor\UniformsDisplayBox.hpp" />
+    <CustomBuild Include="..\..\include\Widgets\MaterialEditor\UniformsDisplayBox.hpp">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing UniformsDisplayBox.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/MaterialEditor/UniformsDisplayBox.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing UniformsDisplayBox.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/MaterialEditor/UniformsDisplayBox.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing UniformsDisplayBox.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/MaterialEditor/UniformsDisplayBox.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing UniformsDisplayBox.hpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\src\QtGenerated\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../../include/Widgets/MaterialEditor/UniformsDisplayBox.hpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I$(ProjectDir)..\..\..\OcularCore\include" "-I$(ProjectDir)..\..\..\OcularD3D11\include" "-I$(ProjectDir)..\..\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\src\QtGenerated\$(ConfigurationName)\." "-I.\..\..\src\QtGenerated"</Command>
+    </CustomBuild>
     <ClInclude Include="..\..\include\Widgets\Properties\CustomDisplayRegistrar.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\CustomObjectDisplay.hpp" />
     <ClInclude Include="..\..\include\Widgets\Properties\Objects\CameraDisplay.hpp" />

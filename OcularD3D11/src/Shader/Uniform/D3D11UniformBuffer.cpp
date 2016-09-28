@@ -197,27 +197,19 @@ namespace Ocular
              *
              *          float -> {value, padding, padding , padding}
              *
-             *       Vector4f -> {value.x, value.y, value.z, value.w}
+             *       Vector4f -> {value.x, value.y, value.z, value.w}      (also Color)
              *
              *     Matrix3x3 -> {value[0][0], value[0][1], value[0][2], padding,
-             *                    value[1][0], value[1][1], value[1][2], padding,
-             *                    value[2][0], value[2][1], value[2][2], padding}
+             *                   value[1][0], value[1][1], value[1][2], padding,
+             *                   value[2][0], value[2][1], value[2][2], padding}
              *
              *     Matrix4x4 -> {value[0][0], value[0][1], value[0][2], value[0][3],
-             *                    value[1][0], value[1][1], value[1][2], value[1][3],
-             *                    value[2][0], value[2][1], value[2][2], value[2][3],
-             *                    value[3][0], value[3][1], value[3][2], value[3][3]}
+             *                   value[1][0], value[1][1], value[1][2], value[1][3],
+             *                   value[2][0], value[2][1], value[2][2], value[2][3],
+             *                   value[3][0], value[3][1], value[3][2], value[3][3]}
              */
-
-            Uniform* lastUniform = &m_Uniforms[0];
-
-            for(uint32_t i = 0; i < m_Uniforms.size(); i++)
-            {
-                if(m_Uniforms[i].getRegister() > lastUniform->getRegister())
-                {
-                    lastUniform = &m_Uniforms[i];
-                }
-            }
+            
+            Uniform* lastUniform = &m_Uniforms.back();
 
             if(lastUniform)
             {
@@ -260,6 +252,11 @@ namespace Ocular
 
                 for(uint32_t i = 0; i < m_Uniforms.size(); i++)
                 {
+                    if(m_Uniforms[i].getSize() == 0)
+                    {
+                        continue;
+                    }
+
                     float const* data = m_Uniforms[i].getData();
 
                     if(data)

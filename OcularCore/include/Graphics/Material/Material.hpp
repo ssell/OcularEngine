@@ -115,6 +115,17 @@ namespace Ocular
              */
             virtual void removeTexture(uint32_t index);
 
+            /**
+             * \return Number of textures attached to this material.
+             */
+            uint32_t getNumTextures() const;
+
+            /**
+             * \return Vector of all textures attached to this material.
+             * \note Returned vector is read-only. See Material::setTexture and Material::removeTexture to modify.
+             */
+            std::vector<TextureSamplerInfo> const* getTextures() const;
+
             //------------------------------------------------------------
             // Shader Methods
             //------------------------------------------------------------

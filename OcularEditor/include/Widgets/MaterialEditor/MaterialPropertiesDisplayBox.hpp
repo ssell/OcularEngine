@@ -48,10 +48,16 @@ namespace Ocular
             //------------------------------------------------------------
 
             virtual void setObject(Core::SceneObject* object) override;
-            virtual void setMaterial(Graphics::Material* material) = 0;
+            virtual void setMaterial(Graphics::Material* material);
 
             virtual void updateProperties() override;
+
         protected:
+
+            void releaseProperties();
+
+            std::vector<PropertyWidget*> m_Properties;
+            Graphics::Material* m_Material;
 
         private:
         };

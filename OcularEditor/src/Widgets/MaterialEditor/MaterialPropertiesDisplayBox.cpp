@@ -30,7 +30,7 @@ namespace Ocular
         MaterialPropertiesDisplayBox::MaterialPropertiesDisplayBox(std::string const& displayName, QWidget* parent)
             : PropertiesDisplayBox(displayName, true, false, parent)
         {
-
+            hide();
         }
 
         MaterialPropertiesDisplayBox::~MaterialPropertiesDisplayBox()
@@ -48,6 +48,21 @@ namespace Ocular
             // This is probably a design flaw in PropertiesDisplayBox...
         }
 
+        void MaterialPropertiesDisplayBox::setMaterial(Graphics::Material* material)
+        {
+            releaseProperties();
+            m_Material = material;
+
+            if(m_Material)
+            {
+                show();
+            }
+            else
+            {
+                hide();
+            }
+        }
+
         void MaterialPropertiesDisplayBox::updateProperties()
         {
 
@@ -57,6 +72,22 @@ namespace Ocular
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
         
+        void MaterialPropertiesDisplayBox::releaseProperties()
+        {
+            for(auto prop : m_Properties)
+            {
+                if(prop)
+                {
+                    m_Layout->removeWidget(prop);
+
+                    delete prop;
+                    prop = nullptr;
+                }
+            }
+
+            m_Properties.clear();
+        }
+
         //----------------------------------------------------------------------------------
         // PRIVATE METHODS
         //----------------------------------------------------------------------------------

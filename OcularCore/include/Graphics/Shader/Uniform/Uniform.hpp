@@ -118,7 +118,7 @@ namespace Ocular
             //------------------------------------------------------------
 
             /** 
-             * Sets the name of this uniform.
+             * Sets the name of this Uniform.
              * \param[in] name
              */
             void setName(std::string const& name);
@@ -129,11 +129,26 @@ namespace Ocular
             std::string const& getName() const;
 
             //------------------------------------------------------------
+            // Type Methods
+            //------------------------------------------------------------
+
+            /**
+             * Sets the superficial type of this Uniform (float, Color, Vector4f, Matrix4x4)
+             * \param[in] type String representation of the type (see Utils::TypeName<T>::name)
+             */
+            void setType(std::string const& type);
+
+            /**
+             * \return The superficial type of this Uniform.
+             */
+            std::string const& getType() const;
+
+            //------------------------------------------------------------
             // Register Methods
             //------------------------------------------------------------
 
             /**
-             * Sets the register index of this uniform.
+             * Sets the register index of this Uniform.
              * \param[in] index
              */
             void setRegister(uint32_t index);
@@ -146,6 +161,8 @@ namespace Ocular
         protected:
 
             std::string m_Name;
+            std::string m_Type;
+
             uint32_t m_Register;
 
             uint32_t m_Size;

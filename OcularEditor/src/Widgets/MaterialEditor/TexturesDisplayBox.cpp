@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "Widgets/MaterialEditor/TexturesDisplayBox.hpp"
+#include "Widgets/Properties/Types/ResourceProperty.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -44,7 +45,37 @@ namespace Ocular
 
         void TexturesDisplayBox::setMaterial(Graphics::Material* material)
         {
+            MaterialPropertiesDisplayBox::setMaterial(material);
 
+            if(material)
+            {
+                auto textures = material->getTextures();
+
+                if(textures)
+                {
+                    m_Properties.resize(textures->size(), nullptr);
+
+                    for(uint32_t i = 0; i < m_Properties.size(); ++i)
+                    {
+                        auto textureInfo = textures->at(i);
+
+                        m_Properties[i] = OcularEditor.createPropertyWidget(textureInfo.samplerName, Utils::TypeName<Ocular::Core::Resource>::name);
+                        ResourceProperty* resourceProp = dynamic_cast<ResourceProperty*>(m_Properties[i]);
+
+                        if(resourceProp)
+                        {
+                            resourceProp->setResourceType(Core::ResourceType::Texture);
+
+                            if(textureInfo.texture)
+                            {
+                                resourceProp->setValue(void_cast<std::string>(textureInfo.texture->getMappingName()), 0);
+                            }
+                        }
+
+                        m_Layout->addWidget(m_Properties[i]);
+                    }
+                }
+            }
         }
 
         void TexturesDisplayBox::updateProperties()

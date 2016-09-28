@@ -15,14 +15,10 @@
  */
 
 #pragma once
-#ifndef __H__OCULAR_EDITOR_RESOURCE_PROPERTY__H__
-#define __H__OCULAR_EDITOR_RESOURCE_PROPERTY__H__
+#ifndef __H__OCULAR_EDITOR_MATERIAL_SHADERS_DISPLAY_BOX__H__
+#define __H__OCULAR_EDITOR_MATERIAL_SHADERS_DISPLAY_BOX__H__
 
-#include "Widgets/Properties/PropertyWidget.hpp"
-#include "Widgets/Standard/LineEdit.hpp"
-#include "Widgets/Standard/ButtonResourceBrowse.hpp"
-
-#include <string>
+#include "MaterialPropertiesDisplayBox.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -38,39 +34,34 @@ namespace Ocular
      */
     namespace Editor
     {
+        class ResourceProperty;
+
         /**
-         * \class ResourceProperty
-         *
-         * Pre-built property display for Core::Resource variables.
+         * \class ShaderDisplayBox
          */
-        class ResourceProperty : public PropertyWidget
+        class ShadersDisplayBox : public MaterialPropertiesDisplayBox
         {
         public:
 
-            ResourceProperty(QWidget* parent = nullptr);
-            virtual ~ResourceProperty();
+            ShadersDisplayBox(QWidget* parent = nullptr);
+            ~ShadersDisplayBox();
 
-            virtual bool updateProperties() override;
+            //------------------------------------------------------------
 
-            /**
-             *
-             */
-            void setResourceType(Core::ResourceType type);
-
-            /**
-             * \param[in] value Resource mapping name expected as a std::string
-             * \param[in] size  Unused in this implementation
-             */
-            virtual void setValue(void* value, uint32_t size = 0);
+            virtual void setMaterial(Graphics::Material* material) override;
+            virtual void updateProperties() override;
 
         protected:
 
+            void buildWidgets();
+
         private:
 
-            LineEdit* m_LineValue;
-            ButtonResourceBrowse* m_ButtonBrowse;
-
-            Core::ResourceType m_Type;
+            ResourceProperty* m_PropertyVertexShader;
+            ResourceProperty* m_PropertyGeometryShader;
+            ResourceProperty* m_PropertyFragmentShader;
+            ResourceProperty* m_PropertyPreTessShader;
+            ResourceProperty* m_PropertyPostTessShader;
         };
     }
     /**

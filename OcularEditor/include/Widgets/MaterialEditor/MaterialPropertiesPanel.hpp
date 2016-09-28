@@ -52,6 +52,8 @@ namespace Ocular
             MaterialPropertiesPanel(QWidget* parent = nullptr);
             ~MaterialPropertiesPanel();
 
+            virtual QSize sizeHint() const override;
+
             void setMaterial(std::string const& mapping);
 
         protected:
@@ -73,6 +75,7 @@ namespace Ocular
             PropertyWidget* m_PropertyMapping;
             PropertyWidget* m_PropertyFile;
 
+            MaterialPropertiesDisplayBox* m_PropertyBoxShaders;
             MaterialPropertiesDisplayBox* m_PropertyBoxUniforms;
             MaterialPropertiesDisplayBox* m_PropertyBoxTextures;
             MaterialPropertiesDisplayBox* m_PropertyBoxRenderStates;
