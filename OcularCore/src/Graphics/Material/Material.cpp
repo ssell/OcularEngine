@@ -728,6 +728,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
+            uniform.setType(Utils::TypeName<float>::name);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -759,6 +760,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
+            uniform.setType(Utils::TypeName<Math::Vector4f>::name);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -803,6 +805,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
+            uniform.setType(Utils::TypeName<Math::Matrix3x3>::name);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -843,6 +846,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
+            uniform.setType(Utils::TypeName<Math::Matrix4x4>::name);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 

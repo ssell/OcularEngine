@@ -48,7 +48,7 @@ namespace Ocular
             m_ComboProjection->insertItem(0, "Perspective");
             m_ComboProjection->insertItem(1, "Orthographic");
 
-            m_PropertyProjection = new PropertyWidget();
+            m_PropertyProjection = new PropertyWidget("Projection");
             m_PropertyProjection->setDisplayName("Projection");
             m_PropertyProjection->addWidgetRightSide(m_ComboProjection);
 

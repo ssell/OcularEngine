@@ -50,6 +50,8 @@ namespace Ocular
 
         void ColorPreview::setColor(Core::Color const& color)
         {
+            m_Color = color;
+
             const uint32_t r = static_cast<uint32_t>(color.r * 255.0f);
             const uint32_t g = static_cast<uint32_t>(color.g * 255.0f);
             const uint32_t b = static_cast<uint32_t>(color.b * 255.0f);
@@ -64,6 +66,11 @@ namespace Ocular
             const std::string stylesheet = "background-color: rgba(" + colorStr + "); border: 0px solid rgb(27, 27, 28);";
 
             setStyleSheet(stylesheet.c_str());
+        }
+
+        Core::Color const& ColorPreview::getColor() const
+        {
+            return m_Color;
         }
 
         //----------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         FloatProperty::FloatProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<float>::name, parent)
         {
             m_EditValue = new LineEdit(LineType::Float);
             m_LayoutRight->addWidget(m_EditValue);
@@ -86,6 +86,11 @@ namespace Ocular
 
                 m_EditValue->setText(OcularString->toString<float>(valueCast).c_str());
             }
+        }
+
+        std::string FloatProperty::getValue() const
+        {
+            return m_EditValue->text().toStdString();
         }
 
         LineEdit* FloatProperty::getLineEdit()

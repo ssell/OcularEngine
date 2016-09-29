@@ -70,6 +70,14 @@ namespace Ocular
                 updateProperties();
             }
         }
+
+        void MaterialPropertiesPanel::onApply()
+        {
+            m_PropertyBoxShaders->onApply();
+            m_PropertyBoxUniforms->onApply();
+            m_PropertyBoxTextures->onApply();
+            m_PropertyBoxRenderStates->onApply();
+        }
         
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

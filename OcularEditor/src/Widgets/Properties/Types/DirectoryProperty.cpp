@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         DirectoryProperty::DirectoryProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Directory>::name, parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonDirectoryBrowse();
@@ -100,6 +100,11 @@ namespace Ocular
 
                 m_LineValue->setText(OcularString->toString<std::string>(valueCast).c_str());
             }
+        }
+
+        std::string DirectoryProperty::getValue() const
+        {
+            return m_LineValue->text().toStdString();
         }
 
         //----------------------------------------------------------------------------------

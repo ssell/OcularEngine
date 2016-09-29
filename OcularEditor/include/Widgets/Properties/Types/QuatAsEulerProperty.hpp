@@ -55,7 +55,9 @@ namespace Ocular
             /**
              * \param[in] value Expected to be a Math::Quaternion
              */
-            virtual void setValue(void* value, uint32_t size);
+            virtual void setValue(void* value, uint32_t size) override;
+
+            virtual std::string getValue() const override;
 
         protected:
 

@@ -81,6 +81,44 @@ namespace Ocular
 
         }
 
+        void UniformsDisplayBox::onApply()
+        {
+            if(m_Material)
+            {
+                uint32_t currRegister = 0;    // Keep track of current register incase we need to add new uniform
+                auto uniformBuffer = m_Material->getUniformBuffer();
+
+                if(uniformBuffer)
+                {
+                    for(auto prop : m_Properties)
+                    {
+                        if(prop)
+                        {
+                            const std::string name = prop->getDisplayName();
+                            const std::string value = prop->getValue();
+
+                            auto uniform = uniformBuffer->getUniform(name);
+
+                            if(uniform)
+                            {
+                                const std::string type = uniform->getType();
+
+                                currRegister = uniform->getRegister();
+
+                                setUniform(name, currRegister, value, type);
+                            }
+                            else
+                            {
+                                // Uniform does not already exists, so must create brand new
+                                const std::string type = prop->getType();
+                                setUniform(name, currRegister, value, type);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -142,6 +180,34 @@ namespace Ocular
             //------------------------------------------------------------
             
             m_Layout->addLayout(m_NewUniformLayout);
+        }
+
+        void UniformsDisplayBox::setUniform(std::string const& name, uint32_t& currRegister, std::string const& value, std::string const& type)
+        {
+            // Could do this purely abstractly, but I will allow myself this one ugly if/else chain...
+            // (Plus the types supported as uniforms are much less volatile than general object properties)
+
+            if(OcularString->IsEqual(type, Utils::TypeName<float>::name))
+            {
+                m_Material->setUniform(name, currRegister, OcularString->fromString<float>(value));
+                currRegister += 1;
+            }
+            else if(OcularString->IsEqual(type, Utils::TypeName<Core::Color>::name) ||
+                    OcularString->IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
+            {
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value));
+                currRegister += 1;
+            }
+            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))
+            {
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Matrix3x3>(value));
+                currRegister += 4;
+            }
+            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix4x4>::name))
+            {
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Matrix4x4>(value));
+                currRegister += 4;
+            }
         }
 
         //----------------------------------------------------------------------------------

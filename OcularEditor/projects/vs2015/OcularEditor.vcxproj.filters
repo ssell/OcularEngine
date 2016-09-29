@@ -628,9 +628,6 @@
     <ClInclude Include="..\..\include\Widgets\Properties\PropertiesDisplayTitleBar.hpp">
       <Filter>Header Files\Widgets\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp">
-      <Filter>Header Files\Widgets\Properties\Types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Widgets\Properties\Types\DirectoryProperty.hpp">
       <Filter>Header Files\Widgets\Properties\Types</Filter>
     </ClInclude>
@@ -755,6 +752,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\include\Widgets\MaterialEditor\UniformsDisplayBox.hpp">
       <Filter>Header Files\Widgets\MaterialEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\include\Widgets\Properties\Types\ResourceProperty.hpp">
+      <Filter>Header Files\Widgets\Properties\Types</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

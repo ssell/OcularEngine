@@ -52,8 +52,11 @@ namespace Ocular
             virtual QSize sizeHint() const override;
 
             void setColor(Core::Color const& color);
+            Core::Color const& getColor() const;
 
         protected:
+
+            Core::Color m_Color;
 
         private:
 

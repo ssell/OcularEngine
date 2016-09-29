@@ -53,6 +53,7 @@ namespace Ocular
              * \param[in] value Expected as a Math::Vector2f
              */
             virtual void setValue(void* value, uint32_t size) override;
+            virtual std::string getValue() const override;
 
             QLabel* m_LabelX;
             QLabel* m_LabelY;

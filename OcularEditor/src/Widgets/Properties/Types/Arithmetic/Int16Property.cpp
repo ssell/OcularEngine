@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         Int16Property::Int16Property(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<int16_t>::name, parent)
         {
             m_EditValue = new LineEdit(LineType::Int16);
             m_LayoutRight->addWidget(m_EditValue);
@@ -66,6 +66,31 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void Int16Property::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(int16_t)))
+            {
+                int16_t valueCast = void_cast<int16_t>(value);
+
+                if(m_Variable.data)
+                {
+                    int16_t* valuePtr = void_cast<int16_t*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_EditValue->setText(OcularString->toString<int16_t>(valueCast).c_str());
+            }
+        }
+
+        std::string Int16Property::getValue() const
+        {
+            return m_EditValue->text().toStdString();
         }
 
         LineEdit* Int16Property::getLineEdit()

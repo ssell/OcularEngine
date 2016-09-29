@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         EulerProperty::EulerProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Math::Euler>::name, parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
@@ -121,6 +121,12 @@ namespace Ocular
                 m_EditY->setText(OcularString->toString<float>(valueCast.getYaw()).c_str());
                 m_EditZ->setText(OcularString->toString<float>(valueCast.getRoll()).c_str());
             }
+        }
+
+        std::string EulerProperty::getValue() const
+        {
+            auto qstr = m_EditX->text() + " " + m_EditY->text() + " " + m_EditZ->text();
+            return qstr.toStdString();
         }
 
         //----------------------------------------------------------------------------------

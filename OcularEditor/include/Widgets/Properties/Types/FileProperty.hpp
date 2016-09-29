@@ -57,6 +57,7 @@ namespace Ocular
              * \param[in] size  Unused in this implementation
              */
             virtual void setValue(void* value, uint32_t size = 0) override;
+            virtual std::string getValue() const override;
 
         protected:
 

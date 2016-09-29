@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         FileProperty::FileProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::File>::name, parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonFileBrowse();
@@ -99,6 +99,11 @@ namespace Ocular
 
                 m_LineValue->setText(OcularString->toString<std::string>(valueCast).c_str());
             }
+        }
+
+        std::string FileProperty::getValue() const
+        {
+            return m_LineValue->text().toStdString();
         }
 
         //----------------------------------------------------------------------------------

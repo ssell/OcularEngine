@@ -51,6 +51,7 @@ namespace Ocular
             virtual void setMaterial(Graphics::Material* material);
 
             virtual void updateProperties() override;
+            virtual void onApply();
 
         protected:
 

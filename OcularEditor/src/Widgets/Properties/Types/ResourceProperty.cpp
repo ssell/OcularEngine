@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         ResourceProperty::ResourceProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Resource>::name, parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonResourceBrowse();
@@ -48,7 +48,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
-        
+
         bool ResourceProperty::updateProperties()
         {
             bool result = false;
@@ -122,6 +122,31 @@ namespace Ocular
 
                 m_LineValue->setText(valueCast.c_str());
             }
+        }
+
+        std::string ResourceProperty::getValue() const
+        {
+            return m_LineValue->text().toStdString();
+        }
+
+        bool ResourceProperty::validateResource(bool const isEmptyValid)
+        {
+            bool result = false;
+
+            const std::string text = m_LineValue->text().toStdString();
+
+            if(OcularResources->doesExist(text))
+            {
+                result = true;
+            }
+            else if(isEmptyValid && text.empty())
+            {
+                result = true;
+            }
+
+            m_LineValue->setInvalid(!result);
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

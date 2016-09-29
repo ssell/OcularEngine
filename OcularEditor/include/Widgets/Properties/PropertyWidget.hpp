@@ -52,7 +52,7 @@ namespace Ocular
         {
         public:
 
-            PropertyWidget(QWidget* parent = nullptr);
+            PropertyWidget(std::string const& type, QWidget* parent = nullptr);
             ~PropertyWidget();
 
             virtual QSize sizeHint() const override;
@@ -71,6 +71,16 @@ namespace Ocular
              * Sets the value of the variable and/or widget.
              */
             virtual void setValue(void* value, uint32_t size);
+
+            /**
+             * \return Value as a std::string
+             */
+            virtual std::string getValue() const;
+
+            /**
+             * \return Type of property as a string
+             */
+            std::string getType() const;
 
             /**
              * Sets the variable whose data should be displayed and made available to
@@ -134,6 +144,7 @@ namespace Ocular
             QLabel* m_LabelName;
 
             std::string m_DisplayName;
+            std::string m_Type;
         };
     }
     /**

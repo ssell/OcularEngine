@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         Vector4Property::Vector4Property(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Math::Vector4f>::name, parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
@@ -139,6 +139,12 @@ namespace Ocular
                 m_EditZ->setText(OcularString->toString<float>(valueCast.z).c_str());
                 m_EditW->setText(OcularString->toString<float>(valueCast.w).c_str());
             }
+        }
+
+        std::string Vector4Property::getValue() const
+        {
+            auto qstr = m_EditX->text() + " " + m_EditY->text() + " " + m_EditZ->text() + " " + m_EditW->text();
+            return qstr.toStdString();
         }
 
         //----------------------------------------------------------------------------------

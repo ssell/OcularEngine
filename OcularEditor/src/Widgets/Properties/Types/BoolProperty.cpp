@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         BoolProperty::BoolProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<bool>::name, parent)
         {
             m_CheckValue = new CheckBox();
             m_LayoutRight->addWidget(m_CheckValue);
@@ -86,6 +86,11 @@ namespace Ocular
 
                 m_CheckValue->setText(OcularString->toString<bool>(valueCast).c_str());
             }
+        }
+
+        std::string BoolProperty::getValue() const
+        {
+            return OcularString->toString<bool>(m_CheckValue->isChecked());
         }
 
         //----------------------------------------------------------------------------------

@@ -27,8 +27,9 @@ namespace Ocular
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
         
-        PropertyWidget::PropertyWidget(QWidget* parent)
-            : QFrame(parent)
+        PropertyWidget::PropertyWidget(std::string const& type, QWidget* parent)
+            : QFrame(parent),
+              m_Type(type)
         {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             setStyleSheet("QFrame { background-color: rgb(56, 56, 60); }");
@@ -60,6 +61,16 @@ namespace Ocular
         void PropertyWidget::setValue(void* value, uint32_t const size)
         {
 
+        }
+
+        std::string PropertyWidget::getValue() const
+        {
+            return "";
+        }
+
+        std::string PropertyWidget::getType() const
+        {
+            return m_Type;
         }
 
         void PropertyWidget::setVariable(Core::ExposedVariable& variable)

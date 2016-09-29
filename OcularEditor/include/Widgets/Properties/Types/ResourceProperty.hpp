@@ -49,7 +49,10 @@ namespace Ocular
 
             ResourceProperty(QWidget* parent = nullptr);
             virtual ~ResourceProperty();
-
+            
+            /**
+             *
+             */
             virtual bool updateProperties() override;
 
             /**
@@ -61,7 +64,21 @@ namespace Ocular
              * \param[in] value Resource mapping name expected as a std::string
              * \param[in] size  Unused in this implementation
              */
-            virtual void setValue(void* value, uint32_t size = 0);
+            virtual void setValue(void* value, uint32_t size = 0) override;
+            
+            /**
+             *
+             */
+            virtual std::string getValue() const override;
+
+            /**
+             * Validates if the resource specified in the line edit exists or not.
+             * If the resource exists, returns TRUE. If it does not exists, then
+             * returns FALSE and a red border is placed around the line edit.
+             *
+             * \param[in] isEmptyValid If TRUE, then an empty resource (assumed NULL) is considered valid.
+             */
+            bool validateResource(bool isEmptyValid = true);
 
         protected:
 

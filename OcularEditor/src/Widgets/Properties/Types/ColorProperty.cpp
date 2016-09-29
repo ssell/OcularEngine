@@ -15,6 +15,7 @@
  */
 
 #include "stdafx.h"
+
 #include "Widgets/Properties/Types/ColorProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
@@ -31,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         ColorProperty::ColorProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Color>::name, parent)
         {
             m_ColorPreview = new ColorPreview();
             m_ButtonColor = new ButtonColorPicker();
@@ -55,21 +56,27 @@ namespace Ocular
         {
             bool result = false;
 
+            auto color = m_ButtonColor->getSelectedColor();
+
             if(m_Variable.data)
             {
                 Core::Color* value = void_cast<Core::Color*>(m_Variable.data);
                 
                 if(m_ButtonColor->wasEdited())
                 {
-                    (*value) = m_ButtonColor->getSelectedColor();
-                    m_ColorPreview->setColor(m_ButtonColor->getSelectedColor());
+                    (*value) = color;
+                    m_ColorPreview->setColor(color);
 
                     result = true;
                 }
                 else
                 {
-                    m_ColorPreview->setColor((*value));
+                    m_ColorPreview->setColor(color);
                 }
+            }
+            else
+            {
+                m_ColorPreview->setColor(color);
             }
 
             return result;
@@ -93,6 +100,12 @@ namespace Ocular
 
                 m_ColorPreview->setColor(valueCast);
             }
+        }
+
+        std::string ColorProperty::getValue() const
+        {
+            auto color = m_ColorPreview->getColor();
+            return OcularString->toString<Core::Color>(color);
         }
 
         //----------------------------------------------------------------------------------

@@ -55,6 +55,7 @@ namespace Ocular
             virtual QSize sizeHint() const override;
 
             void setMaterial(std::string const& mapping);
+            void onApply();
 
         protected:
 

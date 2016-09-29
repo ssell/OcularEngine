@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         StringProperty::StringProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<std::string>::name, parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_LayoutRight->addWidget(m_LineValue);
@@ -86,6 +86,11 @@ namespace Ocular
 
                 m_LineValue->setText(valueCast.c_str());
             }
+        }
+
+        std::string StringProperty::getValue() const
+        {
+            return m_LineValue->text().toStdString();
         }
 
         //----------------------------------------------------------------------------------

@@ -197,7 +197,7 @@ namespace Ocular
 
         void MaterialEditorDialog::onApply()
         {
-
+            m_MaterialProperties->onApply();
         }
     }
 }

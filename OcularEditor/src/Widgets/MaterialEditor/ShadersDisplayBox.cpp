@@ -88,6 +88,98 @@ namespace Ocular
 
         }
 
+        void ShadersDisplayBox::onApply()
+        {
+            if(m_Material)
+            {
+                const std::string vertex   = m_PropertyVertexShader->getValue();
+                const std::string geometry = m_PropertyGeometryShader->getValue();
+                const std::string fragment = m_PropertyFragmentShader->getValue();
+                const std::string preTess  = m_PropertyPreTessShader->getValue();
+                const std::string postTess = m_PropertyPostTessShader->getValue();
+
+                //--------------------------------------------------------
+                // Vertex
+                //--------------------------------------------------------
+
+                if(vertex.size())
+                {
+                    if(m_PropertyVertexShader->validateResource())
+                    {
+                        m_Material->setVertexShader(vertex);
+                    }
+                }
+                else
+                {
+                    m_Material->setVertexShader(nullptr);
+                }
+
+                //--------------------------------------------------------
+                // Geometry
+                //--------------------------------------------------------
+
+                if(geometry.size())
+                {
+                    if(m_PropertyGeometryShader->validateResource())
+                    {
+                        m_Material->setGeometryShader(geometry);
+                    }
+                }
+                else
+                {
+                    m_Material->setGeometryShader(nullptr);
+                }
+
+                //--------------------------------------------------------
+                // Fragment
+                //--------------------------------------------------------
+
+                if(fragment.size())
+                {
+                    if(m_PropertyFragmentShader->validateResource())
+                    {
+                        m_Material->setFragmentShader(fragment);
+                    }
+                }
+                else
+                {
+                    m_Material->setFragmentShader(nullptr);
+                }
+
+                //--------------------------------------------------------
+                // Pre Tessellation
+                //--------------------------------------------------------
+
+                if(preTess.size())
+                {
+                    if(m_PropertyPreTessShader->validateResource())
+                    {
+                        m_Material->setPreTessellationShader(preTess);
+                    }
+                }
+                else
+                {
+                    m_Material->setPreTessellationShader(nullptr);
+                }
+
+                //--------------------------------------------------------
+                // Post Tessellation
+                //--------------------------------------------------------
+
+                if(postTess.size())
+                {
+                    if(m_PropertyPostTessShader->validateResource())
+                    {
+                        m_Material->setPostTessellationShader(postTess);
+                    }
+                }
+                else
+                {
+                    m_Material->setPostTessellationShader(nullptr);
+                }
+            }
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------

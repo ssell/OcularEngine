@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         QuaternionProperty::QuaternionProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Math::Quaternion>::name, parent)
         {
             m_LabelW = new QLabel("W");
             m_LabelX = new QLabel("X");
@@ -136,6 +136,12 @@ namespace Ocular
                 m_EditY->setText(OcularString->toString<float>(valueCast.y()).c_str());
                 m_EditZ->setText(OcularString->toString<float>(valueCast.z()).c_str());
             }
+        }
+
+        std::string QuaternionProperty::getValue() const
+        {
+            auto qstr = m_EditW->text() + " " + m_EditX->text() + " " + m_EditY->text() + " " + m_EditZ->text();
+            return qstr.toStdString();
         }
 
         //----------------------------------------------------------------------------------

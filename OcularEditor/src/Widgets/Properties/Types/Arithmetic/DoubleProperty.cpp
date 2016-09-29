@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         DoubleProperty::DoubleProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget(Ocular::Utils::TypeName<double>::name, parent)
         {
             m_EditValue = new LineEdit(LineType::Double);
             m_LayoutRight->addWidget(m_EditValue);
@@ -66,6 +66,31 @@ namespace Ocular
             }
 
             return result;
+        }
+
+        void DoubleProperty::setValue(void* value, uint32_t const size)
+        {
+            if(value && (size == sizeof(double)))
+            {
+                double valueCast = void_cast<double>(value);
+
+                if(m_Variable.data)
+                {
+                    double* valuePtr = void_cast<double*>(m_Variable.data);
+
+                    if(valuePtr)
+                    {
+                        (*valuePtr) = valueCast;
+                    }
+                }
+
+                m_EditValue->setText(OcularString->toString<double>(valueCast).c_str());
+            }
+        }
+
+        std::string DoubleProperty::getValue() const
+        {
+            return m_EditValue->text().toStdString();
         }
 
         LineEdit* DoubleProperty::getLineEdit()

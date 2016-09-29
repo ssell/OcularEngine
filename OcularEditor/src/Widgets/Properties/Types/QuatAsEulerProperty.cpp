@@ -33,7 +33,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         QuatAsEulerProperty::QuatAsEulerProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget("QuatAsEuler", parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");
@@ -138,6 +138,12 @@ namespace Ocular
                 m_EditY->setText(OcularString->toString<float>(euler.getYaw()).c_str());
                 m_EditZ->setText(OcularString->toString<float>(euler.getRoll()).c_str());
             }
+        }
+
+        std::string QuatAsEulerProperty::getValue() const
+        {
+            auto qstr = m_EditX->text() + " " + m_EditY->text() + " " + m_EditZ->text();
+            return qstr.toStdString();
         }
 
         //----------------------------------------------------------------------------------

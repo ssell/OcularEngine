@@ -53,6 +53,7 @@ namespace Ocular
              * \param[in] value Expected as a Math::Vector4f
              */
             virtual void setValue(void* value, uint32_t size) override;
+            virtual std::string getValue() const override;
 
         protected:
 

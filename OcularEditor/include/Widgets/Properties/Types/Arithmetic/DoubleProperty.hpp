@@ -48,6 +48,8 @@ namespace Ocular
             virtual ~DoubleProperty();
 
             virtual bool updateProperties() override;
+            virtual void setValue(void* value, uint32_t size) override;
+            virtual std::string getValue() const override;
 
             LineEdit* getLineEdit();
 

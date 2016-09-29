@@ -67,6 +67,11 @@ namespace Ocular
         {
 
         }
+
+        void MaterialPropertiesDisplayBox::onApply()
+        {
+
+        }
         
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS

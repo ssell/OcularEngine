@@ -28,7 +28,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         MultiProperty::MultiProperty(QWidget* parent)
-            : PropertyWidget(parent)
+            : PropertyWidget("MultiProperty", parent)
         {
 
         }
