@@ -1192,7 +1192,7 @@ namespace Ocular
             result.SampleDesc.Quality = 0;
             result.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             result.BufferCount        = 2;
-            result.Scaling            = DXGI_SCALING_ASPECT_RATIO_STRETCH;
+            result.Scaling            = DXGI_SCALING_STRETCH;
             result.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
             result.AlphaMode          = DXGI_ALPHA_MODE_UNSPECIFIED;
             result.Flags              = 0;
@@ -1302,7 +1302,7 @@ namespace Ocular
 
                         if(FAILED(hResult))
                         {
-                            OcularLogger->error("Failed to create D3D 11.2 SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
+                            OcularLogger->error("Failed to create D3D 11.1 SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "fetchDeviceAndSwapChain1"));
                             result = false;
                         }
                     }

@@ -171,7 +171,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
     <ClCompile Include="..\..\include\Graphics\Shader\Buffer\GPUBuffer.cpp" />
     <ClCompile Include="..\..\src\CoreDynamicRegistration.cpp" />
     <ClCompile Include="..\..\src\Events\AEvent.cpp" />
@@ -356,6 +355,7 @@
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp" />
+    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
