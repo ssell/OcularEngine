@@ -31,7 +31,17 @@ namespace Ocular
             : QToolBar(parent)
         {
             setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-            addAction("Testo");
+            setStyleSheet("QToolBar{ border: 1px solid rgb(27, 27, 28); background-color: rgb(56, 56, 60); } QToolButton { width: 50px; background-color: rgba(0, 0, 0, 0);}");
+
+            addAction("Translate");
+            addAction("Scale");
+            addAction("Rotate");
+
+            addSeparator();
+
+            addAction("Wireframe");
+            addAction("Normals");
+            addAction("UVs");
         }
 
         ToolbarCommon::~ToolbarCommon()
@@ -45,7 +55,7 @@ namespace Ocular
 
         QSize ToolbarCommon::sizeHint() const
         {
-            return QSize(500, 30);
+            return QSize(50000, 30);
         }
 
         //----------------------------------------------------------------------------------

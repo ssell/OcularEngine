@@ -71,7 +71,7 @@ namespace Ocular
                 }
                 else
                 {
-                    m_ColorPreview->setColor(color);
+                    m_ColorPreview->setColor((*value));
                 }
             }
             else
