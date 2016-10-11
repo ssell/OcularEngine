@@ -243,8 +243,10 @@ namespace Ocular
              * Sets the value of the specified uniform.
              *
              * \note This uniform value is set for all valid shaders associated with this material.
-             * \param[in] name  Valid uniform name.
-             * \param[in] value Single floating-point value for the uniform.
+             *
+             * \param[in] name          Valid uniform name.
+             * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
+             * \param[in] value         Single floating-point value for the uniform.
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
@@ -265,12 +267,15 @@ namespace Ocular
              * Sets the value of the specified uniform.
              *
              * \note This uniform value is set for all valid shaders associated with this material.
-             * \param[in] name  Valid uniform name.
-             * \param[in] value A 4-component Vector value for the uniform.
+             *
+             * \param[in] name          Valid uniform name.
+             * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
+             * \param[in] value         A 4-component Vector value for the uniform.
+             * \param[in] type          Uniform type. Used to differentiate between Vector4f and Color uniforms.
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value, std::string const& type = Utils::TypeName<Math::Vector4f>::name);
 
             /**
              * Returns the value of the associated uniform.
@@ -287,8 +292,10 @@ namespace Ocular
              * Sets the value of the specified uniform.
              *
              * \note This uniform value is set for all valid shaders associated with this material.
-             * \param[in] name  Valid uniform name.
-             * \param[in] value A 3x3 matrix value for the uniform.
+             *
+             * \param[in] name          Valid uniform name.
+             * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
+             * \param[in] value         A 3x3 matrix value for the uniform.
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
@@ -309,8 +316,10 @@ namespace Ocular
              * Sets the value of the specified uniform.
              *
              * \note This uniform value is set for all valid shaders associated with this material.
-             * \param[in] name  Valid uniform name.
-             * \param[in] value A 4x4 matrix value for the uniform.
+             *
+             * \param[in] name          Valid uniform name.
+             * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
+             * \param[in] value         A 4x4 matrix value for the uniform.
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
@@ -371,6 +380,14 @@ namespace Ocular
              * \return The render priority assigned to this Material
              */
             uint32_t getRenderPriority() const;
+
+            //------------------------------------------------------------
+            // Node Names (used for saving and loading)
+
+            static const std::string ShaderNodeName;
+            static const std::string TextureNodeName;
+            static const std::string UniformNodeName;
+            static const std::string RenderStateNodeName;
 
         protected:
 

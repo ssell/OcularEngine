@@ -137,14 +137,14 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 {
     if(builderNode)
     {
-        pugi::xml_node shadersXMLNode     = xmlNode.child("ShaderProgram");
-        pugi::xml_node texturesXMLNode    = xmlNode.child("Textures");
-        pugi::xml_node uniformsXMLNode    = xmlNode.child("Uniforms");
-        pugi::xml_node renderStateXMLNode = xmlNode.child("RenderState");
+        pugi::xml_node shadersXMLNode     = xmlNode.child(Ocular::Graphics::Material::ShaderNodeName.c_str());
+        pugi::xml_node texturesXMLNode    = xmlNode.child(Ocular::Graphics::Material::TextureNodeName.c_str());
+        pugi::xml_node uniformsXMLNode    = xmlNode.child(Ocular::Graphics::Material::UniformNodeName.c_str());
+        pugi::xml_node renderStateXMLNode = xmlNode.child(Ocular::Graphics::Material::RenderStateNodeName.c_str());
 
         if(shadersXMLNode)
         {
-            Ocular::Core::BuilderNode* shadersBuilderNode = builderNode->addChild("ShaderProgram", "", "");
+            Ocular::Core::BuilderNode* shadersBuilderNode = builderNode->addChild(Ocular::Graphics::Material::ShaderNodeName, "", "");
 
             for(auto child : shadersXMLNode.children())
             {
@@ -157,7 +157,7 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 
         if(texturesXMLNode)
         {
-            Ocular::Core::BuilderNode* texturesBuilderNode = builderNode->addChild("Textures", "", "");
+            Ocular::Core::BuilderNode* texturesBuilderNode = builderNode->addChild(Ocular::Graphics::Material::TextureNodeName, "", "");
 
             for(auto child : texturesXMLNode.children())
             {
@@ -170,7 +170,7 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 
         if(uniformsXMLNode)
         {
-            Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild("Uniforms", "", "");
+            Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild(Ocular::Graphics::Material::UniformNodeName, "", "");
 
             for(auto child : uniformsXMLNode.children())
             {
@@ -183,7 +183,7 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 
         if(renderStateXMLNode)
         {
-            Ocular::Core::BuilderNode* renderStateBuilderNode = builderNode->addChild("RenderState", "", "");
+            Ocular::Core::BuilderNode* renderStateBuilderNode = builderNode->addChild(Ocular::Graphics::Material::RenderStateNodeName, "", "");
 
             for(auto child : renderStateXMLNode.children())
             {

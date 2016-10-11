@@ -28,6 +28,11 @@ namespace Ocular
 {
     namespace Graphics
     {
+        const std::string Material::ShaderNodeName      = "ShaderProgram";
+        const std::string Material::TextureNodeName     = "Textures";
+        const std::string Material::UniformNodeName     = "Uniforms";
+        const std::string Material::RenderStateNodeName = "RenderState";
+
         //----------------------------------------------------------------------------------
         // CONSTRUCTORS
         //----------------------------------------------------------------------------------
@@ -322,7 +327,7 @@ namespace Ocular
                 // Shaders
                 //--------------------------------------------------------
 
-                Core::BuilderNode* shaderProgramNode = node->addChild("ShaderProgram", "", "");
+                Core::BuilderNode* shaderProgramNode = node->addChild(ShaderNodeName, "", "");
 
                 if(shaderProgramNode)
                 {
@@ -356,7 +361,7 @@ namespace Ocular
                 // Textures
                 //--------------------------------------------------------
 
-                Core::BuilderNode* texturesNode = node->addChild("Textures", "", "");
+                Core::BuilderNode* texturesNode = node->addChild(TextureNodeName, "", "");
 
                 if(texturesNode)
                 {
@@ -375,7 +380,7 @@ namespace Ocular
                 // Uniforms
                 //--------------------------------------------------------
 
-                Core::BuilderNode* uniformsNode = node->addChild("Uniforms", "", "");
+                Core::BuilderNode* uniformsNode = node->addChild(UniformNodeName, "", "");
 
                 if(uniformsNode)
                 {
@@ -387,43 +392,20 @@ namespace Ocular
                             
                             if(uniform)
                             {
-                                // Store in node as: 
-                                // name:  uniform name
-                                // type:  uniform size
-                                // value: uniform value as string
+                                const auto size = uniform->getSize();
 
-                                switch(uniform->getSize())
+                                if(size)
                                 {
-                                case 1:
-                                {
-                                    float value = uniform->getData()[0];
-                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<float>::name, OcularString->toString<float>(value));
-                                    break;
-                                }
-
-                                case 4:
-                                {
-                                    Math::Vector4f value = Math::Vector4f(uniform->getData());
-                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Vector4f>::name, OcularString->toString<Math::Vector4f>(value));
-                                    break;
-                                }
-
-                                case 9:
-                                {
-                                    Math::Matrix3x3 value = Math::Matrix3x3(uniform->getData());
-                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Matrix3x3>::name, OcularString->toString<Math::Matrix3x3>(value));
-                                    break;
-                                }
-
-                                case 16:
-                                {
-                                    Math::Matrix4x4 value = Math::Matrix4x4(uniform->getData());
-                                    uniformsNode->addChild(uniform->getName(), Utils::TypeName<Math::Matrix4x4>::name, OcularString->toString<Math::Matrix4x4>(value));
-                                    break;
-                                }
-
-                                default:
-                                    break;
+                                    if(size == 1)
+                                    {
+                                        float value = uniform->getData()[0];
+                                        uniformsNode->addChild(uniform->getName(), Utils::TypeName<float>::name, OcularString->toString<float>(value));
+                                    }
+                                    else
+                                    {
+                                        auto value = uniform->getData();
+                                        uniformsNode->addChild(uniform->getName(), uniform->getType(), OcularString->toString(uniform->getType(), void_cast<const float*>(value)));
+                                    }
                                 }
                             }
                         }
@@ -756,11 +738,11 @@ namespace Ocular
             return result;
         }
 
-        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value)
+        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value, std::string const& type)
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<Math::Vector4f>::name);
+            uniform.setType(type);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 

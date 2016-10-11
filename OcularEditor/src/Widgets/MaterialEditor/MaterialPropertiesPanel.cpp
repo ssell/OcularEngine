@@ -77,6 +77,18 @@ namespace Ocular
             m_PropertyBoxUniforms->onApply();
             m_PropertyBoxTextures->onApply();
             m_PropertyBoxRenderStates->onApply();
+
+            // Save the Material if it has an associated .omat file
+            
+            if(m_Material)
+            {
+                auto source = m_Material->getSourceFile();
+
+                if(Utils::String::IsEqual(source.getExtension(), ".omat", true))
+                {
+                    OcularResources->saveResource(m_Material, m_Material->getSourceFile());
+                }
+            }
         }
         
         //----------------------------------------------------------------------------------

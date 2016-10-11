@@ -57,12 +57,21 @@ namespace Ocular
                     for(uint32_t i = 0; i < m_Properties.size(); ++i)
                     {
                         auto uniform = uniformBuffer->getUniform(i);
+                        auto size = uniform->getSize();
 
-                        if(uniform->getSize())
+                        if(size)
                         {
                             // Not an empty uniform
                             m_Properties[i] = OcularEditor.createPropertyWidget(uniform->getName(), uniform->getType());
-                            m_Properties[i]->setValue(void_cast<const float*>(uniform->getData()), uniform->getSize() * sizeof(float));
+
+                            if(size == 1)
+                            {
+                                m_Properties[i]->setValue(void_cast<float>(uniform->getData()[0]), sizeof(float));
+                            }
+                            else
+                            {
+                                m_Properties[i]->setValue(void_cast<const float*>(uniform->getData()), uniform->getSize() * sizeof(float));
+                            }
                         }
                         else
                         {
@@ -94,25 +103,11 @@ namespace Ocular
                     {
                         if(prop)
                         {
-                            const std::string name = prop->getDisplayName();
+                            const std::string name  = prop->getDisplayName();
                             const std::string value = prop->getValue();
-
-                            auto uniform = uniformBuffer->getUniform(name);
-
-                            if(uniform)
-                            {
-                                const std::string type = uniform->getType();
-
-                                currRegister = uniform->getRegister();
-
-                                setUniform(name, currRegister, value, type);
-                            }
-                            else
-                            {
-                                // Uniform does not already exists, so must create brand new
-                                const std::string type = prop->getType();
-                                setUniform(name, currRegister, value, type);
-                            }
+                            const std::string type  = prop->getType();
+                            
+                            setUniform(name, currRegister, value, type);
                         }
                     }
                 }
@@ -195,7 +190,7 @@ namespace Ocular
             else if(OcularString->IsEqual(type, Utils::TypeName<Core::Color>::name) ||
                     OcularString->IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
             {
-                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value));
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value), type);
                 currRegister += 1;
             }
             else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))

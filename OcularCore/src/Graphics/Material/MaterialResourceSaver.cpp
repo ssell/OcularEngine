@@ -36,7 +36,7 @@ __declspec(dllexport) void getRidOfLNK4221(){}
 
 //------------------------------------------------------------------------------------------
 
-void ParseBuilderNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode);
+void ParseBuilderNode(Ocular::Core::BuilderNode const* builderNode, pugi::xml_node& xmlNode);
 
 namespace Ocular
 {
@@ -79,7 +79,34 @@ namespace Ocular
                         Core::BuilderNode builderNode(nullptr, "", "", "");
                         material->onSave(&builderNode);
 
-                        ParseBuilderNode(&builderNode, rootNode);
+                        auto shaderNode  = builderNode.getChild(Material::ShaderNodeName);
+                        auto textureNode = builderNode.getChild(Material::TextureNodeName);
+                        auto uniformNode = builderNode.getChild(Material::UniformNodeName);
+                        auto renderNode  = builderNode.getChild(Material::RenderStateNodeName);
+
+                        if(shaderNode && shaderNode->getNumChildren())
+                        {
+                            auto shaderXMLNode = rootNode.append_child(Material::ShaderNodeName.c_str());
+                            ParseBuilderNode(shaderNode, shaderXMLNode);
+                        }
+
+                        if(textureNode && textureNode->getNumChildren())
+                        {
+                            auto textureXMLNode = rootNode.append_child(Material::TextureNodeName.c_str());
+                            ParseBuilderNode(textureNode, textureXMLNode);
+                        }
+
+                        if(uniformNode && uniformNode->getNumChildren())
+                        {
+                            auto uniformXMLNode = rootNode.append_child(Material::UniformNodeName.c_str());
+                            ParseBuilderNode(uniformNode, uniformXMLNode);
+                        }
+
+                        if(renderNode && renderNode->getNumChildren())
+                        {
+                            auto renderXMLNode = rootNode.append_child(Material::RenderStateNodeName.c_str());
+                            ParseBuilderNode(renderNode, renderXMLNode);
+                        }
 
                         if(document.save_file(file.getFullPath().c_str()))
                         {
@@ -143,7 +170,7 @@ namespace Ocular
 // OUT-OF-CLASS METHODS
 //------------------------------------------------------------------------------------------
 
-void ParseBuilderNode(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& xmlNode)
+void ParseBuilderNode(Ocular::Core::BuilderNode const* builderNode, pugi::xml_node& xmlNode)
 {
     if(builderNode && xmlNode)
     {
