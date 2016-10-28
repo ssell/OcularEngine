@@ -39,6 +39,9 @@ namespace Ocular
         struct UniformPerCamera;
         struct UniformPerObject;
 
+        /**
+         * \enum UniformBufferType
+         */
         enum class UniformBufferType : uint32_t
         {
             PerFrame = 0,

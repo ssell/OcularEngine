@@ -64,14 +64,14 @@ namespace Ocular
             GPUBufferDescriptor();
             ~GPUBufferDescriptor();
 
-            GPUBufferAccess cpuAccess;
-            GPUBufferAccess gpuAccess;
+            GPUBufferAccess cpuAccess;     ///< CPU access level
+            GPUBufferAccess gpuAccess;     ///< GPU access level 
 
-            GPUBufferStage stage;
+            GPUBufferStage stage;          ///< Which shader stage to bind the buffer to
 
-            uint32_t bufferSize;
-            uint32_t elementSize;
-            uint32_t slot;
+            uint32_t bufferSize;           ///< Total size of the buffer in bytes
+            uint32_t elementSize;          ///< Size of each individual element in the buffer
+            uint32_t slot;                 ///< Register to bind the buffer to (a `t` register in HLSL)
         };
 
         /**

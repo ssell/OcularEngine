@@ -20,6 +20,13 @@
 // Globals
 //------------------------------------------------------------------------------------------
 
+cbuffer cbPerMaterial : register(b3)
+{
+    float4 Albedo    : packoffset(c0);
+    float4 Specular  : packoffset(c1);
+    float  Roughness : packoffset(c2);
+};
+
 struct VSOutput
 {
     float4 position : SV_Position;
@@ -69,9 +76,9 @@ PSOutput PSMain(VSOutput input) : SV_Target
     PSOutput output;
 
     const float4 texColor = g_DiffuseTexture.Sample(Sampler, input.uv0.xy);
-    const float4 light = calcRadiancePhong(input.worldPos, input.normal);
+    const float4 light = calcRadiancePhong(input.worldPos, input.normal, Albedo, Specular, Roughness);
 
-    output.color = (texColor * light);
+    output.color = texColor * light;
 
     return output;
 }
