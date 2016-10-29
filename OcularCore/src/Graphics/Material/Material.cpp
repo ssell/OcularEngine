@@ -738,11 +738,11 @@ namespace Ocular
             return result;
         }
 
-        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value, std::string const& type)
+        void Material::setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value)
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(type);
+            uniform.setType(Utils::TypeName<Math::Vector4f>::name);
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -766,6 +766,51 @@ namespace Ocular
                         value.y = data[1];
                         value.z = data[2];
                         value.w = data[3];
+
+                        result = true;
+                    }
+                    else
+                    {
+                        OcularLogger->error("Uniform data is NULL", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                    }
+                }
+                else
+                {
+                    OcularLogger->error("Improper uniform request (requesting vector for non-vector uniform)", OCULAR_INTERNAL_LOG("Material", "getUniform"));
+                }
+            }
+
+            return result;
+        }
+
+        void Material::setUniform(std::string const& name, uint32_t registerIndex, Core::Color const& value)
+        {
+            Uniform uniform;
+            uniform.setName(name);
+            uniform.setType(Utils::TypeName<Core::Color>::name);
+            uniform.setRegister(registerIndex);
+            uniform.setData(value);
+
+            m_UniformBuffer->setUniform(uniform);
+        }
+
+        bool Material::getUniform(std::string const& name, Core::Color& value)
+        {
+            bool result = false;
+            Uniform const* uniform = m_UniformBuffer->getUniform(name);
+
+            if(uniform)
+            {
+                if(uniform->getSize() == 4)
+                {
+                    float const* data = uniform->getData();
+
+                    if(data)
+                    {
+                        value.r = data[0];
+                        value.g = data[1];
+                        value.b = data[2];
+                        value.a = data[3];
 
                         result = true;
                     }

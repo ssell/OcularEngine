@@ -70,6 +70,8 @@ namespace Ocular
         {
             unbindShaders();
             unbindTextures();
+
+            //m_UniformBuffer->unbind();
         }
 
         bool D3D11Material::setTexture(uint32_t index, std::string const& name, Texture* texture)

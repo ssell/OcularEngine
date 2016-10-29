@@ -25,6 +25,7 @@
 #include "Resources/Resource.hpp"
 #include "ObjectIO/ObjectIO.hpp"
 #include "Math/Matrix4x4.hpp"
+#include "Math/Color.hpp"
 
 #include <unordered_map>
 
@@ -271,11 +272,10 @@ namespace Ocular
              * \param[in] name          Valid uniform name.
              * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
              * \param[in] value         A 4-component Vector value for the uniform.
-             * \param[in] type          Uniform type. Used to differentiate between Vector4f and Color uniforms.
              *
              * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
              */
-            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value, std::string const& type = Utils::TypeName<Math::Vector4f>::name);
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Math::Vector4f const& value);
 
             /**
              * Returns the value of the associated uniform.
@@ -287,6 +287,30 @@ namespace Ocular
              *         either the uniform does not exist, or it is a different type of value.
              */
             virtual bool getUniform(std::string const& name, Math::Vector4f& value);
+
+            /**
+             * Sets the value of the specified uniform.
+             *
+             * \note This uniform value is set for all valid shaders associated with this material.
+             *
+             * \param[in] name          Valid uniform name.
+             * \param[in] registerIndex First register that the uniform occupies. Each register is 16 bytes, and a single uniform may occupy multiple registers at once.
+             * \param[in] value         An RGBA color value for the uniform.
+             *
+             * \return TRUE if the Uniform value was set successfully. May fail due to invalid index, etc.
+             */
+            virtual void setUniform(std::string const& name, uint32_t registerIndex, Core::Color const& value);
+
+            /**
+             * Returns the value of the associated uniform.
+             *
+             * \param[in]  name  Valid uniform name.
+             * \param[out] value Value of the specified uniform.
+             *
+             * \return Returns TRUE if the value was successfully retrieved. May return FALSE if
+             *         either the uniform does not exist, or it is a different type of value.
+             */
+            virtual bool getUniform(std::string const& name, Core::Color& value);
 
             /**
              * Sets the value of the specified uniform.

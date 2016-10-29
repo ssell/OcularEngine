@@ -461,11 +461,27 @@ namespace Ocular
 
         void ResourceLoader_OBJ::createMaterial(Material* material, OBJMaterial const* objMaterial, std::string const& relPath)
         {
-            auto diffuse = objMaterial->getDiffuseTexture();
+            // Here we map the contents of the MTL material to our Default shader/material
 
-            if(diffuse.getPath().size())
+            /**
+             * The following MTL attributes map to the Default shader:
+             *               
+             *     |   MTL  |   Name                |   Uniform/Texture               |
+             *     |--------|-----------------------|---------------------------------|
+             *     | map_Kd | Diffuse Texture       | Texture "Diffuse" register t0   |
+             *     | Kd     | Diffuse Reflectivity  | Uniform "Albedo" register c0    |
+             *     | Ks     | Specular Reflectivity | Uniform "Specular" register c1  |
+             *     | Ns     | Specular Exponent     | Uniform "Roughness" register c2 |
+             */
+
+            //------------------------------------------------------------
+            // Textures
+
+            const auto diffuseTexture = objMaterial->getDiffuseTexture();
+
+            if(diffuseTexture.getPath().size())
             {
-                std::string path = relPath + "/" + diffuse.getPath();
+                std::string path = relPath + "/" + diffuseTexture.getPath();
                 path = path.substr(0, path.find_last_of('.'));
 
                 Texture* texture = OcularResources->getResource<Texture>(path);
@@ -475,6 +491,34 @@ namespace Ocular
                     material->setTexture(0, "Diffuse", texture);
                 }
             }
+
+            //------------------------------------------------------------
+            // Uniforms
+
+            // Diffuse Reflectivity / Albedo
+
+            const auto diffuseReflectivity = objMaterial->getDiffuseReflectivity();
+
+            if(diffuseReflectivity.type == OBJMaterialPropertyType::RGB)
+            {
+                const Core::Color diffuseColor = Core::Color(diffuseReflectivity.r, diffuseReflectivity.g, diffuseReflectivity.b, 1.0f);
+                material->setUniform("Albedo", 0, diffuseColor);
+            }
+
+            // Specular Reflectivity / Specular
+
+            const auto specularReflectivity = objMaterial->getSpecularReflectivity();
+
+            if(specularReflectivity.type == OBJMaterialPropertyType::RGB)
+            {
+                const Core::Color specularColor = Core::Color(specularReflectivity.r, specularReflectivity.g, specularReflectivity.b);
+                material->setUniform("Specular", 1, specularColor);
+            }
+
+            // Specular Exponent / Roughness
+
+            const auto specularExponent = objMaterial->getSpecularExponent();
+            material->setUniform("Roughness", 2, specularExponent);
         }
         
         //----------------------------------------------------------------------------------

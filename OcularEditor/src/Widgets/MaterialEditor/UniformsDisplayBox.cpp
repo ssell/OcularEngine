@@ -187,10 +187,14 @@ namespace Ocular
                 m_Material->setUniform(name, currRegister, OcularString->fromString<float>(value));
                 currRegister += 1;
             }
-            else if(OcularString->IsEqual(type, Utils::TypeName<Core::Color>::name) ||
-                    OcularString->IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
+            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
             {
-                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value), type);
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value));
+                currRegister += 1;
+            }
+            else if(OcularString->IsEqual(type, Utils::TypeName<Core::Color>::name))
+            {
+                m_Material->setUniform(name, currRegister, OcularString->fromString<Core::Color>(value));
                 currRegister += 1;
             }
             else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))

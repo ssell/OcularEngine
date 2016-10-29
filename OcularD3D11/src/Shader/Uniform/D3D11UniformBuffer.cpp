@@ -160,14 +160,13 @@ namespace Ocular
         {
             UniformBuffer::unbind();
 
-            // We actually don't do anything in unbind to prevent needless buffer switching
-            // because switching constant buffers is very expensive.
+            if(m_D3DDeviceContext)
+            {
+                ID3D11Buffer* nullBuffer[1] = { nullptr };
 
-            // if(m_D3DDeviceContext)
-            // {
-            //     m_D3DDeviceContext->PSSetConstantBuffers(m_Type, 1, nullptr);
-            //     m_D3DDeviceContext->VSSetConstantBuffers(m_Type, 1, nullptr);
-            // }
+                m_D3DDeviceContext->PSSetConstantBuffers(m_Type, 1, nullBuffer);
+                m_D3DDeviceContext->VSSetConstantBuffers(m_Type, 1, nullBuffer);
+            }
         }
 
         //----------------------------------------------------------------------------------

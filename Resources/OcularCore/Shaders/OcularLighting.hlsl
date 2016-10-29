@@ -111,8 +111,8 @@ float4 phongBRDF(
     in float4 specular, 
     in float  roughness)
 {
-	// General equation is an improved Phong BRDF described by:
-	//     Real-Time Rendering 3rd Edition, Equation 7.47 (p. 253)
+    // General equation is an improved Phong BRDF described by:
+    //     Real-Time Rendering 3rd Edition, Equation 7.47 (p. 253)
 
     const float4 colorDiff = calcLambertianDiffuse(diffuse);
 
@@ -141,10 +141,10 @@ float4 phongBRDF(
  * \param[out] attenuation Lighting attenuation factor calculated using CLQ 
  */
 void getLightNormAttenuation(
-	in GPULight light, 
-	in float4 pixWorldPos, 
-	out float4 lightNorm, 
-	out float attenuation)
+    in GPULight light, 
+    in float4 pixWorldPos, 
+    out float4 lightNorm, 
+    out float attenuation)
 {
     if(light.parameters.z < 2.0f)
     {
