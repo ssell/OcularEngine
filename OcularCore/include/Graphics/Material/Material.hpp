@@ -410,6 +410,7 @@ namespace Ocular
 
             static const std::string ShaderNodeName;
             static const std::string TextureNodeName;
+            static const std::string UniformsNodeName;
             static const std::string UniformNodeName;
             static const std::string RenderStateNodeName;
 
@@ -422,6 +423,18 @@ namespace Ocular
 
             void bindStateChanges();
             void unbindStateChanges();
+
+            void onLoadShaders(Core::BuilderNode const* parent);
+            void onLoadTextures(Core::BuilderNode const* parent);
+            void onLoadUniforms(Core::BuilderNode const* parent);
+            void onLoadUniform(Core::BuilderNode const* parent, Uniform* uniform);
+            void onLoadRenderState(Core::BuilderNode const* parent);
+
+            void onSaveShaders(Core::BuilderNode* parent) const;
+            void onSaveTextures(Core::BuilderNode* parent) const;
+            void onSaveUniforms(Core::BuilderNode* parent) const;
+            void onSaveUniform(Core::BuilderNode* parent, Uniform const* uniform) const;
+            void onSaveRenderState(Core::BuilderNode* parent) const;
 
             //------------------------------------------------------------
 

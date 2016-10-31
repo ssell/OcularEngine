@@ -30,7 +30,8 @@ namespace Ocular
     {
         const std::string Material::ShaderNodeName      = "ShaderProgram";
         const std::string Material::TextureNodeName     = "Textures";
-        const std::string Material::UniformNodeName     = "Uniforms";
+        const std::string Material::UniformsNodeName    = "Uniforms";
+        const std::string Material::UniformNodeName     = "Uniform";
         const std::string Material::RenderStateNodeName = "RenderState";
 
         //----------------------------------------------------------------------------------
@@ -103,217 +104,10 @@ namespace Ocular
 
             if(node)
             {
-                //--------------------------------------------------------
-                // Shaders
-                //--------------------------------------------------------
-
-                const Core::BuilderNode* shaderProgramNode = node->getChild("ShaderProgram");
-
-                if(shaderProgramNode)
-                {
-                    const Core::BuilderNode* vertexNode = shaderProgramNode->getChild("Vertex");
-
-                    if(vertexNode)
-                    {
-                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(vertexNode->getValue());
-
-                        if(program)
-                        {
-                            m_VertexShader = program->getVertexShader();
-                            
-                            if(m_VertexShader)
-                            {
-                                m_VertexShader->setMappingName(vertexNode->getValue());
-                            }
-                        }
-                    }
-
-                    const Core::BuilderNode* geometryNode = shaderProgramNode->getChild("Geometry");
-
-                    if(geometryNode)
-                    {
-                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(geometryNode->getValue());
-
-                        if(program)
-                        {
-                            m_GeometryShader = program->getGeometryShader();
-                            
-                            if(m_GeometryShader)
-                            {
-                                m_GeometryShader->setMappingName(vertexNode->getValue());
-                            }
-                        }
-                    }
-
-                    const Core::BuilderNode* fragmentNode = shaderProgramNode->getChild("Fragment");
-
-                    if(fragmentNode)
-                    {
-                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(fragmentNode->getValue());
-
-                        if(program)
-                        {
-                            m_FragmentShader = program->getFragmentShader();
-                            
-                            if(m_FragmentShader)
-                            {
-                                m_FragmentShader->setMappingName(vertexNode->getValue());
-                            }
-                        }
-                    }
-
-                    const Core::BuilderNode* preTessellationNode = shaderProgramNode->getChild("PreTessellation");
-
-                    if(preTessellationNode)
-                    {
-                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(preTessellationNode->getValue());
-
-                        if(program)
-                        {
-                            m_PreTessellationShader = program->getPreTessellationShader();
-                            
-                            if(m_PreTessellationShader)
-                            {
-                                m_PreTessellationShader->setMappingName(vertexNode->getValue());
-                            }
-                        }
-                    }
-
-                    const Core::BuilderNode* postTessellationNode = shaderProgramNode->getChild("PostTessellation");
-
-                    if(postTessellationNode)
-                    {
-                        ShaderProgram* program = OcularResources->getResource<ShaderProgram>(postTessellationNode->getValue());
-
-                        if(program)
-                        {
-                            m_PostTessellationShader = program->getPostTessellationShader();
-                            
-                            if(m_PostTessellationShader)
-                            {
-                                m_PostTessellationShader->setMappingName(vertexNode->getValue());
-                            }
-                        }
-                    }
-                }
-
-                //--------------------------------------------------------
-                // Textures
-                //--------------------------------------------------------
-
-                const Core::BuilderNode* texturesNode = node->getChild("Textures");
-
-                if(texturesNode)
-                {
-                    std::vector<Core::BuilderNode*> textureNodes;
-                    texturesNode->findChildrenByType(textureNodes, "Texture");
-
-                    m_Textures.clear();
-                    m_Textures.reserve(textureNodes.size());
-
-                    for(auto textureNode : textureNodes)
-                    {
-                        // Call setTexture instead of adding directly to the m_Textures container so
-                        // that any API-specific implementations (aka D3D11Material) may work properly.
-
-                        setTexture(
-                            static_cast<uint32_t>(m_Textures.size()), 
-                            textureNode->getName(), 
-                            OcularResources->getResource<Texture>(textureNode->getValue()));
-                    }
-                }
-
-                //--------------------------------------------------------
-                // Uniforms
-                //--------------------------------------------------------
-
-                const Core::BuilderNode* uniformsNode = node->getChild("Uniforms");
-
-                if(uniformsNode)
-                {
-                    std::vector<Core::BuilderNode*> uniformChildren;
-                    uniformsNode->getAllChildren(uniformChildren);
-
-                    uint32_t index = 0;
-
-                    for(auto uniformNode : uniformChildren)
-                    {
-                        Uniform uniform;
-
-                        const std::string type = uniformNode->getType();
-
-                        if(Utils::String::IsEqual(type, Utils::TypeName<float>::name))
-                        {
-                            float data = OcularString->fromString<float>(uniformNode->getValue());
-                            uniform.setData(data);
-                        }
-                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
-                        {
-                            Math::Vector4f data = OcularString->fromString<Math::Vector4f>(uniformNode->getValue());
-                            uniform.setData(data);
-                        }
-                        else if(Utils::String::IsEqual(type, Utils::TypeName<Core::Color>::name))
-                        {
-                            Core::Color data = OcularString->fromString<Core::Color>(uniformNode->getValue());
-                            uniform.setData(data);
-                        }
-                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))
-                        {
-                            Math::Matrix3x3 data = OcularString->fromString<Math::Matrix3x3>(uniformNode->getValue());
-                            uniform.setData(data);
-                        }
-                        else if(Utils::String::IsEqual(type, Utils::TypeName<Math::Matrix4x4>::name))
-                        {
-                            Math::Matrix4x4 data = OcularString->fromString<Math::Matrix4x4>(uniformNode->getValue());
-                            uniform.setData(data);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-
-                        uniform.setName(uniformNode->getName());
-                        uniform.setType(type);
-                        uniform.setRegister(index);
-
-                        m_UniformBuffer->setUniform(uniform);
-
-                        index++;
-                    }
-                }
-
-                //--------------------------------------------------------
-                // Render State
-                //--------------------------------------------------------
-
-                const Core::BuilderNode* renderStateNode = node->getChild("RenderState");
-
-                if(renderStateNode)
-                {
-                    const Core::BuilderNode* primitiveStyleNode = renderStateNode->getChild("PrimitiveStyle");
-
-                    if(primitiveStyleNode)
-                    {
-                        m_StoredRasterState.primitiveStyle = static_cast<PrimitiveStyle>(OcularString->fromString<uint32_t>(primitiveStyleNode->getValue()));
-
-                        if(m_StoredRasterState.primitiveStyle > PrimitiveStyle::Undefined)
-                        {
-                            m_StoredRasterState.primitiveStyle = PrimitiveStyle::TriangleList;
-                        }
-                    }
-
-                    const Core::BuilderNode* fillModeNode = node->getChild("FillMode");
-
-                    if(fillModeNode)
-                    {
-                        m_StoredRasterState.fillMode = static_cast<FillMode>(OcularString->fromString<uint32_t>(fillModeNode->getValue()));
-
-                        if(m_StoredRasterState.fillMode > FillMode::Undefined)
-                        {
-                            m_StoredRasterState.fillMode = FillMode::Solid;
-                        }
-                    }
-                }
+                onLoadShaders(node);
+                onLoadTextures(node);
+                onLoadUniforms(node);
+                onLoadRenderState(node);
             }
         }
 
@@ -323,100 +117,10 @@ namespace Ocular
 
             if(node)
             {
-                //--------------------------------------------------------
-                // Shaders
-                //--------------------------------------------------------
-
-                Core::BuilderNode* shaderProgramNode = node->addChild(ShaderNodeName, "", "");
-
-                if(shaderProgramNode)
-                {
-                    if(m_VertexShader)
-                    {
-                        shaderProgramNode->addChild("Vertex", "Shader", m_VertexShader->getMappingName());
-                    }
-                    
-                    if(m_GeometryShader)
-                    {
-                        shaderProgramNode->addChild("Geometry", "Shader", m_GeometryShader->getMappingName());
-                    }
-                    
-                    if(m_FragmentShader)
-                    {
-                        shaderProgramNode->addChild("Fragment", "Shader", m_FragmentShader->getMappingName());
-                    }
-                    
-                    if(m_PreTessellationShader)
-                    {
-                        shaderProgramNode->addChild("PreTessellation", "Shader", m_PreTessellationShader->getMappingName());
-                    }
-                    
-                    if(m_PostTessellationShader)
-                    {
-                        shaderProgramNode->addChild("PostTessellation", "Shader", m_PostTessellationShader->getMappingName());
-                    }
-                }
-                
-                //--------------------------------------------------------
-                // Textures
-                //--------------------------------------------------------
-
-                Core::BuilderNode* texturesNode = node->addChild(TextureNodeName, "", "");
-
-                if(texturesNode)
-                {
-                    for(auto texture : m_Textures)
-                    {
-                        // Store in node as: 
-                        // name:  sampler name
-                        // type:  sampler register
-                        // value: resource relative path
-
-                        texturesNode->addChild(texture.samplerName, OcularString->toString<uint32_t>(texture.samplerRegister), texture.texture->getMappingName());
-                    }
-                }
-                
-                //--------------------------------------------------------
-                // Uniforms
-                //--------------------------------------------------------
-
-                Core::BuilderNode* uniformsNode = node->addChild(UniformNodeName, "", "");
-
-                if(uniformsNode)
-                {
-                    if(m_UniformBuffer)
-                    {
-                        for(uint32_t i = 0; i < m_UniformBuffer->getNumUniforms(); i++)
-                        {
-                            const Uniform* uniform = m_UniformBuffer->getUniform(i);
-                            
-                            if(uniform)
-                            {
-                                const auto size = uniform->getSize();
-
-                                if(size)
-                                {
-                                    if(size == 1)
-                                    {
-                                        float value = uniform->getData()[0];
-                                        uniformsNode->addChild(uniform->getName(), Utils::TypeName<float>::name, OcularString->toString<float>(value));
-                                    }
-                                    else
-                                    {
-                                        auto value = uniform->getData();
-                                        uniformsNode->addChild(uniform->getName(), uniform->getType(), OcularString->toString(uniform->getType(), void_cast<const float*>(value)));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //--------------------------------------------------------
-                // Render State
-                //--------------------------------------------------------
-
-
+                onSaveShaders(node);
+                onSaveTextures(node);
+                onSaveUniforms(node);
+                onSaveRenderState(node);
             }
         }
 
@@ -1053,6 +757,340 @@ namespace Ocular
         }
 
         void Material::unbindStateChanges()
+        {
+
+        }
+
+        void Material::onLoadShaders(Core::BuilderNode const* parent)
+        {
+            const Core::BuilderNode* shaderProgramNode = parent->getChild("ShaderProgram");
+
+            if(shaderProgramNode)
+            {
+                const Core::BuilderNode* vertexNode = shaderProgramNode->getChild("Vertex");
+
+                if(vertexNode)
+                {
+                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(vertexNode->getValue());
+
+                    if(program)
+                    {
+                        m_VertexShader = program->getVertexShader();
+                            
+                        if(m_VertexShader)
+                        {
+                            m_VertexShader->setMappingName(vertexNode->getValue());
+                        }
+                    }
+                }
+
+                const Core::BuilderNode* geometryNode = shaderProgramNode->getChild("Geometry");
+
+                if(geometryNode)
+                {
+                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(geometryNode->getValue());
+
+                    if(program)
+                    {
+                        m_GeometryShader = program->getGeometryShader();
+                            
+                        if(m_GeometryShader)
+                        {
+                            m_GeometryShader->setMappingName(vertexNode->getValue());
+                        }
+                    }
+                }
+
+                const Core::BuilderNode* fragmentNode = shaderProgramNode->getChild("Fragment");
+
+                if(fragmentNode)
+                {
+                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(fragmentNode->getValue());
+
+                    if(program)
+                    {
+                        m_FragmentShader = program->getFragmentShader();
+                            
+                        if(m_FragmentShader)
+                        {
+                            m_FragmentShader->setMappingName(vertexNode->getValue());
+                        }
+                    }
+                }
+
+                const Core::BuilderNode* preTessellationNode = shaderProgramNode->getChild("PreTessellation");
+
+                if(preTessellationNode)
+                {
+                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(preTessellationNode->getValue());
+
+                    if(program)
+                    {
+                        m_PreTessellationShader = program->getPreTessellationShader();
+                            
+                        if(m_PreTessellationShader)
+                        {
+                            m_PreTessellationShader->setMappingName(vertexNode->getValue());
+                        }
+                    }
+                }
+
+                const Core::BuilderNode* postTessellationNode = shaderProgramNode->getChild("PostTessellation");
+
+                if(postTessellationNode)
+                {
+                    ShaderProgram* program = OcularResources->getResource<ShaderProgram>(postTessellationNode->getValue());
+
+                    if(program)
+                    {
+                        m_PostTessellationShader = program->getPostTessellationShader();
+                            
+                        if(m_PostTessellationShader)
+                        {
+                            m_PostTessellationShader->setMappingName(vertexNode->getValue());
+                        }
+                    }
+                }
+            }
+        }
+
+        void Material::onLoadTextures(Core::BuilderNode const* parent)
+        {
+            const Core::BuilderNode* texturesNode = parent->getChild("Textures");
+
+            if(texturesNode)
+            {
+                std::vector<Core::BuilderNode*> textureNodes;
+                texturesNode->findChildrenByType(textureNodes, "Texture");
+
+                m_Textures.clear();
+                m_Textures.reserve(textureNodes.size());
+
+                for(auto textureNode : textureNodes)
+                {
+                    // Call setTexture instead of adding directly to the m_Textures container so
+                    // that any API-specific implementations (aka D3D11Material) may work properly.
+
+                    setTexture(
+                        static_cast<uint32_t>(m_Textures.size()), 
+                        textureNode->getName(), 
+                        OcularResources->getResource<Texture>(textureNode->getValue()));
+                }
+            }
+        }
+
+        void Material::onLoadUniforms(Core::BuilderNode const* parent)
+        {
+            const Core::BuilderNode* uniformsNode = parent->getChild(UniformsNodeName);
+
+            if(uniformsNode)
+            {
+                std::vector<Core::BuilderNode*> uniformChildren;
+                uniformsNode->getAllChildren(uniformChildren);
+
+                for(auto uniformNode : uniformChildren)
+                {
+                    Uniform uniform;
+
+                    onLoadUniform(uniformNode, &uniform);
+
+                    m_UniformBuffer->setUniform(uniform);
+                }
+            }
+        }
+
+        void Material::onLoadUniform(Core::BuilderNode const* parent, Uniform* uniform)
+        {
+            if(parent && uniform)
+            {
+                const auto nameNode = parent->getChild("Name");
+
+                if(nameNode)
+                {
+                    uniform->setName(nameNode->getValue());
+                }
+
+                const auto valueNode = parent->getChild("Value");
+
+                if(valueNode)
+                {
+                    // Allow myself this ugly if/else chain as the types available
+                    // as uniforms is very restricted and not subject to change.
+
+                    const auto typeStr = valueNode->getType();
+
+                    uniform->setType(typeStr);
+
+                    if(Utils::String::IsEqual(typeStr, Utils::TypeName<float>::name))
+                    {
+                        float data = OcularString->fromString<float>(valueNode->getValue());
+                        uniform->setData(data);
+                    }
+                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Vector4f>::name))
+                    {
+                        Math::Vector4f data = OcularString->fromString<Math::Vector4f>(valueNode->getValue());
+                        uniform->setData(data);
+                    }
+                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Core::Color>::name))
+                    {
+                        Core::Color data = OcularString->fromString<Core::Color>(valueNode->getValue());
+                        uniform->setData(data);
+                    }
+                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Matrix3x3>::name))
+                    {
+                        Math::Matrix3x3 data = OcularString->fromString<Math::Matrix3x3>(valueNode->getValue());
+                        uniform->setData(data);
+                    }
+                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Matrix4x4>::name))
+                    {
+                        Math::Matrix4x4 data = OcularString->fromString<Math::Matrix4x4>(valueNode->getValue());
+                        uniform->setData(data);
+                    }
+                }
+
+                const auto registerNode = parent->getChild("Register");
+
+                if(registerNode)
+                {
+                    uniform->setRegister(OcularString->fromString<uint32_t>(registerNode->getValue()));
+                }
+            }
+        }
+
+        void Material::onLoadRenderState(Core::BuilderNode const* parent)
+        {
+            const Core::BuilderNode* renderStateNode = parent->getChild("RenderState");
+
+            if(renderStateNode)
+            {
+                const Core::BuilderNode* primitiveStyleNode = renderStateNode->getChild("PrimitiveStyle");
+
+                if(primitiveStyleNode)
+                {
+                    m_StoredRasterState.primitiveStyle = static_cast<PrimitiveStyle>(OcularString->fromString<uint32_t>(primitiveStyleNode->getValue()));
+
+                    if(m_StoredRasterState.primitiveStyle > PrimitiveStyle::Undefined)
+                    {
+                        m_StoredRasterState.primitiveStyle = PrimitiveStyle::TriangleList;
+                    }
+                }
+
+                const Core::BuilderNode* fillModeNode = parent->getChild("FillMode");
+
+                if(fillModeNode)
+                {
+                    m_StoredRasterState.fillMode = static_cast<FillMode>(OcularString->fromString<uint32_t>(fillModeNode->getValue()));
+
+                    if(m_StoredRasterState.fillMode > FillMode::Undefined)
+                    {
+                        m_StoredRasterState.fillMode = FillMode::Solid;
+                    }
+                }
+            }
+        }
+
+        void Material::onSaveShaders(Core::BuilderNode* parent) const
+        {
+            Core::BuilderNode* shaderProgramNode = parent->addChild(ShaderNodeName, "", "");
+
+            if(shaderProgramNode)
+            {
+                if(m_VertexShader)
+                {
+                    shaderProgramNode->addChild("Vertex", "Shader", m_VertexShader->getMappingName());
+                }
+                    
+                if(m_GeometryShader)
+                {
+                    shaderProgramNode->addChild("Geometry", "Shader", m_GeometryShader->getMappingName());
+                }
+                    
+                if(m_FragmentShader)
+                {
+                    shaderProgramNode->addChild("Fragment", "Shader", m_FragmentShader->getMappingName());
+                }
+                    
+                if(m_PreTessellationShader)
+                {
+                    shaderProgramNode->addChild("PreTessellation", "Shader", m_PreTessellationShader->getMappingName());
+                }
+                    
+                if(m_PostTessellationShader)
+                {
+                    shaderProgramNode->addChild("PostTessellation", "Shader", m_PostTessellationShader->getMappingName());
+                }
+            }
+        }
+
+        void Material::onSaveTextures(Core::BuilderNode* parent) const
+        {
+            Core::BuilderNode* texturesNode = parent->addChild(TextureNodeName, "", "");
+
+            if(texturesNode)
+            {
+                for(auto texture : m_Textures)
+                {
+                    // Store in node as: 
+                    // name:  sampler name
+                    // type:  sampler register
+                    // value: resource relative path
+
+                    texturesNode->addChild(texture.samplerName, OcularString->toString<uint32_t>(texture.samplerRegister), texture.texture->getMappingName());
+                }
+            }
+        }
+
+        void Material::onSaveUniforms(Core::BuilderNode* parent) const
+        {
+            Core::BuilderNode* uniformsNode = parent->addChild(UniformsNodeName, "", "");
+
+            if(uniformsNode)
+            {
+                if(m_UniformBuffer)
+                {
+                    for(uint32_t i = 0; i < m_UniformBuffer->getNumUniforms(); i++)
+                    {
+                        onSaveUniform(uniformsNode, m_UniformBuffer->getUniform(i));
+                    }
+                }
+            }
+        }
+
+        void Material::onSaveUniform(Core::BuilderNode* parent, Uniform const* uniform) const
+        {
+            if(parent && uniform)
+            {
+                auto uniformNode = parent->addChild(UniformNodeName, "", "");
+                
+                const auto size = uniform->getSize();
+
+                const std::string nameStr     = uniform->getName();
+                const std::string typeStr     = uniform->getType();
+                const std::string registerStr = OcularString->toString<uint32_t>(uniform->getRegister());
+
+                std::string valueStr = "";
+
+                if(size)
+                {
+                    if(size == 1)
+                    {
+                        float value = uniform->getData()[0];
+                        valueStr = OcularString->toString<float>(value);
+                    }
+                    else
+                    {
+                        const float* value = uniform->getData();
+                        valueStr = OcularString->toString(typeStr, void_cast<const float*>(value));
+                    }
+                }
+
+                uniformNode->addChild("Name", Utils::TypeName<std::string>::name, nameStr);
+                uniformNode->addChild("Value", typeStr, valueStr);
+                uniformNode->addChild("Register", Utils::TypeName<uint32_t>::name, registerStr);
+            }
+        }
+
+        void Material::onSaveRenderState(Core::BuilderNode* parent) const
         {
 
         }

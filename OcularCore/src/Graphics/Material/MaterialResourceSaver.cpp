@@ -81,7 +81,7 @@ namespace Ocular
 
                         auto shaderNode  = builderNode.getChild(Material::ShaderNodeName);
                         auto textureNode = builderNode.getChild(Material::TextureNodeName);
-                        auto uniformNode = builderNode.getChild(Material::UniformNodeName);
+                        auto uniformNode = builderNode.getChild(Material::UniformsNodeName);
                         auto renderNode  = builderNode.getChild(Material::RenderStateNodeName);
 
                         if(shaderNode && shaderNode->getNumChildren())
@@ -98,7 +98,7 @@ namespace Ocular
 
                         if(uniformNode && uniformNode->getNumChildren())
                         {
-                            auto uniformXMLNode = rootNode.append_child(Material::UniformNodeName.c_str());
+                            auto uniformXMLNode = rootNode.append_child(Material::UniformsNodeName.c_str());
                             ParseBuilderNode(uniformNode, uniformXMLNode);
                         }
 
