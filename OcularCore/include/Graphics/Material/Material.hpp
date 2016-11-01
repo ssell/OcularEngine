@@ -409,6 +409,7 @@ namespace Ocular
             // Node Names (used for saving and loading)
 
             static const std::string ShaderNodeName;
+            static const std::string TexturesNodeName;
             static const std::string TextureNodeName;
             static const std::string UniformsNodeName;
             static const std::string UniformNodeName;

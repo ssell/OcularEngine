@@ -19,6 +19,7 @@
 #include "Graphics/Shader/ShaderProgram.hpp"
 
 #include "Math/Matrix3x3.hpp"
+#include "Utilities/StringComposer.hpp"
 
 #include "OcularEngine.hpp"
 
@@ -29,7 +30,8 @@ namespace Ocular
     namespace Graphics
     {
         const std::string Material::ShaderNodeName      = "ShaderProgram";
-        const std::string Material::TextureNodeName     = "Textures";
+        const std::string Material::TexturesNodeName    = "Textures";
+        const std::string Material::TextureNodeName     = "Texture";
         const std::string Material::UniformsNodeName    = "Uniforms";
         const std::string Material::UniformNodeName     = "Uniform";
         const std::string Material::RenderStateNodeName = "RenderState";
@@ -856,12 +858,12 @@ namespace Ocular
 
         void Material::onLoadTextures(Core::BuilderNode const* parent)
         {
-            const Core::BuilderNode* texturesNode = parent->getChild("Textures");
+            const Core::BuilderNode* texturesNode = parent->getChild(TexturesNodeName);
 
             if(texturesNode)
             {
                 std::vector<Core::BuilderNode*> textureNodes;
-                texturesNode->findChildrenByType(textureNodes, "Texture");
+                texturesNode->findChildrenByName(textureNodes, TextureNodeName);
 
                 m_Textures.clear();
                 m_Textures.reserve(textureNodes.size());
@@ -871,10 +873,17 @@ namespace Ocular
                     // Call setTexture instead of adding directly to the m_Textures container so
                     // that any API-specific implementations (aka D3D11Material) may work properly.
 
-                    setTexture(
-                        static_cast<uint32_t>(m_Textures.size()), 
-                        textureNode->getName(), 
-                        OcularResources->getResource<Texture>(textureNode->getValue()));
+                    auto textureNameNode = textureNode->getChild("Name");
+                    auto textureValueNode = textureNode->getChild("Value");
+                    auto textureRegisterNode = textureNode->getChild("Register");
+
+                    if(textureNameNode && textureValueNode && textureRegisterNode)
+                    {
+                        setTexture(
+                            OcularString->fromString<uint32_t>(textureRegisterNode->getValue()),
+                            textureNameNode->getValue(),
+                            OcularResources->getResource<Texture>(textureValueNode->getValue()));
+                    }
                 }
             }
         }
@@ -886,7 +895,7 @@ namespace Ocular
             if(uniformsNode)
             {
                 std::vector<Core::BuilderNode*> uniformChildren;
-                uniformsNode->getAllChildren(uniformChildren);
+                uniformsNode->findChildrenByName(uniformChildren, UniformNodeName);
 
                 for(auto uniformNode : uniformChildren)
                 {
@@ -959,7 +968,7 @@ namespace Ocular
 
         void Material::onLoadRenderState(Core::BuilderNode const* parent)
         {
-            const Core::BuilderNode* renderStateNode = parent->getChild("RenderState");
+            const Core::BuilderNode* renderStateNode = parent->getChild(RenderStateNodeName);
 
             if(renderStateNode)
             {
@@ -1024,18 +1033,23 @@ namespace Ocular
 
         void Material::onSaveTextures(Core::BuilderNode* parent) const
         {
-            Core::BuilderNode* texturesNode = parent->addChild(TextureNodeName, "", "");
+            Core::BuilderNode* texturesNode = parent->addChild(TexturesNodeName, "", "");
 
             if(texturesNode)
             {
+                uint32_t nodeIndex = 0;
+
                 for(auto texture : m_Textures)
                 {
-                    // Store in node as: 
-                    // name:  sampler name
-                    // type:  sampler register
-                    // value: resource relative path
+                    if(texture.texture)
+                    {
+                        const auto textureNodeName = OCULAR_STRING_COMPOSER(Ocular::Graphics::Material::TextureNodeName, nodeIndex++);
+                        auto textureNode = texturesNode->addChild(textureNodeName, "", "");
 
-                    texturesNode->addChild(texture.samplerName, OcularString->toString<uint32_t>(texture.samplerRegister), texture.texture->getMappingName());
+                        textureNode->addChild("Name", Utils::TypeName<std::string>::name, texture.samplerName);
+                        textureNode->addChild("Value", "Texture", texture.texture->getMappingName());
+                        textureNode->addChild("Register", Utils::TypeName<uint32_t>::name, OcularString->toString<uint32_t>(texture.samplerRegister));
+                    }
                 }
             }
         }
@@ -1044,14 +1058,16 @@ namespace Ocular
         {
             Core::BuilderNode* uniformsNode = parent->addChild(UniformsNodeName, "", "");
 
-            if(uniformsNode)
+            if(uniformsNode && m_UniformBuffer)
             {
-                if(m_UniformBuffer)
+                uint32_t nodeIndex = 0;
+
+                for(uint32_t i = 0; i < m_UniformBuffer->getNumUniforms(); i++)
                 {
-                    for(uint32_t i = 0; i < m_UniformBuffer->getNumUniforms(); i++)
-                    {
-                        onSaveUniform(uniformsNode, m_UniformBuffer->getUniform(i));
-                    }
+                    const auto uniformNodeName = OCULAR_STRING_COMPOSER(Ocular::Graphics::Material::UniformNodeName, nodeIndex++);
+                    auto uniformNode = uniformsNode->addChild(uniformNodeName, "", "");
+
+                    onSaveUniform(uniformNode, m_UniformBuffer->getUniform(i));
                 }
             }
         }
@@ -1060,8 +1076,6 @@ namespace Ocular
         {
             if(parent && uniform)
             {
-                auto uniformNode = parent->addChild(UniformNodeName, "", "");
-                
                 const auto size = uniform->getSize();
 
                 const std::string nameStr     = uniform->getName();
@@ -1084,9 +1098,9 @@ namespace Ocular
                     }
                 }
 
-                uniformNode->addChild("Name", Utils::TypeName<std::string>::name, nameStr);
-                uniformNode->addChild("Value", typeStr, valueStr);
-                uniformNode->addChild("Register", Utils::TypeName<uint32_t>::name, registerStr);
+                parent->addChild("Name", Utils::TypeName<std::string>::name, nameStr);
+                parent->addChild("Value", typeStr, valueStr);
+                parent->addChild("Register", Utils::TypeName<uint32_t>::name, registerStr);
             }
         }
 

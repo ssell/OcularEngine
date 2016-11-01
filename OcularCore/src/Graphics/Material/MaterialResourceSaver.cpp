@@ -79,10 +79,10 @@ namespace Ocular
                         Core::BuilderNode builderNode(nullptr, "", "", "");
                         material->onSave(&builderNode);
 
-                        auto shaderNode  = builderNode.getChild(Material::ShaderNodeName);
-                        auto textureNode = builderNode.getChild(Material::TextureNodeName);
-                        auto uniformNode = builderNode.getChild(Material::UniformsNodeName);
-                        auto renderNode  = builderNode.getChild(Material::RenderStateNodeName);
+                        auto shaderNode   = builderNode.getChild(Material::ShaderNodeName);
+                        auto texturesNode = builderNode.getChild(Material::TexturesNodeName);
+                        auto uniformsNode = builderNode.getChild(Material::UniformsNodeName);
+                        auto renderNode   = builderNode.getChild(Material::RenderStateNodeName);
 
                         if(shaderNode && shaderNode->getNumChildren())
                         {
@@ -90,16 +90,32 @@ namespace Ocular
                             ParseBuilderNode(shaderNode, shaderXMLNode);
                         }
 
-                        if(textureNode && textureNode->getNumChildren())
+                        if(texturesNode && texturesNode->getNumChildren())
                         {
-                            auto textureXMLNode = rootNode.append_child(Material::TextureNodeName.c_str());
-                            ParseBuilderNode(textureNode, textureXMLNode);
+                            auto texturesXMLNode = rootNode.append_child(Material::TexturesNodeName.c_str());
+
+                            std::vector<Core::BuilderNode*> textureNodes;
+                            texturesNode->findChildrenByName(textureNodes, Material::TextureNodeName);
+
+                            for(auto textureNode : textureNodes)
+                            {
+                                auto textureXMLNode = texturesXMLNode.append_child(Material::TextureNodeName.c_str());
+                                ParseBuilderNode(textureNode, textureXMLNode);
+                            }
                         }
 
-                        if(uniformNode && uniformNode->getNumChildren())
+                        if(uniformsNode && uniformsNode->getNumChildren())
                         {
-                            auto uniformXMLNode = rootNode.append_child(Material::UniformsNodeName.c_str());
-                            ParseBuilderNode(uniformNode, uniformXMLNode);
+                            auto uniformsXMLNode = rootNode.append_child(Material::UniformsNodeName.c_str());
+
+                            std::vector<Core::BuilderNode*> uniformNodes;
+                            uniformsNode->findChildrenByName(uniformNodes, Material::UniformNodeName);
+
+                            for(auto uniformNode : uniformNodes)
+                            {
+                                auto uniformXMLNode = uniformsXMLNode.append_child(Material::UniformNodeName.c_str());
+                                ParseBuilderNode(uniformNode, uniformXMLNode);
+                            }
                         }
 
                         if(renderNode && renderNode->getNumChildren())

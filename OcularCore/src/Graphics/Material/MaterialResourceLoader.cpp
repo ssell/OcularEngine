@@ -20,6 +20,7 @@
 
 #include "Resources/ResourceLoaderRegistrar.hpp"
 #include "Utilities/StringUtils.hpp"
+#include "Utilities/StringComposer.hpp"
 #include "Math/Matrix3x3.hpp"
 #include "OcularEngine.hpp"
 
@@ -138,7 +139,7 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
     if(builderNode)
     {
         pugi::xml_node shadersXMLNode     = xmlNode.child(Ocular::Graphics::Material::ShaderNodeName.c_str());
-        pugi::xml_node texturesXMLNode    = xmlNode.child(Ocular::Graphics::Material::TextureNodeName.c_str());
+        pugi::xml_node texturesXMLNode    = xmlNode.child(Ocular::Graphics::Material::TexturesNodeName.c_str());
         pugi::xml_node uniformsXMLNode    = xmlNode.child(Ocular::Graphics::Material::UniformsNodeName.c_str());
         pugi::xml_node renderStateXMLNode = xmlNode.child(Ocular::Graphics::Material::RenderStateNodeName.c_str());
 
@@ -157,13 +158,21 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
 
         if(texturesXMLNode)
         {
-            Ocular::Core::BuilderNode* texturesBuilderNode = builderNode->addChild(Ocular::Graphics::Material::TextureNodeName, "", "");
+            Ocular::Core::BuilderNode* texturesBuilderNode = builderNode->addChild(Ocular::Graphics::Material::TexturesNodeName, "", "");
+            uint32_t nodeIndex = 0;
 
-            for(auto child : texturesXMLNode.children())
+            for(auto textureXMLChild : texturesXMLNode.children())
             {
-                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
+                if(Ocular::Utils::String::IsEqual(textureXMLChild.name(), Ocular::Graphics::Material::TextureNodeName))
                 {
-                    ParseVarNode(texturesBuilderNode, child);
+                    // Builder node names are unique, so create a temporary throwaway name for loading purposes
+                    const auto textureNodeName = OCULAR_STRING_COMPOSER(Ocular::Graphics::Material::TextureNodeName, nodeIndex++);
+                    auto textureBuilderNode = texturesBuilderNode->addChild(textureNodeName, "", "");
+
+                    for(auto textureXMLVar : textureXMLChild.children())
+                    {
+                        ParseVarNode(textureBuilderNode, textureXMLVar);
+                    }
                 }
             }
         }
@@ -171,12 +180,20 @@ void ParseMaterialTree(Ocular::Core::BuilderNode* builderNode, pugi::xml_node& x
         if(uniformsXMLNode)
         {
             Ocular::Core::BuilderNode* uniformsBuilderNode = builderNode->addChild(Ocular::Graphics::Material::UniformsNodeName, "", "");
+            uint32_t nodeIndex = 0;
 
-            for(auto child : uniformsXMLNode.children())
+            for(auto uniformXMLChild : uniformsXMLNode.children())
             {
-                if(Ocular::Utils::String::IsEqual(child.name(), "var"))
+                if(Ocular::Utils::String::IsEqual(uniformXMLChild.name(), Ocular::Graphics::Material::UniformNodeName))
                 {
-                    ParseVarNode(uniformsBuilderNode, child);
+                    // Builder node names are unique, so create a temporary throwaway name for loading purposes
+                    const auto uniformNodeName = OCULAR_STRING_COMPOSER(Ocular::Graphics::Material::UniformNodeName, nodeIndex++);
+                    auto uniformBuilderNode = uniformsBuilderNode->addChild(uniformNodeName, "", "");
+
+                    for(auto uniformXMLVar : uniformXMLChild.children())
+                    {
+                        ParseVarNode(uniformBuilderNode, uniformXMLVar);
+                    }
                 }
             }
         }

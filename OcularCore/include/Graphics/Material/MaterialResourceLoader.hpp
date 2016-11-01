@@ -43,68 +43,37 @@ namespace Ocular
          * ## Overview ##
          *
          * This loader is responsible for creating Material objects from the XML-based Ocular Material files (.omat).
-         * For a full description of the Ocular Material file format, see the Materials section of the manual.
-         *
-         * But as the manual does not yet exist, here is an example of the XML:
          *
          *     <OcularMaterial>
          *         <ShaderProgram>
-         *             <Vertex>
-         *                 <Path>Shaders/OcularFlat</Path>
-         *             </Vertex>
-         *             <Fragment>
-         *                 <Path>Shaders/OcularFlat</Path>
-         *             </Fragment>
+         *             <var name="Vertex" type="Shader" value="OcularCore/Shaders/Default" />
+         *             <var name="Fragment" type="Shader" value="OcularCore/Shaders/Default" />
          *         </ShaderProgram>
          *         <Textures>
          *             <Texture>
-         *                 <Path>Textures/Grass</Path>
-         *                 <Name>Grass</Name>
-         *                 <Register>0</Register>
-         *             </Texture>
-         *             <Texture>
-         *                 <Path>Textures/GrassBump</Path>
-         *                 <Name>Grass Bump Map</Name>
-         *                 <Register>1</Register>
-         *             </Texture>
-         *             <Texture>
-         *                 <Path>Texture/GrassSpecular</Path>
-         *                 <Name>Grass Specular Map</Name>
-         *                 <Register>2</Register>
-         *             </Texture>
+         *                 <var name="Name" type="string" value="Diffuse" />
+         *                 <var name="Value" type="Texture" value="OcularCore/Textures/Default" />
+         *                 <var name="Register" type="int" value="0" />
          *         </Textures>
          *         <Uniforms>
          *             <Uniform>
-         *                 <Type>Vector4</Type>
-         *                 <Name>Offset</Name>
-         *                 <Register>0</Register>
-         *                 <Value>1.0 0.5 3.0 0.0</Value>
+         *                 <var name="Name" type="string" value="Albedo" />
+         *                 <var name="Value" type="Color" value="0 1 0 1" />
+         *                 <var name="Register" type="int" value="0" />
          *             </Uniform>
          *             <Uniform>
-         *                 <Type>Float</Type>
-         *                 <Name>Fade</Name>
-         *                 <Register>1</Register>
-         *                 <Value>0.5</Value>
+         *                 <var name="Name" type="string" value="Specular" />
+         *                 <var name="Value" type="Color" value="1 1 1 1" />
+         *                 <var name="Register" type="int" value="1" />
          *             </Uniform>
          *             <Uniform>
-         *                 <Type>Matrix3x3</Type>
-         *                 <Name>Identity3x3</Name>
-         *                 <Register>2</Register>
-         *                 <Value>1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0</Value>
-         *             </Uniform>
-         *             <Uniform>
-         *                 <Type>Matrix3x3</Type>
-         *                 <Name>Rot3x3</Name>
-         *                 <Register>3</Register>
-         *                 <Value>
-         *                     0.38 1.0 0.0
-         *                     1.97 3.0 0.5
-         *                     0.01 0.9 1.0
-         *                 </Value>
+         *                 <var name="Name" type="string" value="Roughness" />
+         *                 <var name="Value" type="float" value="0.5" />
+         *                 <var name="Register" type="int" value="2" />
          *             </Uniform>
          *         </Uniforms>
          *         <RenderState>
-         *             <PrimitiveStyle>0</PrimitiveStyle>
+         *             <var name="PrimitiveStyle" type="int" value="0" />
          *         </RenderState>
          *     </OcularMaterial>
          *
@@ -126,13 +95,9 @@ namespace Ocular
          *         material->setVertexShader(program->getVertexShader());
          *     }
          *
-         * The following are valid shader stage tags:
+         * The following are valid shader name values:
          *
-         *     <Vertex>
-         *     <Geometry>
-         *     <Fragment> or <Pixel>
-         *     <PreTessellation> or <Hull>
-         *     <PostTessellation> or <Domain>
+         *     Vertex, Geometry, Fragment, PreTessellation, PostTessellation
          *
          * ## Textures ##
          * 
@@ -154,41 +119,22 @@ namespace Ocular
          * ## Uniforms ##
          *
          * Here the individual Uniforms for the material are specified. Each Uniform is composed of 
-         * three parts: Type, Name, and Value.
+         * three parts: Name, Value, and Register.
          *
-         * Valid types are:
+         * Valid name types are:
          *
-         *     Float
-         *     Vector4
-         *     Matrix3x3
-         *     Matrix4x4
+         *     Ocular::Utils::TypeName<float>::name
+         *     Ocular::Utils::TypeName<Ocular::Core::Color>::name
+         *     Ocular::Utils::TypeName<Ocular::Math::Vector4f>::name
+         *     Ocular::Utils::TypeName<Ocular::Math::Matrix3x3>::name
+         *     Ocular::Utils::TypeName<Ocular::Math::Matrix4x4>::name
          *
          * Their values are specified in the following way:
          *
-         *         Float: <Value>#</Value>
-         *
-         *       Vector4: <Value># # # #</Value>
-         *
-         *     Matrix3x3: <Value># # #  # # #  # # #</Value>
-         *
-         *                or
-         *
-         *                <Value>
-         *                    # # #
-         *                    # # #
-         *                    # # #
-         *                </Value>
-         *                       
-         *     Matrix4x4: <Value># # # #  # # # #  # # # #  # # # #</Value>
-         *
-         *                or
-         *
-         *                <Value>
-         *                    # # # #
-         *                    # # # #
-         *                    # # # #
-         *                    # # # #
-         *                </Value>
+         *     <var name="Value" type="float" value="#" />
+         *     <var name="Value" type="Vector4f" value="# # # #" />
+         *     <var name="Value" type="Matrix3x3" value="# # # # # # # # #" />
+         *     <var name="Value" type="Matrix4x4" value="# # # # # # # # # # # # # # # #" />
          * 
          * All numbers are converted to 32-bit floats.
          *
