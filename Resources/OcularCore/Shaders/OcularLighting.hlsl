@@ -47,7 +47,14 @@ float4 calcLambertianDiffuse(in float4 color)
  */
 float4 calcReflectionVector(in float4 normal, in float4 toLight)
 {
-    return normalize(2.0f * dot(normal, toLight) * normal - toLight);
+    // Source: Real-Time Rendering, 3rd Edition (p 230, figure 7.30)
+    // and https://www.opengl.org/sdk/docs/man4/html/reflect.xhtml
+
+    // Note that in Real-Time Rendering, l is the incoming light
+    // direction vector, where here we use the direction vector
+    // pointing to the light source.
+
+    return (toLight - 2.0f * dot(normal, toLight) * normal);
 }
 
 /**
