@@ -97,11 +97,14 @@ float ccosAngle(in float4 vecA, in float4 vecB)
     return saturate(dot(vecA, vecB));
 }
 
+float calcHalfVectorAngle(in float4 toLight, in float4 toView, in float4 normal)
+{
+    const float4 halfVector = (toLight + toView) / length(toLight + toView);
+    return dot(halfVector, normal);
+}
+
 /**
  * Implementation of the Phong BRDF.
- *
- * Is reflection-vector-based instead of half-vector-based. 
- * A more realistic, half-vector implementation is the blinnPhongBRDF function.
  *
  * \param[in] normal    The macroscopic surface normal. (n)
  * \param[in] toLight   Normalized direction vector pointing to the light source. (l)
@@ -121,21 +124,20 @@ float4 phongBRDF(
     // General equation is an improved Phong BRDF described by:
     //     Real-Time Rendering 3rd Edition, Equation 7.47 (p. 253)
 
-    const float4 colorDiff = calcLambertianDiffuse(diffuse);
+    // Note we are using the half-vector angle instead of the more common reflection-vector angle.
+    // This is more physically accurate and provides more realistic results on planar surfaces.
 
-    const float4 reflVector = calcReflectionVector(normal, toLight);
-    const float  angleReflection = ccosAngle(toLight, reflVector);
+    const float4 colorDiff = calcLambertianDiffuse(diffuse);
+    const float cosHalfAngle = calcHalfVectorAngle(toLight, toView, normal);
 
     // The following Schlick Approximation was suggested in:
     //     Montes R., Urena C.: An Overview of BRDF Models, section "The Phong BRDF"
     //     http://digibug.ugr.es/bitstream/10481/19751/1/rmontes_LSI-2012-001TR.pdf
 
-    const float cosRefl = cos(angleReflection);
-    const float schlick = (cosRefl / (roughness - roughness * cosRefl + cosRefl));
-
+    const float schlick = (cosHalfAngle / (roughness - roughness * cosHalfAngle + cosHalfAngle));
     const float4 colorSpecular = ((roughness + 2.0f) * PI_TWO_UNDER_ONE) * specular * schlick;
 
-    return (colorDiff + colorSpecular);
+    return (colorSpecular);
 }
 
 /**
