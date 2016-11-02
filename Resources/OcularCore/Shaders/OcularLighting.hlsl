@@ -58,6 +58,25 @@ float4 calcReflectionVector(in float4 normal, in float4 toLight)
 }
 
 /**
+ * Calculates the half-vector angle.
+ *
+ * The half-vector is the vector that is half-way between the toLight
+ * and toView vectors. The half-vector angle is measured as the angle
+ * between the half-vector and the macroscopic surface normal.
+ *
+ * \param[in] toLight Normalized vector to the light source
+ * \param[in] toView  Normalized vector to the view/camera/receiver/etc.
+ * \param[in] normal  Macroscopic surface normal.
+ *
+ * \return The cos of the half-vector angle
+ */
+float calcHalfVectorAngle(in float4 toLight, in float4 toView, in float4 normal)
+{
+    const float4 halfVector = normalize(toLight + toView);
+    return dot(halfVector, normal);
+}
+
+/**
  * Calculates the attenuation term using the standard Constant-Linear-Quadratic model.
  *
  * \param[in] toLight     Unnormalized vector pointing from the surface to the light source.
@@ -97,12 +116,6 @@ float ccosAngle(in float4 vecA, in float4 vecB)
     return saturate(dot(vecA, vecB));
 }
 
-float calcHalfVectorAngle(in float4 toLight, in float4 toView, in float4 normal)
-{
-    const float4 halfVector = (toLight + toView) / length(toLight + toView);
-    return dot(halfVector, normal);
-}
-
 /**
  * Implementation of the Phong BRDF.
  *
@@ -137,7 +150,7 @@ float4 phongBRDF(
     const float schlick = (cosHalfAngle / (roughness - roughness * cosHalfAngle + cosHalfAngle));
     const float4 colorSpecular = ((roughness + 2.0f) * PI_TWO_UNDER_ONE) * specular * schlick;
 
-    return (colorSpecular);
+    return (colorDiff + colorSpecular);
 }
 
 /**
