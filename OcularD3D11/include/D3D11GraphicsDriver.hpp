@@ -123,6 +123,8 @@ namespace Ocular
             virtual bool renderMesh(Mesh* mesh, uint32_t submesh = 0) override;
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type) override;
 
+            virtual void getDepthRange(float* near, float* far) const override;
+
             //------------------------------------------------------------
             // D3D Specific Methods
 

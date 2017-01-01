@@ -222,6 +222,49 @@ namespace Ocular
             void triggerObjectDirty(UUID const& uuid, bool staticObject);
 
             //------------------------------------------------------------------------------
+            // Intersection Methods
+
+            /**
+             * Returns a list of all scene objects that intersect with the specified ray. 
+             * The objects are given in the order they are encountered along the ray.
+             *
+             * For example, if a ray is created with the origin at the camera and extends along
+             * the view direction, then objects[0] will be the object closest to the camera and
+             * objects[size-1] will be the object farthest away from the camera.
+             *
+             * \param[in]  ray
+             * \param[out] objects List of object/distance pairs intersected by the specified ray.
+             */
+            void getIntersections(Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const;
+
+            /**
+             * Returns a list of all scene objects that intersect with the sphere.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            void getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Returns a list of all scene objects that intersect with the specified AABB.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            void getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const;
+
+            /**
+             * Returns a list of all scene objects that intersect with the specified OBB.
+             * An intersection occurs if a SceneObject either partially intersects or is entirely contained within the bounds.
+             *
+             * \param[in]  bounds
+             * \param[out] objects List of objects intersected by the specified bounds.
+             */
+            void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const;
+
+            //------------------------------------------------------------------------------
             // Scene Methods
 
             /**
@@ -266,22 +309,22 @@ namespace Ocular
             bool isSceneActive() const;
 
             /**
-             *
+             * \return The ComponentFactory used to create ARoutine implementations.
              */
             ComponentFactory<ARoutine>& getRoutineFactory();
 
             /**
-             *
+             * \return The ComponentFactory used to create ARenderable implementations.
              */
             ComponentFactory<ARenderable>& getRenderableFactory();
 
             /**
-             *
+             * \return The ComponentFactory used to create SceneObject implementations.
              */
             ComponentFactory<SceneObject>& getSceneObjectFactory();
 
             /**
-             *
+             * \return The ComponentFactory used to create Renderer implementations.
              */
             ComponentFactory<Renderer>& getRendererFactory();
 

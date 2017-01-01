@@ -310,22 +310,29 @@ namespace Ocular
             return m_ClearColor;
         }
 
-        Math::Vector3f Camera::screenToWorld(Math::Vector2i const& screenPos)
+        Math::Vector3f Camera::screenToWorld(Math::Vector2i const& screenPos, float const depth)
         {
-            // https://www.mvps.org/directx/articles/rayproj.htm
+            /**
+             * To convert from screen space to world space we simply do the reverse
+             * of the typical rendering transformations:
+             *
+             *     1. Convert from screen-space to NDC-space
+             *     2. Calculate inverse view-projection matrix
+             *     3. Transform NDC-space coordinate by view-projection inverse
+             *     4. Divide resulting transformed point by w (perspective division).
+             */
 
             Math::Vector3f result;
 
-            const float normX = std::tanf(m_PerspectiveProj.fieldOfView * 0.5f) * ((static_cast<float>(screenPos.x) / (m_Viewport->getWidth() * 0.5f)) - 1.0f) / m_PerspectiveProj.aspectRatio;
-            const float normY = std::tanf(m_PerspectiveProj.fieldOfView * 0.5f) * (1.0f - static_cast<float>(screenPos.y) / (m_Viewport->getHeight() * 0.5f));
+            Math::Vector4f  normPos     = screenToNDC(screenPos, depth);
+            Math::Matrix4x4 viewProjInv = (m_ProjMatrix * m_ViewMatrix).getInverse();
+            Math::Vector4f  projPos     = viewProjInv * normPos;
 
-            const Math::Matrix4x4 inverseViewMatrix = getViewMatrix().getInverse();
+            projPos.w = 1.0f / projPos.w;
 
-            result.x = normX * m_PerspectiveProj.nearClip;
-            result.y = normY * m_PerspectiveProj.nearClip;
-            result.z = m_PerspectiveProj.nearClip;
-
-            result = result * inverseViewMatrix;
+            result.x = projPos.x * projPos.w;
+            result.y = projPos.y * projPos.w;
+            result.z = projPos.z * projPos.w;
 
             return result;
         }
@@ -335,7 +342,7 @@ namespace Ocular
             Math::Vector2i result;
             
             const Math::Matrix4x4 viewProjMatrix = getProjectionMatrix() * m_Transform.getModelMatrix();
-            const Math::Vector3f projSpacePoint = worldPos * viewProjMatrix;
+            const Math::Vector3f projSpacePoint = viewProjMatrix * worldPos;
 
             result.x = static_cast<int32_t>(Math::RoundDecimal(((projSpacePoint.x + 1.0f) * 0.5f), 0) * m_Viewport->getWidth());
             result.y = static_cast<int32_t>(Math::RoundDecimal(((1.0f - projSpacePoint.y) * 0.5f), 0) * m_Viewport->getHeight());
@@ -345,45 +352,24 @@ namespace Ocular
 
         Math::Ray Camera::getPickRay(Math::Vector2i const& screenPos)
         {
-            // https://www.mvps.org/directx/articles/rayproj.htm
-            // http://www.toymaker.info/Games/html/picking.html
+            /**
+             * To generate a pick ray we must do two things:
+             *
+             *     1. Convert screen-space coordinates to world-space
+             *     2. Calculate a direction for the ray
+             */
 
-            Math::Ray result;
-            
-            //------------------------------------------------------------
+            float nearDepth = 0.0f;
+            float farDepth = 0.0f;
 
-            const float x = static_cast<float>(screenPos.x);
-            const float y = static_cast<float>(screenPos.y);
-            
-            Math::Vector3f vector;
+            OcularGraphics->getDepthRange(&nearDepth, &farDepth);
 
-            vector.x = (((x * 2.0f) / m_Viewport->getWidth()) - 1.0f) / m_ProjMatrix[0];
-            vector.y = -(((y * 2.0f) / m_Viewport->getHeight()) - 1.0f) / m_ProjMatrix[5];
-            vector.z = 1.0f;
-            
-            //------------------------------------------------------------
+            const Math::Vector3f worldPosNear = screenToWorld(screenPos, nearDepth);
+            const Math::Vector3f worldPosFar = screenToWorld(screenPos, farDepth);
 
-            Math::Matrix4x4 inverseViewMatrix = getModelMatrix(false);
-
-            Math::Vector3f rayDirection;
-            Math::Vector3f rayOrigin;
-
-            rayDirection.x = (vector.x * inverseViewMatrix[0]) + (vector.y * inverseViewMatrix[4]) + (vector.z * inverseViewMatrix[8]);
-            rayDirection.y = (vector.x * inverseViewMatrix[1]) + (vector.y * inverseViewMatrix[5]) + (vector.z * inverseViewMatrix[9]);
-            rayDirection.z = -((vector.x * inverseViewMatrix[2]) + (vector.y * inverseViewMatrix[6]) + (vector.z * inverseViewMatrix[10]));
-
-            //rayDirection.x = (vector.x * inverseViewMatrix[0]) + (vector.y * inverseViewMatrix[1]) + (vector.z * inverseViewMatrix[2]);
-            //rayDirection.y = (vector.x * inverseViewMatrix[4]) + (vector.y * inverseViewMatrix[5]) + (vector.z * inverseViewMatrix[6]);
-            //rayDirection.z = -((vector.x * inverseViewMatrix[8]) + (vector.y * inverseViewMatrix[9]) + (vector.z * inverseViewMatrix[10]));
-            
-            rayOrigin = getPosition(false);
-            
-            //------------------------------------------------------------
-
-            result.setDirection(rayDirection);
-            result.setOrigin(rayOrigin);
-
-            return result;
+            const Math::Vector3f rayDir = (worldPosFar - worldPosNear).getNormalized();
+            const auto forwards = m_Transform.getForwards();
+            return Math::Ray(worldPosNear, rayDir);
         }
 
         //----------------------------------------------------------------------------------
@@ -460,6 +446,45 @@ namespace Ocular
                     }
                 }
             }
+        }
+
+        Math::Vector4f Camera::screenToNDC(Math::Vector2i const& screenPos, float const depth) const
+        {
+            /** 
+             * Screen space ranges from:
+             *
+             *     0 <= x <= screen width
+             *     0 <= y <= screen height
+             *
+             * Where (0,0) is the top-left corner.
+             *
+             * Normalized space ranges from:
+             *
+             *     -1.0 <= x <= 1.0
+             *     -1.0 <= y <= 1.0
+             *
+             * Where (0,0) is the screen center.
+             *
+             * So, we must transform the screen-space x/y to ndc-space x/y.
+             * .z is the depth and .w is 1.0. 
+             */
+
+            Math::Vector4f result(0.0f, 0.0f, depth, 1.0f);
+
+            if(m_Viewport)
+            {
+                // Convert screen x/y to a [0.0,1.0] normalized value
+
+                result.x = (static_cast<float>(screenPos.x) / m_Viewport->getWidth());
+                result.y = (static_cast<float>(screenPos.y) / m_Viewport->getHeight());
+
+                // Fit the normalized value to the [-1.0,1.0] range of NDC space
+
+                result.x = (result.x * 2.0f) - 1.0f;
+                result.y = 1.0f - (result.y * 2.0f);      // Remember y is reversed in screen-space
+            }
+
+            return result;
         }
 
         //----------------------------------------------------------------------------------

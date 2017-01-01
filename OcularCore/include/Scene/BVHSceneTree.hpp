@@ -96,7 +96,7 @@ namespace Ocular
             virtual void removeObjects(std::vector<SceneObject*> const& objects) override;
             virtual void getAllObjects(std::vector<SceneObject*>& objects) const override;
             virtual void getAllVisibleObjects(Math::Frustum const& frustum, std::vector<SceneObject*>& objects) const override;
-            virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const override;
+            virtual void getIntersections(Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const override;
             virtual void getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const override;
             virtual void getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const override;
             virtual void getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const override;

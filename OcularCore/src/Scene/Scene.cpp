@@ -40,12 +40,12 @@ namespace Ocular
 
         Scene::Scene()
             : m_UniformBufferPerFrame(OcularGraphics->createUniformBuffer(Graphics::UniformBufferType::PerFrame)),
-              m_RoutinesAreDirty(false),
-              m_StaticTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
-              m_DynamicTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
-              m_StaticSceneTree(nullptr),
-              m_DynamicSceneTree(nullptr),
-              m_Renderer(nullptr)
+            m_RoutinesAreDirty(false),
+            m_StaticTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
+            m_DynamicTreeType(SceneTreeType::BoundingVolumeHierarchyCPU),
+            m_StaticSceneTree(nullptr),
+            m_DynamicSceneTree(nullptr),
+            m_Renderer(nullptr)
         {
 
         }
@@ -276,7 +276,7 @@ namespace Ocular
                                 ++iter;
                             }
                         }
-                        
+
                         //------------------------------------------------
                         // Render the remaining SceneObjects
                         //------------------------------------------------
@@ -353,7 +353,7 @@ namespace Ocular
         void Scene::updateRoutines()
         {
             sortRoutines();
-            
+
             const float delta = OcularEngine.Clock()->getDelta();
 
             for(auto iter = m_Routines.begin(); iter != m_Routines.end(); ++iter)
@@ -383,6 +383,16 @@ namespace Ocular
 
                 m_RoutinesAreDirty = false;
             }
+        }
+
+        ISceneTree* Scene::getStaticTree() const
+        {
+            return m_StaticSceneTree;
+        }
+
+        ISceneTree* Scene::getDynamicTree() const
+        {
+            return m_DynamicSceneTree;
         }
 
         void Scene::objectTreeChanged(SceneObject* object)

@@ -185,6 +185,9 @@ namespace Ocular
             void updateRoutines();
             void sortRoutines();
 
+            ISceneTree* getStaticTree() const;
+            ISceneTree* getDynamicTree() const;
+
             //------------------------------------------------------------
             // Object State Change Methods
 

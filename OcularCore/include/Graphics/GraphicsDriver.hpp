@@ -340,6 +340,23 @@ namespace Ocular
              */
             FrameStats getLastFrameStats() const;
 
+            //------------------------------------------------------------------------------
+            // Miscellaneous
+            //------------------------------------------------------------------------------
+
+            /**
+             * Returns the near and far depth ranges for the implementation.
+             *
+             * Typical values are:
+             *
+             *     Direct3D: near = 0.0f; far = 1.0f
+             *     OpenGL: near = -1.0f; far = 1.0f
+             *
+             * \param[out] near Near depth value. Pass NULL if value is not needed.
+             * \param[out] far  Far depth value. Pass NULL if value is not needed.
+             */
+            virtual void getDepthRange(float* near, float* far) const;
+
         protected:
 
             /**

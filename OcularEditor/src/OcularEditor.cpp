@@ -160,26 +160,34 @@ namespace Ocular
                     // Check if alt key is down (we assume a rotation around target if it is down)
                     if(!OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltLeft))
                     {
-                        auto viewport = m_EditorCamera->getViewport();
                         auto mousePos = OcularInput->getMousePosition();
+                        auto editorCamera = OcularEditor.getEditorCamera();
 
-                        const uint32_t mouseX = static_cast<uint32_t>(mousePos.x);
-                        const uint32_t mouseY = static_cast<uint32_t>(mousePos.y);
-
-                        auto pickedObject = Utils::ColorPicker::Pick(m_EditorCamera, mouseX, mouseY);
-
-                        if(cast->state == Core::KeyState::Released)
+                        if(editorCamera)
                         {
-                            // On mouse up, we only care about picking normal (non-gizmo) objects
-                            setSelectedObject(pickedObject, false, true);
-
-                            //auto ray = m_EditorCamera->getPickRay(mousePos);
+                            auto ray = editorCamera->getPickRay(mousePos);
                             //OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
-                        }
-                        else
-                        {
-                            // On mouse down, we only care about picking gizmo objects
-                            setSelectedObject(pickedObject, true, false);
+                            
+                            std::vector<std::pair<Core::SceneObject*, float>> intersections;
+
+                            OcularScene->getIntersections(ray, intersections);
+
+                            if(intersections.size())
+                            {
+                                // Objects are sorted in order of intersection. So the first in the vector is the first hit.
+                                auto pickedObject = intersections[0].first;
+
+                                if(cast->state == Core::KeyState::Released)
+                                {
+                                    // On mouse up, we only care about picking normal (non-gizmo) objects
+                                    setSelectedObject(pickedObject, false, true);
+                                }
+                                else
+                                {
+                                    // On mouse down, we only care about picking gizmo objects
+                                    setSelectedObject(pickedObject, true, false);
+                                }
+                            }
                         }
                     }
                 }

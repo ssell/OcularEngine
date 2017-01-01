@@ -256,7 +256,7 @@ namespace Ocular
             findVisible(m_Root, frustum, objects);
         }
 
-        void BVHSceneTree::getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const
+        void BVHSceneTree::getIntersections(Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const
         {
             //------------------------------------------------------------
             // Find intersections and their distances from the origin.
@@ -283,7 +283,7 @@ namespace Ocular
 
             for(auto pair : intersections)
             {
-                objects.emplace_back(pair.first);
+                objects.emplace_back(pair);
             }
         }
 

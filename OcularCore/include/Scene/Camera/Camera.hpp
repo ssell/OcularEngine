@@ -251,10 +251,12 @@ namespace Ocular
             /**
              * Converts a given screen coordinate to a world-space position.
              *
-             * \param[in] x
-             * \param[in] y
+             * \param[in] screenPos Screen coordinate to convert. (0,0) is top-left, and (width, height) is bottom-right.
+             * \param[in] depth     Depth of coordinate. See GraphicsDriver::getDepthRange for the appropriate value if point should be on near plane.
+             *
+             * \return World-space coordinate.
              */
-            Math::Vector3f screenToWorld(Math::Vector2i const& screenPos);
+            Math::Vector3f screenToWorld(Math::Vector2i const& screenPos, float depth);
 
             /**
              * Converts a given world space position to a screen-space coordinate.
@@ -288,6 +290,11 @@ namespace Ocular
             void exposeVariables();
 
             void updateViewport(float width, float height);
+
+            /**
+             * Converts the screen-space coordinates to normalized-space.
+             */
+            Math::Vector4f screenToNDC(Math::Vector2i const& screenPos, float depth) const;
 
             //------------------------------------------------------------
 

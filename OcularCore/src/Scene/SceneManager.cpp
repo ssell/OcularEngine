@@ -18,6 +18,7 @@
 #include "Scene/Camera/Camera.hpp"
 #include "Scene/SceneLoader/SceneLoader.hpp"
 #include "Scene/SceneSaver/SceneSaver.hpp"
+#include "Scene/ISceneTree.hpp"
 
 #include "Events/Events/SceneObjectAddedEvent.hpp"
 #include "Events/Events/SceneObjectRemovedEvent.hpp"
@@ -271,6 +272,138 @@ namespace Ocular
             if(m_Scene)
             {
                 m_Scene->triggerObjectDirty(uuid, staticObject);
+            }
+        }
+
+        void SceneManager::getIntersections(Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const
+        {
+            if(m_Scene)
+            {                
+                std::vector<std::pair<SceneObject*, float>> staticIntersections;
+                std::vector<std::pair<SceneObject*, float>> dynamicIntersections;
+
+                auto staticTree = m_Scene->getStaticTree();
+                auto dynamicTree = m_Scene->getDynamicTree();
+
+                //------------------------------------------------------------
+                // Get all intersections
+
+                if(staticTree)
+                {
+                    staticTree->getIntersections(ray, staticIntersections);
+                }
+
+                if(dynamicTree)
+                {
+                    dynamicTree->getIntersections(ray, dynamicIntersections);
+                }
+
+                objects.clear();
+                objects.reserve(staticIntersections.size() + dynamicIntersections.size());
+
+                objects.insert(objects.begin(), staticIntersections.begin(), staticIntersections.end());
+                objects.insert(objects.begin(), dynamicIntersections.begin(), dynamicIntersections.end());
+
+                //------------------------------------------------------------
+                // Sort the intersections based on distance
+
+                std::sort(objects.begin(), objects.end(), [](std::pair<SceneObject*, float>& first, std::pair<SceneObject*, float>& second)->bool
+                {
+                    return (first.second < second.second);
+                });
+            }
+        }
+
+        void SceneManager::getIntersections(Math::BoundsSphere const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(m_Scene)
+            {
+                std::vector<SceneObject*> staticIntersections;
+                std::vector<SceneObject*> dynamicIntersections;
+
+                auto staticTree = m_Scene->getStaticTree();
+                auto dynamicTree = m_Scene->getDynamicTree();
+
+                //------------------------------------------------------------
+                // Get all intersections
+
+                if(staticTree)
+                {
+                    staticTree->getIntersections(bounds, staticIntersections);
+                }
+
+                if(dynamicTree)
+                {
+                    dynamicTree->getIntersections(bounds, dynamicIntersections);
+                }
+
+                objects.clear();
+                objects.reserve(staticIntersections.size() + dynamicIntersections.size());
+
+                objects.insert(objects.begin(), staticIntersections.begin(), staticIntersections.end());
+                objects.insert(objects.begin(), dynamicIntersections.begin(), dynamicIntersections.end());
+            }
+        }
+
+        void SceneManager::getIntersections(Math::BoundsAABB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(m_Scene)
+            {
+                std::vector<SceneObject*> staticIntersections;
+                std::vector<SceneObject*> dynamicIntersections;
+
+                auto staticTree = m_Scene->getStaticTree();
+                auto dynamicTree = m_Scene->getDynamicTree();
+
+                //------------------------------------------------------------
+                // Get all intersections
+
+                if(staticTree)
+                {
+                    staticTree->getIntersections(bounds, staticIntersections);
+                }
+
+                if(dynamicTree)
+                {
+                    dynamicTree->getIntersections(bounds, dynamicIntersections);
+                }
+
+                objects.clear();
+                objects.reserve(staticIntersections.size() + dynamicIntersections.size());
+
+                objects.insert(objects.begin(), staticIntersections.begin(), staticIntersections.end());
+                objects.insert(objects.begin(), dynamicIntersections.begin(), dynamicIntersections.end());
+            }
+        }
+
+        void SceneManager::getIntersections(Math::BoundsOBB const& bounds, std::vector<SceneObject*>& objects) const
+        {
+            if(m_Scene)
+            {
+                std::vector<SceneObject*> staticIntersections;
+                std::vector<SceneObject*> dynamicIntersections;
+
+                auto staticTree = m_Scene->getStaticTree();
+                auto dynamicTree = m_Scene->getDynamicTree();
+
+                //------------------------------------------------------------
+                // Get all intersections
+
+                if(staticTree)
+                {
+                    staticTree->getIntersections(bounds, staticIntersections);
+                }
+
+                if(dynamicTree)
+                {
+                    dynamicTree->getIntersections(bounds, dynamicIntersections);
+                }
+
+                objects.clear();
+                objects.reserve(staticIntersections.size() + dynamicIntersections.size());
+
+                objects.insert(objects.begin(), staticIntersections.begin(), staticIntersections.end());
+                objects.insert(objects.begin(), dynamicIntersections.begin(), dynamicIntersections.end());
             }
         }
 

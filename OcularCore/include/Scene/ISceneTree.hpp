@@ -137,7 +137,7 @@ namespace Ocular
              * \param[in]  ray
              * \param[out] objects List of objects intersected by the specified ray.
              */
-            virtual void getIntersections(Math::Ray const& ray, std::vector<SceneObject*>& objects) const = 0;
+            virtual void getIntersections(Math::Ray const& ray, std::vector<std::pair<SceneObject*, float>>& objects) const = 0;
 
             /**
              * Returns a list of all scene objects that intersect with the sphere.
