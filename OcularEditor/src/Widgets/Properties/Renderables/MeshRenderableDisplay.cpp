@@ -222,7 +222,7 @@ namespace Ocular
                         
                 m_MeshProperty->setVariable(exposed);
 
-                if(OcularString->IsEqual(exposed.type, Utils::TypeName<Core::Resource>::name))
+                if(OcularString->IsEqual(exposed.type, OCULAR_TYPE_NAME(Core::Resource)))
                 {
                     ResourceProperty* prop = dynamic_cast<ResourceProperty*>(m_MeshProperty);
 

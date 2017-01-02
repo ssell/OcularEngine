@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/Arithmetic/UInt8Property.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt8Property, Ocular::Utils::TypeName<uint8_t>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::UInt8Property, OCULAR_TYPE_NAME(uint8_t));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         UInt8Property::UInt8Property(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<uint8_t>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(uint8_t), parent)
         {
             m_EditValue = new LineEdit(LineType::UInt8);
             m_LayoutRight->addWidget(m_EditValue);

@@ -118,8 +118,8 @@ namespace Ocular
             //------------------------------------------------------------
             // Default Properties
 
-            m_PropertyMapping = OcularEditor.createPropertyWidget("Name", Utils::TypeName<std::string>::name);
-            m_PropertyFile    = OcularEditor.createPropertyWidget("File", Utils::TypeName<Core::File>::name);
+            m_PropertyMapping = OcularEditor.createPropertyWidget("Name", OCULAR_TYPE_NAME(std::string));
+            m_PropertyFile    = OcularEditor.createPropertyWidget("File", OCULAR_TYPE_NAME(Core::File));
 
             m_PropertyMapping->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             m_PropertyFile->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);

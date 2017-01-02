@@ -755,7 +755,9 @@ namespace Ocular
                 removeRenderable();
 
                 result->m_Parent = this;
+
                 m_Renderable = result;
+                m_Renderable->initialize();
             }
 
             return result;
@@ -776,6 +778,8 @@ namespace Ocular
 
                 renderable->m_Parent = this;
                 m_Renderable = renderable;
+
+                // Assume here that the renderable has already been initialized
             }
         }
 

@@ -35,12 +35,17 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         MeshRenderable::MeshRenderable(std::string const& name, SceneObject* parent)
-            : ARenderable(name, "MeshRenderable", parent)
+            : ARenderable(name, "MeshRenderable", parent),
+              m_Mesh(nullptr)
         {
-            m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
-            exposeVariable("m_Mesh", Utils::TypeName<Resource>::name, true, false, &m_Mesh);
+
+        }
+
+        MeshRenderable::MeshRenderable(std::string const& name, std::string const& type, SceneObject* parent)
+            : ARenderable(name, type, parent),
+              m_Mesh(nullptr)
+        {
             
-            m_Materials.push_back(dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material)));
         }
 
         MeshRenderable::~MeshRenderable()
@@ -61,6 +66,14 @@ namespace Ocular
         bool MeshRenderable::initialize()
         {
             bool result = ARenderable::initialize();
+
+            if(result)
+            {
+                m_Mesh = dynamic_cast<Graphics::Mesh*>(OcularResources->getEmptyResource(ResourceType::Mesh));
+                exposeVariable("m_Mesh", OCULAR_TYPE_NAME(Resource), true, false, &m_Mesh);
+
+                m_Materials.push_back(dynamic_cast<Graphics::Material*>(OcularResources->getEmptyResource(ResourceType::Material)));
+            }
 
             return result;
         }
@@ -144,7 +157,7 @@ namespace Ocular
             {
                 if(m_Mesh)
                 {
-                    node->addChild("m_Mesh", Utils::TypeName<std::string>::name, m_Mesh->getMappingName());
+                    node->addChild("m_Mesh", OCULAR_TYPE_NAME(std::string), m_Mesh->getMappingName());
                 }
                 
                 auto materialNode = node->addChild("Materials", "", "");
@@ -159,7 +172,7 @@ namespace Ocular
 
                         if(material)
                         {
-                            materialNode->addChild(OCULAR_STRING_COMPOSER("Material_", count++), Utils::TypeName<std::string>::name, material->getMappingName());
+                            materialNode->addChild(OCULAR_STRING_COMPOSER("Material_", count++), OCULAR_TYPE_NAME(std::string), material->getMappingName());
                         }
                     }
                 }

@@ -368,7 +368,7 @@ namespace Ocular
             const Math::Vector3f worldPosFar = screenToWorld(screenPos, farDepth);
 
             const Math::Vector3f rayDir = (worldPosFar - worldPosNear).getNormalized();
-            const auto forwards = m_Transform.getForwards();
+
             return Math::Ray(worldPosNear, rayDir);
         }
 

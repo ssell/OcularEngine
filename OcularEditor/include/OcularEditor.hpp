@@ -233,6 +233,9 @@ namespace Ocular
             void setupAxis();
             void setupGizmos();
 
+            void performMousePick(Core::KeyState const state);
+            Core::SceneObject* pickedGizmo(std::vector<std::pair<Core::SceneObject*, float>> const& intersections) const;
+
             //------------------------------------------------------------------------------
 
             QApplication* m_QtApp;

@@ -327,6 +327,7 @@
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Types.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
     <ClCompile Include="GPULight.cpp" />
   </ItemGroup>

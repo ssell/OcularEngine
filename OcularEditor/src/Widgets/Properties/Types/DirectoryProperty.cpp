@@ -19,7 +19,7 @@
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "FileIO/Directory.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DirectoryProperty, Ocular::Utils::TypeName<Ocular::Core::Directory>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DirectoryProperty, OCULAR_TYPE_NAME(Ocular::Core::Directory));
 
 //------------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         DirectoryProperty::DirectoryProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Directory>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Core::Directory), parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonDirectoryBrowse();

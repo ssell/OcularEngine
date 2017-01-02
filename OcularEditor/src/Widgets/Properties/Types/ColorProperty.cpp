@@ -19,7 +19,7 @@
 #include "Widgets/Properties/Types/ColorProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::ColorProperty, Ocular::Utils::TypeName<Ocular::Core::Color>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::ColorProperty, OCULAR_TYPE_NAME(Ocular::Core::Color));
 
 //------------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         ColorProperty::ColorProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Color>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Core::Color), parent)
         {
             m_ColorPreview = new ColorPreview();
             m_ButtonColor = new ButtonColorPicker();

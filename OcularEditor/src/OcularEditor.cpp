@@ -32,6 +32,7 @@
 #include "Widgets/Properties/Renderables/RenderableDisplay.hpp"
 
 #include "Gizmos/Axis/AxisGizmo.hpp"
+#include "Gizmos/Axis/AxisComponentGizmo.hpp"
 
 #include <regex>
 
@@ -160,35 +161,7 @@ namespace Ocular
                     // Check if alt key is down (we assume a rotation around target if it is down)
                     if(!OcularInput->isKeyboardKeyDown(Core::KeyboardKeys::AltLeft))
                     {
-                        auto mousePos = OcularInput->getMousePosition();
-                        auto editorCamera = OcularEditor.getEditorCamera();
-
-                        if(editorCamera)
-                        {
-                            auto ray = editorCamera->getPickRay(mousePos);
-                            //OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
-                            
-                            std::vector<std::pair<Core::SceneObject*, float>> intersections;
-
-                            OcularScene->getIntersections(ray, intersections);
-
-                            if(intersections.size())
-                            {
-                                // Objects are sorted in order of intersection. So the first in the vector is the first hit.
-                                auto pickedObject = intersections[0].first;
-
-                                if(cast->state == Core::KeyState::Released)
-                                {
-                                    // On mouse up, we only care about picking normal (non-gizmo) objects
-                                    setSelectedObject(pickedObject, false, true);
-                                }
-                                else
-                                {
-                                    // On mouse down, we only care about picking gizmo objects
-                                    setSelectedObject(pickedObject, true, false);
-                                }
-                            }
-                        }
+                        performMousePick(cast->state);
                     }
                 }
             }
@@ -469,6 +442,63 @@ namespace Ocular
             m_GizmoTranslate = new AxisGizmo();
             m_GizmoTranslate->setName("OCULAR_INTERNAL_EDITOR_GIZMO_TRANSLATE");
             m_GizmoTranslate->setActive(false);
+        }
+
+        void Editor::performMousePick(Core::KeyState const state)
+        {
+            auto mousePos = OcularInput->getMousePosition();
+            auto editorCamera = OcularEditor.getEditorCamera();
+
+            if(editorCamera)
+            {
+                auto ray = editorCamera->getPickRay(mousePos);
+                //OcularGraphics->drawDebugLine(ray.getOrigin(), ray.getPointAlong(100.0f), Core::Color::Yellow(), 15000);
+                            
+                std::vector<std::pair<Core::SceneObject*, float>> intersections;
+
+                OcularScene->getIntersections(ray, intersections);
+
+                if(intersections.size())
+                {
+                    if(state == Core::KeyState::Released)
+                    {
+                        // On mouse up, we only care about picking normal (non-gizmo) objects
+                        setSelectedObject(intersections[0].first, false, true);
+                    }
+                    else
+                    {
+                        // On mouse down, we only care about picking gizmo objects
+                        setSelectedObject(pickedGizmo(intersections), true, false);
+                    }
+                }
+                else
+                {
+                    // No object selected. Treat it as a de-select.
+                    setSelectedObject(nullptr, false, true);
+                }
+            }
+        }
+
+        Core::SceneObject* Editor::pickedGizmo(std::vector<std::pair<Core::SceneObject*, float>> const& intersections) const
+        {
+            // Check if among the picked items is a gizmo object. If so, we will assume that was the intended pick target.
+            Core::SceneObject* result = nullptr;
+
+            for(auto pair : intersections)
+            {
+                auto object = pair.first;
+
+                if(object)
+                {
+                    if(OcularString->IsEqual(object->getClass(), OCULAR_TYPE_NAME(AxisComponentGizmo)))
+                    {
+                        result = object;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

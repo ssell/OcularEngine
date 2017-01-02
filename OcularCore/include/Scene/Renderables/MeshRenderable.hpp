@@ -65,8 +65,10 @@ namespace Ocular
         class MeshRenderable : public ARenderable
         {
         public:
-
+            
             MeshRenderable(std::string const& name = "MeshRenderable", SceneObject* parent = nullptr);
+            MeshRenderable(std::string const& name, std::string const& type, SceneObject* parent = nullptr);
+
             virtual ~MeshRenderable();
 
             //------------------------------------------------------------

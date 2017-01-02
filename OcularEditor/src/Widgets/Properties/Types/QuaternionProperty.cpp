@@ -19,7 +19,7 @@
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Quaternion.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::QuaternionProperty, Ocular::Utils::TypeName<Ocular::Math::Quaternion>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::QuaternionProperty, OCULAR_TYPE_NAME(Ocular::Math::Quaternion));
 
 //------------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         QuaternionProperty::QuaternionProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Math::Quaternion>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Ocular::Math::Quaternion), parent)
         {
             m_LabelW = new QLabel("W");
             m_LabelX = new QLabel("X");

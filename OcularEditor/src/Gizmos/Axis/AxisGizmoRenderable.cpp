@@ -39,10 +39,9 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         AxisGizmoRenderable::AxisGizmoRenderable()
-            : Core::ARenderable("AxisGizmoRenderable", "AxisGizmoRenderable"),
+            : Core::MeshRenderable("AxisGizmoRenderable", "AxisGizmoRenderable"),
               m_MaterialNormal(nullptr),
               m_MaterialSelected(nullptr),
-              m_Mesh(nullptr),
               m_IsSelected(false)
         {
             
@@ -63,7 +62,7 @@ namespace Ocular
 
         bool AxisGizmoRenderable::initialize()
         {
-            bool result = false;
+            bool result = Core::MeshRenderable::initialize();
 
             delete m_MaterialNormal;
             m_MaterialNormal = nullptr;
@@ -71,12 +70,9 @@ namespace Ocular
             delete m_MaterialSelected;
             m_MaterialSelected = nullptr;
 
-            if(initializeMaterials())
+            if(result)
             {
-                if(initializeMesh())
-                {
-                    result = true;
-                }
+                result = initializeMaterials() && initializeMesh();
             }
 
             return result;

@@ -596,17 +596,27 @@ namespace Ocular
             //------------------------------------------------------------
             
             /**
+             * Attempts to create a renderable with the specified type name and set it as the object's renderable.
+             * The renderable, if successfully created, will be automatically initialized.
              *
+             * \param[in] name Name of the renderable type. For example: "MeshRenderable". 
+             *
+             * \return The new renderable. Is NULL if creation failed (no renderable with matching type).
              */
             ARenderable* setRenderable(std::string const& name);
 
             /**
+             * Sets the renderable for the object.
              *
+             * It is assumed that the renderable has been already initialized or will be done so manually.
+             *
+             * \param[in] renderable Renderable for the object. May be NULL.
              */
             void setRenderable(ARenderable* renderable);
 
             /**
-             *
+             * Sets the renderable of the specified type.
+             * The renderable is automatically initialized.
              */ 
             template<class T>
             T* setRenderable()
@@ -619,6 +629,7 @@ namespace Ocular
                     removeRenderable();
                     m_Renderable = renderable;
                     m_Renderable->m_Parent = this;
+                    m_Renderable->initialize();
                 }
                 else
                 {
@@ -630,12 +641,15 @@ namespace Ocular
             }
 
             /**
+             * Removes the renderable from the object.
+             * The renderable will be destroyed if it is not being transferred.
              *
+             * \param[in] transferring If TRUE the renderable is being transferred to another object and should not be destroyed.
              */
             void removeRenderable(bool transferring = false);
 
             /**
-             *
+             * \return Renderable attached to this object. May be NULL.
              */
             ARenderable* getRenderable() const;
 

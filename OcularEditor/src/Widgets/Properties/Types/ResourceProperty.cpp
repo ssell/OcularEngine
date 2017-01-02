@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/ResourceProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::ResourceProperty, Ocular::Utils::TypeName<Ocular::Core::Resource>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::ResourceProperty, OCULAR_TYPE_NAME(Ocular::Core::Resource));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         ResourceProperty::ResourceProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::Resource>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Ocular::Core::Resource), parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonResourceBrowse();

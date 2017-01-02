@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/Arithmetic/FloatProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::FloatProperty, Ocular::Utils::TypeName<float>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::FloatProperty, OCULAR_TYPE_NAME(float));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         FloatProperty::FloatProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<float>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(float), parent)
         {
             m_EditValue = new LineEdit(LineType::Float);
             m_LayoutRight->addWidget(m_EditValue);

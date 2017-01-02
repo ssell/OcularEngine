@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/FileProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::FileProperty, Ocular::Utils::TypeName<Ocular::Core::File>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::FileProperty, OCULAR_TYPE_NAME(Ocular::Core::File));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         FileProperty::FileProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Core::File>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Ocular::Core::File), parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_ButtonBrowse = new ButtonFileBrowse();

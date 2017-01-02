@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/StringProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::StringProperty, Ocular::Utils::TypeName<std::string>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::StringProperty, OCULAR_TYPE_NAME(std::string));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         StringProperty::StringProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<std::string>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(std::string), parent)
         {
             m_LineValue = new LineEdit(LineType::String);
             m_LayoutRight->addWidget(m_LineValue);

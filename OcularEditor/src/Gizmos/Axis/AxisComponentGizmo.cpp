@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         AxisComponentGizmo::AxisComponentGizmo(Core::SceneObject* parent, Axis const axis)
-            : Gizmo("AxisComponentGizmo", parent, "AxisComponentGizmo"),
+            : Gizmo(OCULAR_TYPE_NAME(AxisComponentGizmo), parent, OCULAR_TYPE_NAME(AxisComponentGizmo)),
               axis(axis)
         {
             AxisGizmoRenderable* renderable = new AxisGizmoRenderable();

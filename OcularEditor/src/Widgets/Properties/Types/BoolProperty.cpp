@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/BoolProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::BoolProperty, Ocular::Utils::TypeName<bool>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::BoolProperty, OCULAR_TYPE_NAME(bool));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         BoolProperty::BoolProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<bool>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(bool), parent)
         {
             m_CheckValue = new CheckBox();
             m_LayoutRight->addWidget(m_CheckValue);

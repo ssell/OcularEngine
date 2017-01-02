@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_EDITOR_GIZMO_AXIS_RENDERABLE__H__
 #define __H__OCULAR_EDITOR_GIZMO_AXIS_RENDERABLE__H__
 
-#include "Scene/ARenderable.hpp"
+#include "Scene/Renderables/MeshRenderable.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ namespace Ocular
          * Special purpose renderable attached to an AxisComponentGizmo object.
          * Responsible for setting the axis color and ensuring it is drawn in front of all other objects.
          */
-        class AxisGizmoRenderable : public Core::ARenderable
+        class AxisGizmoRenderable : public Core::MeshRenderable
         {
         public:
 
@@ -75,8 +75,6 @@ namespace Ocular
 
             Graphics::Material* m_MaterialNormal;                ///< Material when rendering the component when not selected. Will use axis color.
             Graphics::Material* m_MaterialSelected;              ///< Material when rendering the component when it is selected.
-
-            Graphics::Mesh* m_Mesh;
 
             Graphics::DepthStencilState m_DSSPreRender;
             Graphics::DepthStencilState m_DSSPostRender;

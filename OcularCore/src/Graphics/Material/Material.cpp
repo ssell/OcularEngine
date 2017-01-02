@@ -416,7 +416,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<float>::name);
+            uniform.setType(OCULAR_TYPE_NAME(float));
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -448,7 +448,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<Math::Vector4f>::name);
+            uniform.setType(OCULAR_TYPE_NAME(Math::Vector4f));
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -493,7 +493,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<Core::Color>::name);
+            uniform.setType(OCULAR_TYPE_NAME(Core::Color));
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -538,7 +538,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<Math::Matrix3x3>::name);
+            uniform.setType(OCULAR_TYPE_NAME(Math::Matrix3x3));
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -579,7 +579,7 @@ namespace Ocular
         {
             Uniform uniform;
             uniform.setName(name);
-            uniform.setType(Utils::TypeName<Math::Matrix4x4>::name);
+            uniform.setType(OCULAR_TYPE_NAME(Math::Matrix4x4));
             uniform.setRegister(registerIndex);
             uniform.setData(value);
 
@@ -930,27 +930,27 @@ namespace Ocular
 
                     uniform->setType(typeStr);
 
-                    if(Utils::String::IsEqual(typeStr, Utils::TypeName<float>::name))
+                    if(Utils::String::IsEqual(typeStr, OCULAR_TYPE_NAME(float)))
                     {
                         float data = OcularString->fromString<float>(valueNode->getValue());
                         uniform->setData(data);
                     }
-                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Vector4f>::name))
+                    else if(Utils::String::IsEqual(typeStr, OCULAR_TYPE_NAME(Math::Vector4f)))
                     {
                         Math::Vector4f data = OcularString->fromString<Math::Vector4f>(valueNode->getValue());
                         uniform->setData(data);
                     }
-                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Core::Color>::name))
+                    else if(Utils::String::IsEqual(typeStr, OCULAR_TYPE_NAME(Core::Color)))
                     {
                         Core::Color data = OcularString->fromString<Core::Color>(valueNode->getValue());
                         uniform->setData(data);
                     }
-                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Matrix3x3>::name))
+                    else if(Utils::String::IsEqual(typeStr, OCULAR_TYPE_NAME(Math::Matrix3x3)))
                     {
                         Math::Matrix3x3 data = OcularString->fromString<Math::Matrix3x3>(valueNode->getValue());
                         uniform->setData(data);
                     }
-                    else if(Utils::String::IsEqual(typeStr, Utils::TypeName<Math::Matrix4x4>::name))
+                    else if(Utils::String::IsEqual(typeStr, OCULAR_TYPE_NAME(Math::Matrix4x4)))
                     {
                         Math::Matrix4x4 data = OcularString->fromString<Math::Matrix4x4>(valueNode->getValue());
                         uniform->setData(data);
@@ -1046,9 +1046,9 @@ namespace Ocular
                         const auto textureNodeName = OCULAR_STRING_COMPOSER(Ocular::Graphics::Material::TextureNodeName, nodeIndex++);
                         auto textureNode = texturesNode->addChild(textureNodeName, "", "");
 
-                        textureNode->addChild("Name", Utils::TypeName<std::string>::name, texture.samplerName);
+                        textureNode->addChild("Name", OCULAR_TYPE_NAME(std::string), texture.samplerName);
                         textureNode->addChild("Value", "Texture", texture.texture->getMappingName());
-                        textureNode->addChild("Register", Utils::TypeName<uint32_t>::name, OcularString->toString<uint32_t>(texture.samplerRegister));
+                        textureNode->addChild("Register", OCULAR_TYPE_NAME(uint32_t), OcularString->toString<uint32_t>(texture.samplerRegister));
                     }
                 }
             }
@@ -1098,9 +1098,9 @@ namespace Ocular
                     }
                 }
 
-                parent->addChild("Name", Utils::TypeName<std::string>::name, nameStr);
+                parent->addChild("Name", OCULAR_TYPE_NAME(std::string), nameStr);
                 parent->addChild("Value", typeStr, valueStr);
-                parent->addChild("Register", Utils::TypeName<uint32_t>::name, registerStr);
+                parent->addChild("Register", OCULAR_TYPE_NAME(uint32_t), registerStr);
             }
         }
 

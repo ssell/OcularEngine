@@ -108,10 +108,10 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::FillMode, Ocular::Utils::TypeName<uint32_t>::name);
-OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullMode, Ocular::Utils::TypeName<uint32_t>::name);
-OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullDirection, Ocular::Utils::TypeName<uint32_t>::name);
-OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::PrimitiveStyle, Ocular::Utils::TypeName<uint32_t>::name);
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::FillMode, OCULAR_TYPE_NAME(uint32_t));
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullMode, OCULAR_TYPE_NAME(uint32_t));
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::CullDirection, OCULAR_TYPE_NAME(uint32_t));
+OCULAR_REGISTER_TYPE_CUSTOM(Ocular::Graphics::PrimitiveStyle, OCULAR_TYPE_NAME(uint32_t));
 
 //------------------------------------------------------------------------------------------
 

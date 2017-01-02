@@ -19,7 +19,7 @@
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 #include "Math/Euler.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::EulerProperty, Ocular::Utils::TypeName<Ocular::Math::Euler>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::EulerProperty, OCULAR_TYPE_NAME(Ocular::Math::Euler));
 
 //------------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         EulerProperty::EulerProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<Ocular::Math::Euler>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(Ocular::Math::Euler), parent)
         {
             m_LabelX = new QLabel("X");
             m_LabelY = new QLabel("Y");

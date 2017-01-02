@@ -56,7 +56,7 @@ namespace Ocular
             // Clear Color
             //------------------------------------------------------------
 
-            m_PropertyClearColor = OcularEditor.createPropertyWidget("Clear Color", Utils::TypeName<Core::Color>::name);
+            m_PropertyClearColor = OcularEditor.createPropertyWidget("Clear Color", OCULAR_TYPE_NAME(Core::Color));
 
             //------------------------------------------------------------
             // Clipping Planes

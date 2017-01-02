@@ -59,7 +59,7 @@ namespace Ocular
                     {
                         auto textureInfo = textures->at(i);
 
-                        m_Properties[i] = OcularEditor.createPropertyWidget(textureInfo.samplerName, Utils::TypeName<Ocular::Core::Resource>::name);
+                        m_Properties[i] = OcularEditor.createPropertyWidget(textureInfo.samplerName, OCULAR_TYPE_NAME(Core::Resource));
                         ResourceProperty* resourceProp = dynamic_cast<ResourceProperty*>(m_Properties[i]);
 
                         if(resourceProp)

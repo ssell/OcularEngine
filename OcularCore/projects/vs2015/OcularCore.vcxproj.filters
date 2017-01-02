@@ -774,6 +774,9 @@
     <ClCompile Include="..\..\src\Scene\Camera\CameraRenderable.cpp">
       <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Types.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Object.hpp">

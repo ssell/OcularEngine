@@ -76,7 +76,7 @@ namespace Ocular
                         else
                         {
                             // Empty uniform
-                            m_Properties[i] = OcularEditor.createPropertyWidget("Empty", Utils::TypeName<float>::name);
+                            m_Properties[i] = OcularEditor.createPropertyWidget("Empty", OCULAR_TYPE_NAME(float));
                         }
 
                         m_UniformLayout->addWidget(m_Properties[i]);
@@ -182,27 +182,27 @@ namespace Ocular
             // Could do this purely abstractly, but I will allow myself this one ugly if/else chain...
             // (Plus the types supported as uniforms are much less volatile than general object properties)
 
-            if(OcularString->IsEqual(type, Utils::TypeName<float>::name))
+            if(OcularString->IsEqual(type, OCULAR_TYPE_NAME(float)))
             {
                 m_Material->setUniform(name, currRegister, OcularString->fromString<float>(value));
                 currRegister += 1;
             }
-            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Vector4f>::name))
+            else if(OcularString->IsEqual(type, OCULAR_TYPE_NAME(Math::Vector4f)))
             {
                 m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Vector4f>(value));
                 currRegister += 1;
             }
-            else if(OcularString->IsEqual(type, Utils::TypeName<Core::Color>::name))
+            else if(OcularString->IsEqual(type, OCULAR_TYPE_NAME(Core::Color)))
             {
                 m_Material->setUniform(name, currRegister, OcularString->fromString<Core::Color>(value));
                 currRegister += 1;
             }
-            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix3x3>::name))
+            else if(OcularString->IsEqual(type, OCULAR_TYPE_NAME(Math::Matrix3x3)))
             {
                 m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Matrix3x3>(value));
                 currRegister += 4;
             }
-            else if(OcularString->IsEqual(type, Utils::TypeName<Math::Matrix4x4>::name))
+            else if(OcularString->IsEqual(type, OCULAR_TYPE_NAME(Math::Matrix4x4)))
             {
                 m_Material->setUniform(name, currRegister, OcularString->fromString<Math::Matrix4x4>(value));
                 currRegister += 4;

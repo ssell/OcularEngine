@@ -18,7 +18,7 @@
 #include "Widgets/Properties/Types/Arithmetic/DoubleProperty.hpp"
 #include "Widgets/Properties/PropertyWidgetRegistrar.hpp"
 
-OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DoubleProperty, Ocular::Utils::TypeName<double>::name);
+OCULAR_REGISTER_PROPERTY_WIDGET(Ocular::Editor::DoubleProperty, OCULAR_TYPE_NAME(double));
 
 //------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         
         DoubleProperty::DoubleProperty(QWidget* parent)
-            : PropertyWidget(Ocular::Utils::TypeName<double>::name, parent)
+            : PropertyWidget(OCULAR_TYPE_NAME(double), parent)
         {
             m_EditValue = new LineEdit(LineType::Double);
             m_LayoutRight->addWidget(m_EditValue);

@@ -116,7 +116,7 @@ namespace Ocular
                         
                         widget->setVariable(exposed);
 
-                        if(OcularString->IsEqual(exposed.type, Utils::TypeName<Core::Resource>::name))
+                        if(OcularString->IsEqual(exposed.type, OCULAR_TYPE_NAME(Core::Resource)))
                         {
                             ResourceProperty* prop = dynamic_cast<ResourceProperty*>(widget);
 

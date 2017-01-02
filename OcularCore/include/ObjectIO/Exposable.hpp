@@ -179,7 +179,7 @@ namespace Ocular
 /**
  * Exposes the specified member variable. See Ocular::Utils::Exposable
  */
-#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), Ocular::Utils::TypeName<decltype(X)>::name, std::is_pointer<decltype(X)>::value, std::is_base_of<Ocular::Core::Exposable, decltype(X)>::value, &X)
+#define OCULAR_EXPOSE(X) exposeVariable(std::string(#X), Ocular::Utils::TypeInfo<decltype(X)>::name, std::is_pointer<decltype(X)>::value, std::is_base_of<Ocular::Core::Exposable, decltype(X)>::value, &X)
     }
     /**
      * @} End of Doxygen Groups

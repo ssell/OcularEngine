@@ -191,9 +191,9 @@ namespace Ocular
         void CommonDisplay::buildTransform()
         {
             //m_LabelTransform   = new QLabel("Transform");
-            m_PropertyPosition = OcularEditor.createPropertyWidget("Position", Utils::TypeName<Math::Vector3f>::name);
+            m_PropertyPosition = OcularEditor.createPropertyWidget("Position", OCULAR_TYPE_NAME(Math::Vector3f));
             m_PropertyRotation = OcularEditor.createPropertyWidget("Rotation", "QuatAsEuler");
-            m_PropertyScale    = OcularEditor.createPropertyWidget("Scale", Utils::TypeName<Math::Vector3f>::name);
+            m_PropertyScale    = OcularEditor.createPropertyWidget("Scale", OCULAR_TYPE_NAME(Math::Vector3f));
             
             //m_Layout->addWidget(m_LabelTransform);
             m_Layout->addWidget(m_PropertyPosition);

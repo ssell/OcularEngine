@@ -52,6 +52,10 @@ namespace Ocular
             m_AxisX->setPersistent(true);
             m_AxisY->setPersistent(true);
             m_AxisZ->setPersistent(true);
+            
+            m_AxisX->forceBoundsRebuild();
+            m_AxisY->forceBoundsRebuild();
+            m_AxisZ->forceBoundsRebuild();
         }
 
         AxisGizmo::~AxisGizmo()

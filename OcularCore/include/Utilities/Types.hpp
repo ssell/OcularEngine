@@ -36,7 +36,12 @@ namespace Ocular
     namespace Utils
     {
         /**
-         * \struct TypeName
+         * Generates a unique type id value.
+         */
+        extern uint32_t GenerateTypeID();
+
+        /**
+         * \struct TypeInfo
          * \brief Utility structure to convert a type T to a string representation.
          *
          * In order to perform the conversion, an appropriate string name must have 
@@ -46,9 +51,9 @@ namespace Ocular
          *
          * Example of use:
          *
-         *     std::cout << TypeName<float>::name << std::endl;
-         *     std::cout << TypeName<int32_t>::name << std::endl;
-         *     std::cout << TypeName<Ocular::Math::Matrix4x4>::name << std::endl;
+         *     std::cout << TypeInfo<float>::name << std::endl;
+         *     std::cout << TypeInfo<int32_t>::name << std::endl;
+         *     std::cout << TypeInfo<Ocular::Math::Matrix4x4>::name << std::endl;
          *
          *     // float
          *     // int
@@ -61,9 +66,23 @@ namespace Ocular
          * For example, using typeid on MSVC will return a human-readable string
          * but it will also include 'class ' or 'struct ', etc. While using it on
          * GCC will give a distinctly non-readable string output.
+         *
+         * A unique integer id is also generated for each type to allow for easier
+         * comparisons of types. Example:
+         *
+         *     TypeInfo<int32_t>::id
+         *
+         * See also the helper macros:
+         *
+         *     OCULAR_TYPE_NAME(int32_t)
+         *     OCULAR_TYPE_ID(int32_t)
          */
         template<typename T>
-        struct TypeName { static const char* name;  };
+        struct TypeInfo 
+        { 
+            static const std::string name;  
+            static const uint32_t id;
+        };
     }
     /**
      * @} End of Doxygen Groups
@@ -91,7 +110,7 @@ namespace Ocular
  *     // "Type: int"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE(X) const char* Ocular::Utils::TypeName<X>::name = #X 
+#define OCULAR_REGISTER_TYPE(X) const std::string Ocular::Utils::TypeInfo<X>::name = #X; const uint32_t Ocular::Utils::TypeInfo<X>::id = Ocular::Utils::GenerateTypeID();
 
 /**
  * Registers a type with a custom string name represenation.
@@ -109,7 +128,7 @@ namespace Ocular
  *     // "Type: Matrix3x3"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) const char* Ocular::Utils::TypeName<X>::name = Y 
+#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) const std::string Ocular::Utils::TypeInfo<X>::name = Y; const uint32_t Ocular::Utils::TypeInfo<X>::id = Ocular::Utils::GenerateTypeID();
 
 /**
  * Given a type, it will give back a string representation of that type.
@@ -123,7 +142,7 @@ namespace Ocular
  *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
  *       for custom type registering.
  */
-#define OCULAR_TYPE_NAME(X) Ocular::Utils::TypeName<X>::name
+#define OCULAR_TYPE_NAME(X) Ocular::Utils::TypeInfo<X>::name
 
 /**
  * Given a type or variable, it will give back a string representation of that type.
@@ -144,6 +163,24 @@ namespace Ocular
  *       for custom type registering.
  */
 #define OCULAR_TYPE(X) OCULAR_TYPE_NAME(decltype(X))
+
+/**  
+ * Given a type, it will give back an integer id associated with that type.
+ *
+ * \code
+ *     std::cout << "ID: " << OCULAR_TYPE_ID(float) << std::endl;
+ *     // "ID: 6"
+ * \endcode
+ *
+ * \note The integer ids are only guaranteed to be unique and consistent for a single run.
+ *       Each run of the application may assign different id values to the types (though
+ *       the ids will be consistent for the entirety of the that run).
+ *
+ * \note If there is no registered name for the specified type, there 
+ *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
+ *       for custom type registering.
+ */
+#define OCULAR_TYPE_ID(X) Ocular::Utils::TypeInfo<X>::id
 
 //----------------------------------------------------------------------------------
 // REGISTERING TYPES

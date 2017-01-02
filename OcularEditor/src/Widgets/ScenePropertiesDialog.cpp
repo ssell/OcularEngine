@@ -120,18 +120,18 @@ namespace Ocular
             m_LightPropertiesLabel = new QLabel("Lighting Properties");
             m_LightPropertiesLabel->setStyleSheet(BoldStyle);
 
-            m_AmbientIntensityProperty = OcularEditor.createPropertyWidget("Ambient Intensity", Utils::TypeName<float>::name);
+            m_AmbientIntensityProperty = OcularEditor.createPropertyWidget("Ambient Intensity", OCULAR_TYPE_NAME(float));
             m_AmbientIntensityProperty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            Core::ExposedVariable intensityVar("Intensity", Utils::TypeName<float>::name, &m_AmbientIntensity, false, false);
+            Core::ExposedVariable intensityVar("Intensity", OCULAR_TYPE_NAME(float), &m_AmbientIntensity, false, false);
             m_AmbientIntensity = OcularLights->getAmbientLightIntensity();
             m_AmbientIntensityProperty->setVariable(intensityVar);
             m_AmbientIntensityProperty->updateProperties();
 
-            m_AmbientColorProperty = OcularEditor.createPropertyWidget("Ambient Color", Utils::TypeName<Core::Color>::name);
+            m_AmbientColorProperty = OcularEditor.createPropertyWidget("Ambient Color", OCULAR_TYPE_NAME(Core::Color));
             m_AmbientColorProperty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            Core::ExposedVariable colorVar("Color", Utils::TypeName<Core::Color>::name, &m_AmbientColor, false, false);
+            Core::ExposedVariable colorVar("Color", OCULAR_TYPE_NAME(Core::Color), &m_AmbientColor, false, false);
             m_AmbientColor = OcularLights->getAmbientLightColor();
             m_AmbientColorProperty->setVariable(colorVar);
             m_AmbientColorProperty->updateProperties();
@@ -147,10 +147,10 @@ namespace Ocular
             m_SceneTreePropertiesLabel = new QLabel("SceneTree Properties");
             m_SceneTreePropertiesLabel->setStyleSheet(BoldStyle);
 
-            m_SceneTreeStaticProperty = OcularEditor.createPropertyWidget("Static Tree", Utils::TypeName<std::string>::name);
+            m_SceneTreeStaticProperty = OcularEditor.createPropertyWidget("Static Tree", OCULAR_TYPE_NAME(std::string));
             m_SceneTreeStaticProperty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-            m_SceneTreeDynamicProperty = OcularEditor.createPropertyWidget("Dynamic Tree", Utils::TypeName<std::string>::name);
+            m_SceneTreeDynamicProperty = OcularEditor.createPropertyWidget("Dynamic Tree", OCULAR_TYPE_NAME(std::string));
             m_SceneTreeDynamicProperty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
             m_ScrollLayout->addWidget(m_SceneTreePropertiesLabel);
@@ -164,7 +164,7 @@ namespace Ocular
             m_RendererPropertiesLabel = new QLabel("Renderer Properties");
             m_RendererPropertiesLabel->setStyleSheet(BoldStyle);
 
-            m_RendererTypeProperty = OcularEditor.createPropertyWidget("Renderer Type", Utils::TypeName<std::string>::name);
+            m_RendererTypeProperty = OcularEditor.createPropertyWidget("Renderer Type", OCULAR_TYPE_NAME(std::string));
             m_RendererTypeProperty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             
             m_ScrollLayout->addWidget(m_RendererPropertiesLabel);
