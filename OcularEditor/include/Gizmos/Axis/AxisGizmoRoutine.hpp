@@ -66,6 +66,9 @@ namespace Ocular
             AxisComponentGizmo* m_ParentCast;
             Math::Vector2i m_LastMousePos;
 
+            float m_StartOffset;
+            bool  m_CurrentlyTranslating;
+
         private:
         };
     }

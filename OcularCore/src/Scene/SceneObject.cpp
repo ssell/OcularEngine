@@ -43,7 +43,8 @@ namespace Ocular
               m_ForcedVisible(false),
               m_Persists(false),
               m_Renderable(nullptr),
-              m_Parent(nullptr)
+              m_Parent(nullptr),
+              m_Layer(0)
         {
             OcularScene->addObject(this, parent);
             
@@ -60,7 +61,8 @@ namespace Ocular
               m_ForcedVisible(false),
               m_Persists(false),
               m_Renderable(nullptr),
-              m_Parent(nullptr)
+              m_Parent(nullptr),
+              m_Layer(0)
         {
             OcularScene->addObject(this);
 
@@ -431,7 +433,7 @@ namespace Ocular
                     }
 
                     m_Parent = parent;
-                    OcularScene->objectParentChanged(this, oldParent);
+                    forceBoundsRebuild();
                 }
             }
         }
@@ -469,6 +471,7 @@ namespace Ocular
                 child->setActive(isActive());
                 child->setForcedVisible(isForcedVisible());
                 child->setStatic(isStatic());
+                child->forceBoundsRebuild();
 
                 m_Children.emplace_back(child);
 
@@ -1035,7 +1038,7 @@ namespace Ocular
         {
             if(dirtyFlags)
             {
-                const Math::Matrix4x4 modelMatrix = getModelMatrix(false); m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
+                const Math::Matrix4x4 modelMatrix = getModelMatrix(false); 
 
                 if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation))
                 {
@@ -1044,8 +1047,7 @@ namespace Ocular
                         m_Renderable->buildBounds(nullptr, &m_BoundsAABBWorld, nullptr, modelMatrix);
                     }
                 }
-
-                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
+                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
                 {
                     // If scale is dirty we must adjust both the size and position of the bounds.
                     // Note that position is only affected if its a cascading scale change (ie coming
@@ -1067,6 +1069,7 @@ namespace Ocular
                 {
                     m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
                     m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
+                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
                 }
 
                 OcularScene->triggerObjectDirty(m_UUID, m_IsStatic);

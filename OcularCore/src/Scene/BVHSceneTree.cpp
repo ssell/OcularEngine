@@ -77,11 +77,47 @@ namespace Ocular
                 m_AllObjects.clear();
             }
         }
+
+        bool BVHSceneTree::containsObject(SceneObject* object, bool const checkNewObjects) const
+        {
+            bool result = false;
+
+            if(object)
+            {
+                for(auto obj : m_AllObjects)
+                {
+                    if(obj == object)
+                    {
+                        result = true;
+                        break;
+                    }
+                }
+
+                if(!result && checkNewObjects)
+                {
+                    for(auto obj : m_NewObjects)
+                    {
+                        if(obj == object)
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
         
         void BVHSceneTree::addObject(SceneObject* object)
         {
             if(object)
             {
+                if(containsObject(object, true))
+                {
+                    removeObject(object);
+                }
+
                 m_NewObjects.emplace_back(object);
                 m_IsDirty = true;
             }

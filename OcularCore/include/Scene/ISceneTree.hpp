@@ -64,6 +64,14 @@ namespace Ocular
             virtual void destroy() = 0;
 
             /**
+             * \param[in] checkNewObjects The container containing new objects not yet formally
+             *                            added to the tree will be checked as well.
+             *
+             * \return TRUE if the SceneObject is found in the SceneTree
+             */
+            virtual bool containsObject(SceneObject* object, bool checkNewObjects) const = 0;
+
+            /**
              * Adds the object to the scene tree.
              *
              * \note The object will not be instantly added to the tree proper. Instead, they will be added next time

@@ -37,9 +37,7 @@ VSOutput VSMain(VSInput input)
 {
     VSOutput output;
     
-    matrix transform = mul(_BoundMatrix, _ModelMatrix);
-
-    output.position = mul(input.position, transform);
+    output.position = mul(input.position, _BoundMatrix);
     output.position = mul(output.position, _ViewProjMatrix);
     output.color    = _Color;
 

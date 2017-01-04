@@ -47,7 +47,7 @@ namespace Ocular
             virtual ~Gizmo();
 
             virtual void setSelected(bool selected);
-            bool isSelected() const;
+            virtual bool isSelected() const;
 
         protected:
 

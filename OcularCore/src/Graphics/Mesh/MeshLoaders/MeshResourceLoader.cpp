@@ -140,6 +140,7 @@ namespace Ocular
 
                             if(indexBuffer->build())
                             {
+                                mesh->addSubMesh();
                                 mesh->setVertexBuffer(vertexBuffer);
                                 mesh->setIndexBuffer(indexBuffer);
                                 mesh->setMinMaxPoints(min, max);

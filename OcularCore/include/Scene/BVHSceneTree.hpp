@@ -90,6 +90,7 @@ namespace Ocular
 
             virtual void restructure() override;
             virtual void destroy() override;
+            virtual bool containsObject(SceneObject* object, bool checkNewObjects) const override;
             virtual void addObject(SceneObject* object) override;
             virtual void addObjects(std::vector<SceneObject*> const& objects) override;
             virtual bool removeObject(SceneObject* object) override;

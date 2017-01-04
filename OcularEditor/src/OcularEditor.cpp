@@ -468,13 +468,26 @@ namespace Ocular
                     else
                     {
                         // On mouse down, we only care about picking gizmo objects
-                        setSelectedObject(pickedGizmo(intersections), true, false);
+                        auto gizmo = pickedGizmo(intersections);
+
+                        if(gizmo)
+                        {
+                            setSelectedObject(gizmo, true, false);
+                        }
                     }
                 }
                 else
                 {
-                    // No object selected. Treat it as a de-select.
-                    setSelectedObject(nullptr, false, true);
+                    // If the currently selected object is a gizmo, we simply de-select the gizmo but keep the parent object selected
+                    if(m_GizmoTranslate->isSelected())
+                    {
+                        m_GizmoTranslate->setSelected(false);
+                    }
+                    else
+                    {
+                        // No object selected. Treat it as a de-select.
+                        setSelectedObject(nullptr, false, true);
+                    }
                 }
             }
         }

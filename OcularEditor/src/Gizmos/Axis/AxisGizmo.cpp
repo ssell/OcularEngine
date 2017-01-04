@@ -79,6 +79,11 @@ namespace Ocular
             }
         }
 
+        bool AxisGizmo::isSelected() const
+        {
+            return (m_AxisX->isSelected() || m_AxisY->isSelected() || m_AxisZ->isSelected());
+        }
+
         Math::Matrix4x4 AxisGizmo::getModelMatrix(bool const local) const
         {
             Math::Matrix4x4 result = SceneObject::getModelMatrix(local);

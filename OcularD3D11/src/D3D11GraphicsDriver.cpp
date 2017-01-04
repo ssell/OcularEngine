@@ -556,8 +556,10 @@ namespace Ocular
 
                 if(mesh && material)
                 {
-                    const Math::Vector3f scaling = (object->getBoundsAABB(false).getExtents() * 2.0f);
-                    const Math::Vector3f offset = object->getBoundsAABB(false).getCenter();
+                    const auto aabb = object->getBoundsAABB(false);
+
+                    const Math::Vector3f scaling = (aabb.getExtents() * 2.0f);
+                    const Math::Vector3f offset = aabb.getCenter();
 
                     Math::Transform transform;
                     transform.setPosition(offset);

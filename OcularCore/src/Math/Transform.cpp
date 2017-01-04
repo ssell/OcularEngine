@@ -206,18 +206,25 @@ namespace Ocular
         {
             m_Rotation = Quaternion::Rotate(m_Rotation, angle, axis);
             refresh();
+
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Rotation);
         }
 
         void Transform::rotate(Math::Quaternion const& rotation)
         {
             m_Rotation = m_Rotation * rotation;
             refresh();
+
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Rotation);
         }
 
         void Transform::lookAt(Vector3f const& point, Vector3f const& upVector)
         {
             m_Rotation = Quaternion::CreateLookAtRotation(m_Position, point, upVector).getConjugate();
             refresh();
+            
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Position);
+            m_DirtyFlags |= static_cast<uint32_t>(DirtyFlags::Rotation);
         }
         
         //----------------------------------------------------------------

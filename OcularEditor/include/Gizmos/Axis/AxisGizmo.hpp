@@ -53,7 +53,17 @@ namespace Ocular
             AxisGizmo(Core::SceneObject* parent = nullptr);
             virtual ~AxisGizmo();
 
+            /**
+             * Used to set all child components selected to FALSE. 
+             * \param[in] selected If passed TRUE, the call does nothing.
+             */
             virtual void setSelected(bool selected) override;
+
+            /**
+             * \return TRUE if any of the three component gizmos are currently selected.
+             */
+            virtual bool isSelected() const override;
+
             virtual Math::Matrix4x4 getModelMatrix(bool local = true) const override;
 
             void clearDepthBuffer();

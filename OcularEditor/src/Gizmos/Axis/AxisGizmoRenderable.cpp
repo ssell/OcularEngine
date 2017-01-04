@@ -102,6 +102,7 @@ namespace Ocular
         {
             if(m_Mesh)
             {
+                OcularGraphics->renderBounds(m_Parent, Math::BoundsType::AABB);
                 if(m_MaterialNormal && !m_IsSelected)
                 {
                     m_MaterialNormal->bind();

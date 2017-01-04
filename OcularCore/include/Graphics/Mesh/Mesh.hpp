@@ -90,6 +90,9 @@ namespace Ocular
              * The Mesh takes ownership of the buffer and will delete it when 
              * it is no longer in use.
              *
+             * \note A submesh must be present at the specified submesh index or the call will fail.
+             *       See Mesh::addSubMesh
+             *
              * \param[in] buffer
              * \param[in] submesh Index of the submesh that should receive the new buffer.
              */
