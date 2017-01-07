@@ -348,6 +348,20 @@ namespace Ocular
             }
 
             /**
+             * \return Vector { |x| , |y| , |z| }
+             */
+            Vector3<T> abs() const
+            {
+                Vector3<T> result;
+                
+                result.x = static_cast<T>(fabs(static_cast<double>(x)));
+                result.y = static_cast<T>(fabs(static_cast<double>(y)));
+                result.z = static_cast<T>(fabs(static_cast<double>(z)));
+
+                return result;
+            }
+
+            /**
              * Linearly interpolates the two vectors using the specified fraction.<br/><br/>
              *
              * When <code>fraction == 0</code>, the return is equal to <code>from</code>.
@@ -408,6 +422,20 @@ namespace Ocular
                 return Vector3<T>(((a.x + b.x) / two),
                     ((a.y + b.y) / two),
                     ((a.z + b.z) / two));
+            }
+
+            /**
+             * Projects the source vector onto the destination vector.
+             *
+             * \param[in] dest Vector to be projected onto.
+             * \param[in] source Vector to project.
+             */
+            static Vector3<T> Project(Vector3<T> const& dest, Vector3<T> const& source)
+            {
+                T numerator = (source.dot(dest));
+                T denominator = (dest.dot(dest));
+
+                return (dest * (numerator / denominator));
             }
 
             //------------------------------------------------------------------------------

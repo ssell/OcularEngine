@@ -33,8 +33,7 @@ namespace Ocular
 
         AxisGizmoRoutine::AxisGizmoRoutine()
             : Core::ARoutine("AxisGizmoRoutine", "AxisGizmoRoutine"),
-              m_CurrentlyTranslating(false),
-              m_StartOffset(0.0f)
+              m_CurrentlyTranslating(false)
         {
             m_ParentCast = dynamic_cast<AxisComponentGizmo*>(m_Parent);
         }
@@ -80,7 +79,6 @@ namespace Ocular
             else
             {
                 m_CurrentlyTranslating = false;
-                m_StartOffset = 0.0f;
             }
 
             m_LastMousePos = OcularInput->getMousePosition();
@@ -98,142 +96,88 @@ namespace Ocular
 
         void AxisGizmoRoutine::updatePositionAxisX()
         {
+            auto attachedParent = m_Parent->getParent()->getParent();
+
+            if(attachedParent)
+            {
+                const Math::Vector3f axisDir     = attachedParent->getTransform().getRight();
+                const Math::Vector3f planeNormal = attachedParent->getTransform().getForwards();
+
+                translateAlongAxis(axisDir, planeNormal);
+            }
+        }
+
+        void AxisGizmoRoutine::updatePositionAxisY()
+        {
+            auto attachedParent = m_Parent->getParent()->getParent();
+
+            if(attachedParent)
+            {
+                const Math::Vector3f axisDir     = attachedParent->getTransform().getUp();
+                const Math::Vector3f planeNormal = attachedParent->getTransform().getRight();
+
+                translateAlongAxis(axisDir, planeNormal);
+            }
+        }
+
+        void AxisGizmoRoutine::updatePositionAxisZ()
+        {
+            auto attachedParent = m_Parent->getParent()->getParent();
+
+            if(attachedParent)
+            {
+                const Math::Vector3f axisDir     = attachedParent->getTransform().getForwards();
+                const Math::Vector3f planeNormal = attachedParent->getTransform().getUp();
+
+                translateAlongAxis(axisDir, planeNormal);
+            }
+        }
+
+        void AxisGizmoRoutine::translateAlongAxis(Math::Vector3f const& axis, Math::Vector3f const& planeNormal)
+        {
             /**
-             * Updates the position of the SceneObject that the gizmo is attached to based
-             * on user dragging of the mouse. The same general approach is used for all 
-             * three axis and is as follows:
+             * To perform a translation along an arbitrary axis the following information is needed:
              *
-             * An axis-aligned plane is created at the object origin. The plane is aligned
-             * parallel to the axis we are dragging along.
+             *     1. The axis to translate along
+             *     2. Normal of a plane that lies on the axis (normal is perpendicular to the axis)
              *
-             * A ray is projected from the camera based on mouse position. The collision of
-             * this ray is checked against the axis-aligned plane.
+             * Using this information, we can perform the translation using the following steps:
              *
-             * The relevant component of the ray-plane intersection point (.x for x-axis 
-             * translation, etc.) is used as the new position for the attached object.
-             *
-             * An additional offset value is used when applying the position to keep the
-             * object from 'jumping' when first selected.
+             *     1. Create a ray projecting from the mouse position in screen-space into our world
+             *     2. Create a plane whose origin is the parent position and normal is provided 
+             *     3. Find the intersection point of the ray and plane (intersectionPoint)
+             *     4. Find the vector from the parent position origin to the intersection point (toClick)
+             *     5. Project the toClick vector onto our axis (projClick)
+             *     6. (One time only) Calculate an initial offset to prevent 'jumping' on first translate action. 
+             *     7. Translate the parent object along the projected vector in world-space
              */
 
             auto mainCamera = OcularCameras->getMainCamera();
 
             if(mainCamera)
             {
-                // Create the axis-aligned plane and the click ray
-
-                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
-                const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
-
-                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
-                const Math::Plane plane(planeOrigin, planeNormal);
-
-                Math::Vector3f intersectionPoint;
-                float distance = 0.0f;
-
-                // If the ray intersects the plane (which it should always do as planes are infinite)
-                if(plane.intersects(cameraRay, intersectionPoint, distance))
-                {
-                    // Lets clarify this parentage:
-                    //     m_Parent = AxisComponentGizmo
-                    //     m_Parent->getParent() = AxisGizmo
-                    //     m_Parent->getParent()->getParent() = SceneObject the Axis is attached to and displaying for
-
-                    auto attachedParent = m_Parent->getParent()->getParent();
+                auto attachedParent = m_Parent->getParent()->getParent();
                     
-                    if(attachedParent)
-                    {
-                        // Set the position.x of the parent to match that of the ray-plane intersection
-
-                        const Math::Vector3f parentPos = attachedParent->getPosition(false);
-
-                        if(!m_CurrentlyTranslating)
-                        {
-                            m_StartOffset = intersectionPoint.x - parentPos.x;
-                            m_CurrentlyTranslating = true;
-                        }
-
-                        const Math::Vector3f position = Math::Vector3f((intersectionPoint.x - m_StartOffset), parentPos.y, parentPos.z);
-                        
-                        attachedParent->setPosition(position);
-                    }
-                }
-            }
-        }
-
-        void AxisGizmoRoutine::updatePositionAxisY()
-        {
-            // See AxisGizmoRoutine::updatePositionAxisX for details
-
-            auto mainCamera = OcularCameras->getMainCamera();
-
-            if(mainCamera)
-            {
-                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
-                const Math::Vector3f planeNormal = m_Parent->getTransform().getForwards();
-
-                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
-                const Math::Plane plane(planeOrigin, planeNormal);
+                const Math::Vector3f parentPos = attachedParent->getPosition(false);
+                const Math::Ray      cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
+                const Math::Plane    plane     = Math::Plane(parentPos, planeNormal);
 
                 Math::Vector3f intersectionPoint;
                 float distance = 0.0f;
 
                 if(plane.intersects(cameraRay, intersectionPoint, distance))
                 {
-                    auto attachedParent = m_Parent->getParent()->getParent();
+                    const Math::Vector3f toClick   = intersectionPoint - parentPos;
+                    const Math::Vector3f projClick = Math::Vector3f::Project(axis, toClick);
 
-                    if(attachedParent)
+                    if(!m_CurrentlyTranslating)
                     {
-                        const Math::Vector3f parentPos = attachedParent->getPosition(false);
-
-                        if(!m_CurrentlyTranslating)
-                        {
-                            m_StartOffset = intersectionPoint.y - parentPos.y;
-                            m_CurrentlyTranslating = true;
-                        }
-
-                        const Math::Vector3f position  = Math::Vector3f(parentPos.x, (intersectionPoint.y - m_StartOffset), parentPos.z);
-                        
-                        attachedParent->setPosition(position);
+                        m_ClickOffset = (axis * toClick.getLength());   // Without, the parent object origin is placed at click 
+                        m_CurrentlyTranslating = true;
                     }
-                }
-            }
-        }
-
-        void AxisGizmoRoutine::updatePositionAxisZ()
-        {
-            // See AxisGizmoRoutine::updatePositionAxisX for details
-
-            auto mainCamera = OcularCameras->getMainCamera();
-
-            if(mainCamera)
-            {
-                const Math::Vector3f planeOrigin = m_Parent->getPosition(false);
-                const Math::Vector3f planeNormal = m_Parent->getTransform().getUp();
-
-                const Math::Ray cameraRay = mainCamera->getPickRay(OcularInput->getMousePosition());
-                const Math::Plane plane(planeOrigin, planeNormal);
-
-                Math::Vector3f intersectionPoint;
-                float distance = 0.0f;
-
-                if(plane.intersects(cameraRay, intersectionPoint, distance))
-                {
-                    auto attachedParent = m_Parent->getParent()->getParent();
-
-                    if(attachedParent)
+                    else
                     {
-                        const Math::Vector3f parentPos = attachedParent->getPosition(false);
-
-                        if(!m_CurrentlyTranslating)
-                        {
-                            m_StartOffset = intersectionPoint.z - parentPos.z;
-                            m_CurrentlyTranslating = true;
-                        }
-
-                        const Math::Vector3f position  = Math::Vector3f(parentPos.x, parentPos.y, (intersectionPoint.z - m_StartOffset));
-                        
-                        attachedParent->setPosition(position);
+                        attachedParent->translate(projClick - m_ClickOffset, false);
                     }
                 }
             }

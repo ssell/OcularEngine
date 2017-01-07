@@ -61,14 +61,17 @@ namespace Ocular
             void updatePositionAxisY();
             void updatePositionAxisZ();
 
+            void translateAlongAxis(Math::Vector3f const& axis, Math::Vector3f const& planeNormal);
+
             //------------------------------------------------------------
 
             AxisComponentGizmo* m_ParentCast;
+
             Math::Vector2i m_LastMousePos;
+            Math::Vector3f m_ClickOffset;
 
-            float m_StartOffset;
             bool  m_CurrentlyTranslating;
-
+                ;
         private:
         };
     }

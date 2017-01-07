@@ -363,6 +363,21 @@ namespace Ocular
             }
 
             /**
+             * \return Vector { |x| , |y| , |z| , |w| }
+             */
+            Vector4<T> abs() const
+            {
+                Vector4<T> result;
+                
+                result.x = static_cast<T>(fabs(static_cast<double>(x)));
+                result.y = static_cast<T>(fabs(static_cast<double>(y)));
+                result.z = static_cast<T>(fabs(static_cast<double>(z)));
+                result.w = static_cast<T>(fabs(static_cast<double>(w)));
+
+                return result;
+            }
+
+            /**
              * Calculates the midpoint of the two provided points.
              *
              * \param[in] a

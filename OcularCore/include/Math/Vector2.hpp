@@ -288,6 +288,19 @@ namespace Ocular
                 return distance.getMagnitude();
             }
 
+            /**
+             * \return Vector { |x| , |y| }
+             */
+            Vector2<T> abs() const
+            {
+                Vector2<T> result;
+                
+                result.x = static_cast<T>(fabs(static_cast<double>(x)));
+                result.y = static_cast<T>(fabs(static_cast<double>(y)));
+
+                return result;
+            }
+
             //------------------------------------------------------------------------------
             // VARIABLES
             //------------------------------------------------------------------------------

@@ -86,11 +86,13 @@ namespace Ocular
 
         Math::Matrix4x4 AxisGizmo::getModelMatrix(bool const local) const
         {
-            Math::Matrix4x4 result = SceneObject::getModelMatrix(local);
+            Math::Matrix4x4 result;
 
             if(m_Parent)
             {
                 Math::Transform transform = m_Parent->getTransform();
+
+                transform.setPosition(transform.getPosition() + getPosition());
                 transform.setScale(Math::Vector3f(1.0f, 1.0f, 1.0f));
 
                 result = transform.getModelMatrix();

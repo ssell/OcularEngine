@@ -264,6 +264,12 @@ namespace Ocular
              */
             void translate(Math::Vector3f const& translation, bool local = true);
 
+            void moveForward(float distance);
+
+            void moveUp(float distance);
+
+            void moveRight(float distance);
+
             /**
              * Rotates the SceneObject along the given axis by the given angle
              *
@@ -664,7 +670,18 @@ namespace Ocular
             // Bounds Related
             //------------------------------------------------------------
 
+            /**
+             * Forces the bounds of this SceneObject to be completely rebuilt and calculated.
+             */
             void forceBoundsRebuild();
+
+            /**
+             * Updates the bounds due to the selected actions (translation, rotation, and/or scaling).
+             * This is typically called automatically whenever needed.
+             *
+             * \param[in] dirtyFlags Actions that caused the bounds to be dirty and require a rebuild. See Math::Transform::DirtyFlags
+             */
+            virtual void updateBounds(uint32_t dirtyFlags);
 
             /**
              * Returns the bounding sphere for the object.
@@ -693,7 +710,7 @@ namespace Ocular
         protected:
 
             void getModelMatrix(Math::Matrix4x4& matrix);
-            virtual void updateBounds(uint32_t dirtyFlags);
+            void removeChild(std::vector<SceneObject*>::iterator& child);
 
             //------------------------------------------------------------
 
@@ -711,12 +728,6 @@ namespace Ocular
             Math::BoundsSphere m_BoundsSphereWorld;
             Math::BoundsAABB   m_BoundsAABBWorld;
             Math::BoundsOBB    m_BoundsOBBWorld;
-
-        private:
-
-            void removeChild(std::vector<SceneObject*>::iterator& child);
-
-            //------------------------------------------------------------
             
             bool m_IsStatic;           ///< Boolean if this object is static. If static, no movement or rotation calls will have any affect. Determines which SceneTree it will reside in. Default: false.
             bool m_IsActive;           ///< If active, an object's Routines will be invoked. Default: true.
@@ -728,6 +739,8 @@ namespace Ocular
             ARenderable* m_Renderable;
 
             std::vector<SceneObject*> m_Children;
+
+            private:
         };
     }
     /**

@@ -87,13 +87,23 @@ namespace Ocular
             {
                 const Math::Vector3f position = getPosition(false);
 
+                // We use a minimal bounding volume.
+
+                // The range is what is used to determine if the lighting affects
+                // the scene in the LightMananger.
+
                 m_BoundsSphereWorld.setCenter(position);
-                m_BoundsSphereWorld.setRadius(m_Range);
+                m_BoundsSphereWorld.setRadius(0.5f);
 
                 m_BoundsAABBWorld.setCenter(position);
-                m_BoundsAABBWorld.setExtents(Math::Vector3f(m_Range, m_Range, m_Range));
+                m_BoundsAABBWorld.setExtents(Math::Vector3f(0.5f, 0.5f, 0.5f));
 
                 OcularScene->triggerObjectDirty(m_UUID, isStatic());
+
+                for(auto child : m_Children)
+                {
+                    child->updateBounds(dirtyFlags);
+                }
             }
         }
 

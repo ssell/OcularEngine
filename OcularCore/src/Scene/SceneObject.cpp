@@ -305,6 +305,24 @@ namespace Ocular
             updateBounds(m_Transform.getDirtyFlags());
         }
 
+        void SceneObject::moveForward(float const distance)
+        {
+            m_Transform.moveForward(distance);
+            updateBounds(m_Transform.getDirtyFlags());
+        }
+
+        void SceneObject::moveUp(float const distance)
+        {
+            m_Transform.moveUp(distance);
+            updateBounds(m_Transform.getDirtyFlags());
+        }
+
+        void SceneObject::moveRight(float const distance)
+        {
+            m_Transform.moveRight(distance);
+            updateBounds(m_Transform.getDirtyFlags());
+        }
+
         void SceneObject::rotate(float const angle, Math::Vector3f const& axis)
         {
             m_Transform.rotate(angle, axis);
@@ -979,6 +997,63 @@ namespace Ocular
                          static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale));
         }
 
+        void SceneObject::updateBounds(uint32_t const dirtyFlags)
+        {
+            if(dirtyFlags)
+            {
+                const Math::Matrix4x4 modelMatrix = getModelMatrix(false); 
+
+                bool boundsUpdated = false;
+
+                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation))
+                {
+                    if(m_Renderable)
+                    {
+                        m_Renderable->buildBounds(nullptr, &m_BoundsAABBWorld, nullptr, modelMatrix);
+                        boundsUpdated = true;
+                    }
+                }
+                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
+                {
+                    // If scale is dirty we must adjust both the size and position of the bounds.
+                    // Note that position is only affected if its a cascading scale change (ie coming
+                    // from the parent), but we perform the adjustment everytime for simplicity.
+
+                    const Math::Vector3f scale = getScale();
+                    const float maxScale = fmaxf(fmaxf(scale.x, scale.y), scale.z);
+                    
+                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
+                    m_BoundsSphereWorld.setRadius(m_BoundsSphereLocal.getRadius() * maxScale);
+
+                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
+                    m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * maxScale);
+
+                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
+                    m_BoundsOBBWorld.setExtents(m_BoundsOBBLocal.getExtents() * scale);
+
+                    boundsUpdated = true;
+                }
+                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Position))
+                {
+                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
+                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
+                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
+
+                    boundsUpdated = true;
+                }
+
+                if(boundsUpdated)
+                {
+                    OcularScene->triggerObjectDirty(m_UUID, m_IsStatic);
+                }
+
+                for(auto child : m_Children)
+                {
+                    child->updateBounds(dirtyFlags);
+                }
+            }
+        }
+
         Math::BoundsSphere SceneObject::getBoundsSphere(bool const local)
         {
             Math::BoundsSphere result = m_BoundsSphereLocal;
@@ -1032,53 +1107,6 @@ namespace Ocular
             }
 
             matrix = parentMatrix * m_Transform.getModelMatrix();
-        }
-
-        void SceneObject::updateBounds(uint32_t const dirtyFlags)
-        {
-            if(dirtyFlags)
-            {
-                const Math::Matrix4x4 modelMatrix = getModelMatrix(false); 
-
-                if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Rotation))
-                {
-                    if(m_Renderable)
-                    {
-                        m_Renderable->buildBounds(nullptr, &m_BoundsAABBWorld, nullptr, modelMatrix);
-                    }
-                }
-                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Scale))
-                {
-                    // If scale is dirty we must adjust both the size and position of the bounds.
-                    // Note that position is only affected if its a cascading scale change (ie coming
-                    // from the parent), but we perform the adjustment everytime for simplicity.
-
-                    const Math::Vector3f scale = getScale();
-                    const float maxScale = fmaxf(fmaxf(scale.x, scale.y), scale.z);
-                    
-                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
-                    m_BoundsSphereWorld.setRadius(m_BoundsSphereLocal.getRadius() * maxScale);
-
-                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
-                    m_BoundsAABBWorld.setExtents(m_BoundsAABBLocal.getExtents() * maxScale);
-
-                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
-                    m_BoundsOBBWorld.setExtents(m_BoundsOBBLocal.getExtents() * scale);
-                }
-                else if(dirtyFlags & static_cast<uint32_t>(Math::Transform::DirtyFlags::Position))
-                {
-                    m_BoundsSphereWorld.setCenter((modelMatrix * m_BoundsSphereLocal.getCenter()));
-                    m_BoundsAABBWorld.setCenter((modelMatrix * m_BoundsAABBLocal.getCenter()));
-                    m_BoundsOBBWorld.setCenter((modelMatrix * m_BoundsOBBWorld.getCenter()));
-                }
-
-                OcularScene->triggerObjectDirty(m_UUID, m_IsStatic);
-
-                for(auto child : m_Children)
-                {
-                    child->updateBounds(dirtyFlags);
-                }
-            }
         }
 
         //----------------------------------------------------------------------------------
