@@ -33,7 +33,12 @@
 
 #include "Gizmos/Axis/AxisGizmo.hpp"
 #include "Gizmos/Axis/AxisComponentGizmo.hpp"
-
+#include "Graphics/Texture/NoiseTexture2D.hpp"
+#include "Graphics/Texture/TextureSavers/TextureResourceSaver_PNG.hpp"
+#include "Math/Noise/PerlinNoise.hpp"
+#include "Math/Noise/SimplexNoise.hpp"
+#include "Math/Noise/WaveletNoise.hpp"
+#include "OcularEngine.hpp"
 #include <regex>
 
 //------------------------------------------------------------------------------------------
@@ -128,6 +133,22 @@ namespace Ocular
         bool Editor::run()
         {
             bool result = false;
+
+            Ocular::Graphics::TextureDescriptor descriptor;
+            descriptor.width  = 512;
+            descriptor.height = 512;
+
+            std::shared_ptr<Ocular::Math::Noise::PerlinNoise> noise = std::make_shared<Ocular::Math::Noise::PerlinNoise>();
+            noise->setOctaves(6);
+            noise->setPersistence(0.5f);
+            noise->setScale(0.01f);
+
+            Ocular::Graphics::NoiseTexture2D* texture = new Ocular::Graphics::NoiseTexture2D(descriptor, noise);
+
+            OcularEngine.ResourceManager()->saveResource(texture, Ocular::Core::File("TestOutput/PerlinNoise.png"));
+
+            delete texture;
+            texture = nullptr;
 
             if(OcularEngine.run())
             {

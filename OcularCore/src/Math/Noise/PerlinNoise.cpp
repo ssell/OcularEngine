@@ -80,7 +80,9 @@ namespace Ocular
                     amplitude *= m_Persistence;
                 }
 
-                return (result / maxAmplitude);
+                result /= maxAmplitude;
+
+                return result;
             }
 
             float PerlinNoise::getValue(float const x, float const y, float const z)
@@ -148,7 +150,9 @@ namespace Ocular
                 float sides   = (getRandom((x - 1.0f), y) + getRandom((x + 1.0f), y) + getRandom(x, (y - 1.0f)) + getRandom(x, (y + 1.0f))) / 8.0f;
                 float center  = getRandom(x, y) / 4.0f;
 
-                return corners + sides + center;
+                float result = corners + sides + center;
+
+                return result;
             }
 
             float PerlinNoise::getRandom(float const x, float const y)
@@ -156,7 +160,7 @@ namespace Ocular
                 int32_t n = static_cast<int32_t>(x) + static_cast<int32_t>(y) * 57;
                 n = (n << 13) ^ n;
 
-                return (1.0f - static_cast<float>(((n * (n * n * 15731 + 789221) + 1376312589) & 2147483647)) / 1073741824.0f); ;
+                return (1.0f - static_cast<float>(((n * (n * n * 15731 + 789221) + 1376312589) & 2147483647)) / 1073741824.0f);
             }
 
             //------------------------------------------------------------------------------

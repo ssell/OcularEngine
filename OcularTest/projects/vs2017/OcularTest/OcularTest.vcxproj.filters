@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Tests">
+      <UniqueIdentifier>{8a4bc074-4723-49ed-8152-80137eb9d738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{eefc1aa4-c636-49ae-9502-953836820937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Performance">
+      <UniqueIdentifier>{973786f4-912c-45fd-b237-b019a6c55684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Performance">
+      <UniqueIdentifier>{093d831f-4c3d-446d-b88f-13f86ee32312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core">
+      <UniqueIdentifier>{6a870ef3-36ae-41aa-af86-096b476d3185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Math">
+      <UniqueIdentifier>{e368d5fa-920f-4b21-9f33-1cc255aac287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Utilities">
+      <UniqueIdentifier>{2ba41680-9b5e-4270-b465-9ab002830d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Utilities\Structures">
+      <UniqueIdentifier>{c9923791-6ca4-48eb-852c-0b03cd8acaaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Renderer">
+      <UniqueIdentifier>{a6abab6e-6e96-4798-a46f-a57210aa4b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Renderer\Window">
+      <UniqueIdentifier>{5ce9fba1-587d-42ec-8693-e7da0f9823fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests\Core\Scene">
+      <UniqueIdentifier>{2d952603-4397-403b-b973-623953ee55b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Routines">
+      <UniqueIdentifier>{aefa67d9-f56c-4c95-982e-3102d619cf14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Routines">
+      <UniqueIdentifier>{7435d400-e844-4905-a099-9bdfc559b6b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\ATest.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Performance\PriorityContainerTest.cpp">
+      <Filter>Source Files\Tests\Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrixStack.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector2.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector3.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestVector4.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Utilities\Structures\TestPriorityList.cpp">
+      <Filter>Source Files\Tests\Core\Utilities\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrix3x3.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMatrix4x4.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathCommon.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Renderer\Window\TestWindowManager.cpp">
+      <Filter>Source Files\Tests\Core\Renderer\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConversions.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathEuler.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestMathQuaternion.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestPRNG.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestNoise.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestTransform.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestIntersections.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsAABB.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestBoundsSphere.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestLineSegment2D.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestConvexHull2D.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestPolygon2D.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestPlane.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Math\TestFrustum.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMortonCode.cpp">
+      <Filter>Source Files\Tests\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestBVHSceneTree.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Performance\BVHSceneTreeTest.cpp">
+      <Filter>Source Files\Tests\Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneManager.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\Core\Scene\TestSceneObject.cpp">
+      <Filter>Source Files\Tests\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Routines\InputLoggerRoutine.cpp">
+      <Filter>Source Files\Routines</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\Tests\PriorityListTest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Foo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\ATest.hpp">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\Performance\PriorityContainerTest.hpp">
+      <Filter>Header Files\Tests\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\Performance\BVHSceneTreeTest.hpp">
+      <Filter>Header Files\Tests\Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Tests\Routines\InputLoggerRoutine.hpp">
+      <Filter>Header Files\Tests\Routines</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

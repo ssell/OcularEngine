@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Texture">
+      <UniqueIdentifier>{1c8fc4b5-f722-4d4f-90e1-0425ef7b577a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Texture">
+      <UniqueIdentifier>{fcfbf566-5cce-43ae-9ce4-a9325eb51cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shader">
+      <UniqueIdentifier>{1d017934-b12b-4ed7-b519-210768951a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{1aab4bca-728d-465e-a73d-a4ba65ceaf71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Material">
+      <UniqueIdentifier>{2d9f0cf0-f533-48d9-ae39-29d5b66a6d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Material">
+      <UniqueIdentifier>{94f68e78-ea27-42e3-9532-75101793a08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mesh">
+      <UniqueIdentifier>{85168d85-b2f9-476d-ae0f-4d069469a58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mesh">
+      <UniqueIdentifier>{a6c4cee7-663f-4082-928b-7c6c23cb37e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shader\Uniform">
+      <UniqueIdentifier>{996a4b38-e54c-47cc-b9ff-afbba36bec18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Uniform">
+      <UniqueIdentifier>{365ed2f8-e1a1-4609-90d3-f7b37369607a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render State">
+      <UniqueIdentifier>{38071723-cf0a-49fe-a50e-53e1e7a5024a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render State">
+      <UniqueIdentifier>{65008a61-73b4-45c1-ae5e-611838479671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shader\Buffer">
+      <UniqueIdentifier>{c830ede2-cc37-455e-96ed-5c3a9a0a1e60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Buffer">
+      <UniqueIdentifier>{108ff3ed-34fd-4ec6-93e8-2710aea5f822}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\stdafx.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11Texture2D.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\D3D11GraphicsDriver.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11RenderTexture.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11DepthTexture.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11VertexShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11GeometryShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11FragmentShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Material\D3D11Material.hpp">
+      <Filter>Header Files\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Texture\D3D11Texture.hpp">
+      <Filter>Header Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Mesh\D3D11VertexBuffer.hpp">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Mesh\D3D11IndexBuffer.hpp">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PostTessellationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11PreTessellationShader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\Uniform\D3D11UniformBuffer.hpp">
+      <Filter>Header Files\Shader\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\D3D11UncompiledShaderResourceLoader.hpp">
+      <Filter>Header Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\D3D11Viewport.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\RenderState\D3D11RenderState.hpp">
+      <Filter>Header Files\Render State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\D3D11DynamicRegistration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Shader\Buffer\D3D11StructuredBuffer.hpp">
+      <Filter>Header Files\Shader\Buffer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11Texture2D.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\D3D11GraphicsDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11RenderTexture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11DepthTexture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11VertexShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11GeometryShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11FragmentShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Material\D3D11Material.cpp">
+      <Filter>Source Files\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture\D3D11Texture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Mesh\D3D11VertexBuffer.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Mesh\D3D11IndexBuffer.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PostTessellationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11PreTessellationShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\D3D11UncompiledShaderResourceLoader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\Uniform\D3D11UniformBuffer.cpp">
+      <Filter>Source Files\Shader\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\D3D11Viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RenderState\D3D11RenderState.cpp">
+      <Filter>Source Files\Render State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader\Buffer\D3D11StructuredBuffer.cpp">
+      <Filter>Source Files\Shader\Buffer</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
