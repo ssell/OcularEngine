@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 Steven T Sell (ssell@vertexfragment.com)
+ * Copyright 2014-2017 Steven T Sell (ssell@vertexfragment.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
