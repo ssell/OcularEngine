@@ -66,7 +66,7 @@ namespace Ocular
  * @} End of Doxygen Groups
  */
 
-#define OCULAR_REGISTER_PROPERTY_WIDGET(X,Y) Ocular::Editor::PropertyWidgetRegistrar<X> OCULAR_INTERNAL_PropertyWidgetRegistrar(Y)
+#define OCULAR_REGISTER_PROPERTY_WIDGET(X,Y) const Ocular::Editor::PropertyWidgetRegistrar<X> OCULAR_INTERNAL_PropertyWidgetRegistrar(Y)
 
 //------------------------------------------------------------------------------------------
 

@@ -19,7 +19,7 @@
 #define __H__OCULAR_MATH_QUATERNION__H__
 
 #include "MathCommon.hpp"
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 
 //------------------------------------------------------------------------------------------
 

@@ -50,7 +50,7 @@ namespace Ocular
         {
             bool result = false;
 
-            if(m_Variable.data)
+            /*if(m_Variable.data)
             {
                 double* value = void_cast<double*>(m_Variable.data);
 
@@ -63,14 +63,14 @@ namespace Ocular
                 {
                     m_EditValue->setText(OcularString->toString<double>(*value).c_str());
                 }
-            }
+            }*/
 
             return result;
         }
 
         void DoubleProperty::setValue(void* value, uint32_t const size)
         {
-            if(value && (size == sizeof(double)))
+            /*if(value && (size == sizeof(double)))
             {
                 double valueCast = void_cast<double>(value);
 
@@ -85,7 +85,7 @@ namespace Ocular
                 }
 
                 m_EditValue->setText(OcularString->toString<double>(valueCast).c_str());
-            }
+            }*/
         }
 
         std::string DoubleProperty::getValue() const

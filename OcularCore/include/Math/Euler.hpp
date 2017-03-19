@@ -17,7 +17,7 @@
 #ifndef __H__OCULAR_MATH_EULER_H__
 #define __H__OCULAR_MATH_EULER_H__
 
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 
 //------------------------------------------------------------------------------------------
 

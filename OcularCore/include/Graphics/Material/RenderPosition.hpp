@@ -15,8 +15,8 @@
  */
 
 #pragma
-#ifndef __H__OCULAR_GRAPHICS_!!!__H__
-#define __H__OCULAR_GRAPHICS_!!!__H__
+#ifndef __H__OCULAR_GRAPHICS__H__
+#define __H__OCULAR_GRAPHICS__H__
 
 //------------------------------------------------------------------------------------------
 

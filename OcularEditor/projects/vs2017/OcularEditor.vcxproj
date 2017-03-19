@@ -74,6 +74,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)..\..\bin\msvc140\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\..\obj\msvc140\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -139,7 +140,7 @@
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\OcularCore\include;$(ProjectDir)..\..\..\OcularD3D11\include;$(ProjectDir)..\..\include;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;.\..\..\src\QtGenerated\$(ConfigurationName);.\..\..\src\QtGenerated;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat />
+      <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -152,6 +153,7 @@
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(ProjectDir)..\..\..\External\libs\msvc140\x64\$(Configuration)\;$(ProjectDir)..\..\..\OcularCore\bin\x64\;$(ProjectDir)..\..\..\OcularD3D11\bin\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>OcularD3D11_msvc140.lib;OcularCore_msvc140.lib;d3d11.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>false</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

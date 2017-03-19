@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_CORE_EXPOSED_VARIABLE__H__
 #define __H__OCULAR_CORE_EXPOSED_VARIABLE__H__
 
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 #include "Utilities/StringUtils.hpp"
 
 #include <string>

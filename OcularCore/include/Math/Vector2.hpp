@@ -20,7 +20,7 @@
 
 #include "MathCommon.hpp"
 #include "Equality.hpp"
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 #include "Exceptions/Exception.hpp"
 
 //------------------------------------------------------------------------------------------

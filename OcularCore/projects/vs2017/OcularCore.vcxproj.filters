@@ -594,9 +594,6 @@
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceLoader.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
-      <Filter>Header Files\Graphics\Material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Viewport.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -687,9 +684,6 @@
     <ClCompile Include="..\..\src\Events\Events\SceneObjectRemovedEvent.cpp">
       <Filter>Source Files\Events\Events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
-      <Filter>Source Files\Graphics\Material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Resources\ResourceDefaults.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -771,11 +765,14 @@
     <ClCompile Include="..\..\src\Scene\Camera\CameraRenderable.cpp">
       <Filter>Source Files\Scene\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Types.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Scene\Light\GPULight.cpp">
       <Filter>Source Files\Scene\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\TypeInfo.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
+      <Filter>Source Files\Graphics\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1271,9 +1268,6 @@
     <ClInclude Include="..\..\include\Scene\ComponentFactory.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Utilities\Types.hpp">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Events\Events\SceneObjectAddedEvent.hpp">
       <Filter>Header Files\Event\Events</Filter>
     </ClInclude>
@@ -1414,6 +1408,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Scene\Camera\CameraRenderable.hpp">
       <Filter>Header Files\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utilities\TypeInfo.hpp">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
+      <Filter>Header Files\Graphics\Material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

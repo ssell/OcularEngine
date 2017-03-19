@@ -21,7 +21,7 @@
 #include "Vector2.hpp"
 #include "Euler.hpp"
 #include "Equality.hpp"
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 #include "Exceptions/Exception.hpp"
 
 #include <cmath>

@@ -328,7 +328,7 @@
     <ClCompile Include="..\..\src\Utilities\EndianOps.cpp" />
     <ClCompile Include="..\..\src\Utilities\HashGenerator.cpp" />
     <ClCompile Include="..\..\src\Utilities\StringUtils.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Types.cpp" />
+    <ClCompile Include="..\..\src\Utilities\TypeInfo.cpp" />
     <ClCompile Include="..\..\src\UUID.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -356,8 +356,8 @@
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp" />
-    <ClCompile Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceLoader.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderPosition.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\RenderType.hpp" />
     <ClInclude Include="..\..\include\Graphics\Mesh\IndexBuffer.hpp" />
@@ -542,7 +542,7 @@
     <ClInclude Include="..\..\include\Utilities\Structures\CircularQueue.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityList.hpp" />
     <ClInclude Include="..\..\include\Utilities\Structures\PriorityMultiQueue.hpp" />
-    <ClInclude Include="..\..\include\Utilities\Types.hpp" />
+    <ClInclude Include="..\..\include\Utilities\TypeInfo.hpp" />
     <ClInclude Include="..\..\include\Utilities\VoidCast.hpp" />
     <ClInclude Include="..\..\include\UUID.hpp" />
   </ItemGroup>

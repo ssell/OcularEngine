@@ -19,7 +19,7 @@
 #define __H__OCULAR_MATH_MATRIX_4X4_TEMP__H__
 
 #include "MathCommon.hpp"
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 
 //------------------------------------------------------------------------------------------
 

@@ -80,8 +80,8 @@ namespace Ocular
         template<typename T>
         struct TypeInfo 
         { 
-            static const std::string name;  
-            static const uint32_t id;
+            static std::string const& GetName();
+            static uint32_t const& GetID();
         };
     }
     /**
@@ -110,7 +110,15 @@ namespace Ocular
  *     // "Type: int"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE(X) const std::string Ocular::Utils::TypeInfo<X>::name = #X; const uint32_t Ocular::Utils::TypeInfo<X>::id = Ocular::Utils::GenerateTypeID();
+#define OCULAR_REGISTER_TYPE(X) template<> struct Ocular::Utils::TypeInfo<X> {                       \
+                                    static std::string const& GetName() {                            \
+                                        static const std::string name{ #X };                         \
+                                        return name;                                                 \
+                                    }                                                                \
+                                    static uint32_t const& GetID() {                                 \
+                                        static const uint32_t id{ Ocular::Utils::GenerateTypeID() }; \
+                                        return id;                                                   \
+                                    } }
 
 /**
  * Registers a type with a custom string name represenation.
@@ -128,63 +136,71 @@ namespace Ocular
  *     // "Type: Matrix3x3"
  * \endcode
  */
-#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) const std::string Ocular::Utils::TypeInfo<X>::name = Y; const uint32_t Ocular::Utils::TypeInfo<X>::id = Ocular::Utils::GenerateTypeID();
+#define OCULAR_REGISTER_TYPE_CUSTOM(X,Y) template<> struct Ocular::Utils::TypeInfo<X> {                      \
+                                            static std::string const& GetName() {                            \
+                                                static const std::string name{ Y };                          \
+                                                return name;                                                 \
+                                            }                                                                \
+                                            static uint32_t const& GetID() {                                 \
+                                                static const uint32_t id{ Ocular::Utils::GenerateTypeID() }; \
+                                                return id;                                                   \
+                                            } }
 
 /**
- * Given a type, it will give back a string representation of that type.
- *
- * \code
- *     std::cout << "Type: " << OCULAR_TYPE_NAME(float) << std::endl;
- *     // "Type: float"
- * \endcode
- *
- * \note If there is no registered name for the specified type, there 
- *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
- *       for custom type registering.
- */
-#define OCULAR_TYPE_NAME(X) Ocular::Utils::TypeInfo<X>::name
+* Given a type, it will give back a string representation of that type.
+*
+* \code
+*     std::cout << "Type: " << OCULAR_TYPE_NAME(float) << std::endl;
+*     // "Type: float"
+* \endcode
+*
+* \note If there is no registered name for the specified type, there
+*       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
+*       for custom type registering.
+*/
+#define OCULAR_TYPE_NAME(X) Ocular::Utils::TypeInfo<X>::GetName()
 
 /**
- * Given a type or variable, it will give back a string representation of that type.
- *
- * \code
- *     const int a = 0;
- *     const Matrix3x3 matrix;
- *
- *     std::cout << "Type: " << OCULAR_TYPE(a) << std::endl;
- *     std::cout << "Type: " << OCULAR_TYPE(matrix) << std::endl;
- *
- *     // "Type: int"
- *     // "Type: Matrix3x3"
- * \endcode
- *
- * \note If there is no registered name for the specified type, there 
- *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
- *       for custom type registering.
- */
+* Given a type or variable, it will give back a string representation of that type.
+*
+* \code
+*     const int a = 0;
+*     const Matrix3x3 matrix;
+*
+*     std::cout << "Type: " << OCULAR_TYPE(a) << std::endl;
+*     std::cout << "Type: " << OCULAR_TYPE(matrix) << std::endl;
+*
+*     // "Type: int"
+*     // "Type: Matrix3x3"
+* \endcode
+*
+* \note If there is no registered name for the specified type, there
+*       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
+*       for custom type registering.
+*/
 #define OCULAR_TYPE(X) OCULAR_TYPE_NAME(decltype(X))
 
-/**  
- * Given a type, it will give back an integer id associated with that type.
- *
- * \code
- *     std::cout << "ID: " << OCULAR_TYPE_ID(float) << std::endl;
- *     // "ID: 6"
- * \endcode
- *
- * \note The integer ids are only guaranteed to be unique and consistent for a single run.
- *       Each run of the application may assign different id values to the types (though
- *       the ids will be consistent for the entirety of the that run).
- *
- * \note If there is no registered name for the specified type, there 
- *       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
- *       for custom type registering.
- */
-#define OCULAR_TYPE_ID(X) Ocular::Utils::TypeInfo<X>::id
+/**
+* Given a type, it will give back an integer id associated with that type.
+*
+* \code
+*     std::cout << "ID: " << OCULAR_TYPE_ID(float) << std::endl;
+*     // "ID: 6"
+* \endcode
+*
+* \note The integer ids are only guaranteed to be unique and consistent for a single run.
+*       Each run of the application may assign different id values to the types (though
+*       the ids will be consistent for the entirety of the that run).
+*
+* \note If there is no registered name for the specified type, there
+*       will be a compilation error. See the OCULAR_REGISTER_TYPE macros
+*       for custom type registering.
+*/
+#define OCULAR_TYPE_ID(X) Ocular::Utils::TypeInfo<X>::GetID()
 
-//----------------------------------------------------------------------------------
-// REGISTERING TYPES
-//----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
+// Register Common Types
+//------------------------------------------------------------------------------------------
 
 OCULAR_REGISTER_TYPE(int8_t);
 OCULAR_REGISTER_TYPE(uint8_t);

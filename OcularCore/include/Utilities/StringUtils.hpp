@@ -162,7 +162,7 @@ namespace Ocular
             {
                 std::string result;
 
-                const std::string tStr = TypeInfo<T>::name;
+                const std::string tStr = OCULAR_TYPE_NAME(T);
                 auto find = m_ToFunctions.find(tStr);
 
                 if(find != m_ToFunctions.end())
@@ -282,7 +282,7 @@ namespace Ocular
             {
                 T result;
 
-                const std::string tStr = TypeInfo<T>::name;
+                const std::string tStr = OCULAR_TYPE_NAME(T);
                 auto find = m_FromFunctions.find(tStr);
 
                 if(find != m_FromFunctions.end())
@@ -363,7 +363,7 @@ namespace Ocular
             template<typename T>
             typename std::enable_if<!std::is_pointer<T>::value, void>::type registerToString(std::function<std::string(void*, bool)> func)
             {
-                const std::string tStr = TypeInfo<T>::name;
+                const std::string tStr = TypeInfo<T>::GetName();
                 auto find = m_ToFunctions.find(tStr);
 
                 if(find == m_ToFunctions.end())
@@ -380,7 +380,7 @@ namespace Ocular
             template<typename T>
             typename std::enable_if<!std::is_pointer<T>::value, void>::type registerFromString(std::function<void(std::string const&, void*)> func)
             {
-                const std::string tStr = TypeInfo<T>::name;
+                const std::string tStr = TypeInfo<T>::GetName();
                 auto find = m_FromFunctions.find(tStr);
 
                 if(find == m_FromFunctions.end())

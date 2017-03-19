@@ -22,7 +22,7 @@
 #include "Quaternion.hpp"
 #include "Matrix4x4.hpp"
 
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 #include "ObjectIO/ObjectIO.hpp"
 
 //------------------------------------------------------------------------------------------

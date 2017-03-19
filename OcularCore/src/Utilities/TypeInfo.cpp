@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 
 //------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace Ocular
     {
         uint32_t GenerateTypeID()
         {
-            static uint32_t CurrID = 0;
+            static uint32_t CurrID{ 0 };
             return CurrID++;
         }
     }

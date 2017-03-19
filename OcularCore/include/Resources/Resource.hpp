@@ -20,7 +20,7 @@
 
 #include "ResourceType.hpp"
 #include "FileIO/File.hpp"
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 
 #include <cstdint>
 

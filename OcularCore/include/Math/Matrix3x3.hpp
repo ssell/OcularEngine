@@ -18,7 +18,7 @@
 #ifndef __H__OCULAR_MATH_MATRIX_3X3__H__
 #define __H__OCULAR_MATH_MATRIX_3X3__H__
 
-#include "Utilities/Types.hpp"
+#include "Utilities/TypeInfo.hpp"
 #include <cstdint>
 
 //------------------------------------------------------------------------------------------
