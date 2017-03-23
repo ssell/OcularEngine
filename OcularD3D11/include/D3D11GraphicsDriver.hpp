@@ -77,6 +77,9 @@ namespace Ocular
      */
     namespace Graphics
     {
+        class D3D11RenderTexture;
+        class ScreenSpaceQuad;
+
         /**
          * \class GraphicsDriver
          */
@@ -95,7 +98,7 @@ namespace Ocular
             virtual void clearBuffers(Core::Color const& clearColor = Core::Color::DefaultClearGray()) override;
             virtual void clearDepthBuffer(float value = 1.0f) override;
             virtual void clearStencilBuffer(uint32_t value = 0) override;
-            virtual void swapBuffers() override;
+            virtual void swapBuffers(RenderTexture* renderTexture) override;
 
             virtual void setRenderTexture(RenderTexture* texture) override;
             virtual void setDepthTexture(DepthTexture* texture) override;
@@ -122,6 +125,7 @@ namespace Ocular
             
             virtual bool renderMesh(Mesh* mesh, uint32_t submesh = 0) override;
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type) override;
+            virtual bool render(uint32_t vertCount, uint32_t vertStart) override;
 
             virtual void getDepthRange(float* near, float* far) const override;
 
@@ -151,6 +155,10 @@ namespace Ocular
 
             bool fetchDeviceAndSwapChain1(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window);
             bool fetchDeviceAndSwapChain2(ID3D11Device* device, ID3D11DeviceContext* context, Core::WindowWin32 const* window);
+            void fetchSwapChainBuffer();
+
+            void calculateMultisampling();
+            void resolveRenderTexture(D3D11RenderTexture* texture);
 
             static bool ValidateTextureDescriptor(TextureDescriptor const& descriptor);
 
@@ -158,9 +166,12 @@ namespace Ocular
 
         private:
 
-            OD3D11Device* m_D3DDevice;
-            OD3D11DeviceContext* m_D3DDeviceContext;
-            OD3DSwapChain* m_D3DSwapChain;
+            OD3D11Device* m_D3DDevice;                                         ///< Direct3D 11.x Device
+            OD3D11DeviceContext* m_D3DDeviceContext;                           ///< Direct3D 11.x Device Context
+            OD3DSwapChain* m_D3DSwapChain;                                     ///< Direct3D 11.x Swap Chain
+            
+            std::unique_ptr<D3D11RenderTexture> m_SwapChainRenderTexture;      ///< RenderTexture holding the Swap Chain back buffer
+            std::unique_ptr<ScreenSpaceQuad> m_ScreenSpaceQuad;                ///< ScreenSpaceQuad used for resolving to the Swap Chain back buffer
         };
     }
     /**

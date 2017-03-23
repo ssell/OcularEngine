@@ -295,6 +295,12 @@
     <Filter Include="Source Files\Graphics\Shader\Buffer">
       <UniqueIdentifier>{87b9c302-d46d-437a-8bd8-c8f3dc225eee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Helpers">
+      <UniqueIdentifier>{4eadffb2-61f8-433d-b481-1faf569a65de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Helpers">
+      <UniqueIdentifier>{5b6368c1-9ba6-4f66-82f2-904122bc0156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Object.cpp">
@@ -773,6 +779,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Graphics\Material\MaterialResourceSaver.cpp">
       <Filter>Source Files\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Helpers\ScreenSpaceQuad.cpp">
+      <Filter>Source Files\Graphics\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1414,6 +1423,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Graphics\Material\MaterialResourceSaver.hpp">
       <Filter>Header Files\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Graphics\Helpers\ScreenSpaceQuad.hpp">
+      <Filter>Header Files\Graphics\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

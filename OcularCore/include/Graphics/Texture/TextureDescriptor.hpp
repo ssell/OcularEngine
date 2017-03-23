@@ -48,6 +48,7 @@ namespace Ocular
             uint32_t height;                     ///< Height of the texture in pixels
             uint32_t mipmaps;                    ///< Levels of mipmaps to create. 0 creates an entire mipmap chain, 1 has the single texture level-of-detail, etc.
             uint32_t pixelSize;                  ///< Size of each pixel in bytes
+            uint32_t multisamples;               ///< Number of multisamples
 
             TextureType type;                    ///< The type of texture 
             TextureFormat format;                ///< The format of this texture
@@ -57,15 +58,16 @@ namespace Ocular
             TextureAccess cpuAccess;             ///< The level of access requried by the CPU
 
             TextureDescriptor()
-                : width(800), 
-                  height(600), 
-                  mipmaps(1), 
-                  pixelSize(32),
-                  type(TextureType::Texture2D), 
-                  format(TextureFormat::R32G32B32A32Float), 
-                  filter(TextureFilterMode::Point), 
-                  gpuAccess(TextureAccess::ReadWrite), 
-                  cpuAccess(TextureAccess::None)
+                : width{800}, 
+                  height{600}, 
+                  mipmaps{1}, 
+                  pixelSize{32},
+                  multisamples{1},
+                  type{TextureType::Texture2D}, 
+                  format{TextureFormat::R32G32B32A32Float}, 
+                  filter{TextureFilterMode::Point}, 
+                  gpuAccess{TextureAccess::ReadWrite}, 
+                  cpuAccess{TextureAccess::None}
             {
 
             }

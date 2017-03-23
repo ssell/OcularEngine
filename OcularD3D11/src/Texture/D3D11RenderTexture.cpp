@@ -29,18 +29,19 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device)
-            : RenderTexture(descriptor),
-              D3D11Texture(device),
-              m_D3DRenderTargetView(nullptr)
+            : RenderTexture{descriptor},
+              D3D11Texture{device},
+              m_D3DRenderTargetView{nullptr},
+              m_D3DSwapChain{nullptr}
         {
 
         }
 
         D3D11RenderTexture::D3D11RenderTexture(TextureDescriptor const& descriptor, ID3D11Device* device, IDXGISwapChain* swapchain)
-            : RenderTexture(descriptor),
-              D3D11Texture(device),
-              m_D3DRenderTargetView(nullptr),
-              m_D3DSwapChain(swapchain)
+            : RenderTexture{descriptor},
+              D3D11Texture{device},
+              m_D3DRenderTargetView{nullptr},
+              m_D3DSwapChain{swapchain}
         {
 
         }
@@ -169,7 +170,7 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Create the backbuffer Texture2D from the SwapChain buffer
 
-                hResult = m_D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_D3DTexture);
+                m_D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_D3DTexture);
                 
                 if(hResult == S_OK)
                 {
@@ -188,14 +189,23 @@ namespace Ocular
             {
                 //--------------------------------------------------------
                 // Create the backbuffer Texture2D from scratch using pixel data
-
-                D3D11_SUBRESOURCE_DATA initData;
-                initData.pSysMem          = &m_Pixels[0];
-                initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
-                initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
-
+                
                 m_D3DFormat = texDescr.Format;
-                hResult = m_D3DDevice->CreateTexture2D(&texDescr, &initData, &m_D3DTexture);
+
+                if(m_Descriptor.multisamples == 1)
+                {
+                    D3D11_SUBRESOURCE_DATA initData;
+                    initData.pSysMem          = &m_Pixels[0];
+                    initData.SysMemPitch      = (m_Descriptor.width * 4 * sizeof(float));
+                    initData.SysMemSlicePitch = ((m_Descriptor.width * m_Descriptor.height) * 4 * sizeof(float));
+
+                    hResult = m_D3DDevice->CreateTexture2D(&texDescr, &initData, &m_D3DTexture);
+                }
+                else 
+                {
+                    // Multisampled resources can not be initialized with data
+                    hResult = m_D3DDevice->CreateTexture2D(&texDescr, nullptr, &m_D3DTexture);
+                }
 
                 if(hResult == S_OK)
                 {
@@ -218,11 +228,13 @@ namespace Ocular
         {
             bool result = true;
 
-            D3D11_RENDER_TARGET_VIEW_DESC descr;
-            ZeroMemory(&descr, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+            D3D11_RENDER_TARGET_VIEW_DESC rtvDescr;
+            ZeroMemory(&rtvDescr, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+            
+            rtvDescr.Format        = m_D3DFormat;
+            rtvDescr.ViewDimension = (m_Descriptor.multisamples == 1) ? D3D11_RTV_DIMENSION_TEXTURE2D : D3D11_RTV_DIMENSION_TEXTURE2DMS;
 
-
-            HRESULT hResult = m_D3DDevice->CreateRenderTargetView(m_D3DTexture, nullptr, &m_D3DRenderTargetView);
+            HRESULT hResult = m_D3DDevice->CreateRenderTargetView(m_D3DTexture, &rtvDescr, &m_D3DRenderTargetView);
 
             if(hResult != S_OK)
             {

@@ -94,8 +94,9 @@ namespace Ocular
 
             /**
              * Swaps the back and front buffers.
+             * \param[in] renderTexture If provided, render texture to be resolved into the backbuffer.
              */
-            virtual void swapBuffers();
+            virtual void swapBuffers(RenderTexture* renderTexture = nullptr);
 
             /**
              * Returns the current RenderState for the GraphicsDriver.
@@ -276,6 +277,20 @@ namespace Ocular
              *         a valid buffer, then NULL is returned.
              */
             virtual GPUBuffer* createGPUBuffer(GPUBufferDescriptor const& descriptor) const;
+
+            //------------------------------------------------------------------------------
+            // Multisampling
+            //------------------------------------------------------------------------------
+
+            /**
+             * Returns the maximum supported multisampling count.
+             */
+            virtual uint32_t const& getMaxMultisampling() const;
+
+            /**
+             * Returns the currently set multisampling count.
+             */
+            virtual uint32_t const& getCurrentMultisampling() const;
             
             //------------------------------------------------------------------------------
             // Debug Draw Methods
@@ -326,6 +341,16 @@ namespace Ocular
              */
             virtual bool renderBounds(Core::SceneObject* object, Math::BoundsType type);
 
+            /**
+             * Renders from the currently bound VBO.
+             * 
+             * \note Depending on underlying implementation, no VBO may need to be bound.
+             *
+             * \param[in] vertCount Number of vertices to render.
+             * \param[in] vertStart Index of first vertex to render.
+             */
+            virtual bool render(uint32_t vertCount, uint32_t vertStart);
+
             //------------------------------------------------------------------------------
             // Frame Info
             //------------------------------------------------------------------------------
@@ -372,6 +397,9 @@ namespace Ocular
             Debug m_Debug;
 
             RenderState* m_RenderState;
+
+            uint32_t m_MultisamplingMax;
+            uint32_t m_MultisamplingCurrent;
 
         private:
         };

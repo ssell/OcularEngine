@@ -95,9 +95,11 @@ namespace Ocular
                 m_MainWindow->show();
                 m_MainWindow->showMaximized();
 
+                OcularResources->initialize();
+
                 if(OcularGraphics->initialize())
                 {
-                    OcularResources->initialize();   // \todo really bad work around. trying to create default resources before driver is ready otherwise
+                    OcularResources->initializeDefaultResources();   // \todo really bad work around. trying to create default resources before driver is ready otherwise
 
                     if(setupEditorCamera())
                     {

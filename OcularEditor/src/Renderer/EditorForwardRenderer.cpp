@@ -123,7 +123,7 @@ namespace Ocular
             
             //------------------------------------------------------------
 
-            OcularGraphics->swapBuffers();
+            OcularGraphics->swapBuffers(editorCamera->getRenderTexture());
         }
 
         void ForwardRenderer::render(std::vector<Core::SceneObject*>& objects, Graphics::Material* material)
@@ -151,7 +151,7 @@ namespace Ocular
                 }
             }
 
-            OcularGraphics->swapBuffers();
+            OcularGraphics->swapBuffers(OcularEditor.getEditorCamera()->getRenderTexture());
         }
 
         //----------------------------------------------------------------------------------

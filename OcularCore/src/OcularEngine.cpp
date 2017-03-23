@@ -272,6 +272,7 @@ namespace Ocular
         m_Config->set("ResourceDirectory", "Resources");
         m_Config->set("ResolutionX", "1920");
         m_Config->set("ResolutionY", "1080");
+        m_Config->set("MultisampleCount", "1");
 
         if(!m_Config->write())
         {

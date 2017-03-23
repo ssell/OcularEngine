@@ -40,7 +40,7 @@ namespace Ocular
         // PUBLIC METHODS
         //----------------------------------------------------------------------------------
 
-        TextureDescriptor Texture::getDescriptor() const
+        TextureDescriptor const& Texture::getDescriptor() const
         {
             return m_Descriptor;
         }

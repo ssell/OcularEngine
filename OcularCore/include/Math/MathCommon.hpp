@@ -24,6 +24,7 @@
 #include <cmath>
 #include <cstdint>
 #include <algorithm>
+#include <limits>
 
 //------------------------------------------------------------------------------------------
 
@@ -53,6 +54,16 @@ namespace Ocular
         //----------------------------------------------------------------------------------
         // Common Functions
         //----------------------------------------------------------------------------------
+
+        /**
+         * Calculates if the specified integer is a power of 2.
+         * Source: http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2
+         */
+        template<typename T, typename = std::enable_if_t<std::numeric_limits<T>::is_integer>>
+        static bool IsPowTwo(T const& t)
+        {
+            return (t && !(t & (t - 1)));
+        }
 
         /**
          * Performs a fast floor operation on the provided floating point value.
@@ -328,6 +339,49 @@ namespace Ocular
             {
                 return down;
             }
+        }
+
+        /**
+         * Returns the specified integer rounded up to the nearest power of two.
+         * Supports 2, 4, 8-byte integers.
+         *
+         * Adapted from: http://www.graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+         */
+        template<typename T, typename = std::enable_if_t<std::numeric_limits<T>::is_integer>>
+        static T RoundUpPowTwo(T const& t)
+        {
+            T result = t;
+
+            result--;
+
+            result |= (result >> 1);
+            result |= (result >> 2);
+            result |= (result >> 4);
+            result |= (result >> 8);
+
+            if(sizeof(T) > 2)
+            {
+                result |= (result >> 16);
+
+                if(sizeof(T) > 4)
+                {
+                    result |= (result >> 32);
+                }
+            }
+
+            result++;
+
+            return result;
+        }
+
+        /**
+         * Returns the specified integer rounded down to the nearest power of two.
+         * Supports 2, 4, 8-byte integers.
+         */
+        template<typename T, typename = std::enable_if_t<std::numeric_limits<T>::is_integer>>
+        static T RoundDownPowTwo(T const& t)
+        {
+            return (RoundUpPowTwo(t) >> 1);
         }
 
 		/**

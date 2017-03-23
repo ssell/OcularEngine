@@ -124,6 +124,11 @@ namespace Ocular
             /**
              *
              */
+            void initializeDefaultResources();
+
+            /**
+             *
+             */
             void unloadAllResources();
 
             /**

@@ -28,7 +28,9 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         GraphicsDriver::GraphicsDriver()
-            : m_RenderState(nullptr)
+            : m_RenderState{nullptr},
+              m_MultisamplingMax{1},
+              m_MultisamplingCurrent{1}
         {
         
         }
@@ -66,7 +68,7 @@ namespace Ocular
             // Nothing to do without an active graphics API
         }
 
-        void GraphicsDriver::swapBuffers()
+        void GraphicsDriver::swapBuffers(RenderTexture* renderTexture)
         {
             // Nothing to do without an active graphics API
         }
@@ -200,6 +202,20 @@ namespace Ocular
         }
         
         //----------------------------------------------------------------------------------
+        // Multisampling
+        //----------------------------------------------------------------------------------
+
+        uint32_t const& GraphicsDriver::getMaxMultisampling() const
+        {
+            return m_MultisamplingMax;
+        }
+
+        uint32_t const& GraphicsDriver::getCurrentMultisampling() const
+        {
+            return m_MultisamplingCurrent;
+        }
+
+        //----------------------------------------------------------------------------------
         // Debug Methods
         //----------------------------------------------------------------------------------
 
@@ -228,6 +244,11 @@ namespace Ocular
         }
         
         bool GraphicsDriver::renderBounds(Core::SceneObject* object, Math::BoundsType const type)
+        {
+            return false;
+        }
+
+        bool GraphicsDriver::render(uint32_t const vertCount, uint32_t const vertStart)
         {
             return false;
         }

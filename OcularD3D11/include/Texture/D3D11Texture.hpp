@@ -48,6 +48,7 @@ namespace Ocular
 
             ID3D11Texture2D* getD3DTexture2D();
             ID3D11ShaderResourceView* getD3DShaderResource();
+            DXGI_FORMAT const& getD3DFormat() const;
 
         protected:
 

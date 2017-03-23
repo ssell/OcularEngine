@@ -40,6 +40,8 @@
 #include "Mesh/D3D11IndexBuffer.hpp"
 #include "Mesh/D3D11VertexBuffer.hpp"
 
+#include "Graphics/Helpers/ScreenSpaceQuad.hpp"
+
 #include "D3D11Viewport.hpp"
 
 //------------------------------------------------------------------------------------------
@@ -53,9 +55,11 @@ namespace Ocular
         //----------------------------------------------------------------------------------
 
         D3D11GraphicsDriver::D3D11GraphicsDriver()
-            : m_D3DDevice(nullptr),
-              m_D3DDeviceContext(nullptr),
-              m_D3DSwapChain(nullptr)
+            : m_D3DDevice{nullptr},
+              m_D3DDeviceContext{nullptr},
+              m_D3DSwapChain{nullptr},
+              m_SwapChainRenderTexture{nullptr},
+              m_ScreenSpaceQuad{ nullptr }
         {
             OcularEvents->registerListener(this, Core::Priority::High);    // Need to receive WindowResizeEvent first
         }
@@ -67,6 +71,11 @@ namespace Ocular
                 // Shared object between all Vertex shaders
                 D3D11VertexShader::m_D3DInputLayout->Release();
                 D3D11VertexShader::m_D3DInputLayout = nullptr;
+            }
+
+            if(m_SwapChainRenderTexture)
+            {
+                m_SwapChainRenderTexture->unload();
             }
 
             if(m_D3DSwapChain)
@@ -125,27 +134,29 @@ namespace Ocular
                         const Core::WindowDescriptor windowDescr = windowWin32->getDescriptor();
 
                         TextureDescriptor rtvDescriptor;
-                        rtvDescriptor.width = windowDescr.width;
-                        rtvDescriptor.height = windowDescr.height;
-                        rtvDescriptor.mipmaps = 1;
-                        rtvDescriptor.type = TextureType::RenderTexture2D;
-                        rtvDescriptor.format = TextureFormat::R32G32B32A32Float;
-                        rtvDescriptor.cpuAccess = TextureAccess::ReadWrite;
-                        rtvDescriptor.gpuAccess = TextureAccess::ReadWrite;
-                        rtvDescriptor.filter = TextureFilterMode::Point;
+                        rtvDescriptor.width        = windowDescr.width;
+                        rtvDescriptor.height       = windowDescr.height;
+                        rtvDescriptor.mipmaps      = 1;
+                        rtvDescriptor.multisamples = m_MultisamplingCurrent;
+                        rtvDescriptor.type         = TextureType::RenderTexture2D;
+                        rtvDescriptor.format       = TextureFormat::R32G32B32A32Float;
+                        rtvDescriptor.cpuAccess    = TextureAccess::None;
+                        rtvDescriptor.gpuAccess    = TextureAccess::ReadWrite;
+                        rtvDescriptor.filter       = TextureFilterMode::Point;
 
                         TextureDescriptor dsvDescriptor;
-                        dsvDescriptor.width = windowDescr.width;
-                        dsvDescriptor.height = windowDescr.height;
-                        dsvDescriptor.mipmaps = 1;
-                        dsvDescriptor.type = TextureType::DepthTexture2D;
-                        dsvDescriptor.format = TextureFormat::Depth;
-                        dsvDescriptor.cpuAccess = TextureAccess::ReadWrite;
-                        dsvDescriptor.gpuAccess = TextureAccess::ReadWrite;
-                        dsvDescriptor.filter = TextureFilterMode::Point;
+                        dsvDescriptor.width        = windowDescr.width;
+                        dsvDescriptor.height       = windowDescr.height;
+                        dsvDescriptor.mipmaps      = 1;
+                        dsvDescriptor.multisamples = m_MultisamplingCurrent;
+                        dsvDescriptor.type         = TextureType::DepthTexture2D;
+                        dsvDescriptor.format       = TextureFormat::Depth;
+                        dsvDescriptor.cpuAccess    = TextureAccess::None;
+                        dsvDescriptor.gpuAccess    = TextureAccess::ReadWrite;
+                        dsvDescriptor.filter       = TextureFilterMode::Point;
 
-                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtvDescriptor, m_D3DDevice, m_D3DSwapChain);
-                        D3D11DepthTexture* depthTexture = new D3D11DepthTexture(dsvDescriptor, m_D3DDevice);
+                        D3D11RenderTexture* renderTexture = new D3D11RenderTexture(rtvDescriptor, m_D3DDevice);
+                        D3D11DepthTexture*  depthTexture  = new D3D11DepthTexture(dsvDescriptor, m_D3DDevice);
 
                         renderTexture->apply();
                         depthTexture->apply();
@@ -159,7 +170,19 @@ namespace Ocular
                         m_RenderState = new D3D11RenderState(m_D3DDevice, m_D3DDeviceContext);
                         m_RenderState->bind();
 
-                        result = true;
+                        //------------------------------------------------
+                        // Create the ScreenSpaceQuad used for back buffer resolve
+
+                        m_ScreenSpaceQuad = std::make_unique<ScreenSpaceQuad>();
+                        
+                        if(m_ScreenSpaceQuad->initialize())
+                        {
+                            result = true;
+                        }
+                        else 
+                        {
+                            OcularLogger->fatal("Failed to create Screen-Space Quad for Backbuffer Resolve", OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "initialize"));
+                        }
                     }
                     else
                     {
@@ -257,22 +280,26 @@ namespace Ocular
             }
         }
 
-        void D3D11GraphicsDriver::swapBuffers()
+        void D3D11GraphicsDriver::swapBuffers(RenderTexture* renderTexture)
         {
             GraphicsDriver::swapBuffers();
 
             if(m_D3DSwapChain)
             {
+                HRESULT hResult = S_FALSE;
+
+                resolveRenderTexture(dynamic_cast<D3D11RenderTexture*>(renderTexture));
+
 #ifdef OCULAR_D3D_USE_11_0
-                const HRESULT hResult = m_D3DSwapChain->Present(0, 0);
+                hResult = m_D3DSwapChain->Present(0, 0);
 #else
                 DXGI_PRESENT_PARAMETERS presentParams;
                 ZeroMemory(&presentParams, sizeof(DXGI_PRESENT_PARAMETERS));
 
-                const HRESULT hResult = m_D3DSwapChain->Present1(0, 0, &presentParams);
+                hResult = m_D3DSwapChain->Present1(0, 0, &presentParams);
 #endif
 
-                if(hResult != S_OK)
+                if(FAILED(hResult))
                 {
                     if(hResult != DXGI_STATUS_OCCLUDED)
                     {
@@ -576,6 +603,18 @@ namespace Ocular
             return result;
         }
 
+        bool D3D11GraphicsDriver::render(uint32_t const vertCount, uint32_t const vertStart)
+        {
+            bool result = false;
+
+            if(m_D3DDeviceContext)
+            {
+                m_D3DDeviceContext->Draw(vertCount, vertStart);
+            }
+
+            return result;
+        }
+
         //----------------------------------------------------------------------------------
         // Miscellaneous
         //----------------------------------------------------------------------------------
@@ -620,11 +659,11 @@ namespace Ocular
             {
                 ZeroMemory(&dest, sizeof(D3D11_TEXTURE2D_DESC));
 
-                dest.Width = src.width;
-                dest.Height = src.height;
-                dest.MipLevels = src.mipmaps;
-                dest.ArraySize = 1;
-                dest.SampleDesc.Count = 1;
+                dest.Width              = src.width;
+                dest.Height             = src.height;
+                dest.MipLevels          = src.mipmaps;
+                dest.ArraySize          = 1;
+                dest.SampleDesc.Count   = src.multisamples;
                 dest.SampleDesc.Quality = 0;
 
                 //--------------------------------------------------------
@@ -786,9 +825,10 @@ namespace Ocular
             //------------------------------------------------------------
             // Dimensions
 
-            dest.width = source.Width;
-            dest.height = source.Height;
-            dest.mipmaps = source.MipLevels;
+            dest.width        = source.Width;
+            dest.height       = source.Height;
+            dest.mipmaps      = source.MipLevels;
+            dest.multisamples = source.SampleDesc.Count;
 
             //------------------------------------------------------------
             // CPU Access
@@ -1011,6 +1051,11 @@ namespace Ocular
 
             if(m_D3DSwapChain)
             {
+                if(m_SwapChainRenderTexture)
+                {
+                    m_SwapChainRenderTexture->unload();
+                }
+
                 m_D3DDeviceContext->OMSetRenderTargets(0, 0, 0);
 
                 DXGI_SWAP_CHAIN_DESC descr;
@@ -1018,7 +1063,11 @@ namespace Ocular
 
                 hResult = m_D3DSwapChain->ResizeBuffers(descr.BufferCount, width, height, DXGI_FORMAT_UNKNOWN, descr.Flags);
 
-                if(FAILED(hResult))
+                if(SUCCEEDED(hResult))
+                {
+                    fetchSwapChainBuffer();
+                }
+                else
                 {
                     OcularLogger->error("Failed to resize D3D11 SwapChain with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "resizeSwapChain"));
                 }
@@ -1149,11 +1198,14 @@ namespace Ocular
                 m_D3DDevice = device;
                 m_D3DDeviceContext = deviceContext;
                 m_D3DSwapChain = swapChain;
+                calculateMultisampling();
 #elif defined(OCULAR_D3D_USE_11_1)
                 fetchDeviceAndSwapChain1(device, deviceContext, window);
 #elif defined(OCULAR_D3D_USE_11_2)
                 fetchDeviceAndSwapChain2(device, deviceContext, window);
 #endif
+
+                fetchSwapChainBuffer();
             }
             else
             {
@@ -1169,13 +1221,16 @@ namespace Ocular
         {
             Core::WindowDescriptor windowDesc = window->getDescriptor();
 
+            //------------------------------------------------------------
+            // Build the descriptor
+
             DXGI_SWAP_CHAIN_DESC result;
             ZeroMemory(&result, sizeof(result));
 
             result.BufferCount                        = 1;
             result.BufferDesc.Width                   = windowDesc.width;
             result.BufferDesc.Height                  = windowDesc.height;
-            result.BufferDesc.Format                  = DXGI_FORMAT_R8G8B8A8_UNORM;
+            result.BufferDesc.Format                  = DXGI_FORMAT_R16G16B16A16_FLOAT;
             result.BufferDesc.RefreshRate.Numerator   = 60;
             result.BufferDesc.RefreshRate.Denominator = 1;
             result.BufferUsage                        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -1184,7 +1239,7 @@ namespace Ocular
             result.SampleDesc.Quality                 = 0;
             result.BufferDesc.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
             result.BufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
-            result.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
+            result.SwapEffect                         = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
             result.Flags                              = 0;
 
             if((windowDesc.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
@@ -1200,19 +1255,22 @@ namespace Ocular
         {
             Core::WindowDescriptor windowDescr = window->getDescriptor();
 
+            //------------------------------------------------------------
+            // Build the descriptor
+
             DXGI_SWAP_CHAIN_DESC1 result;
             ZeroMemory(&result, sizeof(result));
-
+            
             result.Width              = 0;                            // Value of 0 uses the width of the output window
             result.Height             = 0;                            // Value of 0 uses the height of the output window
-            result.Format             = DXGI_FORMAT_R8G8B8A8_UNORM;
+            result.Format             = DXGI_FORMAT_R16G16B16A16_FLOAT;
             result.Stereo             = FALSE;
             result.SampleDesc.Count   = 1;
             result.SampleDesc.Quality = 0;
             result.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             result.BufferCount        = 2;
             result.Scaling            = DXGI_SCALING_STRETCH;
-            result.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
+            result.SwapEffect         = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
             result.AlphaMode          = DXGI_ALPHA_MODE_UNSPECIFIED;
             result.Flags              = 0;
 
@@ -1241,6 +1299,8 @@ namespace Ocular
                 {
                     m_D3DDevice = device1;
                     m_D3DDeviceContext = deviceContext1;
+
+                    calculateMultisampling();
 
                     //----------------------------------------------------
                     // Fetch the DXGI Factory/Device/Adapter to create the SwapChain
@@ -1364,6 +1424,8 @@ namespace Ocular
                     m_D3DDevice = device2;
                     m_D3DDeviceContext = deviceContext2;
 
+                    calculateMultisampling();
+
                     //----------------------------------------------------
                     // Fetch the DXGI Factory/Device/Adapter to create the SwapChain
                     //----------------------------------------------------
@@ -1430,7 +1492,6 @@ namespace Ocular
                             fullScreenDescr.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
                             fullScreenDescr.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
                             fullScreenDescr.Windowed                = FALSE;
-                            
 
                             hResult = dxgiFactory->CreateSwapChainForHwnd(
                                 m_D3DDevice,
@@ -1462,6 +1523,77 @@ namespace Ocular
 #endif
 
             return result;
+        }
+
+        void D3D11GraphicsDriver::fetchSwapChainBuffer()
+        {
+            ID3D11Texture2D* buffer = nullptr;
+
+            D3D11_TEXTURE2D_DESC d3dDescr;
+            TextureDescriptor texDescr;
+
+            const HRESULT hResult = m_D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
+
+            if(SUCCEEDED(hResult))
+            {
+                buffer->GetDesc(&d3dDescr);
+                ConvertTextureDescriptor(d3dDescr, texDescr);
+
+                m_SwapChainRenderTexture = std::make_unique<D3D11RenderTexture>(texDescr, m_D3DDevice, m_D3DSwapChain);
+
+                buffer->Release();
+            }
+            else 
+            {
+                OcularLogger->error("Failed to retrieve D3D11 SwapChain buffer with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11GraphicsDriver", "resizeSwapChain"));
+            }
+        }
+
+        void D3D11GraphicsDriver::calculateMultisampling()
+        {
+            /**
+             * Calculates the maximum support multisampling level as well as sets the 
+             * current multisampling level based off of the configuraiton file.
+             */
+
+            if(m_D3DDevice)
+            {
+                uint32_t sampleCount   = 1;
+                uint32_t sampleQuality = 1;
+
+                HRESULT hResult = S_OK;
+
+                while(true)
+                {
+                    hResult = m_D3DDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &sampleQuality);
+
+                    if(FAILED(hResult) || (sampleQuality == 0))
+                    {
+                        break;
+                    }
+
+                    sampleCount *= 2;
+                }
+                
+                m_MultisamplingMax     = (sampleCount / 2);
+                m_MultisamplingCurrent = Math::Clamp(OcularString->fromString<uint32_t>(OcularConfig->get("MultisampleCount")), 1u, m_MultisamplingMax);
+
+                if(!Math::IsPowTwo(m_MultisamplingCurrent))
+                {
+                    m_MultisamplingCurrent = Math::RoundDownPowTwo(m_MultisamplingCurrent);
+                }
+            }
+        }
+
+        void D3D11GraphicsDriver::resolveRenderTexture(D3D11RenderTexture* texture)
+        {
+            if(m_ScreenSpaceQuad)
+            {
+                m_ScreenSpaceQuad->setTexture(0, "Diffuse", texture);
+                setRenderTexture(m_SwapChainRenderTexture.get());
+
+                m_ScreenSpaceQuad->render();
+            }
         }
 
         bool D3D11GraphicsDriver::ValidateTextureDescriptor(TextureDescriptor const& descriptor)

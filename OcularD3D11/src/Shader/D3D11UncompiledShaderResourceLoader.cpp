@@ -168,9 +168,9 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Attempt to compile out a Vertex Shader from all of our entry points
 
-                for(uint32_t i = 0; i < VertexEntryPoints.size(); i++)
+                for(auto const& entryPoint : VertexEntryPoints)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, VertexEntryPoints[i], "vs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint, "vs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
@@ -199,12 +199,12 @@ namespace Ocular
                 //--------------------------------------------------------
                 // If we compiled successfully, then attempt to create the actual shader interface
 
-                if(result && hResult == S_OK)
+                if(result && SUCCEEDED(S_OK))
                 {
                     ID3D11VertexShader* d3dShader = nullptr;
                     hResult = m_D3DDevice->CreateVertexShader(compiled->GetBufferPointer(), compiled->GetBufferSize(), NULL, &d3dShader);
 
-                    if(hResult == S_OK)
+                    if(SUCCEEDED(S_OK))
                     {
                         D3D11VertexShader* shader = new D3D11VertexShader(m_D3DDevice, m_D3DDeviceContext);
                         shader->setSourceFile(file);
@@ -220,6 +220,7 @@ namespace Ocular
                             compiled->Release();
                         }
 
+                        result = false;
                         OcularLogger->error("Failed to create Vertex Shader with error ", Utils::String::FormatHex(hResult), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
                     }
                 }
@@ -245,9 +246,9 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Attempt to compile out a Geometry Shader from all of our entry points
 
-                for(uint32_t i = 0; i < GeometryEntryPoints.size(); i++)
+                for(auto const& entryPoint : GeometryEntryPoints)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, VertexEntryPoints[i], "gs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint, "gs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
@@ -256,6 +257,18 @@ namespace Ocular
                     }
                     else if(errorLog)
                     {
+                        if(!isEntryPointError(errorLog))
+                        {
+                            // If entry point is simply not found, we do not care.
+                            // But if it is some other kind of compilation error then we wish to report it.
+
+                            OcularLogger->error("Failed to compile shader with error: ", (char*)errorLog->GetBufferPointer(), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                            
+                            errorLog->Release();
+
+                            break;
+                        }
+
                         errorLog->Release();
                     }
                 }
@@ -307,9 +320,9 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Attempt to compile out a Fragment Shader from all of our entry points
 
-                for(uint32_t i = 0; i < FragmentEntryPoints.size(); i++)
+                for(auto const& entryPoint : FragmentEntryPoints)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, FragmentEntryPoints[i], "ps_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint, "ps_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
@@ -318,6 +331,18 @@ namespace Ocular
                     }
                     else if(errorLog)
                     {
+                        if(!isEntryPointError(errorLog))
+                        {
+                            // If entry point is simply not found, we do not care.
+                            // But if it is some other kind of compilation error then we wish to report it.
+
+                            OcularLogger->error("Failed to compile shader with error: ", (char*)errorLog->GetBufferPointer(), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                            
+                            errorLog->Release();
+
+                            break;
+                        }
+
                         errorLog->Release();
                     }
                 }
@@ -369,9 +394,9 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Attempt to compile out a PreTessellation Shader from all of our entry points
 
-                for(uint32_t i = 0; i < PreTessEntryPoints.size(); i++)
+                for(auto const& entryPoint : PreTessEntryPoints)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, PreTessEntryPoints[i], "hs_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint, "hs_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
@@ -380,6 +405,18 @@ namespace Ocular
                     }
                     else if(errorLog)
                     {
+                        if(!isEntryPointError(errorLog))
+                        {
+                            // If entry point is simply not found, we do not care.
+                            // But if it is some other kind of compilation error then we wish to report it.
+
+                            OcularLogger->error("Failed to compile shader with error: ", (char*)errorLog->GetBufferPointer(), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                            
+                            errorLog->Release();
+
+                            break;
+                        }
+
                         errorLog->Release();
                     }
                 }
@@ -431,9 +468,9 @@ namespace Ocular
                 //--------------------------------------------------------
                 // Attempt to compile out a PostTessellation Shader from all of our entry points
 
-                for(uint32_t i = 0; i < PostTessEntryPoints.size(); i++)
+                for(auto const& entryPoint : PostTessEntryPoints)
                 {
-                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, PostTessEntryPoints[i], "ds_5_0", 0, 0, &compiled, &errorLog);
+                    hResult = D3DCompileFromFile(source, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint, "ds_5_0", 0, 0, &compiled, &errorLog);
 
                     if(hResult == S_OK)
                     {
@@ -442,6 +479,18 @@ namespace Ocular
                     }
                     else if(errorLog)
                     {
+                        if(!isEntryPointError(errorLog))
+                        {
+                            // If entry point is simply not found, we do not care.
+                            // But if it is some other kind of compilation error then we wish to report it.
+
+                            OcularLogger->error("Failed to compile shader with error: ", (char*)errorLog->GetBufferPointer(), OCULAR_INTERNAL_LOG("D3D11UncompiledShaderResourceLoader", "compileVertexShader"));
+                            
+                            errorLog->Release();
+
+                            break;
+                        }
+
                         errorLog->Release();
                     }
                 }

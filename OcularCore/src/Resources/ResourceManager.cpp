@@ -63,6 +63,10 @@ namespace Ocular
             }
 
             forceSourceRefresh();
+        }
+
+        void ResourceManager::initializeDefaultResources()
+        {
             m_ResourceDefaults.initialize();
         }
 

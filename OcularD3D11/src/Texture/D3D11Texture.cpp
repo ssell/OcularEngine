@@ -70,6 +70,11 @@ namespace Ocular
             return m_D3DShaderResourceView;
         }
 
+        DXGI_FORMAT const& D3D11Texture::getD3DFormat() const
+        {
+            return m_D3DFormat;
+        }
+
         //----------------------------------------------------------------------------------
         // PROTECTED METHODS
         //----------------------------------------------------------------------------------
@@ -114,8 +119,9 @@ namespace Ocular
                 {
                     D3D11_SHADER_RESOURCE_VIEW_DESC srvDescr;
                     ZeroMemory(&srvDescr, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-                    srvDescr.Format = m_D3DFormat;
-                    srvDescr.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+
+                    srvDescr.Format              = m_D3DFormat;
+                    srvDescr.ViewDimension       = (descriptor.multisamples > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
                     srvDescr.Texture2D.MipLevels = descriptor.mipmaps;
 
                     const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);

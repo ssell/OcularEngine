@@ -78,7 +78,7 @@ namespace Ocular
             /**
              * Returns a copy of the texture descriptor that defines this texture resource.
              */
-            TextureDescriptor getDescriptor() const;
+            TextureDescriptor const& getDescriptor() const;
 
         protected:
 

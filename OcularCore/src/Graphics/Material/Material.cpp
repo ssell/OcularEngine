@@ -84,7 +84,7 @@ namespace Ocular
         {
             bindStateChanges();
             bindShaders();
-            //bindTextures
+            //bindTextures();
 
             m_UniformBuffer->bind();
         }

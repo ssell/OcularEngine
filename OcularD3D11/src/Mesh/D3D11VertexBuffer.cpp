@@ -109,7 +109,14 @@ namespace Ocular
                     static const uint32_t stride = sizeof(Vertex);
                     uint32_t offset = 0;
 
-                    m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, &offset);
+                    if(m_D3DVertexBuffer)
+                    {
+                        m_D3DDeviceContext->IASetVertexBuffers(0, 1, &m_D3DVertexBuffer, &stride, &offset);
+                    }
+                    else
+                    {
+                        m_D3DDeviceContext->IASetVertexBuffers(0, 0, nullptr, nullptr, nullptr);
+                    }
                 }
 
                 if(currBuffer)

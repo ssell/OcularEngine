@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\src\Graphics\DebugGraphics\DebugGraphics.cpp" />
     <ClCompile Include="..\..\src\Graphics\FrameStats.cpp" />
     <ClCompile Include="..\..\src\Graphics\GraphicsDriver.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Helpers\ScreenSpaceQuad.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\MaterialEmpty.cpp" />
     <ClCompile Include="..\..\src\Graphics\Material\MaterialMissing.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="..\..\include\Graphics\DebugGraphics\DebugGraphics.hpp" />
     <ClInclude Include="..\..\include\Graphics\FrameStats.hpp" />
     <ClInclude Include="..\..\include\Graphics\GraphicsDriver.hpp" />
+    <ClInclude Include="..\..\include\Graphics\Helpers\ScreenSpaceQuad.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\Material.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialEmpty.hpp" />
     <ClInclude Include="..\..\include\Graphics\Material\MaterialMissing.hpp" />
