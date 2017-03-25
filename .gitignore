@@ -37,6 +37,7 @@ TestOutput/
 bin/
 OcularTest/projects/vs2013/OcularTest/Resources/
 OcularTest/projects/vs2015/OcularTest/Resources/
+OcularEditor/src/QtGenerated/
 
 # Below are commented out because they block the Graphics/Mesh/MeshLoaders/OBJ folder
 # [Oo]bj/
