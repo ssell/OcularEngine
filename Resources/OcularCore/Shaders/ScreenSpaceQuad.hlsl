@@ -30,6 +30,15 @@ struct PSOutput
     float4 color : SV_Target;
 };
 
+Texture2DMS<float4> RenderTexture : register(t0);
+
+SamplerState Sampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
+
 //------------------------------------------------------------------------------------------
 // Vertex Shader
 //------------------------------------------------------------------------------------------
@@ -56,7 +65,7 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
     PSInput bottomLeft = (PSInput)0;
 
     bottomLeft.position = float4(-1.0f, -1.0f, 0.0f, 1.0f);
-    bottomLeft.uv0 = float2(0.0f, 0.0f);
+    bottomLeft.uv0 = float2(0.0f, 1.0f);
     
     //--------------------------------------------------------------------
     // Create bottom-right vertex
@@ -64,7 +73,7 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
     PSInput bottomRight = (PSInput)0;
 
     bottomRight.position = float4(1.0f, -1.0f, 0.0f, 1.0f);
-    bottomRight.uv0 = float2(1.0f, 0.0f);
+    bottomRight.uv0 = float2(1.0f, 1.0f);
     
     //--------------------------------------------------------------------
     // Create top-right vertex
@@ -72,7 +81,7 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
     PSInput topRight = (PSInput)0;
 
     topRight.position = float4(1.0f, 1.0f, 0.0f, 1.0f);
-    topRight.uv0 = float2(1.0f, 1.0f);
+    topRight.uv0 = float2(1.0f, 0.0f);
     
     //--------------------------------------------------------------------
     // Create top-left vertex
@@ -80,7 +89,7 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
     PSInput topLeft = (PSInput)0;
 
     topLeft.position = float4(-1.0f, 1.0f, 0.0f, 1.0f);
-    topLeft.uv0 = float2(0.0f, 1.0f);
+    topLeft.uv0 = float2(0.0f, 0.0f);
 
     //--------------------------------------------------------------------
     // Build stream 
@@ -88,6 +97,8 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
     outputStream.Append(bottomLeft);
     outputStream.Append(bottomRight);
     outputStream.Append(topRight);
+
+    outputStream.RestartStrip();
 
     outputStream.Append(topRight);
     outputStream.Append(topLeft);
@@ -102,8 +113,21 @@ void GSMain(point VSOutput input[1], inout TriangleStream<PSInput> outputStream)
 PSOutput PSMain(PSInput input)
 {
     PSOutput output;
+    
+    float width  = 0.0f;
+    float height = 0.0f;
+    float count  = 0.0f;
 
-    output.color = float4(0.0f, 1.0f, 0.0f, 1.0f);
+    RenderTexture.GetDimensions(width, height, count);
+
+    float4 sumColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+    for(uint i = 0; i < (uint)count; ++i)
+    {
+        sumColor += RenderTexture.Load((int2)input.position, i);
+    }
+
+    output.color = sumColor * (1.0f / count);
 
     return output;
 }

@@ -90,11 +90,6 @@ namespace Ocular
                         m_NullShaderResourceViews.resize(m_Textures.size(), nullptr);
                     }
 
-                    if(m_ShaderResourceViews[index])
-                    {
-                        m_ShaderResourceViews[index]->Release();
-                    }
-
                     m_ShaderResourceViews[index] = d3dTexture->getD3DShaderResource();
                 }
                 else

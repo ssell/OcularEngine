@@ -108,15 +108,32 @@ namespace Ocular
 
             /**
              * Sets the Render Texture to direct all rendering operations towards.
-             * \param[in] texture
+             *
+             * \note Must be compatible with the currently bound DepthTexture (matching dimensions, multisampling, etc.).
+             *
+             * \param[in] texture Optional render texture to bind. If NULL, then NULL is bound.
              */
             virtual void setRenderTexture(RenderTexture* texture);
 
             /**
              * Sets the Depth Texture to direct all depth operations towards.
-             * \param[in] texture
+             *
+             * \note Must be compatible with the currently bound RenderTexture (matching dimensions, multisampling, etc.).
+             *
+             * \param[in] texture Optional depth texture to bind. If NULL, then NULL is bound.
              */
             virtual void setDepthTexture(DepthTexture* texture);
+
+            /**
+             * Sets both the Render and Depth Texture in a single call.
+             * Typically more effective than individual back-to-back calls to setRenderTexture and setDepthTexture.
+             *
+             * \note Both textures must be compatible (matching dimensions, multisampling, etc.).
+             *
+             * \param[in] renderTexture Optional render texture to bind. If NULL, then NULL is bound.
+             * \param[in] depthTexture  Optional depth texture to bind. If NULL, then NULL is bound.
+             */
+            virtual void setRenderDepthTexture(RenderTexture* renderTexture, DepthTexture* depthTexture);
 
             //------------------------------------------------------------------------------
             // Creation Methods

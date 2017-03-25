@@ -88,6 +88,11 @@ namespace Ocular
             // Nothing to do without an active graphics API
         }
 
+        void GraphicsDriver::setRenderDepthTexture(RenderTexture* renderTexture, DepthTexture* depthTexture)
+        {
+            // Nothing to do without an active graphics API
+        }
+
         Material* GraphicsDriver::createMaterial() const
         {
             return new Material();

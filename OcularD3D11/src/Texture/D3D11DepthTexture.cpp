@@ -120,9 +120,19 @@ namespace Ocular
                 {
                     if(createD3DDepthStencil())
                     {
-                        if(createD3DShaderResource(m_Descriptor))
+                        if(m_Descriptor.gpuAccess == TextureAccess::ReadOnly)
                         {
                             result = true;
+                        }
+                        else
+                        {
+                            // Temporarily swap the format for SRV creation.
+                            const DXGI_FORMAT trueFormat = m_D3DFormat;
+                            m_D3DFormat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+
+                            result = createD3DShaderResource(m_Descriptor);
+
+                            m_D3DFormat = trueFormat;
                         }
                     }
                     else
@@ -177,7 +187,7 @@ namespace Ocular
             D3D11_DEPTH_STENCIL_VIEW_DESC dsvDescr;
             ZeroMemory(&dsvDescr, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
 
-            dsvDescr.Format        = m_D3DFormat;
+            dsvDescr.Format        = DXGI_FORMAT_D24_UNORM_S8_UINT;   // Whether the underlying buffer is D24_ or R24G8_ the view must be D24_
             dsvDescr.ViewDimension = (m_Descriptor.multisamples == 1) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS;
             
             const HRESULT hResult = m_D3DDevice->CreateDepthStencilView(m_D3DTexture, &dsvDescr, &m_D3DDepthStencilView);

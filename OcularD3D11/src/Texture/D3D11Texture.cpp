@@ -126,7 +126,7 @@ namespace Ocular
 
                     const HRESULT hResult = m_D3DDevice->CreateShaderResourceView(m_D3DTexture, &srvDescr, &m_D3DShaderResourceView);
 
-                    if(hResult != S_OK)
+                    if(FAILED(hResult))
                     {
                         D3D11_TEXTURE2D_DESC descr;
                         m_D3DTexture->GetDesc(&descr);

@@ -64,6 +64,8 @@ namespace Ocular
                     m_Material->setGeometryShader(shaders->getGeometryShader());
                     m_Material->setFragmentShader(shaders->getFragmentShader());
 
+                    m_Material->setPrimitiveStyle(PrimitiveStyle::PointList);
+
                     result = true;
                 }
             }
@@ -82,6 +84,8 @@ namespace Ocular
                 // This vertex is turned into a screen-space quad (two triangles) in the geometry shader.
 
                 OcularGraphics->render(1, 0);
+
+                m_Material->unbind();
             }
         }
 

@@ -320,26 +320,30 @@ namespace Ocular
         {
             GraphicsDriver::setRenderTexture(texture);
 
+            if(!m_D3DDeviceContext)
+            {
+                return;
+            }
+            
+            ID3D11RenderTargetView* rtv = nullptr;
+            ID3D11DepthStencilView* dsv = nullptr;
+
             if(texture)
             {
                 D3D11RenderTexture* d3dTexture = dynamic_cast<D3D11RenderTexture*>(texture);
 
                 if(d3dTexture)
                 {
-                    ID3D11RenderTargetView* rtv = d3dTexture->getD3DRenderTargetView();
-                    ID3D11DepthStencilView* dsv = nullptr;
-                    
-                    if(m_D3DDeviceContext)
-                    {
-                        m_D3DDeviceContext->OMGetRenderTargets(1, nullptr, &dsv);
-                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
-
-                        if(dsv)
-                        {
-                            dsv->Release();
-                        }
-                    }
+                    rtv = d3dTexture->getD3DRenderTargetView();
                 }
+            }
+
+            m_D3DDeviceContext->OMGetRenderTargets(1, nullptr, &dsv);
+            m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+            if(dsv)
+            {
+                dsv->Release();
             }
         }
 
@@ -347,27 +351,66 @@ namespace Ocular
         {
             GraphicsDriver::setDepthTexture(texture);
 
+            if(!m_D3DDeviceContext)
+            {
+                return;
+            }
+
+            ID3D11DepthStencilView* dsv = nullptr;
+            ID3D11RenderTargetView* rtv = nullptr;
+
             if(texture)
             {
                 D3D11DepthTexture* d3dTexture = dynamic_cast<D3D11DepthTexture*>(texture);
 
                 if(d3dTexture)
                 {
-                    ID3D11DepthStencilView* dsv = d3dTexture->getD3DDepthStencilView();
-                    ID3D11RenderTargetView* rtv = nullptr;
-                    
-                    if(m_D3DDeviceContext)
-                    {
-                        m_D3DDeviceContext->OMGetRenderTargets(1, &rtv, nullptr);
-                        m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
-
-                        if(rtv)
-                        {
-                            rtv->Release();
-                        }
-                    }
+                    dsv = d3dTexture->getD3DDepthStencilView();
                 }
             }
+
+            m_D3DDeviceContext->OMGetRenderTargets(1, &rtv, nullptr);
+            m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+            if(rtv)
+            {
+                rtv->Release();
+            }
+        }
+
+        void D3D11GraphicsDriver::setRenderDepthTexture(RenderTexture* renderTexture, DepthTexture* depthTexture)
+        {
+            GraphicsDriver::setRenderDepthTexture(renderTexture, depthTexture);
+
+            if(!m_D3DDeviceContext)
+            {
+                return;
+            }
+            
+            ID3D11RenderTargetView* rtv = nullptr;
+            ID3D11DepthStencilView* dsv = nullptr;
+
+            if(renderTexture)
+            {
+                D3D11RenderTexture* d3dRenderTexture = dynamic_cast<D3D11RenderTexture*>(renderTexture);
+
+                if(d3dRenderTexture)
+                {
+                    rtv = d3dRenderTexture->getD3DRenderTargetView();
+                }
+            }
+
+            if(depthTexture)
+            {
+                D3D11DepthTexture* d3dDepthTexture = dynamic_cast<D3D11DepthTexture*>(depthTexture);
+
+                if(d3dDepthTexture)
+                {
+                    dsv = d3dDepthTexture->getD3DDepthStencilView();
+                }
+            }
+
+            m_D3DDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
         }
 
         Material* D3D11GraphicsDriver::createMaterial() const
@@ -710,11 +753,23 @@ namespace Ocular
                 {
                 case TextureType::RenderTexture2D:
                     dest.BindFlags = D3D11_BIND_RENDER_TARGET;
+
+                    if(src.gpuAccess == TextureAccess::ReadWrite)
+                    {
+                        dest.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                    }
+
                     break;
 
                 case TextureType::DepthTexture2D:
                     dest.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                     dest.CPUAccessFlags = 0;
+
+                    if(src.gpuAccess == TextureAccess::ReadWrite)
+                    {
+                        dest.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                    }
+
                     break;
 
                 default:
@@ -800,7 +855,16 @@ namespace Ocular
                     break;
 
                 case TextureFormat::Depth:
-                    dest.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+                    // Note that Depth formats are tricky and are as follows:
+                    //
+                    //     Resource Format (Texture2D): DXGI_FORMAT_R24G8_TYPELESS
+                    //     Depth-Stencil View Format:   DXGI_FORMAT_D24_UNORM_S8_UINT
+                    //     Shader Resource View Format: DXGI_FORMAT_R24_UNORM_X8_TYPELESS   (Optional with GPU read access)
+                    //
+                    // As this conversion method is for textures, and not views, we supply the texture format.
+
+                    dest.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
                     break;
 
                 default:
@@ -1191,7 +1255,7 @@ namespace Ocular
             //------------------------------------------------------------
             // Fetch the 11.1/2 Devices
             //------------------------------------------------------------
-
+            
             if(SUCCEEDED(hResult))
             {
 #if defined(OCULAR_D3D_USE_11_0)
@@ -1230,7 +1294,7 @@ namespace Ocular
             result.BufferCount                        = 1;
             result.BufferDesc.Width                   = windowDesc.width;
             result.BufferDesc.Height                  = windowDesc.height;
-            result.BufferDesc.Format                  = DXGI_FORMAT_R16G16B16A16_FLOAT;
+            result.BufferDesc.Format                  = DXGI_FORMAT_R8G8B8A8_UNORM;
             result.BufferDesc.RefreshRate.Numerator   = 60;
             result.BufferDesc.RefreshRate.Denominator = 1;
             result.BufferUsage                        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -1239,7 +1303,7 @@ namespace Ocular
             result.SampleDesc.Quality                 = 0;
             result.BufferDesc.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
             result.BufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
-            result.SwapEffect                         = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+            result.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
             result.Flags                              = 0;
 
             if((windowDesc.displayMode == Core::WindowDisplayMode::WindowedBordered) ||
@@ -1263,7 +1327,7 @@ namespace Ocular
             
             result.Width              = 0;                            // Value of 0 uses the width of the output window
             result.Height             = 0;                            // Value of 0 uses the height of the output window
-            result.Format             = DXGI_FORMAT_R16G16B16A16_FLOAT;
+            result.Format             = DXGI_FORMAT_R8G8B8A8_UNORM;
             result.Stereo             = FALSE;
             result.SampleDesc.Count   = 1;
             result.SampleDesc.Quality = 0;
@@ -1540,6 +1604,7 @@ namespace Ocular
                 ConvertTextureDescriptor(d3dDescr, texDescr);
 
                 m_SwapChainRenderTexture = std::make_unique<D3D11RenderTexture>(texDescr, m_D3DDevice, m_D3DSwapChain);
+                m_SwapChainRenderTexture->apply();
 
                 buffer->Release();
             }
@@ -1590,7 +1655,8 @@ namespace Ocular
             if(m_ScreenSpaceQuad)
             {
                 m_ScreenSpaceQuad->setTexture(0, "Diffuse", texture);
-                setRenderTexture(m_SwapChainRenderTexture.get());
+
+                setRenderDepthTexture(m_SwapChainRenderTexture.get(), nullptr);
 
                 m_ScreenSpaceQuad->render();
             }

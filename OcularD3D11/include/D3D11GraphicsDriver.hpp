@@ -102,6 +102,7 @@ namespace Ocular
 
             virtual void setRenderTexture(RenderTexture* texture) override;
             virtual void setDepthTexture(DepthTexture* texture) override;
+            virtual void setRenderDepthTexture(RenderTexture* renderTexture, DepthTexture* depthTexture) override;
 
             virtual Material* createMaterial() const override;
             virtual Viewport* createViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f) const override;
